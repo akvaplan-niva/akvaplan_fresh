@@ -37,7 +37,6 @@ export default function Home({ data: { news, albums, lang, title, nav } }) {
         ))} */
         }
       </nav>
-      {/* <img src="https://user-images.githubusercontent.com/35185/228166169-e2c9520d-9042-47ab-a132-7b39edb4a80e.png" /> */}
       <NewsFilmStrip news={news} />
       {albums.map((album, i) => (
         <>

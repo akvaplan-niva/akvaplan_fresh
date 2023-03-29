@@ -66,7 +66,7 @@ const PreviewFigure = ({
 
   return (
     <div class="halbum-image">
-      <a href={href} aria-label="…">
+      <span href={href} aria-label="…">
         <div class="image-container">
           <img
             width={width}
@@ -81,7 +81,7 @@ const PreviewFigure = ({
         >
           {headline ?? id}
         </p>
-      </a>
+      </span>
     </div>
   );
 };
