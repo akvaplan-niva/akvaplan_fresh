@@ -9,7 +9,7 @@ const newsItemStyle = {
   fontSize: "var(--font-size-0)",
   gap: "var(--size-2)",
   placeItems: "center",
-  gridTemplateColumns: "128px 16rem",
+  gridTemplateColumns: "128px 18rem",
 };
 
 export const MiniNewsCard = (
