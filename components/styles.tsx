@@ -14,7 +14,6 @@ if (!IS_BROWSER) {
     "root",
     "dark",
     "light",
-    "button",
   ].map((f) => Deno.readTextFile(`./static/css/${f}.css`));
   defaultStyles = await Promise.all([...cssfiles, button, hscroll]);
 }
