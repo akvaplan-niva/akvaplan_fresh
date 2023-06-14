@@ -1,12 +1,13 @@
-button:not([color-scheme]) {
-  background-color: transparent
+/* button:not([color-scheme]) {
+  background-color: transparent;
 }
 
 button[color-scheme] {
   background-color: var(--surface1);
 }
 
-.button, button {
+.button,
+button {
   color: var(--text1);
   min-height: 1rem;
   min-width: 1rem;
@@ -26,32 +27,61 @@ button[color-scheme] {
   text-align: center;
   justify-content: center;
   align-items: center;
-  /* transition: border-color .5s var(--ease-2) 1s; */
 }
 
-.button:hover,button:hover,button:focus {
+.button:hover,
+button:hover,
+button:focus {
   border: var(--border-size-2) solid var(--surface4);
   text-decoration: none;
 }
 
-button[aria-pressed="true"],button:focus {
+button[aria-pressed="true"],
+button:focus {
   border: var(--border-size-2) solid var(--accent);
 }
 
-/* :where(button,input:is([type=button],[type=submit],[type=reset]))[disabled]{
-  cursor:not-allowed
+
+:where(
+    button,
+    input:is([type="button"], [type="submit"], [type="reset"])
+  ):where(:not(:active):hover) {
+  transition-delay: 0s;
+  transition-duration: 0.25s;
+}
+
+:where(button, input:is([type="button"], [type="submit"], [type="reset"]))
+  > :where(svg) {
+}
+:where(button, input:is([type="button"], [type="submit"], [type="reset"]))
+  > :where(svg > *) {
 } */
-:where(button,input:is([type=button],[type=submit],[type=reset])):where(:not(:active):hover){
-  transition-delay:0s;
-  transition-duration:.25s;
+
+.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--size-1) var(--size-2);
+  border: none;
+  background-color: var(--surface4);
+  color: var(--text1);
+  cursor: pointer;
+  border-radius: var(--radius-2);
+  font-size: var(--size-2);
+  text-transform: uppercase;
+  min-width: 1rem;
+  font-weight: bold;
+  transition: background-color 0.2s var(--ease-2);
 }
 
-:where(button,input:is([type=button],[type=submit],[type=reset]))>:where(svg) {
-  /*block-size: var(--_icon-size);
-  inline-size:var(--_icon-size)*/
-}
-:where(button,input:is([type=button],[type=submit],[type=reset]))>:where(svg>*) {
-  /*stroke:var(--_icon-color);
-  stroke-width:var(--border-size-2)*/
+.icon-button:hover {
+  background-color: var(--surface3);
 }
 
+.icon-button a {
+  color: inherit;
+}
+
+.icon-button a:hover {
+  text-decoration: none;
+}

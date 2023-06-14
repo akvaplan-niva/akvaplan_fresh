@@ -1,6 +1,7 @@
-import { ApnLogo, Icon, SiteNav } from "akvaplan_fresh/components/mod.ts";
+import { ApnLogo,SiteNav } from "akvaplan_fresh/components/mod.ts";
 
 import { t } from "akvaplan_fresh/text/mod.ts";
+import IconButton from "../button/icon_button.tsx";
 
 export const SiteNavDialog = ({ lang }) => (
   <dialog
@@ -13,11 +14,7 @@ export const SiteNavDialog = ({ lang }) => (
     }}
   >
     <header>
-      <a
-        href="/"
-        aria-label={t("nav.go_home")}
-        style={{ marginTop: "1rem" }}
-      >
+      <a href="/" aria-label={t("nav.go_home")} style={{ marginTop: "1rem" }}>
         <ApnLogo />
       </a>
     </header>
@@ -39,10 +36,7 @@ export const SiteNavDialog = ({ lang }) => (
       }}
     >
       <form method="dialog">
-        <button>
-          <Icon name="close" />
-          {t("menu.close")}
-        </button>
+        <IconButton icon="close" text={t("menu.close")} />
       </form>
     </footer>
   </dialog>
