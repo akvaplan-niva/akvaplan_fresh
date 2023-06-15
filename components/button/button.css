@@ -1,13 +1,13 @@
-/* button:not([color-scheme]) {
+.custom-button:not([color-scheme]) {
   background-color: transparent;
 }
 
-button[color-scheme] {
+.custom-button[color-scheme] {
   background-color: var(--surface1);
 }
 
 .button,
-button {
+.custom-button {
   color: var(--text1);
   min-height: 1rem;
   min-width: 1rem;
@@ -30,32 +30,24 @@ button {
 }
 
 .button:hover,
-button:hover,
-button:focus {
+.custom-button:hover,
+.custom-button:focus {
   border: var(--border-size-2) solid var(--surface4);
   text-decoration: none;
 }
 
-button[aria-pressed="true"],
-button:focus {
+.custom-button[aria-pressed="true"],
+.custom-button:focus {
   border: var(--border-size-2) solid var(--accent);
 }
 
-
 :where(
-    button,
+    .custom-button,
     input:is([type="button"], [type="submit"], [type="reset"])
   ):where(:not(:active):hover) {
   transition-delay: 0s;
   transition-duration: 0.25s;
 }
-
-:where(button, input:is([type="button"], [type="submit"], [type="reset"]))
-  > :where(svg) {
-}
-:where(button, input:is([type="button"], [type="submit"], [type="reset"]))
-  > :where(svg > *) {
-} */
 
 .icon-button {
   display: flex;
