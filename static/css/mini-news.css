@@ -48,4 +48,5 @@
 .line-clamp3 {
   line-clamp: 3;
   overflow: hidden;
+  display: block;
  }
