@@ -95,6 +95,15 @@ export const tromsø: Office = {
   },
 };
 
+export const vesterålen: Office = {
+  name: "Vesterålen",
+  tel: "",
+  email: "",
+  addr: {
+    visit: "Torggata 15, c/o Smia Cowork, 8400 Sortland",
+    post: "Torggata 15, c/o Smia Cowork, 8400 Sortland",
+  },
+};
 interface Addr {
   post: string;
   visit: string;
@@ -119,4 +128,5 @@ export const offices = new Map<string, Office>([
   ["Stord", stord],
   ["Tromsø", tromsø],
   ["Trondheim", trondheim],
+  ["Vesterålen", vesterålen],
 ]);
