@@ -22,6 +22,7 @@ export const givenAliasMap = new Map(
     ["asa", ["Sofia"]],
     ["svl", ["Sondre"]],
     ["azi", ["Amanda Fern"]],
+    ["iyu", ["Ingvild Ytterhus"]],
   ],
 );
 
