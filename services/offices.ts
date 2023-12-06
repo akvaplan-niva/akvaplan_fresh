@@ -128,4 +128,5 @@ export const offices = new Map<string, Office>([
   ["Stord", stord],
   ["Tromsø", tromsø],
   ["Trondheim", trondheim],
+  ["Vesterålen", vesterålen],
 ]);
