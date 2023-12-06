@@ -43,7 +43,10 @@ export const GroupedPeople = (
     ) => (
       <div>
         <h2>
-          <a href={`${group}/${grpkey.toLowerCase()}`}>
+          <a
+            href={`${group}/${grpkey.toLowerCase()}`}
+            title={`${grpkey}: ${grpmembers.length}`}
+          >
             {group === "unit" ? t(`unit.${grpkey}`) : grpkey}
           </a>
         </h2>
