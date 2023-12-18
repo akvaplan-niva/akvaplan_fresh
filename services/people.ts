@@ -62,19 +62,19 @@ export const personInAuthors = (person) => ({ family, given, name }) => {
     authorInitials.join(""),
   );
 
-  if (!initialsAreMatching) {
-    console.warn(
-      JSON.stringify({
-        rejected: true,
-        person: { initials, family: person.family, given: person.given },
-        candidate: {
-          initialsAreMatching,
-          family,
-          given,
-        },
-      }),
-    );
-  }
+  // if (!initialsAreMatching) {
+  //   console.warn(
+  //     JSON.stringify({
+  //       rejected: true,
+  //       person: { initials, family: person.family, given: person.given },
+  //       candidate: {
+  //         initialsAreMatching,
+  //         family,
+  //         given,
+  //       },
+  //     }),
+  //   );
+  // }
   return fam &&
     (given === person.given || n(given) === n(person.given) ||
       initialsAreMatching);

@@ -97,12 +97,12 @@ export const getItemBySlug = async (
   const key = [slug0, type_of_media, slug];
   const { value, versionstamp } = await kv.get(key);
   if (versionstamp) {
-    console.debug("getItemBySlug [KV]", key);
+    //console.debug("getItemBySlug [KV]", key);
     return value;
   }
 
   const url = searchURL(slug, type_of_media);
-  console.debug("getItemBySlug (API)", url.href);
+  //console.debug("getItemBySlug (API)", url.href);
 
   const r = await fetch(url.href).catch((error) => {
     console.warn(
@@ -136,11 +136,10 @@ export const getItem = async (
   const _kv = getItemFromKv(id, type_of_media);
   const _api = getItemFromMynewsdeskApi(id, type_of_media);
   const item = await Promise.race([_kv, _api]);
-  if (item) {
-    //@ts-expect-error Debug symbol not in type MynewsdeskItem
-    console.debug("getItem", id, type_of_media, item[whoWon]);
-  }
-
+  // if (item) {
+  //   //Debug symbol not in type MynewsdeskItem
+  //   console.debug("getItem", id, type_of_media, item[whoWon]);
+  // }
   return item;
 };
 
