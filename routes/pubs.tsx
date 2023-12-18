@@ -44,10 +44,7 @@ export const handler: Handlers<DoiSearchResultsProps> = {
 
     // We need to load all pubs (via limit=-1) for in-memory search
     const url = new URL(`/doi?limit=-1&sort=-published`, DOIS_BASE);
-
     const response = await fetch(url);
-
-    console.warn(response);
 
     if (response.ok) {
       const json = await response.json();
