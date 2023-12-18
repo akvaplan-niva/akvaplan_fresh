@@ -144,7 +144,3 @@ export async function* mynewsdeskBatchItems(
     }
   }
 }
-
-if (import.meta.main) {
-  await seedMynewsdesk();
-}
