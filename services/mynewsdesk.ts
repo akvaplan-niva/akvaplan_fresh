@@ -135,12 +135,8 @@ export const getItem = async (
 ): Promise<MynewsdeskItem | undefined> => {
   const _kv = getItemFromKv(id, type_of_media);
   const _api = getItemFromMynewsdeskApi(id, type_of_media);
-  const item = await Promise.race([_kv, _api]);
-  // if (item) {
-  //   //Debug symbol not in type MynewsdeskItem
-  //   console.debug("getItem", id, type_of_media, item[whoWon]);
-  // }
-  return item;
+  const winner = await Promise.race([_kv, _api]);
+  return winner ?? _api;
 };
 
 export const getItemFromKv = async (

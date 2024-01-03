@@ -193,9 +193,9 @@ export default function NewsArticle(
         {(links && links?.length > 0) &&
           (
             <section class="article-content">
-              {links?.map(({ url }) => (
+              {links?.map(({ url, text }) => (
                 <Card>
-                  <a href={url} class="ellipsis">{url}</a>
+                  <a href={url} class="ellipsis">{text ?? url}</a>
                 </Card>
               ))}
             </section>

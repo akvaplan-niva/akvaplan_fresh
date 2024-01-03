@@ -2,107 +2,108 @@
 // This file SHOULD be checked into source version control.
 // This file is automatically updated during development when running `dev.ts`.
 
-import * as $0 from "./routes/_404.tsx";
-import * as $1 from "./routes/_500.tsx";
-import * as $2 from "./routes/_app.tsx";
-import * as $3 from "./routes/_middleware.ts";
-import * as $4 from "./routes/about.tsx";
-import * as $5 from "./routes/accreditation.tsx";
-import * as $6 from "./routes/akvaplanist.tsx";
-import * as $7 from "./routes/api/mynewsdesk/index.ts";
-import * as $8 from "./routes/api/mynewsdesk/type/[...path].ts";
-import * as $9 from "./routes/api/mynewsdesk/year/[...path].ts";
-import * as $10 from "./routes/api/projects.ts";
-import * as $11 from "./routes/api/slug/[type].ts";
-import * as $12 from "./routes/article/[slug].tsx";
-import * as $13 from "./routes/careers.tsx";
-import * as $14 from "./routes/dcat.tsx";
-import * as $15 from "./routes/document/[slug].tsx";
-import * as $16 from "./routes/documents.tsx";
-import * as $17 from "./routes/doi.tsx";
-import * as $18 from "./routes/fakturering.tsx";
-import * as $19 from "./routes/home.tsx";
-import * as $20 from "./routes/index.tsx";
-import * as $21 from "./routes/legacy.tsx";
-import * as $22 from "./routes/legacy_pages_redirect.tsx";
-import * as $23 from "./routes/ms-louise.tsx";
-import * as $24 from "./routes/mynewsdesk-articles/[slug].tsx";
-import * as $25 from "./routes/nav.tsx";
-import * as $26 from "./routes/news.tsx";
-import * as $27 from "./routes/null.tsx";
-import * as $28 from "./routes/policies.tsx";
-import * as $29 from "./routes/pref.tsx";
-import * as $30 from "./routes/project.tsx";
-import * as $31 from "./routes/projects.tsx";
-import * as $32 from "./routes/pubs.tsx";
-import * as $33 from "./routes/research.tsx";
-import * as $34 from "./routes/research_topics.tsx";
-import * as $35 from "./routes/search.tsx";
-import * as $36 from "./routes/service_topics.tsx";
-import * as $37 from "./routes/services.tsx";
-import * as $38 from "./routes/sitemap.txt.ts";
-import * as $39 from "./routes/topics.tsx";
-import * as $40 from "./routes/usr.tsx";
-import * as $$0 from "./islands/HScrollWithDynamicImage.tsx";
-import * as $$1 from "./islands/button_open_dialog.tsx";
-import * as $$2 from "./islands/doi_search.tsx";
-import * as $$3 from "./islands/lang_switcher.tsx";
-import * as $$4 from "./islands/text.tsx";
-import * as $$5 from "./islands/theme_switcher.tsx";
+import * as $_404 from "./routes/_404.tsx";
+import * as $_500 from "./routes/_500.tsx";
+import * as $_app from "./routes/_app.tsx";
+import * as $_middleware from "./routes/_middleware.ts";
+import * as $about from "./routes/about.tsx";
+import * as $accreditation from "./routes/accreditation.tsx";
+import * as $akvaplanist from "./routes/akvaplanist.tsx";
+import * as $api_mynewsdesk_index from "./routes/api/mynewsdesk/index.ts";
+import * as $api_mynewsdesk_type_path_ from "./routes/api/mynewsdesk/type/[...path].ts";
+import * as $api_mynewsdesk_year_path_ from "./routes/api/mynewsdesk/year/[...path].ts";
+import * as $api_projects from "./routes/api/projects.ts";
+import * as $api_slug_type_ from "./routes/api/slug/[type].ts";
+import * as $article_slug_ from "./routes/article/[slug].tsx";
+import * as $careers from "./routes/careers.tsx";
+import * as $dcat from "./routes/dcat.tsx";
+import * as $document_slug_ from "./routes/document/[slug].tsx";
+import * as $documents from "./routes/documents.tsx";
+import * as $doi from "./routes/doi.tsx";
+import * as $fakturering from "./routes/fakturering.tsx";
+import * as $home from "./routes/home.tsx";
+import * as $index from "./routes/index.tsx";
+import * as $legacy from "./routes/legacy.tsx";
+import * as $legacy_pages_redirect from "./routes/legacy_pages_redirect.tsx";
+import * as $ms_louise from "./routes/ms-louise.tsx";
+import * as $mynewsdesk_articles_slug_ from "./routes/mynewsdesk-articles/[slug].tsx";
+import * as $nav from "./routes/nav.tsx";
+import * as $news from "./routes/news.tsx";
+import * as $null from "./routes/null.tsx";
+import * as $policies from "./routes/policies.tsx";
+import * as $pref from "./routes/pref.tsx";
+import * as $project from "./routes/project.tsx";
+import * as $projects from "./routes/projects.tsx";
+import * as $pubs from "./routes/pubs.tsx";
+import * as $research from "./routes/research.tsx";
+import * as $research_topics from "./routes/research_topics.tsx";
+import * as $search from "./routes/search.tsx";
+import * as $service_topics from "./routes/service_topics.tsx";
+import * as $services from "./routes/services.tsx";
+import * as $sitemap_txt from "./routes/sitemap.txt.ts";
+import * as $topics from "./routes/topics.tsx";
+import * as $usr from "./routes/usr.tsx";
+import * as $HScrollWithDynamicImage from "./islands/HScrollWithDynamicImage.tsx";
+import * as $button_open_dialog from "./islands/button_open_dialog.tsx";
+import * as $doi_search from "./islands/doi_search.tsx";
+import * as $lang_switcher from "./islands/lang_switcher.tsx";
+import * as $text from "./islands/text.tsx";
+import * as $theme_switcher from "./islands/theme_switcher.tsx";
+import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {
-    "./routes/_404.tsx": $0,
-    "./routes/_500.tsx": $1,
-    "./routes/_app.tsx": $2,
-    "./routes/_middleware.ts": $3,
-    "./routes/about.tsx": $4,
-    "./routes/accreditation.tsx": $5,
-    "./routes/akvaplanist.tsx": $6,
-    "./routes/api/mynewsdesk/index.ts": $7,
-    "./routes/api/mynewsdesk/type/[...path].ts": $8,
-    "./routes/api/mynewsdesk/year/[...path].ts": $9,
-    "./routes/api/projects.ts": $10,
-    "./routes/api/slug/[type].ts": $11,
-    "./routes/article/[slug].tsx": $12,
-    "./routes/careers.tsx": $13,
-    "./routes/dcat.tsx": $14,
-    "./routes/document/[slug].tsx": $15,
-    "./routes/documents.tsx": $16,
-    "./routes/doi.tsx": $17,
-    "./routes/fakturering.tsx": $18,
-    "./routes/home.tsx": $19,
-    "./routes/index.tsx": $20,
-    "./routes/legacy.tsx": $21,
-    "./routes/legacy_pages_redirect.tsx": $22,
-    "./routes/ms-louise.tsx": $23,
-    "./routes/mynewsdesk-articles/[slug].tsx": $24,
-    "./routes/nav.tsx": $25,
-    "./routes/news.tsx": $26,
-    "./routes/null.tsx": $27,
-    "./routes/policies.tsx": $28,
-    "./routes/pref.tsx": $29,
-    "./routes/project.tsx": $30,
-    "./routes/projects.tsx": $31,
-    "./routes/pubs.tsx": $32,
-    "./routes/research.tsx": $33,
-    "./routes/research_topics.tsx": $34,
-    "./routes/search.tsx": $35,
-    "./routes/service_topics.tsx": $36,
-    "./routes/services.tsx": $37,
-    "./routes/sitemap.txt.ts": $38,
-    "./routes/topics.tsx": $39,
-    "./routes/usr.tsx": $40,
+    "./routes/_404.tsx": $_404,
+    "./routes/_500.tsx": $_500,
+    "./routes/_app.tsx": $_app,
+    "./routes/_middleware.ts": $_middleware,
+    "./routes/about.tsx": $about,
+    "./routes/accreditation.tsx": $accreditation,
+    "./routes/akvaplanist.tsx": $akvaplanist,
+    "./routes/api/mynewsdesk/index.ts": $api_mynewsdesk_index,
+    "./routes/api/mynewsdesk/type/[...path].ts": $api_mynewsdesk_type_path_,
+    "./routes/api/mynewsdesk/year/[...path].ts": $api_mynewsdesk_year_path_,
+    "./routes/api/projects.ts": $api_projects,
+    "./routes/api/slug/[type].ts": $api_slug_type_,
+    "./routes/article/[slug].tsx": $article_slug_,
+    "./routes/careers.tsx": $careers,
+    "./routes/dcat.tsx": $dcat,
+    "./routes/document/[slug].tsx": $document_slug_,
+    "./routes/documents.tsx": $documents,
+    "./routes/doi.tsx": $doi,
+    "./routes/fakturering.tsx": $fakturering,
+    "./routes/home.tsx": $home,
+    "./routes/index.tsx": $index,
+    "./routes/legacy.tsx": $legacy,
+    "./routes/legacy_pages_redirect.tsx": $legacy_pages_redirect,
+    "./routes/ms-louise.tsx": $ms_louise,
+    "./routes/mynewsdesk-articles/[slug].tsx": $mynewsdesk_articles_slug_,
+    "./routes/nav.tsx": $nav,
+    "./routes/news.tsx": $news,
+    "./routes/null.tsx": $null,
+    "./routes/policies.tsx": $policies,
+    "./routes/pref.tsx": $pref,
+    "./routes/project.tsx": $project,
+    "./routes/projects.tsx": $projects,
+    "./routes/pubs.tsx": $pubs,
+    "./routes/research.tsx": $research,
+    "./routes/research_topics.tsx": $research_topics,
+    "./routes/search.tsx": $search,
+    "./routes/service_topics.tsx": $service_topics,
+    "./routes/services.tsx": $services,
+    "./routes/sitemap.txt.ts": $sitemap_txt,
+    "./routes/topics.tsx": $topics,
+    "./routes/usr.tsx": $usr,
   },
   islands: {
-    "./islands/HScrollWithDynamicImage.tsx": $$0,
-    "./islands/button_open_dialog.tsx": $$1,
-    "./islands/doi_search.tsx": $$2,
-    "./islands/lang_switcher.tsx": $$3,
-    "./islands/text.tsx": $$4,
-    "./islands/theme_switcher.tsx": $$5,
+    "./islands/HScrollWithDynamicImage.tsx": $HScrollWithDynamicImage,
+    "./islands/button_open_dialog.tsx": $button_open_dialog,
+    "./islands/doi_search.tsx": $doi_search,
+    "./islands/lang_switcher.tsx": $lang_switcher,
+    "./islands/text.tsx": $text,
+    "./islands/theme_switcher.tsx": $theme_switcher,
   },
   baseUrl: import.meta.url,
-};
+} satisfies Manifest;
 
 export default manifest;
