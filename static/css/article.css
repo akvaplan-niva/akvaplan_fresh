@@ -149,3 +149,9 @@
   padding-top: 1rem;
   padding-bottom: 0.125rem;
 }
+
+.article h3 {
+  font-style: italic;  
+  padding-top: 1rem;
+  padding-bottom: 0.125rem;
+}
