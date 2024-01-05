@@ -5,15 +5,19 @@ import {
   search as searchPubs,
 } from "akvaplan_fresh/services/mod.ts";
 
-import { buildContainsFilter } from "akvaplan_fresh/search/filter.ts";
+import {
+  buildContainsFilter,
+  buildExactFilter,
+} from "akvaplan_fresh/search/filter.ts";
 import { groupIntoMap } from "akvaplan_fresh/grouping/mod.ts";
 import { normalize as n } from "akvaplan_fresh/text/mod.ts";
 import { familyAlias, givenAliasMap } from "./person.ts";
 export const newsOnPerson = async (
   { person, lang, limit, mapper = newsFromMynewsdesk({ lang }) },
 ) => {
-  const containsFamily = buildContainsFilter(person.family);
-  const containsGiven = buildContainsFilter(person.given);
+  const containsFamilyFx = buildContainsFilter(person.family);
+  const containsGivenFx = buildContainsFilter(person.given);
+  const exactMatchFamilyFx = buildExactFilter(person.family);
 
   const _news = await multiSearchMynewsdesk(
     [person.family, person.given],
@@ -22,7 +26,7 @@ export const newsOnPerson = async (
   ) ?? [];
 
   const _filteredNews = _news.filter((mnd) =>
-    containsFamily(mnd) && containsGiven(mnd)
+    containsFamilyFx(mnd) && containsGivenFx(mnd) && exactMatchFamilyFx(mnd)
   );
 
   return _filteredNews.map(mapper);
