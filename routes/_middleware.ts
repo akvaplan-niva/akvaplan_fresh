@@ -1,6 +1,5 @@
 // For possible future automatic propagation of state, see:
 // https://github.com/denoland/fresh/issues/1128
-
 // https://github.com/denoland/fresh/issues/586#issuecomment-1630175078
 import {
   acceptsNordic,
@@ -18,7 +17,7 @@ import {
 import { parse } from "accept-language-parser";
 
 import { MiddlewareHandlerContext } from "$fresh/server.ts";
-import { projectURL } from "akvaplan_fresh/services/nav.ts";
+import { blogURL, projectURL } from "akvaplan_fresh/services/nav.ts";
 
 export function handler(
   req: Request,
@@ -32,12 +31,16 @@ export function handler(
   const acceptLanguages = requestHeaderAcceptLanguages.map(({ code }) => code);
   const lang = acceptsNordic(acceptLanguages) ? "no" : "en";
 
+  // Handle paths from Mynewsdesk API or emails
   if (pathname.startsWith("/events/")) {
-    const slug = pathname.split("/events/").at(1); //?.replace(/-[0-9]+$/, "");
+    const slug = pathname.split("/events/").at(1) as string;
     const location = new URL(projectURL({ lang, title: slug }), url);
     return response307XRobotsTagNoIndex(location.href);
+  } else if (pathname.startsWith("/blog_posts/")) {
+    const slug = pathname.split("/blog_posts/").at(1) as string;
+    const location = new URL(blogURL({ lang, title: slug }), url);
+    return response307XRobotsTagNoIndex(location.href);
   }
-  // events is in this list, since projects are defined as events in mynewsdesk
 
   if (ctx.destination === "route") {
     if (legacyHosts.includes(hostname)) {
