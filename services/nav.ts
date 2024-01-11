@@ -9,6 +9,7 @@ export const siteNav: SignalLike<Array> = computed(() =>
 
 const En = new Map([
   ["about", "/en/about"],
+
   ["akvaplanists", "/en/people"],
   ["search", "/en/_"],
   ["news", "/en/news"],
@@ -27,6 +28,7 @@ const En = new Map([
 ]);
 const No = new Map([
   ["about", "/no/om"],
+  ["blog", "/no/blog"],
   ["dcat", "/no/dcat"],
   ["news", "/no/nyheter"],
 
@@ -75,6 +77,16 @@ export const buildMobileNav = (lang: string | StringSignal) =>
 //   id
 //     ? `${routes(lang).get("akvaplanists")}/id/${id}/${family}/${given}`
 //     : `${routes(lang).get("akvaplanists")}/name/${family}/${given}`;
+interface SlugLike {
+  lang: string;
+  title: string;
+
+  id?: string;
+}
+
+export const blogURL = ({ lang, title }: SlugLike) =>
+  `${routesForLang(lang).get("blog")}/${slug(title)}`;
+
 export const peopleURL = ({ lang }) =>
   `${routesForLang(lang).get("akvaplanists")}`;
 
@@ -101,8 +113,8 @@ export const pubURL = ({ doi, lang }) =>
 
 // const projectURL = (title) =>
 //   title.toLowerCase().replaceAll(/\s/g, "-").split("-").at(0);
-export const projectURL = ({ lang, title }) =>
+export const projectURL = ({ lang, title }: SlugLike) =>
   `${routesForLang(lang).get("project")}/${slug(title)}`;
 
-export const documentHref = ({ id, lang, title }) =>
+export const documentHref = ({ id, lang, title }: SlugLike) =>
   `${routesForLang(lang).get("document")}/${slug(title)}-${id}`;
