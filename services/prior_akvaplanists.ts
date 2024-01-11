@@ -5,6 +5,7 @@
 // Used...
 // In people page, but if no ID not all spellings might be returned, eg. /no/folk/name/%C3%85str%C3%B6m/Emmelie%20K.L.
 export const priorAkvaplanists = [
+  { "given": "Benjamin", "family": "Merkel", "id": "bme" },
   { "given": "Muriel Barbara", "family": "Dunn", "id": "mbd" },
   { "given": "Muriel", "family": "Dunn", "id": "mbd" },
   { given: "Starrlight", family: "Augustine" },
