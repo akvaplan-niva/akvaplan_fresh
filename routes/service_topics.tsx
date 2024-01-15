@@ -38,7 +38,9 @@ export const handler: Handlers = {
     lang.value = params.lang;
 
     const services = await getServicesLevel0(params.lang);
-    const service = services.find(({ topic }) => params.topic === topic);
+    const service = services.find(({ topic }) =>
+      decodeURIComponent(params.topic) === topic
+    );
     if (!service) {
       return ctx.renderNotFound();
     }
