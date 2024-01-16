@@ -2,6 +2,7 @@
 // https://akvaplan.no/no/nyhet/2021-04-26/tynn-men-fet-fisken-tverrhalet-langebarn-utgjor-en-energibombe-i-de-arktiske-hav
 // https://akvaplan.no/no/folk/name/Biuw/Martin
 import { akvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
+import { priorAkvaplanistID } from "akvaplan_fresh/services/prior_akvaplanists.ts";
 import { peopleURL, personURL } from "akvaplan_fresh/services/nav.ts";
 
 import { Card, Icon, UseApnSym } from "akvaplan_fresh/components/mod.ts";
@@ -28,8 +29,11 @@ export function PeopleCard(
     icons = true,
   }: PeopleProps,
 ) {
-  if (people.has(id)) {
-    person = { id, ...people.get(id) };
+  if (id) {
+    const { family, given, prior } = people.get(id) ??
+      priorAkvaplanistID.get(id) ??
+      { family: "", given: "" };
+    person = { id, family, given, prior };
   }
 
   const {
@@ -43,7 +47,6 @@ export function PeopleCard(
     workplace,
     management,
     responsibility,
-    prior,
   } = person ?? {};
 
   return (
@@ -67,9 +70,9 @@ export function PeopleCard(
       <UseApnSym
         width="2rem"
         height="2rem"
-        style={prior === true ? { filter: "grayscale(1)" } : {}}
+        style={person.prior === true ? { filter: "grayscale(1)" } : {}}
       />{" "}
-      {prior === true && <span>{t("people.akvaplanist(prior)")}</span>}
+      {person.prior === true && <span>{t("people.akvaplanist(prior)")}</span>}
       <span class="people-position">
         {position?.[lang ?? "no"] ?? ""}
       </span>
