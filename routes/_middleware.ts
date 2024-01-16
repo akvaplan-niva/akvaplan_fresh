@@ -16,33 +16,14 @@ import {
 
 import { parse } from "accept-language-parser";
 
-import { MiddlewareHandlerContext } from "$fresh/server.ts";
+import type { FreshContext } from "$fresh/server.ts";
 import { blogURL, projectURL } from "akvaplan_fresh/services/nav.ts";
 
-export function handler(
-  req: Request,
-  ctx: MiddlewareHandlerContext<Record<string, unknown>>,
-) {
-  const url = new URL(req.url);
-  const { pathname, hostname } = url;
-  const requestHeaderAcceptLanguages = parse(
-    req.headers.get("accept-language") ?? "",
-  );
-  const acceptLanguages = requestHeaderAcceptLanguages.map(({ code }) => code);
-  const lang = acceptsNordic(acceptLanguages) ? "no" : "en";
-
-  // Handle paths from Mynewsdesk API or emails
-  if (pathname.startsWith("/events/")) {
-    const slug = pathname.split("/events/").at(1) as string;
-    const location = new URL(projectURL({ lang, title: slug }), url);
-    return response307XRobotsTagNoIndex(location.href);
-  } else if (pathname.startsWith("/blog_posts/")) {
-    const slug = pathname.split("/blog_posts/").at(1) as string;
-    const location = new URL(blogURL({ lang, title: slug }), url);
-    return response307XRobotsTagNoIndex(location.href);
-  }
-
+export function handler(req: Request, ctx: FreshContext) {
   if (ctx.destination === "route") {
+    const { url, params } = ctx;
+    const { pathname, hostname } = url;
+
     if (legacyHosts.includes(hostname)) {
       const fresh = req.url.replace("www.", "").replace(
         "akvaplan.niva.",
@@ -52,8 +33,8 @@ export function handler(
     }
 
     if (legacyRoutes.has(pathname)) {
-      const Location = new URL(legacyRoutes.get(pathname), url);
-      return response307XRobotsTagNoIndex(Location);
+      const Location = new URL(legacyRoutes.get(pathname) as string, url);
+      return response307XRobotsTagNoIndex(Location.href);
     }
 
     // Force /en on .com?
@@ -61,14 +42,26 @@ export function handler(
     // if ([...internationalHosts.keys()].includes(hostname)) {
     // }
 
-    if ("/" === pathname && req.headers.has("accept-language") && lang) {
-      // Special case for root path /
-      // Redirect from accept-language header, if present
+    const requestHeaderAcceptLanguages = parse(
+      req.headers.get("accept-language") ?? "",
+    );
+    const acceptLanguages = requestHeaderAcceptLanguages.map((
+      { code }: { code: string },
+    ) => code);
 
+    if ("/" === pathname && req.headers.has("accept-language")) {
+      // Special case for root path
+      const lang = acceptsNordic(acceptLanguages) ? "no" : "en";
       return response307(`/${lang}`);
     } else {
-      const lang = getLangFromURL(url);
-      if (lang) {
+      const langFromURL = getLangFromURL(url);
+
+      const lang = langFromURL
+        ? langFromURL
+        : acceptsNordic(acceptLanguages)
+        ? "no"
+        : "en";
+      if (lang?.length === 2 && ["en", "no"].includes(lang)) {
         setSiteLang(lang);
       }
     }
