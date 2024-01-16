@@ -1,6 +1,6 @@
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
-import { type HandlerContext, type Handlers } from "$fresh/server.ts";
+import { type FreshContext, type Handlers } from "$fresh/server.ts";
 
 export const style = {
   section: {
@@ -15,7 +15,7 @@ export interface InternationalProps {
   title: string;
 }
 
-export const extractRenderProps = (req: Request, ctx: HandlerContext) => {
+export const extractRenderProps = (req: Request, ctx: FreshContext) => {
   const { params } = ctx;
   const { pathname } = new URL(req.url);
   lang.value = params.lang;
@@ -25,7 +25,7 @@ export const extractRenderProps = (req: Request, ctx: HandlerContext) => {
 };
 
 export const handler: Handlers = {
-  GET(req: Request, ctx: HandlerContext) {
+  GET(req: Request, ctx: FreshContext) {
     const props = extractRenderProps(req, ctx);
     return ctx.render(props);
   },
