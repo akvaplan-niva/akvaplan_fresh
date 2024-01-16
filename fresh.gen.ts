@@ -22,11 +22,13 @@ import * as $documents from "./routes/documents.tsx";
 import * as $doi from "./routes/doi.tsx";
 import * as $fakturering from "./routes/fakturering.tsx";
 import * as $home from "./routes/home.tsx";
+import * as $images from "./routes/images.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $legacy from "./routes/legacy.tsx";
 import * as $legacy_pages_redirect from "./routes/legacy_pages_redirect.tsx";
+import * as $media_slug_ from "./routes/media/[slug].tsx";
 import * as $ms_louise from "./routes/ms-louise.tsx";
-import * as $mynewsdesk_articles_slug_ from "./routes/mynewsdesk-articles/[slug].tsx";
+import * as $mynewsdesk_slug_ from "./routes/mynewsdesk/[slug].tsx";
 import * as $nav from "./routes/nav.tsx";
 import * as $news from "./routes/news.tsx";
 import * as $null from "./routes/null.tsx";
@@ -43,6 +45,7 @@ import * as $services from "./routes/services.tsx";
 import * as $sitemap_txt from "./routes/sitemap.txt.ts";
 import * as $topics from "./routes/topics.tsx";
 import * as $usr from "./routes/usr.tsx";
+import * as $videos from "./routes/videos.tsx";
 import * as $HScrollWithDynamicImage from "./islands/HScrollWithDynamicImage.tsx";
 import * as $button_open_dialog from "./islands/button_open_dialog.tsx";
 import * as $doi_search from "./islands/doi_search.tsx";
@@ -73,11 +76,13 @@ const manifest = {
     "./routes/doi.tsx": $doi,
     "./routes/fakturering.tsx": $fakturering,
     "./routes/home.tsx": $home,
+    "./routes/images.tsx": $images,
     "./routes/index.tsx": $index,
     "./routes/legacy.tsx": $legacy,
     "./routes/legacy_pages_redirect.tsx": $legacy_pages_redirect,
+    "./routes/media/[slug].tsx": $media_slug_,
     "./routes/ms-louise.tsx": $ms_louise,
-    "./routes/mynewsdesk-articles/[slug].tsx": $mynewsdesk_articles_slug_,
+    "./routes/mynewsdesk/[slug].tsx": $mynewsdesk_slug_,
     "./routes/nav.tsx": $nav,
     "./routes/news.tsx": $news,
     "./routes/null.tsx": $null,
@@ -94,6 +99,7 @@ const manifest = {
     "./routes/sitemap.txt.ts": $sitemap_txt,
     "./routes/topics.tsx": $topics,
     "./routes/usr.tsx": $usr,
+    "./routes/videos.tsx": $videos,
   },
   islands: {
     "./islands/HScrollWithDynamicImage.tsx": $HScrollWithDynamicImage,
