@@ -3,11 +3,14 @@ export const response307 = (Location: string) =>
     status: 307,
     headers: { Location },
   });
-export const response307XRobotsTagNoIndex = (Location: string) =>
+export const response307XRobotsTagNoIndex = (
+  location: string | URL,
+  status = 307,
+) =>
   new Response("", {
-    status: 307,
+    status,
     headers: {
-      Location,
+      location: String(location),
       "x-robots-tag": "noindex, nofollow, noarchive, nosnippet",
     },
   });

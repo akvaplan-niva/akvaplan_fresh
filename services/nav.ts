@@ -1,53 +1,63 @@
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 import { SignalLike, StringSignal } from "akvaplan_fresh/@interfaces/signal.ts";
 
-import { slug } from "https://deno.land/x/slug@v1.1.0/mod.ts";
+import { slug as _slug } from "https://deno.land/x/slug@v1.1.0/mod.ts";
 import { computed } from "@preact/signals-core";
 export const siteNav: SignalLike<Array> = computed(() =>
   buildNav(langSignal.value)
 );
+export const moreNav: SignalLike<Array> = computed(() =>
+  buildMoreNav(langSignal.value)
+);
 
 const En = new Map([
   ["about", "/en/about"],
-
   ["akvaplanists", "/en/people"],
-  ["search", "/en/_"],
+  ["dcat", "/en/dcat"],
+  ["document", "/en/document"],
+  ["documents", "/en/documents"],
+  ["images", "/en/images"],
+  ["image", "/en/image"],
+  ["invoicing", "/en/invoice"],
+  ["more", "/en/more"],
+  ["news-article", "/en/news"],
   ["news", "/en/news"],
-  ["service", "/en/services"],
-  ["services", "/en/services"],
-  ["research", "/en/research"],
-  ["settings", "/en/settings"],
+  ["people", "/en/people"],
   ["project", "/en/project"],
   ["projects", "/en/projects"],
   ["pubs", "/en/publications"],
-  ["dcat", "/en/dcat"],
-  ["documents", "/en/documents"],
-  ["document", "/en/document"],
-  ["invoicing", "/en/invoice"],
-  ["people", "/en/people"],
+  ["research", "/en/research"],
+  ["search", "/en/_"],
+  ["service", "/en/services"],
+  ["services", "/en/services"],
+  ["settings", "/en/settings"],
+  ["videos", "/en/videos"],
+  ["video", "/en/video"],
 ]);
 const No = new Map([
   ["about", "/no/om"],
+  ["akvaplanists", "/no/folk"],
   ["blog", "/no/blog"],
   ["dcat", "/no/dcat"],
+  ["document", "/no/dokument"],
+  ["documents", "/no/dokumenter"],
+  ["images", "/no/bilder"],
+  ["image", "/no/bilde"],
+  ["invoicing", "/no/faktura"],
+  ["more", "/no/mer"],
+  ["news-article", "/no/nyhet"],
   ["news", "/no/nyheter"],
-
-  ["pubs", "/no/publikasjoner"],
+  ["people", "/no/folk"],
   ["project", "/no/prosjekt"],
   ["projects", "/no/prosjekter"],
-
-  ["people", "/no/folk"],
-
+  ["pubs", "/no/publikasjoner"],
   ["research", "/no/forskning"],
+  ["search", "/no/_"],
   ["service", "/no/tjenester"],
   ["services", "/no/tjenester"],
   ["settings", "/no/innstillinger"],
-  ["search", "/no/_"],
-
-  ["invoicing", "/no/faktura"],
-  ["documents", "/no/dokumenter"],
-  ["document", "/no/dokument"],
-  ["akvaplanists", "/no/folk"],
+  ["videos", "/no/video"],
+  ["video", "/no/video"],
 ]);
 
 export const routesForLang = (lang: string | StringSignal) =>
@@ -55,7 +65,6 @@ export const routesForLang = (lang: string | StringSignal) =>
 
 const _tr = routesForLang;
 
-routesForLang;
 export const buildNav = (lang: string | StringSignal) => [
   { href: _tr(lang).get("news"), text: t("nav.News") },
   { href: _tr(lang).get("services"), text: t("nav.Services") },
@@ -69,6 +78,34 @@ export const buildNav = (lang: string | StringSignal) => [
   { href: _tr(lang).get("about"), text: t("nav.About") },
   //{ href: _tr(lang).get("settings"), text: t("Settings") },
 ];
+export const buildNav0 = (lang: string | StringSignal) => [
+  //{ href: _tr(lang).get("news"), text: t("nav.News") },
+  { href: _tr(lang).get("akvaplanists"), text: t("nav.People") },
+  { href: _tr(lang).get("services"), text: t("nav.Services") },
+  { href: _tr(lang).get("research"), text: t("nav.Research") },
+  { href: _tr(lang).get("pubs"), text: t("nav.Publications") },
+  { href: _tr(lang).get("projects"), text: t("nav.Projects") },
+
+  //{ href: _tr(lang).get("dcat"), text: t("Datasets") },
+
+  //{ href: _tr(lang).get("documents"), text: t("Documents") },
+  { href: _tr(lang).get("more"), text: t("nav.More") },
+  //{ href: _tr(lang).get("settings"), text: t("Settings") },
+];
+
+export const buildMoreNav = (lang: string | StringSignal) => [
+  { href: _tr(lang).get("news"), text: t("nav.News") },
+  { href: _tr(lang).get("documents"), text: t("nav.Documents") },
+  { href: _tr(lang).get("videos"), text: t("nav.Videos") },
+  { href: _tr(lang).get("images"), text: t("nav.Images") },
+  { href: _tr(lang).get("about"), text: t("nav.About") },
+  //{ href: _tr(lang).get("projects"), text: t("nav.Projects") },
+  //{ href: _tr(lang).get("dcat"), text: t("Datasets") },
+
+  //{ href: _tr(lang).get("about"), text: t("nav.About") },
+  //{ href: _tr(lang).get("more"), text: t("nav.More") },
+  //{ href: _tr(lang).get("settings"), text: t("Settings") },
+];
 
 export const buildMobileNav = (lang: string | StringSignal) =>
   buildNav(lang).slice(1, 3);
@@ -79,21 +116,36 @@ export const buildMobileNav = (lang: string | StringSignal) =>
 //     : `${routes(lang).get("akvaplanists")}/name/${family}/${given}`;
 interface SlugLike {
   lang: string;
-  title: string;
+  title?: string;
 
   id?: string;
+  slug?: string;
 }
 
 export const blogURL = ({ lang, title }: SlugLike) =>
-  `${routesForLang(lang).get("blog")}/${slug(title)}`;
+  `${routesForLang(lang).get("blog")}/${_slug(title)}`;
+
+export const newsArticleURL = ({ lang, title, slug }: SlugLike) =>
+  `${routesForLang(lang).get("news-article")}/${slug ? slug : _slug(title)}`;
+
+export const imagesURL = ({ lang }: SlugLike) =>
+  `${routesForLang(lang).get("images")}`;
+
+export const imageURL = ({ lang, title, slug }: SlugLike) =>
+  `${routesForLang(lang).get("image")}/${slug ? slug : _slug(title as string)}`;
+
+export const videoURL = ({ lang, title, slug }: SlugLike) =>
+  `${routesForLang(lang).get("video")}/${slug ? slug : _slug(title as string)}`;
 
 export const peopleURL = ({ lang }) =>
   `${routesForLang(lang).get("akvaplanists")}`;
 
-export const personURL = ({ id, given, family, email, lang }) =>
+export const personURL = ({ id, given, family, email, lang, slug }) =>
   id
     ? `${routesForLang(lang).get("akvaplanists")}/id/${id}/${family}/${given}`
-    : `${routesForLang(lang).get("akvaplanists")}/name/${family}/${given}`;
+    : `${routesForLang(lang).get("akvaplanists")}/name/${
+      slug ? slug : `${family}/${given}`
+    }`;
 
 export const researchTopicURL = ({ topic, lang }) =>
   `${routesForLang(lang).get("research")}/${
@@ -114,7 +166,7 @@ export const pubURL = ({ doi, lang }) =>
 // const projectURL = (title) =>
 //   title.toLowerCase().replaceAll(/\s/g, "-").split("-").at(0);
 export const projectURL = ({ lang, title }: SlugLike) =>
-  `${routesForLang(lang).get("project")}/${slug(title)}`;
+  `${routesForLang(lang).get("project")}/${_slug(title)}`;
 
 export const documentHref = ({ id, lang, title }: SlugLike) =>
-  `${routesForLang(lang).get("document")}/${slug(title)}-${id}`;
+  `${routesForLang(lang).get("document")}/${_slug(title)}-${id}`;

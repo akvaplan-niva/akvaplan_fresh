@@ -7,31 +7,34 @@ export const base = "https://akvaplanists.deno.dev";
 
 const _all: Akvaplanist[] = [];
 
+export const fetchAkvaplanists = async (): Promise<
+  Akvaplanist[] | undefined
+> => {
+  const r = await fetch(base);
+  if (r.ok) {
+    const empl = await r.json();
+    return empl.map((p: Akvaplanist, i: number) => {
+      const { en, no, nb } = p.position;
+      if (!no) {
+        p.position.no = nb;
+      }
+      if (!en) {
+        p.position.en = nb;
+      }
+      if (!p.email) {
+        p.email = p.id + "@akvaplan.niva.no";
+      }
+      _all[i] = p;
+      return p;
+    });
+  }
+};
+
 export const akvaplanists = async (): Promise<Akvaplanist[] | undefined> => {
   if (_all?.length > 0) {
     return _all;
   }
-  if (globalThis.Deno) {
-    const r = await fetch(base);
-    if (r.ok) {
-      const empl = await r.json();
-      return empl.map((p: Akvaplanist, i: number) => {
-        const { en, no, nb } = p.position;
-        if (!no) {
-          p.position.no = nb;
-        }
-        if (!en) {
-          p.position.en = nb;
-        }
-        if (!p.email) {
-          p.email = p.id + "@akvaplan.niva.no";
-        }
-        _all[i] = p;
-        return p;
-      });
-    }
-  }
-  //throw "Failed fetching akvaplanists";
+  return await fetchAkvaplanists();
 };
 
 export const akvaplanistMap = async () => {

@@ -14,15 +14,71 @@ export const cloudinary_slug0 = "mynewsdesk_cloudinary_slug";
 export const MYNEWSDESK_MAX = 100;
 
 import { openKv } from "akvaplan_fresh/kv/mod.ts";
+import {
+  blogURL,
+  imageURL,
+  newsArticleURL,
+  peopleURL,
+  personURL,
+  projectURL,
+} from "akvaplan_fresh/services/nav.ts";
 
 const sortPublishedLatest = (a, b) =>
   b.published_at.datetime.localeCompare(a.published_at.datetime);
 
 export const base = "https://www.mynewsdesk.com";
 
+export const newsroom_lang = "no";
+
 export const mynewsdesk_key: string = globalThis.Deno
   ? Deno.env.get("mynewsdesk_key") ?? ""
   : "";
+
+export const typeOfMediaFromMynewsdeskPage = (mynewsdesk_page: string) => {
+  switch (mynewsdesk_page) {
+    case "blog_posts":
+      return "blog_post";
+    case "contact_people":
+      return "contact_person";
+    case "images":
+      return "image";
+    case "videos":
+      return "video";
+    default:
+      return mynewsdesk_page;
+  }
+};
+
+export const getCanonical = (
+  { type_of_media, lang, title, slug, url }: {
+    type_of_media: string;
+    lang: string;
+    slug: string;
+    title?: string;
+    url: URL | string;
+  },
+) => {
+  switch (type_of_media) {
+    case "news": {
+      return new URL(newsArticleURL({ lang, title, slug }), url);
+    }
+    case "blog_post": {
+      return new URL(blogURL({ lang, title, slug }), url);
+    }
+    case "contact_person":
+      // The slug is only the Mynewsdesk item id corresponding to the person…
+      // and this route is not exposed anywhere
+      return peopleURL({ lang });
+    case "events": {
+      return new URL(projectURL({ lang, title, slug }), url);
+    }
+    case "image": {
+      return new URL(imageURL({ lang, title, slug }), url);
+    }
+    default:
+      return new URL(`/${lang}/${type_of_media}/${slug}`, url);
+  }
+};
 
 export const actionPath = (action: string, unique_key = mynewsdesk_key) =>
   `/services/pressroom/${action}/${unique_key}`;
@@ -159,7 +215,7 @@ export const getItemFromMynewsdeskApi = async (
   type_of_media: string,
 ): Promise<MynewsdeskItem | undefined> => {
   const url = itemURL(id, type_of_media);
-  //console.debug("getItem [API]", url);
+  console.debug("getItem [API]", url);
   const r = await fetch(url);
   if (r.ok) {
     const { item: [item] } = await r.json();
@@ -189,6 +245,19 @@ export const fetchContacts = async ({ related_items }) => {
 
 export const fetchImages = (item) =>
   fetchRelated(item, { include: ["image"], exclude: [] });
+
+export const fetchVideoEmbedCode = async (slug: string) => {
+  const url = new URL(
+    `/videos/${slug}`,
+    "https://akvaplan-niva.mynewsdesk.com",
+  );
+  const r = await fetch(url);
+  if (r.ok) {
+    const html = await r.text();
+    return html.split("https://api.screen9.com/embed/").at(1)
+      ?.split('\\"').at(0);
+  }
+};
 
 export const fetchRelated = async (
   item: MynewsdeskItem,
@@ -247,6 +316,14 @@ export const slugify = ({ header, name }) =>
 
 // Get localized application URL for a news article
 //console.log("@todo Decide news URL structure for news vs press releases");
+
+export const canonicalRoute = ({ type_of_media }: Partial<MynewsdeskItem>) => {
+  switch (type_of_media) {
+    case "news":
+      return "";
+  }
+};
+
 export const href = (
   { header, type_of_media, language, published_at: { datetime } }:
     MynewsdeskItem, // language -> article language
