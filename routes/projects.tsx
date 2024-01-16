@@ -22,7 +22,7 @@ import {
 } from "akvaplan_fresh/components/mod.ts";
 
 import {
-  HandlerContext,
+  FreshContext,
   Handlers,
   PageProps,
   RouteConfig,
@@ -63,7 +63,7 @@ export const config: RouteConfig = {
 // );
 
 export const handler: Handlers = {
-  async GET(req: Request, ctx: HandlerContext) {
+  async GET(req: Request, ctx: FreshContext) {
     const type_of_media = "event";
 
     const url = searchURL("", type_of_media, { limit: 100, strict: true });

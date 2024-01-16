@@ -4,7 +4,7 @@ import { Page } from "akvaplan_fresh/components/mod.ts";
 import type { InternationalProps } from "akvaplan_fresh/utils/page/international_page.ts";
 
 import {
-  type HandlerContext,
+  type FreshContext,
   type Handlers,
   type PageProps,
   type RouteConfig,
@@ -17,7 +17,7 @@ export const config: RouteConfig = {
 };
 
 export const handler: Handlers<InternationalProps> = {
-  async GET(req: Request, ctx: HandlerContext) {
+  async GET(req: Request, ctx: FreshContext) {
     const { params } = ctx;
     lang.value = params.lang;
     const base = `/${params.lang}/${params.page}/`;

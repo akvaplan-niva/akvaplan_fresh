@@ -11,7 +11,7 @@ import { lang as langSignal } from "akvaplan_fresh/text/mod.ts";
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
 import {
-  HandlerContext,
+  FreshContext,
   Handlers,
   PageProps,
   RouteConfig,
@@ -30,7 +30,7 @@ export const config: RouteConfig = {
 const html = ``;
 
 export const handler: Handlers = {
-  async GET(req: Request, ctx: HandlerContext) {
+  async GET(req: Request, ctx: FreshContext) {
     const { at, id } = ctx.params;
     const akvaplanist = await getAkvaplanist(id.toLowerCase());
     if (!akvaplanist) {

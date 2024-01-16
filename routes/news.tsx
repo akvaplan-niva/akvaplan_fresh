@@ -8,7 +8,7 @@ import { monthname } from "akvaplan_fresh/time/mod.ts";
 import { groupIntoMap } from "akvaplan_fresh/grouping/mod.ts";
 
 import {
-  type HandlerContext,
+  type FreshContext,
   type Handlers,
   type PageProps,
   type RouteConfig,
@@ -33,7 +33,7 @@ const _section = {
 //   return `${year}-H${quarter}`;
 // };
 export const handler: Handlers<Props> = {
-  async GET(req: Request, ctx: HandlerContext) {
+  async GET(req: Request, ctx: FreshContext) {
     const { params } = ctx;
     lang.value = params.lang;
     const base = `/${params.lang}/${params.page}/`;

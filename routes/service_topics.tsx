@@ -18,7 +18,7 @@ import {
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
-  type HandlerContext,
+  type FreshContext,
   type Handlers,
   type PageProps,
   type RouteConfig,
@@ -31,7 +31,7 @@ export const config: RouteConfig = {
 };
 
 export const handler: Handlers = {
-  async GET(req: Request, ctx: HandlerContext) {
+  async GET(req: Request, ctx: FreshContext) {
     const { params } = ctx;
     const { searchParams } = new URL(req.url);
 
@@ -41,6 +41,7 @@ export const handler: Handlers = {
     const service = services.find(({ topic }) =>
       decodeURIComponent(params.topic) === topic
     );
+
     if (!service) {
       return ctx.renderNotFound();
     }

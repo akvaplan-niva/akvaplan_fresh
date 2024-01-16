@@ -2,7 +2,7 @@ import { openKv } from "akvaplan_fresh/kv/mod.ts";
 
 import type { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 
-import type { HandlerContext, Handlers } from "$fresh/server.ts";
+import type { FreshContext, Handlers } from "$fresh/server.ts";
 import { slug0 } from "akvaplan_fresh/services/mynewsdesk.ts";
 
 const KV_LIST_MAX = 1000;
@@ -46,7 +46,7 @@ const getSlugList = async (
 };
 
 export const handler: Handlers = {
-  async GET(req: Request, ctx: HandlerContext) {
+  async GET(req: Request, ctx: FreshContext) {
     const { path } = ctx.params;
     const [type_of_media, slug] = path.split("/");
     const kv = await openKv();

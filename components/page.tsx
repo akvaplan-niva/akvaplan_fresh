@@ -1,4 +1,4 @@
-import { ApnSym, CleanHeader, Footer, Styles } from "./mod.ts";
+import { ApnSym, CleanHeader, Footer as SiteFooter, Styles } from "./mod.ts";
 
 import { base as baseForLang, lang, t } from "akvaplan_fresh/text/mod.ts";
 import { buildInitTheming } from "akvaplan_fresh/theming/mod.ts";
@@ -29,6 +29,7 @@ export function Page(
     base = baseForLang,
     href,
     Header = CleanHeader,
+    Footer = SiteFooter,
     Left = null,
     Right = null,
     ...props

@@ -20,7 +20,7 @@ import { Page } from "akvaplan_fresh/components/page.tsx";
 import { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 
 import {
-  HandlerContext,
+  FreshContext,
   Handlers,
   PageProps,
   RouteConfig,
@@ -32,7 +32,7 @@ export const config: RouteConfig = {
 };
 
 export const handler: Handlers<DoiSearchResultsProps> = {
-  async GET(request: Request, context: HandlerContext) {
+  async GET(request: Request, context: FreshContext) {
     const lang = getLangFromURL(request.url);
     langSignal.value = lang;
 

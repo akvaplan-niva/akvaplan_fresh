@@ -2,6 +2,7 @@ import { openKv } from "akvaplan_fresh/kv/mod.ts";
 
 import {
   cloudinary0,
+  fetchVideoEmbedCode,
   id0,
   listURL,
   slug0,
@@ -19,7 +20,12 @@ const saveMynewsdeskItem = async (item: MynewsdeskItem) => {
   const { id, type_of_media } = item as { id: number; type_of_media: string };
   try {
     const idkey = [id0, type_of_media, id];
-    const idresult = await kv.set(idkey, item);
+    const { value } = await kv.get(idkey, { consistency: "strong" });
+    const deepEqual = JSON.stringify(value) === JSON.stringify(item);
+
+    if (!deepEqual) {
+      await kv.set(idkey, item);
+    }
 
     const slug = slugify(item);
     const slugkey = [slug0, type_of_media, slug];
@@ -28,8 +34,8 @@ const saveMynewsdeskItem = async (item: MynewsdeskItem) => {
       console.warn("New", type_of_media, item.id, item.url);
     }
 
-    const slugresult = await kv.set(slugkey, item);
-    const result = idresult ?? slugresult;
+    const slugsetresult = await kv.set(slugkey, item);
+    const setresult = slugsetresult;
 
     if (["document"].includes(type_of_media)) {
       const { document } = item;
@@ -48,9 +54,18 @@ const saveMynewsdeskItem = async (item: MynewsdeskItem) => {
       console.assert(id?.length === 20, `invalid cloudinary key: ${id}`);
       //console.warn(imagekey);
       await kv.set(imagekey, item);
+    } else if ("video" === type_of_media) {
+      const slug = item.url?.split("/videos/").at(1) as string;
+      const videokey = ["mynewsdesk_video_embed", slug];
+      const { value, versionstamp } = await kv.get(videokey);
+      if (!versionstamp || value?.length !== 64) {
+        const embed = await fetchVideoEmbedCode(slug);
+        console.warn(videokey, embed);
+        await kv.set(videokey, embed);
+      }
     }
 
-    return [result, item];
+    return [setresult, item];
   } catch ({ message }) {
     console.error(type_of_media, id, message);
     return [undefined, item, message];

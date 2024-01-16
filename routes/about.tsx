@@ -19,7 +19,7 @@ import { routesForLang } from "akvaplan_fresh/services/nav.ts";
 import { offices } from "akvaplan_fresh/services/offices.ts";
 
 import {
-  type HandlerContext,
+  type FreshContext,
   type Handlers,
   type PageProps,
   type RouteConfig,
@@ -39,7 +39,7 @@ export const config: RouteConfig = {
 };
 
 export const handler: Handlers = {
-  async GET(req: Request, ctx: HandlerContext) {
+  async GET(req: Request, ctx: FreshContext) {
     const { params } = ctx;
     lang.value = params.lang;
 

@@ -6,7 +6,7 @@ import {
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
-  type HandlerContext,
+  type FreshContext,
   type Handlers,
   type PageProps,
   type RouteConfig,
@@ -126,7 +126,7 @@ const Invoicing = () => (
 );
 
 export const handler: Handlers = {
-  GET(req: Request, ctx: HandlerContext) {
+  GET(req: Request, ctx: FreshContext) {
     const { params } = ctx;
     lang.value = params.lang;
     const title = params.lang === "en" ? "Invoicing" : "Faktuering";

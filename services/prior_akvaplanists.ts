@@ -5,25 +5,35 @@
 // Used...
 // In people page, but if no ID not all spellings might be returned, eg. /no/folk/name/%C3%85str%C3%B6m/Emmelie%20K.L.
 export const priorAkvaplanists = [
-  { "given": "Benjamin", "family": "Merkel", "id": "bme" },
-  { "given": "Muriel Barbara", "family": "Dunn", "id": "mbd" },
-  { "given": "Muriel", "family": "Dunn", "id": "mbd" },
-  { given: "Starrlight", family: "Augustine" },
+
+  // $ cat akvaplanists_2022-09-01.ndjson akvaplanists_2024-01-15.ndjson \
+  //   | nd-group 'd.id.toLowerCase()' | nd-sort --on d.id | nd-filter 'd[1].length<2'\
+  //   | nd-map 'd[1][0]' | grep 2022-09-01 | nd-sort --on family | nd-map --select id,family,given
+  { id: "asa", family: "Aniceto", given: "Sofia" },
+  { id: "sta", family: "Augustine", given: "Starrlight" },
+  { id: "maa", family: "Aune", given: "Magnus" },
+  { id: "mbe", family: "Beaulieu", given: "Marieke" },
+  { id: "okb", family: "Brandshaug", given: "Ola Kvaal" },
+  { id: "elb", family: "Børve", given: "Eli" },
+  { id: "hkd", family: "Djuve", given: "Hans Kristian" },
+  { id: "mbd", family: "Dunn", given: "Muriel Barbara" },
+  //{ id: "sfp", family: "Falk-Petersen", given: "Stig" },
+  { id: "rfr", family: "Fredriksen", given: "Rosalyn" },
+  { id: "aig", family: "Guneriussen", given: "Asle" },
+  { id: "thh", family: "Hansen", given: "Thomas" },
+  { id: "lld", family: "Laporte-Devylder", given: "Lucie" },
+  // id was wrong (!) 2022-09-01 { id: "hmp", family: "Mannvik", given: "Hans Petter" },
+  { id: "bme", family: "Merkel", given: "Benjamin" },
+  { id: "jon", family: "Nikolaisen", given: "Jonny" },
+  { id: "lut", family: "Tassara", given: "Luca" },
+  { id: "aav", family: "Vikhrova", given: "Anna Andreevna" },
+  // end of 2022-09-01 patches
+
+  { given: "Muriel", family: "Dunn", id: "mbd" },
+  
   { family: "Bloch-Hansen", given: "Karin" },
-  {
-    given: "Frank",
-    family: "Beuchel",
-    workplace: "Tromsø",
-    country: "NO",
-    id: "frb",
-  },
-  {
-    given: "Frank",
-    family: "Gaardsted",
-    workplace: "Bergen",
-    country: "NO",
-    id: "fga",
-  },
+  { id: "frb", family: "Beuchel", given: "Frank" },
+  { given: "Frank", family: "Gaardsted", id: "fga" },
   {
     given: "JoLynn",
     family: "Carroll",
@@ -32,20 +42,20 @@ export const priorAkvaplanists = [
     id: "jlc",
   }, // Also known as "JoLynn Butts"; source: https://orcid.org/0000-0002-6598-0818
 
-  { "family": "Butts", "given": "Jo Lynn", "count": 1 },
-  { "family": "Butts", "given": "Jolynn", "count": 1 },
+  { family: "Butts", given: "Jo Lynn", "count": 1 },
+  { family: "Butts", given: "Jolynn", "count": 1 },
   { given: "Michael L.", family: "Carroll", id: "mlc" },
   { given: "Michael L", family: "Carroll", id: "mlc" }, //@todo Always handle naked initials
 
   // $ cat slim/* | ./bin/family_spellings Lønne
 
-  { "family": "LØNNE", "given": "OLE JØRGEN", "count": 1 },
-  { "family": "Lønne", "given": "Ole Jørgen", "count": 10 },
-  { "family": "Lønne", "given": "Ole-Jørgen", "count": 1 },
-  { "family": "Lønne", "given": "Ole", "count": 1 },
-  { "family": "Lønne", "given": "O.J.", "count": 1 },
-  { "family": "Lønne", "given": "O. J.", "count": 2 },
-  { "family": "Lønne", "given": "Ole J.", "count": 1 },
+  { family: "LØNNE", given: "OLE JØRGEN", "count": 1 },
+  { family: "Lønne", given: "Ole Jørgen", "count": 10 },
+  { family: "Lønne", given: "Ole-Jørgen", "count": 1 },
+  { family: "Lønne", given: "Ole", "count": 1 },
+  { family: "Lønne", given: "O.J.", "count": 1 },
+  { family: "Lønne", given: "O. J.", "count": 2 },
+  { family: "Lønne", given: "Ole J.", "count": 1 },
 
   { family: "Nøst", given: "Ole Anders", count: 16, id: "oan" },
   { family: "Nøst", given: "O. A.", count: 4 },
@@ -133,10 +143,10 @@ export const priorAkvaplanists = [
     family: "Trannum",
     alt: [{ given: "Hilde C." }], // 2005 10.2118/94477-ms
   },
-  { "family": "Trannum", "given": "Hilde Cecilie", "count": 3 },
-  { "family": "Trannum", "given": "H. C.", "count": 1 },
-  //{"family":"Trannum","given":"Hilde","count":1},
-  { "family": "Trannum", "given": "Hilde C.", "count": 3 },
+  { family: "Trannum", given: "Hilde Cecilie", "count": 3 },
+  { family: "Trannum", given: "H. C.", "count": 1 },
+  //{family:"Trannum",given:"Hilde","count":1},
+  { family: "Trannum", given: "Hilde C.", "count": 3 },
 
   {
     given: "Tore",
@@ -157,16 +167,16 @@ export const priorAkvaplanists = [
   { given: "Katherine M.", family: "Dunlop" }, // 2020 Akvaplan: https://doi.org/10.1007/s00300-020-02773-5
 
   //{ given: "William G.", family: "Ambrose" }, // William G. Ambrose Jr.
-  { "family": "Ambrose", "given": "William G.", "count": 46 },
-  { "family": "Ambrose", "given": "WG", "count": 4 },
-  { "family": "Ambrose", "given": "W.G.", "count": 1 },
-  { "family": "Ambrose Jr.", "given": "William G.", "count": 1 },
-  { "family": "Ambrose Jr.", "given": "William G", "count": 1 },
-  { "family": "Ambrose WG", "given": "Jr", "count": 2 },
-  { "family": "AMBROSE", "given": "WILLIAM G.", "count": 1 },
-  { "family": "AMBROSE, JR.", "given": "WILLIAM G.", "count": 1 },
-  { "family": "Ambrose", "given": "William G.", "count": 1 },
-  { "family": "Ambrose", "given": "William", "count": 1 },
+  { family: "Ambrose", given: "William G.", "count": 46 },
+  { family: "Ambrose", given: "WG", "count": 4 },
+  { family: "Ambrose", given: "W.G.", "count": 1 },
+  { family: "Ambrose Jr.", given: "William G.", "count": 1 },
+  { family: "Ambrose Jr.", given: "William G", "count": 1 },
+  { family: "Ambrose WG", given: "Jr", "count": 2 },
+  { family: "AMBROSE", given: "WILLIAM G.", "count": 1 },
+  { family: "AMBROSE, JR.", given: "WILLIAM G.", "count": 1 },
+  { family: "Ambrose", given: "William G.", "count": 1 },
+  { family: "Ambrose", given: "William", "count": 1 },
 
   { given: "A", family: "Moldes-Anaya" }, // Unilab 2013
   { given: "G S", family: "Eriksen" }, // Unilab 2013
@@ -193,18 +203,17 @@ export const priorAkvaplanists = [
   { given: "Nathalie", family: "Morata" },
 
   { given: "Øystein", family: "Varpe" }, //https://www.miljovernfondet.no/wp-content/uploads/2020/02/12-154-sluttrapport-delta.pdf}
-  { given: "Håvard", family: "Espenes" },
+  { "given": "Håvard", "family": "Espenes", "id": "hes" },
   { given: "Thor Arne", family: "Hangstad" },
   { given: "Hector", family: "Andrade" },
 
-  { given: "Luca", family: "Tassara" },
   { given: "L.", family: "Tassara" },
   { family: "Børve", given: "Eli", count: 6 },
 
-  { "family": "Åström", "given": "Emmelie K. L.", "count": 9 },
-  { "family": "Åström", "given": "EKL", "count": 2 },
-  { "family": "Åström", "given": "Emmelie K.L.", "count": 1 },
-  { "family": "Åström", "given": "J", "count": 2 },
+  { family: "Åström", given: "Emmelie K. L.", "count": 9 },
+  { family: "Åström", given: "EKL", "count": 2 },
+  { family: "Åström", given: "Emmelie K.L.", "count": 1 },
+  { family: "Åström", given: "J", "count": 2 },
 
   // ~/akvaplan-niva/dois$ cat slim/* | ./bin/family_spellings Aniceto
   { family: "Aniceto", given: "Ana S.", count: 2 },
@@ -244,12 +253,12 @@ export const priorAkvaplanists = [
   { given: "T.H.", family: "Pearson" },
   { given: null, family: "Scanlon" }, //just 1: /no/doi/10.1046/j.1439-0426.2001.00315.x
 
-  { "family": "White", "count": 1 },
-  { "family": "White", "given": "P.", "count": 1 },
-  { "family": "White", "given": "Patrick", "count": 1 },
+  { family: "White", "count": 1 },
+  { family: "White", given: "P.", "count": 1 },
+  { family: "White", given: "Patrick", "count": 1 },
   //Alexey K. Pavlov
-  { "family": "Pavlov", "given": "Alexey K.", "count": 13 },
-  { "family": "Pavlov", "given": "Alexey", "count": 1 },
+  { family: "Pavlov", given: "Alexey K.", "count": 13 },
+  { family: "Pavlov", given: "Alexey", "count": 1 },
   // bad { given: "Olexander", family: "Kozlovets" },10.20535/ibb.2020.4.4.211227
 ];
 

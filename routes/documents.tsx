@@ -32,7 +32,7 @@ const itemstyle = {
 };
 
 import {
-  type HandlerContext,
+  type FreshContext,
   type Handlers,
   type PageProps,
   type RouteConfig,
@@ -47,7 +47,7 @@ export const config: RouteConfig = {
 };
 
 export const handler: Handlers<DocumentsProps> = {
-  async GET(req: Request, ctx: HandlerContext) {
+  async GET(req: Request, ctx: FreshContext) {
     const { params } = ctx;
     lang.value = params.lang;
     const base = `/${params.lang}/${params.page}/`;

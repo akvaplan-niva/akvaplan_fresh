@@ -4,7 +4,8 @@
 /// <reference lib="dom.asynciterable" />
 /// <reference lib="deno.ns" />
 
-import "./kv/jobs/seed.ts";
+import { seed } from "./kv/jobs/seed.ts";
+Deno.cron("sync external data to kv", "11 * * * *", () => seed());
 
 import { getLangFromURL } from "./text/mod.ts";
 import {
@@ -18,7 +19,7 @@ import {
   base,
   mynewsdesk_key as key,
 } from "./services/mynewsdesk.ts";
-//import { sync } from "./kv/jobs/idx.ts";
+
 import manifest from "./fresh.gen.ts";
 
 const render: RenderFunction = (
