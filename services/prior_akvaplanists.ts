@@ -5,7 +5,6 @@
 // Used...
 // In people page, but if no ID not all spellings might be returned, eg. /no/folk/name/%C3%85str%C3%B6m/Emmelie%20K.L.
 export const priorAkvaplanists = [
-
   // $ cat akvaplanists_2022-09-01.ndjson akvaplanists_2024-01-15.ndjson \
   //   | nd-group 'd.id.toLowerCase()' | nd-sort --on d.id | nd-filter 'd[1].length<2'\
   //   | nd-map 'd[1][0]' | grep 2022-09-01 | nd-sort --on family | nd-map --select id,family,given
@@ -30,7 +29,7 @@ export const priorAkvaplanists = [
   // end of 2022-09-01 patches
 
   { given: "Muriel", family: "Dunn", id: "mbd" },
-  
+
   { family: "Bloch-Hansen", given: "Karin" },
   { id: "frb", family: "Beuchel", given: "Frank" },
   { given: "Frank", family: "Gaardsted", id: "fga" },
@@ -263,7 +262,9 @@ export const priorAkvaplanists = [
 ];
 
 export const priorAkvaplanistID = new Map(
-  priorAkvaplanists.filter(({ id }) => id).map((p) => [p.id, p]),
+  priorAkvaplanists.filter(({ id }) => id).map((
+    p,
+  ) => [p.id, { prior: true, ...p }]),
 );
 
 // @todo Prior Akavaplanists: support aliases
