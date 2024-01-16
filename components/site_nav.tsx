@@ -1,8 +1,6 @@
 import { siteNav } from "akvaplan_fresh/services/nav.ts";
 import { SiteLangLinks } from "akvaplan_fresh/components/mod.ts";
 
-//href={altlang(lamg)}
-
 export function SiteNav() {
   return (
     <nav>
