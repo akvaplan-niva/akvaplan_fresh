@@ -14,7 +14,7 @@ import HScrollWithDynamicImage from "akvaplan_fresh/islands/HScrollWithDynamicIm
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
-  type HandlerContext,
+  type FreshContext,
   type Handlers,
   type PageProps,
   type RouteConfig,
@@ -34,7 +34,7 @@ const _header = {
 };
 
 export const handler: Handlers = {
-  async GET(req: Request, ctx: HandlerContext) {
+  async GET(req: Request, ctx: FreshContext) {
     const { params } = ctx;
     const { searchParams } = new URL(req.url);
     lang.value = params.lang;

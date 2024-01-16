@@ -24,7 +24,7 @@ import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 import { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 
 import {
-  HandlerContext,
+  FreshContext,
   Handlers,
   PageProps,
   RouteConfig,
@@ -45,7 +45,7 @@ const doiFromParams = (params: Record<string, string>) => {
 };
 
 export const handler: Handlers<SlimPublication> = {
-  async GET(request: Request, ctx: HandlerContext) {
+  async GET(request: Request, ctx: FreshContext) {
     const { params } = ctx;
     const lang = params.lang;
 

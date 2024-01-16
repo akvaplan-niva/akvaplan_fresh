@@ -1,6 +1,6 @@
 import type { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 
-import { HandlerContext, Handlers } from "$fresh/server.ts";
+import { FreshContext, Handlers } from "$fresh/server.ts";
 
 export const yearItems = async (
   { year, type_of_media, kv }: {
@@ -23,7 +23,7 @@ export const yearItems = async (
 };
 
 export const handler: Handlers = {
-  async GET(_req: Request, ctx: HandlerContext) {
+  async GET(_req: Request, ctx: FreshContext) {
     const { path } = ctx.params;
     const [_year, _type_of_media] = path.split("/");
     const year = _year ? Number(_year) : new Date().getUTCFullYear();

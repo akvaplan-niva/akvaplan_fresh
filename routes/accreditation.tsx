@@ -2,7 +2,7 @@ import { Page } from "akvaplan_fresh/components/page.tsx";
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
-  type HandlerContext,
+  type FreshContext,
   type Handlers,
   type PageProps,
   type RouteConfig,
@@ -20,7 +20,7 @@ export const config: RouteConfig = {
 };
 
 export const handler: Handlers = {
-  GET(req: Request, ctx: HandlerContext) {
+  GET(req: Request, ctx: FreshContext) {
     const { params } = ctx;
     lang.value = params.lang;
     const title = t(params.page);
