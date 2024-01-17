@@ -30,10 +30,9 @@ export function PeopleCard(
   }: PeopleProps,
 ) {
   if (id) {
-    const { family, given, prior } = people.get(id) ??
+    person = people.get(id) ??
       priorAkvaplanistID.get(id) ??
-      { family: "", given: "" };
-    person = { id, family, given, prior };
+      {};
   }
 
   const {
