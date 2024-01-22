@@ -44,7 +44,7 @@ export const handler: Handlers = {
     lang.value = params.lang;
 
     const research = (await getResearchLevel0(params.lang))?.find(({ topic }) =>
-      params.topic === topic
+      decodeURIComponent(params.topic) === topic
     );
     if (!research) {
       return ctx.renderNotFound();
