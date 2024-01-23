@@ -37,7 +37,7 @@ import {
   type PageProps,
   type RouteConfig,
 } from "$fresh/server.ts";
-import { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import { MynewsdeskDocument } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { InputSearch } from "akvaplan_fresh/components/search/InputSearch.tsx";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 import { searchDocuments } from "akvaplan_fresh/services/documents.ts";
@@ -56,7 +56,7 @@ export const handler: Handlers<DocumentsProps> = {
     const { searchParams } = new URL(req.url);
     const _q = searchParams.get("q") ?? "";
     const q = _q.toLocaleLowerCase();
-    const filter = ({ summary, document_format }: MynewsdeskItem) =>
+    const filter = ({ summary, document_format }: MynewsdeskDocument) =>
       summary?.length > 0 && /pdf/.test(document_format);
     const docs = await searchDocuments({ q, filter });
     return ctx.render({ title, base, docs, lang });

@@ -1,8 +1,8 @@
 export interface SlimPublication {
-  doi?: string;
+  doi: string;
   published: Date;
   printed?: string;
-  type?: string;
+  type: string;
   container?: string;
   title: string;
   authors?: Author[];

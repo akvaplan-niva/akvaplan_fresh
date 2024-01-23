@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /en/_
+Disallow: /no/_
 Disallow: /api/*
-Sitemap: https://akvaplan.no/sitemap.xml

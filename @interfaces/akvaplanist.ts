@@ -6,10 +6,11 @@ export interface Akvaplanist {
   unit?: string;
   workplace?: string;
   country?: string;
-  id?: string;
-  email?: string;
+  id: string;
+  email: string;
   employed?: boolean;
-  created?: Date;
+  created: Date | string;
+  updated: Date | string;
 }
 export interface Position {
   [lang: string]: string;

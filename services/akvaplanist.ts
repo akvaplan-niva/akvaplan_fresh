@@ -7,7 +7,7 @@ export const base = "https://akvaplanists.deno.dev";
 
 const _all: Akvaplanist[] = [];
 
-export const fetchAkvaplanists = async (): Promise<
+export const getAkvaplanists = async (): Promise<
   Akvaplanist[] | undefined
 > => {
   const r = await fetch(base);
@@ -34,7 +34,7 @@ export const akvaplanists = async (): Promise<Akvaplanist[] | undefined> => {
   if (_all?.length > 0) {
     return _all;
   }
-  return await fetchAkvaplanists();
+  return await getAkvaplanists();
 };
 
 export const akvaplanistMap = async () => {

@@ -19,8 +19,8 @@ const typeOfMedia = new Map([
 export const handler: Handlers = {
   async GET(req, ctx) {
     const { params: { slug, type, lang } } = ctx;
-
-    if (/-[0-9]+$/.test(slug)) {
+    if ("objozvs9edrhlhtd35uh" === slug) {
+    } else if (/-[0-9]+$/.test(slug)) {
       const numid = Number(slug.split("-").at(-1));
       const type_of_media = typeOfMedia.get(type) ?? type;
       const item = await getItem(numid, type_of_media);

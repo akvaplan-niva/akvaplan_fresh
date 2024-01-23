@@ -23,7 +23,7 @@ export const givenAliasMap = new Map(
     ["svl", ["Sondre"]],
     ["azi", ["Amanda Fern"]],
     ["iyu", ["Ingvild Ytterhus"]],
-    ["fst", ["Fredrik Ribsskog"]],
+    ["fst", ["Fredrim Ribsskog"]],
   ],
 );
 

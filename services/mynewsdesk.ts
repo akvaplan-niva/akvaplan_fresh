@@ -16,6 +16,7 @@ export const MYNEWSDESK_MAX = 100;
 import { openKv } from "akvaplan_fresh/kv/mod.ts";
 import {
   blogURL,
+  documentHref,
   imageURL,
   newsArticleURL,
   peopleURL,
@@ -50,20 +51,25 @@ export const typeOfMediaFromMynewsdeskPage = (mynewsdesk_page: string) => {
 };
 
 export const getCanonical = (
-  { type_of_media, lang, title, slug, url }: {
+  { type_of_media, lang, title, id, slug, url }: {
     type_of_media: string;
     lang: string;
     slug: string;
     title?: string;
     url: URL | string;
+    id?: string | number;
   },
 ) => {
   switch (type_of_media) {
+    case "document": {
+      return new URL(documentHref({ lang, title, id, slug }), url);
+    }
+
     case "news": {
-      return new URL(newsArticleURL({ lang, title, slug }), url);
+      return new URL(newsArticleURL({ lang, title, id, slug }), url);
     }
     case "blog_post": {
-      return new URL(blogURL({ lang, title, slug }), url);
+      return new URL(blogURL({ lang, title, id, slug }), url);
     }
     case "contact_person":
       // The slug is only the Mynewsdesk item id corresponding to the person…
@@ -254,8 +260,9 @@ export const fetchVideoEmbedCode = async (slug: string) => {
   const r = await fetch(url);
   if (r.ok) {
     const html = await r.text();
-    return html.split("https://api.screen9.com/embed/").at(1)
+    const embed = html.split("https://api.screen9.com/embed/").at(1)
       ?.split('\\"').at(0);
+    return embed;
   }
 };
 
