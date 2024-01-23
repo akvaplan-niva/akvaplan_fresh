@@ -4,8 +4,7 @@
 /// <reference lib="dom.asynciterable" />
 /// <reference lib="deno.ns" />
 
-import { seed } from "./kv/jobs/seed.ts";
-Deno.cron("sync external data to kv", "11 * * * *", () => seed());
+Deno.cron("sync external data to kv", "*/11 * * * *", () => seedKv());
 
 import { getLangFromURL } from "./text/mod.ts";
 import {
@@ -14,24 +13,18 @@ import {
   RenderFunction,
   start,
 } from "$fresh/server.ts";
-import {
-  actionPath,
-  base,
-  mynewsdesk_key as key,
-} from "./services/mynewsdesk.ts";
 
 import manifest from "./fresh.gen.ts";
 
-const render: RenderFunction = (
-  ctx: RenderContext,
-  freshRender: InnerRenderFunction,
-) => {
-  // Set `lang` in render context -> reflects into html[lang]
-  const lang = getLangFromURL(ctx.url);
-  if (lang) {
-    ctx.lang = lang;
-  }
-  freshRender();
-};
-
-await start(manifest, { render, /*, plugins: [],*/ port: 7777 });
+// const render: RenderFunction = (
+//   ctx: RenderContext,
+//   freshRender: InnerRenderFunction,
+// ) => {
+//   // Set `lang` in render context -> reflects into html[lang]
+//   const lang = getLangFromURL(ctx.url);
+//   if (lang) {
+//     ctx.lang = lang;
+//   }
+//   freshRender();
+// };
+await start(manifest, { /*render, plugins: [],*/ port: 7777 });

@@ -13,10 +13,12 @@ import * as $api_mynewsdesk_index from "./routes/api/mynewsdesk/index.ts";
 import * as $api_mynewsdesk_type_path_ from "./routes/api/mynewsdesk/type/[...path].ts";
 import * as $api_mynewsdesk_year_path_ from "./routes/api/mynewsdesk/year/[...path].ts";
 import * as $api_projects from "./routes/api/projects.ts";
+import * as $api_search from "./routes/api/search.ts";
 import * as $api_slug_type_ from "./routes/api/slug/[type].ts";
 import * as $article_slug_ from "./routes/article/[slug].tsx";
 import * as $careers from "./routes/careers.tsx";
 import * as $dcat from "./routes/dcat.tsx";
+import * as $document_MarkdownArticlePage from "./routes/document/MarkdownArticlePage.tsx";
 import * as $document_slug_ from "./routes/document/[slug].tsx";
 import * as $documents from "./routes/documents.tsx";
 import * as $doi from "./routes/doi.tsx";
@@ -45,11 +47,13 @@ import * as $services from "./routes/services.tsx";
 import * as $sitemap_txt from "./routes/sitemap.txt.ts";
 import * as $topics from "./routes/topics.tsx";
 import * as $usr from "./routes/usr.tsx";
+import * as $video from "./routes/video.tsx";
 import * as $videos from "./routes/videos.tsx";
 import * as $HScrollWithDynamicImage from "./islands/HScrollWithDynamicImage.tsx";
 import * as $button_open_dialog from "./islands/button_open_dialog.tsx";
 import * as $doi_search from "./islands/doi_search.tsx";
 import * as $lang_switcher from "./islands/lang_switcher.tsx";
+import * as $site_search from "./islands/site_search.tsx";
 import * as $text from "./islands/text.tsx";
 import * as $theme_switcher from "./islands/theme_switcher.tsx";
 import { type Manifest } from "$fresh/server.ts";
@@ -67,10 +71,12 @@ const manifest = {
     "./routes/api/mynewsdesk/type/[...path].ts": $api_mynewsdesk_type_path_,
     "./routes/api/mynewsdesk/year/[...path].ts": $api_mynewsdesk_year_path_,
     "./routes/api/projects.ts": $api_projects,
+    "./routes/api/search.ts": $api_search,
     "./routes/api/slug/[type].ts": $api_slug_type_,
     "./routes/article/[slug].tsx": $article_slug_,
     "./routes/careers.tsx": $careers,
     "./routes/dcat.tsx": $dcat,
+    "./routes/document/MarkdownArticlePage.tsx": $document_MarkdownArticlePage,
     "./routes/document/[slug].tsx": $document_slug_,
     "./routes/documents.tsx": $documents,
     "./routes/doi.tsx": $doi,
@@ -99,6 +105,7 @@ const manifest = {
     "./routes/sitemap.txt.ts": $sitemap_txt,
     "./routes/topics.tsx": $topics,
     "./routes/usr.tsx": $usr,
+    "./routes/video.tsx": $video,
     "./routes/videos.tsx": $videos,
   },
   islands: {
@@ -106,6 +113,7 @@ const manifest = {
     "./islands/button_open_dialog.tsx": $button_open_dialog,
     "./islands/doi_search.tsx": $doi_search,
     "./islands/lang_switcher.tsx": $lang_switcher,
+    "./islands/site_search.tsx": $site_search,
     "./islands/text.tsx": $text,
     "./islands/theme_switcher.tsx": $theme_switcher,
   },

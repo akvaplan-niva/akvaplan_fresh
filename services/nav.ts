@@ -78,7 +78,7 @@ export const buildNav = (lang: string | StringSignal) => [
   { href: _tr(lang).get("about"), text: t("nav.About") },
   //{ href: _tr(lang).get("settings"), text: t("Settings") },
 ];
-export const buildNav0 = (lang: string | StringSignal) => [
+export const buildNavNext = (lang: string | StringSignal) => [
   //{ href: _tr(lang).get("news"), text: t("nav.News") },
   { href: _tr(lang).get("akvaplanists"), text: t("nav.People") },
   { href: _tr(lang).get("services"), text: t("nav.Services") },
@@ -122,8 +122,8 @@ interface SlugLike {
   slug?: string;
 }
 
-export const blogURL = ({ lang, title }: SlugLike) =>
-  `${routesForLang(lang).get("blog")}/${_slug(title)}`;
+export const blogURL = ({ lang, title, slug, id }: SlugLike) =>
+  `${routesForLang(lang).get("blog")}/${slug ? slug : _slug(title)}`;
 
 export const newsArticleURL = ({ lang, title, slug }: SlugLike) =>
   `${routesForLang(lang).get("news-article")}/${slug ? slug : _slug(title)}`;
@@ -168,5 +168,5 @@ export const pubURL = ({ doi, lang }) =>
 export const projectURL = ({ lang, title }: SlugLike) =>
   `${routesForLang(lang).get("project")}/${_slug(title)}`;
 
-export const documentHref = ({ id, lang, title }: SlugLike) =>
-  `${routesForLang(lang).get("document")}/${_slug(title)}-${id}`;
+export const documentHref = ({ id, lang, slug, title }: SlugLike) =>
+  `${routesForLang(lang).get("document")}/${title ? _slug(title) : ""}-${id}`;

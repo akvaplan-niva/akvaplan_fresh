@@ -1,4 +1,5 @@
 import { buildContainsFilter } from "akvaplan_fresh/search/filter.ts";
+import { openKv } from "akvaplan_fresh/kv/mod.ts";
 
 export const DOIS_BASE = globalThis?.Deno?.env?.get("dois_base") ??
   "https://dois.deno.dev";
@@ -10,6 +11,15 @@ const defaults = {
 };
 
 const { entries } = Object;
+
+export const getDois = async () => {
+  const url = new URL(`/doi?limit=-1&sort=-published&q=`, DOIS_BASE);
+  const response = await fetch(url);
+  if (response.ok) {
+    return response.json();
+  }
+};
+// We need to load all pubs (via limit=-1) for in-memory search
 
 export const search = async (params: Record<string, string> = {}) => {
   const base = DOIS_BASE;
@@ -58,16 +68,23 @@ export const buildYearFilter = (year) =>
 //   return [...result.values()];
 // };
 
+// Get DOI publicatoin from KV
 export const getSlimPublication = async (
   doi: string,
 ): Promise<SlimPublication | undefined> => {
-  const base = Deno?.env?.get("dois_base") ?? DOIS_BASE;
-  const url = new URL(`/doi/${doi}`, base);
-  const response = await fetch(url.href).catch(() => {});
-  if (response?.ok) {
-    const slim: SlimPublication = await response.json();
-    return slim;
+  const kv = await openKv();
+  const [prefix, suffix] = doi.split("/");
+  const { value } = await kv.get(["dois", prefix, suffix]);
+  if (value) {
+    return value;
   }
+  // const base = Deno?.env?.get("dois_base") ?? DOIS_BASE;
+  // const url = new URL(`/doi/${doi}`, base);
+  // const response = await fetch(url.href).catch(() => {});
+  // if (response?.ok) {
+  //   const slim: SlimPublication = await response.json();
+  //   return slim;
+  // }
 };
 
 // for await (const person of (slim.authors ?? [])) {

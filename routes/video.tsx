@@ -2,7 +2,7 @@ import { getVideo } from "akvaplan_fresh/kv/video.ts";
 import { extractId } from "../services/extract_id.ts";
 
 import { Page } from "akvaplan_fresh/components/mod.ts";
-import { VideoArticle } from "akvaplan_fresh/components/VideoArticleIframe.tsx";
+import { VideoArticle } from "../components/VideoArticle.tsx";
 
 import type { RouteConfig, RouteContext } from "$fresh/src/server/types.ts";
 
