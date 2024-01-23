@@ -1,4 +1,5 @@
-import { Page } from "akvaplan_fresh/components/page.tsx";
+import { Page } from "akvaplan_fresh/components/mod.ts";
+import SiteSearch from "akvaplan_fresh/islands/site_search.tsx";
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
@@ -15,7 +16,7 @@ interface NullProps {
 }
 
 export const config: RouteConfig = {
-  routeOverride: "/:lang(en|no)/:page(_)",
+  routeOverride: "/:lang(en|no)/:page(_|s)",
 };
 
 export const handler: Handlers = {
@@ -24,18 +25,22 @@ export const handler: Handlers = {
     lang.value = params.lang;
     const title = t(params.page);
     const base = `/${params.lang}/${params.page}/`;
-    return ctx.render({ lang, title, base });
+
+    const { searchParams } = ctx.url;
+    const term = searchParams.get("q") ?? "";
+    return ctx.render({ lang, title, base, term });
   },
 };
 
 export default function Null(
-  { data: { title, lang, base } }: PageProps<NullProps>,
+  { data: { title, lang, base, term } }: PageProps<NullProps>,
 ) {
   return (
     <Page title={title} base={base}>
-      <h1>
-        <a href=".">{title}</a> [{t(`lang.${lang}`)}]
-      </h1>
+      <SiteSearch
+        lang={lang}
+        term={term}
+      />
     </Page>
   );
 }

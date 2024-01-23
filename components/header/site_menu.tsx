@@ -14,6 +14,7 @@ export const SiteMenu = ({ lang }) => (
     <nav>
       <ButtonOpenDialog for="dialog#menu" popovertarget="menu" lang={lang} />
     </nav>
+    
     <SiteNavDialog lang={lang} />
   </span>
 );

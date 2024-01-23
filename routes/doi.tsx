@@ -57,6 +57,9 @@ export const handler: Handlers<SlimPublication> = {
     if (slim || doi) {
       //const news = await buildoiNewsMap() ?? {};
       const openalex = await getOpenAlexWork({ doi }) ?? { open_access: {} };
+      if (!openalex && !slim) {
+        return ctx.renderNotFound();
+      }
       const image = slim?.figures?.[0].src ?? doiImage.get(doi);
 
       let i = 0;
