@@ -3,7 +3,7 @@
     "dev": "deno run --unstable-hmr --unstable-cron --unstable-kv --env --allow-env --allow-read --allow-write=fresh.gen.ts,$HOME/.cache/fresh --allow-run --allow-net dev.ts",
     "prod": "DENO_DEPLOYMENT_ID=\"$(git rev-parse HEAD)\" deno run --unstable-kv -A main.ts",
     "icons": "deno run --allow-net=fonts.gstatic.com --allow-read=static --allow-write=. tasks.ts icons",
-    "build": "deno run -A dev.ts build",
+    "build": "deno run --unstable-kv --env --allow-env --allow-read --allow-write --allow-run --allow-net  dev.ts build",
     "preview": "deno run -A main.ts",
     "kv-seed": "deno run --unstable-kv --env --allow-env --allow-net kv/jobs/seed.ts",
     "kv-list": "deno run --unstable-kv --env --allow-env --allow-net kv/jobs/list.ts"
