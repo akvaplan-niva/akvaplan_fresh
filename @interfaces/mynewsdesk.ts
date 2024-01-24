@@ -1,4 +1,4 @@
-export interface MynewsdeskItem {
+export interface AbstractMynewsdeskItem {
   header: string;
   summary?: string;
   caption?: string;
@@ -25,11 +25,24 @@ export interface MynewsdeskItem {
   image_thumbnail_medium?: string;
   image_thumbnail_small?: string;
   tags: unknown[];
+  related_items: RelatedItem[];
 }
 
-export interface MynewsdeskDocument extends MynewsdeskItem {
-  document: string;
+export interface MynewsdeskArticle extends AbstractMynewsdeskItem {
+  body: string;
+}
+
+interface RelatedItem {
+  type_of_media: string;
+  item_id: number;
+}
+
+export interface MynewsdeskDocument extends AbstractMynewsdeskItem {
+  document: string; // URL
+  document_name: string;
   document_format: string;
+  document_size: number;
+  document_thumbnail: string;
 }
 
 export interface MynewsdeskVideo extends MynewsdeskDocument {
@@ -38,7 +51,7 @@ export interface MynewsdeskVideo extends MynewsdeskDocument {
   embed_code: string;
 }
 
-export interface MynewsdeskImage extends MynewsdeskItem {
+export interface MynewsdeskImage extends AbstractMynewsdeskItem {
   position: number;
   photographer: string;
 

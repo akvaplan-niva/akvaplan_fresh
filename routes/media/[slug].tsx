@@ -11,7 +11,7 @@ import { imagesURL } from "akvaplan_fresh/services/nav.ts";
 import { openKv } from "akvaplan_fresh/kv/mod.ts";
 
 export const config: RouteConfig = {
-  routeOverride: "/:lang(no|en)/:type(image|bilde|media|video)/:slug",
+  routeOverride: "/:lang(no|en)/:type(image|bilde|media){/:date}?/:slug",
 };
 const typeOfMedia = new Map([
   ["bilde", "image"],

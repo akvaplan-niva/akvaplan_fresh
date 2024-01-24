@@ -122,7 +122,7 @@
   "sort.decreasing": "synkende (å↦)",
 
   "collection.document": "dokumenter",
-  "collection.blog_post": "blogger",
+  "collection.blog": "blogger",
   "collection.person": "folk",
   "collection.pubs": "publikasjoner",
   "collection.news": "nyheter",
@@ -130,6 +130,7 @@
   "collection.project": "prosjekter",
   "collection.media": "media",
   "collection.video": "filmer",
+  "collection.image": "bilder",
 
   "type.blog_post": "blogg",
   "type.erratum": "erratum",

@@ -1,7 +1,7 @@
 // https://www.mynewsdesk.com/docs/webservice_pressroom
 import { detectDOIs } from "akvaplan_fresh/text/doi.ts";
 
-import { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import { AbstractMynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 
 import { slug as _slug } from "https://deno.land/x/slug@v1.1.0/mod.ts";
 
@@ -89,7 +89,7 @@ export const getCanonical = (
 export const actionPath = (action: string, unique_key = mynewsdesk_key) =>
   `/services/pressroom/${action}/${unique_key}`;
 
-export const newsFilter = (item: MynewsdeskItem) =>
+export const newsFilter = (item: AbstractMynewsdeskItem) =>
   ["news", "pressrelease"].includes(item?.type_of_media);
 
 export const listURL = ({ type_of_media, offset, limit, sort }: {
@@ -194,7 +194,7 @@ const whoWon = Symbol("getItem promise race winner");
 export const getItem = async (
   id: number,
   type_of_media: string,
-): Promise<MynewsdeskItem | undefined> => {
+): Promise<AbstractMynewsdeskItem | undefined> => {
   const _kv = getItemFromKv(id, type_of_media);
   const _api = getItemFromMynewsdeskApi(id, type_of_media);
   const winner = await Promise.race([_kv, _api]);
@@ -204,11 +204,11 @@ export const getItem = async (
 export const getItemFromKv = async (
   id: number,
   type_of_media: string,
-): Promise<MynewsdeskItem | undefined> => {
+): Promise<AbstractMynewsdeskItem | undefined> => {
   const kv = await openKv();
   const key = [id0, type_of_media, id];
 
-  const { value, versionstamp } = await kv.get<MynewsdeskItem>(key);
+  const { value, versionstamp } = await kv.get<AbstractMynewsdeskItem>(key);
   if (versionstamp) {
     //@ts-ignore next
     value[whoWon] = "KV";
@@ -219,7 +219,7 @@ export const getItemFromKv = async (
 export const getItemFromMynewsdeskApi = async (
   id: number,
   type_of_media: string,
-): Promise<MynewsdeskItem | undefined> => {
+): Promise<AbstractMynewsdeskItem | undefined> => {
   const url = itemURL(id, type_of_media);
   console.debug("getItem [API]", url);
   const r = await fetch(url);
@@ -267,7 +267,7 @@ export const fetchVideoEmbedCode = async (slug: string) => {
 };
 
 export const fetchRelated = async (
-  item: MynewsdeskItem,
+  item: AbstractMynewsdeskItem,
   opts,
 ) => {
   const { exclude, include } = opts ??
@@ -324,7 +324,9 @@ export const slugify = ({ header, name }) =>
 // Get localized application URL for a news article
 //console.log("@todo Decide news URL structure for news vs press releases");
 
-export const canonicalRoute = ({ type_of_media }: Partial<MynewsdeskItem>) => {
+export const canonicalRoute = (
+  { type_of_media }: Partial<AbstractMynewsdeskItem>,
+) => {
   switch (type_of_media) {
     case "news":
       return "";
@@ -333,7 +335,7 @@ export const canonicalRoute = ({ type_of_media }: Partial<MynewsdeskItem>) => {
 
 export const href = (
   { header, type_of_media, language, published_at: { datetime } }:
-    MynewsdeskItem, // language -> article language
+    AbstractMynewsdeskItem, // language -> article language
   lang = language, // lang -> site language
 ) => {
   const isodate = new Date(datetime).toJSON().split("T").at(0);

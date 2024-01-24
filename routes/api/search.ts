@@ -15,9 +15,14 @@ import type {
 } from "@orama/orama";
 
 import { FreshContext, Handlers } from "$fresh/server.ts";
-import { seedOramaCollectionsFromKv } from "akvaplan_fresh/search/create_search_index.ts";
+import {
+  orama,
+  seedOramaCollectionsFromKv,
+} from "akvaplan_fresh/search/create_search_index.ts";
+import { openKv } from "akvaplan_fresh/kv/mod.ts";
 
-const db = await seedOramaCollectionsFromKv();
+const kv = await openKv();
+seedOramaCollectionsFromKv(orama, kv);
 
 export const handler: Handlers = {
   async GET(req: Request, _ctx: FreshContext) {
@@ -50,7 +55,7 @@ export const handler: Handlers = {
       },
     };
 
-    const results = await search(db, params) as Results<SearchAtom>;
+    const results = await search(orama, params) as Results<SearchAtom>;
 
     // const result: Results<MovieDocument> = await search(movieDB, searchParams);
     // const title = result.hits[0].document.title; // well typed!

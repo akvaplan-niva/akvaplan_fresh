@@ -27,7 +27,7 @@ import {
   PeopleCard as PersonCard,
 } from "akvaplan_fresh/components/mod.ts";
 
-import { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import { AbstractMynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
 
@@ -37,12 +37,12 @@ export const config: RouteConfig = {
 };
 
 interface ArticleProps {
-  item: MynewsdeskItem;
+  item: AbstractMynewsdeskItem;
   lang: string;
   alternate: Link;
   contacts: Person[];
-  projects: MynewsdeskItem[];
-  news: MynewsdeskItem[];
+  projects: AbstractMynewsdeskItem[];
+  news: AbstractMynewsdeskItem[];
 }
 
 interface Link {

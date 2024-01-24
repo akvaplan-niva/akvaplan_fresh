@@ -9,3 +9,11 @@ export const openKv = async (path = db) => {
   }
   return await Deno.openKv(path);
 };
+
+export async function getValue<T>(
+  key: Deno.KvKey,
+) {
+  const kv = await openKv();
+  const { value, versionstamp } = await kv.get<T>(key);
+  return versionstamp ? value : undefined;
+}

@@ -32,10 +32,11 @@ const localizedRouteForSearchAtom = (
 };
 
 export const href = (
-  { slug, lang, collection, hreflang }: SearchAtom & { hreflang?: "string" },
+  { slug, lang, collection }: SearchAtom & { hreflang?: "string" },
 ) => {
   if (slug?.startsWith(`/${lang}/`) && slug?.length > 4) {
     return slug;
   }
+  console.warn({ lang, collection, slug });
   return localizedRouteForSearchAtom({ lang, collection, slug });
 };

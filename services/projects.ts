@@ -2,7 +2,7 @@ import { searchMynewsdesk } from "./mynewsdesk.ts";
 
 import { projectURL } from "./nav.ts";
 // import {thumbURL} from "";
-import { MynewsdeskItem, News } from "../@interfaces/mod.ts";
+import { AbstractMynewsdeskItem, News } from "../@interfaces/mod.ts";
 
 // https://akvaplan.no/en/news/2016-01-26/the-norwegian-ministry-of-foreign-affair-supports-akvaplan-niva-project-by-nok-14.3-million",
 // VEIEN http://localhost:7777/en/news/2023-01-30/hvordan-kan-rognkjeks-bli-en-robust-og-effektiv-rensefisk-i-lakseoppdrett
@@ -35,7 +35,7 @@ const year = ({ datetime } = {}) =>
 export const projectYears = (start_at, end_at) =>
   `${year(start_at)} – ${year(end_at)}`;
 
-export const projectFilter = (item: MynewsdeskItem) =>
+export const projectFilter = (item: AbstractMynewsdeskItem) =>
   [type_of_media].includes(item?.type_of_media) &&
   /project|prosjekt/.test(JSON.stringify(item));
 
@@ -55,7 +55,7 @@ export const projectFromMynewsdesk = ({ lang }: NewsMapper) =>
     type_of_media,
     rels,
     ...item
-  }: MynewsdeskItem,
+  }: AbstractMynewsdeskItem,
 ): News => ({
   id,
   title: header,
@@ -73,36 +73,37 @@ export const projectFromMynewsdesk = ({ lang }: NewsMapper) =>
   mynewsdesk: item,
 });
 
-export const newsFromProjects = ({ lang }) => (myn: MynewsdeskItem): News => {
-  const {
-    header,
-    image_thumbnail_large,
-    language,
-    published_at,
-    type_of_media,
-  } = myn;
-  const news: News = {
-    title: header,
-    //published: new Date("2023-01-07T12:00:00Z"),
-    href: projectURL({ lang, title: header }),
-    img: myn.image_thumbnail_large,
-    type: "project",
+export const newsFromProjects =
+  ({ lang }) => (myn: AbstractMynewsdeskItem): News => {
+    const {
+      header,
+      image_thumbnail_large,
+      language,
+      published_at,
+      type_of_media,
+    } = myn;
+    const news: News = {
+      title: header,
+      //published: new Date("2023-01-07T12:00:00Z"),
+      href: projectURL({ lang, title: header }),
+      img: myn.image_thumbnail_large,
+      type: "project",
+    };
+    return news;
+    // ({
+    //   id,
+    //   title: header,
+    //   published: published_at.datetime,
+    //   href: href({ header, language, published_at, type_of_media }, lang),
+    //   hreflang: language,
+    //   img: image_thumbnail_large, //thumbURL(extractID(image ?? ""), { w: 512, h: 512 }),
+    //   caption: image_caption ?? header,
+    //   thumb: thumbURL(extractID(image ?? "")),
+    //   type: type_of_media,
+    //   rels,
+    // });
   };
-  return news;
-  // ({
-  //   id,
-  //   title: header,
-  //   published: published_at.datetime,
-  //   href: href({ header, language, published_at, type_of_media }, lang),
-  //   hreflang: language,
-  //   img: image_thumbnail_large, //thumbURL(extractID(image ?? ""), { w: 512, h: 512 }),
-  //   caption: image_caption ?? header,
-  //   thumb: thumbURL(extractID(image ?? "")),
-  //   type: type_of_media,
-  //   rels,
-  // });
-};
-export const latestProjects = async (): Promise<MynewsdeskItem[]> => {
+export const latestProjects = async (): Promise<AbstractMynewsdeskItem[]> => {
   const { items } =
     await searchMynewsdesk({ q: "", type_of_media, sort: "" }) ?? { items: [] };
   const projects = items?.filter(projectFilter);

@@ -3,6 +3,7 @@ import { InputSearch } from "akvaplan_fresh/components/search/InputSearch.tsx";
 import { useSignal } from "@preact/signals";
 import { href } from "../search/href.ts";
 import { SearchAtom } from "akvaplan_fresh/search/types.ts";
+import { isodate } from "akvaplan_fresh/time/mod.ts";
 
 const search = async ({ q, base }) => {
   const url = new URL("/api/search", base);
@@ -15,7 +16,15 @@ const search = async ({ q, base }) => {
   }
 };
 
-const CollectionSummary = ({ q, collection, length, count }) => (
+const CollectionSummary = (
+  { q, collection, length, count }: {
+    q: string;
+    collection: string;
+    length: number;
+    count: number;
+    number: number;
+  },
+) => (
   <summary>
     {t(`collection.${collection}`)} ({count > length
       ? (
@@ -86,8 +95,6 @@ export default function SiteSearch(
       >
         <InputSearch
           autofocus
-          type="search"
-          heigth="3rem"
           name="q"
           placeholder={t("ui.search.site.Search")}
           label="Søk i Akvaplan-niva (folk, tjenester, forskningstema, prosjekter, nyheter, publikasjoner, dokumenter, media)"
@@ -112,7 +119,7 @@ export default function SiteSearch(
               style={{ paddingBlockEnd: "1.5rem" }}
             >
               {result?.map((
-                { document: { id, collection, slug, title, lang } }: {
+                { document: { id, collection, slug, title, published } }: {
                   document: SearchAtom;
                 },
               ) => (
@@ -130,11 +137,11 @@ export default function SiteSearch(
                       slug,
                       collection,
                       lang: sitelang,
-                      hreflang: lang,
                     })}
                     dangerouslySetInnerHTML={{ __html: title }}
                   >
-                  </a>
+                  </a>{" "}
+                  ({isodate(published)})
                 </li>
               ))}
             </ol>
