@@ -35,6 +35,6 @@ const kv = await openKv();
 const orama = await getOramaInstance();
 await seedOramaCollectionsFromKv(orama, kv);
 
-Deno.cron("sync external data to kv", "*/11 11 * * *", () => seedKv());
+Deno.cron("sync external data to kv", "*/10 * * * *", () => seedKv());
 
 await start(manifest, { render, /*plugins: [],*/ port: 7777 });
