@@ -2,6 +2,7 @@ import {
   defaultImage,
   fetchContacts,
   fetchImages,
+  getCanonical,
   getItem,
   getItemBySlug,
   multiSearchMynewsdesk,
@@ -33,9 +34,11 @@ import { routesForLang } from "../services/nav.ts";
 
 import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
+import { openKv } from "akvaplan_fresh/kv/mod.ts";
+import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
 
 export const config: RouteConfig = {
-  routeOverride: "/:lang(no|en)/:type(project|prosjekt)/:slug",
+  routeOverride: "/:lang(no|en)/:type(project|prosjekt){/:date}?/:slug",
 };
 
 export const handler: Handlers = {
@@ -79,6 +82,23 @@ export const handler: Handlers = {
     const news = _matching?.map(newsFromMynewsdesk({ lang }));
 
     const alternate = null;
+
+    // const kv = await openKv();
+    // const news = [];
+    // for await (
+    //   const { value } of kv.list({ prefix: ["rel", "project", item.id] }, {
+    //     reverse: true,
+    //   })
+    // ) {
+    //   const href = getCanonical({
+    //     lang,
+    //     title: value.title,
+    //     type_of_media: value.collection,
+    //     url: req.url,
+    //   });
+    //   const relLocalized = { ...value, href };
+    //   news.push(relLocalized);
+    // }
 
     return ctx.render({ item, lang, logo, news, contacts, alternate });
   },
@@ -199,6 +219,7 @@ export default function ProjectHome(
             ),
           )}
         </li>
+        <LinkBackToCollection collection={"projects"} lang={lang} />
       </Article>
     </Page>
   );

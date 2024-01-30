@@ -5,6 +5,7 @@
 const familyAliasMap = new Map([
   ["clh", ["Halsband-Lenk"]],
   ["avs", ["SIKORSKI", "Сикорский", "сикорскии", "Sikorskij"]],
+  ["tko", ["Øvrebo", "Øvrebø"]],
 ]);
 export const familyAlias = (id: string) => familyAliasMap.get(id);
 
@@ -23,15 +24,16 @@ export const givenAliasMap = new Map(
     ["svl", ["Sondre"]],
     ["azi", ["Amanda Fern"]],
     ["iyu", ["Ingvild Ytterhus"]],
-    ["fst", ["Fredrik Ribsskog"]],
+    ["fst", ["Fredrim Ribsskog"]],
+    ["tko", ["Tarald Kleppa"]],
   ],
 );
 
 // Used by DOI page to lookup author alias
 // FIXME @todo Add redirect for known author spelling variants,
 // eg. /no/folk/id/avs/Сикорский/А.%20В.
-
 export const alias = new Map([
+  ["Tarald Kleppa|Øvrebø", "tko"],
   ["ANDREY|SIKORSKI", "avs"],
   ["А. В.|Сикорский", "avs"], // Sikorskij
   ["Sofia|Aniceto", "asa"], // /no/doi/10.1101/2022.10.05.510968

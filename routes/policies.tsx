@@ -45,7 +45,6 @@ export const handler: Handlers<InternationalProps> = {
       );
     const docs = _docs?.map((d) => {
       const { document } = d;
-      console.warn(document);
       return d;
     });
     return ctx.render({ title, base, docs, lang });

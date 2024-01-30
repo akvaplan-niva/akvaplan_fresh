@@ -31,6 +31,7 @@ import {
 } from "$fresh/server.ts";
 
 import { asset, Head } from "$fresh/runtime.ts";
+import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
 export const config: RouteConfig = {
   routeOverride:
     "/:lang(en|no)/:page(research|forskning){/:groupname(topic|topics|tema)}?/:topic",
@@ -171,6 +172,8 @@ export default function ServiceTopics(
             ))}
           </div>
         </section>
+
+        <LinkBackToCollection collection={"research"} lang={lang} />
       </div>
     </Page>
   );

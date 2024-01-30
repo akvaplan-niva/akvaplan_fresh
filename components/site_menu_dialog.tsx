@@ -2,6 +2,7 @@ import { SiteNav } from "akvaplan_fresh/components/mod.ts";
 import ThemeSwitcher from "akvaplan_fresh/islands/theme_switcher.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
 import IconButton from "./button/icon_button.tsx";
+import SiteSearch from "akvaplan_fresh/islands/site_search.tsx";
 
 export default ({ lang }) => (
   <dialog
@@ -12,8 +13,9 @@ export default ({ lang }) => (
       border: "0",
       background: "var(--surface1) 0.2",
       minWidth: "20rem",
+      width: "100%",
       color: "var(--text1)",
-      padding: "2rem",
+      padding: "1rem",
     }}
   >
     <header>
@@ -23,6 +25,7 @@ export default ({ lang }) => (
         </svg>
       </a>
     </header>
+    <SiteSearch lang={lang} />
 
     <div
       style={{

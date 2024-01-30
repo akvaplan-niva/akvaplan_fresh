@@ -1,8 +1,12 @@
 // FIXME pressreleases add media
 // FIXME Compare /en/press/2958380 with https://www.mynewsdesk.com/no/akvaplan-niva/pressreleases/ny-rapport-evaluering-av-nye-oppdrettsarter-2958380
 //console.log("@todo News article: auto-fetch related contacts");
+
+import { getValue } from "akvaplan_fresh/kv/mod.ts";
+
 import {
   defaultImage,
+  documentFilter,
   fetchContacts,
   fetchRelated,
   getItem,
@@ -11,8 +15,10 @@ import {
   newsFromMynewsdesk,
   projectFilter,
   projectFromMynewsdesk,
+  routesForLang,
 } from "akvaplan_fresh/services/mod.ts";
-import { isodate } from "akvaplan_fresh/time/mod.ts";
+import { href } from "akvaplan_fresh/search/href.ts";
+import { isodate, longDate } from "akvaplan_fresh/time/mod.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
@@ -27,9 +33,10 @@ import {
   PeopleCard as PersonCard,
 } from "akvaplan_fresh/components/mod.ts";
 
-import { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import { AbstractMynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
+import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -37,12 +44,12 @@ export const config: RouteConfig = {
 };
 
 interface ArticleProps {
-  item: MynewsdeskItem;
+  item: AbstractMynewsdeskItem;
   lang: string;
   alternate: Link;
   contacts: Person[];
-  projects: MynewsdeskItem[];
-  news: MynewsdeskItem[];
+  projects: AbstractMynewsdeskItem[];
+  news: AbstractMynewsdeskItem[];
 }
 
 interface Link {
@@ -95,19 +102,25 @@ export const handler: Handlers = {
     const projects = related.filter(projectFilter).map((myn) =>
       projectFromMynewsdesk({ lang })(myn)
     );
-    const news = related.filter(newsFilter).map((myn) =>
-      newsFromMynewsdesk({ lang })(myn)
-    );
-
-    //const documents...
-    return ctx.render({ item, lang, contacts, alternate, projects, news });
+    // const news = related.filter(newsFilter).map((myn) =>
+    //   newsFromMynewsdesk({ lang })(myn)
+    // );
+    const documents = related.filter(documentFilter);
+    return ctx.render({
+      item,
+      lang,
+      contacts,
+      alternate,
+      projects,
+      documents,
+    });
   },
 };
 
 //console.log("@todo News article needs bullet points for <li> elements");
 
 export default function NewsArticle(
-  { data: { item, lang, contacts, alternate, projects, news } }: PageProps<
+  { data: { item, lang, contacts, alternate, projects, documents } }: PageProps<
     ArticleProps
   >,
 ) {
@@ -138,9 +151,10 @@ export default function NewsArticle(
   //https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
   const img = image?.replace(",w_1782", ",w_1440,ar_16:9") ?? defaultImage;
 
-  const published = isodate(published_at.datetime);
-
-  const __html = body ?? summary;
+  const __html = `<p style="font-size: 0.75rem">
+  ${longDate(published_at.datetime, lang)} <a href="${
+    routesForLang(lang).get("news")
+  }">${t(`type.${type_of_media}`)}</a></p>${body ?? summary}`;
 
   const _caption = {
     fontSize: "0.75rem",
@@ -165,6 +179,33 @@ export default function NewsArticle(
           dangerouslySetInnerHTML={{ __html }}
         >
         </section>
+
+        {documents?.length > 0
+          ? (
+            <section class="article-content">
+              {documents?.map((item) => (
+                <a
+                  href={href({
+                    ...item,
+                    lang,
+                    slug: item.url.split("/").at(-1),
+                    collection: "document",
+                  })}
+                  target="_blank"
+                >
+                  <figure style={{ fontSize: "0.75rem" }}>
+                    <img
+                      title={item.header}
+                      alt={item.header}
+                      src={String(item.document_thumbnail)}
+                    />
+                    <figcaption>{item.summary}</figcaption>
+                  </figure>
+                </a>
+              ))}
+            </section>
+          )
+          : null}
 
         {projects?.length > 0 && (
           <section style={_section}>
@@ -201,7 +242,7 @@ export default function NewsArticle(
             </section>
           )}
 
-        <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(440px, 1fr));grid-gap:1rem;">
+        <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:1rem;">
           {contacts && contacts.map(
             (contact) => (
               <section class="article-content">
@@ -211,9 +252,7 @@ export default function NewsArticle(
           )}
         </li>
 
-        <p style={_caption}>
-          {t(`type.${type_of_media}`)} {t("ui.published")} {published}
-        </p>
+        <LinkBackToCollection collection={"news"} lang={lang} />
       </Article>
     </Page>
   );

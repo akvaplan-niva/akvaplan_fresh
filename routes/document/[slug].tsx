@@ -1,94 +1,57 @@
-import { AltLangInfo, Article, Page } from "akvaplan_fresh/components/mod.ts";
+import { findMarkdownDocument } from "akvaplan_fresh/services/documents.ts";
 
-import { marky } from "https://deno.land/x/marky@v1.1.7/mod.ts";
+import { cloudinaryProxy } from "../../services/cloudinaryProxy.ts";
+import { extractId } from "../../services/extract_id.ts";
+import { getValue } from "akvaplan_fresh/kv/mod.ts";
+
+import { MarkdownArticlePage } from "./MarkdownArticlePage.tsx";
+import { Page } from "akvaplan_fresh/components/mod.ts";
 
 import type { RouteConfig, RouteContext } from "$fresh/server.ts";
-import { findMarkdownDocument } from "akvaplan_fresh/services/documents.ts";
-import { documentHref } from "akvaplan_fresh/services/nav.ts";
+import { DocumentArticle } from "akvaplan_fresh/components/document_article.tsx";
+import { cloudinary0, id0 } from "akvaplan_fresh/services/mynewsdesk.ts";
+
+import type {
+  MynewsdeskDocument,
+} from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import { newsFilter } from "akvaplan_fresh/services/mynewsdesk.ts";
 
 export const config: RouteConfig = {
-  routeOverride: "/:lang(no|en)/:type(document|dokument)/:slug",
+  routeOverride: "/:lang(no|en)/:type(document|dokument){/:date}?/:slug",
 };
-function extractId(str: string) {
-  const regex = /[\/-](?<id>\w+)$/;
-  const match = regex.exec(str);
-  if (match && match?.groups?.id) {
-    return match.groups.id;
-  }
-}
-
-export const cloudinaryProxy = async (req: Request, ctx: RouteContext) => {
-  const { slug } = ctx.params;
-  const id = slug.split("-").at(-1) as string;
-  const url = new URL(
-    `https://resources.mynewsdesk.com/image/upload/${id}`,
-  );
-  const { body, headers, status, ok } = await fetch(url);
-  if (!ok) {
-    return ctx.renderNotFound();
-  }
-  return new Response(body, { status, headers });
-};
-
-export const MarkdownArticlePage = (
-  { text, meta, lang }: { text: string; lang: string; meta: DocumentMeta },
-) => {
-  // Find alternate lang version (if markdown language (`meta.lang`) differs from present site `lang`)
-  const alt = meta.lang !== lang && meta.alt &&
-    findMarkdownDocument({ id: meta.alt });
-
-  const alternate = alt && {
-    ...alt,
-    href: documentHref({
-      id: alt.id,
-      lang: alt.lang,
-      title: alt.title,
-    }),
-  };
-
-  const style = `h2 {
-    margin-top: 1.5rem;
-    margin-bottom: 0.2rem;
-  }
-  p {
-    margin-top: 1rem;
-    margin-bottom: 0.2rem;
-  }`;
-  return (
-    <Page>
-      <style dangerouslySetInnerHTML={{ __html: style }} />
-      <Article>
-        {alt && (
-          <AltLangInfo
-            alternate={alternate}
-            lang={lang}
-            language={meta.lang}
-          />
-        )}
-        <div
-          style={{ maxWidth: "1440px" }}
-          dangerouslySetInnerHTML={{ __html: marky(text) }}
-        />
-      </Article>
-    </Page>
-  );
-};
-
 export default async function Document(req: Request, ctx: RouteContext) {
-  const { slug, lang } = ctx.params;
+  const { url: { searchParams, pathname }, params: { slug, lang } } = ctx;
+  if (searchParams.has("download")) {
+    return cloudinaryProxy(req, ctx);
+  }
+
   const id = extractId(slug) ?? slug;
   const meta = findMarkdownDocument({ id, slug });
 
   if (meta) {
-    // @todo support non-static/external markdown URLs
+    // FIXME: support non-static/external markdown URLs
     const url = new URL(import.meta.resolve(
       "../../static" + meta.source,
     ));
     const text = await Deno.readTextFile(url);
-
     return MarkdownArticlePage({ text, meta, lang });
-  } else {
-    console.warn({ id, slug });
-    return cloudinaryProxy(req, ctx);
   }
+
+  const key = /^[0-9]+$/.test(id)
+    ? [id0, "document", Number(id)]
+    : [cloudinary0, id];
+
+  const item = await getValue<MynewsdeskDocument>(key);
+  if (!item) {
+    return ctx.renderNotFound();
+  }
+  item.cloudinary = cloudinary0 === key.at(0) ? id : extractId(item.document);
+  item.download = `${pathname}?download`;
+  item.rel = item.related_items;
+
+  return (
+    <Page>
+      <DocumentArticle item={item} lang={lang} />
+    </Page>
+  );
 }

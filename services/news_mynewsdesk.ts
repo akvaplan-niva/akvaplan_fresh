@@ -1,7 +1,7 @@
 import { href } from "./mynewsdesk.ts";
 import { projectURL } from "./nav.ts";
 import {
-  MynewsdeskItem,
+  AbstractMynewsdeskItem,
   News,
   NewsMapper,
 } from "akvaplan_fresh/@interfaces/mod.ts";
@@ -23,7 +23,7 @@ export const newsFromMynewsdesk = ({ lang }: NewsMapper) =>
     type_of_media,
     rels,
     ...item
-  }: MynewsdeskItem,
+  }: AbstractMynewsdeskItem,
 ): News => ({
   id,
   title: header,

@@ -1,5 +1,5 @@
 const no = (
-  <div>
+  <div class="nytek">
     Akvaplan-niva er akkreditert etter NS-EN ISO/IEC 17020 for inspeksjon av
     flytende oppdrettsanlegg i henhold til NS 9415 og tilbyr{" "}
     <b>lokalitetsundersøkelser</b> og inspeksjon av anlegg før utstedelse av
@@ -12,7 +12,7 @@ const no = (
         verdier for bølgehøyder, strømforhold og andre relevante miljøkrefter på
         en oppdrettslokalitet. Resultatene av denne undersøkelsen utgjør
         lokalitetsrapporten. Dette er den viktigste rapporten for videre arbeid
-        med krav som stilles i NYTEK-forskriften og som setter rammer for bruk
+        med krav som stilles i NYTEK23-forskriften og som setter rammer for bruk
         og dimensjonering av teknisk utstyr.
 
         Lokalitetsrapporter fra Akvaplan-niva inneholder påkrevd og relevant
@@ -24,7 +24,7 @@ const no = (
       <p>
         Et anleggssertifikat utstedes av et akkreditert inspeksjonsorgan og er
         en bekreftelse på at et flytende oppdrettsanlegg tilfredsstiller kravene
-        i NYTEK-forskriften og NS 9415:2009. Gjennom vår akkreditering{" "}
+        i NYTEK23-forskriften og NS 9415:2009. Gjennom vår akkreditering{" "}
         <a
           href="https://www.akkreditert.no/akkrediterte-organisasjoner/inspeksjon/?AkkId=542"
           target="_blank"
@@ -69,11 +69,11 @@ const no = (
 );
 
 const en = (
-  <div class="page-header">
+  <div class="nytek">
     <h2>Location Investigations and Construction Certificates</h2>
     Akvaplan-niva is accredited according to NS-EN ISO / IEC 17020 for
     inspection of floating aquaculture plants in accordance with NS 9415 and
-    offers site surveys and inspection of plants before issuing a plant
+    offers site surveys and inspection of plants before issuing a NYTEK23 plant
     certificate.
   </div>
 );

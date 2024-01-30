@@ -2,7 +2,7 @@ import { Article, Icon, Page, SiteNav } from "akvaplan_fresh/components/mod.ts";
 
 import { type RouteConfig } from "$fresh/server.ts";
 import { Footer } from "akvaplan_fresh/components/mod.ts";
-import { siteNav, siteNav as moreNav } from "akvaplan_fresh/services/nav.ts";
+import { moreNav } from "akvaplan_fresh/services/nav.ts";
 import IconButton from "akvaplan_fresh/components/button/icon_button.tsx";
 import ThemeSwitcher from "akvaplan_fresh/islands/theme_switcher.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";

@@ -3,10 +3,7 @@
 /// <reference lib="dom.iterable" />
 /// <reference lib="dom.asynciterable" />
 /// <reference lib="deno.ns" />
-
-import { seed } from "./kv/jobs/seed.ts";
-Deno.cron("sync external data to kv", "11 * * * *", () => seed());
-
+import { seedKv } from "akvaplan_fresh/kv/jobs/seed.ts";
 import { getLangFromURL } from "./text/mod.ts";
 import {
   InnerRenderFunction,
@@ -14,13 +11,13 @@ import {
   RenderFunction,
   start,
 } from "$fresh/server.ts";
-import {
-  actionPath,
-  base,
-  mynewsdesk_key as key,
-} from "./services/mynewsdesk.ts";
 
 import manifest from "./fresh.gen.ts";
+import {
+  getOramaInstance,
+  seedOramaCollectionsFromKv,
+} from "akvaplan_fresh/search/create_search_index.ts";
+import { openKv } from "akvaplan_fresh/kv/mod.ts";
 
 const render: RenderFunction = (
   ctx: RenderContext,
@@ -34,4 +31,10 @@ const render: RenderFunction = (
   freshRender();
 };
 
-await start(manifest, { render, /*, plugins: [],*/ port: 7777 });
+const kv = await openKv();
+const orama = await getOramaInstance();
+await seedOramaCollectionsFromKv(orama, kv);
+
+Deno.cron("sync external data to kv", "*/10 * * * *", () => seedKv());
+
+await start(manifest, { render, /*plugins: [],*/ port: 7777 });

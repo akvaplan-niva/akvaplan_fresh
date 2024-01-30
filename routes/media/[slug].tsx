@@ -10,17 +10,17 @@ import type { Handlers, RouteConfig } from "$fresh/server.ts";
 import { imagesURL } from "akvaplan_fresh/services/nav.ts";
 import { openKv } from "akvaplan_fresh/kv/mod.ts";
 
-export const config: RouteConfig = {
-  routeOverride: "/:lang(no|en)/:type(image|bilde|media|video)/:slug",
-};
+// export const config: RouteConfig = {
+//   routeOverride: "/:lang(no|en)/:type(image|bilde|media){/:date}?/:slug",
+// };
 const typeOfMedia = new Map([
   ["bilde", "image"],
 ]);
 export const handler: Handlers = {
   async GET(req, ctx) {
     const { params: { slug, type, lang } } = ctx;
-
-    if (/-[0-9]+$/.test(slug)) {
+    if ("objozvs9edrhlhtd35uh" === slug) {
+    } else if (/-[0-9]+$/.test(slug)) {
       const numid = Number(slug.split("-").at(-1));
       const type_of_media = typeOfMedia.get(type) ?? type;
       const item = await getItem(numid, type_of_media);
@@ -42,58 +42,6 @@ export const handler: Handlers = {
     throw new Deno.errors.NotFound();
   },
 };
-
-export function ImageArticle({ item }: { item: MynewsdeskImage }) {
-  return (
-    <Article language={lang}>
-      <header>
-        <a href={item.image} target="_blank">
-          <img
-            title={item.header}
-            alt={item.header}
-            src={item.image_medium}
-          />
-        </a>
-        <h1>
-          {item.header}
-        </h1>
-      </header>
-      <figure>
-        <figcaption>{item.photographer}</figcaption>
-      </figure>
-
-      <dl>
-        <dt>Published</dt>
-        <dd>{isodate(item.published_at.datetime)}</dd>
-        <dt>Dimensions</dt>
-        <dd>{item.image_dimensions}</dd>
-        <dt>Size (bytes)</dt>
-        <dd>{item.image_size}</dd>
-        <dt>Original</dt>
-        <dd>
-          <a download href={item.download_url}>{item.image_name}</a>
-        </dd>
-      </dl>
-      <div
-        style={{ marginBlockStart: "0.5rem", fontSize: "var(--font-size-4)" }}
-      >
-        <Icon
-          name={"arrow_back_ios_new"}
-          style={{ color: "var(--accent)" }}
-          width="1rem"
-          height="1rem"
-        />{" "}
-        <a
-          href={imagesURL({ lang })}
-          style={{ color: "var(--text1)" }}
-        >
-          {t("nav.Images")}
-          {" "}
-        </a>
-      </div>
-    </Article>
-  );
-}
 
 export function VideoArticle(
   { item, embed }: { item: MynewsdeskVideo; embed: string },

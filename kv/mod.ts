@@ -1,11 +1,23 @@
-/// <reference lib="deno.unstable" />
 export const db = globalThis?.Deno && Deno.env.has("deno_kv_database")
   ? Deno.env.get("deno_kv_database")
   : undefined;
 
+let _kv: undefined | Deno.Kv;
 export const openKv = async (path = db) => {
-  if (path) {
-    console.warn("Opening KV", db);
+  if (!_kv) {
+    if (path) {
+      console.warn("Opening KV", db);
+    }
+    _kv = await Deno.openKv(path);
   }
-  return await Deno.openKv(path);
+  return _kv;
 };
+export async function getValue<T>(
+  key: Deno.KvKey,
+  // deno-lint-ignore no-explicit-any
+  options: any = undefined,
+) {
+  const kv = await openKv();
+  const { value, versionstamp } = await kv.get<T>(key, options);
+  return versionstamp ? value : undefined;
+}

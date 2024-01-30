@@ -44,6 +44,7 @@ import {
 
 import { Head } from "$fresh/runtime.ts";
 import { priorAkvaplanists } from "../services/prior_akvaplanists.ts";
+import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
 
 interface AkvaplanistsRouteProps {
   people: Akvaplanist[];
@@ -98,7 +99,9 @@ export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
     const { params } = ctx;
 
-    const { groupname, filter } = params;
+    const groupname = decodeURIComponent(params.groupname);
+    const filter = decodeURIComponent(params.filter);
+    //const { groupname, filter } = params;
     const group = findGroup(groupname);
 
     // lang is optional for legacy URL (/ansatte)
@@ -378,6 +381,10 @@ export default function Akvaplanists(
           )}
         </section>
       )}
+
+      {filter?.length > 0
+        ? <LinkBackToCollection collection={"people"} lang={lang} />
+        : null}
     </Page>
   );
 }

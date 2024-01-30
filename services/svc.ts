@@ -6,7 +6,7 @@ type Svc = Record<string, string | number | string[]>;
 
 const _services = [];
 
-const getServices = async () => {
+const getServicesFromExternalDenoService = async () => {
   const r = await fetch("https://svc.deno.dev/").catch(() => {});
   if (r?.ok) {
     return r.json();
@@ -16,7 +16,7 @@ const getServices = async () => {
 const servicesLevelFilter = (n: number) => ({ level }: Svc) => level === n;
 
 export const getServicesLevel0 = async (lang: string) => {
-  const svc0 = (await getServices() ?? [])?.filter(servicesLevelFilter(0));
+  const svc0 = (await getServicesFromExternalDenoService() ?? [])?.filter(servicesLevelFilter(0));
 
   const en0 = svc0.map((
     { topic, en, no, details, detaljer, ...s }: Svc,
@@ -26,7 +26,7 @@ export const getServicesLevel0 = async (lang: string) => {
     name: en ?? no,
     desc: details ?? detaljer,
     lang: "en",
-    href: serviceGroupURL({ lang: "en", topic }),
+    href: serviceGroupURL({ lang, topic }),
   }));
 
   const no0 = svc0.map((
@@ -37,7 +37,7 @@ export const getServicesLevel0 = async (lang: string) => {
     desc: detaljer ?? details,
     topic: tema,
     lang: "no",
-    href: serviceGroupURL({ lang: "no", topic: tema }),
+    href: serviceGroupURL({ lang, topic: tema }),
   }));
 
   const svc = lang === "en" ? en0 : no0;

@@ -19,7 +19,8 @@ import type { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { imageURL, videoURL } from "akvaplan_fresh/services/nav.ts";
 
 export const config: RouteConfig = {
-  routeOverride: "/:lang(en|no)/:page(images|bilder)",
+  //@todo Images route: redirect to canonical URL (/en/images | /no/bilder)
+  routeOverride: "/:lang(en|no)/:page(images|image|bilder|bilde)",
 };
 
 export const handler: Handlers<ImagesProps> = {
