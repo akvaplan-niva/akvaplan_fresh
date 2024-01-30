@@ -23,7 +23,7 @@ export const handler: Handlers = {
   GET(req: Request, ctx: FreshContext) {
     const { params } = ctx;
     lang.value = params.lang;
-    const title = t(params.page);
+    const title = t("nav.Search");
     const base = `/${params.lang}/${params.page}/`;
 
     const { searchParams } = ctx.url;
@@ -37,10 +37,7 @@ export default function Null(
 ) {
   return (
     <Page title={title} base={base}>
-      <SiteSearch
-        lang={lang}
-        term={term}
-      />
+      <SiteSearch lang={lang} term={term} />
     </Page>
   );
 }

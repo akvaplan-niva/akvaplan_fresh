@@ -13,18 +13,28 @@ import {
 } from "$fresh/server.ts";
 
 import manifest from "./fresh.gen.ts";
+import {
+  getOramaInstance,
+  seedOramaCollectionsFromKv,
+} from "akvaplan_fresh/search/create_search_index.ts";
+import { openKv } from "akvaplan_fresh/kv/mod.ts";
 
-// const render: RenderFunction = (
-//   ctx: RenderContext,
-//   freshRender: InnerRenderFunction,
-// ) => {
-//   // Set `lang` in render context -> reflects into html[lang]
-//   const lang = getLangFromURL(ctx.url);
-//   if (lang) {
-//     ctx.lang = lang;
-//   }
-//   freshRender();
-// };
-await start(manifest, { /*render, plugins: [],*/ port: 7777 });
+const render: RenderFunction = (
+  ctx: RenderContext,
+  freshRender: InnerRenderFunction,
+) => {
+  // Set `lang` in render context -> reflects into html[lang]
+  const lang = getLangFromURL(ctx.url);
+  if (lang) {
+    ctx.lang = lang;
+  }
+  freshRender();
+};
 
-Deno.cron("sync external data to kv", "*/11 * * * *", () => seedKv());
+const kv = await openKv();
+const orama = await getOramaInstance();
+await seedOramaCollectionsFromKv(orama, kv);
+
+Deno.cron("sync external data to kv", "*/11 11 * * *", () => seedKv());
+
+await start(manifest, { render, /*plugins: [],*/ port: 7777 });

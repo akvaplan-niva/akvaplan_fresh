@@ -92,6 +92,9 @@ export const actionPath = (action: string, unique_key = mynewsdesk_key) =>
 export const newsFilter = (item: AbstractMynewsdeskItem) =>
   ["news", "pressrelease"].includes(item?.type_of_media);
 
+export const documentFilter = (item: AbstractMynewsdeskItem) =>
+  ["document"].includes(item?.type_of_media);
+
 export const listURL = ({ type_of_media, offset, limit, sort }: {
   type_of_media: string;
   offset?: number;

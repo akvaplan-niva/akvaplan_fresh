@@ -1,3 +1,5 @@
+import { getValue, openKv } from "akvaplan_fresh/kv/mod.ts";
+
 import { getServicesLevel0 } from "akvaplan_fresh/services/svc.ts";
 import { getResearchLevel0 } from "akvaplan_fresh/services/research.ts";
 import { latestNews } from "akvaplan_fresh/services/news.ts";
@@ -10,7 +12,9 @@ import { getLangFromURL, lang, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
   AlbumHeader,
+  Article,
   ArticleSquare,
+  Card,
   HScroll,
   MoreNews,
   NewsFilmStrip,
@@ -22,11 +26,17 @@ import { Handlers, RouteConfig } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
 import NewsArticle from "./article/[slug].tsx";
 
+import HScrollWithDynamicImage from "akvaplan_fresh/islands/HScrollWithDynamicImage.tsx";
+import { customerServices } from "akvaplan_fresh/kv/customer_services.ts";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
 };
 
 const level0 = ({ level }) => level === 0;
+
+const { compare } = new Intl.Collator("no", { caseFirst: "upper" });
+
+const sortName = (a, b) => compare(a?.name, b?.name);
 
 const _section = {
   marginTop: "2rem",
@@ -35,6 +45,8 @@ const _section = {
 
 export const handler: Handlers = {
   async GET(req, ctx) {
+    const kv = await openKv();
+
     const sitelang = getLangFromURL(req.url);
     lang.value = sitelang;
 
@@ -43,11 +55,15 @@ export const handler: Handlers = {
 
     const news = await latestNews({ q, lang: sitelang, limit });
 
-    const services = await getServicesLevel0(sitelang);
+    //const _services = Array.fromAsync(customerServices(0));
+    //(await (sitelang)).filter(({ level }) => level !== 0));
+    //const services = (await _services).sort(sortName);
 
-    const topics = await getResearchLevel0(sitelang);
+    const services = (await getServicesLevel0(sitelang)).sort(sortName);
 
-    //projects
+    const topics = (await getResearchLevel0(sitelang)).sort(sortName);
+
+    const announce = await getValue(["home", "announce", sitelang]);
 
     const maxNumNews = 32;
     const articles = news.filter(({ type, hreflang, title }) =>
@@ -67,27 +83,14 @@ export const handler: Handlers = {
       maxNumNews,
     );
 
-    const researchArticles = news.filter(({ type }) =>
-      ["journal-article"].includes(type)
-    )
-      .slice(
-        0,
-        16, //maxNumNews,
-      );
-
-    const projects = (await latestProjects()).map((myn) =>
-      newsFromProjects({ lang: sitelang })(myn)
-    );
-
     return ctx.render({
+      announce,
       news,
       services,
       topics,
       lang,
       articles,
       articlesNotInSiteLang,
-      //researchArticles,
-      projects,
     });
   },
 };
@@ -97,14 +100,12 @@ export const handler: Handlers = {
 export default function Home(
   {
     data: {
-      news,
-      topics,
-      lang,
-      services,
+      announce,
       articles,
       articlesNotInSiteLang,
-      //researchArticles,
-      projects,
+      lang,
+      services,
+      topics,
     },
   },
 ) {
@@ -116,19 +117,30 @@ export default function Home(
       <Head>
         <link rel="stylesheet" href={asset("/css/mini-news.css")} />
         <link rel="stylesheet" href={asset("/css/hscroll.css")} />
-        <link rel="stylesheet" href={asset("/css/hscroll-dynamic.css")} />
         <link rel="stylesheet" href={asset("/css/article.css")} />
         <script src={asset("/@nrk/core-scroll.min.js")} />
       </Head>
 
-      <NewsFilmStrip news={news} lang={lang.value} />
+      {announce
+        ? (
+          <Card>
+            <AlbumHeader
+              text={announce.text}
+              href={announce.href}
+            />
+          </Card>
+        )
+        : null}
 
       <section style={_section}>
         <AlbumHeader
           text={t(`home.section.${lang}.articles`)}
           href={routesForLang(lang).get("news")}
         />
-        <HScroll scrollerId="hscroll-articles" maxVisibleChildren={maxVisNews}>
+        <HScroll
+          scrollerId="hscroll-articles"
+          maxVisibleChildren={maxVisNews}
+        >
           {articles.map(ArticleSquare)}
         </HScroll>
       </section>
@@ -137,83 +149,77 @@ export default function Home(
         <AlbumHeader
           text={t("home.section.articles_not_in_site_lang")}
           href={routesForLang(lang).get("news")}
-          _lang="en|no"
         />
+        <NewsFilmStrip news={articlesNotInSiteLang} />
         {
-          /* <span style={{ fontSize: "1rem" }}>
-          {t(`news.Only_in_alt_lang`)} {t(`lang.alt.${lang}`)}
-        </span> */
-        }
-        <HScroll
-          scrollerId="hscroll-articles-no-sitemap"
-          maxVisibleChildren={maxVisNews}
-        >
+          /* <HScroll maxVisibleChildren={maxVisNews}>
           {articlesNotInSiteLang.map(ArticleSquare)}
-        </HScroll>
+        </HScroll> */
+        }
       </section>
 
-      {
-        /* <section style={_section}>
-        <AlbumHeader
-          text={t("pubs.Latest_peer_reviewed_research_articles")}
-          href={routes(lang).get("pubs") + "?q=journal-article"}
-        />
-        <HScroll maxVisibleChildren={maxVisNews}>
-          {researchArticles.map(ArticleSquare)}
-        </HScroll>
-      </section> */
-      }
-
-      <section style={_section}>
-        <AlbumHeader
-          text={t("home.section.services")}
-          href={routesForLang(lang).get("services")}
-        />
-        <HScroll
-          scrollerId="hscroll-services"
-          maxVisibleChildren={Math.min(
-            services?.length,
-            maxVisResearchServices,
-          )}
-        >
-          {services.map(ArticleSquare)}
-        </HScroll>
-      </section>
+      <AlbumHeader
+        text={t("home.section.services")}
+        href={routesForLang(lang).get("services")}
+      />
+      <ol
+        style={{ paddingBlockStart: "0.5rem", paddingBlockEnd: "1.5rem" }}
+      >
+        {services?.map(({ name, href }) => (
+          <li
+            style={{
+              fontSize: "1rem",
+              margin: "1px",
+              padding: "0.5rem",
+              background: "var(--surface0)",
+            }}
+          >
+            <a
+              href={href}
+              dangerouslySetInnerHTML={{ __html: name }}
+            >
+            </a>
+            <p style={{ fontSize: "0.75rem" }}>
+            </p>
+          </li>
+        ))}
+      </ol>
 
       <section style={_section}>
         <AlbumHeader
           text={t("home.section.research")}
           href={routesForLang(lang).get("research")}
         />
-        <HScroll
-          scrollerId="hscroll-topics"
-          maxVisibleChildren={Math.min(topics?.length, maxVisResearchServices)}
+        <ol
+          style={{ paddingBlockStart: "0.5rem", paddingBlockEnd: "1.5rem" }}
         >
-          {topics?.map(ArticleSquare)}
-        </HScroll>
+          {topics?.map(({ name, href }) => (
+            <li
+              style={{
+                fontSize: "1rem",
+                margin: "1px",
+                padding: "0.5rem",
+                background: "var(--surface0)",
+              }}
+            >
+              <a
+                href={href}
+                dangerouslySetInnerHTML={{ __html: name }}
+              >
+              </a>
+              <p style={{ fontSize: "0.75rem" }}>
+              </p>
+            </li>
+          ))}
+        </ol>
       </section>
 
-      {
-        /* <section style={_section}>
-        <AlbumHeader
-          text={t(`home.section.projects`)}
-          href={routes(lang).get("projects")}
-        />
-        <HScroll scrollerId="hscroll-articles" maxVisibleChildren={maxVisNews}>
-          {projects.map(ArticleSquare)}
-        </HScroll>
-      </section> */
-      }
-
-      {
-        /* <AlbumHeader
-        text={t("home.section.projects")}
-        href={routes(lang).get("projects")}
+      <AlbumHeader
+        text={t("home.section.people")}
+        href={routesForLang(lang).get("people")}
       />
-        */
-      }
 
-      {/* Research facilities (Fisk Loise) Sensor platforms */}
+      {/* WhyUs? Research facilities (Fisk Loise) Sensor platforms */}
     </Page>
   );
 }

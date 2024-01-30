@@ -29,6 +29,7 @@ import {
   PageProps,
   RouteConfig,
 } from "$fresh/server.ts";
+import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
 
 //import { Akvaplanist } from "../@interfaces/akvaplanist.ts";
 
@@ -275,14 +276,8 @@ export default function DoiPublication(
             </dd>
           </dl>
         </Card>
-        <nav>
-          <a
-            href={pubsURL()}
-            aria-label={t("nav.Back_to") + " " + t("nav.Pubs")}
-          >
-            <Icon name="arrow_back_ios_new" height="1rem" /> {t("nav.Pubs")}
-          </a>
-        </nav>
+
+        <LinkBackToCollection collection="pubs" lang={lang} />
       </article>
     </Page>
   );

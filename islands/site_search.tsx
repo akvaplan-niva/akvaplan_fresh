@@ -3,58 +3,74 @@ import { InputSearch } from "akvaplan_fresh/components/search/InputSearch.tsx";
 import { useSignal } from "@preact/signals";
 import { href } from "../search/href.ts";
 import { SearchAtom } from "akvaplan_fresh/search/types.ts";
-import { isodate } from "akvaplan_fresh/time/mod.ts";
+import { routesForLang } from "akvaplan_fresh/services/nav.ts";
+import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 
-const search = async ({ q, base }) => {
+const search = async (
+  { q, base, limit, where }: {
+    q: string;
+    base: string;
+    limit: number;
+    where: unknown;
+  },
+) => {
   const url = new URL("/api/search", base);
   const { searchParams } = url;
   searchParams.set("q", q);
+  searchParams.set("limit", limit);
   searchParams.set("group-by", "collection");
+  if (where) {
+    searchParams.set("where", JSON.stringify(where));
+  }
+
   const r = await fetch(url);
   if (r.ok) {
     return await r.json();
   }
 };
 
+const collectionHref = ({ collection, lang }) => {
+  if (!routesForLang(lang).has(collection)) {
+    console.error("Missing collectionHref", collection, lang);
+  }
+  return routesForLang(lang).get(collection);
+};
+
 const CollectionSummary = (
-  { q, collection, length, count }: {
+  { q, collection, length, count, lang, handlePressed }: {
     q: string;
     collection: string;
     length: number;
     count: number;
     number: number;
+    lang: string;
   },
 ) => (
   <summary>
-    {t(`collection.${collection}`)} ({count > length
-      ? (
-        <span>
-          {t("ui.see_all")}{"  "}
-          <a href={`_?q=${q}&collection=${collection}`}>
-            {count}
-          </a>
-        </span>
-      )
-      : <span>{length}</span>})
+    {t(`collection.${collection}`)}
+
+    <Pill
+      data-collection={collection}
+      onClick={handlePressed}
+    >
+      {count}
+    </Pill>
   </summary>
 );
 
-// {t("collection." + values?.[0])} (
-//   { facetCountCollection(values?.[0]) > result.length ?
-// > : <span>x</span>)
-
 export default function SiteSearch(
-  { term }: { term?: string; lang?: string },
+  { term, lang }: { term?: string; lang?: string },
 ) {
   const query = useSignal(term);
+  const limit = useSignal(5);
   const groups = useSignal([]);
-  // const action = `/${lang}/_`;
   const facets = useSignal(new Map());
   const sitelang = siteLangSignal.value;
 
-  const performSearch = async ({ q, base }) => {
+  const performSearch = async ({ q, ...params }) => {
     query.value = q;
-    const result = await search({ q, base });
+    const result = await search({ q, ...params });
+
     groups.value = q?.length > 0 ? result.groups : [];
     for (
       const [collection, count] of Object.entries(
@@ -69,7 +85,22 @@ export default function SiteSearch(
     e?.preventDefault();
     const { target: { value, ownerDocument } } = e;
     const { origin } = new URL(ownerDocument.URL);
-    performSearch({ q: value, base: origin });
+    performSearch({ q: value, base: origin, limit: limit.value });
+  };
+
+  const handleCollectionPressed = async (e: Event) => {
+    e?.preventDefault();
+
+    const {
+      target,
+    } = e;
+    const { selected, value, ownerDocument, dataset: { collection, action } } =
+      target;
+    const { origin } = new URL(ownerDocument.URL);
+    limit.value += 25;
+    const q = query.value;
+    const where = { collection };
+    performSearch({ q, base: origin, limit: limit.value, where });
   };
 
   // Handle search via URL query (on first load)
@@ -85,6 +116,7 @@ export default function SiteSearch(
     <main>
       <form
         id="site-search"
+        action={`/${lang}/_`}
         autocomplete="off"
         style={{
           display: "grid",
@@ -112,6 +144,8 @@ export default function SiteSearch(
               q={query.value}
               collection={values?.[0]}
               length={result.length}
+              lang={lang}
+              handlePressed={handleCollectionPressed}
               count={facetCountCollection(values?.[0])}
             />
 
@@ -136,12 +170,14 @@ export default function SiteSearch(
                       id,
                       slug,
                       collection,
-                      lang: sitelang,
+                      lang,
                     })}
                     dangerouslySetInnerHTML={{ __html: title }}
                   >
-                  </a>{" "}
-                  ({isodate(published)})
+                  </a>
+                  <p style={{ fontSize: "0.75rem" }}>
+                    <em>{published.substring(0, 4)}</em>
+                  </p>
                 </li>
               ))}
             </ol>

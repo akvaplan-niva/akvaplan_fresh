@@ -37,6 +37,7 @@ const En = new Map([
 const No = new Map([
   ["about", "/no/om"],
   ["akvaplanists", "/no/folk"],
+  ["person", "/no/folk"],
   ["blog", "/no/blog"],
   ["dcat", "/no/dcat"],
   ["document", "/no/dokument"],
@@ -48,6 +49,7 @@ const No = new Map([
   ["news-article", "/no/nyhet"],
   ["news", "/no/nyheter"],
   ["people", "/no/folk"],
+  ["pressrelease", "/no/nyheter"],
   ["project", "/no/prosjekt"],
   ["projects", "/no/prosjekter"],
   ["pubs", "/no/publikasjoner"],
@@ -63,42 +65,40 @@ const No = new Map([
 export const routesForLang = (lang: string | StringSignal) =>
   lang === "en" || lang?.value === "en" ? En : No;
 
-const _tr = routesForLang;
+const _rfl = routesForLang;
 
-export const buildNav = (lang: string | StringSignal) => [
-  { href: _tr(lang).get("news"), text: t("nav.News") },
-  { href: _tr(lang).get("services"), text: t("nav.Services") },
-  { href: _tr(lang).get("research"), text: t("nav.Research") },
-  { href: _tr(lang).get("pubs"), text: t("nav.Publications") },
-  { href: _tr(lang).get("projects"), text: t("nav.Projects") },
+export const buildNavPrev = (lang: string | StringSignal) => [
+  { href: _rfl(lang).get("news"), text: t("nav.News") },
+  { href: _rfl(lang).get("services"), text: t("nav.Services") },
+  { href: _rfl(lang).get("research"), text: t("nav.Research") },
+  { href: _rfl(lang).get("pubs"), text: t("nav.Publications") },
+  { href: _rfl(lang).get("projects"), text: t("nav.Projects") },
   //{ href: _tr(lang).get("dcat"), text: t("Datasets") },
 
   //{ href: _tr(lang).get("documents"), text: t("Documents") },
-  { href: _tr(lang).get("akvaplanists"), text: t("nav.People") },
-  { href: _tr(lang).get("about"), text: t("nav.About") },
+  { href: _rfl(lang).get("akvaplanists"), text: t("nav.People") },
+  { href: _rfl(lang).get("about"), text: t("nav.About") },
   //{ href: _tr(lang).get("settings"), text: t("Settings") },
 ];
-export const buildNavNext = (lang: string | StringSignal) => [
+export const buildNav = (lang: string | StringSignal) => [
   //{ href: _tr(lang).get("news"), text: t("nav.News") },
-  { href: _tr(lang).get("akvaplanists"), text: t("nav.People") },
-  { href: _tr(lang).get("services"), text: t("nav.Services") },
-  { href: _tr(lang).get("research"), text: t("nav.Research") },
-  { href: _tr(lang).get("pubs"), text: t("nav.Publications") },
-  { href: _tr(lang).get("projects"), text: t("nav.Projects") },
-
+  { href: _rfl(lang).get("akvaplanists"), text: t("nav.People") },
+  { href: _rfl(lang).get("services"), text: t("nav.Services") },
+  { href: _rfl(lang).get("research"), text: t("nav.Research") },
+  // { href: _rfl(lang).get("pubs"), text: t("nav.Publications") },
+  { href: _rfl(lang).get("projects"), text: t("nav.Projects") },
+  { href: _rfl(lang).get("about"), text: t("nav.About") },
   //{ href: _tr(lang).get("dcat"), text: t("Datasets") },
-
   //{ href: _tr(lang).get("documents"), text: t("Documents") },
-  { href: _tr(lang).get("more"), text: t("nav.More") },
-  //{ href: _tr(lang).get("settings"), text: t("Settings") },
+  //{ href: _rfl(lang).get("more"), text: t("nav.More") },
 ];
 
 export const buildMoreNav = (lang: string | StringSignal) => [
-  { href: _tr(lang).get("news"), text: t("nav.News") },
-  { href: _tr(lang).get("documents"), text: t("nav.Documents") },
-  { href: _tr(lang).get("videos"), text: t("nav.Videos") },
-  { href: _tr(lang).get("images"), text: t("nav.Images") },
-  { href: _tr(lang).get("about"), text: t("nav.About") },
+  { href: _rfl(lang).get("news"), text: t("nav.News") },
+  { href: _rfl(lang).get("documents"), text: t("nav.Documents") },
+  { href: _rfl(lang).get("videos"), text: t("nav.Videos") },
+  { href: _rfl(lang).get("images"), text: t("nav.Images") },
+  { href: _rfl(lang).get("about"), text: t("nav.About") },
   //{ href: _tr(lang).get("projects"), text: t("nav.Projects") },
   //{ href: _tr(lang).get("dcat"), text: t("Datasets") },
 

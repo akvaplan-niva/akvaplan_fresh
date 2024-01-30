@@ -9,6 +9,7 @@ import * as $_middleware from "./routes/_middleware.ts";
 import * as $about from "./routes/about.tsx";
 import * as $accreditation from "./routes/accreditation.tsx";
 import * as $akvaplanist from "./routes/akvaplanist.tsx";
+import * as $api_document_slug_ from "./routes/api/_document/[slug].ts";
 import * as $api_mynewsdesk_index from "./routes/api/mynewsdesk/index.ts";
 import * as $api_mynewsdesk_type_path_ from "./routes/api/mynewsdesk/type/[...path].ts";
 import * as $api_mynewsdesk_year_path_ from "./routes/api/mynewsdesk/year/[...path].ts";
@@ -24,6 +25,7 @@ import * as $documents from "./routes/documents.tsx";
 import * as $doi from "./routes/doi.tsx";
 import * as $fakturering from "./routes/fakturering.tsx";
 import * as $home from "./routes/home.tsx";
+import * as $image from "./routes/image.tsx";
 import * as $images from "./routes/images.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $legacy from "./routes/legacy.tsx";
@@ -67,6 +69,7 @@ const manifest = {
     "./routes/about.tsx": $about,
     "./routes/accreditation.tsx": $accreditation,
     "./routes/akvaplanist.tsx": $akvaplanist,
+    "./routes/api/_document/[slug].ts": $api_document_slug_,
     "./routes/api/mynewsdesk/index.ts": $api_mynewsdesk_index,
     "./routes/api/mynewsdesk/type/[...path].ts": $api_mynewsdesk_type_path_,
     "./routes/api/mynewsdesk/year/[...path].ts": $api_mynewsdesk_year_path_,
@@ -82,6 +85,7 @@ const manifest = {
     "./routes/doi.tsx": $doi,
     "./routes/fakturering.tsx": $fakturering,
     "./routes/home.tsx": $home,
+    "./routes/image.tsx": $image,
     "./routes/images.tsx": $images,
     "./routes/index.tsx": $index,
     "./routes/legacy.tsx": $legacy,

@@ -25,7 +25,6 @@ export const insertDoiPubs = async (
       text: "",
       //text: JSON.stringify(value),
     };
-
     await insert(orama, atom);
   }
 };

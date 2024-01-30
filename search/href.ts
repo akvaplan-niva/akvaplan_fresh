@@ -37,6 +37,5 @@ export const href = (
   if (slug?.startsWith(`/${lang}/`) && slug?.length > 4) {
     return slug;
   }
-  console.warn({ lang, collection, slug });
   return localizedRouteForSearchAtom({ lang, collection, slug });
 };

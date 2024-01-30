@@ -10,6 +10,7 @@ import { insert } from "@orama/orama";
 import { OramaAtom, SearchAtom } from "akvaplan_fresh/search/types.ts";
 import { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { MynewsdeskVideo } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 
 const itemCollection = ({ type_of_media }: AbstractMynewsdeskItem) => {
   switch (type_of_media) {
@@ -52,6 +53,7 @@ export const atomizeMynewsdeskItem = async (
   const {
     id,
     header,
+    image,
     video_name,
     image_name,
     document_name,
@@ -64,8 +66,14 @@ export const atomizeMynewsdeskItem = async (
     photographer,
     caption,
     tags,
+    type_of_media,
     ...rest
   } = item;
+
+  if (image) {
+    const cloudinary = extractId(image);
+    tags.push({ name: cloudinary });
+  }
 
   const published = published_at.datetime;
   const lang = ["no", "en"].includes(language!) ? language as string : "no";

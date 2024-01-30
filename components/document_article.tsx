@@ -1,66 +1,63 @@
-import { Article, Icon } from "akvaplan_fresh/components/mod.ts";
-import type { MynewsdeskDocument } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import { routesForLang as intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 import { isodate } from "akvaplan_fresh/time/mod.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 
+import { Article, Icon, MiniNewsCard } from "akvaplan_fresh/components/mod.ts";
+import Button from "akvaplan_fresh/components/button/button.tsx";
+
+import type { MynewsdeskDocument } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import { newsFilter } from "akvaplan_fresh/services/mod.ts";
+import { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mod.ts";
+import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
+
+const w1782Preview = (cloudinary: string) =>
+  `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1782/${cloudinary}`;
+
 export function DocumentArticle(
-  { item }: { item: MynewsdeskDocument },
+  { item, lang }: {
+    item: MynewsdeskDocument & { download: string; cloudinary: string };
+    lang: string;
+  },
 ) {
   return (
     <Article>
-      {item && (
-        <header>
-          <a href={item.document} target="_blank">
+      <header>
+        <h1>
+          {item.header}
+        </h1>
+        <a
+          href={item.download}
+          target="_blank"
+        >
+          <figure>
             <img
               title={item.header}
               alt={item.header}
-              src={String(item.document_thumbnail)}
+              src={w1782Preview(item.cloudinary)}
             />
-          </a>
-          <h1>
-            {item.header}
-          </h1>
-        </header>
-      )}
-      <figure>
-        {/* <figcaption>{item.photographer}</figcaption> */}
-      </figure>
-      {JSON.stringify(item)}
+
+            {/* <figcaption>{item.photographer}</figcaption> */}
+          </figure>
+        </a>
+      </header>
+
+      <p>{item.summary}</p>
+
       <dl>
-        <dt>Published</dt>
+        <dt>{t("ui.Published")}</dt>
         <dd>{isodate(item?.published_at?.datetime)}</dd>
-        {
-          /* <dt>Dimensions</dt>
-    <dd>{item.image_dimensions}</dd>
-    <dt>Size (bytes)</dt>
-    <dd>{item.image_size}</dd>
-    <dt>Original</dt>
-    <dd>
-      <a download href={item.download_url}>{item.image_name}</a>
-    </dd> */
-        }
       </dl>
 
-      <div
-        style={{
-          marginBlockStart: "0.5rem",
-          fontSize: "var(--font-size-4)",
-        }}
-      >
-        <Icon
-          name={"arrow_back_ios_new"}
-          style={{ color: "var(--accent)" }}
-          width="1rem"
-          height="1rem"
-        />{" "}
+      <Button filled>
         <a
-          href="/"
-          style={{ color: "var(--text1)" }}
+          target="_blank"
+          href={item.download}
         >
-          {t("nav.Images")}
-          {" "}
+          {t("ui.Download")}
         </a>
-      </div>
+      </Button>
+
+      <LinkBackToCollection collection={"documents"} lang={lang} />
     </Article>
   );
 }
