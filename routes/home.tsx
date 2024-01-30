@@ -214,11 +214,6 @@ export default function Home(
         </ol>
       </section>
 
-      <AlbumHeader
-        text={t("home.section.people")}
-        href={routesForLang(lang).get("people")}
-      />
-
       {/* WhyUs? Research facilities (Fisk Loise) Sensor platforms */}
     </Page>
   );
