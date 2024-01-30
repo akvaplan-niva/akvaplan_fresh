@@ -1,5 +1,5 @@
 import { openKv } from "akvaplan_fresh/kv/mod.ts";
-import { seedDois } from "akvaplan_fresh/kv/jobs/dois/seed_dois.ts";
+import { seedDois } from "./seed/seed_dois.ts";
 import { seedAkvaplanists } from "./seed/seed_akvaplanists.ts";
 import { seedCustomerServices } from "./seed/seed_customer_services.ts";
 import { seedMynewsdesk } from "./seed/seed_mynewsdesk.ts";
