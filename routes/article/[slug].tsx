@@ -81,7 +81,7 @@ export const handler: Handlers = {
     const numid = Number(slug?.split("-").at(-1));
 
     // Fetch item
-    const item = (numid > 0)
+    const item = (numid > 9999)
       ? await getItem(numid, type_of_media)
       : await getItemBySlug(slug, type_of_media);
     if (!item) {
