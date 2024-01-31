@@ -14,8 +14,8 @@ import {
   AlbumHeader,
   Article,
   ArticleSquare,
-  Card,
   HScroll,
+  MiniCard,
   MoreNews,
   NewsFilmStrip,
   Page,
@@ -26,8 +26,8 @@ import { Handlers, RouteConfig } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
 import NewsArticle from "./article/[slug].tsx";
 
-import HScrollWithDynamicImage from "akvaplan_fresh/islands/HScrollWithDynamicImage.tsx";
-import { customerServices } from "akvaplan_fresh/kv/customer_services.ts";
+import { customerServicesGenerator } from "akvaplan_fresh/kv/customer_services.ts";
+
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
 };
@@ -68,16 +68,14 @@ export const handler: Handlers = {
     const maxNumNews = 32;
     const articles = news.filter(({ type, hreflang, title }) =>
       ["news", "pressrelease", "blog_post"].includes(type) &&
-      hreflang === sitelang &&
-      !/stillingsannonse/i.test(title)
+      hreflang === sitelang
     ).slice(
       0,
       maxNumNews,
     );
     const articlesNotInSiteLang = news.filter(({ type, hreflang, title }) =>
       ["news", "pressrelease"].includes(type) &&
-      hreflang !== sitelang &&
-      !/stillingsannonse/i.test(title)
+      hreflang !== sitelang
     ).slice(
       0,
       maxNumNews,
@@ -123,12 +121,15 @@ export default function Home(
 
       {announce
         ? (
-          <Card>
+          <aside
+            style={{ background: "var(--surface2)", padding: "0.5rem" }}
+          >
             <AlbumHeader
               text={announce.text}
               href={announce.href}
+              target="_blank"
             />
-          </Card>
+          </aside>
         )
         : null}
 
