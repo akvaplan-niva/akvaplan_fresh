@@ -19,8 +19,6 @@ import {
 } from "akvaplan_fresh/search/create_search_index.ts";
 import { openKv } from "akvaplan_fresh/kv/mod.ts";
 
-import { SELF, UNSAFE_INLINE, useCSP } from "$fresh/runtime.ts";
-
 const render: RenderFunction = (
   ctx: RenderContext,
   freshRender: InnerRenderFunction,
@@ -34,6 +32,10 @@ const render: RenderFunction = (
 };
 
 const kv = await openKv();
+
+await kv.delete(["home", "announce", "en"]);
+await kv.delete(["home", "announce", "no"]);
+
 const orama = await getOramaInstance();
 await seedOramaCollectionsFromKv(orama, kv);
 
