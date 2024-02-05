@@ -11,6 +11,7 @@ import { OramaAtom, SearchAtom } from "akvaplan_fresh/search/types.ts";
 import { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { MynewsdeskVideo } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
+import { markdownFromHtml } from "akvaplan_fresh/utils/markdown/turndown.ts";
 
 const itemCollection = ({ type_of_media }: AbstractMynewsdeskItem) => {
   switch (type_of_media) {
@@ -46,7 +47,6 @@ const materializeContacts = async (item: AbstractMynewsdeskItem) => {
   );
 };
 
-// FIXME lookup and inject contacts
 export const atomizeMynewsdeskItem = async (
   item: MynewsdeskArticle | MynewsdeskDocument | MynewsdeskVideo,
 ): Promise<SearchAtom> => {
@@ -60,6 +60,7 @@ export const atomizeMynewsdeskItem = async (
     language,
     url,
     published_at,
+    updated_at,
     body,
     summary,
     image_caption,
@@ -75,14 +76,13 @@ export const atomizeMynewsdeskItem = async (
     tags.push({ name: cloudinary });
   }
 
-  const published = published_at.datetime;
+  const published = published_at?.datetime ?? new Date().toJSON();
+  const updated = updated_at?.datetime ?? new Date().toJSON();
   const lang = ["no", "en"].includes(language!) ? language as string : "no";
   const { pathname } = new URL(url);
 
   const _slug = pathname.split("/").at(-1)!;
-  const slug = [isodate(published), _slug].join(
-    "/",
-  );
+  const slug = [isodate(published), _slug].join("/");
 
   const collection = itemCollection(item);
   const people = (await materializeContacts(item)).map(({ name, email }) =>
@@ -97,8 +97,10 @@ export const atomizeMynewsdeskItem = async (
   //   }
   // ],
 
+  const md = markdownFromHtml(body ?? "");
+
   const text = [
-    body,
+    md,
     summary,
     caption,
     document_name,
@@ -111,15 +113,15 @@ export const atomizeMynewsdeskItem = async (
   ].filter((s) => s?.length > 0)
     .join(" ");
 
-  // tags
   return {
     title: header,
-    id: url,
+    id: `mynewsdesk_${id}`,
     collection,
     lang,
     slug,
     people,
     published: String(published),
+    updated: String(updated),
     text,
   };
 };
@@ -135,6 +137,9 @@ export const insertMynewsdeskCollections = async (
       case "contact_person":
         //ignore
         break;
+
+      // case "video"
+      // insert (["video",embed], video]
 
       // deno-lint-ignore no-fallthrough
       case "document": {

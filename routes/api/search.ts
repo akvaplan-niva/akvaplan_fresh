@@ -1,8 +1,4 @@
-import { search } from "@orama/orama";
-
-import { getOramaInstance } from "akvaplan_fresh/search/create_search_index.ts";
-
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
+import { search } from "akvaplan_fresh/search/search.ts";
 
 import type { GroupByParams, Orama, Results, SearchParams } from "@orama/orama";
 
@@ -14,23 +10,11 @@ import type {
 
 import type { FreshContext, Handlers } from "$fresh/server.ts";
 
-//
-
-export const searchOrama = async (
-  params: SearchParams<Orama<typeof oramaAtomSchema>>,
-) => {
-  return await search(await getOramaInstance(), params) as Results<SearchAtom>;
-
-  // const params: SearchParams<Orama<typeof oramaAtomSchema>> = {
-  //   term,
-  //   where,
-  //   groupBy,
-  //   facets,
-  //   boost: {
-  //     title: 2,
-  //   },
-  // };
-};
+const { compare } = Intl.Collator("no", {
+  usage: "sort",
+  ignorePunctuation: true,
+  sensitivity: "case",
+});
 
 export const handler: Handlers = {
   async GET(req: Request, _ctx: FreshContext) {
@@ -60,20 +44,21 @@ export const handler: Handlers = {
       })
       : undefined;
 
-    const params: SearchParams<Orama<typeof oramaAtomSchema>> = {
+    const params: SearchParams<OramaAtom> = {
       term,
       where,
       groupBy,
       facets,
       boost: {
         title: 2,
+        people: 5,
       },
-      threshold: 0, // Setting threshold: 0 => Search multiple search terms with AND-logic: https://docs.oramasearch.com/open-source/usage/search/threshold#setting-the-threshold-to-0
+      // Set 0 threshold to search for multiple terms using AND-logic: https://docs.oramasearch.com/open-source/usage/search/threshold#setting-the-threshold-to-0
+      threshold: 0,
+      sortBy: (a, b) => compare(b[2].published, a[2]?.published),
     };
 
-    const orama = await getOramaInstance();
-
-    const results: Results<SearchAtom> = await search(orama, params);
+    const results: Results<SearchAtom> = await search(params);
 
     return Response.json(results);
   },

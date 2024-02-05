@@ -29,7 +29,7 @@ import {
   PeopleSearchForm,
 } from "akvaplan_fresh/components/mod.ts";
 
-import { routesForLang } from "akvaplan_fresh/services/mod.ts";
+import { intlRouteMap } from "akvaplan_fresh/services/mod.ts";
 import { buildContainsFilter } from "akvaplan_fresh/search/filter.ts";
 import { lang, normalize, t } from "akvaplan_fresh/text/mod.ts";
 

@@ -1,10 +1,7 @@
 import { getResearchLevel0 } from "akvaplan_fresh/services/research.ts";
 import { search as searchPubs } from "akvaplan_fresh/services/dois.ts";
 import { newsFromPubs } from "akvaplan_fresh/services/news_pubs.ts";
-import {
-  researchTopicURL,
-  routesForLang,
-} from "akvaplan_fresh/services/nav.ts";
+import { intlRouteMap, researchTopicURL } from "akvaplan_fresh/services/nav.ts";
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
@@ -147,7 +144,7 @@ export default function Research(
       <section>
         <AlbumHeader
           text={t("pubs.Latest_peer_reviewed_research_articles")}
-          href={routesForLang(lang).get("pubs") + "?q=journal-article"}
+          href={intlRouteMap(lang).get("pubs") + "?q=journal-article"}
         />
         <HScroll maxVisibleChildren={5.5}>
           {researchArticles.map(ArticleSquare)}

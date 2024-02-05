@@ -19,8 +19,7 @@ interface PeopleProps {
   lang?: string;
   icons: boolean;
 }
-const people = await akvaplanistMap();
-// FIXME dont load ALL people on every person card :(
+const people = globalThis?.Deno ? await akvaplanistMap() : [];
 
 export function PeopleCard(
   {

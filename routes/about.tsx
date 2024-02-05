@@ -15,7 +15,7 @@ import {
   findAkvaplanist,
 } from "akvaplan_fresh/services/akvaplanist.ts";
 
-import { routesForLang } from "akvaplan_fresh/services/nav.ts";
+import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 import { offices } from "akvaplan_fresh/services/offices.ts";
 
 import {
@@ -49,8 +49,8 @@ export const handler: Handlers = {
       ...apn,
       links: {
         board: boardURL(lang.value),
-        leaders: routesForLang(lang.value).get("people") + "/management",
-        sectionleaders: routesForLang(lang.value).get("people") +
+        leaders: intlRouteMap(lang.value).get("people") + "/management",
+        sectionleaders: intlRouteMap(lang.value).get("people") +
           "/unit?q=seksjonsleder",
       },
       admDir,
@@ -142,7 +142,7 @@ export default (
             <Card>
               <menu>
                 <li>
-                  <a href={routesForLang(lang).get("documents")}>
+                  <a href={intlRouteMap(lang).get("documents")}>
                     {t("nav.Documents")}
                   </a>
                 </li>
@@ -264,7 +264,7 @@ export default (
               ) => (
                 <li>
                   <a
-                    href={`${routesForLang(lang).get("people")}/workplace/${
+                    href={`${intlRouteMap(lang).get("people")}/workplace/${
                       name.split(" ").at(0)
                     }`}
                   >
@@ -297,7 +297,7 @@ export default (
 
                 <dt>{t("about.Invoice")}</dt>
                 <dd>
-                  <a href={routesForLang(lang).get("invoicing")}>
+                  <a href={intlRouteMap(lang).get("invoicing")}>
                     {t("about.Invoicing")}
                   </a>
                 </dd>

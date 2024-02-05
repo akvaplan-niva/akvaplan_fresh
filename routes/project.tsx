@@ -15,7 +15,7 @@ import { isodate, normalize } from "akvaplan_fresh/utils/mod.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 import { akvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
 
-import { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import type { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 
 import {
   AlsoInNative,
@@ -30,7 +30,7 @@ import {
 } from "akvaplan_fresh/components/mod.ts";
 
 import { PeopleCard as PersonCard } from "akvaplan_fresh/components/mod.ts";
-import { routesForLang } from "../services/nav.ts";
+import { intlRouteMap } from "../services/nav.ts";
 
 import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
@@ -153,8 +153,7 @@ export default function ProjectHome(
 
   const title = (
     <span>
-      <a href={routesForLang(lang).get("projects")}>{t(`nav.Projects`)}</a>:
-      {" "}
+      <a href={intlRouteMap(lang).get("projects")}>{t(`nav.Projects`)}</a>:{" "}
       {header} ({projectYears(start_at, end_at)})
     </span>
   );

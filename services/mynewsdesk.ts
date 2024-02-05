@@ -104,10 +104,10 @@ export const listURL = ({ type_of_media, offset, limit, sort }: {
   const url = new URL(actionPath("list"), base);
   const defaults = {
     type_of_media: "news",
-    archived: "true",
+    //archived: "true",
     format: "json",
     strict: "true",
-    locale: "en",
+    //locale: "en",
     sort: "published", // seems to return reverse ie last published first
   };
   for (

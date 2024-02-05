@@ -1,6 +1,10 @@
 // $ deno run --unstable-kv --env --allow-env kv/jobs/seed_mynewsdesk.ts
 
 import { openKv } from "akvaplan_fresh/kv/mod.ts";
+const MANIFEST = `./kv/seed/manifest/mynewsdesk.ndjson`;
+const manifest = new Map(
+  (await Deno.readTextFile(MANIFEST)).trim().split("\n").map(JSON.parse),
+);
 
 import {
   cloudinary0,
@@ -27,7 +31,11 @@ import { extractId } from "../../../services/extract_id.ts";
 const kv = await openKv();
 
 const saveMynewsdeskItem = async (item: MynewsdeskItem) => {
-  const { id, type_of_media } = item as { id: number; type_of_media: string };
+  const { id, type_of_media, updated_at: { datetime } } = item;
+  if (!manifest.has(id)) {
+    console.warn({ id });
+  }
+
   try {
     const idkey = [id0, type_of_media, id];
     const { value, versionstamp } = await kv.get(idkey, {
@@ -79,16 +87,6 @@ const saveMynewsdeskItem = async (item: MynewsdeskItem) => {
     }
     const result = await kv.set(idkey, item);
 
-    // const slug = slugify(item);
-    // const slugkey = [slug0, type_of_media, slug];
-    // const { versionstamp } = await kv.get(slugkey, { consistency: "strong" });
-    // if (!versionstamp) {
-    //   console.warn("New", type_of_media, item.id, item.url);
-    // }
-
-    // const slugsetresult = await kv.set(slugkey, item);
-    // const setresult = slugsetresult;
-
     return [result, item];
   } catch ({ message }) {
     console.error(type_of_media, id, message);
@@ -119,7 +117,7 @@ export const seedMynewsdesk = async () => {
   for await (const { key } of kv.list({ prefix: ["mynewsdesk_error"] })) {
     kv.delete(key);
   }
-
+  const idUpdated = new Map<number, string>();
   const total = new Map(typeOfMediaCountMap);
   const actual = new Map(typeOfMediaCountMap);
   const updated = new Date().toJSON();
@@ -148,7 +146,9 @@ export const seedMynewsdesk = async () => {
           saveMynewsdeskItem,
         )
       ) {
-        const { type_of_media, id } = item;
+        const { id, type_of_media, header, updated_at: { datetime } } = item;
+        idUpdated.set(id, datetime);
+
         if (result?.ok) {
           //console.debug(type_of_media, id, result);
           const count = 1 + (actual.get(type_of_media) ?? 0);
@@ -160,11 +160,18 @@ export const seedMynewsdesk = async () => {
       offset += limit;
     }
   }
-  {
-    const count = Object.fromEntries([...total]);
-    const saved = Object.fromEntries([...actual]);
-    kv.set(["mynewsdesk_total"], { count, saved, updated });
-  }
+
+  const count = Object.fromEntries([...total]);
+  const saved = Object.fromEntries([...actual]);
+  kv.set(["mynewsdesk_total"], { count, saved, updated });
+
+  const keys = [...idUpdated.keys()].sort((a, b) => a - b);
+  const manifest = keys.map((id) => [id, idUpdated.get(id)]);
+
+  await Deno.writeTextFile(
+    MANIFEST,
+    manifest.map((l) => JSON.stringify(l) + "\n").join(""),
+  );
 };
 
 /**
@@ -187,86 +194,3 @@ export async function* mynewsdeskBatchItems(
     }
   }
 }
-
-// export const seedArticlesByDate = async () => {
-//   for await (
-//     const { key: [, type_of_media, id], value } of kv.list({
-//       prefix: ["mynewsdesk_id"],
-//     })
-//   ) {
-//     if (["news", "pressrelases", "blog_post"].includes(type_of_media)) {
-//       const { header, url, language, image } = value;
-//       const title = header;
-//       const published = new Date(value.published_at.datetime);
-//       const isodate = new Intl.DateTimeFormat("no-NO", {
-//         dateStyle: "short",
-//         timeZone: "Europe/Oslo",
-//       }).format(published).split(".").reverse().map(Number);
-
-//       const key = ["articles_by_date", ...isodate, type_of_media, id];
-//       const { pathname } = new URL(url);
-//       const slug = pathname.split("/").at(-1);
-//       const lang = ["no", "en"].includes(language) ? language : "no";
-//       const cloudinary = image.split("/").at(-1);
-//       const doc = {
-//         lang,
-//         collection: type_of_media,
-//         title,
-//         published,
-//         image: { id: cloudinary },
-//         slug,
-//       };
-//       await kv.set(key, doc);
-//     }
-//   }
-// };
-
-export const seedProjectRelations = async () => {
-  for await (
-    const { key: [, type_of_media, id], value } of kv.list({
-      prefix: ["mynewsdesk_id"],
-    })
-  ) {
-    if (["news", "pressrelases", "blog_post"].includes(type_of_media)) {
-      const {
-        related_items,
-        header,
-        id,
-        language,
-        image_thumbnail_large,
-        published_at: { datetime },
-      } = value;
-
-      const rel_projects = related_items.filter(({ type_of_media }) =>
-        type_of_media === "event"
-      );
-      if (rel_projects) {
-        for (const { item_id } of rel_projects) {
-          const entry = await kv.get([
-            "mynewsdesk_id",
-            "event",
-            item_id,
-          ]);
-          if (entry.value?.id === item_id) {
-            const key = [
-              "rel",
-              "project",
-              item_id,
-              type_of_media,
-              id,
-            ];
-            const atom = {
-              id,
-              title: header,
-              collection: type_of_media,
-              img512: image_thumbnail_large,
-              published: datetime,
-              lang: language,
-            };
-            await kv.set(key, atom);
-          }
-        }
-      }
-    }
-  }
-};

@@ -5,9 +5,9 @@
 
   --text1: hsl(var(--brand-hue) 15% 85%);
   --text2: hsl(var(--brand-hue) 15% 75%);
-  --surface0: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness)/2.4));
-  --surface1: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness)/2.0));
-  --surface2: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness)/1.9));
+  --surface1: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness)/2.4));
+  --surface2: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness)/2.0));
+  --surface0: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness)/1.9));
   --surface3: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness)/1.7));
   --surface4: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness)/1.4));
   

@@ -51,25 +51,25 @@ export const searchNews = async (
   const articles = [...newsItems, ...prItems].map(
     newsFromMynewsdesk({ lang }),
   );
-  const news = newsArticlesWithDOI(articles);
+  // const news = newsArticlesWithDOI(articles);
+  // const { data } = await searchPubs({ q, limit }) ?? {};
+  // const pubs = data?.map(newsFromPubs({ lang })) ?? [];
+  // const pubsWithNews = pubs?.map((p) => {
+  //   const doi = p.href.split("/doi/").at(1);
+  //   if (news.has(doi)) {
+  //     const n = news.get(doi);
+  //     p.thumb = n.thumb;
+  //     p.image = n.image;
+  //     p.rels = { news: [n] };
+  //   }
+  //   return p;
+  // });
 
-  const { data } = await searchPubs({ q, limit }) ?? {};
-  const pubs = data?.map(newsFromPubs({ lang })) ?? [];
-  const pubsWithNews = pubs?.map((p) => {
-    const doi = p.href.split("/doi/").at(1);
-    if (news.has(doi)) {
-      const n = news.get(doi);
-      p.thumb = n.thumb;
-      p.image = n.image;
-      p.rels = { news: [n] };
-    }
-    return p;
-  });
-
-  const akvaplanists = (await searchAkvaplanists({ q, limit }))?.map(
-    newsFromAkvaplanists({ lang }),
-  ) ?? [];
-  return [...articles, ...pubs, ...akvaplanists].sort(sort);
+  // const akvaplanists = (await searchAkvaplanists({ q, limit }))?.map(
+  //   newsFromAkvaplanists({ lang }),
+  // ) ?? [];
+  //return [...articles, ...pubs, ...akvaplanists].sort(sort);
+  return articles.sort(sort);
 };
 export const latestNews = async (params: Search) =>
   (await searchNews(params))

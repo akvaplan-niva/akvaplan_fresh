@@ -1,4 +1,4 @@
-import { routesForLang as intlRouteMap } from "akvaplan_fresh/services/nav.ts";
+import { intlRouteMap as intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 import { isodate } from "akvaplan_fresh/time/mod.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 

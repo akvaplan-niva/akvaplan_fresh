@@ -1,39 +1,27 @@
+import { searchViaApi } from "akvaplan_fresh/search/search.ts";
+
 import { lang as siteLangSignal, t } from "akvaplan_fresh/text/mod.ts";
+import { href } from "akvaplan_fresh/search/href.ts";
+import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
+
 import { InputSearch } from "akvaplan_fresh/components/search/InputSearch.tsx";
-import { useSignal } from "@preact/signals";
-import { href } from "../search/href.ts";
-import { SearchAtom } from "akvaplan_fresh/search/types.ts";
-import { routesForLang } from "akvaplan_fresh/services/nav.ts";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 
-const search = async (
-  { q, base, limit, where }: {
-    q: string;
-    base: string;
-    limit: number;
-    where: unknown;
-  },
-) => {
-  const url = new URL("/api/search", base);
-  const { searchParams } = url;
-  searchParams.set("q", q);
-  searchParams.set("limit", limit);
-  searchParams.set("group-by", "collection");
-  if (where) {
-    searchParams.set("where", JSON.stringify(where));
-  }
+import type { SearchAtom } from "akvaplan_fresh/search/types.ts";
+import type { GroupByParams, Orama, Results, SearchParams } from "@orama/orama";
 
-  const r = await fetch(url);
-  if (r.ok) {
-    return await r.json();
-  }
-};
+import { useSignal } from "@preact/signals";
+
+const detailsOpen = (collection: string) =>
+  ["image", "document", "video", "blog", "pubs"].includes(collection)
+    ? false
+    : true;
 
 const collectionHref = ({ collection, lang }) => {
-  if (!routesForLang(lang).has(collection)) {
+  if (!intlRouteMap(lang).has(collection)) {
     console.error("Missing collectionHref", collection, lang);
   }
-  return routesForLang(lang).get(collection);
+  return intlRouteMap(lang).get(collection);
 };
 
 const CollectionSummary = (
@@ -67,17 +55,20 @@ export default function SiteSearch(
   const facets = useSignal(new Map());
   const sitelang = siteLangSignal.value;
 
-  const performSearch = async ({ q, ...params }) => {
+  const performSearch = async (
+    { q, ...params }: { q: string },
+  ) => {
     query.value = q;
-    const result = await search({ q, ...params });
-
-    groups.value = q?.length > 0 ? result.groups : [];
-    for (
-      const [collection, count] of Object.entries(
-        result?.facets?.collection?.values,
-      )
-    ) {
-      facets.value.set(collection, count);
+    const results = await searchViaApi({ q, ...params });
+    if (results) {
+      groups.value = q?.length > 0 ? results.groups : [];
+      for (
+        const [collection, count] of Object.entries(
+          results?.facets?.collection?.values,
+        )
+      ) {
+        facets.value.set(collection, count);
+      }
     }
   };
 
@@ -97,7 +88,7 @@ export default function SiteSearch(
     const { selected, value, ownerDocument, dataset: { collection, action } } =
       target;
     const { origin } = new URL(ownerDocument.URL);
-    limit.value += 25;
+    limit.value += 20;
     const q = query.value;
     const where = { collection };
     performSearch({ q, base: origin, limit: limit.value, where });
@@ -139,7 +130,10 @@ export default function SiteSearch(
       </form>
       <output>
         {groups.value?.map(({ values, result }) => (
-          <details open style={{ paddingBlockStart: "0.5rem" }}>
+          <details
+            open={detailsOpen(values?.[0])}
+            style={{ paddingBlockStart: "0.5rem" }}
+          >
             <CollectionSummary
               q={query.value}
               collection={values?.[0]}
@@ -153,9 +147,7 @@ export default function SiteSearch(
               style={{ paddingBlockEnd: "1.5rem" }}
             >
               {result?.map((
-                { document: { id, collection, slug, title, published } }: {
-                  document: SearchAtom;
-                },
+                { document: { id, collection, slug, title, published } },
               ) => (
                 <li
                   style={{

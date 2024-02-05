@@ -12,7 +12,7 @@ const defaults = {
 
 const { entries } = Object;
 
-export const getDois = async () => {
+export const getDoisFromDenoDeployService = async () => {
   const url = new URL(`/doi?limit=-1&sort=-published&q=`, DOIS_BASE);
   const response = await fetch(url);
   if (response.ok) {

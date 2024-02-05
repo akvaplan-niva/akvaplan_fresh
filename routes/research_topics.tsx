@@ -7,7 +7,6 @@ import {
 } from "akvaplan_fresh/services/mod.ts";
 
 import { search as searchPubs } from "akvaplan_fresh/services/dois.ts";
-import { buildContainsFilter } from "akvaplan_fresh/search/filter.ts";
 import { groupIntoMap } from "akvaplan_fresh/grouping/mod.ts";
 
 import {
@@ -51,6 +50,7 @@ export const handler: Handlers = {
       return ctx.renderNotFound();
     }
     const { topic } = params;
+    console.warn({ topic });
 
     const base = `/${params.lang}/${params.page}/${params.groupname}`;
 

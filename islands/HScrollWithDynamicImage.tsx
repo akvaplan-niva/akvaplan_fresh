@@ -1,6 +1,7 @@
 import { useState } from "preact/hooks";
-import { ArticleHeader, HScroll } from "akvaplan_fresh/components/mod.ts";
-import Article from "akvaplan_fresh/components/article/Article.tsx";
+import { HScroll } from "akvaplan_fresh/components/mod.ts";
+import { Head } from "$fresh/src/runtime/head.ts";
+import { asset } from "$fresh/runtime.ts";
 
 type Image = {
   img: string;
@@ -18,19 +19,22 @@ type ScrollImageProps = {
   onHover: () => void;
 };
 
-const ScrollImage = ({ image, onHover }: ScrollImageProps) => {
+export const ScrollImage = ({ image, onHover }: ScrollImageProps) => {
   return (
     <div
       className="scroll-image"
-      onMouseEnter={() => setTimeout(onHover, 100)}
+      _onMouseEnter={() => setTimeout(onHover, 100)}
     >
       <a class="image-container" href={image.href}>
         <img
           width={400}
           height={400}
           loading="lazy"
-          src={image.img}
+          src={image.img512
+            ? image.img512.replace("/preview/", "/thumbnail_big/")
+            : image.img}
           alt={image.name}
+          title={image.name}
         />
       </a>
     </div>
@@ -70,6 +74,9 @@ export default function HScrollWithDynamicImage({ images }: Props) {
           ))}
         </HScroll>
       </div>
+      <Head>
+        <link rel="stylesheet" href={asset("/css/hscroll-dynamic.css")} />
+      </Head>
     </section>
   );
 }

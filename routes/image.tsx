@@ -5,7 +5,8 @@ import { Page } from "akvaplan_fresh/components/mod.ts";
 import { ImageArticle } from "akvaplan_fresh/components/image_article.tsx";
 
 import type { RouteConfig, RouteContext } from "$fresh/src/server/types.ts";
-import { searchOrama } from "akvaplan_fresh/routes/api/search.ts";
+import { search } from "akvaplan_fresh/search/search.ts";
+//import { searchOrama } from "akvaplan_fresh/routes/api/search.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(image|bilde){/:date}?/:slug",
@@ -15,7 +16,7 @@ const searchImageUsed = async (image) => {
   const term = extractId(image.image);
   const collection = ["news", "blog", "pressrelease", "project"];
   const params = { term, where: { collection } };
-  return await searchOrama(params);
+  return await search(params);
 };
 
 export default async function ImagePage(req: Request, ctx: RouteContext) {

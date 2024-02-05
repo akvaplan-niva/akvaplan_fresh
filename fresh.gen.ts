@@ -10,6 +10,7 @@ import * as $about from "./routes/about.tsx";
 import * as $accreditation from "./routes/accreditation.tsx";
 import * as $akvaplanist from "./routes/akvaplanist.tsx";
 import * as $api_document_slug_ from "./routes/api/_document/[slug].ts";
+import * as $api_kv_list_key_ from "./routes/api/kv/list/[...key].ts";
 import * as $api_mynewsdesk_index from "./routes/api/mynewsdesk/index.ts";
 import * as $api_mynewsdesk_type_path_ from "./routes/api/mynewsdesk/type/[...path].ts";
 import * as $api_mynewsdesk_year_path_ from "./routes/api/mynewsdesk/year/[...path].ts";
@@ -44,6 +45,7 @@ import * as $pubs from "./routes/pubs.tsx";
 import * as $research from "./routes/research.tsx";
 import * as $research_topics from "./routes/research_topics.tsx";
 import * as $search from "./routes/search.tsx";
+import * as $service_edit from "./routes/service_edit.tsx";
 import * as $service_topics from "./routes/service_topics.tsx";
 import * as $services from "./routes/services.tsx";
 import * as $sitemap_txt from "./routes/sitemap.txt.ts";
@@ -55,6 +57,7 @@ import * as $HScrollWithDynamicImage from "./islands/HScrollWithDynamicImage.tsx
 import * as $button_open_dialog from "./islands/button_open_dialog.tsx";
 import * as $doi_search from "./islands/doi_search.tsx";
 import * as $lang_switcher from "./islands/lang_switcher.tsx";
+import * as $our_x from "./islands/our_x.tsx";
 import * as $site_search from "./islands/site_search.tsx";
 import * as $text from "./islands/text.tsx";
 import * as $theme_switcher from "./islands/theme_switcher.tsx";
@@ -70,6 +73,7 @@ const manifest = {
     "./routes/accreditation.tsx": $accreditation,
     "./routes/akvaplanist.tsx": $akvaplanist,
     "./routes/api/_document/[slug].ts": $api_document_slug_,
+    "./routes/api/kv/list/[...key].ts": $api_kv_list_key_,
     "./routes/api/mynewsdesk/index.ts": $api_mynewsdesk_index,
     "./routes/api/mynewsdesk/type/[...path].ts": $api_mynewsdesk_type_path_,
     "./routes/api/mynewsdesk/year/[...path].ts": $api_mynewsdesk_year_path_,
@@ -104,6 +108,7 @@ const manifest = {
     "./routes/research.tsx": $research,
     "./routes/research_topics.tsx": $research_topics,
     "./routes/search.tsx": $search,
+    "./routes/service_edit.tsx": $service_edit,
     "./routes/service_topics.tsx": $service_topics,
     "./routes/services.tsx": $services,
     "./routes/sitemap.txt.ts": $sitemap_txt,
@@ -117,6 +122,7 @@ const manifest = {
     "./islands/button_open_dialog.tsx": $button_open_dialog,
     "./islands/doi_search.tsx": $doi_search,
     "./islands/lang_switcher.tsx": $lang_switcher,
+    "./islands/our_x.tsx": $our_x,
     "./islands/site_search.tsx": $site_search,
     "./islands/text.tsx": $text,
     "./islands/theme_switcher.tsx": $theme_switcher,

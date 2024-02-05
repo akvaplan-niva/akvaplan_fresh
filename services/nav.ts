@@ -62,43 +62,47 @@ const No = new Map([
   ["video", "/no/video"],
 ]);
 
-export const routesForLang = (lang: string | StringSignal) =>
+export const intlRouteMap = (lang: string | StringSignal) =>
   lang === "en" || lang?.value === "en" ? En : No;
 
-const _rfl = routesForLang;
+export const peopleHref = (lang: string | StringSignal, path = "") =>
+  [intlRouteMap(lang).get("people"), path].join("/");
+
+export const serviceHref = (lang: string | StringSignal, path = "") =>
+  [intlRouteMap(lang).get("services"), path].join("/");
 
 export const buildNavPrev = (lang: string | StringSignal) => [
-  { href: _rfl(lang).get("news"), text: t("nav.News") },
-  { href: _rfl(lang).get("services"), text: t("nav.Services") },
-  { href: _rfl(lang).get("research"), text: t("nav.Research") },
-  { href: _rfl(lang).get("pubs"), text: t("nav.Publications") },
-  { href: _rfl(lang).get("projects"), text: t("nav.Projects") },
+  { href: intlRouteMap(lang).get("news"), text: t("nav.News") },
+  { href: intlRouteMap(lang).get("services"), text: t("nav.Services") },
+  { href: intlRouteMap(lang).get("research"), text: t("nav.Research") },
+  { href: intlRouteMap(lang).get("pubs"), text: t("nav.Publications") },
+  { href: intlRouteMap(lang).get("projects"), text: t("nav.Projects") },
   //{ href: _tr(lang).get("dcat"), text: t("Datasets") },
 
   //{ href: _tr(lang).get("documents"), text: t("Documents") },
-  { href: _rfl(lang).get("akvaplanists"), text: t("nav.People") },
-  { href: _rfl(lang).get("about"), text: t("nav.About") },
+  { href: intlRouteMap(lang).get("akvaplanists"), text: t("nav.People") },
+  { href: intlRouteMap(lang).get("about"), text: t("nav.About") },
   //{ href: _tr(lang).get("settings"), text: t("Settings") },
 ];
 export const buildNav = (lang: string | StringSignal) => [
   //{ href: _tr(lang).get("news"), text: t("nav.News") },
-  { href: _rfl(lang).get("akvaplanists"), text: t("nav.People") },
-  { href: _rfl(lang).get("services"), text: t("nav.Services") },
-  { href: _rfl(lang).get("research"), text: t("nav.Research") },
-  // { href: _rfl(lang).get("pubs"), text: t("nav.Publications") },
-  { href: _rfl(lang).get("projects"), text: t("nav.Projects") },
-  { href: _rfl(lang).get("about"), text: t("nav.About") },
+  { href: intlRouteMap(lang).get("akvaplanists"), text: t("nav.People") },
+  { href: intlRouteMap(lang).get("services"), text: t("nav.Services") },
+  { href: intlRouteMap(lang).get("research"), text: t("nav.Research") },
+  // { href: intlRouteMap(lang).get("pubs"), text: t("nav.Publications") },
+  { href: intlRouteMap(lang).get("projects"), text: t("nav.Projects") },
+  { href: intlRouteMap(lang).get("about"), text: t("nav.About") },
   //{ href: _tr(lang).get("dcat"), text: t("Datasets") },
   //{ href: _tr(lang).get("documents"), text: t("Documents") },
-  //{ href: _rfl(lang).get("more"), text: t("nav.More") },
+  //{ href: intlRouteMap(lang).get("more"), text: t("nav.More") },
 ];
 
 export const buildMoreNav = (lang: string | StringSignal) => [
-  { href: _rfl(lang).get("news"), text: t("nav.News") },
-  { href: _rfl(lang).get("documents"), text: t("nav.Documents") },
-  { href: _rfl(lang).get("videos"), text: t("nav.Videos") },
-  { href: _rfl(lang).get("images"), text: t("nav.Images") },
-  { href: _rfl(lang).get("about"), text: t("nav.About") },
+  { href: intlRouteMap(lang).get("news"), text: t("nav.News") },
+  { href: intlRouteMap(lang).get("documents"), text: t("nav.Documents") },
+  { href: intlRouteMap(lang).get("videos"), text: t("nav.Videos") },
+  { href: intlRouteMap(lang).get("images"), text: t("nav.Images") },
+  { href: intlRouteMap(lang).get("about"), text: t("nav.About") },
   //{ href: _tr(lang).get("projects"), text: t("nav.Projects") },
   //{ href: _tr(lang).get("dcat"), text: t("Datasets") },
 
@@ -123,50 +127,53 @@ interface SlugLike {
 }
 
 export const blogURL = ({ lang, title, slug, id }: SlugLike) =>
-  `${routesForLang(lang).get("blog")}/${slug ? slug : _slug(title)}`;
+  `${intlRouteMap(lang).get("blog")}/${slug ? slug : _slug(title)}`;
 
 export const newsArticleURL = ({ lang, title, slug }: SlugLike) =>
-  `${routesForLang(lang).get("news-article")}/${slug ? slug : _slug(title)}`;
+  `${intlRouteMap(lang).get("news-article")}/${slug ? slug : _slug(title)}`;
 
 export const imagesURL = ({ lang }: SlugLike) =>
-  `${routesForLang(lang).get("images")}`;
+  `${intlRouteMap(lang).get("images")}`;
 
 export const imageURL = ({ lang, title, slug }: SlugLike) =>
-  `${routesForLang(lang).get("image")}/${slug ? slug : _slug(title as string)}`;
+  `${intlRouteMap(lang).get("image")}/${slug ? slug : _slug(title as string)}`;
 
 export const videoURL = ({ lang, title, slug }: SlugLike) =>
-  `${routesForLang(lang).get("video")}/${slug ? slug : _slug(title as string)}`;
+  `${intlRouteMap(lang).get("video")}/${slug ? slug : _slug(title as string)}`;
 
 export const peopleURL = ({ lang }) =>
-  `${routesForLang(lang).get("akvaplanists")}`;
+  `${intlRouteMap(lang).get("akvaplanists")}`;
 
 export const personURL = ({ id, given, family, email, lang, slug }) =>
   id
-    ? `${routesForLang(lang).get("akvaplanists")}/id/${id}/${family}/${given}`
-    : `${routesForLang(lang).get("akvaplanists")}/name/${
+    ? `${intlRouteMap(lang).get("akvaplanists")}/id/${id}/${family}/${given}`
+    : `${intlRouteMap(lang).get("akvaplanists")}/name/${
       slug ? slug : `${family}/${given}`
     }`;
 
 export const researchTopicURL = ({ topic, lang }) =>
-  `${routesForLang(lang).get("research")}/${
+  `${intlRouteMap(lang).get("research")}/${
     lang === "en" || lang?.value == "en" ? "topic" : "tema"
   }/${topic}`;
 
-export const serviceGroupURL = ({ topic, lang }) =>
-  `${routesForLang(lang).get("services")}/${
-    lang === "en" || lang?.value == "en" ? "topic" : "tema"
-  }/${topic}`;
+export const servicePath = ({ lang, name, topic, uuid }) =>
+  serviceHref(
+    lang,
+    `${lang === "en" || lang?.value == "en" ? "topic" : "tema"}/${
+      _slug(name)
+    }/${uuid}`,
+  );
 
 export const pubsURL = ({ lang } = {}) =>
-  `${routesForLang(lang || langSignal.value).get("pubs")}`;
+  `${intlRouteMap(lang || langSignal.value).get("pubs")}`;
 
 export const pubURL = ({ doi, lang }) =>
-  `${routesForLang(lang).get("pubs")}/${doi}`;
+  `${intlRouteMap(lang).get("pubs")}/${doi}`;
 
 // const projectURL = (title) =>
 //   title.toLowerCase().replaceAll(/\s/g, "-").split("-").at(0);
 export const projectURL = ({ lang, title }: SlugLike) =>
-  `${routesForLang(lang).get("project")}/${_slug(title)}`;
+  `${intlRouteMap(lang).get("project")}/${_slug(title)}`;
 
 export const documentHref = ({ id, lang, slug, title }: SlugLike) =>
-  `${routesForLang(lang).get("document")}/${title ? _slug(title) : ""}-${id}`;
+  `${intlRouteMap(lang).get("document")}/${title ? _slug(title) : ""}-${id}`;

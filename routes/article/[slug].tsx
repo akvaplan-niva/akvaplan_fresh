@@ -11,11 +11,11 @@ import {
   fetchRelated,
   getItem,
   getItemBySlug,
+  intlRouteMap,
   newsFilter,
   newsFromMynewsdesk,
   projectFilter,
   projectFromMynewsdesk,
-  routesForLang,
 } from "akvaplan_fresh/services/mod.ts";
 import { href } from "akvaplan_fresh/search/href.ts";
 import { isodate, longDate } from "akvaplan_fresh/time/mod.ts";
@@ -151,9 +151,9 @@ export default function NewsArticle(
   //https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
   const img = image?.replace(",w_1782", ",w_1440,ar_16:9") ?? defaultImage;
 
-  const __html = `<p style="font-size: 0.75rem">
+  const __html = `<p style="font-size: 1rem">
   ${longDate(published_at.datetime, lang)} <a href="${
-    routesForLang(lang).get("news")
+    intlRouteMap(lang).get("news")
   }">${t(`type.${type_of_media}`)}</a></p>${body ?? summary}`;
 
   const _caption = {

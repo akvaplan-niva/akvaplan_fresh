@@ -25,9 +25,14 @@ import {
 } from "$fresh/server.ts";
 
 import { asset, Head } from "$fresh/runtime.ts";
+import {
+  findCustomerServiceByTopic,
+  getCustomerService,
+} from "akvaplan_fresh/kv/customer_services.ts";
+import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
 export const config: RouteConfig = {
   routeOverride:
-    "/:lang(en|no){/:page(services|service|tjenester|tjeneste)}?/:groupname(topic|topics|tema){/:topic}?",
+    "/:lang(en|no){/:page(services|service|tjenester|tjeneste)}?/:groupname(topic|topics|tema){/:topic}?{/:uuid}?",
 };
 
 export const handler: Handlers = {
@@ -37,17 +42,17 @@ export const handler: Handlers = {
 
     lang.value = params.lang;
 
-    const services = await getServicesLevel0(params.lang);
-    const service = services.find(({ topic }) =>
-      decodeURIComponent(params.topic) === topic
-    );
+    const service = params.uuid
+      ? await getCustomerService(params.uuid)
+      : await findCustomerServiceByTopic(decodeURIComponent(params.topic));
 
     if (!service) {
       return ctx.renderNotFound();
     }
+    const { en, no } = service;
+    service.name = params.lang === "en" ? en ?? no : no ?? en;
 
-    const { topic } = params;
-
+    const topic = decodeURIComponent(params.topic);
     const base = `/${params.lang}/${params.page}/${params.groupname}`;
 
     const queries = [
@@ -61,7 +66,8 @@ export const handler: Handlers = {
       { limit: 64 },
     ) ?? [];
 
-    const news = _news?.map(newsFromMynewsdesk({ lang: params.lang })) ?? [];
+    const news = [];
+    //_news?.map(newsFromMynewsdesk({ lang: params.lang })) ?? [];
 
     return ctx.render({
       lang,
@@ -118,11 +124,7 @@ export default function ServiceTopics(
           <div></div>
           <Article>
             <ArticleHeader
-              header={
-                <span>
-                  <a href=".">{t(`nav.Services`)}</a>: {service.name}
-                </span>
-              }
+              header={service.name}
               image={service?.img ?? service?.img512}
               imageCaption={""}
             />
@@ -144,6 +146,7 @@ export default function ServiceTopics(
           </div>
         ))}
       </div>
+      <LinkBackToCollection collection={"services"} lang={lang} />
     </Page>
   );
 }
