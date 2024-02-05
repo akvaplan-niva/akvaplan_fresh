@@ -7,29 +7,23 @@ import { seedMynewsdesk } from "./seed/seed_mynewsdesk.ts";
 // FIXME, Move search atomization, ie homogenize all content not while running, but at build time (or via cron)
 
 const seedArcticFrontiers = async () => {
-  const kv = await openKv();
-  const af2024 = {
-    text: "Arctic Frontiers 2024: Actions & Reactions",
-    href: "https://arcticfrontiers.com",
-  };
-  const expireIn5d = {
-    expireIn: 5 * 86400 * 1000,
-  };
-  await kv.set(["home", "announce", "en"], af2024, expireIn5d);
-  await kv.set(["home", "announce", "no"], af2024, expireIn5d);
-  // await kv.delete(["home", "announce", "en"]);
-  // await kv.delete(["home", "announce", "no"]);
+  // const kv = await openKv();
+  // const af2024 = {
+  //   text: "Arctic Frontiers 2024: Actions & Reactions",
+  //   href: "https://arcticfrontiers.com",
+  // };
+  // const expireIn5d = {
+  //   expireIn: 5 * 86400 * 1000,
+  // };
+  // await kv.set(["home", "announce", "en"], af2024, expireIn5d);
+  // await kv.set(["home", "announce", "no"], af2024, expireIn5d);
 };
 
 export const seedKv = async () => {
-  seedArcticFrontiers();
+  //seedArcticFrontiers();
   seedAkvaplanists();
   seedCustomerServices();
   //seedReserchTopics();
   seedMynewsdesk();
   seedDois();
 };
-
-if (import.meta.main) {
-  await seedKv();
-}
