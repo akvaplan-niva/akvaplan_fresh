@@ -32,7 +32,7 @@ export const PictureNavArticle = (
 
     <Article>
       <nav>
-        <MynewsdeskPanoramaPicture id={img.id} />
+        {img && img?.id ? <MynewsdeskPanoramaPicture id={img.id} /> : null}
 
         <ol
           style={{ paddingBlockStart: "0rem", paddingBlockEnd: "1.5rem" }}
@@ -43,7 +43,7 @@ export const PictureNavArticle = (
                 fontSize: "1rem",
                 margin: "1px",
                 padding: "0.5rem",
-                background: "var(--surface1)",
+                background: "var(--surface2)",
               }}
             >
               <a
