@@ -4,9 +4,9 @@
   --text1: hsl(var(--brand-hue) var(--brand-saturation) 10%);
   --text2: hsl(var(--brand-hue) var(--brand-saturation) 30%);
 
-  --surface0: hsl(var(--brand-hue) 20% 99%);
+  --surface0: hsl(var(--brand-hue) calc(var(--brand-saturation)*0.85) calc(var(--brand-lightness)*4.7));
   --surface1: hsl(var(--brand-hue) 20% 99%);
-  --surface2: hsl(var(--brand-hue) calc(var(--brand-saturation)*1) calc(var(--brand-lightness)*5.7));
+  --surface2: hsl(var(--brand-hue) calc(var(--brand-saturation)*1.2) calc(var(--brand-lightness)*5.5));
   --surface3: hsl(var(--brand-hue) 20% 92%);
   --surface4: hsl(var(--brand-hue) 20% 90%);
 
@@ -30,9 +30,11 @@
   --text1: hsl(var(--brand-hue) calc(var(--brand-saturation)/1.5) 85%);
   --text2: hsl(var(--brand-hue) calc(var(--brand-saturation)/1.6) 99%);
     
-  --surface0: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness)/1.5));  
-  --surface1: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness)/1.0));  
-  --surface2: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness)/0.9));
+  /*--surface2: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness)/1.1));*/
+  --surface2: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness)/1.4));
+  
+  --surface1: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness)/1));  
+  --surface0: hsl(var(--brand-hue) var(--brand-saturation) calc(var(--brand-lightness)/0.9));
   --surface3: hsl(200, 40%, 26%);
   --surface4: hsl(200, 40%, 33%);
 

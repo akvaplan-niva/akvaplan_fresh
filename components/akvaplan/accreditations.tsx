@@ -1,5 +1,5 @@
 import { AlbumHeader, Card } from "akvaplan_fresh/components/mod.ts";
-import { routesForLang } from "akvaplan_fresh/services/nav.ts";
+import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 import { standardEN, standardNO } from "akvaplan_fresh/services/standard_no.ts";
 
 import { t } from "akvaplan_fresh/text/mod.ts";

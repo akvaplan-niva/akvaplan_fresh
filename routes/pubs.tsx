@@ -1,6 +1,6 @@
 // https://openalex.org/works?sort=publication_date%3Adesc&column=display_name,publication_year,type,open_access.is_oa,cited_by_count&page=1&filter=authorships.institutions.lineage%3AI4210138062&tab=1&group_by=authorships.author.id
 
-import { routesForLang } from "akvaplan_fresh/services/nav.ts";
+import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 
 import {
   getLangFromURL,
@@ -53,7 +53,7 @@ export const handler: Handlers<DoiSearchResultsProps> = {
         .filter(buildYearFilter(searchParams?.get("year")))
         .filter(buildContainsFilter(q));
 
-      const base = routesForLang(lang).get("pubs");
+      const base = intlRouteMap(lang).get("pubs");
       return context.render({
         all,
         title,

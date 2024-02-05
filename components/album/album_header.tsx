@@ -1,6 +1,8 @@
 import { Icon } from "akvaplan_fresh/components/icon.tsx";
 
-export const AlbumHeader = ({ text, href, icon = "arrow_forward_ios" }) => (
+export const AlbumHeader = (
+  { text, href, target, icon = "arrow_forward_ios" },
+) => (
   <span
     style={{
       marginBlockStart: "0.25rem",
@@ -12,6 +14,7 @@ export const AlbumHeader = ({ text, href, icon = "arrow_forward_ios" }) => (
         <a
           href={href}
           style={{ color: "var(--text1)" }}
+          target={target}
         >
           {text}{" "}
           <Icon

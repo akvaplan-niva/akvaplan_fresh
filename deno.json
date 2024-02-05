@@ -5,7 +5,7 @@
     "icons": "deno run --allow-net=fonts.gstatic.com --allow-read=static --allow-write=. tasks.ts icons",
     "build": "deno run --unstable-kv --env --allow-env --allow-read --allow-write --allow-run --allow-net  dev.ts build",
     "preview": "deno run -A main.ts",
-    "kv-seed": "deno run --unstable-kv --env --allow-env --allow-net kv/jobs/seed.ts",
+    "kv-seed": "deno run --unstable-kv --env --allow-env --allow-net --allow-read=kv/seed/manifest --allow-write=kv/seed/manifest kv/jobs/seed.ts",
     "kv-list": "deno run --unstable-kv --env --allow-env --allow-net kv/jobs/list.ts"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },

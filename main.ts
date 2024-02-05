@@ -13,11 +13,13 @@ import {
 } from "$fresh/server.ts";
 
 import manifest from "./fresh.gen.ts";
+import { getOramaInstance } from "akvaplan_fresh/search/orama.ts";
 import {
-  getOramaInstance,
   seedOramaCollectionsFromKv,
 } from "akvaplan_fresh/search/create_search_index.ts";
 import { openKv } from "akvaplan_fresh/kv/mod.ts";
+
+import { SELF, UNSAFE_INLINE, useCSP } from "$fresh/runtime.ts";
 
 const render: RenderFunction = (
   ctx: RenderContext,
@@ -35,6 +37,6 @@ const kv = await openKv();
 const orama = await getOramaInstance();
 await seedOramaCollectionsFromKv(orama, kv);
 
-Deno.cron("sync external data to kv", "12 12 * * *", () => seedKv());
+//Deno.cron("sync external data to kv", "12 12 * * *", () => seedKv());
 
 await start(manifest, { render, /*plugins: [],*/ port: 7777 });

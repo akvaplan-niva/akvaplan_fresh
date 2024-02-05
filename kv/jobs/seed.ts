@@ -12,11 +12,11 @@ const seedArcticFrontiers = async () => {
     text: "Arctic Frontiers 2024: Actions & Reactions",
     href: "https://arcticfrontiers.com",
   };
-  const expireIn7d = {
-    expireIn: 7 * 86400 * 1000,
+  const expireIn5d = {
+    expireIn: 5 * 86400 * 1000,
   };
-  await kv.set(["home", "announce", "en"], af2024, expireIn7d);
-  await kv.set(["home", "announce", "no"], af2024, expireIn7d);
+  await kv.set(["home", "announce", "en"], af2024, expireIn5d);
+  await kv.set(["home", "announce", "no"], af2024, expireIn5d);
   // await kv.delete(["home", "announce", "en"]);
   // await kv.delete(["home", "announce", "no"]);
 };

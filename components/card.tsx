@@ -1,4 +1,4 @@
-import { JSX, PropsWithChildren } from "preact";
+import { JSX } from "preact";
 type CardProps = JSX.HTMLAttributes<HTMLDivElement>;
 
 interface Props {
@@ -10,7 +10,7 @@ export function Card({
   img,
   customClass,
   children,
-}: PropsWithChildren & Props) {
+}: Props) {
   const fullClass = `card ${customClass ?? ""}`;
   return (
     <div
@@ -32,9 +32,10 @@ export function Card({
 export const MiniCard = (props: HTMLElement) => (
   <div
     style={{
-      background: "var(--surface2)",
-      borderRadius: "var(--radius-2)",
-      boxShadow: "var(--shadow-4)",
+      ...props.style,
+      // background: "var(--surface2)",
+      // borderRadius: "var(--radius-2)",
+      // boxShadow: "var(--shadow-4)",
     }}
   >
     {props.children}

@@ -29,6 +29,7 @@ export default function ArticleHeader({
           src={image}
           width="1024"
           height="576"
+          style="transition: opacity 12s ease-in-out;"
         />
         <h1>
           <span class="backdrop-blur">{header}</span>

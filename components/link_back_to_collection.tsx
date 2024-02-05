@@ -1,6 +1,6 @@
 import { t } from "akvaplan_fresh/text/mod.ts";
 import { Icon } from "akvaplan_fresh/components/icon.tsx";
-import { routesForLang as intlRouteMap } from "akvaplan_fresh/services/mod.ts";
+import { intlRouteMap as intlRouteMap } from "akvaplan_fresh/services/mod.ts";
 
 export const LinkBackToCollection = ({ collection, lang }) => (
   <nav

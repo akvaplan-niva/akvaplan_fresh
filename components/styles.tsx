@@ -1,4 +1,3 @@
-import { Head } from "$fresh/runtime.ts";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 
 let defaultStyles: string[] = [];
@@ -22,4 +21,3 @@ if (!IS_BROWSER) {
 export const Styles = ({ styles = defaultStyles } = {}) => (
   <style dangerouslySetInnerHTML={{ __html: styles.join("\n") }} />
 );
-//console.log("@todo add deno task to compile styles per route");

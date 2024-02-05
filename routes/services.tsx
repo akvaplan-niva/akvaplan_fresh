@@ -10,6 +10,7 @@ import {
 } from "akvaplan_fresh/components/mod.ts";
 
 import HScrollWithDynamicImage from "akvaplan_fresh/islands/HScrollWithDynamicImage.tsx";
+import { OurServices } from "../islands/our_x.tsx";
 
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
@@ -66,11 +67,14 @@ export default function Services(
     <Page title={title} base={base}>
       <Head>
         <link rel="stylesheet" href={asset("/css/hscroll.css")} />
+        <link rel="stylesheet" href={asset("/css/hscroll-dynamic.css")} />
         <link rel="stylesheet" href={asset("/css/article.css")} />
         <script src={asset("/@nrk/core-scroll.min.js")} />
       </Head>
 
       <h1>{title}</h1>
+
+      {/* <OurServices services={services} /> */}
 
       <HScroll maxVisibleChildren={6.5}>
         {services.map(ArticleSquare)}

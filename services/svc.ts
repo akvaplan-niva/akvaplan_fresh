@@ -1,4 +1,4 @@
-import { serviceGroupURL } from "./nav.ts";
+import { servicePath } from "./nav.ts";
 
 import { shuffle } from "akvaplan_fresh/grouping/mod.ts";
 
@@ -16,28 +16,30 @@ const getServicesFromExternalDenoService = async () => {
 const servicesLevelFilter = (n: number) => ({ level }: Svc) => level === n;
 
 export const getServicesLevel0 = async (lang: string) => {
-  const svc0 = (await getServicesFromExternalDenoService() ?? [])?.filter(servicesLevelFilter(0));
+  const svc0 = (await getServicesFromExternalDenoService() ?? [])?.filter(
+    servicesLevelFilter(0),
+  );
 
   const en0 = svc0.map((
-    { topic, en, no, details, detaljer, ...s }: Svc,
+    { uuid, topic, en, no, details, detaljer, ...s }: Svc,
   ) => ({
     ...s,
     topic,
     name: en ?? no,
     desc: details ?? detaljer,
     lang: "en",
-    href: serviceGroupURL({ lang, topic }),
+    href: servicePath({ lang, name: en ?? no ?? topic ?? tema, uuid }),
   }));
 
   const no0 = svc0.map((
-    { no, en, tema, details, detaljer, ...s }: Svc,
+    { uuid, no, en, tema, details, detaljer, ...s }: Svc,
   ) => ({
     ...s,
     name: no ?? en,
     desc: detaljer ?? details,
     topic: tema,
     lang: "no",
-    href: serviceGroupURL({ lang, topic: tema }),
+    href: servicePath({ lang, name: no ?? en ?? tema ?? topic, uuid }),
   }));
 
   const svc = lang === "en" ? en0 : no0;
