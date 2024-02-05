@@ -158,7 +158,11 @@ export default function Home(
           background: "var(--surface1)",
         }}
       >
-        <OurX x={services} is="services" />
+        <OurX
+          header={t(`home.section.services`)}
+          x={services}
+          href={intlRouteMap(lang).get("services")}
+        />
       </section>
 
       <section
@@ -168,7 +172,11 @@ export default function Home(
           background: "var(--surface2)",
         }}
       >
-        <OurX x={topics} is="research" />
+        <OurX
+          header={t(`home.section.research`)}
+          x={topics}
+          href={intlRouteMap(lang).get("research")}
+        />
         {
           /* <AlbumHeader
           text={t("home.section.research")}

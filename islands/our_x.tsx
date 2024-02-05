@@ -1,5 +1,5 @@
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
+
 import { shuffle } from "akvaplan_fresh/grouping/mod.ts";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 import { mynewsdeskPanoramaImageUrl } from "akvaplan_fresh/components/panorama_picture.tsx";
@@ -14,7 +14,7 @@ import { ScrollImage } from "akvaplan_fresh/islands/HScrollWithDynamicImage.tsx"
 
 import { useSignal } from "@preact/signals";
 
-export const OurX = ({ x, is }) => {
+export const OurX = ({ x, is, header, href }) => {
   const promote = shuffle(x).at(-1);
 
   promote.panorama = extractId(promote.img)?.length === 20
@@ -36,13 +36,13 @@ export const OurX = ({ x, is }) => {
     <div>
       <div class="pad-1024">
         <AlbumHeader
-          text={t(`home.section.${is}`)}
-          href={intlRouteMap(lang).get(is)}
+          text={header}
+          href={href}
         />
       </div>
       <Article>
         <a
-          href={main.value.href ?? intlRouteMap(lang).get(is)}
+          href={main.value.href}
         >
           <ArticleHeader
             header={main.value.name}
