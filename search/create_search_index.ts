@@ -10,26 +10,26 @@ import type {
 
 import { type OramaAtom } from "./types.ts";
 
-export const seedOramaCollectionsFromKv = async (
+export const seedOramaCollectionsFromKv = (
   orama: OramaAtom,
   kv: Deno.Kv,
 ) => {
   console.time("Orama index");
-  await insertAkvaplanists(orama, kv.list({ prefix: ["akvaplanists"] }));
+  insertAkvaplanists(orama, kv.list({ prefix: ["akvaplanists"] }));
 
-  await insertCustomerServices(
+  insertCustomerServices(
     orama,
     kv.list({ prefix: ["customer_services"] }),
   );
 
-  await insertMynewsdeskCollections(
+  insertMynewsdeskCollections(
     orama,
     kv.list<AbstractMynewsdeskItem>({
       prefix: ["mynewsdesk_id"],
     }),
   );
 
-  await insertDoiPubs(
+  insertDoiPubs(
     orama,
     kv.list<SlimPublication>({ prefix: ["dois"] }),
   );
