@@ -38,7 +38,7 @@ import {
   type RouteConfig,
 } from "$fresh/server.ts";
 import { MynewsdeskDocument } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import { InputSearch } from "akvaplan_fresh/components/search/InputSearch.tsx";
+import { InputSearch } from "../components/search/InputSearch.tsx";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 import { searchDocuments } from "akvaplan_fresh/services/documents.ts";
 

@@ -6,6 +6,7 @@ import { ImageArticle } from "akvaplan_fresh/components/image_article.tsx";
 
 import type { RouteConfig, RouteContext } from "$fresh/src/server/types.ts";
 import { search } from "akvaplan_fresh/search/search.ts";
+import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
 //import { searchOrama } from "akvaplan_fresh/routes/api/search.ts";
 
 export const config: RouteConfig = {
@@ -20,7 +21,7 @@ const searchImageUsed = async (image) => {
 };
 
 export default async function ImagePage(req: Request, ctx: RouteContext) {
-  const { slug } = ctx.params;
+  const { slug, lang } = ctx.params;
   const id = extractId(slug);
   const image = await getImage(Number(id));
   if (!image) {
@@ -31,6 +32,7 @@ export default async function ImagePage(req: Request, ctx: RouteContext) {
   return (
     <Page title={image.header}>
       <ImageArticle image={image} rel={rel} />
+      <LinkBackToCollection collection={"images"} lang={lang} />
     </Page>
   );
 }

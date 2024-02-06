@@ -5,7 +5,7 @@ import { lang, t } from "akvaplan_fresh/text/mod.ts";
 import { HScroll, SlimCard } from "akvaplan_fresh/components/mod.ts";
 
 import { type SlimPublication } from "../@interfaces/slim_publication.ts";
-import { InputSearch } from "akvaplan_fresh/components/search/InputSearch.tsx";
+import { InputSearch } from "../components/search/InputSearch.tsx";
 
 import Button from "../components/button/button.tsx";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";

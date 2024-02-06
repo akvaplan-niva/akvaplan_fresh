@@ -3,6 +3,7 @@ export const db = globalThis?.Deno && Deno.env.has("deno_kv_database")
   : undefined;
 
 let _kv: undefined | Deno.Kv;
+
 export const openKv = async (path = db) => {
   if (!_kv) {
     if (path) {
@@ -14,8 +15,7 @@ export const openKv = async (path = db) => {
 };
 export async function getValue<T>(
   key: Deno.KvKey,
-  // deno-lint-ignore no-explicit-any
-  options: any = undefined,
+  options = undefined,
 ) {
   const kv = await openKv();
   const { value, versionstamp } = await kv.get<T>(key, options);

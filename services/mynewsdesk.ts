@@ -95,6 +95,9 @@ export const newsFilter = (item: AbstractMynewsdeskItem) =>
 export const documentFilter = (item: AbstractMynewsdeskItem) =>
   ["document"].includes(item?.type_of_media);
 
+export const videoFilter = (item: AbstractMynewsdeskItem) =>
+  ["video"].includes(item?.type_of_media);
+
 export const listURL = ({ type_of_media, offset, limit, sort }: {
   type_of_media: string;
   offset?: number;

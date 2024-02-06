@@ -1,6 +1,6 @@
 import { t } from "akvaplan_fresh/text/mod.ts";
 import { Pill } from "../button/pill.tsx";
-import { InputSearch } from "akvaplan_fresh/components/search/InputSearch.tsx";
+import { InputSearch } from "../search/InputSearch.tsx";
 
 export const PeopleSearchForm = ({ q, sortdir, group }) => (
   <>

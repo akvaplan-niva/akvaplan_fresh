@@ -16,6 +16,7 @@ import {
   newsFromMynewsdesk,
   projectFilter,
   projectFromMynewsdesk,
+  videoFilter,
 } from "akvaplan_fresh/services/mod.ts";
 import { href } from "akvaplan_fresh/search/href.ts";
 import { isodate, longDate } from "akvaplan_fresh/time/mod.ts";
@@ -37,6 +38,8 @@ import { AbstractMynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts
 import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
 import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
+import { getVideo } from "akvaplan_fresh/kv/video.ts";
+import { VideoArticle } from "akvaplan_fresh/components/VideoArticle.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -98,21 +101,28 @@ export const handler: Handlers = {
     const contacts = await fetchContacts(item);
 
     // Related
-    const related = await fetchRelated(item);
-    const projects = related.filter(projectFilter).map((myn) =>
+    const _related = await fetchRelated(item);
+    const projects = _related.filter(projectFilter).map((myn) =>
       projectFromMynewsdesk({ lang })(myn)
     );
     // const news = related.filter(newsFilter).map((myn) =>
     //   newsFromMynewsdesk({ lang })(myn)
     // );
-    const documents = related.filter(documentFilter);
+    const documents = _related.filter(documentFilter);
+
+    const videos = await Array.fromAsync(
+      _related.filter(videoFilter).map(async ({ id }) => await getVideo(id)),
+    );
+
+    const related = { documents, videos };
+
     return ctx.render({
       item,
       lang,
       contacts,
       alternate,
       projects,
-      documents,
+      related,
     });
   },
 };
@@ -120,7 +130,7 @@ export const handler: Handlers = {
 //console.log("@todo News article needs bullet points for <li> elements");
 
 export default function NewsArticle(
-  { data: { item, lang, contacts, alternate, projects, documents } }: PageProps<
+  { data: { item, lang, contacts, alternate, projects, related } }: PageProps<
     ArticleProps
   >,
 ) {
@@ -180,10 +190,14 @@ export default function NewsArticle(
         >
         </section>
 
-        {documents?.length > 0
+        {related.videos?.map((video) => (
+          <VideoArticle item={video} embed={video.embed} />
+        ))}
+
+        {related.documents?.length > 0
           ? (
             <section class="article-content">
-              {documents?.map((item) => (
+              {related.documents?.map((item) => (
                 <a
                   href={href({
                     ...item,

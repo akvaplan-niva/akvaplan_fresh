@@ -14,6 +14,7 @@ export const seedOramaCollectionsFromKv = async (
   orama: OramaAtom,
   kv: Deno.Kv,
 ) => {
+  console.time("Orama index");
   await insertAkvaplanists(orama, kv.list({ prefix: ["akvaplanists"] }));
 
   await insertCustomerServices(
@@ -32,4 +33,5 @@ export const seedOramaCollectionsFromKv = async (
     orama,
     kv.list<SlimPublication>({ prefix: ["dois"] }),
   );
+  console.timeEnd("Orama index");
 };
