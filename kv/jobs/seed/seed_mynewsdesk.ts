@@ -18,8 +18,8 @@ import {
 } from "akvaplan_fresh/services/mynewsdesk.ts";
 
 import type {
+  AbstractMynewsdeskItem,
   MynewsdeskDocument,
-  MynewsdeskItem,
   MynewsdeskVideo,
 } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 
@@ -27,16 +27,23 @@ import { pooledMap } from "std/async/mod.ts";
 
 import { ulid } from "std/ulid/mod.ts";
 import { extractId } from "../../../services/extract_id.ts";
-
+import { newsFilter } from "akvaplan_fresh/services/mod.ts";
 const kv = await openKv();
 
-const saveMynewsdeskItem = async (item: MynewsdeskItem) => {
-  const { id, type_of_media, updated_at: { datetime } } = item;
-  if (!manifest.has(id)) {
-    console.warn({ id });
-  }
+// kv.listenQueue(async (item) => {
+//   if (newsFilter(item) && item.id == 471210) {
+//     console.warn("lQ", item.id);
+//   }
+// });
+
+const saveMynewsdeskItem = async (item: AbstractMynewsdeskItem) => {
+  // if (!manifest.has(id)) {
+  //   console.warn({ id });
+  // }
 
   try {
+    const { id, type_of_media, updated_at: { datetime } } = item;
+
     const idkey = [id0, type_of_media, id];
     const { value, versionstamp } = await kv.get(idkey, {
       consistency: "strong",
@@ -89,7 +96,7 @@ const saveMynewsdeskItem = async (item: MynewsdeskItem) => {
 
     return [result, item];
   } catch ({ message }) {
-    console.error(type_of_media, id, message);
+    console.error(message);
     return [undefined, item, message];
   }
 };

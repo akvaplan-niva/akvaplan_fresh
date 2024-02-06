@@ -4,7 +4,7 @@ import { lang as siteLangSignal, t } from "akvaplan_fresh/text/mod.ts";
 import { href } from "akvaplan_fresh/search/href.ts";
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 
-import { InputSearch } from "akvaplan_fresh/components/search/InputSearch.tsx";
+import { InputSearch } from "../components/search/InputSearch.tsx";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 
 import type { SearchAtom } from "akvaplan_fresh/search/types.ts";

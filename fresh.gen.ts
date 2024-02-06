@@ -2,6 +2,7 @@
 // This file SHOULD be checked into source version control.
 // This file is automatically updated during development when running `dev.ts`.
 
+import * as $_kv_list_kv_list_edit from "./routes/(kv)/list/kv_list_edit.tsx";
 import * as $_404 from "./routes/_404.tsx";
 import * as $_500 from "./routes/_500.tsx";
 import * as $_app from "./routes/_app.tsx";
@@ -10,6 +11,7 @@ import * as $about from "./routes/about.tsx";
 import * as $accreditation from "./routes/accreditation.tsx";
 import * as $akvaplanist from "./routes/akvaplanist.tsx";
 import * as $api_document_slug_ from "./routes/api/_document/[slug].ts";
+import * as $api_kv_get_path_ from "./routes/api/kv/get/[...path].ts";
 import * as $api_kv_list_key_ from "./routes/api/kv/list/[...key].ts";
 import * as $api_mynewsdesk_index from "./routes/api/mynewsdesk/index.ts";
 import * as $api_mynewsdesk_type_path_ from "./routes/api/mynewsdesk/type/[...path].ts";
@@ -31,7 +33,6 @@ import * as $images from "./routes/images.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $legacy from "./routes/legacy.tsx";
 import * as $legacy_pages_redirect from "./routes/legacy_pages_redirect.tsx";
-import * as $media_slug_ from "./routes/media/[slug].tsx";
 import * as $ms_louise from "./routes/ms-louise.tsx";
 import * as $mynewsdesk_slug_ from "./routes/mynewsdesk/[slug].tsx";
 import * as $nav from "./routes/nav.tsx";
@@ -54,6 +55,7 @@ import * as $usr from "./routes/usr.tsx";
 import * as $video from "./routes/video.tsx";
 import * as $videos from "./routes/videos.tsx";
 import * as $HScrollWithDynamicImage from "./islands/HScrollWithDynamicImage.tsx";
+import * as $KvTextInput from "./islands/KvTextInput.tsx";
 import * as $button_open_dialog from "./islands/button_open_dialog.tsx";
 import * as $doi_search from "./islands/doi_search.tsx";
 import * as $lang_switcher from "./islands/lang_switcher.tsx";
@@ -65,6 +67,7 @@ import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {
+    "./routes/(kv)/list/kv_list_edit.tsx": $_kv_list_kv_list_edit,
     "./routes/_404.tsx": $_404,
     "./routes/_500.tsx": $_500,
     "./routes/_app.tsx": $_app,
@@ -73,6 +76,7 @@ const manifest = {
     "./routes/accreditation.tsx": $accreditation,
     "./routes/akvaplanist.tsx": $akvaplanist,
     "./routes/api/_document/[slug].ts": $api_document_slug_,
+    "./routes/api/kv/get/[...path].ts": $api_kv_get_path_,
     "./routes/api/kv/list/[...key].ts": $api_kv_list_key_,
     "./routes/api/mynewsdesk/index.ts": $api_mynewsdesk_index,
     "./routes/api/mynewsdesk/type/[...path].ts": $api_mynewsdesk_type_path_,
@@ -94,7 +98,6 @@ const manifest = {
     "./routes/index.tsx": $index,
     "./routes/legacy.tsx": $legacy,
     "./routes/legacy_pages_redirect.tsx": $legacy_pages_redirect,
-    "./routes/media/[slug].tsx": $media_slug_,
     "./routes/ms-louise.tsx": $ms_louise,
     "./routes/mynewsdesk/[slug].tsx": $mynewsdesk_slug_,
     "./routes/nav.tsx": $nav,
@@ -119,6 +122,7 @@ const manifest = {
   },
   islands: {
     "./islands/HScrollWithDynamicImage.tsx": $HScrollWithDynamicImage,
+    "./islands/KvTextInput.tsx": $KvTextInput,
     "./islands/button_open_dialog.tsx": $button_open_dialog,
     "./islands/doi_search.tsx": $doi_search,
     "./islands/lang_switcher.tsx": $lang_switcher,

@@ -19,6 +19,7 @@ import { OurX } from "akvaplan_fresh/islands/our_x.tsx";
 
 import { Handlers, RouteConfig } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
+import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -51,7 +52,7 @@ export const handler: Handlers = {
 
     const topics = (await getResearchLevel0(sitelang)).sort(sortName);
 
-    const announce = null; //await getValue(["textbanner", /*,home */, sitelang]);
+    const announce = await getValue(["announce", "home", sitelang]);
 
     const maxNumNews = 8;
     const articles = news.filter(({ type, hreflang }) =>
@@ -103,23 +104,7 @@ export default function Home(
       </Head>
 
       {announce
-        ? (
-          <aside
-            style={{
-              background: "var(--surface0)",
-              "border-radius": "5px",
-              // marginLeft: "1.5rem",
-              // marginRight: "1.5rem",
-              padding: "0.5rem",
-            }}
-          >
-            <AlbumHeader
-              text={announce.text}
-              href={announce.href}
-              target="_blank"
-            />
-          </aside>
-        )
+        ? <LinkBanner text={announce.text} href={announce.href} />
         : null}
 
       <section style={_section}>

@@ -60,24 +60,6 @@ export function ImageArticle(
           />
         </>
       ))}
-
-      <div
-        style={{ marginBlockStart: "0.5rem", fontSize: "var(--font-size-4)" }}
-      >
-        <Icon
-          name={"arrow_back_ios_new"}
-          style={{ color: "var(--accent)" }}
-          width="1rem"
-          height="1rem"
-        />{" "}
-        <a
-          href={imagesURL({ lang })}
-          style={{ color: "var(--text1)" }}
-        >
-          {t("nav.Images")}
-          {" "}
-        </a>
-      </div>
     </Article>
   );
 }
