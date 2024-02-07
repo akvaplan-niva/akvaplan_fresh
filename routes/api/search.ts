@@ -24,25 +24,27 @@ export const handler: Handlers = {
       ? Number(searchParams.get("limit"))
       : 10;
 
-    const grouped = searchParams.has("group-by");
-
     const where = searchParams.has("where")
       ? JSON.parse(searchParams.get("where") as string)
       : undefined;
-    //collection: ["news", "pressrelease", "blog_post", "event", "document"],
 
-    const facets = {
-      "collection": {
-        // size: 1,
-        // order: "DESC",
-      },
-    };
-    const groupBy: GroupByParams<OramaAtom, SearchAtom> = grouped
-      ? ({
-        properties: [searchParams.get("group-by")],
-        maxResult,
-      })
-      : undefined;
+    const facets = searchParams.has("facets")
+      ? JSON.parse(searchParams.get("facets") as string)
+      : ({
+        "collection": {},
+      });
+    const groupBy: GroupByParams<OramaAtom, SearchAtom> =
+      searchParams.has("group-by")
+        ? ({
+          properties: [searchParams.get("group-by")],
+          maxResult,
+        })
+        : undefined;
+
+    const sortPublishedReverse = (a, b) =>
+      compare(b[2].published, a[2]?.published);
+
+    const sortBy = undefined;
 
     const params: SearchParams<OramaAtom> = {
       term,
@@ -50,12 +52,13 @@ export const handler: Handlers = {
       groupBy,
       facets,
       boost: {
-        title: 2,
-        people: 5,
+        name: 10,
+        title: 5,
+        people: 2,
       },
       // Set 0 threshold to search for multiple terms using AND-logic: https://docs.oramasearch.com/open-source/usage/search/threshold#setting-the-threshold-to-0
       threshold: 0,
-      sortBy: (a, b) => compare(b[2].published, a[2]?.published),
+      sortBy: sortPublishedReverse,
     };
 
     const results: Results<SearchAtom> = await search(params);

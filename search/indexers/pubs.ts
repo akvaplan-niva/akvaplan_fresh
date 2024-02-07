@@ -13,15 +13,20 @@ export const insertDoiPubs = async (
     const people: string[] = value.authors?.map((
       { family, given, name },
     ) => name ?? `${given} ${family}`) ?? [];
-    const { title, published, doi } = value;
+    const { title, published, doi, type, container } = value;
+
+    const year = new Date(published).getFullYear();
 
     const atom: SearchAtom = {
       id: `https://doi.org/${doi}`,
       slug: `${doi}`,
       collection: "pubs",
+      subtype: type,
+      container,
       people,
       title,
       published: String(published),
+      year,
       text: "",
       //text: JSON.stringify(value),
     };

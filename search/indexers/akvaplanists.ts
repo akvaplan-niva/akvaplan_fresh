@@ -5,21 +5,22 @@ import type { OramaAtom, SearchAtom } from "akvaplan_fresh/search/types.ts";
 import type { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
 
 // FIXME add translations eg. LEDELS "ledelse"
-const atomizeAkvaplanist = (a: Akvaplanist): SearchAtom => {
-  const { id, family, given, created, updated, email, ...more } = a;
+export const atomizeAkvaplanist = (a: Akvaplanist): SearchAtom => {
+  const { id, family, given, created, updated, email, workplace, ...more } = a;
   const name = `${given} ${family}`;
   const slug = `id/${id as string}/${
     encodeURIComponent(name.toLocaleLowerCase("no").replace(/\s/g, "-"))
   }`;
 
   const text = normalize(
-    "folk people" + JSON.stringify(more).replace(/["{}:,]/g, " ").replace(
+    JSON.stringify(more).replace(/["{}:,]/g, " ").replace(
       /\s{2,}/g,
       " ",
     ).trim(),
   );
   return {
     title: name,
+    subtitle: workplace ?? "",
     slug,
     collection: "person",
     id: email,
@@ -29,11 +30,7 @@ const atomizeAkvaplanist = (a: Akvaplanist): SearchAtom => {
   };
 };
 
-export const insertAkvaplanists = async (
-  orama: OramaAtom,
-  list: Deno.KvListIterator<Akvaplanist>,
-) => {
-  for await (const { value } of list) {
-    await insert(orama, atomizeAkvaplanist(value));
-  }
-};
+export const akvaplanistAtoms = async (kv: Deno.Kv) =>
+  (await Array.fromAsync(
+    kv.list<Akvaplanist>({ prefix: ["akvaplanists"] }),
+  )).map(({ value }) => atomizeAkvaplanist(value));

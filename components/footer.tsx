@@ -1,7 +1,7 @@
 import { SiteNav } from "akvaplan_fresh/components/mod.ts";
 import ThemeSwitcher from "akvaplan_fresh/islands/theme_switcher.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
-import SiteSearch from "akvaplan_fresh/islands/site_search.tsx";
+import GroupedSearch from "../islands/grouped_search.tsx";
 
 const footerStyle = {
   margin: 0,

@@ -1,7 +1,6 @@
 import { searchViaApi } from "akvaplan_fresh/search/search.ts";
 
-import { lang as siteLangSignal, t } from "akvaplan_fresh/text/mod.ts";
-import { href } from "akvaplan_fresh/search/href.ts";
+import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 
 import { InputSearch } from "../components/search/InputSearch.tsx";
@@ -11,6 +10,7 @@ import type { SearchAtom } from "akvaplan_fresh/search/types.ts";
 import type { GroupByParams, Orama, Results, SearchParams } from "@orama/orama";
 
 import { useSignal } from "@preact/signals";
+import { OramaResults } from "akvaplan_fresh/components/OramaResults.tsx";
 
 const detailsOpen = (collection: string) =>
   ["image", "document", "video", "blog", "pubs"].includes(collection)
@@ -46,14 +46,18 @@ const CollectionSummary = (
   </summary>
 );
 
-export default function SiteSearch(
-  { term, lang }: { term?: string; lang?: string },
+export default function GroupedSearch(
+  { term, lang, collection }: {
+    term?: string;
+    lang?: string;
+    collection?: string;
+  },
 ) {
   const query = useSignal(term);
   const limit = useSignal(5);
   const groups = useSignal([]);
   const facets = useSignal(new Map());
-  const sitelang = siteLangSignal.value;
+  const sitelang = langSignal.value;
 
   const performSearch = async (
     { q, ...params }: { q: string },
@@ -143,36 +147,7 @@ export default function SiteSearch(
               count={facetCountCollection(values?.[0])}
             />
 
-            <ol
-              style={{ paddingBlockEnd: "1.5rem" }}
-            >
-              {result?.map((
-                { document: { id, collection, slug, title, published } },
-              ) => (
-                <li
-                  style={{
-                    fontSize: "1rem",
-                    margin: "1px",
-                    padding: "0.5rem",
-                    background: "var(--surface0)",
-                  }}
-                >
-                  <a
-                    href={href({
-                      id,
-                      slug,
-                      collection,
-                      lang,
-                    })}
-                    dangerouslySetInnerHTML={{ __html: title }}
-                  >
-                  </a>
-                  <p style={{ fontSize: "0.75rem" }}>
-                    <em>{published.substring(0, 4)}</em>
-                  </p>
-                </li>
-              ))}
-            </ol>
+            <OramaResults hits={result} lang="en" />
           </details>
         ))}
       </output>

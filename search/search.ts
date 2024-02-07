@@ -1,21 +1,45 @@
-import { search as _search } from "@orama/orama";
-import type { Orama, Results, SearchParams } from "@orama/orama";
-import {
-  oramaAtomSchema,
-  type SearchAtom,
-} from "akvaplan_fresh/search/types.ts";
 import { getOramaInstance } from "./orama.ts";
+import { search as _search } from "@orama/orama";
+import type { Results, SearchParams } from "@orama/orama";
+import type { OramaAtom, SearchAtom } from "akvaplan_fresh/search/types.ts";
+
+export const { compare } = Intl.Collator("no", {
+  usage: "sort",
+  ignorePunctuation: true,
+  sensitivity: "case",
+});
+
+export const sortPublishedReverse = (a, b) =>
+  compare(b[2].published, a[2]?.published);
+
+const lastNYears = (n: number, start = new Date().getFullYear()) =>
+  [...new Array(n)].map((_, i) => start - i);
+const since2020 = new Date().getFullYear() - 2019;
+
+export const yearFacet = {
+  ranges: [
+    ...lastNYears(since2020).map((y) => ({ from: y, to: y })),
+    { from: 2020, to: 2029 },
+    { from: 2020, to: 2029 },
+    { from: 2010, to: 2019 },
+    { from: 2000, to: 2009 },
+    { from: 2000, to: 2099 },
+    { from: 1900, to: 1999 },
+    { from: 1000, to: 9999 },
+  ],
+};
 
 export const search = async (
-  params: SearchParams<Orama<typeof oramaAtomSchema>>,
+  params: SearchParams<OramaAtom>,
 ) => await _search(await getOramaInstance(), params) as Results<SearchAtom>;
 
 export const searchViaApi = async (
-  { q, base, limit, where, groupBy }: {
+  { q, base, limit, where, groupBy, facets }: {
     q: string;
     base: string;
     limit: number;
     where: unknown;
+    facets: unknown;
     groupBy: string | false;
   },
 ) => {
@@ -31,7 +55,9 @@ export const searchViaApi = async (
   if (where) {
     searchParams.set("where", JSON.stringify(where));
   }
-  //sortww
+  if (facets !== undefined) {
+    searchParams.set("facets", JSON.stringify(facets));
+  }
   const r = await fetch(url);
   if (r.ok) {
     return await r.json() as Results<SearchAtom>;

@@ -1,6 +1,7 @@
 import { ApnLogo } from "akvaplan_fresh/components/mod.ts";
 import { lang as langSignal } from "akvaplan_fresh/text/mod.ts";
-import { SiteMenu } from "./site_menu.tsx";
+import { SiteSearchDialog } from "./site_menu.tsx";
+
 export function CleanHeader(
   {
     href = "/",
@@ -19,7 +20,7 @@ export function CleanHeader(
       <a href={href} style={{ margin: "0rem", padding: "1rem" }}>
         <ApnLogo id="apn-logo" />
       </a>
-      <SiteMenu lang={lang} />
+      <SiteSearchDialog lang={lang} />
     </header>
   );
 }

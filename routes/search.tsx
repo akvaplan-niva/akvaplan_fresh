@@ -1,5 +1,5 @@
 import { Page } from "akvaplan_fresh/components/mod.ts";
-import SiteSearch from "akvaplan_fresh/islands/site_search.tsx";
+import GroupedSearch from "../islands/grouped_search.tsx";
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
@@ -16,7 +16,7 @@ interface NullProps {
 }
 
 export const config: RouteConfig = {
-  routeOverride: "/:lang(en|no)/:page(_|s)",
+  routeOverride: "/:lang(en|no)/:page(_|search)",
 };
 
 export const handler: Handlers = {
@@ -37,7 +37,7 @@ export default function Null(
 ) {
   return (
     <Page title={title} base={base}>
-      <SiteSearch lang={lang} term={term} />
+      <GroupedSearch lang={lang} term={term} />
     </Page>
   );
 }
