@@ -1,12 +1,12 @@
 import { ApnLogo } from "akvaplan_fresh/components/mod.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
-import { SiteMenu } from "./site_menu.tsx";
+import { SiteSearchDialog } from "./site_menu.tsx";
 
 export function LeftHeader({
   href = "/",
   lang = langSignal.value,
   Logo = ApnLogo,
-  Right = SiteMenu,
+  Right = SiteSearchDialog,
 }) {
   return (
     <header

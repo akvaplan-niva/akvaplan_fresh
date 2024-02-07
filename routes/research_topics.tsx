@@ -50,7 +50,6 @@ export const handler: Handlers = {
       return ctx.renderNotFound();
     }
     const { topic } = params;
-    console.warn({ topic });
 
     const base = `/${params.lang}/${params.page}/${params.groupname}`;
 

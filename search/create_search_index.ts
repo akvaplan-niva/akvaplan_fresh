@@ -1,21 +1,24 @@
-import { insertAkvaplanists } from "./indexers/akvaplanists.ts";
+import { akvaplanistAtoms } from "./indexers/akvaplanists.ts";
 import { insertDoiPubs } from "./indexers/pubs.ts";
 import { insertMynewsdeskCollections } from "./indexers/mynewsdesk.ts";
 import { insertCustomerServices } from "./indexers/services.ts";
+
+import { openKv } from "akvaplan_fresh/kv/mod.ts";
+import { getOramaInstance } from "akvaplan_fresh/search/orama.ts";
+
+import { count, insertMultiple } from "@orama/orama";
 
 import type {
   AbstractMynewsdeskItem,
   SlimPublication,
 } from "akvaplan_fresh/@interfaces/mod.ts";
 
-import { type OramaAtom } from "./types.ts";
+export const seedOramaCollectionsFromKv = async () => {
+  const kv = await openKv();
+  const orama = await getOramaInstance();
 
-export const seedOramaCollectionsFromKv = (
-  orama: OramaAtom,
-  kv: Deno.Kv,
-) => {
-  console.time("Orama index");
-  insertAkvaplanists(orama, kv.list({ prefix: ["akvaplanists"] }));
+  console.time("orama");
+  await insertMultiple(orama, await akvaplanistAtoms(kv));
 
   insertCustomerServices(
     orama,
@@ -33,5 +36,6 @@ export const seedOramaCollectionsFromKv = (
     orama,
     kv.list<SlimPublication>({ prefix: ["dois"] }),
   );
-  console.timeEnd("Orama index");
+  console.timeEnd("orama");
+  console.warn(await count(orama));
 };

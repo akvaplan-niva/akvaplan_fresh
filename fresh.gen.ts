@@ -57,10 +57,11 @@ import * as $videos from "./routes/videos.tsx";
 import * as $HScrollWithDynamicImage from "./islands/HScrollWithDynamicImage.tsx";
 import * as $KvTextInput from "./islands/KvTextInput.tsx";
 import * as $button_open_dialog from "./islands/button_open_dialog.tsx";
+import * as $collection_search from "./islands/collection_search.tsx";
 import * as $doi_search from "./islands/doi_search.tsx";
+import * as $grouped_search from "./islands/grouped_search.tsx";
 import * as $lang_switcher from "./islands/lang_switcher.tsx";
 import * as $our_x from "./islands/our_x.tsx";
-import * as $site_search from "./islands/site_search.tsx";
 import * as $text from "./islands/text.tsx";
 import * as $theme_switcher from "./islands/theme_switcher.tsx";
 import { type Manifest } from "$fresh/server.ts";
@@ -124,10 +125,11 @@ const manifest = {
     "./islands/HScrollWithDynamicImage.tsx": $HScrollWithDynamicImage,
     "./islands/KvTextInput.tsx": $KvTextInput,
     "./islands/button_open_dialog.tsx": $button_open_dialog,
+    "./islands/collection_search.tsx": $collection_search,
     "./islands/doi_search.tsx": $doi_search,
+    "./islands/grouped_search.tsx": $grouped_search,
     "./islands/lang_switcher.tsx": $lang_switcher,
     "./islands/our_x.tsx": $our_x,
-    "./islands/site_search.tsx": $site_search,
     "./islands/text.tsx": $text,
     "./islands/theme_switcher.tsx": $theme_switcher,
   },

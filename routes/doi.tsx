@@ -1,3 +1,5 @@
+// FIXME /no/doi/10.1093/icesjms/fsaa243
+// FIXME http://localhost:7777/no/doi/10.1093/icesjms/fsad192
 export {
   handler as _handler,
   type InternationalProps,

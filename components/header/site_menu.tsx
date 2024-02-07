@@ -1,7 +1,7 @@
 import SiteNavDialog from "akvaplan_fresh/components/site_menu_dialog.tsx";
 import ButtonOpenDialog from "akvaplan_fresh/islands/button_open_dialog.tsx";
 
-export const SiteMenu = ({ lang }) => (
+export const SiteSearchDialog = ({ lang }) => (
   <span
     class="header-end"
     style={{
@@ -14,7 +14,7 @@ export const SiteMenu = ({ lang }) => (
     <nav>
       <ButtonOpenDialog for="dialog#menu" popovertarget="menu" lang={lang} />
     </nav>
-    
+
     <SiteNavDialog lang={lang} />
   </span>
 );
