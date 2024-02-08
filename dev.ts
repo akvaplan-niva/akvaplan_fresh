@@ -12,5 +12,5 @@ if (Deno.args.includes("build")) {
   //{"key":["mynewsdesk_error","news",412971],"value":"value too large (max 65536 bytes)","versionstamp":"0000000000042d7a0000"}
   //{"key":["mynewsdesk_error","news",414421],"value":"value too large (max 65536 bytes)","versionstamp":"0000000000042d710000"}
 
-  await persistOramaJson(orama, "./_fresh/orama.json");
+  await persistOramaJson(orama, "./_fresh/static/orama.json");
 }
