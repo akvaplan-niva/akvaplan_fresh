@@ -59,6 +59,7 @@ export const persistOramaJson = async (
   );
 
   const json = await persist(orama, "json");
+  console.warn({ json });
   await Deno.writeTextFile(path, json as string);
 };
 
