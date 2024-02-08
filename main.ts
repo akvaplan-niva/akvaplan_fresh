@@ -33,6 +33,6 @@ import {
   restoreOramaJson,
   setOramaInstance,
 } from "akvaplan_fresh/search/orama.ts";
-setOramaInstance(await restoreOramaJson("./orama.json"));
+setOramaInstance(await restoreOramaJson("./_fresh/orama.json"));
 
 await start(manifest, { render, /*plugins: [],*/ port: 7777 });
