@@ -3,7 +3,7 @@
 /// <reference lib="dom.iterable" />
 /// <reference lib="dom.asynciterable" />
 /// <reference lib="deno.ns" />
-import { seedKv } from "akvaplan_fresh/kv/jobs/seed.ts";
+
 import { getLangFromURL } from "./text/mod.ts";
 import {
   InnerRenderFunction,
@@ -26,6 +26,13 @@ const render: RenderFunction = (
   freshRender();
 };
 
+//import { seedKv } from "akvaplan_fresh/kv/jobs/seed.ts";
 //Deno.cron("sync external data to kv", "12 12 * * *", () => seedKv());
+
+import {
+  restoreOramaJson,
+  setOramaInstance,
+} from "akvaplan_fresh/search/orama.ts";
+setOramaInstance(await restoreOramaJson("./orama.json"));
 
 await start(manifest, { render, /*plugins: [],*/ port: 7777 });
