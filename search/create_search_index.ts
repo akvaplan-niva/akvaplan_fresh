@@ -17,7 +17,7 @@ export const createOramaFromKv = async () => {
   const kv = await openKv();
   const orama = await createOramaInstance();
 
-  console.time("Orama < KV");
+  console.time("Orama from KV");
   await insertMultiple(orama, await akvaplanistAtoms(kv));
 
   await insertCustomerServices(
@@ -37,6 +37,6 @@ export const createOramaFromKv = async () => {
     kv.list<SlimPublication>({ prefix: ["dois"] }),
   );
   console.warn(await count(orama));
-  console.timeEnd("Orama < KV");
+  console.timeEnd("Orama from KV");
   return orama;
 };
