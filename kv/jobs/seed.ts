@@ -45,7 +45,3 @@ export const seedKv = async () => {
   seedMynewsdesk();
   seedDois();
 };
-
-if (import.meta.main) {
-  seedKv();
-}

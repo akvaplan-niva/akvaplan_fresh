@@ -1,10 +1,10 @@
 // $ deno run --unstable-kv --env --allow-env kv/jobs/seed_mynewsdesk.ts
 
 import { openKv } from "akvaplan_fresh/kv/mod.ts";
-const MANIFEST = `./kv/seed/manifest/mynewsdesk.ndjson`;
-const manifest = new Map(
-  (await Deno.readTextFile(MANIFEST)).trim().split("\n").map(JSON.parse),
-);
+// const MANIFEST = `./kv/seed/manifest/mynewsdesk.ndjson`;
+// const manifest = new Map(
+//   (await Deno.readTextFile(MANIFEST)).trim().split("\n").map(JSON.parse),
+// );
 
 import {
   cloudinary0,
@@ -51,46 +51,49 @@ const saveMynewsdeskItem = async (item: AbstractMynewsdeskItem) => {
     const deepEqual = versionstamp &&
       JSON.stringify(value) === JSON.stringify(item);
 
-    if (["document"].includes(type_of_media)) {
-      const { document } = item;
-      const { pathname } = new URL(document);
-      const _id = String(pathname.split("/").at(-1));
-      const id = (/\.[a-z]+$/i).test(_id) ? _id?.split(".").at(-2) : _id;
-      console.assert(id?.length === 20, `invalid cloudinary key: ${id}`);
-      const dockey = [cloudinary0, id];
-      await kv.set(dockey, item);
-      //console.warn(dockey);
-    } else if (["image"].includes(type_of_media)) {
-      const { download_url } = item;
-      const { pathname } = new URL(download_url);
-      const id = pathname.split("/").at(-1);
-      const imagekey = [cloudinary0, id];
-      console.assert(id?.length === 20, `invalid cloudinary key: ${id}`);
-      //console.warn(imagekey);
-      await kv.set(imagekey, item);
-    } else if ("video" === type_of_media) {
-      // Mynewsdesk API expose a low-quality 360p URL
-      // …/no/video/miljoeovervaaking-akvakultur-paa-akvaplan-niva-118873 => https://bcdn.screen9.com/ovh/production/media/5/J/5JEdizmlD23NsS93LZCsvg_360p_h264h.mp4?token=…
-      // While they use a 720p higher quality
-      // https://akvaplan-niva.mynewsdesk.com/videos/miljoeovervaaking-akvakultur-paa-akvaplan-niva-118873 => svg_720p_hls
-      const mynewsdesk_video_key = ["mynewsdesk_video_id", id];
-      const { versionstamp } = await kv.get(mynewsdesk_video_key);
-      if (!versionstamp) {
-        const slug = item.url.split("/").at(-1) as string;
-        const embed = await fetchVideoEmbedCode(slug);
-        if (embed) {
-          // deno-lint-ignore no-unused-vars
-          const { video_url, embed_code, ...video } = item as MynewsdeskVideo;
+    // if (["document"].includes(type_of_media)) {
+    //   const { document } = item;
+    //   const { pathname } = new URL(document);
+    //   const _id = String(pathname.split("/").at(-1));
+    //   const id = (/\.[a-z]+$/i).test(_id) ? _id?.split(".").at(-2) : _id;
+    //   console.assert(id?.length === 20, `invalid cloudinary key: ${id}`);
+    //   const dockey = [cloudinary0, id];
+    //   await kv.set(dockey, item);
+    //   //console.warn(dockey);
+    // } else if (["image"].includes(type_of_media)) {
+    //   const { download_url } = item;
+    //   const { pathname } = new URL(download_url);
+    //   const id = pathname.split("/").at(-1);
+    //   const imagekey = [cloudinary0, id];
+    //   console.assert(id?.length === 20, `invalid cloudinary key: ${id}`);
+    //   //console.warn(imagekey);
+    //   await kv.set(imagekey, item);
+    // } else if ("video" === type_of_media) {
+    //   // Mynewsdesk API expose a low-quality 360p URL
+    //   // …/no/video/miljoeovervaaking-akvakultur-paa-akvaplan-niva-118873 => https://bcdn.screen9.com/ovh/production/media/5/J/5JEdizmlD23NsS93LZCsvg_360p_h264h.mp4?token=…
+    //   // While they use a 720p higher quality
+    //   // https://akvaplan-niva.mynewsdesk.com/videos/miljoeovervaaking-akvakultur-paa-akvaplan-niva-118873 => svg_720p_hls
+    //   const mynewsdesk_video_key = ["mynewsdesk_video_id", id];
+    //   const { versionstamp } = await kv.get(mynewsdesk_video_key);
+    //   if (!versionstamp) {
+    //     const slug = item.url.split("/").at(-1) as string;
+    //     const embed = await fetchVideoEmbedCode(slug);
+    //     if (embed) {
+    //       // deno-lint-ignore no-unused-vars
+    //       const { video_url, embed_code, ...video } = item as MynewsdeskVideo;
 
-          const value = { embed, ...video };
-          await kv.set(mynewsdesk_video_key, value);
-          console.warn(mynewsdesk_video_key, value);
-        }
-      }
-    }
+    //       const value = { embed, ...video };
+    //       await kv.set(mynewsdesk_video_key, value);
+    //       console.warn(mynewsdesk_video_key, value);
+    //     }
+    //   }
+    // }
 
     if (deepEqual === true) {
       return [{ ok: true }, item];
+    }
+    if (item.body?.length > 2 ** 14) {
+      item.body = item.body.slice(0, 2 ** 14);
     }
     const result = await kv.set(idkey, item);
 
@@ -172,13 +175,12 @@ export const seedMynewsdesk = async () => {
   const saved = Object.fromEntries([...actual]);
   kv.set(["mynewsdesk_total"], { count, saved, updated });
 
-  const keys = [...idUpdated.keys()].sort((a, b) => a - b);
-  const manifest = keys.map((id) => [id, idUpdated.get(id)]);
-
-  await Deno.writeTextFile(
-    MANIFEST,
-    manifest.map((l) => JSON.stringify(l) + "\n").join(""),
-  );
+  // const keys = [...idUpdated.keys()].sort((a, b) => a - b);
+  // const manifest = keys.map((id) => [id, idUpdated.get(id)]);
+  // await Deno.writeTextFile(
+  //   MANIFEST,
+  //   manifest.map((l) => JSON.stringify(l) + "\n").join(""),
+  // );
 };
 
 /**
