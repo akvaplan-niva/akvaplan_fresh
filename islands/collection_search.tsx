@@ -60,6 +60,7 @@ export default function CollectionSearch(
   };
 
   const handleSearchInput = async (e: Event) => {
+    console.warn(e);
     const { target: { value, ownerDocument } } = e;
     const { origin } = new URL(ownerDocument?.URL ?? document?.URL);
     performSearch({ q: value, base: origin, limit: limit.value });

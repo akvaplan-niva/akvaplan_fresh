@@ -1,12 +1,8 @@
 import { search } from "akvaplan_fresh/search/search.ts";
 
-import type { GroupByParams, Orama, Results, SearchParams } from "@orama/orama";
+import type { GroupByParams, Results, SearchParams } from "@orama/orama";
 
-import type {
-  OramaAtom,
-  oramaAtomSchema,
-  SearchAtom,
-} from "akvaplan_fresh/search/types.ts";
+import type { OramaAtom, SearchAtom } from "akvaplan_fresh/search/types.ts";
 
 import type { FreshContext, Handlers } from "$fresh/server.ts";
 
@@ -44,7 +40,7 @@ export const handler: Handlers = {
     const sortPublishedReverse = (a, b) =>
       compare(b[2].published, a[2]?.published);
 
-    const sortBy = undefined;
+    const sortBy = sortPublishedReverse;
 
     const params: SearchParams<OramaAtom> = {
       term,
@@ -52,13 +48,12 @@ export const handler: Handlers = {
       groupBy,
       facets,
       boost: {
-        name: 10,
         title: 5,
         people: 2,
       },
       // Set 0 threshold to search for multiple terms using AND-logic: https://docs.oramasearch.com/open-source/usage/search/threshold#setting-the-threshold-to-0
       threshold: 0,
-      sortBy: sortPublishedReverse,
+      sortBy,
     };
 
     const results: Results<SearchAtom> = await search(params);

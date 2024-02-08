@@ -4,7 +4,7 @@ import { insertMynewsdeskCollections } from "./indexers/mynewsdesk.ts";
 import { insertCustomerServices } from "./indexers/services.ts";
 
 import { openKv } from "akvaplan_fresh/kv/mod.ts";
-import { getOramaInstance } from "akvaplan_fresh/search/orama.ts";
+import { createOramaInstance } from "akvaplan_fresh/search/orama.ts";
 
 import { count, insertMultiple } from "@orama/orama";
 
@@ -13,29 +13,30 @@ import type {
   SlimPublication,
 } from "akvaplan_fresh/@interfaces/mod.ts";
 
-export const seedOramaCollectionsFromKv = async () => {
+export const createOramaFromKv = async () => {
   const kv = await openKv();
-  const orama = await getOramaInstance();
+  const orama = await createOramaInstance();
 
-  console.time("orama");
+  console.time("Orama < KV");
   await insertMultiple(orama, await akvaplanistAtoms(kv));
 
-  insertCustomerServices(
+  await insertCustomerServices(
     orama,
     kv.list({ prefix: ["customer_services"] }),
   );
 
-  insertMynewsdeskCollections(
+  await insertMynewsdeskCollections(
     orama,
     kv.list<AbstractMynewsdeskItem>({
       prefix: ["mynewsdesk_id"],
     }),
   );
 
-  insertDoiPubs(
+  await insertDoiPubs(
     orama,
     kv.list<SlimPublication>({ prefix: ["dois"] }),
   );
-  console.timeEnd("orama");
   console.warn(await count(orama));
+  console.timeEnd("Orama < KV");
+  return orama;
 };
