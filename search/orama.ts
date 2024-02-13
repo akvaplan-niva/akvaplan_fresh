@@ -6,7 +6,7 @@ import {
 
 let _orama: OramaAtom;
 
-export const oramaJsonPath = "./_fresh/static/orama.json";
+export const oramaJsonPath = "./_fresh/orama.json";
 
 export const createOramaInstance = async (): Promise<OramaAtom> =>
   await _create({

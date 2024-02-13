@@ -388,14 +388,3 @@ export const multiSearchMynewsdesk = async (
   }
   return [...result.values()].sort(sort);
 };
-
-export const typeOfMediaCountMap = new Map<string, number>([
-  ["news", 0],
-  ["pressrelease", 0],
-  ["image", 0],
-  ["blog_post", 0],
-  ["event", 0],
-  ["video", 0],
-  ["document", 0],
-  ["contact_person", 0],
-]);
