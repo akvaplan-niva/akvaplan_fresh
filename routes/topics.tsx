@@ -2,7 +2,7 @@ import { buildContainsFilter } from "akvaplan_fresh/search/filter.ts";
 
 import {
   getResearchLevel0,
-  getServicesLevel0,
+  getServicesLevel0FromExternalDenoService,
   //getResearchTopicSearchwords,
   //getServiceTopicSearchwords,
   newsFromMynewsdesk,
@@ -63,7 +63,7 @@ export const handler: Handlers = {
       JSON.stringify(r).includes(params.topic)
     );
 
-    const _services = getServicesLevel0(params.lang);
+    const _services = getServicesLevel0FromExternalDenoService(params.lang);
     const services = _services.filter(buildTopicFilter(params));
 
     const news = items?.map(newsFromMynewsdesk({ lang: params.lang })) ?? [];

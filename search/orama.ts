@@ -48,8 +48,10 @@ export const persistOramaJson = async (
   );
 
   const json = await persist(orama, "json");
-  console.warn({ json });
   await Deno.writeTextFile(path, json as string);
+  console.warn(
+    `Orama index (${await count(orama)} documents) persisted at ${path}`,
+  );
 };
 
 /* Above dynamic import is to avoid:

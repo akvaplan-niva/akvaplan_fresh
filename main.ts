@@ -5,7 +5,6 @@
 /// <reference lib="deno.ns" />
 
 import { getLangFromURL } from "./text/mod.ts";
-import { createOramaFromKv } from "./search/create_search_index.ts";
 
 import {
   InnerRenderFunction,
@@ -28,8 +27,8 @@ const render: RenderFunction = (
   freshRender();
 };
 
-import { seedKv } from "akvaplan_fresh/kv/jobs/seed.ts";
-Deno.cron("sync external data to kv", "14 16 * * *", () => seedKv());
+// import { seedKv } from "akvaplan_fresh/kv/jobs/seed.ts";
+// Deno.cron("sync external data to kv", "14 16 * * *", () => seedKv());
 
 import {
   oramaJsonPath,
@@ -42,8 +41,6 @@ import { count } from "@orama/orama";
 const orama = await restoreOramaJson(oramaJsonPath);
 if (orama && await count(orama) > 0) {
   setOramaInstance(orama);
-} else {
-  setOramaInstance(await createOramaFromKv());
 }
 
 await start(manifest, { render, /*plugins: [],*/ port: 7777 });

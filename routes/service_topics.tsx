@@ -1,5 +1,5 @@
 import {
-  getServicesLevel0,
+  getServicesLevel0FromExternalDenoService,
   multiSearchMynewsdesk,
   newsFromMynewsdesk,
   sortLatest,
