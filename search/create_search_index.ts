@@ -21,10 +21,12 @@ import { type AnyOrama, insertMultiple } from "@orama/orama";
 const insertFromMynewsdesk = async (orama: AnyOrama) => {
   const actual = new Map(typeOfMediaCountMap);
   const limit = 100;
-  const atoms = [];
+
   for await (const type_of_media of [...actual.keys()]) {
     let offset = 0;
+
     while (actual.get(type_of_media)! >= offset) {
+      const atoms = [];
       const { items, total_count } = await fetchMynewsdeskBatch({
         type_of_media,
         offset,
@@ -41,17 +43,16 @@ const insertFromMynewsdesk = async (orama: AnyOrama) => {
       for await (const item of items) {
         atoms.push(await atomizeMynewsdeskItem(item));
       }
+      await insertMultiple(orama, atoms);
       offset += limit;
     }
     console.warn(
       {
         type_of_media,
         actual: actual.get(type_of_media),
-        atoms: atoms.length,
       },
     );
   }
-  await insertMultiple(orama, atoms);
 };
 
 export const createOramaIndex = async () => {
