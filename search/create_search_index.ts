@@ -22,7 +22,7 @@ const insertFromMynewsdesk = async (orama: AnyOrama) => {
   const actual = new Map(typeOfMediaCountMap);
   const limit = 100;
   const atoms = [];
-  for (const type_of_media of [...actual.keys()]) {
+  for await (const type_of_media of [...actual.keys()]) {
     let offset = 0;
     while (actual.get(type_of_media)! >= offset) {
       const { items, total_count } = await fetchMynewsdeskBatch({
@@ -68,12 +68,12 @@ export const createOramaIndex = async () => {
   );
   await insertMultiple(orama, services0.map(atomizeCustomerService));
 
-  console.warn(`Indexing Mynewsdesk`);
-  await insertFromMynewsdesk(orama);
-
   const { data } = await getDoisFromDenoDeployService();
   console.warn(`Indexing ${data.length} pubs`);
   await insertMultiple(orama, data.map(atomizeSlimPublication));
+
+  console.warn(`Indexing Mynewsdesk`);
+  await insertFromMynewsdesk(orama);
 
   console.timeEnd("Orama indexing");
   return orama;
