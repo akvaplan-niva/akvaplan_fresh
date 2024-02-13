@@ -9,19 +9,15 @@ export async function* customerServicesGenerator() {
     yield value;
   }
 }
-
 export const getCustomerService = async (
   id: string,
 ): Promise<Akvaplanist | undefined> =>
   await getValue(["customer_services", id]);
 
-//http://localhost:7777/api/kv/list/customer_services
-
 export const findCustomerServiceByTopic = async (
   topic: string,
 ): Promise<Akvaplanist | undefined> => {
   let service;
-  console.warn("findCustomerServiceByTopic", topic);
   for await (const s of customerServicesGenerator()) {
     if (
       topic === s.topic || topic === s.tema || JSON.stringify(s).includes(topic)
@@ -32,12 +28,3 @@ export const findCustomerServiceByTopic = async (
   }
   return service;
 };
-
-// if (!params.uuid) {
-//   throw params.topic;
-// }
-
-// const service = await getValue<CustomerService>([
-//   "customer_services",
-//   params.uuid,
-// ]);
