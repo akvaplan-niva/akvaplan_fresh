@@ -32,7 +32,7 @@ import {
 import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
 export const config: RouteConfig = {
   routeOverride:
-    "/:lang(en|no){/:page(services|service|tjenester|tjeneste)}?/:groupname(topic|topics|tema){/:topic}?{/:uuid}?",
+    "/:lang(en|no){/:page(services|service|tjenester|tjeneste)}/:slug{/:uuid}?",
 };
 
 export const handler: Handlers = {
@@ -44,7 +44,7 @@ export const handler: Handlers = {
 
     const service = params.uuid
       ? await getCustomerService(params.uuid)
-      : await findCustomerServiceByTopic(decodeURIComponent(params.topic));
+      : await findCustomerServiceByTopic(decodeURIComponent(params.slug));
 
     if (!service) {
       return ctx.renderNotFound();
@@ -52,7 +52,7 @@ export const handler: Handlers = {
     const { en, no } = service;
     service.name = params.lang === "en" ? en ?? no : no ?? en;
 
-    const topic = decodeURIComponent(params.topic);
+    const topic = params.lang === "en" ? service.topic : service.tema;
     const base = `/${params.lang}/${params.page}/${params.groupname}`;
 
     const queries = [

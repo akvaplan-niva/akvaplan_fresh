@@ -24,21 +24,21 @@ export const createOramaFromKv = async () => {
   const orama = await createOramaInstance();
 
   console.time("Orama from KV");
-  await insertMultiple(orama, await akvaplanistAtoms(kv));
+  insertMultiple(orama, await akvaplanistAtoms(kv));
 
-  await insertCustomerServices(
+  insertCustomerServices(
     orama,
     kv.list({ prefix: ["customer_services"] }),
   );
 
-  await insertMynewsdeskCollections(
+  insertMynewsdeskCollections(
     orama,
     kv.list<AbstractMynewsdeskItem>({
       prefix: ["mynewsdesk_id"],
     }),
   );
 
-  await insertDoiPubs(
+  insertDoiPubs(
     orama,
     kv.list<SlimPublication>({ prefix: ["dois"] }),
   );

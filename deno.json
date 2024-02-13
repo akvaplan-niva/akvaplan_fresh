@@ -22,7 +22,8 @@
     "preact": "https://esm.sh/preact@10.19.2",
     "preact/": "https://esm.sh/preact@10.19.2/",
     "@orama/orama": "npm:@orama/orama@2.0.5",
-    "@orama/plugin-data-persistence": "npm:@orama/plugin-data-persistence@2.0.5"
+    "@orama/plugin-data-persistence": "npm:@orama/plugin-data-persistence@2.0.5",
+    "slug": "https://deno.land/x/slug@v1.1.0/mod.ts"
   },
   "scopes": {},
   "lint": { "rules": { "tags": ["fresh", "recommended"] } },
