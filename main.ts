@@ -28,8 +28,8 @@ const render: RenderFunction = (
   freshRender();
 };
 
-//import { seedKv } from "akvaplan_fresh/kv/jobs/seed.ts";
-//Deno.cron("sync external data to kv", "12 12 * * *", () => seedKv());
+import { seedKv } from "akvaplan_fresh/kv/jobs/seed.ts";
+Deno.cron("sync external data to kv", "14 16 * * *", () => seedKv());
 
 import {
   oramaJsonPath,
