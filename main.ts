@@ -29,18 +29,4 @@ const render: RenderFunction = (
 
 // import { seedKv } from "akvaplan_fresh/kv/jobs/seed.ts";
 // Deno.cron("sync external data to kv", "14 16 * * *", () => seedKv());
-
-import {
-  oramaJsonPath,
-  restoreOramaJson,
-  setOramaInstance,
-} from "akvaplan_fresh/search/orama.ts";
-
-import { count } from "@orama/orama";
-
-const orama = await restoreOramaJson(oramaJsonPath);
-if (orama && await count(orama) > 0) {
-  setOramaInstance(orama);
-}
-
 await start(manifest, { render, /*plugins: [],*/ port: 7777 });

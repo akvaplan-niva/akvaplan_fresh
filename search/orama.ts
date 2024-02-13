@@ -16,6 +16,12 @@ export const createOramaInstance = async (): Promise<OramaAtom> =>
 
 export const getOramaInstance = async (): Promise<OramaAtom> => {
   if (!_orama) {
+    const orama = await restoreOramaJson(oramaJsonPath);
+    if (orama) {
+      setOramaInstance(orama);
+    }
+  }
+  if (!_orama) {
     _orama = await createOramaInstance();
   }
   return _orama;

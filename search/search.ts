@@ -1,4 +1,9 @@
-import { getOramaInstance } from "./orama.ts";
+import {
+  getOramaInstance,
+  oramaJsonPath,
+  restoreOramaJson,
+  setOramaInstance,
+} from "./orama.ts";
 import { search as _search } from "@orama/orama";
 import type { Results, SearchParams } from "@orama/orama";
 import type { OramaAtom, SearchAtom } from "akvaplan_fresh/search/types.ts";
@@ -31,8 +36,10 @@ export const yearFacet = {
 
 export const search = async (
   params: SearchParams<OramaAtom>,
-) => await _search(await getOramaInstance(), params) as Results<SearchAtom>;
-
+) => {
+  const orama = await getOramaInstance();
+  return await _search(orama, params) as Results<SearchAtom>;
+};
 export const searchViaApi = async (
   { q, base, limit, where, groupBy, facets }: {
     q: string;
