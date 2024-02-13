@@ -3,10 +3,13 @@ import { normalize as n, tr } from "akvaplan_fresh/text/mod.ts";
 import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
+import frozen from "akvaplan_fresh/data/akvaplanists.json" with {
+  type: "json",
+};
 export const base = "https://akvaplanists.deno.dev";
 
-const _all: Akvaplanist[] = [];
-
+const _all: Partial<Akvaplanist>[] = frozen;
+let isFrozen = true;
 export const getAkvaplanistsFromDenoService = async (): Promise<
   Akvaplanist[]
 > => {
@@ -24,23 +27,35 @@ export const getAkvaplanistsFromDenoService = async (): Promise<
       if (!p.email) {
         p.email = p.id + "@akvaplan.niva.no";
       }
-      _all[i] = p;
       return p;
     });
   }
   return [];
 };
 
-export const akvaplanists = async (): Promise<Akvaplanist[] | undefined> => {
-  if (_all?.length > 0) {
-    return _all;
+export const akvaplanists = async (): Promise<Akvaplanist[]> => {
+  if (true === isFrozen) {
+    const fresh = await getAkvaplanistsFromDenoService();
+    for (const p of fresh) {
+      const idx = _all.findIndex(({ id }) => id === p.id);
+      if (idx) {
+        _all[idx] = { ..._all[idx], ...p };
+      }
+    }
+    isFrozen = false;
   }
-  return await getAkvaplanistsFromDenoService();
+  return _all as Akvaplanist[];
 };
 
 export const akvaplanistMap = async () => {
   const all = await akvaplanists() ?? [];
   return new Map(all?.map(({ id, ...apn }) => [id, { id, ...apn }]));
+};
+
+export const mynewsdeskPeople = async () => {
+  return new Map(
+    frozen?.map(({ myn, ...apn }) => [myn, apn]),
+  );
 };
 
 export const getAkvaplanist = async (id: string) =>

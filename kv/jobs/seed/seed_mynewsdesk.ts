@@ -26,7 +26,10 @@ import { pooledMap } from "std/async/mod.ts";
 import { ulid } from "std/ulid/mod.ts";
 import { extractId } from "../../../services/extract_id.ts";
 import { newsFilter } from "akvaplan_fresh/services/mod.ts";
-import { fetchMynewsdeskBatch } from "../../../services/mynewsdesk_batch.ts";
+import {
+  fetchMynewsdeskBatch,
+  typeOfMediaCountMap,
+} from "../../../services/mynewsdesk_batch.ts";
 const kv = await openKv();
 
 // kv.listenQueue(async (item) => {
