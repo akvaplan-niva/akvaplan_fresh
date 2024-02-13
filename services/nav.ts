@@ -159,9 +159,7 @@ export const researchTopicURL = ({ topic, lang }) =>
 export const servicePath = ({ lang, name, topic, uuid }) =>
   serviceHref(
     lang,
-    `${lang === "en" || lang?.value == "en" ? "topic" : "tema"}/${
-      _slug(name)
-    }/${uuid}`,
+    `${_slug(name ?? topic)}/${uuid}`,
   );
 
 export const pubsURL = ({ lang } = {}) =>

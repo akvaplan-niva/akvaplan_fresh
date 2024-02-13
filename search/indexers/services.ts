@@ -1,8 +1,8 @@
 import { serviceSummaryMap } from "akvaplan_fresh/services/topic/mod.ts";
-import { renderToString } from "preact-render-to-string";
 import type { OramaAtom, SearchAtom } from "akvaplan_fresh/search/types.ts";
 import type { CustomerService } from "akvaplan_fresh/@interfaces/customer_service.ts";
 
+import { slug as _slug } from "slug";
 import { insert } from "@orama/orama";
 
 export const insertCustomerServices = async (
@@ -20,8 +20,10 @@ export const insertCustomerServices = async (
     const desc = serviceSummaryMap.get(topic);
 
     const atomEn: SearchAtom = {
-      id: "en:" + uuid,
-      slug: `/no/services/topic/${topic}`,
+      id: "svc/en/" + uuid,
+      lang: "en",
+      hreflang: "en",
+      slug: `${_slug(en ?? topic)}/${uuid}`,
       collection: "service",
       people: [],
       title: en ?? no,
@@ -30,8 +32,10 @@ export const insertCustomerServices = async (
     };
 
     const atomNo: SearchAtom = {
-      id: "no:" + uuid,
-      slug: `/no/tjenester/tema/${tema}`,
+      id: "svc/no/" + uuid,
+      lang: "no",
+      hreflang: "no",
+      slug: `${_slug(no ?? tema)}/${uuid}`,
       collection: "service",
       people: [],
       title: no ?? en,
