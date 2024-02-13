@@ -3,17 +3,18 @@
 [Akvaplan-niva](https://akvaplan.no/)'s website
 
 - HTML-first multi-page web app
-- Rendered on the fly in the edge
+- Rendered on the fly in Deno Deploy's edge compute network
 - Fully functional without JavaScript
-- Bilingual including translated/SEO URLs
+- Bilingual, including translated/SEO URLs
 
 ## Tech stack
 
 - [Deno](https://deno.land)
-- [Deploy](https://deno.com/deploy)
+- [Deploy](https://deno.com/deploy/)
 - [Fresh](https://fresh.deno.dev/)
 - [Preact](https://preactjs.com/)
-- TypeScript/TSX
+- [Orama](https://oramasearch.com/)
+- [TypeScript]()
 
 ### Development
 
