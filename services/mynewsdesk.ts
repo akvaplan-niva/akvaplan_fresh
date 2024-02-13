@@ -105,6 +105,7 @@ export const listURL = ({ type_of_media, offset, limit, sort }: {
   sort?: string;
 }) => {
   const url = new URL(actionPath("list"), base);
+
   const defaults = {
     type_of_media: "news",
     //archived: "true",
@@ -121,6 +122,12 @@ export const listURL = ({ type_of_media, offset, limit, sort }: {
   url.searchParams.set("type_of_media", type_of_media);
   url.searchParams.set("offset", String(offset ?? 0));
   url.searchParams.set("limit", String(limit ?? 100));
+
+  console.warn([
+    "mynewsdesk_key",
+    Deno.env.get("mynewsdesk_key"),
+    Deno.env.get("mynewsdesk_key".toUpperCase()),
+  ]);
   return url;
 };
 
