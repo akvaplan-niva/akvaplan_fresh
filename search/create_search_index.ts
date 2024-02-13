@@ -1,4 +1,3 @@
-import { akvaplanistAtoms } from "./indexers/akvaplanists.ts";
 import { insertDoiPubs } from "./indexers/pubs.ts";
 import { insertMynewsdeskCollections } from "./indexers/mynewsdesk.ts";
 import { insertCustomerServices } from "./indexers/services.ts";
@@ -10,8 +9,15 @@ import { count, insertMultiple } from "@orama/orama";
 
 import type {
   AbstractMynewsdeskItem,
+  Akvaplanist,
   SlimPublication,
 } from "akvaplan_fresh/@interfaces/mod.ts";
+import { atomizeAkvaplanist } from "akvaplan_fresh/search/indexers/akvaplanists.ts";
+
+export const akvaplanistAtoms = async (kv: Deno.Kv) =>
+  (await Array.fromAsync(
+    kv.list<Akvaplanist>({ prefix: ["akvaplanists"] }),
+  )).map(({ value }) => atomizeAkvaplanist(value));
 
 export const createOramaFromKv = async () => {
   const kv = await openKv();

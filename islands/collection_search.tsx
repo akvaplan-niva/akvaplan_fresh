@@ -10,7 +10,8 @@ import type { Result, Results } from "@orama/orama";
 import { useSignal } from "@preact/signals";
 import { OramaResults } from "akvaplan_fresh/components/OramaResults.tsx";
 import { CollectionSummary } from "../components/CollectionSummary.tsx";
-import { yearFacet } from "akvaplan_fresh/search/search.ts";
+// import { yearFacet } from "akvaplan_fresh/search/search.ts";
+// import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 
 const detailsOpen = (collection: string) =>
   ["image", "document", "video", "blog", "pubs"].includes(collection)
@@ -23,8 +24,27 @@ const collectionHref = ({ collection, lang }) => {
   }
   return intlRouteMap(lang).get(collection);
 };
+
+const highestCountFirst = (a, b) => b[1] - a[1];
+
+const facetMapper = (facets, { limit = -1, sort = highestCountFirst } = {}) =>
+  Object.entries(facets ?? {}).flatMap((
+    [facet, { values }],
+  ) => ({
+    facet,
+    groups: Object.entries(values)
+      .sort(highestCountFirst)
+      .slice(0, limit)
+      .map(([label, count]) => ({
+        label: label.split("-").join("–"),
+        count,
+        from: Number(label.split("-").at(0)),
+        to: Number(label.split("-").at(-1)),
+      })),
+  }));
+
 export default function CollectionSearch(
-  { q, lang, collection, placeholder, facets, results }: {
+  { q, lang, collection, placeholder, facets, results, list }: {
     q?: string;
     lang?: string;
     collection: string;
@@ -38,13 +58,13 @@ export default function CollectionSearch(
 
   const hits = useSignal((results?.hits ?? []) as Result<SearchAtom>[]);
   const count = useSignal(results?.count ?? 0);
-
-  const oramaResults = useSignal(results);
+  const facet = useSignal(facetMapper(results?.facets));
 
   const performSearch = async (
     { q, ...params }: { q: string },
   ) => {
     query.value = q;
+
     const results = await searchViaApi({
       q,
       facets,
@@ -55,7 +75,7 @@ export default function CollectionSearch(
     if (results) {
       hits.value = results.hits;
       count.value = results.count;
-      oramaResults.value = results;
+      facet.value = facetMapper(results?.facets);
     }
   };
 
@@ -73,11 +93,11 @@ export default function CollectionSearch(
         id="site-search"
         action={``}
         autocomplete="off"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr",
-          gap: "1rem",
-          marginTop: "0.25rem",
+        style={list === "list" ? {} : {
+          // display: "grid",
+          // gridTemplateColumns: "1fr",
+          // gap: "1rem",
+          // marginTop: "0.25rem",
         }}
       >
         <InputSearch
@@ -93,16 +113,41 @@ export default function CollectionSearch(
         <label style={{ fontSize: "1rem", display: "none" }}></label>
       </form>
       <output>
-        <div style={{ paddingBlockStart: "1rem" }}>
+        <div
+          style={{
+            paddingBlockStart: "1rem",
+          }}
+        >
           <CollectionSummary
             q={query.value}
             collection={collection}
-            length={hits.length}
+            length={hits.value.length}
             lang={lang}
             count={count.value}
           />
-          <OramaResults hits={hits.value} lang={lang} />
+          <OramaResults
+            hits={hits.value}
+            count={count.value}
+            lang={lang}
+            list={list}
+          />
         </div>
+        {
+          /* <div>
+          {facet.value.filter((f) => f.facet !== "collection").map((f) => (
+            <>
+              <dt>{f.facet}</dt>
+              <dd>
+                {f.groups.slice(0, 100).map(({ label, count }) => (
+                  <span>
+                    <a>{label}</a> {count > 1 ? <Pill>{count}</Pill> : null}
+                  </span>
+                ))}
+              </dd>
+            </>
+          ))}
+        </div> */
+        }
       </output>
     </main>
   );

@@ -22,10 +22,15 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
   const collection = "pubs";
   const title = q ? q : t("nav.Pubs").value;
 
-  const facets = { year: yearFacet, subtype: {}, collection: {} };
+  const facets = {
+    year: yearFacet,
+    people: { size: 7, limit: 10, sort: "ASC" },
+    collection: {},
+  };
 
   const results = await search({
     term: q ?? "",
+    limit: 5,
     where: { collection },
     facets,
     sortBy,
@@ -39,6 +44,7 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
         lang={lang}
         results={results}
         facets={facets}
+        list="list"
       />
     </Page>
   );
