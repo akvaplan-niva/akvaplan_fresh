@@ -32,8 +32,9 @@ import {
 import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
 export const config: RouteConfig = {
   routeOverride:
-    "/:lang(en|no){/:page(services|service|tjenester|tjeneste)}/:slug{/:uuid}?",
+    "/:lang(en|no){/:page(services|service|tjenester|tjeneste)}{/:legacy(tema|topic)}?/:slug{/:uuid}?",
 };
+// Notice the :legacy part is to support URLs without UUID, like /no/tjenester/tema/miljørisiko
 
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
