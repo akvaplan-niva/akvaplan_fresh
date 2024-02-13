@@ -3,15 +3,16 @@ import {
   getServicesFromExternalDenoService,
   levelFilter,
 } from "akvaplan_fresh/services/svc.ts";
-
 import {
   fetchMynewsdeskBatch,
   typeOfMediaCountMap,
 } from "akvaplan_fresh/services/mynewsdesk_batch.ts";
+import { getDoisFromDenoDeployService } from "akvaplan_fresh/services/dois.ts";
 
 import { atomizeAkvaplanist } from "akvaplan_fresh/search/indexers/akvaplanists.ts";
 import { atomizeCustomerService } from "./indexers/services.ts";
 import { atomizeMynewsdeskItem } from "akvaplan_fresh/search/indexers/mynewsdesk.ts";
+import { atomizeSlimPublication } from "akvaplan_fresh/search/indexers/pubs.ts";
 
 import { createOramaInstance } from "akvaplan_fresh/search/orama.ts";
 
@@ -51,68 +52,28 @@ const insertFromMynewsdesk = async (orama: AnyOrama) => {
     );
   }
   await insertMultiple(orama, atoms);
-  // const count = Object.fromEntries([...total]);
-  // const saved = Object.fromEntries([...actual]);
 };
-
-// export const getAkvaplanistsFromDenoService = async (kv: Deno.Kv) =>
-//   (await Array.fromAsync(
-//     kv.list<Akvaplanist>({ prefix: ["akvaplanists"] }),
-//   )).map(({ value }) => atomizeAkvaplanist(value));
-
-// export const createOramaFromKv = async () => {
-//   const kv = await openKv();
-//   const orama = await createOramaInstance();
-
-//   console.time("Orama from KV");
-//   await insertMultiple(orama, await akvaplanistAtomsFromKv(kv));
-
-//   await insertCustomerServices(
-//     orama,
-//     kv.list({ prefix: ["customer_services"] }),
-//   );
-
-//   insertMynewsdeskCollections(
-//     orama,
-//     kv.list<AbstractMynewsdeskItem>({
-//       prefix: ["mynewsdesk_id"],
-//     }),
-//   );
-
-//   insertDoiPubs(
-//     orama,
-//     kv.list<SlimPublication>({ prefix: ["dois"] }),
-//   );
-//   console.warn(await count(orama));
-//   console.timeEnd("Orama from KV");
-//   return orama;
-// };
 
 export const createOramaIndex = async () => {
   const orama = await createOramaInstance();
 
   console.time("Orama indexing");
+  console.warn(`Indexing akvaplanists`);
   const akvaplanists = await getAkvaplanistsFromDenoService();
   await insertMultiple(orama, akvaplanists.map(atomizeAkvaplanist));
 
+  console.warn(`Indexing customer services`);
   const services0 = (await getServicesFromExternalDenoService()).filter(
     levelFilter(0),
   );
   await insertMultiple(orama, services0.map(atomizeCustomerService));
 
+  console.warn(`Indexing Mynewsdesk`);
   await insertFromMynewsdesk(orama);
 
-  // insertMynewsdeskCollections(
-  //   orama,
-  //   kv.list<AbstractMynewsdeskItem>({
-  //     prefix: ["mynewsdesk_id"],
-  //   }),
-  // );
-
-  // insertDoiPubs(
-  //   orama,
-  //   kv.list<SlimPublication>({ prefix: ["dois"] }),
-  // );
+  const { data } = await getDoisFromDenoDeployService();
+  console.warn(`Indexing ${data.length} pubs`);
+  await insertMultiple(orama, data.map(atomizeSlimPublication));
 
   console.timeEnd("Orama indexing");
   return orama;
