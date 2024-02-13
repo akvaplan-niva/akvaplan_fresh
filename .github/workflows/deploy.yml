@@ -9,6 +9,8 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    env:
+      mynewsdesk_key: ${{ secrets.mynewsdesk_key }}
 
     permissions:
       id-token: write # Needed for auth with Deno Deploy
