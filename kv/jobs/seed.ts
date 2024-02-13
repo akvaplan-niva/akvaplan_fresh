@@ -37,11 +37,16 @@ const seedHomeBanner = async () => {
 };
 
 export const seedKv = async () => {
-  await seedHomeBanner();
+  //await seedHomeBanner();
   //seedArcticFrontiers();
-  seedAkvaplanists();
-  seedCustomerServices();
+  await seedAkvaplanists();
+  await seedCustomerServices();
   //seedReserchTopics();
-  seedMynewsdesk();
+  await seedMynewsdesk();
   seedDois();
 };
+
+// if (import.meta.main) {
+//   console.warn(Deno.args);
+//   await seedKv();
+// }

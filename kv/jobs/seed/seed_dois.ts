@@ -8,6 +8,7 @@ export const seedDois = async () => {
   data.map(async (value: SlimPublication) => {
     const [prefix, ...suffix] = value.doi.split("/");
     const key = ["dois", prefix, ...suffix];
+    console.warn(key);
     await kv.set(key, value);
   });
 };

@@ -21,8 +21,6 @@ export const insertCustomerServices = async (
 
     const atomEn: SearchAtom = {
       id: "svc/en/" + uuid,
-      lang: "en",
-      hreflang: "en",
       slug: `${_slug(en ?? topic)}/${uuid}`,
       collection: "service",
       people: [],
@@ -33,8 +31,6 @@ export const insertCustomerServices = async (
 
     const atomNo: SearchAtom = {
       id: "svc/no/" + uuid,
-      lang: "no",
-      hreflang: "no",
       slug: `${_slug(no ?? tema)}/${uuid}`,
       collection: "service",
       people: [],
