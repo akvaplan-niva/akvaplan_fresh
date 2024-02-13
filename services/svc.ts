@@ -1,23 +1,22 @@
 import { servicePath } from "./nav.ts";
 
-import { shuffle } from "akvaplan_fresh/grouping/mod.ts";
-
 type Svc = Record<string, string | number | string[]>;
 
 const _services = [];
 
-const getServicesFromExternalDenoService = async () => {
+export const getServicesFromExternalDenoService = async () => {
   const r = await fetch("https://svc.deno.dev/").catch(() => {});
   if (r?.ok) {
     return r.json();
   }
 };
-
-const servicesLevelFilter = (n: number) => ({ level }: Svc) => level === n;
-
-export const getServicesLevel0 = async (lang: string) => {
+export const levelFilter = (n = 0) => ({ level }: CustomerService) =>
+  level === n;
+export const getServicesLevel0FromExternalDenoService = async (
+  lang: string,
+) => {
   const svc0 = (await getServicesFromExternalDenoService() ?? [])?.filter(
-    servicesLevelFilter(0),
+    levelFilter(0),
   );
 
   const en0 = svc0.map((
@@ -43,5 +42,5 @@ export const getServicesLevel0 = async (lang: string) => {
   }));
 
   const svc = lang === "en" ? en0 : no0;
-  return shuffle(svc);
+  return svc;
 };

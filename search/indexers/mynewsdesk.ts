@@ -66,14 +66,16 @@ export const atomizeMynewsdeskItem = async (
     image_caption,
     photographer,
     caption,
-    tags,
     type_of_media,
     ...rest
   } = item;
-
+  if (!item.tags) {
+    item.tags = [];
+  }
   if (image) {
     const cloudinary = extractId(image);
-    tags.push({ name: cloudinary });
+
+    item.tags.push({ name: cloudinary });
   }
 
   const published = published_at?.datetime ?? new Date().toJSON();
@@ -89,7 +91,7 @@ export const atomizeMynewsdeskItem = async (
     name.trim() + " " + email?.split("@")?.at(0)
   );
 
-  const _tags = tags.map(({ name }) => name).join(" ");
+  const _tags = item.tags.map(({ name }) => name).join(" ");
   // links: [
   //   {
   //     text: "Avhandling",
@@ -115,7 +117,7 @@ export const atomizeMynewsdeskItem = async (
 
   return {
     title: header,
-    id: `mynewsdesk_${id}`,
+    id: `mynewsdesk/${type_of_media}/${id}`,
     collection,
     lang,
     slug,

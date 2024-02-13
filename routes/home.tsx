@@ -1,5 +1,5 @@
 import { getValue } from "akvaplan_fresh/kv/mod.ts";
-import { getServicesLevel0 } from "akvaplan_fresh/services/svc.ts";
+import { getServicesLevel0FromExternalDenoService } from "akvaplan_fresh/services/svc.ts";
 import { getResearchLevel0 } from "akvaplan_fresh/services/research.ts";
 import { latestNews } from "akvaplan_fresh/services/news.ts";
 
@@ -48,7 +48,8 @@ export const handler: Handlers = {
     //(await (sitelang)).filter(({ level }) => level !== 0));
     //const services = (await _services).sort(sortName);
 
-    const services = (await getServicesLevel0(sitelang)).sort(sortName);
+    const services = (await getServicesLevel0FromExternalDenoService(sitelang))
+      .sort(sortName);
 
     const topics = (await getResearchLevel0(sitelang)).sort(sortName);
 

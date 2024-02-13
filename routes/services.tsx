@@ -1,4 +1,4 @@
-import { getServicesLevel0 } from "akvaplan_fresh/services/svc.ts";
+import { getServicesLevel0FromExternalDenoService } from "akvaplan_fresh/services/svc.ts";
 import { akvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
 import {
   Accreditations,
@@ -47,7 +47,9 @@ export const handler: Handlers = {
     const group = groupname?.length > 0 ? groupname : "year";
     const q = searchParams.get("q") ?? "";
 
-    const services = await getServicesLevel0(params.lang);
+    const services = await getServicesLevel0FromExternalDenoService(
+      params.lang,
+    );
 
     const people = await akvaplanistMap();
     const contacts = new Map([["lab", "mfr"]]);

@@ -11,10 +11,8 @@ import {
   fetchVideoEmbedCode,
   getCanonical,
   id0,
-  listURL,
   slug0,
   slugify,
-  typeOfMediaCountMap,
 } from "akvaplan_fresh/services/mynewsdesk.ts";
 
 import type {
@@ -28,6 +26,7 @@ import { pooledMap } from "std/async/mod.ts";
 import { ulid } from "std/ulid/mod.ts";
 import { extractId } from "../../../services/extract_id.ts";
 import { newsFilter } from "akvaplan_fresh/services/mod.ts";
+import { fetchMynewsdeskBatch } from "../../../services/mynewsdesk_batch.ts";
 const kv = await openKv();
 
 // kv.listenQueue(async (item) => {
@@ -104,25 +103,6 @@ const saveMynewsdeskItem = async (item: AbstractMynewsdeskItem) => {
   }
 };
 
-export const fetchMynewsdeskBatch = async (
-  { type_of_media, offset, limit }: {
-    type_of_media: string;
-    offset: number;
-    limit: number;
-  },
-) => {
-  const url = listURL({ type_of_media, offset, limit });
-  const r = await fetch(url.href);
-  if (r?.ok) {
-    const { total_count, items } = await r.json();
-    return { total_count, items } as {
-      total_count: number;
-      items: MynewsdeskItem[];
-    };
-  }
-  return { total_count: 0, items: [] };
-};
-
 export const seedMynewsdesk = async () => {
   for await (const { key } of kv.list({ prefix: ["mynewsdesk_error"] })) {
     kv.delete(key);
@@ -182,24 +162,3 @@ export const seedMynewsdesk = async () => {
   //   manifest.map((l) => JSON.stringify(l) + "\n").join(""),
   // );
 };
-
-/**
- * Async generator of MynewsdeskItem[]
- */
-export async function* mynewsdeskBatchItems(
-  typesOfMedia: string[] | Set<string> = [...typeOfMediaCountMap.keys()],
-) {
-  const limit = 100;
-  for (const type_of_media of typesOfMedia) {
-    let offset = 0;
-    while (typeOfMediaCountMap.get(type_of_media)! >= offset) {
-      const { items } = await fetchMynewsdeskBatch({
-        type_of_media,
-        offset,
-        limit,
-      });
-      yield items;
-      offset += limit;
-    }
-  }
-}
