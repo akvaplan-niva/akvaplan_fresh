@@ -45,6 +45,7 @@ export function OramaResults(
               subtitle,
               published,
               container,
+              cloudinary,
             },
           },
         ) => (
@@ -56,20 +57,35 @@ export function OramaResults(
               background: "var(--surface0)",
             }}
           >
-            <a
-              title={score}
-              href={href({
-                id,
-                slug,
-                collection,
-                lang,
-              })}
-              dangerouslySetInnerHTML={{ __html: title }}
-            >
-            </a>
+            <div>
+              <a
+                title={score}
+                href={href({
+                  id,
+                  slug,
+                  collection,
+                  lang,
+                })}
+              >
+                {cloudinary && ["image", "pubs", "video"].includes(collection)
+                  ? (
+                    <img
+                      width="148"
+                      height="148"
+                      alt=""
+                      src={`https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_148,h_148,q_auto:good/${cloudinary}`}
+                    />
+                  )
+                  : null}
+                <p
+                  dangerouslySetInnerHTML={{ __html: title }}
+                />
+              </a>
+            </div>
             {["pubs"].includes(collection) && people?.length > 0
               ? <p style={{ fontSize: "0.75rem" }}>{namesEtal(people)}</p>
               : null}
+
             <p style={{ fontSize: "0.75rem" }}>
               <em>
                 {subtitle ? subtitle : null}

@@ -70,14 +70,12 @@ export const atomizeMynewsdeskItem = async (
     type_of_media,
     ...rest
   } = item;
+
   if (!item.tags) {
     item.tags = [];
   }
-  if (image) {
-    const cloudinary = extractId(image);
-
-    item.tags.push({ name: cloudinary });
-  }
+  const cloudinary = image ? extractId(image) : undefined;
+  item.tags.push({ name: cloudinary });
 
   const published = published_at?.datetime ?? new Date().toJSON();
   const updated = updated_at?.datetime ?? new Date().toJSON();
@@ -126,6 +124,7 @@ export const atomizeMynewsdeskItem = async (
     published: String(published),
     updated: String(updated),
     text,
+    cloudinary,
   };
 };
 
