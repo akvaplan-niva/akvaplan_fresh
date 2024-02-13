@@ -16,6 +16,16 @@ export const normalize = (s: string) =>
     .replace(/\p{Diacritic}/gu, "")
     .toLocaleLowerCase();
 
+export const stringifyAndNormalize = (
+  o: unknown,
+) =>
+  normalize(
+    JSON.stringify(o).replace(/["{}:,\[\]]/g, " ").replace(
+      /\s{2,}/g,
+      " ",
+    ).trim(),
+  );
+
 export const languages = new Set(tr.keys());
 
 let _siteLang = "no";

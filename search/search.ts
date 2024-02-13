@@ -56,6 +56,7 @@ export const searchViaApi = async (
     searchParams.set("where", JSON.stringify(where));
   }
   if (facets !== undefined) {
+    console.warn({ facets });
     searchParams.set("facets", JSON.stringify(facets));
   }
   const r = await fetch(url);

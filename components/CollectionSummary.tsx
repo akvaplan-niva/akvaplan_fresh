@@ -18,7 +18,7 @@ export const CollectionSummary = (
       data-collection={collection}
       onClick={handlePressed}
     >
-      {count}
+      {length} / {count}
     </Pill>
   </summary>
 );

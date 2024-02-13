@@ -6,28 +6,17 @@ import {
 
 let _orama: OramaAtom;
 
+export const oramaJsonPath = "./_fresh/static/orama.json";
+
 export const createOramaInstance = async (): Promise<OramaAtom> =>
   await _create({
     schema: oramaAtomSchema,
-    // language: "norwegian",
-    // https://github.com/oramasearch/orama/issues/627
-    //
-    // error: Uncaught (in promise) RangeError: Incorrect locale information provided
-    //     at String.localeCompare (<anonymous>)
-    //     at stringSort (file:///home/che/.cache/deno/npm/registry.npmjs.org/@orama/orama/2.0.3/dist/components/sorter.js:99:21)
-    //     at Array.sort (<anonymous>)
-    //     at ensurePropertyIsSorted (file:///home/che/.cache/deno/npm/registry.npmjs.org/@orama/orama/2.0.3/dist/components/sorter.js:121:19)
-    //     at ensureIsSorted (file:///home/che/.cache/deno/npm/registry.npmjs.org/@orama/orama/2.0.3/dist/components/sorter.js:94:9)
-    //     at Object.save (file:///home/che/.cache/deno/npm/registry.npmjs.org/@orama/orama/2.0.3/dist/components/sorter.js:235:5)
-    //     at Er (https://esm.sh/v135/@orama/orama@2.0.3/denonext/orama.mjs:7:49819)
-    //     at async m (https://esm.sh/v135/@orama/plugin-data-persistence@2.0.3/denonext/dist/server.js:4:1007)
-    //     at async j (https://esm.sh/v135/@orama/plugin-data-persistence@2.0.3/denonext/dist/server.js:4:1693)
-    //     at async persistOrama (file:///home/che/akvaplan-niva/akvaplan_fresh/search/orama.ts:32:10)
+    language: "norwegian",
   });
 
 export const getOramaInstance = async (): Promise<OramaAtom> => {
   if (!_orama) {
-    _orama = createOramaInstance();
+    _orama = await createOramaInstance();
   }
   return _orama;
 };
