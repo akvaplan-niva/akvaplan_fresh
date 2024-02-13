@@ -9,12 +9,13 @@
 
 ## Tech stack
 
-- [Deno](https://deno.land)
+- [Deno](https://deno.land/)
 - [Deploy](https://deno.com/deploy/)
+- [KV](https://deno.com/kv/)
 - [Fresh](https://fresh.deno.dev/)
 - [Preact](https://preactjs.com/)
 - [Orama](https://oramasearch.com/)
-- [TypeScript]()
+- [TypeScript](https://www.typescriptlang.org/)
 
 ### Development
 

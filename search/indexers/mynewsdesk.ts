@@ -12,6 +12,7 @@ import { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { MynewsdeskVideo } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 import { markdownFromHtml } from "akvaplan_fresh/utils/markdown/turndown.ts";
+import { akvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
 
 const itemCollection = ({ type_of_media }: AbstractMynewsdeskItem) => {
   switch (type_of_media) {
@@ -31,18 +32,19 @@ const itemCollection = ({ type_of_media }: AbstractMynewsdeskItem) => {
 };
 
 const materializeContacts = async (item: AbstractMynewsdeskItem) => {
+  const map = await akvaplanistMap();
   return Promise.all(
     item.related_items.filter((
       { type_of_media }: { type_of_media: string },
-    ) => type_of_media === "contact_person").map((
-      { item_id }: { item_id: number },
-    ) => item_id).map(async (numid) => {
-      const { name, email } = await getValue([
-        "mynewsdesk_id",
-        "contact_person",
-        numid,
-      ]);
-      return { name, email };
+    ) => type_of_media === "contact_person").map((cp) => {
+      //{ item_id: 104758, type_of_media: "contact_person" }
+
+      // const { name, email } = await getValue([
+      //   "mynewsdesk_id",
+      //   "contact_person",
+      //   numid,
+      // ]);
+      return { name: "", email: "", ...cp };
     }),
   );
 };
