@@ -10,7 +10,7 @@ import type { SearchAtom } from "akvaplan_fresh/search/types.ts";
 import type { GroupByParams, Orama, Results, SearchParams } from "@orama/orama";
 
 import { useSignal } from "@preact/signals";
-import { OramaResults } from "akvaplan_fresh/components/OramaResults.tsx";
+import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 
 const detailsOpen = (collection: string) =>
   ["image", "document", "video", "blog", "pubs"].includes(collection)
@@ -147,7 +147,7 @@ export default function GroupedSearch(
               count={facetCountCollection(values?.[0])}
             />
 
-            <OramaResults hits={result} lang="en" />
+            <SearchResults hits={result} lang={lang} />
           </details>
         ))}
       </output>
