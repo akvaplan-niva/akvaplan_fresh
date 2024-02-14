@@ -8,7 +8,7 @@ import type { SearchAtom } from "akvaplan_fresh/search/types.ts";
 import type { Result, Results } from "@orama/orama";
 
 import { useSignal } from "@preact/signals";
-import { OramaResults } from "akvaplan_fresh/components/OramaResults.tsx";
+import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 import { CollectionSummary } from "../components/CollectionSummary.tsx";
 // import { yearFacet } from "akvaplan_fresh/search/search.ts";
 // import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
@@ -125,7 +125,7 @@ export default function CollectionSearch(
             lang={lang}
             count={count.value}
           />
-          <OramaResults
+          <SearchResults
             hits={hits.value}
             count={count.value}
             lang={lang}

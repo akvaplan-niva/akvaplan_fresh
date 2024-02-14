@@ -16,7 +16,7 @@ const namesEtal = (people: string[]) => {
   return `${people.slice(0, 2).join(", ")} [+${notShown}]`;
 };
 
-export function OramaResults(
+export function SearchResults(
   { hits, count, list, lang }: {
     hits: OramaAtom[];
     count: number;
