@@ -59,14 +59,14 @@ export const createOramaIndex = async () => {
   const orama = await createOramaInstance();
 
   console.time("Orama indexing");
-  console.warn(`Indexing akvaplanists`);
   const akvaplanists = await getAkvaplanistsFromDenoService();
+  console.warn(`Indexing ${akvaplanists.length} akvaplanists`);
   await insertMultiple(orama, akvaplanists.map(atomizeAkvaplanist));
 
-  console.warn(`Indexing customer services`);
   const services0 = (await getServicesFromExternalDenoService()).filter(
     levelFilter(0),
   );
+  console.warn(`Indexing ${services0.length} customer services`);
   await insertMultiple(orama, services0.map(atomizeCustomerService));
 
   const { data } = await getDoisFromDenoDeployService();
