@@ -38,6 +38,7 @@ import * as $mynewsdesk_slug_ from "./routes/mynewsdesk/[slug].tsx";
 import * as $nav from "./routes/nav.tsx";
 import * as $news from "./routes/news.tsx";
 import * as $null from "./routes/null.tsx";
+import * as $offices from "./routes/offices.tsx";
 import * as $policies from "./routes/policies.tsx";
 import * as $pref from "./routes/pref.tsx";
 import * as $project from "./routes/project.tsx";
@@ -104,6 +105,7 @@ const manifest = {
     "./routes/nav.tsx": $nav,
     "./routes/news.tsx": $news,
     "./routes/null.tsx": $null,
+    "./routes/offices.tsx": $offices,
     "./routes/policies.tsx": $policies,
     "./routes/pref.tsx": $pref,
     "./routes/project.tsx": $project,

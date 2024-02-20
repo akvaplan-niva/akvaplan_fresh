@@ -31,10 +31,22 @@
     "given": "Charlotte Teresa",
     "myn": 111118
   },
+  {
+    "id": "eab",
+    "family": "Abdi",
+    "given": "Ehsan",
+    "validFrom": "2024-02-20"
+  },
   { "id": "efl", "family": "Flekke", "given": "Even" },
   { "id": "ehh", "family": "Henriksen", "given": "Eirik Haugstvedt" },
   { "id": "ekr", "family": "Rønningen", "given": "Elise Kathinka" },
   { "id": "elo", "family": "Lorentzen", "given": "Evgenija" },
+  {
+    "id": "ene",
+    "family": "Nerhagen",
+    "given": "Eline",
+    "validFrom": "2024-02-20"
+  },
   { "id": "esy", "family": "Synvis", "given": "Eva" },
   { "id": "esz", "family": "Sztybor", "given": "Emilia" },
   { "id": "eva", "family": "Leu", "given": "Eva", "myn": 63076 },
@@ -80,6 +92,12 @@
     "myn": 114842
   },
   { "id": "kis", "family": "Isaksen", "given": "Kirsti" },
+  {
+    "id": "kkr",
+    "family": "Krylova",
+    "given": "Kristina",
+    "validFrom": "2024-02-20"
+  },
   { "id": "kpb", "family": "Bluhm", "given": "Katrin" },
   { "id": "krs", "family": "Steffensen", "given": "Kristine", "myn": 102597 },
   { "id": "ksa", "family": "Sagerup", "given": "Kjetil", "myn": 62412 },
@@ -97,6 +115,12 @@
   { "id": "mbd", "myn": 102889, "family": "", "given": "", "prior": true },
   { "id": "mfr", "family": "Frantzen", "given": "Marianne", "myn": 118526 },
   { "id": "mib", "family": "Bedington", "given": "Michael" },
+  {
+    "id": "mjh",
+    "family": "Hansen",
+    "given": "Mina",
+    "validFrom": "2024-02-20"
+  },
   { "id": "mkr", "family": "Kristiansen", "given": "Merete", "myn": 104758 },
   { "id": "mst", "family": "Stefanussen", "given": "Merete" },
   { "id": "mth", "family": "Thorstensen", "given": "Morten", "myn": 114856 },
@@ -116,7 +140,14 @@
   { "id": "ppr", "family": "Priou", "given": "Pierre", "myn": 127945 },
   { "id": "qin", "family": "Zhou", "given": "Qin", "myn": 127668 },
   { "id": "rap", "family": "Pettersen", "given": "Ragnhild", "myn": 72371 },
-  { "id": "ref", "family": "Fieler", "given": "Reinhold", "myn": 54871 },
+  {
+    "id": "ref",
+    "family": "Fieler",
+    "given": "Reinhold",
+    "myn": 54871,
+    "prior": true,
+    "validUntil": "2024-02-29"
+  },
   { "id": "rfr", "myn": 110210, "family": "", "given": "", "prior": true },
   { "id": "rpa", "family": "Palerud", "given": "Rune", "myn": 116104 },
   { "id": "rst", "family": "Stabell", "given": "Rikke" },
