@@ -1,9 +1,4 @@
-import {
-  getOramaInstance,
-  oramaJsonPath,
-  restoreOramaJson,
-  setOramaInstance,
-} from "./orama.ts";
+import { getOramaInstance } from "./orama.ts";
 import { search as _search } from "@orama/orama";
 import type { Results, SearchParams } from "@orama/orama";
 import type { OramaAtom, SearchAtom } from "akvaplan_fresh/search/types.ts";
