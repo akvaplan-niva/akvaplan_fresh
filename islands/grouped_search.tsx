@@ -47,22 +47,26 @@ const CollectionSummary = (
 );
 
 export default function GroupedSearch(
-  { term, lang, collection }: {
+  { term, lang, collection, origin }: {
     term?: string;
     lang?: string;
+    origin: string;
     collection?: string;
   },
+  { url }: { url: URL },
 ) {
   const query = useSignal(term);
   const limit = useSignal(5);
   const groups = useSignal([]);
   const facets = useSignal(new Map());
+  const first = useSignal(true);
   const sitelang = langSignal.value;
 
   const performSearch = async (
     { q, ...params }: { q: string },
   ) => {
     query.value = q;
+
     const results = await searchViaApi({ q, ...params });
     if (results) {
       groups.value = q?.length > 0 ? results.groups : [];
@@ -78,14 +82,12 @@ export default function GroupedSearch(
 
   const handleUserSearchInput = async (e: Event) => {
     e?.preventDefault();
-    const { target: { value, ownerDocument } } = e;
-    const { origin } = new URL(ownerDocument.URL);
+    //const { target: { value, ownerDocument } } = e;
+    //const { origin } = new URL(ownerDocument.URL);
     performSearch({ q: value, base: origin, limit: limit.value });
   };
 
   const handleCollectionPressed = async (e: Event) => {
-    e?.preventDefault();
-
     const {
       target,
     } = e;
@@ -96,13 +98,15 @@ export default function GroupedSearch(
     const q = query.value;
     const where = { collection };
     performSearch({ q, base: origin, limit: limit.value, where });
+    e.preventDefault();
   };
 
-  // Handle search via URL query (on first load)
-  // if (first.value === true && q.length > 0) {
-  //   first.value = false;
-  //   handleSearch({ target: { value: q } });
-  // }
+  //Handle search via URL query (on first load)
+  if (first.value === true && query?.value?.length > 0) {
+    first.value = false;
+    const q = query.value;
+    performSearch({ q, base: origin, where: { collection } });
+  }
 
   const facetCountCollection = (collection: string) =>
     facets.value.get(collection) ?? "?";

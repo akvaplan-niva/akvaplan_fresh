@@ -1,22 +1,23 @@
-import { Page } from "akvaplan_fresh/components/mod.ts";
-import GroupedSearch from "../islands/grouped_search.tsx";
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
+import { Page } from "akvaplan_fresh/components/mod.ts";
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
-import {
-  type FreshContext,
-  type Handlers,
-  type PageProps,
-  type RouteConfig,
+import type {
+  FreshContext,
+  Handlers,
+  PageProps,
+  RouteConfig,
 } from "$fresh/server.ts";
 
-interface NullProps {
+interface Data {
   lang: string;
   base: string;
   title: string;
+  q: string;
 }
 
 export const config: RouteConfig = {
-  routeOverride: "/:lang(en|no)/:page(_|search)",
+  routeOverride: "/:lang(en|no)/:page(_|search|sok|s)",
 };
 
 export const handler: Handlers = {
@@ -27,17 +28,19 @@ export const handler: Handlers = {
     const base = `/${params.lang}/${params.page}/`;
 
     const { searchParams } = ctx.url;
-    const term = searchParams.get("q") ?? "";
-    return ctx.render({ lang, title, base, term });
+    const q = searchParams.get("q") ?? "";
+    const { origin } = new URL(req.url);
+    const data = { lang, title, base, q, origin };
+    return ctx.render(data);
   },
 };
 
-export default function Null(
-  { data: { title, lang, base, term } }: PageProps<NullProps>,
+export default function Search(
+  { data: { title, lang, base, q, origin } }: PageProps<Data>,
 ) {
   return (
     <Page title={title} base={base}>
-      <GroupedSearch lang={lang} term={term} />
+      <GroupedSearch lang={lang} term={q} origin={origin} />
     </Page>
   );
 }
