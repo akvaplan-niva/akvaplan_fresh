@@ -17,13 +17,13 @@ export const getAkvaplanistsFromDenoService = async (): Promise<
   if (r.ok) {
     const empl = await r.json();
     return empl.map((p: Akvaplanist, i: number) => {
-      const { en, no, nb } = p.position;
-      if (!no) {
-        p.position.no = nb;
-      }
-      if (!en) {
-        p.position.en = nb;
-      }
+      //const { en, no, nb } = p.position;
+      // if (!no) {
+      //   p.position.no = nb;
+      // }
+      // if (!en) {
+      //   p.position.en = nb;
+      // }
       if (!p.email) {
         p.email = p.id + "@akvaplan.niva.no";
       }

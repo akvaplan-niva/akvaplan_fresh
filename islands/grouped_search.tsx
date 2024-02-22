@@ -82,8 +82,8 @@ export default function GroupedSearch(
 
   const handleUserSearchInput = async (e: Event) => {
     e?.preventDefault();
-    //const { target: { value, ownerDocument } } = e;
-    //const { origin } = new URL(ownerDocument.URL);
+    const { target: { value, ownerDocument } } = e;
+    const base = origin ? origin : new URL(ownerDocument.URL)?.origin;
     performSearch({ q: value, base: origin, limit: limit.value });
   };
 
