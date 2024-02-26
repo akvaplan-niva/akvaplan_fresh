@@ -50,7 +50,7 @@ export default function GroupedSearch(
   { term, lang, collection, origin }: {
     term?: string;
     lang?: string;
-    origin: string;
+    origin?: string;
     collection?: string;
   },
   { url }: { url: URL },
@@ -83,7 +83,12 @@ export default function GroupedSearch(
   const handleUserSearchInput = async (e: Event) => {
     e?.preventDefault();
     const { target: { value, ownerDocument } } = e;
-    const base = origin ? origin : new URL(ownerDocument.URL)?.origin;
+    console.warn(globalThis.document);
+    const base = origin
+      ? origin
+      : new URL(ownerDocument ? ownerDocument.URL : globalThis.document.URL)
+        ?.origin;
+    console.warn({ base });
     performSearch({ q: value, base: origin, limit: limit.value });
   };
 

@@ -143,6 +143,7 @@ export default function DoiPublication(
           </span>
         </p>
       )}
+      <p>{type} / {t(`type.${type}`)}</p>
       <article>
         <Card>
           <h1
