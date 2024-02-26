@@ -11,7 +11,7 @@
   "imports": {
     "akvaplan_fresh/": "./",
     "std/": "https://deno.land/std@0.212.0/",
-    "$fresh/": "https://deno.land/x/fresh@1.6.3/",
+    "$fresh/": "https://deno.land/x/fresh@1.6.5/",
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.0",
     "@preact/signals": "https://esm.sh/*@preact/signals@1.2.1",
     "accept-language-parser": "npm:accept-language-parser@1.5.0",
@@ -28,8 +28,5 @@
   "scopes": {},
   "lint": { "rules": { "tags": ["fresh", "recommended"] } },
   "exclude": ["**/_fresh/*"],
-  "unstable": [
-    "kv",
-    "cron"
-  ]
+  "unstable": ["kv", "cron"]
 }

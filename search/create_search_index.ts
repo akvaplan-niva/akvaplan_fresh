@@ -1,4 +1,7 @@
-import { getAkvaplanistsFromDenoService } from "akvaplan_fresh/services/mod.ts";
+import {
+  akvaplanistsJsonPath,
+  getAkvaplanistsFromDenoService,
+} from "akvaplan_fresh/services/mod.ts";
 import {
   getServicesFromExternalDenoService,
   levelFilter,
@@ -17,6 +20,7 @@ import { atomizeSlimPublication } from "akvaplan_fresh/search/indexers/pubs.ts";
 import { createOramaInstance } from "akvaplan_fresh/search/orama.ts";
 
 import { type AnyOrama, insertMultiple } from "@orama/orama";
+import { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
 
 const insertFromMynewsdesk = async (orama: AnyOrama) => {
   const actual = new Map(typeOfMediaCountMap);
@@ -59,7 +63,14 @@ export const createOramaIndex = async () => {
   const orama = await createOramaInstance();
 
   console.time("Orama indexing");
-  const akvaplanists = await getAkvaplanistsFromDenoService();
+  // const mod = await import("../_fresh/akvaplanists.json", {
+  //   with: { type: "json" },
+  // });
+  const _akvaplanists = await getAkvaplanistsFromDenoService();
+
+  const akvaplanists = _akvaplanists.filter(({ from }) =>
+    !from ? true : new Date() >= new Date(from)
+  );
   console.warn(`Indexing ${akvaplanists.length} akvaplanists`);
   await insertMultiple(orama, akvaplanists.map(atomizeAkvaplanist));
 

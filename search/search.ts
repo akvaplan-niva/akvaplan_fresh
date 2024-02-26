@@ -45,6 +45,7 @@ export const searchViaApi = async (
     groupBy: string | false;
   },
 ) => {
+  base = base ?? globalThis?.document?.URL;
   const url = new URL("/api/search", base);
   const { searchParams } = url;
   searchParams.set("q", q);

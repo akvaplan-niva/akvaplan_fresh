@@ -3,6 +3,8 @@ import { normalize as n, tr } from "akvaplan_fresh/text/mod.ts";
 import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
+export const akvaplanistsJsonPath = "./_fresh/akvaplanists.json";
+
 import frozen from "akvaplan_fresh/data/akvaplanists.json" with {
   type: "json",
 };
@@ -16,14 +18,7 @@ export const getAkvaplanistsFromDenoService = async (): Promise<
   const r = await fetch(base);
   if (r.ok) {
     const empl = await r.json();
-    return empl.map((p: Akvaplanist, i: number) => {
-      //const { en, no, nb } = p.position;
-      // if (!no) {
-      //   p.position.no = nb;
-      // }
-      // if (!en) {
-      //   p.position.en = nb;
-      // }
+    return empl.map((p: Akvaplanist) => {
       if (!p.email) {
         p.email = p.id + "@akvaplan.niva.no";
       }

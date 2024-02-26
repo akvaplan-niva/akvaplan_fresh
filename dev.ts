@@ -5,14 +5,19 @@ import {
   oramaJsonPath,
   persistOramaJson,
 } from "akvaplan_fresh/search/orama.ts";
+import {
+  akvaplanistsJsonPath,
+  getAkvaplanistsFromDenoService,
+} from "akvaplan_fresh/services/akvaplanist.ts";
 import { createOramaIndex } from "akvaplan_fresh/search/create_search_index.ts";
 
 await dev(import.meta.url, "./main.ts");
 
 if (Deno.args.includes("build")) {
-  const orama = await createOramaIndex();
-  //{"key":["mynewsdesk_error","news",412971],"value":"value too large (max 65536 bytes)","versionstamp":"0000000000042d7a0000"}
-  //{"key":["mynewsdesk_error","news",414421],"value":"value too large (max 65536 bytes)","versionstamp":"0000000000042d710000"}
+  const akvaplanists = await getAkvaplanistsFromDenoService();
+  console.warn(akvaplanistsJsonPath);
+  await Deno.writeTextFile(akvaplanistsJsonPath, JSON.stringify(akvaplanists));
 
+  const orama = await createOramaIndex();
   await persistOramaJson(orama, oramaJsonPath);
 }
