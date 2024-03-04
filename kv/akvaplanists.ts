@@ -3,7 +3,7 @@ import type { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
 
 const _map = new Map<string, Akvaplanist>();
 
-export async function* akvaplanists() {
+export async function* akvaplanistsKvGenerator() {
   if (_map.size === 0) {
     const kv = await openKv();
     for await (
@@ -16,7 +16,7 @@ export async function* akvaplanists() {
 
 export const akvaplanistMap = async () => {
   if (_map.size === 0) {
-    for await (const p of akvaplanists()) {
+    for await (const p of akvaplanistsKvGenerator()) {
       _map.set(p.id, p);
     }
   }
