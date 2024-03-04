@@ -1,7 +1,7 @@
 // FIXME PeopleCard: Priors with ID should use gray symbol and no email
 // https://akvaplan.no/no/nyhet/2021-04-26/tynn-men-fet-fisken-tverrhalet-langebarn-utgjor-en-energibombe-i-de-arktiske-hav
 // https://akvaplan.no/no/folk/name/Biuw/Martin
-import { akvaplanistMap } from "../../kv/akvaplanists.ts";
+import { akvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
 import { priorAkvaplanistID } from "akvaplan_fresh/services/prior_akvaplanists.ts";
 import { peopleURL, personURL } from "akvaplan_fresh/services/nav.ts";
 
