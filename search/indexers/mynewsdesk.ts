@@ -1,4 +1,3 @@
-import { getValue } from "akvaplan_fresh/kv/mod.ts";
 import { isodate } from "akvaplan_fresh/time/mod.ts";
 
 import type {

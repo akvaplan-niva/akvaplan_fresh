@@ -2,6 +2,7 @@
 // @todo inspiration/link: https://openalex.org/works?sort=publication_date%3Adesc&column=display_name,publication_year,type,open_access.is_oa,cited_by_count&page=1&filter=authorships.author.id%3AA5053761479
 // https://openalex.org/authors/A5053761479
 import {
+  akvaplanists,
   buildGroupFX,
   buildPeopleGrouper,
   cristinAppPersonURL,
@@ -29,7 +30,7 @@ import {
   PeopleSearchForm,
 } from "akvaplan_fresh/components/mod.ts";
 
-import { intlRouteMap } from "akvaplan_fresh/services/mod.ts";
+import { akvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
 import { buildContainsFilter } from "akvaplan_fresh/search/filter.ts";
 import { lang, normalize, t } from "akvaplan_fresh/text/mod.ts";
 
@@ -115,7 +116,7 @@ export const handler: Handlers = {
     const { searchParams } = new URL(req.url);
     const q = searchParams.get("q") ?? "";
 
-    const unsorted = await getAugmentedAkvaplanists();
+    const unsorted = await akvaplanists();
     const sortkey = getSortKey(searchParams.get("sort") ?? group);
     const sortdir = searchParams.get("sortdir") ?? 1;
 

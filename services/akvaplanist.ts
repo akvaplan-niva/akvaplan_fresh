@@ -2,19 +2,18 @@ import { alias, offices } from "akvaplan_fresh/services/mod.ts";
 import { normalize as n, tr } from "akvaplan_fresh/text/mod.ts";
 import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
+import { ALL } from "https://deno.land/std@0.211.0/semver/constants.ts";
 
-export const akvaplanistsJsonPath = "./_fresh/akvaplanists.json";
+const akvaplanistsJsonPath = "./_fresh/akvaplanists.json";
 
-import frozen from "akvaplan_fresh/data/akvaplanists.json" with {
-  type: "json",
-};
-export const base = "https://akvaplanists.deno.dev";
+const base = "https://akvaplanists.deno.dev";
 
-const _all: Partial<Akvaplanist>[] = frozen;
-let isFrozen = true;
+let _all: Akvaplanist[] | undefined;
+
 export const getAkvaplanistsFromDenoService = async (): Promise<
   Akvaplanist[]
 > => {
+  console.warn("FETCH", base);
   const r = await fetch(base);
   if (r.ok) {
     const empl = await r.json();
@@ -28,28 +27,30 @@ export const getAkvaplanistsFromDenoService = async (): Promise<
   return [];
 };
 
+export const fetchAndSaveAkvaplanistsJson = async () => {
+  const akvaplanists = await getAkvaplanistsFromDenoService();
+  setAkvaplanists(akvaplanists);
+  await Deno.writeTextFile(
+    akvaplanistsJsonPath,
+    JSON.stringify(akvaplanists),
+  );
+  return akvaplanists;
+};
 export const akvaplanists = async (): Promise<Akvaplanist[]> => {
-  if (true === isFrozen) {
-    const fresh = await getAkvaplanistsFromDenoService();
-    for (const p of fresh) {
-      const idx = _all.findIndex(({ id }) => id === p.id);
-      if (idx) {
-        _all[idx] = { ..._all[idx], ...p };
-      }
-    }
-    isFrozen = false;
+  if (undefined === _all) {
+    _all = await getAkvaplanistsFromDenoService() as Akvaplanist[];
   }
-  return _all as Akvaplanist[];
+  return _all;
 };
 
-export const akvaplanistMap = async () => {
-  const all = await akvaplanists() ?? [];
-  return new Map(all?.map(({ id, ...apn }) => [id, { id, ...apn }]));
-};
+export const setAkvaplanists = (all) => _all = all;
+
+export const akvaplanistMap = async () =>
+  new Map((await akvaplanists()).map(({ id, ...apn }) => [id, { id, ...apn }]));
 
 export const mynewsdeskPeople = async () => {
   return new Map(
-    frozen?.map(({ myn, ...apn }) => [myn, apn]),
+    (await akvaplanists()).map(({ myn, ...apn }) => [myn, apn]),
   );
 };
 

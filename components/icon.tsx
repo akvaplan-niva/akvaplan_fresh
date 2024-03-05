@@ -2,7 +2,7 @@
 //
 // Run "deno task icons" to fetch icons here into static/icon/*.svg
 // Icons are from Google's [Material Symbols](https://developers.google.com/fonts/docs/material_symbols#use_in_web)
-import icons from "./icons.json" assert { type: "json" };
+import icons from "./icons.json" with { type: "json" };
 const svg = new Map(icons);
 
 export const Icon = (
