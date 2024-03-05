@@ -8,7 +8,7 @@ const akvaplanistsJsonPath = "./_fresh/akvaplanists.json";
 
 const base = "https://akvaplanists.deno.dev";
 
-let _all: Akvaplanist[] | undefined;
+export let _all: Akvaplanist[] | undefined;
 
 export const getAkvaplanistsFromDenoService = async (): Promise<
   Akvaplanist[]
@@ -45,8 +45,10 @@ export const akvaplanists = async (): Promise<Akvaplanist[]> => {
 
 export const setAkvaplanists = (all) => _all = all;
 
-export const akvaplanistMap = async () =>
-  new Map((await akvaplanists()).map(({ id, ...apn }) => [id, { id, ...apn }]));
+export const akvaplanistMap = async (all = _all) =>
+  new Map(
+    all ?? (await akvaplanists()).map(({ id, ...apn }) => [id, { id, ...apn }]),
+  );
 
 export const mynewsdeskPeople = async () => {
   return new Map(
