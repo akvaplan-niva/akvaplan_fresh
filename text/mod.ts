@@ -1,7 +1,7 @@
 import { computed, signal } from "@preact/signals";
 
-import _en from "./trans/en.json" assert { type: "json" };
-import _no from "./trans/no.json" assert { type: "json" };
+import _en from "./trans/en.json" with { type: "json" };
+import _no from "./trans/no.json" with { type: "json" };
 //import _unit_no from "./trans/unit/no.json" assert { type: "json" };
 
 const getRoot = () => globalThis?.document?.documentElement;

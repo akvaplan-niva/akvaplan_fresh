@@ -1,7 +1,7 @@
 export interface Akvaplanist {
   given: string;
   family: string;
-  position: Position;
+  //position: Position;
   tel?: string;
   unit?: string;
   workplace?: string;
@@ -9,8 +9,8 @@ export interface Akvaplanist {
   id: string;
   email: string;
   employed?: boolean;
-  created: Date | string;
-  updated: Date | string;
+  created?: Date | string;
+  updated?: Date | string;
 }
 export interface Position {
   [lang: string]: string;

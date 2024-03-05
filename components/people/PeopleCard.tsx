@@ -1,7 +1,7 @@
 // FIXME PeopleCard: Priors with ID should use gray symbol and no email
 // https://akvaplan.no/no/nyhet/2021-04-26/tynn-men-fet-fisken-tverrhalet-langebarn-utgjor-en-energibombe-i-de-arktiske-hav
-// https://akvaplan.no/no/folk/name/Biuw/Martin
-import { akvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
+// http:/localhost:7777/no/folk/name/Biuw/Martin
+import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
 import { priorAkvaplanistID } from "akvaplan_fresh/services/prior_akvaplanists.ts";
 import { peopleURL, personURL } from "akvaplan_fresh/services/nav.ts";
 
@@ -19,7 +19,6 @@ interface PeopleProps {
   lang?: string;
   icons: boolean;
 }
-const people = globalThis?.Deno ? await akvaplanistMap() : [];
 
 export function PeopleCard(
   {
@@ -30,9 +29,10 @@ export function PeopleCard(
   }: PeopleProps,
 ) {
   if (id) {
-    person = people.get(id) ??
-      priorAkvaplanistID.get(id) ??
-      {};
+    (async () => {
+      person = await getAkvaplanist(id) ?? priorAkvaplanistID.get(id) ??
+        {};
+    });
   }
 
   const {
@@ -42,10 +42,11 @@ export function PeopleCard(
     given,
     family,
     position,
-    unit,
+    section,
     workplace,
     management,
     responsibility,
+    prior,
   } = person ?? {};
 
   return (
@@ -69,9 +70,9 @@ export function PeopleCard(
       <UseApnSym
         width="2rem"
         height="2rem"
-        style={person.prior === true ? { filter: "grayscale(1)" } : {}}
+        style={prior === true ? { filter: "grayscale(1)" } : {}}
       />{" "}
-      {person.prior === true && <span>{t("people.akvaplanist(prior)")}</span>}
+      {prior === true && <span>{t("people.akvaplanist(prior)")}</span>}
       <span class="people-position">
         {position?.[lang ?? "no"] ?? ""}
       </span>
@@ -83,12 +84,12 @@ export function PeopleCard(
       )}
 
       <div class="people-workplace">
-        {unit && unit !== "LEDELS" && (
+        {section && section !== "LEDELS" && (
           <a
             style={{ color: "var(--text2)" }}
-            href={`${peopleURL({ lang })}/unit/${unit}`}
+            href={`${peopleURL({ lang })}/unit/${section}`}
           >
-            {t(`unit.${unit}`)}
+            {t(`unit.${section}`)}
           </a>
         )}
       </div>
