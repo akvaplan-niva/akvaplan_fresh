@@ -1,7 +1,11 @@
 // FIXME PeopleCard: Priors with ID should use gray symbol and no email
 // https://akvaplan.no/no/nyhet/2021-04-26/tynn-men-fet-fisken-tverrhalet-langebarn-utgjor-en-energibombe-i-de-arktiske-hav
 // http:/localhost:7777/no/folk/name/Biuw/Martin
-import { _all, akvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
+import {
+  akvaplan,
+  akvaplanists,
+  getAkvaplanist,
+} from "akvaplan_fresh/services/akvaplanist.ts";
 import { priorAkvaplanistID } from "akvaplan_fresh/services/prior_akvaplanists.ts";
 import { peopleURL, personURL } from "akvaplan_fresh/services/nav.ts";
 
@@ -13,6 +17,13 @@ import { type Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
 import { Head } from "$fresh/runtime.ts";
 
+const people = new Map();
+if (globalThis.Deno) {
+  for await (const p of await akvaplanists()) {
+    people.set(p.id, p);
+  }
+}
+
 interface PeopleProps {
   id?: string;
   person?: Akvaplanist;
@@ -20,7 +31,6 @@ interface PeopleProps {
   icons: boolean;
 }
 
-const people = await akvaplanistMap(_all);
 export function PeopleCard(
   {
     person,
@@ -30,8 +40,7 @@ export function PeopleCard(
   }: PeopleProps,
 ) {
   if (id) {
-    person = people.get(id) ?? priorAkvaplanistID.get(id) ??
-      {};
+    person = people.get(id) ?? priorAkvaplanistID.get(id) ?? person;
   }
 
   const {

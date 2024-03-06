@@ -1,4 +1,6 @@
 import { count, create as _create, load } from "@orama/orama";
+import { language, stemmer } from "@orama/stemmers/norwegian";
+
 import {
   type OramaAtom,
   oramaAtomSchema,
@@ -8,10 +10,36 @@ let _orama: OramaAtom;
 
 export const oramaJsonPath = "./_fresh/orama.json";
 
+const normalize = (s: string, locales?: string[]) =>
+  s?.normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "").toLocaleLowerCase(locales);
+
+const normalizedWordTokenizer = (raw: string) => {
+  const segmenter = new Intl.Segmenter([], { granularity: "word" });
+  const segmented = segmenter.segment(raw);
+  const words = [...segmented]
+    .filter((s) => s.isWordLike).map((s) => normalize(s.segment));
+  return words;
+};
+
+// const normalizer = (raw: string) =>
+//   raw
+//     .replace(/[\.,!?\n]+/g, " ")
+//     .split(/\s+/).map((w) => normalize(w));
+
 export const createOramaInstance = async (): Promise<OramaAtom> =>
   await _create({
     schema: oramaAtomSchema,
-    language: "norwegian",
+    //language,
+    components: {
+      tokenizer: {
+        normalizationCache: new Map(),
+        stemming: true,
+        language,
+        stemmer,
+        tokenize: normalizedWordTokenizer,
+      },
+    },
   });
 
 export const getOramaInstance = async (): Promise<OramaAtom> => {
