@@ -31,6 +31,7 @@ interface PeopleProps {
   icons: boolean;
 }
 
+const people = await akvaplanistMap(_all);
 export function PeopleCard(
   {
     person,

@@ -228,7 +228,9 @@ export const getItemFromMynewsdeskApi = async (
   type_of_media: string,
 ): Promise<AbstractMynewsdeskItem | undefined> => {
   const url = itemURL(id, type_of_media);
-  console.debug("getItem [API]", url);
+
+  //console.debug("getItem [API]", url);
+
   const r = await fetch(url);
   if (r.ok) {
     const { item: [item] } = await r.json();

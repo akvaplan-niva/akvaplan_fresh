@@ -6,10 +6,13 @@ import {
   persistOramaJson,
 } from "akvaplan_fresh/search/orama.ts";
 import {
+  akvaplanists,
   fetchAndSaveAkvaplanistsJson,
+  setAkvaplanists,
 } from "akvaplan_fresh/services/akvaplanist.ts";
 import { createOramaIndex } from "akvaplan_fresh/search/create_search_index.ts";
 
+await setAkvaplanists(await akvaplanists());
 await dev(import.meta.url, "./main.ts");
 
 if (Deno.args.includes("build")) {
