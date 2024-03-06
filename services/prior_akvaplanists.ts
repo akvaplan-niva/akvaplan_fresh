@@ -253,11 +253,12 @@ export const priorAkvaplanists = [
   { given: null, family: "Scanlon" }, //just 1: /no/doi/10.1046/j.1439-0426.2001.00315.x
 
   { family: "White", "count": 1 },
-  { family: "White", given: "P.", "count": 1 },
-  { family: "White", given: "Patrick", "count": 1 },
+  { family: "White", given: "P.", count: 1 },
+  { family: "White", given: "Patrick", count: 1 },
   //Alexey K. Pavlov
-  { family: "Pavlov", given: "Alexey K.", "count": 13 },
-  { family: "Pavlov", given: "Alexey", "count": 1 },
+  { family: "Pavlov", given: "Alexey K.", count: 13 },
+  { family: "Pavlov", given: "Alexey", count: 1 },
+  { family: "Eglund-Newby", given: "Sam", count: 1 },
   // bad { given: "Olexander", family: "Kozlovets" },10.20535/ibb.2020.4.4.211227
 ];
 
