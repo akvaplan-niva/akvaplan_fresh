@@ -2,7 +2,7 @@ import { alias, offices } from "akvaplan_fresh/services/mod.ts";
 import { normalize as n, tr } from "akvaplan_fresh/text/mod.ts";
 import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
-import { ALL } from "https://deno.land/std@0.211.0/semver/constants.ts";
+import { search } from "akvaplan_fresh/search/search.ts";
 
 const akvaplanistsJsonPath = "./_fresh/akvaplanists.json";
 
@@ -71,18 +71,37 @@ export const findAkvaplanist = async (
   if (!id && alias.has(aliaskey)) {
     return all.get(alias.get(aliaskey));
   } else {
-    const exact = [...all.entries()].find(([id, p]) =>
-      n(p.family) === n(family) && n(p.given) === n(given)
-    );
-    if (exact?.id?.length > 0) {
-      return exact;
-    } else {
-      const familyAndInitial = [...all.values()].filter((p) =>
-        p.family === family &&
-        [...p?.given].at(0) === [...given ?? ""].at(0)
-      );
-      return familyAndInitial.length === 1 ? familyAndInitial.at(0) : undefined;
+    const fn = `${family} ${given.split(/\s/)?.at(0)}`;
+    console.warn({ fn });
+    const { hits, count } = await search({
+      term: fn,
+      threshold: 0,
+      where: { collection: "person" },
+    });
+    if (count > 0) {
+      const { id, akvaplanist } = hits.at(0);
+      if (count > 1) {
+        console.warn(hits);
+      }
+      return { id: id.split("@").at(0), ...akvaplanist };
     }
+    console.warn({ count });
+
+    //search({ term: family, where: { collection: "pubs" } });
+    // const all = await akvaplanists();
+    // console.warn(all.length);
+    // const exact = all?.find(([id, p]) =>
+    //   n(p.family) === n(family) && n(p.given) === n(given)
+    // );
+    // if (exact?.id?.length > 0) {
+    //   return exact;
+    // } else {
+    //   const familyAndInitial = all?.filter((p) =>
+    //     p.family === family &&
+    //     [...p?.given].at(0) === [...given ?? ""].at(0)
+    //   );
+    //   return familyAndInitial.length === 1 ? familyAndInitial.at(0) : undefined;
+    // }
   }
 };
 

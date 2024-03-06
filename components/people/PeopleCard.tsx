@@ -85,21 +85,32 @@ export function PeopleCard(
         {position?.[lang ?? "no"] ?? ""}
       </span>
 
-      {responsibility && (
-        <div class="people-workplace">
-          {responsibility?.[lang ?? "no"] ?? ""}
-        </div>
-      )}
-
       <div class="people-workplace">
-        {section && section !== "LEDELS" && (
+        {management === true && (
           <a
-            style={{ color: "var(--text2)" }}
-            href={`${peopleURL({ lang })}/unit/${section}`}
+            class="people-workplace"
+            href={`${peopleURL({ lang })}/management`}
           >
-            {t(`unit.${section}`)}
+            {t("people.Management")}
           </a>
         )}
+      </div>
+
+      <div class="people-workplace">
+        {section && section !== "LEDELS"
+          ? (
+            <a
+              style={{ color: "var(--text2)" }}
+              href={`${peopleURL({ lang })}/unit/${section}`}
+            >
+              {t(`unit.${section}`)}
+            </a>
+          )
+          : (
+            <span>
+              {person?.intl?.[lang]?.unit}
+            </span>
+          )}
       </div>
       {workplace?.length > 0 && (
         <div class="people-workplace">
@@ -112,14 +123,6 @@ export function PeopleCard(
         </div>
       )}
 
-      {management === true && (
-        <a
-          class="people-workplace"
-          href={`${peopleURL({ lang })}/management`}
-        >
-          {t("people.Management")}
-        </a>
-      )}
       <p style={{ marginTop: "1rem" }}></p>
       {icons && (
         <div class="people-workplace">
