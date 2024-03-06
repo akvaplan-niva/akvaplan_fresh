@@ -2,6 +2,7 @@ import { getOramaInstance } from "./orama.ts";
 import { search as _search } from "@orama/orama";
 import type { Results, SearchParams } from "@orama/orama";
 import type { OramaAtom, SearchAtom } from "akvaplan_fresh/search/types.ts";
+import { normalize } from "akvaplan_fresh/text/mod.ts";
 
 export const { compare } = Intl.Collator("no", {
   usage: "sort",
@@ -33,6 +34,7 @@ export const search = async (
   params: SearchParams<OramaAtom>,
 ) => {
   const orama = await getOramaInstance();
+  params.term = normalize(params.term);
   return await _search(orama, params) as Results<SearchAtom>;
 };
 export const searchViaApi = async (
