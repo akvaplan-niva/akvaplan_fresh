@@ -244,9 +244,11 @@ export const getItemFromMynewsdeskApi = async (
 
 export const fetchContactEmail = async (item_id) => {
   const contact_person = await getItem(item_id, "contact_person");
-  const { email } = contact_person;
-  const contact = email?.split("@")?.at(0);
-  return contact;
+  if (contact_person) {
+    const { email } = contact_person;
+    const contact = email?.split("@")?.at(0);
+    return contact;
+  }
 };
 
 export const fetchContacts = async ({ related_items }) => {
