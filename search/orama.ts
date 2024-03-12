@@ -1,4 +1,4 @@
-import { count, create as _create, load } from "@orama/orama";
+import { count, create as _create, getByID, load } from "@orama/orama";
 import { language, stemmer } from "@orama/stemmers/norwegian";
 
 import {
@@ -106,3 +106,6 @@ Error: Build failed with 2 errors:
   errors: [Getter/Setter],
   warnings: [Getter/Setter]
 }*/
+
+export const getById = async (id: string) =>
+  await getByID(await getOramaInstance(), id);

@@ -98,11 +98,11 @@ export const documentFilter = (item: AbstractMynewsdeskItem) =>
 export const videoFilter = (item: AbstractMynewsdeskItem) =>
   ["video"].includes(item?.type_of_media);
 
-export const listURL = ({ type_of_media, offset, limit, sort }: {
+export const listURL = ({ type_of_media, offset, limit, order }: {
   type_of_media: string;
   offset?: number;
   limit?: number;
-  sort?: string;
+  order?: string;
 }) => {
   const url = new URL(actionPath("list"), base);
 
@@ -112,7 +112,7 @@ export const listURL = ({ type_of_media, offset, limit, sort }: {
     format: "json",
     strict: "true",
     //locale: "en",
-    sort: "published", // seems to return reverse ie last published first
+    order: "published", // seems to return reverse ie last published first
   };
   for (
     const [k, v] of new URLSearchParams(defaults)
@@ -122,6 +122,7 @@ export const listURL = ({ type_of_media, offset, limit, sort }: {
   url.searchParams.set("type_of_media", type_of_media);
   url.searchParams.set("offset", String(offset ?? 0));
   url.searchParams.set("limit", String(limit ?? 100));
+  console.warn(url.href);
   return url;
 };
 
@@ -166,12 +167,12 @@ export const getItemBySlug = async (
   const key = [slug0, type_of_media, slug];
   const { value, versionstamp } = await kv.get(key);
   if (versionstamp) {
-    //console.debug("getItemBySlug [KV]", key);
+    console.debug("getItemBySlug [KV]", key);
     return value;
   }
 
   const url = searchURL(slug, type_of_media);
-  //console.debug("getItemBySlug (API)", url.href);
+  console.debug("getItemBySlug (API)", url.href);
 
   const r = await fetch(url.href).catch((error) => {
     console.warn(
@@ -205,6 +206,8 @@ export const getItem = async (
   const _kv = getItemFromKv(id, type_of_media);
   const _api = getItemFromMynewsdeskApi(id, type_of_media);
   const winner = await Promise.race([_kv, _api]);
+  const who = winner?.[whoWon];
+  console.warn(who);
   return winner ?? _api;
 };
 
@@ -310,7 +313,7 @@ export const searchMynewsdesk = async (
   { q = "", type_of_media = "news", sort, strict = true, limit = 100 } = {},
 ) => {
   const url = searchURL(q, type_of_media, { limit });
-
+  console.warn(url.href);
   const response = await fetch(url);
   if (response.ok) {
     const { search_result: { items }, ...rest } = await response.json();

@@ -34,6 +34,24 @@ const _section = {
   // padding: "1.5rem",
 };
 
+// read mynewsdesk_manifest
+// put into Map
+// find articles where created >= last updated?
+// inject those into orama
+const mynewsdeskLast = new Map();
+
+if (globalThis.Deno) {
+  try {
+    const path = "./_fresh/mynewsdesk_manifest.json";
+    await Deno.stat(path);
+    const m = JSON.parse(await Deno.readTextFile(path));
+    for (const { type_of_media, last } of m) {
+      mynewsdeskLast.set(type_of_media, last);
+    }
+  } catch (_) {
+  }
+}
+
 export const handler: Handlers = {
   async GET(req, ctx) {
     const sitelang = getLangFromURL(req.url);
@@ -64,7 +82,7 @@ export const handler: Handlers = {
       maxNumNews,
     );
     const articlesNotInSiteLang = news.filter(({ type, hreflang }) =>
-      ["news", "pressrelease"].includes(type) &&
+      ["news", "pressrelease", "blog_post"].includes(type) &&
       hreflang !== sitelang
     ).slice(
       0,

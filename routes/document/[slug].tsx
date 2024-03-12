@@ -19,7 +19,7 @@ import { newsFilter } from "akvaplan_fresh/services/mynewsdesk.ts";
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(document|dokument){/:date}?/:slug",
 };
-export default async function Document(req: Request, ctx: RouteContext) {
+export default async function DocumentPage(req: Request, ctx: RouteContext) {
   const { url: { searchParams, pathname }, params: { slug, lang } } = ctx;
   if (searchParams.has("download")) {
     return cloudinaryProxy(req, ctx);

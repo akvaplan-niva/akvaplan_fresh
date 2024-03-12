@@ -2,7 +2,8 @@
 // FIXME Compare /en/press/2958380 with https://www.mynewsdesk.com/no/akvaplan-niva/pressreleases/ny-rapport-evaluering-av-nye-oppdrettsarter-2958380
 //console.log("@todo News article: auto-fetch related contacts");
 
-import { getValue } from "akvaplan_fresh/kv/mod.ts";
+import { getById } from "akvaplan_fresh/search/orama.ts";
+import { search } from "akvaplan_fresh/search/search.ts";
 
 import {
   defaultImage,
@@ -16,6 +17,7 @@ import {
   newsFromMynewsdesk,
   projectFilter,
   projectFromMynewsdesk,
+  searchMynewsdesk,
   videoFilter,
 } from "akvaplan_fresh/services/mod.ts";
 import { href } from "akvaplan_fresh/search/href.ts";
@@ -83,10 +85,20 @@ export const handler: Handlers = {
 
     const numid = Number(slug?.split("-").at(-1));
 
-    // Fetch item
-    const item = (numid > 9999)
+    const orama = await getById(`mynewsdesk/${type_of_media}/${numid}`);
+
+    let item = (numid > 9999)
       ? await getItem(numid, type_of_media)
       : await getItemBySlug(slug, type_of_media);
+
+    if (!item) {
+      const _news = await searchMynewsdesk({ q: "", limit: 32, type_of_media });
+      const found = _news?.items.find(({ url }) => url.includes(slug));
+      if (found) {
+        item = found;
+      }
+    }
+
     if (!item) {
       return ctx.renderNotFound();
     }

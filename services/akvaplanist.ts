@@ -71,37 +71,29 @@ export const findAkvaplanist = async (
   if (!id && alias.has(aliaskey)) {
     return all.get(alias.get(aliaskey));
   } else {
-    const fn = `${family} ${given.split(/\s/)?.at(0)}`;
-    console.warn({ fn });
+    const fg = `${family} ${given}`;
+
     const { hits, count } = await search({
-      term: fn,
-      threshold: 0,
+      term: fg,
+      threshold: 0.01,
       where: { collection: "person" },
     });
     if (count > 0) {
-      const { id, akvaplanist } = hits.at(0);
-      if (count > 1) {
-        console.warn(hits);
-      }
-      return { id: id.split("@").at(0), ...akvaplanist };
-    }
-    console.warn({ count });
+      const res = hits
+        .filter(({ score }) => score > 21).map((
+          h,
+        ) => [fg, h.score, h.document.family, h.document.given]);
+      const exactFamGiven1 = hits.find((r) =>
+        r.document.family === family &&
+        r.document.given.split(" ").at(0) === given.split(" ").at(0)
+      );
 
-    //search({ term: family, where: { collection: "pubs" } });
-    // const all = await akvaplanists();
-    // console.warn(all.length);
-    // const exact = all?.find(([id, p]) =>
-    //   n(p.family) === n(family) && n(p.given) === n(given)
-    // );
-    // if (exact?.id?.length > 0) {
-    //   return exact;
-    // } else {
-    //   const familyAndInitial = all?.filter((p) =>
-    //     p.family === family &&
-    //     [...p?.given].at(0) === [...given ?? ""].at(0)
-    //   );
-    //   return familyAndInitial.length === 1 ? familyAndInitial.at(0) : undefined;
-    // }
+      if (exactFamGiven1) {
+        const { id, document } = exactFamGiven1;
+        const akvaplanist = { ...document, id: id.split("@").at(0) };
+        return akvaplanist;
+      }
+    }
   }
 };
 
