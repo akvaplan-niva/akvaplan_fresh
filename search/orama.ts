@@ -61,8 +61,10 @@ export const restoreOramaJson = async (path: string) => {
     const stat = await Deno.stat(path);
     if (stat.isFile) {
       console.time("Orama restore time");
+
       const deserialized = JSON.parse(await Deno.readTextFile(path));
       const db = await createOramaInstance();
+
       await load(db, deserialized);
       console.warn("Restored", await count(db), "Orama documents from", path);
       console.timeEnd("Orama restore time");
