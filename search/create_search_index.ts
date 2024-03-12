@@ -38,7 +38,17 @@ export const createOramaIndex = async () => {
   await insertMultiple(orama, data.map(atomizeSlimPublication));
 
   console.warn(`Indexing Mynewsdesk`);
-  await insertMynewsdesk(orama);
+  const mynewsdesk_manifest = [];
+  for await (const mani of insertMynewsdesk(orama)) {
+    console.warn(mani);
+    if (mani?.count > 0) {
+      mynewsdesk_manifest.push(mani);
+    }
+  }
+  await Deno.writeTextFile(
+    "./_fresh/mynewsdesk_manifest.json",
+    JSON.stringify(mynewsdesk_manifest),
+  );
 
   console.timeEnd("Orama indexing");
   return orama;

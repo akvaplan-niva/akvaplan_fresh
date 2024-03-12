@@ -17,7 +17,7 @@ import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 import { markdownFromHtml } from "akvaplan_fresh/utils/markdown/turndown.ts";
 import { mynewsdeskPeople } from "akvaplan_fresh/services/akvaplanist.ts";
 
-import { insert, insertMultiple } from "@orama/orama";
+import { AnyOrama, insert, insertMultiple } from "@orama/orama";
 
 const itemCollection = ({ type_of_media }: AbstractMynewsdeskItem) => {
   switch (type_of_media) {
@@ -165,8 +165,10 @@ export const insertMynewsdeskCollections = async (
   }
 };
 
-export const insertMynewsdesk = async (orama: AnyOrama) => {
+export async function* insertMynewsdesk(orama: AnyOrama) {
   const actual = new Map(typeOfMediaCountMap);
+  const total = new Map(typeOfMediaCountMap);
+  const last = new Map(typeOfMediaCountMap);
   const limit = 100;
 
   for await (const type_of_media of [...actual.keys()]) {
@@ -179,6 +181,7 @@ export const insertMynewsdesk = async (orama: AnyOrama) => {
         offset,
         limit,
       });
+      total.set(type_of_media, total_count);
 
       if (["contact_person"].includes(type_of_media)) {
         break;
@@ -187,17 +190,22 @@ export const insertMynewsdesk = async (orama: AnyOrama) => {
         type_of_media,
         items.length + actual.get(type_of_media)!,
       );
+
       for await (const item of items) {
+        const updated = new Date(item?.updated_at?.datetime);
+        if (+updated > last.get(type_of_media)) {
+          last.set(type_of_media, updated);
+        }
         atoms.push(await atomizeMynewsdeskItem(item));
       }
       await insertMultiple(orama, atoms);
       offset += limit;
     }
-    console.warn(
-      {
-        type_of_media,
-        actual: actual.get(type_of_media),
-      },
-    );
+    yield ({
+      type_of_media,
+      count: actual.get(type_of_media),
+      total: total.get(type_of_media),
+      last: last.get(type_of_media),
+    });
   }
-};
+}

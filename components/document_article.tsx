@@ -1,17 +1,14 @@
-import { intlRouteMap as intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 import { isodate } from "akvaplan_fresh/time/mod.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 
-import { Article, Icon, MiniNewsCard } from "akvaplan_fresh/components/mod.ts";
+import { Article } from "akvaplan_fresh/components/mod.ts";
 import Button from "akvaplan_fresh/components/button/button.tsx";
 
 import type { MynewsdeskDocument } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import { newsFilter } from "akvaplan_fresh/services/mod.ts";
-import { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mod.ts";
 import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
 
-const w1782Preview = (cloudinary: string) =>
-  `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1782/${cloudinary}`;
+const previewImageUrl = (cloudinary: string, width: number) =>
+  `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_${width}/${cloudinary}`;
 
 export function DocumentArticle(
   { item, lang }: {
@@ -33,10 +30,8 @@ export function DocumentArticle(
             <img
               title={item.header}
               alt={item.header}
-              src={w1782Preview(item.cloudinary)}
+              src={previewImageUrl(item.cloudinary, 375)}
             />
-
-            {/* <figcaption>{item.photographer}</figcaption> */}
           </figure>
         </a>
       </header>

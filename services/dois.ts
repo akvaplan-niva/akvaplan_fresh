@@ -19,7 +19,6 @@ export const getDoisFromDenoDeployService = async () => {
     return response.json();
   }
 };
-// We need to load all pubs (via limit=-1) for in-memory search
 
 export const search = async (params: Record<string, string> = {}) => {
   const base = DOIS_BASE;
