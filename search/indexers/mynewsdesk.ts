@@ -173,14 +173,17 @@ export async function* insertMynewsdesk(orama: AnyOrama) {
 
   for await (const type_of_media of [...actual.keys()]) {
     let offset = 0;
+    let page = 1;
 
     while (actual.get(type_of_media)! >= offset) {
       const atoms = [];
-      const { items, total_count } = await fetchMynewsdeskBatch({
+      const res = await fetchMynewsdeskBatch({
         type_of_media,
         offset,
         limit,
+        page,
       });
+      const { items, total_count } = res;
       total.set(type_of_media, total_count);
 
       if (["contact_person"].includes(type_of_media)) {
@@ -200,6 +203,7 @@ export async function* insertMynewsdesk(orama: AnyOrama) {
       }
       await insertMultiple(orama, atoms);
       offset += limit;
+      page += 1;
     }
     yield ({
       type_of_media,

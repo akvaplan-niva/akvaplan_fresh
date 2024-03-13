@@ -17,18 +17,19 @@ const namesEtal = (people: string[]) => {
 };
 
 export function SearchResults(
-  { hits, count, list, lang }: {
+  { hits, count, list, lang, q, collection }: {
     hits: OramaAtom[];
     count: number;
     list: string;
     lang: string;
+    q: string;
+    collection: string;
   },
 ) {
   return (
     <div>
       <ol
         style={{
-          paddingBlockEnd: "1.5rem",
           display: list === "list" ? "block" : "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
         }}
@@ -99,10 +100,6 @@ export function SearchResults(
           </li>
         ))}
       </ol>
-      <aside>
-        <p>
-        </p>
-      </aside>
     </div>
   );
 }

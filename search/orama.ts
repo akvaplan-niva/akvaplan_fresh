@@ -72,6 +72,7 @@ export const restoreOramaJson = async (path: string) => {
     }
   } catch (e) {
     console.error(`Could not restore Orama index ${path}`);
+    throw "Search is currently unavailable";
   }
 };
 
