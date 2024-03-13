@@ -10,6 +10,7 @@ import type { Result, Results } from "@orama/orama";
 import { useSignal } from "@preact/signals";
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 import { CollectionSummary } from "../components/CollectionSummary.tsx";
+import Button from "akvaplan_fresh/components/button/button.tsx";
 // import { yearFacet } from "akvaplan_fresh/search/search.ts";
 // import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 
@@ -53,24 +54,27 @@ export default function CollectionSearch(
   },
 ) {
   const where = { collection };
-  const query = useSignal(q);
-  const limit = useSignal(5);
-
+  const query = useSignal(q ?? "");
+  const limit = useSignal(10);
+  const etal = useSignal(true);
   const hits = useSignal((results?.hits ?? []) as Result<SearchAtom>[]);
   const count = useSignal(results?.count ?? 0);
   const facet = useSignal(facetMapper(results?.facets));
+  const display = useSignal("block");
 
   const performSearch = async (
-    { q, ...params }: { q: string },
+    _params: { q?: string } = {},
   ) => {
+    const q = _params?.q ?? query.value;
     query.value = q;
 
+    console.warn({ q });
     const results = await searchViaApi({
       q,
       facets,
-      ...params,
+      ..._params,
       where,
-      limit: 100,
+      limit: limit.value,
       groupBy: false,
     });
     if (results) {
@@ -81,10 +85,20 @@ export default function CollectionSearch(
   };
 
   const handleSearchInput = async (e: Event) => {
-    console.warn(e);
     const { target: { value, ownerDocument } } = e;
     const { origin } = new URL(ownerDocument?.URL ?? document?.URL);
     performSearch({ q: value, base: origin, limit: limit.value });
+    e.preventDefault();
+  };
+
+  const toggleList = (e: Event) => {
+    display.value = display.value === "grid" ? "block" : "grid";
+    e.preventDefault();
+  };
+
+  const increaseLimit = (e: Event) => {
+    limit.value += 10;
+    performSearch();
     e.preventDefault();
   };
 
@@ -130,8 +144,33 @@ export default function CollectionSearch(
             hits={hits.value}
             count={count.value}
             lang={lang}
-            list={list}
+            display={display.value}
           />
+          {hits.value.length < count.value &&
+            (
+              <Button
+                disabled={hits.value.length === count.value}
+                style={{
+                  backgroundColor: "transparent",
+                  fontSize: "1rem",
+                }}
+                onClick={increaseLimit}
+              >
+                Vis flere treff
+              </Button>
+            )}
+
+          {hits.value.length < 0 && (
+            <Button
+              style={{
+                backgroundColor: "transparent",
+                fontSize: "1rem",
+              }}
+              onClick={toggleList}
+            >
+              Bytt mellom liste og kompakt visning
+            </Button>
+          )}
         </div>
         {
           /* <div>
