@@ -39,10 +39,10 @@ export const createOramaIndex = async () => {
 
   console.warn(`Indexing Mynewsdesk`);
   const mynewsdesk_manifest = [];
-  for await (const mani of insertMynewsdesk(orama)) {
-    console.warn(mani);
-    if (mani?.count > 0) {
-      mynewsdesk_manifest.push(mani);
+  for await (const manifest of insertMynewsdesk(orama)) {
+    console.warn(manifest);
+    if (manifest?.count > 0) {
+      mynewsdesk_manifest.push(manifest);
     }
   }
   await Deno.writeTextFile(

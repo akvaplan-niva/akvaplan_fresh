@@ -61,11 +61,12 @@ export const searchViaApi = async (
     searchParams.set("where", JSON.stringify(where));
   }
   if (facets !== undefined) {
-    console.warn({ facets });
     searchParams.set("facets", JSON.stringify(facets));
   }
   const r = await fetch(url);
-  if (r.ok) {
+  const { status, ok } = r;
+  if (ok) {
     return await r.json() as Results<SearchAtom>;
   }
+  return { error: { status } };
 };

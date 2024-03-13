@@ -11,6 +11,7 @@ import type { GroupByParams, Orama, Results, SearchParams } from "@orama/orama";
 
 import { useSignal } from "@preact/signals";
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
+import Button from "akvaplan_fresh/components/button/button.tsx";
 
 const detailsOpen = (collection: string) =>
   ["image", "document", "video", "blog", "pubs"].includes(collection)
@@ -60,7 +61,7 @@ export default function GroupedSearch(
   const groups = useSignal([]);
   const facets = useSignal(new Map());
   const first = useSignal(true);
-  const sitelang = langSignal.value;
+  const error = useSignal(0);
 
   const performSearch = async (
     { q, ...params }: { q: string },
@@ -68,8 +69,14 @@ export default function GroupedSearch(
     query.value = q;
 
     const results = await searchViaApi({ q, ...params });
-    if (results) {
+    const { status } = results;
+    if (status > 299) {
+      error.value = status;
+    }
+    if (results?.groups) {
       groups.value = q?.length > 0 ? results.groups : [];
+    }
+    if (results?.facets) {
       for (
         const [collection, count] of Object.entries(
           results?.facets?.collection?.values,
@@ -137,10 +144,13 @@ export default function GroupedSearch(
           autocomplete="off"
           onInput={handleUserSearchInput}
         />
-
-        <label style={{ fontSize: "1rem", display: "none" }}></label>
       </form>
       <output>
+        {error && (
+          <p>
+            {t("ui.search.Error_search_currently_unavailable")}
+          </p>
+        )}
         {groups.value?.map(({ values, result }) => (
           <details
             open={detailsOpen(values?.[0])}
@@ -155,7 +165,36 @@ export default function GroupedSearch(
               count={facetCountCollection(values?.[0])}
             />
 
-            <SearchResults hits={result} lang={lang} />
+            <SearchResults
+              hits={result}
+              lang={lang}
+              collection={values?.[0]}
+              count={facetCountCollection(values?.[0])}
+              q={query}
+            />
+
+            <aside
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr",
+                placeItems: "center",
+                paddingBlockEnd: "0.5rem",
+              }}
+            >
+              {result?.length > 0 &&
+                  result.length < facetCountCollection(values?.[0])
+                ? (
+                  <p style={{ fontSize: "1rem" }}>
+                    <Pill
+                      onClick={handleCollectionPressed}
+                      href={`/${lang}/_?q=${query}&collection=${values?.[0]}`}
+                    >
+                      {t("Se flere")} {t(`collection.${values?.[0]}`)}
+                    </Pill>
+                  </p>
+                )
+                : null}
+            </aside>
           </details>
         ))}
       </output>

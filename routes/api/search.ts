@@ -16,7 +16,7 @@ export const handler: Handlers = {
   async GET(req: Request, _ctx: FreshContext) {
     const { searchParams } = new URL(req.url);
     const term = searchParams.get("q") ?? "";
-    const maxResult = searchParams.has("limit")
+    const limit = searchParams.has("limit")
       ? Number(searchParams.get("limit"))
       : 10;
 
@@ -33,7 +33,7 @@ export const handler: Handlers = {
       searchParams.has("group-by")
         ? ({
           properties: [searchParams.get("group-by")],
-          maxResult,
+          maxResult: limit,
         })
         : undefined;
 
@@ -54,6 +54,7 @@ export const handler: Handlers = {
       // Set 0 threshold to search for multiple terms using AND-logic: https://docs.oramasearch.com/open-source/usage/search/threshold#setting-the-threshold-to-0
       threshold: 0,
       sortBy,
+      limit,
     };
 
     const results: Results<SearchAtom> = await search(params);

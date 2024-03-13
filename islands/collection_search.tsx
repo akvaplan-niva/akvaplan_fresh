@@ -70,6 +70,7 @@ export default function CollectionSearch(
       facets,
       ...params,
       where,
+      limit: 100,
       groupBy: false,
     });
     if (results) {

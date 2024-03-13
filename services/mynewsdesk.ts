@@ -73,7 +73,7 @@ export const getCanonical = (
     }
     case "contact_person":
       // The slug is only the Mynewsdesk item id corresponding to the person…
-      // and this route is not exposed anywhere
+      // (this route is not exposed anywhere, so just returns base url)
       return peopleURL({ lang });
     case "events": {
       return new URL(projectURL({ lang, title, slug }), url);
@@ -98,6 +98,19 @@ export const documentFilter = (item: AbstractMynewsdeskItem) =>
 export const videoFilter = (item: AbstractMynewsdeskItem) =>
   ["video"].includes(item?.type_of_media);
 
+// list - List all the materials of your newsrooms
+// GET https://www.mynewsdesk.com/services/pressroom/list/unique_key?
+//     format=[json|xml|rss]&
+//     type_of_media=[pressrelease|news|blog_post|event|image|video|document|contact_person]&
+//     limit=limit&
+//     offset=offset&
+//     order=[published|updated|created]&
+//     archived=[true|false]&
+//     strict=[true|false]&
+//     callback=callback&
+//     locale=locale&
+//     pressroom=country_code&
+//     tags=category1,category2,category3
 export const listURL = ({ type_of_media, offset, limit, order }: {
   type_of_media: string;
   offset?: number;
@@ -122,27 +135,29 @@ export const listURL = ({ type_of_media, offset, limit, order }: {
   url.searchParams.set("type_of_media", type_of_media);
   url.searchParams.set("offset", String(offset ?? 0));
   url.searchParams.set("limit", String(limit ?? 100));
-  console.warn(url.href);
+  // order?
   return url;
 };
 
+// search - Search material
 // GET https://www.mynewsdesk.com/services/pressroom/search/unique_key?
-//   query=query&
-//   type_of_media=[pressrelease|news|blog_post|event|image|video|document|contact_person]&
-//   limit=limit&
-//   page=page&
-//   strict=[true|false]&
-//   callback=callback&
-//   pressroom=pressroom&
-//   tags=category1,category2,category3
+//     query=query&
+//     type_of_media=[pressrelease|news|blog_post|event|image|video|document|contact_person]&
+//     limit=limit&
+//     page=page&
+//     strict=[true|false]&
+//     callback=callback&
+//     pressroom=pressroom&
+//     tags=category1,category2,category3
+
 export const searchURL = (
   query,
   type_of_media,
-  { limit = 10, strict = true } = {},
+  { page = 1, limit = 10, strict = true } = {},
 ) =>
   new URL(
     actionPath("search") +
-      `?format=json&type_of_media=${type_of_media}&strict=${strict}&limit=${limit}&query=${query}&sort=created`,
+      `?format=json&type_of_media=${type_of_media}&strict=${strict}&limit=${limit}&page=${page}&query=${query}`,
     base,
   );
 
@@ -315,7 +330,7 @@ export const searchMynewsdesk = async (
   { q = "", type_of_media = "news", sort, strict = true, limit = 100 } = {},
 ) => {
   const url = searchURL(q, type_of_media, { limit });
-  console.warn(url.href);
+
   const response = await fetch(url);
   if (response.ok) {
     const { search_result: { items }, ...rest } = await response.json();

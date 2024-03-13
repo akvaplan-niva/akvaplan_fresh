@@ -24,7 +24,7 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
 
   const facets = {
     year: yearFacet,
-    people: { size: 7, limit: 10, sort: "ASC" },
+    people: { size: 7, limit: 100, sort: "ASC" },
     collection: {},
   };
 
