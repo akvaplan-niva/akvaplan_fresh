@@ -1,17 +1,14 @@
 import { searchViaApi } from "akvaplan_fresh/search/search.ts";
 
-import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
+import { t } from "akvaplan_fresh/text/mod.ts";
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 
 import { InputSearch } from "../components/search/InputSearch.tsx";
+import Button from "akvaplan_fresh/components/button/button.tsx";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
-
-import type { SearchAtom } from "akvaplan_fresh/search/types.ts";
-import type { GroupByParams, Orama, Results, SearchParams } from "@orama/orama";
 
 import { useSignal } from "@preact/signals";
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
-import Button from "akvaplan_fresh/components/button/button.tsx";
 
 const detailsOpen = (collection: string) =>
   ["image", "document", "video", "blog", "pubs"].includes(collection)
@@ -61,28 +58,27 @@ export default function GroupedSearch(
   const groups = useSignal([]);
   const facets = useSignal(new Map());
   const first = useSignal(true);
-  const OK = { status: 200 };
-  const remoteStatus = useSignal(OK);
+  const display = useSignal("block");
+
+  const remoteStatus = useSignal({ status: 0 });
 
   const performSearch = async (
     { q, ...params }: { q: string },
   ) => {
     query.value = q;
-
-    const results = await searchViaApi({ q, ...params });
+    const results = await searchViaApi({ q, ...params, limit: limit.value });
     const { error } = results;
     if (error?.status > 299) {
       remoteStatus.value = { status: error.status };
     } else {
+      remoteStatus.value = { status: 200 };
       groups.value = q?.length > 0 ? results.groups : [];
-      remoteStatus.value = OK;
 
       for (
         const [collection, count] of Object.entries(
           results?.facets?.collection?.values,
         )
       ) {
-        console.warn({ collection, count });
         facets.value.set(collection, count);
       }
     }
@@ -97,6 +93,11 @@ export default function GroupedSearch(
       : new URL(ownerDocument ? ownerDocument.URL : globalThis.document.URL)
         ?.origin;
     performSearch({ q: value, base: origin, limit: limit.value });
+  };
+
+  const toggleList = (e: Event) => {
+    display.value = display.value === "grid" ? "block" : "grid";
+    e.preventDefault();
   };
 
   const handleCollectionPressed = async (e: Event) => {
@@ -170,6 +171,7 @@ export default function GroupedSearch(
             <SearchResults
               hits={result}
               lang={lang}
+              display={display.value}
               collection={values?.[0]}
               count={facetCountCollection(values?.[0])}
               q={query}
@@ -187,18 +189,35 @@ export default function GroupedSearch(
                   result.length < facetCountCollection(values?.[0])
                 ? (
                   <p style={{ fontSize: "1rem" }}>
-                    <Pill
+                    <Button
+                      style={{
+                        backgroundColor: "transparent",
+                        fontSize: "1rem",
+                      }}
                       onClick={handleCollectionPressed}
                       href={`/${lang}/_?q=${query}&collection=${values?.[0]}`}
                     >
                       {t("Se flere")} {t(`collection.${values?.[0]}`)}
-                    </Pill>
+                    </Button>
                   </p>
                 )
                 : null}
             </aside>
           </details>
         ))}
+        {query?.value?.length > 0 && remoteStatus.value.status === 200
+          ? (
+            <Button
+              style={{
+                backgroundColor: "transparent",
+                fontSize: "1rem",
+              }}
+              onClick={toggleList}
+            >
+              Bytt mellom liste og kompakt visning
+            </Button>
+          )
+          : null}
       </output>
     </main>
   );

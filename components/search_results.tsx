@@ -1,6 +1,7 @@
 import { href } from "akvaplan_fresh/search/href.ts";
 import { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
+import { t } from "akvaplan_fresh/text/mod.ts";
 
 const namesEtal = (people: string[]) => {
   if (people.length === 0) {
@@ -17,20 +18,17 @@ const namesEtal = (people: string[]) => {
 };
 
 export function SearchResults(
-  { hits, count, list, lang, q, collection }: {
+  { hits, display, lang }: {
     hits: OramaAtom[];
-    count: number;
-    list: string;
+    display: string;
     lang: string;
-    q: string;
-    collection: string;
   },
 ) {
   return (
     <div>
       <ol
         style={{
-          display: list === "list" ? "block" : "grid",
+          display,
           gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
         }}
       >
