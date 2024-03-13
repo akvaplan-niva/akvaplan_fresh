@@ -61,7 +61,8 @@ export default function GroupedSearch(
   const groups = useSignal([]);
   const facets = useSignal(new Map());
   const first = useSignal(true);
-  const error = useSignal(0);
+  const OK = { status: 200 };
+  const remoteStatus = useSignal(OK);
 
   const performSearch = async (
     { q, ...params }: { q: string },
@@ -69,19 +70,19 @@ export default function GroupedSearch(
     query.value = q;
 
     const results = await searchViaApi({ q, ...params });
-    const { status } = results;
-    if (status > 299) {
-      error.value = status;
-    }
-    if (results?.groups) {
+    const { error } = results;
+    if (error?.status > 299) {
+      remoteStatus.value = { status: error.status };
+    } else {
       groups.value = q?.length > 0 ? results.groups : [];
-    }
-    if (results?.facets) {
+      remoteStatus.value = OK;
+
       for (
         const [collection, count] of Object.entries(
           results?.facets?.collection?.values,
         )
       ) {
+        console.warn({ collection, count });
         facets.value.set(collection, count);
       }
     }
@@ -146,11 +147,13 @@ export default function GroupedSearch(
         />
       </form>
       <output>
-        {error && (
-          <p>
-            {t("ui.search.Error_search_currently_unavailable")}
-          </p>
-        )}
+        {remoteStatus.value.status > 299
+          ? (
+            <p>
+              {t("ui.search.Error_search_currently_unavailable")}
+            </p>
+          )
+          : null}
         {groups.value?.map(({ values, result }) => (
           <details
             open={detailsOpen(values?.[0])}
@@ -161,7 +164,6 @@ export default function GroupedSearch(
               collection={values?.[0]}
               length={result.length}
               lang={lang}
-              handlePressed={handleCollectionPressed}
               count={facetCountCollection(values?.[0])}
             />
 
