@@ -15,7 +15,7 @@ import {
   getOramaDocument,
 } from "akvaplan_fresh/search/orama.ts";
 
-import { insert } from "@orama/orama";
+import { insert, insertMultiple } from "@orama/orama";
 import { akvaplanists as getAkvaplanists } from "akvaplan_fresh/services/akvaplanist.ts";
 
 import { searchMynewsdesk } from "akvaplan_fresh/services/mynewsdesk.ts";
