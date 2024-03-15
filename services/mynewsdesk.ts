@@ -327,7 +327,8 @@ const postprocess = (s) => s.replace(/[-]{2,}/g, "-").replaceAll("'", "");
 //   postprocess(_slug(preprocess(header)));
 
 export const searchMynewsdesk = async (
-  { q = "", type_of_media = "news", sort, strict = true, limit = 100 } = {},
+  { q = "", type_of_media = "news", sort = false, strict = true, limit = 100 } =
+    {},
 ) => {
   const url = searchURL(q, type_of_media, { limit });
 

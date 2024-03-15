@@ -2,7 +2,7 @@
 // FIXME Compare /en/press/2958380 with https://www.mynewsdesk.com/no/akvaplan-niva/pressreleases/ny-rapport-evaluering-av-nye-oppdrettsarter-2958380
 //console.log("@todo News article: auto-fetch related contacts");
 
-import { getById } from "akvaplan_fresh/search/orama.ts";
+import { getOramaDocument } from "akvaplan_fresh/search/orama.ts";
 import { search } from "akvaplan_fresh/search/search.ts";
 
 import {
@@ -85,7 +85,9 @@ export const handler: Handlers = {
 
     const numid = Number(slug?.split("-").at(-1));
 
-    const orama = await getById(`mynewsdesk/${type_of_media}/${numid}`);
+    const orama = await getOramaDocument(
+      `mynewsdesk/${type_of_media}/${numid}`,
+    );
 
     let item = (numid > 9999)
       ? await getItem(numid, type_of_media)

@@ -1,4 +1,5 @@
-import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
+import { akvaplanists } from "akvaplan_fresh/services/akvaplanist.ts";
+import { priorAkvaplanistID as priors } from "akvaplan_fresh/services/prior_akvaplanists.ts";
 
 import {
   Card,
@@ -27,16 +28,18 @@ export const config: RouteConfig = {
   //~... => NO
 };
 
-const html = ``;
-
+const ids = new Map(
+  (await akvaplanists()).map(({ id, ...apn }) => [id, { id, ...apn }]),
+);
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
     const { at, id } = ctx.params;
-    const akvaplanist = await getAkvaplanist(id.toLowerCase());
+
+    const akvaplanist = ids.get(id) ?? priors.get(id);
     if (!akvaplanist) {
-      //return ctx.renderNotFound();
+      return ctx.renderNotFound();
     }
-    akvaplanist.bio = html;
+    akvaplanist.bio = ``;
     const lang = at === "~" ? "no" : "en";
     langSignal.value = lang;
     return ctx.render({ akvaplanist, at });
@@ -49,8 +52,8 @@ export default function AtHome({ data }: PageProps) {
     <Page>
       <PersonCard person={akvaplanist} />
       <Card>
+        <div dangerouslySetInnerHTML={{ __html: akvaplanist?.bio }} />
       </Card>
-      <div dangerouslySetInnerHTML={{ __html: akvaplanist.bio }} />
     </Page>
   );
 }

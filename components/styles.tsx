@@ -7,7 +7,15 @@ if (!IS_BROWSER) {
   const hscroll = Deno.readTextFile(`./components/album/halbum.css`);
   const inputSearch = Deno.readTextFile(`./components/search/input-search.css`);
 
-  const cssfiles = ["reset", "fonts", "openprops", "root", "dark", "light"].map(
+  const cssfiles = [
+    "reset",
+    "fonts",
+    "openprops",
+    "root",
+    "dark",
+    "light",
+    "bento",
+  ].map(
     (f) => Deno.readTextFile(`./static/css/${f}.css`),
   );
   defaultStyles = await Promise.all([

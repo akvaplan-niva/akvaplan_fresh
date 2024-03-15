@@ -10,11 +10,20 @@ import { atomizeCustomerService } from "./indexers/services.ts";
 import { insertMynewsdesk } from "akvaplan_fresh/search/indexers/mynewsdesk.ts";
 import { atomizeSlimPublication } from "akvaplan_fresh/search/indexers/pubs.ts";
 
-import { createOramaInstance } from "akvaplan_fresh/search/orama.ts";
+import {
+  createOramaInstance,
+  getOramaDocument,
+} from "akvaplan_fresh/search/orama.ts";
 
-import { insertMultiple } from "@orama/orama";
+import { insert } from "@orama/orama";
 import { akvaplanists as getAkvaplanists } from "akvaplan_fresh/services/akvaplanist.ts";
 
+import { searchMynewsdesk } from "akvaplan_fresh/services/mynewsdesk.ts";
+import { atomizeMynewsdeskItem } from "akvaplan_fresh/search/indexers/mynewsdesk.ts";
+import { OramaAtom } from "akvaplan_fresh/search/types.ts";
+
+// Create orama index
+// Used at build time (see dev.ts)
 export const createOramaIndex = async () => {
   const orama = await createOramaInstance();
 
@@ -52,4 +61,22 @@ export const createOramaIndex = async () => {
 
   console.timeEnd("Orama indexing");
   return orama;
+};
+
+export const updateOramaIndexWithFreshContent = (orama: OramaAtom) => {
+  ["news"].map(async (type_of_media) => {
+    const { items } = await searchMynewsdesk({
+      q: "",
+      type_of_media,
+      limit: 10,
+    });
+    for (const item of items) {
+      const atom = await atomizeMynewsdeskItem(item);
+      const has = await getOramaDocument(atom.id as string);
+      if (!has) {
+        await insert(orama, atom);
+        console.warn("Added to orama search:", atom.slug);
+      }
+    }
+  });
 };

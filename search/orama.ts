@@ -1,4 +1,4 @@
-import { count, create as _create, getByID, load } from "@orama/orama";
+import { count, create as _create, getByID, insert, load } from "@orama/orama";
 import { language, stemmer } from "@orama/stemmers/norwegian";
 
 import {
@@ -7,6 +7,8 @@ import {
 } from "akvaplan_fresh/search/types.ts";
 
 let _orama: OramaAtom;
+let _latest = false;
+export const latest = new Map<string, OramaAtom[]>();
 
 export const oramaJsonPath = "./_fresh/orama.json";
 
@@ -110,5 +112,5 @@ Error: Build failed with 2 errors:
   warnings: [Getter/Setter]
 }*/
 
-export const getById = async (id: string) =>
+export const getOramaDocument = async (id: string) =>
   await getByID(await getOramaInstance(), id);
