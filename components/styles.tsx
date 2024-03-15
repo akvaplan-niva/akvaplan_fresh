@@ -14,7 +14,6 @@ if (!IS_BROWSER) {
     "root",
     "dark",
     "light",
-    "bento",
   ].map(
     (f) => Deno.readTextFile(`./static/css/${f}.css`),
   );
