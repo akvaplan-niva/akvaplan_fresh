@@ -82,7 +82,7 @@ export function PeopleCard(
       />{" "}
       {prior === true && <span>{t("people.akvaplanist(prior)")}</span>}
       <span class="people-position">
-        {position?.[lang ?? "no"] ?? ""}
+        {person?.intl?.[lang]?.title}
       </span>
 
       <div class="people-workplace">

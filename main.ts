@@ -27,6 +27,4 @@ const render: RenderFunction = (
   freshRender();
 };
 
-// import { seedKv } from "akvaplan_fresh/kv/jobs/seed.ts";
-// Deno.cron("sync external data to kv", "14 16 * * *", () => seedKv());
 await start(manifest, { render, /*plugins: [],*/ port: 7777 });
