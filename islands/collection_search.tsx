@@ -56,6 +56,7 @@ export default function CollectionSearch(
   const where = { collection };
   const query = useSignal(q ?? "");
   const limit = useSignal(10);
+  const nextLimit = useSignal(100);
   const etal = useSignal(true);
   const hits = useSignal((results?.hits ?? []) as Result<SearchAtom>[]);
   const count = useSignal(results?.count ?? 0);
@@ -97,7 +98,8 @@ export default function CollectionSearch(
   };
 
   const increaseLimit = (e: Event) => {
-    limit.value += 10;
+    limit.value = nextLimit.value;
+    nextLimit.value += 100;
     performSearch();
     e.preventDefault();
   };
@@ -156,7 +158,7 @@ export default function CollectionSearch(
                 }}
                 onClick={increaseLimit}
               >
-                Vis flere treff
+                Vis {nextLimit} treff
               </Button>
             )}
 
