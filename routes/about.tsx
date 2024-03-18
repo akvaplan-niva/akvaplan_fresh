@@ -13,6 +13,7 @@ import {
   akvaplan as apn,
   boardURL,
   findAkvaplanist,
+  getAkvaplanist,
 } from "akvaplan_fresh/services/akvaplanist.ts";
 
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
@@ -43,8 +44,6 @@ export const handler: Handlers = {
     const { params } = ctx;
     lang.value = params.lang;
 
-    const admDir = await findAkvaplanist({ id: "mkr" });
-
     const akvaplan = {
       ...apn,
       links: {
@@ -53,7 +52,7 @@ export const handler: Handlers = {
         sectionleaders: intlRouteMap(lang.value).get("people") +
           "/unit?q=seksjonsleder",
       },
-      admDir,
+      admDir: { id: "mkr" },
     };
 
     const title = t("about.About_us");
@@ -113,8 +112,8 @@ export default (
               {t("people.Management")}
             </h1>
             <PeopleCard
+              icons={false}
               id={akvaplan.admDir.id}
-              person={akvaplan.admDir}
               lang={lang}
             />
 
