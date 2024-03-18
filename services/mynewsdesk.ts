@@ -218,11 +218,18 @@ export const getItem = async (
   id: number,
   type_of_media: string,
 ): Promise<AbstractMynewsdeskItem | undefined> => {
+  const controller = new AbortController();
+  const { signal } = controller;
+
   const _kv = getItemFromKv(id, type_of_media);
-  const _api = getItemFromMynewsdeskApi(id, type_of_media);
+  const _api = getItemFromMynewsdeskApi(id, type_of_media, signal);
+
   const winner = await Promise.race([_kv, _api]);
+
   const who = winner?.[whoWon];
-  console.warn(who);
+  if (who === "KV") {
+    controller.abort();
+  }
   return winner ?? _api;
 };
 
@@ -244,12 +251,13 @@ export const getItemFromKv = async (
 export const getItemFromMynewsdeskApi = async (
   id: number,
   type_of_media: string,
+  signal,
 ): Promise<AbstractMynewsdeskItem | undefined> => {
   const url = itemURL(id, type_of_media);
 
   //console.debug("getItem [API]", url);
 
-  const r = await fetch(url);
+  const r = await fetch(url, { signal });
   if (r.ok) {
     const { item: [item] } = await r.json();
     item[whoWon] = "API";
