@@ -171,9 +171,7 @@ export default function GroupedSearch(
             <SearchResults
               hits={result}
               lang={lang}
-              display={["image", "pubs", "video"].includes(values?.[0])
-                ? "grid"
-                : display.value}
+              display={display.value}
               collection={values?.[0]}
               count={facetCountCollection(values?.[0])}
               q={query}
