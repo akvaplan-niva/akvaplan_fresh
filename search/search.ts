@@ -11,7 +11,7 @@ export const { compare } = Intl.Collator("no", {
 });
 
 export const sortPublishedReverse = (a, b) =>
-  compare(b[2].published, a[2]?.published);
+  compare(b[2]?.published, a[2]?.published);
 
 const lastNYears = (n: number, start = new Date().getFullYear()) =>
   [...new Array(n)].map((_, i) => start - i);
