@@ -1,15 +1,20 @@
 import { findMarkdownDocument } from "akvaplan_fresh/services/documents.ts";
 
-import { cloudinaryProxy } from "../../services/cloudinaryProxy.ts";
-import { extractId } from "../../services/extract_id.ts";
-import { getValue } from "akvaplan_fresh/kv/mod.ts";
+import { cloudinaryProxy } from "akvaplan_fresh/services/cloudinaryProxy.ts";
+import { extractId } from "akvaplan_fresh/services/extract_id.ts";
+import { search } from "akvaplan_fresh/search/search.ts";
 
-import { MarkdownArticlePage } from "./MarkdownArticlePage.tsx";
+import {
+  cloudinary0,
+  getItem,
+  id0,
+} from "akvaplan_fresh/services/mynewsdesk.ts";
+
 import { Page } from "akvaplan_fresh/components/mod.ts";
+import { DocumentArticle } from "akvaplan_fresh/components/document_article.tsx";
+import { MarkdownArticlePage } from "./MarkdownArticlePage.tsx";
 
 import type { RouteConfig, RouteContext } from "$fresh/server.ts";
-import { DocumentArticle } from "akvaplan_fresh/components/document_article.tsx";
-import { cloudinary0, id0 } from "akvaplan_fresh/services/mynewsdesk.ts";
 
 import type {
   MynewsdeskDocument,
@@ -19,7 +24,10 @@ import { newsFilter } from "akvaplan_fresh/services/mynewsdesk.ts";
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(document|dokument){/:date}?/:slug",
 };
-export default async function DocumentPage(req: Request, ctx: RouteContext) {
+export default async function DocumentPage(
+  req: Request,
+  ctx: RouteContext,
+) {
   const { url: { searchParams, pathname }, params: { slug, lang } } = ctx;
   if (searchParams.has("download")) {
     return cloudinaryProxy(req, ctx);
@@ -41,7 +49,16 @@ export default async function DocumentPage(req: Request, ctx: RouteContext) {
     ? [id0, "document", Number(id)]
     : [cloudinary0, id];
 
-  const item = await getValue<MynewsdeskDocument>(key);
+  const numid = /^[0-9]+$/.test(id) ? Number(id) : undefined;
+  if (!numid) {
+    return ctx.renderNotFound();
+    // @todo if (!numid) lookup clodinary
+    // const res = await search({ term: id /*where: { collection: "document" }*/ });
+  }
+
+  const item = await getItem(numid, "document");
+  //const itemInKv = await getValue<MynewsdeskDocument>(key);
+
   if (!item) {
     return ctx.renderNotFound();
   }
