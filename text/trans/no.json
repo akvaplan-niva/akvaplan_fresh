@@ -129,6 +129,7 @@
   "collection.person": "folk",
   "collection.pubs": "publikasjoner",
   "collection.news": "nyheter",
+
   "collection.pressrelease": "pressemeldinger",
   "collection.projects": "prosjekter",
   "collection.project": "prosjekter",
@@ -138,6 +139,19 @@
   "collection.media": "media",
   "collection.video": "filmer",
   "collection.image": "bilder",
+
+  "collection.1.documents": "dokument",
+  "collection.1.blog": "blogg",
+  "collection.1.person": "person",
+  "collection.1.pubs": "publikasjon",
+  "collection.1.news": "nyhet",
+  "collection.1.pressrelease": "pressemelding",
+  "collection.1.projects": "prosjekt",
+  "collection.1.research": "forskning",
+  "collection.1.services": "tjeneste",
+  "collection.1.media": "media",
+  "collection.1.video": "film",
+  "collection.1.image": "bilde",
 
   "type.blog_post": "blogg",
   "type.erratum": "erratum",

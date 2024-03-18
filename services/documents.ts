@@ -14,7 +14,9 @@ export interface DocumentMeta {
 export const findMarkdownDocument = (
   { id, slug }: { id?: string; slug?: string },
 ) =>
-  markdownDocuments.find((md: DocumentMeta) => matchIdOrSlug(md, { id, slug }));
+  markdownDocuments.find(
+    (md: DocumentMeta) => matchIdOrSlug(md, { id, slug }),
+  );
 
 const toDocument = (d: MynewsdeskItem) => {
   const { document } = d;

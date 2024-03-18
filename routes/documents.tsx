@@ -41,6 +41,7 @@ import { MynewsdeskDocument } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { InputSearch } from "../components/search/InputSearch.tsx";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 import { searchDocuments } from "akvaplan_fresh/services/documents.ts";
+import { sortPublishedReverse } from "akvaplan_fresh/search/search.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(documents|document|dokumenter|dokument)",
@@ -57,8 +58,11 @@ export const handler: Handlers<DocumentsProps> = {
     const _q = searchParams.get("q") ?? "";
     const q = _q.toLocaleLowerCase();
     const filter = ({ summary, document_format }: MynewsdeskDocument) =>
-      summary?.length > 0 && /pdf/.test(document_format);
-    const docs = await searchDocuments({ q, filter });
+      (true || summary?.length > 0) && /pdf/.test(document_format);
+    const docs = (await searchDocuments({ q, filter })).sort(
+      sortPublishedReverse,
+    );
+    console.warn(docs.at(0));
     return ctx.render({ title, base, docs, lang });
   },
 };
@@ -130,6 +134,7 @@ export default function Documents(
           {
             id,
             href,
+            url,
             title,
             thumb,
             published,
@@ -139,7 +144,11 @@ export default function Documents(
             title={title}
             img={thumb}
             published={published}
-            href={documentHref({ id, title, lang })}
+            href={documentHref({
+              id: url ? url.split("-").at(-1) : id,
+              title,
+              lang,
+            })}
             width="320"
             height="320"
             maxWidth="320px"

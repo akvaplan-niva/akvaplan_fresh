@@ -20,7 +20,7 @@
   "auto": "automatic",
 
   "collection.documents": "documents",
-  "collection.document": "documents",
+  "collection.document": "document",
   "collection.blog": "blogs",
   "collection.people": "people",
   "collection.person": "people",
@@ -34,6 +34,19 @@
   "collection.media": "media",
   "collection.video": "videos",
   "collection.image": "images",
+
+  "collection.1.documents": "document",
+  "collection.1.blog": "blog",
+  "collection.1.person": "person",
+  "collection.1.pubs": "publication",
+  "collection.1.news": "news",
+  "collection.1.pressrelease": "press release",
+  "collection.1.projects": "project",
+  "collection.1.research": "research",
+  "collection.1.services": "services",
+  "collection.1.media": "media",
+  "collection.1.video": "film",
+  "collection.1.image": "image",
 
   "color-scheme": "color theme",
   "en": "English",
