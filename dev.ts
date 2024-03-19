@@ -12,16 +12,6 @@ import {
 } from "akvaplan_fresh/services/akvaplanist.ts";
 import { createOramaIndex } from "akvaplan_fresh/search/create_search_index.ts";
 
-import { updateOramaIndexWithFreshContent } from "akvaplan_fresh/search/create_search_index.ts";
-import { getOramaInstance } from "akvaplan_fresh/search/orama.ts";
-
-try {
-  const orama = await getOramaInstance();
-  updateOramaIndexWithFreshContent(orama);
-} catch (e) {
-  //orama index is missing
-}
-
 await setAkvaplanists(await akvaplanists());
 await dev(import.meta.url, "./main.ts");
 

@@ -30,9 +30,12 @@ export const createOramaIndex = async () => {
   console.time("Orama indexing");
   const _akvaplanists = await getAkvaplanists();
 
-  const akvaplanists = _akvaplanists.filter(({ from }) =>
-    !from ? true : new Date() >= new Date(from)
-  );
+  const akvaplanists = _akvaplanists
+    .filter(({ from }) => !from ? true : new Date() >= new Date(from))
+    .filter(({ expired }) =>
+      !expired ? true : new Date(expired) < new Date() ? false : true
+    );
+
   console.warn(`Indexing ${akvaplanists.length} akvaplanists`);
   await insertMultiple(orama, akvaplanists.map(atomizeAkvaplanist));
 
@@ -58,7 +61,9 @@ export const createOramaIndex = async () => {
     "./_fresh/mynewsdesk_manifest.json",
     JSON.stringify(mynewsdesk_manifest),
   );
-
+  console.warn(
+    "FIXME create orama index: add markdown documents && research topics",
+  );
   console.timeEnd("Orama indexing");
   return orama;
 };
