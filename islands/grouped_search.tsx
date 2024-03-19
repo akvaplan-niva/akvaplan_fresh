@@ -9,11 +9,12 @@ import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 
 import { useSignal } from "@preact/signals";
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
+import { href } from "akvaplan_fresh/search/href.ts";
 
-const detailsOpen = (collection: string) =>
-  ["image", "document", "video", "blog", "pubs"].includes(collection)
-    ? false
-    : true;
+const detailsOpen = (collection: string) => true;
+// ["image", "document", "video", "blog", "pubs"].includes(collection)
+//   ? false
+//   : true;
 
 const collectionHref = ({ collection, lang }) => {
   if (!intlRouteMap(lang).has(collection)) {
@@ -58,7 +59,7 @@ export default function GroupedSearch(
   const groups = useSignal([]);
   const facets = useSignal(new Map());
   const first = useSignal(true);
-  const display = useSignal("block");
+  const display = useSignal("grid");
 
   const remoteStatus = useSignal({ status: 0 });
 
@@ -197,7 +198,7 @@ export default function GroupedSearch(
                       onClick={handleCollectionPressed}
                       href={`/${lang}/_?q=${query}&collection=${values?.[0]}`}
                     >
-                      {t("Se flere")} {t(`collection.${values?.[0]}`)}
+                      {t("Vis flere treff")}
                     </Button>
                   </p>
                 )
