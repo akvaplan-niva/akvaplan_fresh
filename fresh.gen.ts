@@ -20,6 +20,8 @@ import * as $api_projects from "./routes/api/projects.ts";
 import * as $api_search from "./routes/api/search.ts";
 import * as $api_slug_type_ from "./routes/api/slug/[type].ts";
 import * as $article_slug_ from "./routes/article/[slug].tsx";
+import * as $bento from "./routes/bento.tsx";
+import * as $bento_slug_ from "./routes/bento/[slug].tsx";
 import * as $careers from "./routes/careers.tsx";
 import * as $dcat from "./routes/dcat.tsx";
 import * as $document_MarkdownArticlePage from "./routes/document/MarkdownArticlePage.tsx";
@@ -87,6 +89,8 @@ const manifest = {
     "./routes/api/search.ts": $api_search,
     "./routes/api/slug/[type].ts": $api_slug_type_,
     "./routes/article/[slug].tsx": $article_slug_,
+    "./routes/bento.tsx": $bento,
+    "./routes/bento/[slug].tsx": $bento_slug_,
     "./routes/careers.tsx": $careers,
     "./routes/dcat.tsx": $dcat,
     "./routes/document/MarkdownArticlePage.tsx": $document_MarkdownArticlePage,

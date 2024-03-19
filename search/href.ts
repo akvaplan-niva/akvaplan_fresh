@@ -1,10 +1,24 @@
 import { SearchAtom } from "akvaplan_fresh/search/types.ts";
 
 const En = new Map([
+  ["pubs", "publications"],
+]);
+
+const En1 = new Map([
   ["pubs", "doi"],
 ]);
 
 const No = new Map([
+  ["image", "bilder"],
+  ["document", "dokumenter"],
+  ["pubs", "publikasjoner"],
+  ["project", "prosjekter"],
+  ["news", "nyheter"],
+  ["pressrelease", "pressemeldinger"],
+]);
+
+const No1 = new Map([
+  ["image", "bilde"],
   ["document", "dokument"],
   ["pubs", "doi"],
   ["project", "prosjekt"],
@@ -12,7 +26,6 @@ const No = new Map([
   ["pressrelease", "pressemelding"],
 ]);
 
-// "collection.document": "dokumenter",
 // "collection.blog_post": "blogger",
 // "collection.person": "folk",
 // "collection.pubs": "publikasjoner",
@@ -26,8 +39,13 @@ const localizedRouteForSearchAtom = (
   { lang, collection, slug }: SearchAtom & { hreflang?: "string" },
 ): string => {
   const intl_route = lang === "no"
-    ? No.get(collection) ?? collection
-    : En.get(collection) ?? collection;
+    ? undefined === slug
+      ? No.get(collection) ?? collection
+      : No1.get(collection) ?? collection
+    : undefined === slug
+    ? En.get(collection) ?? collection
+    : En1.get(collection) ?? collection;
+
   return "/" + [lang, intl_route, slug].join("/");
 };
 

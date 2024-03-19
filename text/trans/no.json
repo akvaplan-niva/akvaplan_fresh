@@ -124,6 +124,7 @@
 
   "collection.documents": "dokumenter",
   "collection.document": "dokumenter",
+  "collection.images": "bilder",
   "collection.blog": "blogger",
   "collection.people": "folk",
   "collection.person": "folk",
@@ -147,6 +148,7 @@
   "collection.1.news": "nyhet",
   "collection.1.pressrelease": "pressemelding",
   "collection.1.projects": "prosjekt",
+  "collection.1.project": "prosjekt",
   "collection.1.research": "forskning",
   "collection.1.services": "tjeneste",
   "collection.1.media": "media",
