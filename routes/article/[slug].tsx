@@ -59,6 +59,7 @@ interface ArticleProps {
 
 interface Link {
   href: URL;
+  getItemBy;
   hreflang: string;
 }
 
@@ -93,6 +94,7 @@ export const handler: Handlers = {
       ? await getItem(numid, type_of_media)
       : await getItemBySlug(slug, type_of_media);
 
+    //FIXME getItemBySlug (news articles)=> redirect 301 to item with id
     if (!item) {
       const _news = await searchMynewsdesk({ q: "", limit: 32, type_of_media });
       const found = _news?.items.find(({ url }) => url.includes(slug));

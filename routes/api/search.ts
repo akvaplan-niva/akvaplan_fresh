@@ -1,5 +1,8 @@
 import { search } from "akvaplan_fresh/search/search.ts";
 
+import { updateOramaIndexWithFreshContent } from "akvaplan_fresh/search/create_search_index.ts";
+import { getOramaInstance } from "akvaplan_fresh/search/orama.ts";
+
 import type { GroupByParams, Results, SearchParams } from "@orama/orama";
 
 import type { OramaAtom, SearchAtom } from "akvaplan_fresh/search/types.ts";
@@ -11,6 +14,14 @@ const { compare } = Intl.Collator("no", {
   ignorePunctuation: true,
   sensitivity: "case",
 });
+
+try {
+  const orama = await getOramaInstance();
+  console.warn("Updating Orama index");
+  updateOramaIndexWithFreshContent(orama);
+} catch (e) {
+  //orama index is missing
+}
 
 export const handler: Handlers = {
   async GET(req: Request, _ctx: FreshContext) {

@@ -116,7 +116,13 @@ export const handler: Handlers = {
     const { searchParams } = new URL(req.url);
     const q = searchParams.get("q") ?? "";
 
-    const unsorted = await akvaplanists();
+    const _all = await akvaplanists();
+    _all.filter(({ expired }) => expired ? true : false)
+      .map(({ id, family, given }) =>
+        priorAkvaplanistID.set(id, { family, given, id })
+      );
+
+    const unsorted = _all.filter(({ expired }) => expired ? false : true);
     const sortkey = getSortKey(searchParams.get("sort") ?? group);
     const sortdir = searchParams.get("sortdir") ?? 1;
 
