@@ -1,5 +1,5 @@
 import { alias, offices } from "akvaplan_fresh/services/mod.ts";
-import { normalize as n, tr } from "akvaplan_fresh/text/mod.ts";
+import { normalize, normalize as n, tr } from "akvaplan_fresh/text/mod.ts";
 import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 import { search } from "akvaplan_fresh/search/search.ts";
@@ -8,12 +8,12 @@ const akvaplanistsJsonPath = "./_fresh/akvaplanists.json";
 
 const base = "https://akvaplanists.deno.dev";
 
-export let _all: Akvaplanist[] | undefined;
+export let _all: Akvaplanist[];
 
 export const getAkvaplanistsFromDenoService = async (): Promise<
   Akvaplanist[]
 > => {
-  console.warn("FETCH", base);
+  console.warn("FETCH", base, _all);
   const r = await fetch(base);
   if (r.ok) {
     const empl = await r.json();
@@ -21,6 +21,12 @@ export const getAkvaplanistsFromDenoService = async (): Promise<
       if (!p.email) {
         p.email = p.id + "@akvaplan.niva.no";
       }
+      // FIXME Refactor prior akvaplanists; remove static list and rely on service
+      // Below is a hack, useful for e.g. http://localhost:7777/no/doi/10.1016/s0044-8486(03)00475-7
+      if (p.expired) {
+        priorAkvaplanistID.set(p.id, p);
+      }
+      priorAkvaplanists.push(p);
       return p;
     });
   }
@@ -41,6 +47,14 @@ export const akvaplanists = async (): Promise<Akvaplanist[]> => {
     _all = await getAkvaplanistsFromDenoService() as Akvaplanist[];
   }
   return _all;
+};
+
+export const getEmployedAkvaplanists = async () => {
+  return (await akvaplanists())
+    .filter(({ from }) => !from ? true : new Date() >= new Date(from))
+    .filter(({ expired }) =>
+      !expired ? true : new Date(expired) < new Date() ? false : true
+    );
 };
 
 export const setAkvaplanists = (all) => _all = all;
@@ -79,13 +93,14 @@ export const findAkvaplanist = async (
       where: { collection: "person" },
     });
     if (count > 0) {
-      const res = hits
-        .filter(({ score }) => score > 21).map((
-          h,
-        ) => [fg, h.score, h.document.family, h.document.given]);
+      // const res = hits
+      //   .filter(({ score }) => score > 21).map((
+      //     h,
+      //   ) => [fg, h.score, h.document.family, h.document.given]);
       const exactFamGiven1 = hits.find((r) =>
         r.document.family === family &&
-        r.document.given.split(" ").at(0) === given.split(" ").at(0)
+        normalize(r.document?.given?.split(" ")?.at(0) as string) ===
+          normalize(given?.split(" ")?.at(0) as string)
       );
 
       if (exactFamGiven1) {
@@ -98,7 +113,7 @@ export const findAkvaplanist = async (
 };
 
 export const findPriorAkvaplanist = (
-  { id, given, family }: Akvaplanist,
+  { id, given, family, name }: Akvaplanist,
 ): Promise<Akvaplanist | undefined> => {
   if (id && priorAkvaplanistID.has(id)) {
     return priorAkvaplanistID.get(id);
