@@ -1,4 +1,3 @@
-import { getImage } from "akvaplan_fresh/kv/image.ts";
 import { extractId } from "../services/extract_id.ts";
 
 import { Page } from "akvaplan_fresh/components/mod.ts";
@@ -9,6 +8,8 @@ import { search } from "akvaplan_fresh/search/search.ts";
 import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
 import { AtomCard } from "../components/atom_card.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
+import { getItem } from "akvaplan_fresh/services/mynewsdesk.ts";
+import { t } from "akvaplan_fresh/text/mod.ts";
 //import { searchOrama } from "akvaplan_fresh/routes/api/search.ts";
 
 export const config: RouteConfig = {
@@ -17,6 +18,7 @@ export const config: RouteConfig = {
 
 const searchImageUsed = async (image) => {
   const term = extractId(image.image);
+  console.warn({ term });
   const collection = ["news", "blog", "pressrelease", "project"];
   const params = { term, where: { collection } };
   return await search(params);
@@ -25,14 +27,15 @@ const searchImageUsed = async (image) => {
 export default async function ImagePage(req: Request, ctx: RouteContext) {
   const { slug, lang } = ctx.params;
   const id = extractId(slug);
-  const image = await getImage(Number(id));
+  const image = await getItem(Number(id), "image");
   if (!image) {
     return ctx.renderNotFound();
   }
   const { hits } = await searchImageUsed(image);
   const rel = hits?.map((h) => h.document);
+
   return (
-    <Page title={image.header}>
+    <Page title={t("nav.Images")} collection="images">
       <ImageArticle image={image} />
       <section class="Section block-center-center">
         {rel?.length > 0 && (
@@ -55,7 +58,7 @@ export default async function ImagePage(req: Request, ctx: RouteContext) {
       </section>
       <LinkBackToCollection collection={"images"} lang={lang} />
       <Head>
-        <link rel="stylesheet" href={asset("/css/bento.css")} />
+          
       </Head>
     </Page>
   );
