@@ -1,0 +1,36 @@
+@layer gallery.layout {
+  .hub {
+    display: grid;
+    place-content: center; 
+    gap: 1rem;
+    grid-template-columns: repeat(5, 15vw);
+    grid-template-rows: repeat(3, 15vw);
+    
+    &.portrait {
+      grid-template-columns: repeat(3, 20vw);
+      grid-template-rows: repeat(5, 20vw);
+    }
+    
+    
+    /* pile the label, input and image */
+    > * {
+      display: grid;
+      
+      > * {
+        grid-area: 1/1;
+      }
+    }
+  }
+}
+
+@layer demo.support {
+ 
+  
+  fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+
+  }
+
+}
