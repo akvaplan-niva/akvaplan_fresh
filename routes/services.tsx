@@ -58,38 +58,6 @@ export const handler: Handlers = {
   },
 };
 
-const Div = (s) => {
-  const id = s.img.split("/").at(-1);
-  console.warn(s.img);
-  return (
-    <div class="Content">
-      <input
-        type="radio"
-        id={id}
-        name="gallery"
-        value={id}
-      />
-
-      <label for={id}>{s.name}</label>
-
-      <div
-        class="Content block-center-start gap-1"
-        style={{ background: "var(--surface0)" }}
-      >
-        <img
-          alt=""
-          loading="lazy"
-          src={s.img ?? s.thumb}
-        />
-        <h3 class="backdrop-blur" style={{ color: "var(--link)" }}>
-          {s.title}
-        </h3>
-        <small>{s.name}</small>
-      </div>
-    </div>
-  );
-};
-
 export default function Services(
   { data: { lang, title, base, services, people, contacts } }: PageProps<
     unknown
@@ -101,17 +69,18 @@ export default function Services(
     <Page title={title} base={base}>
       <Head>
         <link rel="stylesheet" href={asset("/css/hscroll.css")} />
+        <link rel="stylesheet" href={asset("/css/hscroll-dynamic.css")} />
         <link rel="stylesheet" href={asset("/css/article.css")} />
-        <link rel="stylesheet" href={asset("/css/bento.css")} />
-        <link rel="stylesheet" href={asset("/css/gallery-vt.css")} />
-        <script type="module" src={asset("/css/gallery.js")} />
+        <script src={asset("/@nrk/core-scroll.min.js")} />
       </Head>
 
-      <main>
-        <fieldset id="gallery" class="hub">
-          {services.map(Div)}
-        </fieldset>
-      </main>
+      <h1>{title}</h1>
+
+      {/* <OurServices services={services} /> */}
+
+      <HScroll maxVisibleChildren={6.5}>
+        {services.map(ArticleSquare)}
+      </HScroll>
 
       <section style={_section}>
         <Card>
