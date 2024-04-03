@@ -53,7 +53,7 @@ export const ArticleSquare = (
     </a>
     <p style={_caption}>
       {duration ? duration : isodate(published)}{" "}
-      {hreflang !== undefined && lang.value !== hreflang
+      {title !== undefined && hreflang !== undefined && lang.value !== hreflang
         ? <span>({t(`lang.${hreflang}`)})</span>
         : null}
     </p>

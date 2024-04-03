@@ -20,7 +20,6 @@ export const LinkBackToCollection = ({ collection, lang }) => (
       style={{ color: "var(--text1)" }}
     >
       {t(`collection.${collection}`)}
-      {" "}
     </a>
   </nav>
 );

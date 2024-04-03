@@ -19,9 +19,9 @@ import { Head } from "$fresh/runtime.ts";
 
 const people = new Map();
 if (globalThis.Deno) {
-  for await (const p of await akvaplanists()) {
-    people.set(p.id, p);
-  }
+  // for await (const p of await akvaplanists()) {
+  //   people.set(p.id, p);
+  // }
 }
 
 interface PeopleProps {

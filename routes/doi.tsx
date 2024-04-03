@@ -1,5 +1,5 @@
-// FIXME /no/doi/10.1093/icesjms/fsaa243
-// FIXME http://localhost:7777/no/doi/10.1093/icesjms/fsad192
+// FIXME Pub with DOI suffix containing slash is broken
+// Examples: 10.1093/icesjms/fsaa243 10.1093/icesjms/fsad192
 export {
   handler as _handler,
   type InternationalProps,
@@ -70,13 +70,15 @@ export const handler: Handlers<SlimPublication> = {
       let priors = 0;
       for await (const person of (slim?.authors ?? [])) {
         const { given, family, name } = person;
+
         person.name = name ?? `${given ?? ""} ${family}`;
-        const { id } = await findAkvaplanist({ given, family }) ?? {};
+        const { id } = await findAkvaplanist({ given, family, name }) ?? {};
         if (id) {
           current++;
+          console.warn({ current });
           person.id = id;
         } else {
-          const prior = await findPriorAkvaplanist({ given, family });
+          const prior = await findPriorAkvaplanist({ given, family, name });
 
           if (prior) {
             priors++;
@@ -134,7 +136,7 @@ export default function DoiPublication(
   const hreflang = slim?.lang ?? openalex?.language ?? "en";
 
   return (
-    <Page title={title}>
+    <Page title={title} collection="pubs">
       {!slim && (
         <p style="display:grid; grid-gap: 0.25rem; grid-template-columns: 48px auto; align-items: center;">
           <Icon name="sms_failed" />

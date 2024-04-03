@@ -93,7 +93,7 @@ const buildSort = (
 
 export const config: RouteConfig = {
   routeOverride:
-    "{/:lang}?/:page(people|folk|ansatte|employees|akvaplanist|person){/:groupname}?{/:filter}?{/:fn}?{/:gn}?",
+    "{/:lang}?/:page(people|folk|ansatte|employees|person){/:groupname}?{/:filter}?{/:fn}?{/:gn}?",
 };
 
 export const handler: Handlers = {
@@ -272,8 +272,8 @@ export default function Akvaplanists(
   >,
 ) {
   let pagetitle = filter?.length > 0
-    ? `${group}.${t(filter)} / ${t("People")}`
-    : t("People");
+    ? `${group}.${t(filter)} / ${t("nav.People")}`
+    : t("nav.People");
 
   if (person && "id" === group) {
     pagetitle = `${person.given} ${person.family}`;
@@ -290,7 +290,7 @@ export default function Akvaplanists(
   //   : "";
 
   return (
-    <Page title={pagetitle} base={base}>
+    <Page title={pagetitle} base={base} collection="people">
       <Head>
         <link rel="stylesheet" href="/css/hscroll.css" />
         <link rel="stylesheet" href="/css/akvaplanist.css" />

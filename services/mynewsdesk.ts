@@ -23,6 +23,7 @@ import {
   personURL,
   projectURL,
 } from "akvaplan_fresh/services/nav.ts";
+import { atomizeMynewsdeskItem } from "akvaplan_fresh/search/indexers/mynewsdesk.ts";
 
 const sortPublishedLatest = (a, b) =>
   b.published_at.datetime.localeCompare(a.published_at.datetime);
@@ -86,6 +87,21 @@ export const getCanonical = (
   }
 };
 
+export const searchImageAtoms = async ({ q = "" }) => {
+  const { items } = await searchMynewsdesk({
+    q,
+    type_of_media: "image",
+    limit: 25,
+  }) as { items: MynewsdeskItem[] };
+  const _images = items.sort((a, b) =>
+    new Date(a.published_at?.datetime) <
+        new Date(b.published_at?.datetime)
+      ? 1
+      : -1
+  );
+  return await Promise.all(_images.map(atomizeMynewsdeskItem));
+};
+
 export const actionPath = (action: string, unique_key = mynewsdesk_key) =>
   `/services/pressroom/${action}/${unique_key}`;
 
@@ -94,6 +110,9 @@ export const newsFilter = (item: AbstractMynewsdeskItem) =>
 
 export const documentFilter = (item: AbstractMynewsdeskItem) =>
   ["document"].includes(item?.type_of_media);
+
+export const imageFilter = (item: AbstractMynewsdeskItem) =>
+  ["image"].includes(item?.type_of_media);
 
 export const videoFilter = (item: AbstractMynewsdeskItem) =>
   ["video"].includes(item?.type_of_media);
@@ -308,7 +327,7 @@ export const fetchRelated = async (
   opts,
 ) => {
   const { exclude, include } = opts ??
-    { include: undefined, exclude: ["contact_person", "image"] };
+    { include: undefined, exclude: ["contact_person"] };
 
   const list = item?.related_items?.filter(
     ({ type_of_media }) =>

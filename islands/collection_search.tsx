@@ -147,6 +147,7 @@ export default function CollectionSearch(
             count={count.value}
             lang={lang}
             display={display.value}
+            etal={etal}
           />
           {hits.value.length < count.value &&
             (
@@ -158,7 +159,7 @@ export default function CollectionSearch(
                 }}
                 onClick={increaseLimit}
               >
-                Vis {nextLimit} treff
+                Vis flere
               </Button>
             )}
 
@@ -174,6 +175,18 @@ export default function CollectionSearch(
             </Button>
           )}
         </div>
+
+        <Button
+          style={{
+            backgroundColor: "transparent",
+            fontSize: "1rem",
+          }}
+          onClick={() => etal.value = false === etal.value ? true : false}
+        >
+          {etal.value === true
+            ? "Vis alle forfattere"
+            : "Vis bare to forfattere"}
+        </Button>
         {
           /* <div>
           {facet.value.filter((f) => f.facet !== "collection").map((f) => (

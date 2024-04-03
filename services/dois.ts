@@ -71,19 +71,19 @@ export const buildYearFilter = (year) =>
 export const getSlimPublication = async (
   doi: string,
 ): Promise<SlimPublication | undefined> => {
-  const kv = await openKv();
-  const [prefix, suffix] = doi.split("/");
-  const { value } = await kv.get(["dois", prefix, suffix]);
-  if (value) {
-    return value;
-  }
-  // const base = Deno?.env?.get("dois_base") ?? DOIS_BASE;
-  // const url = new URL(`/doi/${doi}`, base);
-  // const response = await fetch(url.href).catch(() => {});
-  // if (response?.ok) {
-  //   const slim: SlimPublication = await response.json();
-  //   return slim;
+  // const kv = await openKv();
+  // const [prefix, suffix] = doi.split("/");
+  // const { value } = await kv.get(["dois", prefix, suffix]);
+  // if (value) {
+  //   return value;
   // }
+  const base = Deno?.env?.get("dois_base") ?? DOIS_BASE;
+  const url = new URL(`/doi/${doi}`, base);
+  const response = await fetch(url.href).catch(() => {});
+  if (response?.ok) {
+    const slim: SlimPublication = await response.json();
+    return slim;
+  }
 };
 
 // for await (const person of (slim.authors ?? [])) {

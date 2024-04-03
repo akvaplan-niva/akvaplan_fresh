@@ -30,7 +30,7 @@ export default async function BentoGridPage(req: Request, ctx: RouteContext) {
   }));
 
   return (
-    <main color-scheme="dark">
+    <main>
       <section class="Section block-center-center">
         <div class="Container content-3">
           <header class="block">

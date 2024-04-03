@@ -159,7 +159,7 @@ export default function ProjectHome(
   );
 
   return (
-    <Page title={header}>
+    <Page title={header} collection="projects">
       <Head>
         <link rel="stylesheet" href={asset("/css/hscroll.css")} />
         <link rel="stylesheet" href={asset("/css/article.css")} />

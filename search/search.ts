@@ -38,9 +38,10 @@ export const search = async (
   return await _search(orama, params) as Results<SearchAtom>;
 };
 export const searchViaApi = async (
-  { q, base, limit, where, groupBy, facets }: {
+  { q, base, limit, where, groupBy, facets, sort }: {
     q: string;
     base: string;
+    sort: string;
     limit: number;
     where: unknown;
     facets: unknown;

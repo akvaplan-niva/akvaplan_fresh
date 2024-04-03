@@ -1,13 +1,11 @@
 import { search } from "akvaplan_fresh/search/search.ts";
 
-import { updateOramaIndexWithFreshContent } from "akvaplan_fresh/search/create_search_index.ts";
-import { getOramaInstance } from "akvaplan_fresh/search/orama.ts";
+import type { OramaAtom, SearchAtom } from "akvaplan_fresh/search/types.ts";
 
 import type { GroupByParams, Results, SearchParams } from "@orama/orama";
 
-import type { OramaAtom, SearchAtom } from "akvaplan_fresh/search/types.ts";
-
 import type { FreshContext, Handlers } from "$fresh/server.ts";
+import { updateOramaIndexWithFreshContent } from "akvaplan_fresh/search/create_search_index.ts";
 
 const { compare } = Intl.Collator("no", {
   usage: "sort",
@@ -15,13 +13,17 @@ const { compare } = Intl.Collator("no", {
   sensitivity: "case",
 });
 
-try {
-  const orama = await getOramaInstance();
-  console.warn("Updating Orama index");
-  updateOramaIndexWithFreshContent(orama);
-} catch (e) {
-  //orama index is missing
-}
+//const buildSort = (k) => compare([2].published, a[2]?.published);
+
+// setTimeout(() => {
+//   // try stale-while-refresh by not awaiting update Orama index fx
+//   try {
+//     console.warn("Updating Orama index with fresh content");
+//     updateOramaIndexWithFreshContent();
+//   } catch (_) {
+//     //orama index is missing
+//   }
+// }, 2000);
 
 export const handler: Handlers = {
   async GET(req: Request, _ctx: FreshContext) {
@@ -53,6 +55,10 @@ export const handler: Handlers = {
 
     const sortBy = sortPublishedReverse;
 
+    // const sortBy = searchParams.has("sort")
+    //   ? buildSort(searchParams.get("sort"))
+    //   : sortPublishedReverse;
+
     const params: SearchParams<OramaAtom> = {
       term,
       where,
@@ -69,7 +75,6 @@ export const handler: Handlers = {
     };
 
     const results: Results<SearchAtom> = await search(params);
-
     return Response.json(results);
   },
 };

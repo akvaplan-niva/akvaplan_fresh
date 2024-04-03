@@ -1,8 +1,6 @@
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
-
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
-import { ArticleSquare, Page } from "akvaplan_fresh/components/mod.ts";
+import { Page } from "akvaplan_fresh/components/mod.ts";
 import { type InternationalProps } from "akvaplan_fresh/utils/page/international_page.ts";
 
 interface ImagesProps extends InternationalProps {
@@ -15,69 +13,114 @@ import type {
   PageProps,
   RouteConfig,
 } from "$fresh/server.ts";
-import type { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import { imageURL, videoURL } from "akvaplan_fresh/services/nav.ts";
 
+import { atomizeMynewsdeskItem } from "akvaplan_fresh/search/indexers/mynewsdesk.ts";
+import { asset, Head } from "$fresh/runtime.ts";
+import { searchImageAtoms } from "akvaplan_fresh/services/mynewsdesk.ts";
+import type { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import { href } from "akvaplan_fresh/search/href.ts";
 export const config: RouteConfig = {
-  //@todo Images route: redirect to canonical URL (/en/images | /no/bilder)
   routeOverride: "/:lang(en|no)/:page(images|image|bilder|bilde)",
 };
 
+const buildImageMapper = ({ lang }) => (img, i) => {
+  console.warn(img, i);
+  const w = i === 0 ? 512 : 512;
+  img.label = img.title;
+  img.src = cloudinaryImgUrl(img.cloudinary, w, w);
+  img.href = href({
+    slug: img.slug.split("/").at(-1),
+    lang: lang,
+    collection: "image",
+  });
+
+  return img;
+};
+
 export const handler: Handlers<ImagesProps> = {
-  async GET(req: Request, ctx: FreshContext) {
+  async GET(_req: Request, ctx: FreshContext) {
     const { params } = ctx;
     lang.value = params.lang;
     const base = `/${params.lang}/${params.page}/`;
     const title = t("nav.Images");
-    const kv = await openKv();
 
-    const _img = [];
-    for await (
-      const { key, value } of kv.list<MynewsdeskItem & { href: string }>({
-        prefix: ["mynewsdesk_id", "image"],
-      })
-    ) {
-      const slug = value.url.replace("https://akvaplan.no/images/", "");
-      const href = imageURL({ lang: params.lang, slug });
-      value.href = href;
-      _img.push(value);
-    }
-    const images = _img.sort((a, b) =>
-      new Date(a.published_at?.datetime) <
-          new Date(b.published_at?.datetime)
-        ? 1
-        : -1
-    );
-    return ctx.render({ title, base, images, lang });
+    const images = (await searchImageAtoms({ q: "" }))
+      .map(buildImageMapper({ lang: params.lang }));
+
+    return ctx.render({
+      title,
+      base,
+      images,
+      lang,
+      href: href({ collection: "image", lang: params.lang }),
+    });
   },
 };
 
+const cloudinaryImgUrl = (cloudinary: string, w = 512, h?: number) =>
+  `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto${
+    w ? `,w_${w}` : ""
+  }${h ? `,h_${h}` : ""},q_auto:good/${cloudinary}`;
+
+const AImg = ({ id, href, src, alt = "", n }) => {
+  id = id ?? `image-${n}`;
+  const loading = n < 11 ? "eager" : "lazy";
+  return (
+    <a href={href} class="">
+      <img
+        src={src}
+        alt={alt}
+        loading={loading}
+      />
+    </a>
+  );
+};
 export default function Images(
-  { data: { title, lang, base, images } }: PageProps<ImagesProps>,
+  { data: { title, lang, base, images, href } }: PageProps<
+    ImagesProps
+  >,
 ) {
   return (
-    <Page title={title} base={base} lang={lang}>
-      <h1>{title}</h1>
-      <main
-        style={{
-          display: "grid",
-          gap: "1rem",
-          marginBlockStart: "1rem",
-          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-        }}
-      >
-        {[...images].map((img) => (
-          <ArticleSquare
-            title={img.header}
-            img={img.image_thumbnail_large}
-            published={img.published_at.datetime}
-            href={img.href}
-            width="320"
-            height="320"
-            maxWidth="320px"
-          />
+    <Page
+      title={title}
+      href={href}
+      base={base}
+      lang={lang}
+    >
+      <div id="gallery" class="hub">
+        {images.map(({ src, id, href }, i) => (
+          <AImg id={id} src={src} n={1 + i} href={href} />
         ))}
-      </main>
+      </div>
+      <Head>
+        <link rel="stylesheet" href={asset("/css/gallery.css")} />
+      </Head>
     </Page>
   );
+}
+
+{
+  /* <Head>
+<link rel="stylesheet" href={asset("/css/bento.css")} />
+</Head>
+<header>
+<h1>{title}</h1>
+</header>
+
+<main
+style={{
+  //https://www.smashingmagazine.com/native-css-masonry-layout-css-grid/
+  //https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Masonry_layout
+  display: "grid",
+  gap: "1rem",
+  marginBlockStart: "1rem",
+  gridTemplateColumns: "repeat(auto-fill, minmax(480px, 1fr))",
+  gridTemplateRows: "masonry",
+  masonryAutoFlow: "order",
+  alignContent: "start",
+
+}}
+>
+{images.map((atom) => <AtomCard atom={atom} />)}
+</main> */
 }

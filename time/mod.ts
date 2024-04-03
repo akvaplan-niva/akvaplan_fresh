@@ -11,7 +11,7 @@ export const monthname = (date, locale) => {
   return [first.toUpperCase(), ...rest].join("");
 };
 
-export const longDate = (dt: Date, lang: string) => {
+export const longDate = (dt: Date | string, lang: string) => {
   const idt = new Intl.DateTimeFormat(locale(lang), {
     dateStyle: "long",
     timeZone: "Europe/Oslo",

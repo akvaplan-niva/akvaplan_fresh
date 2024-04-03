@@ -1,4 +1,4 @@
-import { getVideo } from "akvaplan_fresh/kv/video.ts";
+import { getItem } from "akvaplan_fresh/services/mynewsdesk.ts";
 import { extractId } from "../services/extract_id.ts";
 
 import { Page } from "akvaplan_fresh/components/mod.ts";
@@ -14,7 +14,7 @@ export const config: RouteConfig = {
 export default async function VideoPage(req: Request, ctx: RouteContext) {
   const { slug, lang } = ctx.params;
   const id = extractId(slug);
-  const video = await getVideo(Number(id));
+  const video = await getItem(Number(id), "video");
   if (!video) {
     return ctx.renderNotFound();
   }

@@ -107,6 +107,7 @@ export const atomizeMynewsdeskItem = async (
 
   const text = [
     md,
+    cloudinary,
     summary,
     caption,
     document_name,
