@@ -58,7 +58,7 @@ export default async function ImagePage(req: Request, ctx: RouteContext) {
       </section>
       <LinkBackToCollection collection={"images"} lang={lang} />
       <Head>
-          
+        <link rel="stylesheet" href={asset("/css/bento.css")} />
       </Head>
     </Page>
   );
