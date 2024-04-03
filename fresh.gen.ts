@@ -43,6 +43,7 @@ import * as $null from "./routes/null.tsx";
 import * as $offices from "./routes/offices.tsx";
 import * as $policies from "./routes/policies.tsx";
 import * as $pref from "./routes/pref.tsx";
+import * as $priors from "./routes/priors.tsx";
 import * as $project from "./routes/project.tsx";
 import * as $projects from "./routes/projects.tsx";
 import * as $pubs from "./routes/pubs.tsx";
@@ -112,6 +113,7 @@ const manifest = {
     "./routes/offices.tsx": $offices,
     "./routes/policies.tsx": $policies,
     "./routes/pref.tsx": $pref,
+    "./routes/priors.tsx": $priors,
     "./routes/project.tsx": $project,
     "./routes/projects.tsx": $projects,
     "./routes/pubs.tsx": $pubs,

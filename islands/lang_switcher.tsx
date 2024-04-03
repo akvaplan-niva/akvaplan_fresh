@@ -10,7 +10,7 @@ import Button from "../components/button/button.tsx";
 
 const _grid = { display: "grid", gridTemplateColumns: "1fr 1fr" };
 
-export function LangLinks({ style = _grid, linkClass = "button" } = {}) {
+export function LangLinks({ style = _grid, linkClass = "" } = {}) {
   return (
     <div style={style}>
       <a class={linkClass} href="/en">

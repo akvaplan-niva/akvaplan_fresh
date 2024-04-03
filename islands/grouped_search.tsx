@@ -58,6 +58,7 @@ export default function GroupedSearch(
   const limit = useSignal(5);
   const groups = useSignal([]);
   const facets = useSignal(new Map());
+  const sort = useSignal(null);
   const first = useSignal(true);
   const display = useSignal("grid");
 
@@ -67,6 +68,7 @@ export default function GroupedSearch(
     { q, ...params }: { q: string },
   ) => {
     query.value = q;
+
     const results = await searchViaApi({ q, ...params, limit: limit.value });
     const { error } = results;
     if (error?.status > 299) {
@@ -215,7 +217,23 @@ export default function GroupedSearch(
               }}
               onClick={toggleList}
             >
-              Bytt mellom liste og kompakt visning
+              {display.value === "grid"
+                ? "search.ui.ViewResultsAsList"
+                : "search.ui.ViewCompactResults"}
+            </Button>
+          )
+          : null}
+
+        {false
+          ? (
+            <Button
+              style={{
+                backgroundColor: "transparent",
+                fontSize: "1rem",
+              }}
+              _onClick={"changeSort"}
+            >
+              relevans-score
             </Button>
           )
           : null}

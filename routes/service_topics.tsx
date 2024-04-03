@@ -105,7 +105,7 @@ export default function ServiceTopics(
   const height = 512;
 
   return (
-    <Page title={title} base={base}>
+    <Page title={title} base={base} collection="services">
       <Head>
         <link rel="stylesheet" href={asset("/css/hscroll.css")} />
         <link rel="stylesheet" href={asset("/css/article.css")} />

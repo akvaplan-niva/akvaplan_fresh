@@ -12,8 +12,8 @@ import {
   fetchRelated,
   getItem,
   getItemBySlug,
+  imageFilter,
   intlRouteMap,
-  newsFilter,
   newsFromMynewsdesk,
   projectFilter,
   projectFromMynewsdesk,
@@ -124,13 +124,22 @@ export const handler: Handlers = {
     // const news = related.filter(newsFilter).map((myn) =>
     //   newsFromMynewsdesk({ lang })(myn)
     // );
+
+    const images = _related.filter(imageFilter).map((myn) =>
+      newsFromMynewsdesk({ lang })(myn)
+    ).map(({ title, published, ...img }) => ({
+      title: undefined,
+      published: "",
+      ...img,
+    }));
+
     const documents = _related.filter(documentFilter);
 
     const videos = await Array.fromAsync(
       _related.filter(videoFilter).map(async ({ id }) => await getVideo(id)),
     );
 
-    const related = { documents, videos };
+    const related = { documents, videos, images };
 
     return ctx.render({
       item,
@@ -187,7 +196,7 @@ export default function NewsArticle(
   };
 
   return (
-    <Page title={header}>
+    <Page title={header} collection="news">
       <Head>
         <link rel="stylesheet" href={asset("/css/hscroll.css")} />
         <script src={asset("/@nrk/core-scroll.min.js")} />
@@ -248,18 +257,18 @@ export default function NewsArticle(
           </section>
         )}
 
-        {
-          /* {news?.length > 0 && (
+        {related?.images?.length > 0 && (
           <section style={_section}>
-            <AlbumHeader
-              text={t("nav.News")}
-            />
+            {
+              /* <AlbumHeader
+              text={t("nav.Images")}
+            /> */
+            }
             <HScroll maxVisibleChildren={5.5}>
-              {news.map(ArticleSquare)}
+              {related.images.map(ArticleSquare)}
             </HScroll>
           </section>
-        )} */
-        }
+        )}
 
         {(links && links?.length > 0) &&
           (

@@ -13,10 +13,11 @@ import { atomizeSlimPublication } from "akvaplan_fresh/search/indexers/pubs.ts";
 import {
   createOramaInstance,
   getOramaDocument,
+  getOramaInstance,
 } from "akvaplan_fresh/search/orama.ts";
 
 import { insert, insertMultiple } from "@orama/orama";
-import { akvaplanists as getAkvaplanists } from "akvaplan_fresh/services/akvaplanist.ts";
+import { getEmployedAkvaplanists } from "akvaplan_fresh/services/akvaplanist.ts";
 
 import { searchMynewsdesk } from "akvaplan_fresh/services/mynewsdesk.ts";
 import { atomizeMynewsdeskItem } from "akvaplan_fresh/search/indexers/mynewsdesk.ts";
@@ -28,13 +29,7 @@ export const createOramaIndex = async () => {
   const orama = await createOramaInstance();
 
   console.time("Orama indexing");
-  const _akvaplanists = await getAkvaplanists();
-
-  const akvaplanists = _akvaplanists
-    .filter(({ from }) => !from ? true : new Date() >= new Date(from))
-    .filter(({ expired }) =>
-      !expired ? true : new Date(expired) < new Date() ? false : true
-    );
+  const akvaplanists = await getEmployedAkvaplanists();
 
   console.warn(`Indexing ${akvaplanists.length} akvaplanists`);
   await insertMultiple(orama, akvaplanists.map(atomizeAkvaplanist));
@@ -68,20 +63,51 @@ export const createOramaIndex = async () => {
   return orama;
 };
 
-export const updateOramaIndexWithFreshContent = (orama: OramaAtom) => {
-  ["news"].map(async (type_of_media) => {
-    const { items } = await searchMynewsdesk({
-      q: "",
-      type_of_media,
-      limit: 10,
-    });
-    for (const item of items) {
-      const atom = await atomizeMynewsdeskItem(item);
-      const has = await getOramaDocument(atom.id as string);
-      if (!has) {
-        await insert(orama, atom);
-        console.warn("Added to orama search:", atom.slug);
-      }
+export const updateOramaIndexWithFreshContent = async (orama?: OramaAtom) => {
+  orama = orama ?? await getOramaInstance();
+
+  const tryInsert = async (atom) => {
+    try {
+      await insert(orama, atom);
+      console.warn("Added to orama search:", atom.id);
+    } catch (_) {
+      console.error("Failed adding", atom.id);
     }
-  });
+  };
+
+  const akvaplanists = await getEmployedAkvaplanists();
+  for (const a of akvaplanists) {
+    const id = a.email;
+    const has = await getOramaDocument(id);
+    if (!has) {
+      tryInsert(atomizeAkvaplanist(a));
+    }
+  }
+
+  //["news", "image", "video", "event", "blog_post"]
+  [].map(
+    async (type_of_media) => {
+      const { items } = await searchMynewsdesk({
+        q: "",
+        type_of_media,
+        limit: 10,
+      });
+      for (const item of items) {
+        const atom = await atomizeMynewsdeskItem(item);
+        const has = await getOramaDocument(atom.id as string);
+        if (!has) {
+          tryInsert(atom);
+        }
+      }
+    },
+  );
+
+  const { data } = await getDoisFromDenoDeployService();
+  for (const pub of data) {
+    const id = `https://doi.org/${pub.doi}`;
+    const has = await getOramaDocument(id);
+    if (!has) {
+      tryInsert(atomizeSlimPublication(pub));
+    }
+  }
 };

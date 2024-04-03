@@ -16,8 +16,8 @@
 @layer base.normalize-overrides {
   :root {
     --surface-1: var(--surface1, white); /* dark: oklch(19.03% 0.028 231.6); */
-    --text-1: white;/*oklch(23.16% 0.004 286.1);*/
-    --text-2: gray; /*oklch(53.99% 0.008 286.14);*/
+    --text-1: var(--text1);/*oklch(23.16% 0.004 286.1);*/
+    --text-2: var(--text2); /*oklch(53.99% 0.008 286.14);*/
   }
 
   body {
@@ -219,10 +219,10 @@
 @layer animation.reveal {
   /* --motionOK */
   @media (prefers-reduced-motion: no-preference) {
-    .Card:not(.Hero) {
+    /* .Card:not(.Hero) {
       opacity: 0;
       will-change: transform;
-    }
+    } */
 
     .reveal {
       /* Animation: fade-in from Open Props */

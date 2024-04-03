@@ -62,7 +62,6 @@ export const handler: Handlers<DocumentsProps> = {
     const docs = (await searchDocuments({ q, filter })).sort(
       sortPublishedReverse,
     );
-    console.warn(docs.at(0));
     return ctx.render({ title, base, docs, lang });
   },
 };

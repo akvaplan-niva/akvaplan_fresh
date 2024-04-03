@@ -2,6 +2,7 @@ import { href } from "akvaplan_fresh/search/href.ts";
 import { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
+import { Signal } from "@preact/signals-core";
 
 const namesEtal = (people: string[]) => {
   if (people.length === 0) {
@@ -18,10 +19,11 @@ const namesEtal = (people: string[]) => {
 };
 
 export function SearchResults(
-  { hits, display, lang }: {
+  { hits, display, lang, etal }: {
     hits: OramaAtom[];
     display: string;
     lang: string;
+    etal: Signal<boolean>;
   },
 ) {
   return (
@@ -82,7 +84,11 @@ export function SearchResults(
               </a>
             </div>
             {["pubs"].includes(collection) && people?.length > 0
-              ? <p style={{ fontSize: "0.75rem" }}>{namesEtal(people)}</p>
+              ? (
+                <p style={{ fontSize: "0.75rem" }}>
+                  {etal?.value === true ? namesEtal(people) : people.join(", ")}
+                </p>
+              )
               : null}
 
             <p style={{ fontSize: "0.75rem" }}>

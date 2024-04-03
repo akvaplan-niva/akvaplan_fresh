@@ -1,16 +1,18 @@
 export interface Akvaplanist {
+  id: string;
   given: string;
   family: string;
   //position: Position;
   tel?: string;
-  unit?: string;
+  section?: string;
   workplace?: string;
   country?: string;
-  id: string;
   email: string;
-  employed?: boolean;
+  homepage?: URL | string;
   created?: Date | string;
   updated?: Date | string;
+  from?: Date | string;
+  expired?: Date | string;
 }
 export interface Position {
   [lang: string]: string;

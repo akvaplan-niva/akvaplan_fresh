@@ -182,6 +182,11 @@ html:has(dialog[open]) {
     display: none;
   }
 }
+@media screen and (min-width: 768px) {
+  .hide-l {
+    display: none;
+  }
+}
 
 @media screen and (min-width: 1024px) {
   .pad-1024 {
