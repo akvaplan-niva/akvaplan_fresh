@@ -198,6 +198,7 @@ export default function ProjectHome(
           term={header}
           exclude={["project", "image"]}
           origin={origin}
+          noInput
         />
 
         <section

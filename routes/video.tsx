@@ -29,7 +29,7 @@ export default async function VideoPage(req: Request, ctx: RouteContext) {
   console.warn(video.embed);
 
   return (
-    <Page title={video.header} collection="home">
+    <Page title={video.header} collection="videos">
       <VideoArticle item={video} />
       {
         /* <dl>
