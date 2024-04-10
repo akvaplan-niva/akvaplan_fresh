@@ -1,4 +1,4 @@
-import { alias, offices } from "akvaplan_fresh/services/mod.ts";
+import { alias, familyAliasMap, offices } from "akvaplan_fresh/services/mod.ts";
 import { normalize, normalize as n, tr } from "akvaplan_fresh/text/mod.ts";
 import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
@@ -13,7 +13,7 @@ export let _all: Akvaplanist[];
 export const getAkvaplanistsFromDenoService = async (): Promise<
   Akvaplanist[]
 > => {
-  console.warn("FETCH", base, _all);
+  console.warn("FETCH", base);
   const r = await fetch(base);
   if (r.ok) {
     const empl = await r.json();
@@ -42,15 +42,17 @@ export const fetchAndSaveAkvaplanistsJson = async () => {
   );
   return akvaplanists;
 };
-export const akvaplanists = async (): Promise<Akvaplanist[]> => {
-  if (undefined === _all) {
+export const getAkvaplanists = async (): Promise<
+  Akvaplanist[]
+> => {
+  if (undefined === _all && globalThis.Deno) {
     _all = await getAkvaplanistsFromDenoService() as Akvaplanist[];
   }
   return _all;
 };
 
 export const getEmployedAkvaplanists = async () => {
-  return (await akvaplanists())
+  return (await getAkvaplanists())
     .filter(({ from }) => !from ? true : new Date() >= new Date(from))
     .filter(({ expired }) =>
       !expired ? true : new Date(expired) < new Date() ? false : true
@@ -59,61 +61,141 @@ export const getEmployedAkvaplanists = async () => {
 
 export const setAkvaplanists = (all) => _all = all;
 
-export const akvaplanistMap = async (all = _all) =>
-  new Map(
-    all ?? (await akvaplanists()).map(({ id, ...apn }) => [id, { id, ...apn }]),
-  );
+export const buildAkvaplanistMap = async () =>
+  (await getAkvaplanists())?.reduce((p, c) => {
+    p.set(c.id, c);
+    return p;
+  }, new Map());
+
+export const groupAkvaplanistsByKey = async (key: keyof Akvaplanist = "id") =>
+  Map.groupBy(await getAkvaplanists(), (a) => a[key]);
 
 export const mynewsdeskPeople = async () => {
   return new Map(
-    (await akvaplanists()).map(({ myn, ...apn }) => [myn, apn]),
+    (await getAkvaplanists()).map((
+      { myn, ...apn },
+    ) => [myn, apn]),
   );
 };
 
 export const getAkvaplanist = async (id: string) =>
-  (await akvaplanistMap()).get(id);
+  (await buildAkvaplanistMap()).get(id);
 
-export const findAkvaplanist = async (
-  { id, given, family }: Akvaplanist,
-): Promise<Akvaplanist | undefined> => {
-  const all = await akvaplanistMap();
-
-  if (id) {
-    return all.get(id);
-  }
-  const aliaskey = `${given}|${family}`;
-  if (!id && alias.has(aliaskey)) {
-    return all.get(alias.get(aliaskey));
-  } else {
-    const fg = `${family} ${given}`;
-
-    const { hits, count } = await search({
-      term: fg,
-      threshold: 0.01,
-      where: { collection: "person" },
-    });
-    if (count > 0) {
-      // const res = hits
-      //   .filter(({ score }) => score > 21).map((
-      //     h,
-      //   ) => [fg, h.score, h.document.family, h.document.given]);
-      const exactFamGiven1 = hits.find((r) =>
-        r.document.family === family &&
-        normalize(r.document?.given?.split(" ")?.at(0) as string) ===
-          normalize(given?.split(" ")?.at(0) as string)
-      );
-
-      if (exactFamGiven1) {
-        const { id, document } = exactFamGiven1;
-        const akvaplanist = { ...document, id: id.split("@").at(0) };
-        return akvaplanist;
-      }
-    }
-  }
+export const nameOfId = async (id: string) => {
+  const { given, family } = await getAkvaplanist(id);
+  return `${given} ${family}`;
+};
+export const initial0 = (given: string) => {
+  const [initial0] = given ? [...given].map((c) => c.toUpperCase()) : "";
+  return initial0;
 };
 
+export const removePuncts = (s: string) =>
+  s.replaceAll(".", " ").replace(/[–‐]/gu, "-").trim().replace(/\s{2,}/g, " ");
+
+export const findAkvaplanistViaOrama = async (
+  { id, given, family, name }: Partial<Akvaplanist>,
+): Promise<Akvaplanist | undefined> => {
+  const all = await buildAkvaplanistMap();
+
+  if (id && all.has(id)) {
+    return all.get(id);
+  }
+  if (name && !family && !given) {
+    console.warn("NAME", name);
+  }
+
+  family = family ? removePuncts(family) : family;
+  given = given ? removePuncts(given) : given;
+
+  const aliaskey = `${given}|${family}`;
+  if (alias.has(aliaskey) && all.has(alias.get(aliaskey))) {
+    return all.get(alias.get(aliaskey));
+  }
+
+  const { hits, count } = await search({
+    term: `${given} ${family}`,
+    threshold: 0,
+    where: { collection: "person" },
+  });
+
+  if (count > 0) {
+    const [first] = hits;
+    const { id, family, given } = first.document;
+    return { id: id?.substring(0, 3), family, given };
+  }
+
+  const byFamily = await groupAkvaplanistsByKey("family");
+  const fam = byFamily.get(family);
+  if (!fam) {
+    const aliases = familyAliasMap.values();
+    //console.warn("NO DEAL", { family, given, aliases });
+  }
+
+  if (fam && given) {
+    const needleInitials = given.split(" ").map((c) => [...c].at(0));
+
+    const cand = fam.find((person) => {
+      const candInitials = person.given.split(" ").map((c) => [...c].at(0));
+      if (needleInitials?.length > candInitials?.length) {
+        // All provided initials must match
+        return candInitials.join("") === needleInitials.join("");
+      } else {
+        return initial0(person.given) === initial0(given);
+      }
+    });
+    if (cand) {
+      return cand;
+    }
+  }
+
+  // const candInitials = person.given.split(" ").map((c) => [...c].at(0));
+  // if (needleInitials?.length > candInitials?.length) {
+  //   // All provided initials must match
+  //   return candInitials.join("") === needleInitials.join("");
+  // } else {
+  //   return initial0(person.given) === initial0(given);
+  // }
+  // console.warn(JSON.stringify([family, byFamily.has(family)]));
+  // const fg = `${family} ${given}`.replaceAll(".", " ");
+
+  // const { hits, count } = await search({
+  //   term: fg,
+  //   threshold: 0.01,
+  //   where: { collection: "person" },
+  // });
+
+  // if (count > 0) {
+  //   // const res = hits
+  //   //   .filter(({ score }) => score > 21).map((
+  //   //     h,
+  //   //   ) => [fg, h.score, h.document.family, h.document.given]);
+  //   const exactFam = hits.find((r) =>
+  //     normalize(r.document.family) === normalize(family)
+  //   );
+  //   console.warn(exactFam);
+
+  //   const exactFamGiven1 = hits.find((r) =>
+  //     r.document.family === family &&
+  //     normalize(r.document?.given?.split(" ")?.at(0) as string) ===
+  //       normalize(given?.split(" ")?.at(0) as string)
+  //   );
+
+  //   console.warn({ exactFamGiven1 });
+
+  //   if (exactFamGiven1) {
+  //     const { id, document } = exactFamGiven1;
+  //     const akvaplanist = { ...document, id: id.split("@").at(0) };
+  //     return akvaplanist;
+  //   }
+  //}
+};
+
+// FIXME
+// Not found: J Carroll in /no/doi/10.1051/radiopro/20095054
+
 export const findPriorAkvaplanist = (
-  { id, given, family, name }: Akvaplanist,
+  { id, given, family, name }: Partial<Akvaplanist>,
 ): Promise<Akvaplanist | undefined> => {
   if (id && priorAkvaplanistID.has(id)) {
     return priorAkvaplanistID.get(id);
@@ -129,8 +211,8 @@ export const findPriorAkvaplanist = (
   //return prior;
 };
 
-export const getAugmentedAkvaplanists = async (): Akvaplanist[] =>
-  (await akvaplanists()).map(
+export const getAugmentedAkvaplanists = async (): Promise<Akvaplanist[]> =>
+  (await getAkvaplanists()).map(
     ({ workplace, unit, management, ...p }) => {
       const unitnames = ["en", "no"].map((lang) =>
         tr.get(lang)?.get(`unit.${unit}`)

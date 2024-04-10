@@ -7,10 +7,12 @@ import { InputSearch } from "../components/search/InputSearch.tsx";
 import type { SearchAtom } from "akvaplan_fresh/search/types.ts";
 import type { Result, Results } from "@orama/orama";
 
-import { useSignal } from "@preact/signals";
+import { computed, useSignal } from "@preact/signals";
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
-import { CollectionSummary } from "../components/CollectionSummary.tsx";
 import Button from "akvaplan_fresh/components/button/button.tsx";
+import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
+import { href } from "akvaplan_fresh/search/href.ts";
+import { t } from "akvaplan_fresh/text/mod.ts";
 // import { yearFacet } from "akvaplan_fresh/search/search.ts";
 // import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 
@@ -35,7 +37,7 @@ const facetMapper = (facets, { limit = -1, sort = highestCountFirst } = {}) =>
     facet,
     groups: Object.entries(values)
       .sort(highestCountFirst)
-      .slice(0, limit)
+      //.slice(0, limit)
       .map(([label, count]) => ({
         label: label.split("-").join("–"),
         count,
@@ -45,15 +47,24 @@ const facetMapper = (facets, { limit = -1, sort = highestCountFirst } = {}) =>
   }));
 
 export default function CollectionSearch(
-  { q, lang, collection, placeholder, facets, results, list }: {
+  {
+    q,
+    lang,
+    collection,
+    people,
+    placeholder,
+    facets,
+    results,
+    list,
+  }: {
     q?: string;
+    people?: string;
     lang?: string;
     collection: string;
     placeholder?: string;
     results: Results<SearchAtom>;
   },
 ) {
-  const where = { collection };
   const query = useSignal(q ?? "");
   const limit = useSignal(10);
   const nextLimit = useSignal(100);
@@ -62,6 +73,14 @@ export default function CollectionSearch(
   const count = useSignal(results?.count ?? 0);
   const facet = useSignal(facetMapper(results?.facets));
   const display = useSignal("block");
+  //const groupBy = "year";
+  const peopleFilter = useSignal(people);
+  const maxfacets = 50;
+
+  const where = computed(() => ({
+    collection,
+    people: peopleFilter.value ? peopleFilter.value : undefined,
+  }));
 
   const performSearch = async (
     _params: { q?: string } = {},
@@ -69,19 +88,24 @@ export default function CollectionSearch(
     const q = _params?.q ?? query.value;
     query.value = q;
 
-    console.warn({ q });
-    const results = await searchViaApi({
+    const params = {
       q,
       facets,
       ..._params,
       where,
       limit: limit.value,
-      groupBy: false,
-    });
+      //sort: "SORT",
+      //groupBy,
+    };
+
+    const results = await searchViaApi(params);
+
     if (results) {
       hits.value = results.hits;
       count.value = results.count;
       facet.value = facetMapper(results?.facets);
+
+      console.warn(results?.facets);
     }
   };
 
@@ -107,7 +131,6 @@ export default function CollectionSearch(
   return (
     <main>
       <form
-        id="site-search"
         action={``}
         autocomplete="off"
         style={list === "list" ? {} : {
@@ -121,7 +144,7 @@ export default function CollectionSearch(
           autofocus
           name="q"
           placeholder={placeholder}
-          label="Søk i Akvaplan-niva (folk, tjenester, forskningstema, prosjekter, nyheter, publikasjoner, dokumenter, media)"
+          label="Søk"
           value={query}
           autocomplete="off"
           onInput={handleSearchInput}
@@ -133,76 +156,93 @@ export default function CollectionSearch(
         <div
           style={{
             paddingBlockStart: "1rem",
+            display: "grid",
+            //gridTemplateColumns: "1fr minmax(150px, 25%)",
           }}
         >
-          <CollectionSummary
-            q={query.value}
-            collection={collection}
-            length={hits.value.length}
-            lang={lang}
-            count={count.value}
-          />
           <SearchResults
             hits={hits.value}
             count={count.value}
             lang={lang}
             display={display.value}
+            // group={groupBy}
             etal={etal}
           />
-          {hits.value.length < count.value &&
-            (
+
+          <div style={{ fontSize: "1rem", paddingBlockStart: "0.5rem" }}>
+            {hits.value.length < count.value &&
+              (
+                <Button
+                  disabled={hits.value.length === count.value}
+                  style={{
+                    backgroundColor: "transparent",
+                    fontSize: "1rem",
+                  }}
+                  onClick={increaseLimit}
+                >
+                  Vis flere treff
+                </Button>
+              )}
+
+            {hits.value.length && (
               <Button
-                disabled={hits.value.length === count.value}
                 style={{
                   backgroundColor: "transparent",
                   fontSize: "1rem",
                 }}
-                onClick={increaseLimit}
+                onClick={toggleList}
               >
-                Vis flere
+                Bytt mellom liste og kompakt visning
               </Button>
             )}
+            {facet.value.filter((f) => f.facet !== "collection").map((f) => (
+              f && f.groups.length > 0 && (
+                <details
+                  open={f.facet !== "type"}
+                  style={{ fontSize: "1rem", paddingBlockStart: "1rem" }}
+                >
+                  <summary>
+                    {f.facet === "type"
+                      ? (
+                        <span>
+                          {"type"}
+                          {/* {t(`${collection}.type`)} */}
+                          <Pill>{count.value}</Pill>
+                        </span>
+                      )
+                      : t("facet." + f.facet)}
+                  </summary>
 
-          {hits.value.length < 0 && (
-            <Button
-              style={{
-                backgroundColor: "transparent",
-                fontSize: "1rem",
-              }}
-              onClick={toggleList}
-            >
-              Bytt mellom liste og kompakt visning
-            </Button>
-          )}
+                  <dd style={{ marginInlineStart: 0 }}>
+                    {f.groups.slice(0, maxfacets).map(({ label, count }) =>
+                      count > 0 && (
+                        <span>
+                          <a
+                            href={href({
+                              collection,
+                              lang,
+                            }) +
+                              `?q=${
+                                encodeURIComponent(
+                                  f.facet === "year"
+                                    ? label.substring(0, 4)
+                                    : label,
+                                  //query.value?.length > 0 ? query.value : label,
+                                )
+                              }&filter-${f.facet}=${encodeURIComponent(label)}`}
+                          >
+                            {f.facet === "year" ? label.substring(0, 4) : label}
+                          </a>
+                          <Pill disabled>{count}</Pill>
+                        </span>
+                      )
+                    )}
+                  </dd>
+                </details>
+              )
+            ))}
+          </div>
         </div>
-
-        <Button
-          style={{
-            backgroundColor: "transparent",
-            fontSize: "1rem",
-          }}
-          onClick={() => etal.value = false === etal.value ? true : false}
-        >
-          {etal.value === true
-            ? "Vis alle forfattere"
-            : "Vis bare to forfattere"}
-        </Button>
-        {
-          /* <div>
-          {facet.value.filter((f) => f.facet !== "collection").map((f) => (
-            <>
-              <dt>{f.facet}</dt>
-              <dd>
-                {f.groups.slice(0, 100).map(({ label, count }) => (
-                  <span>
-                    <a>{label}</a> {count > 1 ? <Pill>{count}</Pill> : null}
-                  </span>
-                ))}
-              </dd>
-            </>
-          ))}
-        </div> */
-        }
       </output>
     </main>
   );

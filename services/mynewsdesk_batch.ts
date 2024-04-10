@@ -24,8 +24,6 @@ export const fetchMynewsdeskBatch = async (
     ? searchURL("", type_of_media, { page, limit })
     : listURL({ type_of_media, offset, limit });
 
-  console.warn(url.href);
-
   const r = await fetch(url.href);
   if (r?.ok) {
     const res = await r.json();

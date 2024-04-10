@@ -25,12 +25,12 @@ import { isodate, longDate } from "akvaplan_fresh/time/mod.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
-  AlbumHeader,
   AltLangInfo,
   Article,
   ArticleHeader,
   ArticleSquare,
   Card,
+  CollectionHeader,
   HScroll,
   Page,
   PeopleCard as PersonCard,
@@ -39,7 +39,7 @@ import {
 import { AbstractMynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
-import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
+
 import { getVideo } from "akvaplan_fresh/kv/video.ts";
 import { VideoArticle } from "akvaplan_fresh/components/VideoArticle.tsx";
 
@@ -199,7 +199,7 @@ export default function NewsArticle(
     <Page title={header} collection="news">
       <Head>
         <link rel="stylesheet" href={asset("/css/hscroll.css")} />
-        <script src={asset("/@nrk/core-scroll.min.js")} />
+        {/* <script src={asset("/@nrk/core-scroll.min.js")} /> */}
       </Head>
       <Article language={language}>
         <AltLangInfo lang={lang} language={language} alternate={alternate} />
@@ -216,7 +216,16 @@ export default function NewsArticle(
         </section>
 
         {related.videos?.map((video) => (
-          <VideoArticle item={video} embed={video.embed} />
+          <div
+            class="article-content"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr",
+              placeItems: "center",
+            }}
+          >
+            <VideoArticle item={video} embed={video?.embed} />
+          </div>
         ))}
 
         {related.documents?.length > 0
@@ -248,7 +257,7 @@ export default function NewsArticle(
 
         {projects?.length > 0 && (
           <section style={_section}>
-            <AlbumHeader
+            <CollectionHeader
               text={t("ui.Read_more")}
             />
             <HScroll maxVisibleChildren={5.5}>
@@ -290,8 +299,6 @@ export default function NewsArticle(
             ),
           )}
         </li>
-
-        <LinkBackToCollection collection={"news"} lang={lang} />
       </Article>
     </Page>
   );

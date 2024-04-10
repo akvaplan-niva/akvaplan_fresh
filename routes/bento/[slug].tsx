@@ -1,9 +1,9 @@
 import { search } from "akvaplan_fresh/search/search.ts";
 import { href } from "akvaplan_fresh/search/href.ts";
 import {
-  AlbumHeader,
   ApnSym,
   CleanHeader,
+  CollectionHeader,
   Footer as SiteFooter,
 } from "akvaplan_fresh/components/mod.ts";
 import { RouteConfig, RouteContext } from "$fresh/server.ts";

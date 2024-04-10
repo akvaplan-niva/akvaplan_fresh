@@ -1,5 +1,7 @@
 import { ApnSym, CleanHeader, Footer as SiteFooter, Styles } from "./mod.ts";
 
+import { type Breadcrumb } from "akvaplan_fresh/components/site_nav.tsx";
+
 import { base as baseForLang, lang, t } from "akvaplan_fresh/text/mod.ts";
 import { buildInitTheming } from "akvaplan_fresh/theming/mod.ts";
 
@@ -8,6 +10,7 @@ import { FunctionComponent, JSX } from "preact";
 
 //import { computed } from "@preact/signals-core";
 import { type StringSignal } from "akvaplan_fresh/@interfaces/signal.ts";
+import { collectionBreadcrumbs } from "akvaplan_fresh/services/mod.ts";
 //import { symbolDataURI } from "akvaplan_fresh/components/akvaplan/symbol.tsx";
 
 export type StdProps =
@@ -17,6 +20,7 @@ export type StdProps =
     base?: string | StringSignal;
     lang?: string | StringSignal;
     Header?: FunctionComponent;
+    breadcrumbs: Breadcrumb[];
   };
 
 const slagord = "Fra forskning til verdiskapning";
@@ -28,13 +32,19 @@ export function Page(
     title,
     base = baseForLang,
     href,
+    collection,
+    breadcrumbs,
     Header = CleanHeader,
     Footer = SiteFooter,
     Left = null,
     Right = null,
+    context,
     ...props
   }: StdProps,
 ) {
+  if (!breadcrumbs && collection) {
+    breadcrumbs = collectionBreadcrumbs(collection);
+  }
   const head = (
     <Head>
       {title ? <title>{title} – Akvaplan-niva</title> : (
@@ -74,7 +84,13 @@ export function Page(
       {head}
 
       <body {...propsExceptChildren}>
-        <Header href={href} lang={lang.value} />
+        <Header
+          title={title}
+          collection={collection}
+          href={href}
+          lang={lang.value}
+          breadcrumbs={breadcrumbs}
+        />
         <main style={{ minHeight: "100vh", padding: "0 var(--size-3)" }}>
           {children}
         </main>

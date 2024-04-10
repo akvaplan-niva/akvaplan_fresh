@@ -15,8 +15,8 @@ import {
   style,
 } from "akvaplan_fresh/utils/page/international_page.ts";
 import {
-  AlbumHeader,
   ArticleSquare,
+  CollectionHeader,
   HScroll,
   Page,
 } from "akvaplan_fresh/components/mod.ts";
@@ -107,7 +107,7 @@ export default function Projects(
       <section>
         {[...grouped].map(([k, v]) => (
           <section style={style.section}>
-            <AlbumHeader
+            <CollectionHeader
               text={`${t("ui.Until")} ${k}`}
               href=""
             />

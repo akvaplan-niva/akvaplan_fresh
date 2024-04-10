@@ -3,7 +3,7 @@ import { shuffle } from "akvaplan_fresh/grouping/mod.ts";
 
 type Research = Record<string, string | number | string[]>;
 
-const getResearch = async () => {
+export const getResearchFromExternalService = async () => {
   const r = await fetch("https://research.deno.dev/").catch(() => {});
   if (r?.ok) {
     return r.json();
@@ -30,8 +30,10 @@ const getResearch = async () => {
 
 const buildLevelFilter = (n: Number) => ({ level }: Research) => level === n;
 
-export const getResearchLevel0 = async (lang: string) => {
-  const r0 = (await getResearch() ?? [])?.filter(buildLevelFilter(0));
+export const getResearchLevel0FromExternalService = async (lang: string) => {
+  const r0 = (await getResearchFromExternalService() ?? [])?.filter(
+    buildLevelFilter(0),
+  );
   const en0 = r0.map((
     { topic, en, no, details, detaljer, ...s }: Research,
   ) => ({

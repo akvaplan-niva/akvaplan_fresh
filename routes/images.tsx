@@ -5,6 +5,7 @@ import { type InternationalProps } from "akvaplan_fresh/utils/page/international
 
 interface ImagesProps extends InternationalProps {
   images: MynewsdeskItem[];
+  href: string;
 }
 
 import type {
@@ -14,17 +15,19 @@ import type {
   RouteConfig,
 } from "$fresh/server.ts";
 
-import { atomizeMynewsdeskItem } from "akvaplan_fresh/search/indexers/mynewsdesk.ts";
 import { asset, Head } from "$fresh/runtime.ts";
 import { searchImageAtoms } from "akvaplan_fresh/services/mynewsdesk.ts";
-import type { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import type { MynewsdeskImage } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { href } from "akvaplan_fresh/search/href.ts";
+import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
+import { collectionHref } from "akvaplan_fresh/services/mod.ts";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(images|image|bilder|bilde)",
 };
-
-const buildImageMapper = ({ lang }) => (img, i) => {
-  console.warn(img, i);
+interface Img {
+  src: string;
+}
+const buildImageMapper = ({ lang }) => (img: Img, i: number) => {
   const w = i === 0 ? 512 : 512;
   img.label = img.title;
   img.src = cloudinaryImgUrl(img.cloudinary, w, w);
@@ -52,7 +55,7 @@ export const handler: Handlers<ImagesProps> = {
       base,
       images,
       lang,
-      href: href({ collection: "image", lang: params.lang }),
+      href: collectionHref("image"),
     });
   },
 };
@@ -62,7 +65,7 @@ const cloudinaryImgUrl = (cloudinary: string, w = 512, h?: number) =>
     w ? `,w_${w}` : ""
   }${h ? `,h_${h}` : ""},q_auto:good/${cloudinary}`;
 
-const AImg = ({ id, href, src, alt = "", n }) => {
+const AImg = ({ id, href, src, alt = "", n }: Img) => {
   id = id ?? `image-${n}`;
   const loading = n < 11 ? "eager" : "lazy";
   return (
@@ -75,7 +78,7 @@ const AImg = ({ id, href, src, alt = "", n }) => {
     </a>
   );
 };
-export default function Images(
+export default function ImagesPage(
   { data: { title, lang, base, images, href } }: PageProps<
     ImagesProps
   >,
@@ -86,41 +89,20 @@ export default function Images(
       href={href}
       base={base}
       lang={lang}
+      collection="home"
     >
       <div id="gallery" class="hub">
         {images.map(({ src, id, href }, i) => (
           <AImg id={id} src={src} n={1 + i} href={href} />
         ))}
       </div>
+
       <Head>
         <link rel="stylesheet" href={asset("/css/gallery.css")} />
       </Head>
     </Page>
   );
 }
-
-{
-  /* <Head>
-<link rel="stylesheet" href={asset("/css/bento.css")} />
-</Head>
-<header>
-<h1>{title}</h1>
-</header>
-
-<main
-style={{
-  //https://www.smashingmagazine.com/native-css-masonry-layout-css-grid/
-  //https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Masonry_layout
-  display: "grid",
-  gap: "1rem",
-  marginBlockStart: "1rem",
-  gridTemplateColumns: "repeat(auto-fill, minmax(480px, 1fr))",
-  gridTemplateRows: "masonry",
-  masonryAutoFlow: "order",
-  alignContent: "start",
-
-}}
->
-{images.map((atom) => <AtomCard atom={atom} />)}
-</main> */
-}
+// Future?
+// https://www.smashingmagazine.com/native-css-masonry-layout-css-grid/
+// https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Masonry_layout

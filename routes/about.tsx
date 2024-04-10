@@ -1,6 +1,7 @@
 import {
   Article,
   Card,
+  CollectionHeader,
   Icon,
   OfficeCard,
   Page,
@@ -12,8 +13,6 @@ import { lang, t } from "akvaplan_fresh/text/mod.ts";
 import {
   akvaplan as apn,
   boardURL,
-  findAkvaplanist,
-  getAkvaplanist,
 } from "akvaplan_fresh/services/akvaplanist.ts";
 
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
@@ -26,6 +25,7 @@ import {
   type RouteConfig,
 } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
+import { Addresses } from "akvaplan_fresh/components/offices.tsx";
 
 interface AboutProps {
   lang: string;
@@ -70,6 +70,17 @@ const _header = {
   marginBlockEnd: "0.5rem",
 };
 
+const our = [
+  "people",
+  "services",
+  "research",
+  "projects",
+  "pubs",
+  "documents",
+  "images",
+  "video",
+];
+
 export default (
   { data: { title, lang, base, akvaplan } }: PageProps<AboutProps>,
 ) => {
@@ -88,7 +99,7 @@ export default (
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
+                  gridTemplateColumns: "1fr 2fr",
                   gap: "1rem",
                 }}
               >
@@ -124,11 +135,6 @@ export default (
                 </a>
               </li>
               <li>
-                <a href={akvaplan.links.sectionleaders}>
-                  {t("people.Section_leaders")}
-                </a>
-              </li>
-              <li>
                 <a href={akvaplan.links.board} target="_blank">
                   {t("about.Board")}
                 </a>
@@ -136,196 +142,22 @@ export default (
             </menu>
           </section>
 
-          <section style={_section}>
-            <h1 style={_header}>{t("about.Policies")}</h1>
-            <Card>
-              <menu>
-                <li>
-                  <a href={intlRouteMap(lang).get("documents")}>
-                    {t("nav.Documents")}
-                  </a>
-                </li>
-              </menu>
-            </Card>
+          <section
+            style={{
+              ..._section,
+              padding: "0 var(--size-3)",
+            }}
+            class="news-grid"
+          >
+            {our.map((what) => (
+              <CollectionHeader
+                text={t(`our.${what}`)}
+                href={intlRouteMap(lang).get(what)}
+              />
+            ))}
           </section>
 
-          <section style={_section}>
-            <h1 style={_header}>{t("about.Identification")}</h1>
-            <dl>
-              <dt>
-                {t("about.Organisasjonsnummer")}
-              </dt>
-              <dd>
-                <a
-                  href="https://w2.brreg.no/enhet/sok/detalj.jsp?orgnr=937375158"
-                  target="_blank"
-                >
-                  937375158
-                </a>
-              </dd>
-              <dt>
-                <abbr title={"Research Organization Registry"} lang="en">
-                  ROR
-                </abbr>{" "}
-                ID:
-              </dt>
-              <dd>
-                <a
-                  href=" https://ror.org/03nrps502"
-                  target="_blank"
-                >
-                  https://ror.org/03nrps502
-                </a>
-              </dd>
-            </dl>
-          </section>
-
-          <section style={_section}>
-            <h1 style={_header}>{t("about.Other_media")}</h1>
-
-            <Card>
-              <dl>
-                <dt>
-                  {t("about.Social_media")}
-                </dt>
-                <dd>
-                  <a
-                    href="https://facebook.com/Akvaplan/"
-                    target="_blank"
-                  >
-                    Facebook
-                  </a>
-                </dd>
-                <dd>
-                  <a
-                    href="https://no.linkedin.com/company/akvaplan-niva"
-                    target="_blank"
-                  >
-                    LinkedIn
-                  </a>
-                </dd>
-                <dd>
-                  <a
-                    href=" https://www.mynewsdesk.com/no/akvaplan-niva"
-                    target="_blank"
-                  >
-                    Mynewsdesk
-                  </a>
-                </dd>
-
-                <dd>
-                  <a
-                    href="https://twitter.com/AkvaplanNiva"
-                    target="_blank"
-                  >
-                    Twitter
-                  </a>
-                </dd>
-                <dt>
-                  {t("about.Open_access")}
-                </dt>
-                <dd>
-                  <a
-                    href="https://zenodo.org/communities/akvaplan-niva"
-                    target="_blank"
-                  >
-                    Zenodo
-                  </a>
-                </dd>
-                <dd>
-                  <a
-                    href="https://github.com/akvaplan-niva"
-                    target="_blank"
-                  >
-                    GitHub
-                  </a>
-                </dd>
-                <dt>
-                  Video
-                </dt>
-                <dd>
-                  <a
-                    href="https://www.youtube.com/channel/UCD-AkBT1riN6TeNDzBP7g8g"
-                    target="_blank"
-                  >
-                    YouTube
-                  </a>
-                </dd>
-              </dl>
-            </Card>
-          </section>
-
-          <section style={_section}>
-            <h1 style={_header}>{t("about.Office_locations")}</h1>
-            <menu>
-              {[...offices.values()].filter(({ hq }) => true).map((
-                { name },
-              ) => (
-                <li>
-                  <a
-                    href={`${intlRouteMap(lang).get("people")}/workplace/${
-                      name.split(" ").at(0)
-                    }`}
-                  >
-                    {name}
-                  </a>
-                </li>
-              ))}
-            </menu>
-          </section>
-
-          <section style={_section}>
-            <h1 style={_header}>{t("about.HQ")}</h1>
-
-            <Card>
-              <dl>
-                <dt>Akvaplan-niva</dt>
-                <dd>{akvaplan.addr.hq.post}</dd>
-
-                <dt>
-                  {t("about.Visit")}
-                </dt>
-                <dd>
-                  {akvaplan.addr.hq.visit} (<a
-                    href="https://goo.gl/maps/P73K9hcVKeKd7jkz5"
-                    target="_blank"
-                  >
-                    {t("ui.Google_maps")}
-                  </a>)
-                </dd>
-
-                <dt>{t("about.Invoice")}</dt>
-                <dd>
-                  <a href={intlRouteMap(lang).get("invoicing")}>
-                    {t("about.Invoicing")}
-                  </a>
-                </dd>
-
-                <dt>
-                  {t("ui.Telephone")}
-                </dt>
-                <dd>
-                  <a
-                    href={`tel:${akvaplan.tel}`}
-                  >
-                    <Icon name="phone_in_talk" /> {akvaplan.tel}
-                  </a>
-                </dd>
-
-                <dt>
-                  {t("ui.E-mail")}
-                </dt>
-                <dd>
-                  <a
-                    href={`mailto:${akvaplan.email}`}
-                  >
-                    <Icon name="mail" />
-                    {akvaplan.email}
-                  </a>
-                </dd>
-              </dl>
-            </Card>
-          </section>
+          <Addresses />
         </Article>
       </div>
     </Page>

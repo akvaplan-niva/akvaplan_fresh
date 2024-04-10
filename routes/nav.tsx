@@ -1,4 +1,9 @@
-import { Article, Icon, Page, SiteNav } from "akvaplan_fresh/components/mod.ts";
+import {
+  Article,
+  Icon,
+  Page,
+  SiteNavVerticalLarge,
+} from "akvaplan_fresh/components/mod.ts";
 
 import { type RouteConfig } from "$fresh/server.ts";
 import { Footer } from "akvaplan_fresh/components/mod.ts";

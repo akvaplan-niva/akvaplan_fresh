@@ -53,6 +53,7 @@ import * as $search from "./routes/search.tsx";
 import * as $service_edit from "./routes/service_edit.tsx";
 import * as $service_topics from "./routes/service_topics.tsx";
 import * as $services from "./routes/services.tsx";
+import * as $services_vt from "./routes/services_vt.tsx";
 import * as $sitemap_txt from "./routes/sitemap.txt.ts";
 import * as $topics from "./routes/topics.tsx";
 import * as $usr from "./routes/usr.tsx";
@@ -64,6 +65,7 @@ import * as $button_open_dialog from "./islands/button_open_dialog.tsx";
 import * as $collection_search from "./islands/collection_search.tsx";
 import * as $doi_search from "./islands/doi_search.tsx";
 import * as $grouped_search from "./islands/grouped_search.tsx";
+import * as $grouped_search_collection_results from "./islands/grouped_search_collection_results.tsx";
 import * as $lang_switcher from "./islands/lang_switcher.tsx";
 import * as $our_x from "./islands/our_x.tsx";
 import * as $text from "./islands/text.tsx";
@@ -123,6 +125,7 @@ const manifest = {
     "./routes/service_edit.tsx": $service_edit,
     "./routes/service_topics.tsx": $service_topics,
     "./routes/services.tsx": $services,
+    "./routes/services_vt.tsx": $services_vt,
     "./routes/sitemap.txt.ts": $sitemap_txt,
     "./routes/topics.tsx": $topics,
     "./routes/usr.tsx": $usr,
@@ -136,6 +139,8 @@ const manifest = {
     "./islands/collection_search.tsx": $collection_search,
     "./islands/doi_search.tsx": $doi_search,
     "./islands/grouped_search.tsx": $grouped_search,
+    "./islands/grouped_search_collection_results.tsx":
+      $grouped_search_collection_results,
     "./islands/lang_switcher.tsx": $lang_switcher,
     "./islands/our_x.tsx": $our_x,
     "./islands/text.tsx": $text,

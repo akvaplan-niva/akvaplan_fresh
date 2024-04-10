@@ -5,9 +5,9 @@ import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 import { mynewsdeskPanoramaImageUrl } from "akvaplan_fresh/components/panorama_picture.tsx";
 
 import {
-  AlbumHeader,
   Article,
   ArticleHeader,
+  CollectionHeader,
   HScroll,
 } from "akvaplan_fresh/components/mod.ts";
 import { ScrollImage } from "akvaplan_fresh/islands/HScrollWithDynamicImage.tsx";
@@ -35,7 +35,7 @@ export const OurX = ({ x, is, header, href }) => {
   return (
     <div>
       <div class="pad-1024">
-        <AlbumHeader
+        <CollectionHeader
           text={header}
           href={href}
         />

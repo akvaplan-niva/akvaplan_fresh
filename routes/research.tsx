@@ -1,12 +1,12 @@
-import { getResearchLevel0 } from "akvaplan_fresh/services/research.ts";
+import { getResearchLevel0FromExternalService } from "akvaplan_fresh/services/research.ts";
 import { search as searchPubs } from "akvaplan_fresh/services/dois.ts";
 import { newsFromPubs } from "akvaplan_fresh/services/news_pubs.ts";
 import { intlRouteMap, researchTopicURL } from "akvaplan_fresh/services/nav.ts";
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
-  AlbumHeader,
   ArticleSquare,
+  CollectionHeader,
   //Card,
   HScroll,
   Page,
@@ -20,6 +20,7 @@ import {
   type PageProps,
   type RouteConfig,
 } from "$fresh/server.ts";
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(research|forskning)",
@@ -50,7 +51,7 @@ export const groupReducer = (fx) =>
 
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
-    const { params } = ctx;
+    const { params, url } = ctx;
     const { searchParams } = new URL(req.url);
     lang.value = params.lang;
 
@@ -61,7 +62,7 @@ export const handler: Handlers = {
     const group = groupname?.length > 0 ? groupname : "year";
     const q = searchParams.get("q") ?? "";
 
-    const topics = await getResearchLevel0(params.lang);
+    const topics = await getResearchLevel0FromExternalService(params.lang);
 
     const { data } = await searchPubs({ q, limit: 100 });
     const pubs = data;
@@ -82,6 +83,7 @@ export const handler: Handlers = {
       researchArticles,
       pubs,
       grouped,
+      origin: url,
     });
   },
 };
@@ -107,13 +109,23 @@ export const handler: Handlers = {
 //     );
 
 export default function Research(
-  { data: { lang, title, base, topics, pubs, grouped, researchArticles } }:
-    PageProps<
-      unknown
-    >,
+  {
+    data: {
+      lang,
+      title,
+      base,
+      topics,
+      pubs,
+      grouped,
+      researchArticles,
+      origin,
+    },
+  }: PageProps<
+    unknown
+  >,
 ) {
   return (
-    <Page title={title} base={base}>
+    <Page title={title} base={base} collection="home">
       <link rel="stylesheet" href="/css/hscroll.css" />
       <script src="/@nrk/core-scroll.min.js" />
       <h1>
@@ -142,13 +154,10 @@ export default function Research(
       }
 
       <section>
-        <AlbumHeader
+        <CollectionHeader
           text={t("pubs.Latest_peer_reviewed_research_articles")}
           href={intlRouteMap(lang).get("pubs") + "?q=journal-article"}
         />
-        <HScroll maxVisibleChildren={5.5}>
-          {researchArticles.map(ArticleSquare)}
-        </HScroll>
       </section>
 
       {
@@ -165,6 +174,19 @@ export default function Research(
         ))}
       </div> */
       }
+
+      {topics.map((t) => (
+        <section>
+          {JSON.stringify(t)}
+
+          <GroupedSearch
+            term={`research ${t.searchwords.join(" ")}`}
+            treshhold={0.5}
+            exclude={["person", "image", "document"]}
+            origin={origin}
+          />
+        </section>
+      ))}
     </Page>
   );
 }

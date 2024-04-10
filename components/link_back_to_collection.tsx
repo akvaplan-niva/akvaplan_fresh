@@ -1,12 +1,12 @@
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { lang, t } from "akvaplan_fresh/text/mod.ts";
 import { Icon } from "akvaplan_fresh/components/icon.tsx";
 import { intlRouteMap as intlRouteMap } from "akvaplan_fresh/services/mod.ts";
 
 export const LinkBackToCollection = ({ collection, lang }) => (
   <nav
     style={{
-      marginBlockStart: "0.5rem",
-      fontSize: "var(--font-size-4)",
+      // marginBlockStart: "0.5rem",
+      // fontSize: "var(--font-size-4)",
     }}
   >
     <Icon

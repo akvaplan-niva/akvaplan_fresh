@@ -5,7 +5,7 @@ import { newsFromMynewsdesk } from "./news_mynewsdesk.ts";
 import { search as searchPubs } from "./dois.ts";
 import { newsFromPubs } from "./news_pubs.ts";
 
-import { akvaplanists as searchAkvaplanists } from "./akvaplanist.ts";
+import { getAkvaplanists as searchAkvaplanists } from "./akvaplanist.ts";
 import { newsFromAkvaplanists } from "./news_akvaplanists.ts";
 
 import { type News, type Search } from "akvaplan_fresh/@interfaces/mod.ts";
@@ -71,7 +71,7 @@ export const searchNews = async (
   //return [...articles, ...pubs, ...akvaplanists].sort(sort);
   return articles.sort(sort);
 };
-export const latestNews = async (params: Search) =>
+export const latestNewsFromMynewsdeskService = async (params: Search) =>
   (await searchNews(params))
     .filter(({ type }) => !["erratum"].includes(type))
     .sort((a, b) => b.published.localeCompare(a.published)).slice(

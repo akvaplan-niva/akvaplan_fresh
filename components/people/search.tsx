@@ -37,8 +37,8 @@ export const PeopleSearchForm = ({ q, sortdir, group }) => (
         <a href="family0">
           <Pill aria-pressed={group === "family0"}>{t("people.fn")}</Pill>
         </a>
-        <a href="unit">
-          <Pill aria-pressed={group === "unit"}>{t("people.unit")}</Pill>
+        <a href="section">
+          <Pill aria-pressed={group === "section"}>{t("people.section")}</Pill>
         </a>
         <a href="workplace">
           <Pill aria-pressed={group === "workplace"}>

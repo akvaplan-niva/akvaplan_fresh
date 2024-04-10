@@ -1,15 +1,15 @@
 import { Page } from "akvaplan_fresh/components/mod.ts";
 import type { RouteConfig, RouteContext } from "$fresh/src/server/types.ts";
-import { Offices } from "akvaplan_fresh/components/offices.tsx";
+import { Addresses } from "akvaplan_fresh/components/offices.tsx";
 
 export const config: RouteConfig = {
-  routeOverride: "/:lang(no|en)/:page(offices|kontorsteder)",
+  routeOverride: "/:lang(no|en)/:page(addresses|adresser)",
 };
 
-export default function OfficesPage(req: Request, ctx: RouteContext) {
+export default function AddressesPage(_req: Request, _ctx: RouteContext) {
   return (
-    <Page title={"nav.Offices"}>
-      <Offices />
+    <Page title={"nav.Adresses"} collection="home">
+      <Addresses />
     </Page>
   );
 }

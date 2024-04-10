@@ -1,4 +1,4 @@
-import { AlbumHeader } from "akvaplan_fresh/components/album/album_header.tsx";
+import { CollectionHeader } from "akvaplan_fresh/components/album/album_header.tsx";
 
 export const LinkBanner = ({ href, text }) => (
   <aside
@@ -8,7 +8,7 @@ export const LinkBanner = ({ href, text }) => (
       padding: "0.5rem",
     }}
   >
-    <AlbumHeader
+    <CollectionHeader
       text={text}
       href={href}
       target="_blank"

@@ -1,6 +1,6 @@
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 import { Page } from "akvaplan_fresh/components/mod.ts";
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+import GroupedSearch from "../islands/grouped_search.tsx";
 
 import type {
   FreshContext,

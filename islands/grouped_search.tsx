@@ -10,6 +10,7 @@ import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 import { useSignal } from "@preact/signals";
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 import { href } from "akvaplan_fresh/search/href.ts";
+import { GroupedSearchCollectionResults } from "akvaplan_fresh/islands/grouped_search_collection_results.tsx";
 
 const detailsOpen = (collection: string) => true;
 // ["image", "document", "video", "blog", "pubs"].includes(collection)
@@ -46,7 +47,16 @@ const CollectionSummary = (
 );
 
 export default function GroupedSearch(
-  { term, lang, collection, origin }: {
+  {
+    term,
+    lang,
+    collection,
+    origin,
+    exclude = [],
+    results,
+    noInput = false,
+    noDetails = false,
+  }: {
     term?: string;
     lang?: string;
     origin?: string;
@@ -56,7 +66,7 @@ export default function GroupedSearch(
 ) {
   const query = useSignal(term);
   const limit = useSignal(5);
-  const groups = useSignal([]);
+  const groups = useSignal(results ? results.groups : []);
   const facets = useSignal(new Map());
   const sort = useSignal(null);
   const first = useSignal(true);
@@ -98,12 +108,7 @@ export default function GroupedSearch(
     performSearch({ q: value, base: origin, limit: limit.value });
   };
 
-  const toggleList = (e: Event) => {
-    display.value = display.value === "grid" ? "block" : "grid";
-    e.preventDefault();
-  };
-
-  const handleCollectionPressed = async (e: Event) => {
+  const handleMoreButtonPressed = async (e: Event) => {
     const {
       target,
     } = e;
@@ -127,29 +132,72 @@ export default function GroupedSearch(
   const facetCountCollection = (collection: string) =>
     facets.value.get(collection) ?? "?";
 
+  const SearchControls = ({ collection, query, count, length }) => (
+    <aside
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr",
+        placeItems: "center",
+        paddingBlockEnd: "0.5rem",
+      }}
+    >
+      {length > 0 && length < count &&
+        (
+          <p style={{ fontSize: "1rem" }}>
+            <Button
+              style={{
+                backgroundColor: "transparent",
+                fontSize: "0.75rem",
+              }}
+              onClick={handleMoreButtonPressed}
+              href={`/${lang}/_?q=${query}&collection=${collection}`}
+            >
+              {t("ui.Load_more")} {t(`collection.${collection}`)}
+            </Button>
+          </p>
+        )}
+
+      {false
+        ? (
+          <Button
+            style={{
+              backgroundColor: "transparent",
+              fontSize: "1rem",
+            }}
+            _onClick={"changeSort"}
+          >
+            relevans-score
+          </Button>
+        )
+        : null}
+    </aside>
+  );
+
   return (
     <main>
-      <form
-        id="site-search"
-        action={`/${lang}/_`}
-        autocomplete="off"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr",
-          gap: "1rem",
-          marginTop: "0.25rem",
-        }}
-      >
-        <InputSearch
-          autofocus
-          name="q"
-          placeholder={t("ui.search.site.Search")}
-          label="Søk i Akvaplan-niva (folk, tjenester, forskningstema, prosjekter, nyheter, publikasjoner, dokumenter, media)"
-          value={query}
+      {noInput !== true && (
+        <form
+          id="site-search"
+          action={`/${lang}/_`}
           autocomplete="off"
-          onInput={handleUserSearchInput}
-        />
-      </form>
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr",
+            gap: "1rem",
+            marginTop: "0.25rem",
+          }}
+        >
+          <InputSearch
+            autofocus
+            name="q"
+            placeholder={t("ui.search.site.Search")}
+            label="Søk i Akvaplan-niva (folk, tjenester, forskningstema, prosjekter, nyheter, publikasjoner, dokumenter, media)"
+            value={query}
+            autocomplete="off"
+            onInput={handleUserSearchInput}
+          />
+        </form>
+      )}
       <output>
         {remoteStatus.value.status > 299
           ? (
@@ -158,82 +206,43 @@ export default function GroupedSearch(
             </p>
           )
           : null}
-        {groups.value?.map(({ values, result }) => (
-          <details
-            open={detailsOpen(values?.[0])}
-            style={{ paddingBlockStart: "0.5rem" }}
-          >
-            <CollectionSummary
-              q={query.value}
-              collection={values?.[0]}
-              length={result.length}
-              lang={lang}
-              count={facetCountCollection(values?.[0])}
-            />
 
-            <SearchResults
-              hits={result}
-              lang={lang}
-              display={display.value}
-              collection={values?.[0]}
-              count={facetCountCollection(values?.[0])}
-              q={query}
-            />
+        {groups.value?.map((
+          { values, result },
+        ) => (!exclude.includes(values?.[0]) &&
+          (
+            <>
+              <GroupedSearchCollectionResults
+                query={query}
+                hits={result}
+                collection={values?.[0]}
+                count={facetCountCollection(values?.[0])}
+                display={display}
+                noDetails={noDetails}
+              />
 
-            <aside
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr",
-                placeItems: "center",
-                paddingBlockEnd: "0.5rem",
-              }}
-            >
-              {result?.length > 0 &&
-                  result.length < facetCountCollection(values?.[0])
-                ? (
-                  <p style={{ fontSize: "1rem" }}>
-                    <Button
-                      style={{
-                        backgroundColor: "transparent",
-                        fontSize: "1rem",
-                      }}
-                      onClick={handleCollectionPressed}
-                      href={`/${lang}/_?q=${query}&collection=${values?.[0]}`}
-                    >
-                      {t("Vis flere treff")}
-                    </Button>
-                  </p>
-                )
-                : null}
-            </aside>
-          </details>
-        ))}
-        {query?.value?.length > 0 && remoteStatus.value.status === 200
+              <SearchControls
+                query={query}
+                length={result.length}
+                collection={values?.[0]}
+                count={facetCountCollection(values?.[0])}
+              />
+            </>
+          ))
+        )}
+        {false ?? query?.value?.length > 0
           ? (
             <Button
               style={{
                 backgroundColor: "transparent",
                 fontSize: "1rem",
               }}
-              onClick={toggleList}
+              onClick={() =>
+                display.value = display.value === "grid" ? "block" : "grid"}
             >
               {display.value === "grid"
                 ? "search.ui.ViewResultsAsList"
                 : "search.ui.ViewCompactResults"}
-            </Button>
-          )
-          : null}
-
-        {false
-          ? (
-            <Button
-              style={{
-                backgroundColor: "transparent",
-                fontSize: "1rem",
-              }}
-              _onClick={"changeSort"}
-            >
-              relevans-score
             </Button>
           )
           : null}

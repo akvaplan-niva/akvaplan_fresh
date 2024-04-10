@@ -9,55 +9,56 @@ const newsItemStyle = {
   fontSize: "var(--font-size-0)",
   gap: "var(--size-2)",
   placeItems: "center",
-  gridTemplateColumns: "128px 16rem",
+  minWidth: "340px",
+  maxWidth: "540px",
+  gridTemplateColumns: "128px auto",
 };
 
 export const MiniNewsCard = (
-  { img, title, caption, href, published, type, hreflang, lang }:
+  { img, name, title, caption, href, published, type, hreflang, lang }:
     & HTMLElement
     & News,
 ) => (
-  <MiniCard>
-    <li
-      style={newsItemStyle}
-    >
-      {type === "person" || !img
-        ? (
-          <span style={{ height: "96px" }}>
-            <ApnSym />
-          </span>
-        )
-        : (
-          <a href={href} target={/(f_|\.)pdf/.test(href) ? "_blank" : "_self"}>
-            <img
-              src={img}
-              width="128"
-              alt={caption ?? title}
-              title={caption ?? title}
-              loading="lazy"
-              style={{ height: "96px" }}
-            />
-          </a>
-        )}
-
-      <span>
-        <a
-          href={href}
-          class="line-clamp3"
-          dangerouslySetInnerHTML={{ __html: title }}
-        />
-
-        <span style={{ color: "var(--text2)" }}>
-          <time>{isodate(published)}</time> <span>{t(`type.${type}`)}</span>
-          {hreflang !== lang
-            ? (
-              <span>
-                &nbsp;({t(`lang.${hreflang}`)})
-              </span>
-            )
-            : null}
+  <li
+    style={newsItemStyle}
+  >
+    {type === "person" || !img
+      ? (
+        <span style={{ height: "96px" }}>
+          <ApnSym />
         </span>
+      )
+      : (
+        <a href={href} target={/(f_|\.)pdf/.test(href) ? "_blank" : "_self"}>
+          <img
+            src={img}
+            //width="128"
+            alt={caption ?? title}
+            title={caption ?? title}
+            loading="lazy"
+            _style={{ height: "96px" }}
+          />
+        </a>
+      )}
+
+    <span>
+      <a
+        href={href}
+        class="line-clamp3"
+        dangerouslySetInnerHTML={{ __html: name ?? title }}
+      />
+
+      <span style={{ color: "var(--text2)" }}>
+        {published && <time>{isodate(published)}</time>}
+        {type && <span>{t(`type.${type}`)}</span>}
+        {hreflang && hreflang !== lang
+          ? (
+            <span>
+              &nbsp;({t(`lang.${hreflang}`)})
+            </span>
+          )
+          : null}
       </span>
-    </li>
-  </MiniCard>
+    </span>
+  </li>
 );

@@ -22,7 +22,7 @@ import {
 } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
 export const config: RouteConfig = {
-  routeOverride: "/:lang(en|no)/:page(services|tjenester)",
+  routeOverride: "/:lang(en|no)/:page(services2|tjenester2)",
 };
 
 const _section = {
@@ -58,6 +58,38 @@ export const handler: Handlers = {
   },
 };
 
+const Div = (s) => {
+  const id = s.img.split("/").at(-1);
+  console.warn(s.img);
+  return (
+    <div class="Content">
+      <input
+        type="radio"
+        id={id}
+        name="gallery"
+        value={id}
+      />
+
+      <label for={id}>{s.name}</label>
+
+      <div
+        class="Content block-center-start gap-1"
+        style={{ background: "var(--surface0)" }}
+      >
+        <img
+          alt=""
+          loading="lazy"
+          src={s.img ?? s.thumb}
+        />
+        <h3 class="backdrop-blur" style={{ color: "var(--link)" }}>
+          {s.title}
+        </h3>
+        <small>{s.name}</small>
+      </div>
+    </div>
+  );
+};
+
 export default function Services(
   { data: { lang, title, base, services, people, contacts } }: PageProps<
     unknown
@@ -66,21 +98,20 @@ export default function Services(
   const width = 512;
   const height = 512;
   return (
-    <Page title={title} base={base} collection="home">
+    <Page title={title} base={base}>
       <Head>
         <link rel="stylesheet" href={asset("/css/hscroll.css")} />
-        <link rel="stylesheet" href={asset("/css/hscroll-dynamic.css")} />
         <link rel="stylesheet" href={asset("/css/article.css")} />
-        <script src={asset("/@nrk/core-scroll.min.js")} />
+        <link rel="stylesheet" href={asset("/css/bento.css")} />
+        <link rel="stylesheet" href={asset("/css/gallery-vt.css")} />
+        <script type="module" src={asset("/css/gallery.js")} />
       </Head>
 
-      <h1>{title}</h1>
-
-      {/* <OurServices services={services} /> */}
-
-      <HScroll maxVisibleChildren={6.5}>
-        {services.map(ArticleSquare)}
-      </HScroll>
+      <main>
+        <fieldset id="gallery" class="hub">
+          {services.map(Div)}
+        </fieldset>
+      </main>
 
       <section style={_section}>
         <Card>

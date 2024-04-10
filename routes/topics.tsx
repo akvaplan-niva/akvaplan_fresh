@@ -1,7 +1,7 @@
 import { buildContainsFilter } from "akvaplan_fresh/search/filter.ts";
 
 import {
-  getResearchLevel0,
+  getResearchLevel0FromExternalService,
   getServicesLevel0FromExternalDenoService,
   //getResearchTopicSearchwords,
   //getServiceTopicSearchwords,
@@ -10,10 +10,10 @@ import {
 } from "akvaplan_fresh/services/mod.ts";
 
 import {
-  AlbumHeader,
   Article,
   ArticleHeader,
   ArticleSquare,
+  CollectionHeader,
   HScroll,
   Page,
   PeopleCard as PersonCard,
@@ -58,7 +58,7 @@ export const handler: Handlers = {
       limit: 128,
     }) ?? {};
 
-    const _research = await getResearchLevel0(params.lang);
+    const _research = await getResearchLevel0FromExternalService(params.lang);
     const topics = _research.filter((r) =>
       JSON.stringify(r).includes(params.topic)
     );
@@ -179,7 +179,7 @@ export default function TopicsOrTopic(
         {/* <h2>{t("nav.News")}</h2> */}
         {[...news].slice(0, 3).map(([grp, arr]) => (
           <div>
-            <AlbumHeader
+            <CollectionHeader
               text={t(grp)}
               href={intlRouteMap(lang).get("news")}
             />

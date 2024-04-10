@@ -3,12 +3,10 @@ import ButtonOpenDialog from "akvaplan_fresh/islands/button_open_dialog.tsx";
 
 export const SiteSearchDialog = ({ lang }) => (
   <span
-    class="header-end"
     style={{
       display: "grid",
       justifyContent: "end",
-      marginTop: "0.5rem",
-      marginRight: "0.5rem",
+      _padding: "var(--size-3) 0",
     }}
   >
     <nav>

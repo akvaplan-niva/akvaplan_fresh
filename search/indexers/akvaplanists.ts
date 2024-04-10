@@ -2,9 +2,16 @@ import { stringifyAndNormalize } from "akvaplan_fresh/text/mod.ts";
 
 import type { SearchAtom } from "akvaplan_fresh/search/types.ts";
 import type { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
+import {
+  familyAliasMap,
+  givenAliasMap,
+  spellingsById,
+} from "akvaplan_fresh/services/person.ts";
 
 // FIXME add translations eg. LEDELS "ledelse"
 // Add intl elements…
+// FIXME   slug: "id/skd/synn%C3%B8ve-killie-dinnesen",
+
 export const atomizeAkvaplanist = (a: Akvaplanist): SearchAtom => {
   const { id, family, given, created, updated, email, ...more } = a;
   const name = `${given} ${family}`;
@@ -12,7 +19,13 @@ export const atomizeAkvaplanist = (a: Akvaplanist): SearchAtom => {
     encodeURIComponent(name.toLocaleLowerCase("no").replace(/\s/g, "-"))
   }`;
 
-  const text = stringifyAndNormalize(more);
+  const aliases = [
+    spellingsById.get(id),
+    givenAliasMap.get(id),
+    familyAliasMap.get(id),
+  ];
+  const text = stringifyAndNormalize([more, aliases]);
+
   return {
     ...a,
     title: name,

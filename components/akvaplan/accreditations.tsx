@@ -1,4 +1,4 @@
-import { AlbumHeader, Card } from "akvaplan_fresh/components/mod.ts";
+import { Card, CollectionHeader } from "akvaplan_fresh/components/mod.ts";
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 import { standardEN, standardNO } from "akvaplan_fresh/services/standard_no.ts";
 

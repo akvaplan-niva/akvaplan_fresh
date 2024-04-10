@@ -2,12 +2,12 @@
 // @todo inspiration/link: https://openalex.org/works?sort=publication_date%3Adesc&column=display_name,publication_year,type,open_access.is_oa,cited_by_count&page=1&filter=authorships.author.id%3AA5053761479
 // https://openalex.org/authors/A5053761479
 import {
-  akvaplanists,
   buildGroupFX,
   buildPeopleGrouper,
   cristinAppPersonURL,
   cristinAppWorksURL,
   findAkvaplanistInCristin,
+  getAkvaplanists,
   //groupByChar0,
   getAugmentedAkvaplanists,
   newsOnPerson,
@@ -17,10 +17,10 @@ import {
 } from "akvaplan_fresh/services/mod.ts";
 
 import {
-  AlbumHeader,
   ApnSym,
   ArticleSquare,
   Card,
+  CollectionHeader,
   GroupedPeople,
   HScroll,
   NewsFilmStrip,
@@ -30,7 +30,6 @@ import {
   PeopleSearchForm,
 } from "akvaplan_fresh/components/mod.ts";
 
-import { akvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
 import { buildContainsFilter } from "akvaplan_fresh/search/filter.ts";
 import { lang, normalize, t } from "akvaplan_fresh/text/mod.ts";
 
@@ -45,7 +44,6 @@ import {
 
 import { Head } from "$fresh/runtime.ts";
 import { priorAkvaplanists } from "../services/prior_akvaplanists.ts";
-import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
 
 interface AkvaplanistsRouteProps {
   people: Akvaplanist[];
@@ -116,7 +114,9 @@ export const handler: Handlers = {
     const { searchParams } = new URL(req.url);
     const q = searchParams.get("q") ?? "";
 
-    const _all = await akvaplanists();
+    const _all = await getAkvaplanists();
+
+    // Update prior map...
     _all.filter(({ expired }) => expired ? true : false)
       .map(({ id, family, given }) =>
         priorAkvaplanistID.set(id, { family, given, id })
@@ -146,11 +146,24 @@ export const handler: Handlers = {
       new Map(),
     );
 
-    const title = t("people.People");
+    let _title = [t("nav.People")];
 
     const base = `/${lang}/${page}/${group}`;
 
     let person = ("id" === group && results.length === 1) ? results.at(0) : {};
+
+    // page title
+    if (person && "id" === group) {
+      _title = [`${person.given} ${person.family}`];
+    }
+    if ("section" === group) {
+      _title = [t(`section.${filter.toUpperCase()}`)];
+    } else if ("workplace" === group && results?.length > 0) {
+      _title = [results.at(0).workplace, t("nav.People")];
+    } else if (filter?.length > 0) {
+      _title = [filter, t("nav.People")];
+    }
+    const title = _title.join(" / ");
 
     if (results?.length === 0 && filter) {
       if (["id", "name"].includes(group)) {
@@ -212,9 +225,7 @@ export const handler: Handlers = {
   },
 };
 
-const before = "bb7x8e4rmevc5kboua8e";
-const frida = "viemsy7cszuo7laedtcd";
-const id = frida;
+const id = "viemsy7cszuo7laedtcd";
 
 const banner =
   `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1782,ar_6:1/${id}`;
@@ -239,12 +250,12 @@ const H1ATitle = ({ filter, text, group }) =>
   filter?.length > 0
     ? (
       <h1>
-        {t(`${filter}`)} / <a href=".">{text}</a>
+        {t(`${filter}`)}
       </h1>
     )
     : (
       <h1>
-        <a href=".">{text}</a>
+        {text}
       </h1>
     );
 
@@ -271,14 +282,6 @@ export default function Akvaplanists(
     AkvaplanistsRouteProps
   >,
 ) {
-  let pagetitle = filter?.length > 0
-    ? `${group}.${t(filter)} / ${t("nav.People")}`
-    : t("nav.People");
-
-  if (person && "id" === group) {
-    pagetitle = `${person.given} ${person.family}`;
-  }
-
   const caption = "";
 
   const subtitle = "";
@@ -290,7 +293,11 @@ export default function Akvaplanists(
   //   : "";
 
   return (
-    <Page title={pagetitle} base={base} collection="people">
+    <Page
+      title={title}
+      base={base}
+      collection={grouped.size > 0 ? "people" : undefined}
+    >
       <Head>
         <link rel="stylesheet" href="/css/hscroll.css" />
         <link rel="stylesheet" href="/css/akvaplanist.css" />
@@ -313,11 +320,7 @@ export default function Akvaplanists(
           <section class="page-header">
             {/* <NewsFilmStrip news={news} lang={lang.value} /> */}
             <div class="page-header__content">
-              <H1ATitle
-                group={group}
-                filter={filter}
-                text={t("people.People")}
-              />
+              <h1>{title}</h1>
               {/* <p>{t("people.subtitle")}</p> */}
             </div>
             <Picture />
@@ -347,7 +350,7 @@ export default function Akvaplanists(
       )}
 
       <section>
-        <HScroll maxVisibleChildren={5.5}>{news.map(ArticleSquare)}</HScroll>
+        <HScroll maxVisibleChildren={5.5}>{news?.map(ArticleSquare)}</HScroll>
       </section>
 
       {pubsByYear.size > 0 && (
@@ -388,10 +391,6 @@ export default function Akvaplanists(
           )}
         </section>
       )}
-
-      {filter?.length > 0
-        ? <LinkBackToCollection collection={"people"} lang={lang} />
-        : null}
     </Page>
   );
 }

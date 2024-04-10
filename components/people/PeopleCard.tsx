@@ -1,11 +1,7 @@
 // FIXME PeopleCard: Priors with ID should use gray symbol and no email
 // https://akvaplan.no/no/nyhet/2021-04-26/tynn-men-fet-fisken-tverrhalet-langebarn-utgjor-en-energibombe-i-de-arktiske-hav
 // http:/localhost:7777/no/folk/name/Biuw/Martin
-import {
-  akvaplan,
-  akvaplanists,
-  getAkvaplanist,
-} from "akvaplan_fresh/services/akvaplanist.ts";
+import { buildAkvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
 import { priorAkvaplanistID } from "akvaplan_fresh/services/prior_akvaplanists.ts";
 import { peopleURL, personURL } from "akvaplan_fresh/services/nav.ts";
 
@@ -17,19 +13,13 @@ import { type Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
 import { Head } from "$fresh/runtime.ts";
 
-const people = new Map();
-if (globalThis.Deno) {
-  // for await (const p of await akvaplanists()) {
-  //   people.set(p.id, p);
-  // }
-}
-
 interface PeopleProps {
   id?: string;
   person?: Akvaplanist;
   lang?: string;
   icons: boolean;
 }
+const people = await buildAkvaplanistMap();
 
 export function PeopleCard(
   {
@@ -82,7 +72,7 @@ export function PeopleCard(
       />{" "}
       {prior === true && <span>{t("people.akvaplanist(prior)")}</span>}
       <span class="people-position">
-        {person?.intl?.[lang]?.title}
+        {person?.position?.[lang]}
       </span>
 
       <div class="people-workplace">
@@ -101,21 +91,21 @@ export function PeopleCard(
           ? (
             <a
               style={{ color: "var(--text2)" }}
-              href={`${peopleURL({ lang })}/unit/${section}`}
+              href={`${peopleURL({ lang })}/section/${
+                section.toLocaleLowerCase("no")
+              }`}
             >
-              {t(`unit.${section}`)}
+              {t(`section.${section}`)}
             </a>
           )
-          : (
-            <span>
-              {person?.intl?.[lang]?.unit}
-            </span>
-          )}
+          : null}
       </div>
       {workplace?.length > 0 && (
         <div class="people-workplace">
           <a
-            href={`${peopleURL({ lang })}/workplace/${workplace}`}
+            href={`${peopleURL({ lang })}/workplace/${
+              workplace.toLocaleLowerCase("no")
+            }`}
             style={{ color: "var(--text2)" }}
           >
             {workplace}

@@ -1,6 +1,6 @@
 import { getOramaInstance } from "./orama.ts";
 import { search as _search } from "@orama/orama";
-import type { Results, SearchParams } from "@orama/orama";
+import type { Results, SearchParams, SorterParams } from "@orama/orama";
 import type { OramaAtom, SearchAtom } from "akvaplan_fresh/search/types.ts";
 import { normalize } from "akvaplan_fresh/text/mod.ts";
 
@@ -15,20 +15,25 @@ export const sortPublishedReverse = (a, b) =>
 
 const lastNYears = (n: number, start = new Date().getFullYear()) =>
   [...new Array(n)].map((_, i) => start - i);
-const since2020 = new Date().getFullYear() - 2019;
+const since1970 = new Date().getFullYear() - 1970;
 
 export const yearFacet = {
   ranges: [
-    ...lastNYears(since2020).map((y) => ({ from: y, to: y })),
-    { from: 2020, to: 2029 },
+    ...lastNYears(since1970).map((y) => ({ from: y, to: y })),
+  ],
+};
+
+export const decadesFacet = {
+  ranges: [
     { from: 2020, to: 2029 },
     { from: 2010, to: 2019 },
     { from: 2000, to: 2009 },
-    { from: 2000, to: 2099 },
-    { from: 1900, to: 1999 },
-    { from: 1000, to: 9999 },
+    { from: 1990, to: 1999 },
+    { from: 1980, to: 1989 },
   ],
 };
+//   { from: 2000, to: 2099 },
+//   { from: 1900, to: 1999 },
 
 export const search = async (
   params: SearchParams<OramaAtom>,
@@ -64,10 +69,35 @@ export const searchViaApi = async (
   if (facets !== undefined) {
     searchParams.set("facets", JSON.stringify(facets));
   }
+  if (sort) {
+    console.warn({ sort });
+    //searchParams.set("sort", JSON.stringify(facets));
+  }
   const r = await fetch(url);
   const { status, ok } = r;
   if (ok) {
     return await r.json() as Results<SearchAtom>;
   }
   return { error: { status } };
+};
+
+export const latestGroupedByCollection = (
+  collection: string[],
+  maxResult = 3,
+) => {
+  const groupBy = {
+    properties: ["collection"],
+    maxResult,
+  };
+  const sortBy: SorterParams<OramaAtom> = {
+    property: "published",
+    order: "DESC",
+  };
+  const where = { collection };
+  return search({
+    term: "",
+    where,
+    groupBy,
+    sortBy,
+  });
 };

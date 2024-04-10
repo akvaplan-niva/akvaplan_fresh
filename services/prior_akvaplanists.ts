@@ -5,6 +5,9 @@
 // Used...
 // In people page, but if no ID not all spellings might be returned, eg. /no/folk/name/%C3%85str%C3%B6m/Emmelie%20K.L.
 export const priorAkvaplanists = [
+  // FIXME move to github repo: akvaplanists
+  { given: "Michael", family: "Tessmann" },
+  //Tatiana N Savinova: https://doi.org/10.1016/S0025-326X(00)00004-7
   // $ cat akvaplanists_2022-09-01.ndjson akvaplanists_2024-01-15.ndjson \
   //   | nd-group 'd.id.toLowerCase()' | nd-sort --on d.id | nd-filter 'd[1].length<2'\
   //   | nd-map 'd[1][0]' | grep 2022-09-01 | nd-sort --on family | nd-map --select id,family,given
@@ -182,7 +185,7 @@ export const priorAkvaplanists = [
   { given: "A A", family: "Lukin" }, // 2010
   { given: "Jasmine", family: "Nahrgang" }, // 2010
   { given: "Lindsay", family: "Wilson" }, // 2011: Fra Lindsay med NP/UIT addresse
-  { given: "Gro H.", family: "Olsen" }, // 2010
+
   { given: "Michael", family: "Greenacre" }, // 2017
   { given: "M.", family: "Greenacre" }, // 2017
 
