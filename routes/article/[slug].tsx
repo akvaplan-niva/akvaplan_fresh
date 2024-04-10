@@ -216,7 +216,7 @@ export default function NewsArticle(
         </section>
 
         {related.videos?.map((video) => (
-          <VideoArticle item={video} embed={video.embed} />
+          <VideoArticle item={video} embed={video?.embed} />
         ))}
 
         {related.documents?.length > 0
