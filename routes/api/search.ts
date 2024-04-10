@@ -53,7 +53,12 @@ export const handler: Handlers = {
     const sortPublishedReverse = (a, b) =>
       compare(b[2].published, a[2]?.published);
 
-    const sortBy = sortPublishedReverse;
+    //const sortBy = sortPublishedReverse;
+
+    const sortBy = {
+      property: "published", // or 'year', 'inPromotion'
+      order: "DESC", // default is "ASC"
+    };
 
     // const sortBy = searchParams.has("sort")
     //   ? buildSort(searchParams.get("sort"))
@@ -66,11 +71,12 @@ export const handler: Handlers = {
       facets,
       boost: {
         title: 5,
-        people: 2,
+        people: 10,
+        published: 100,
       },
       // Set 0 threshold to search for multiple terms using AND-logic: https://docs.oramasearch.com/open-source/usage/search/threshold#setting-the-threshold-to-0
       threshold: 0,
-      sortBy,
+      //sortBy,
       limit,
     };
 

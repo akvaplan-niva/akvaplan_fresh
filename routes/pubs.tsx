@@ -8,7 +8,8 @@ import {
 import { Page } from "akvaplan_fresh/components/page.tsx";
 import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
 
-import { RouteConfig } from "$fresh/server.ts";
+import { RouteConfig, RouteContext } from "$fresh/server.ts";
+import { asset, Head } from "$fresh/runtime.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/(pubs|publications|publikasjoner)",
@@ -19,28 +20,36 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
   const { searchParams } = new URL(req.url);
 
   const q = searchParams.get("q");
+  const people = searchParams.get("people");
+  const debug = searchParams.has("debug");
   const collection = "pubs";
-  const title = q ? q : t("nav.Pubs").value;
+  const title = t("nav.Pubs").value;
+
+  const where = people ? { collection, people } : { collection };
 
   const facets = {
     year: yearFacet,
-    people: { size: 7, limit: 100, sort: "ASC" },
+    people: {},
     collection: {},
+    type: {},
+    //authors: {}
   };
 
   const results = await search({
     term: q ?? "",
     limit: 5,
-    where: { collection },
+    where,
     facets,
     sortBy,
+    threshold: 0,
   });
   return (
-    <Page title={title}>
+    <Page title={title} collection="home">
       <CollectionSearch
         placeholder={title}
         collection={collection}
         q={q}
+        people={people}
         lang={lang}
         results={results}
         facets={facets}

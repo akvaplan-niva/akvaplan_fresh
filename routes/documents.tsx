@@ -77,11 +77,11 @@ Likestillingsplan
 Redegjørelse Åpenhetsloven (Norwegian) */
 }
 
-export default function Documents(
+export default function DocumentsPage(
   { data: { title, lang, base, docs } }: PageProps<DocumentsProps>,
 ) {
   return (
-    <Page title={title} base={base} lang={lang}>
+    <Page title={title} base={base} lang={lang} collection="home">
       <h1 style={style.header}>{title}</h1>
 
       <form

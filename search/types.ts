@@ -1,17 +1,6 @@
 import type { Orama, TypedDocument } from "@orama/orama";
+import { schema } from "./schema.ts";
 
-export const oramaAtomSchema = {
-  collection: "string",
-  //subtype: "string",
-  title: "string",
-  //subtitle: "string",
-  slug: "string",
-  people: "string[]",
-  text: "string",
-  published: "string",
-  year: "number",
-} as const;
-
-export type OramaAtom = Orama<typeof oramaAtomSchema>;
+export type OramaAtom = Orama<typeof schema>;
 
 export type SearchAtom = TypedDocument<OramaAtom>;

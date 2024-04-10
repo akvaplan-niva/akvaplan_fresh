@@ -1,5 +1,5 @@
 .people-card {
-  padding: 10rem;
+  /* padding: 10rem;*/
   display: flex;
   flex-direction: column;
   white-space: nowrap;

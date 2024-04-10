@@ -1,5 +1,5 @@
-// FIXME Pub with DOI suffix containing slash is broken
-// Examples: 10.1093/icesjms/fsaa243 10.1093/icesjms/fsad192
+// FIXME Orama search  "A Sen" => "Maj Arneberg" http://localhost:7777/no/doi/10.3354/meps13101
+// FIXME "Espen O. Henriksen" => "Eirik Haugstvedt Henriksen" http://localhost:7777/no/doi/10.1046/j.1365-2664.2000.00521.x
 export {
   handler as _handler,
   type InternationalProps,
@@ -9,7 +9,7 @@ export {
 import {
   //buildoiNewsMap,
   doiImage,
-  findAkvaplanist,
+  findAkvaplanistViaOrama,
   findPriorAkvaplanist,
   getOpenAlexWork,
   getSlimPublication,
@@ -31,7 +31,8 @@ import {
   PageProps,
   RouteConfig,
 } from "$fresh/server.ts";
-import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
+
+import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
 //import { Akvaplanist } from "../@interfaces/akvaplanist.ts";
 
@@ -72,11 +73,11 @@ export const handler: Handlers<SlimPublication> = {
         const { given, family, name } = person;
 
         person.name = name ?? `${given ?? ""} ${family}`;
-        const { id } = await findAkvaplanist({ given, family, name }) ?? {};
-        if (id) {
+        const cand = await findAkvaplanistViaOrama({ given, family, name });
+        if (cand?.id) {
           current++;
-          console.warn({ current });
-          person.id = id;
+          console.warn({ current }, cand);
+          person.id = cand.id;
         } else {
           const prior = await findPriorAkvaplanist({ given, family, name });
 
@@ -145,7 +146,7 @@ export default function DoiPublication(
           </span>
         </p>
       )}
-      <p>{type} / {t(`type.${type}`)}</p>
+      <p class="pill">{t(`type.${type}`)}</p>
       <article>
         <Card>
           <h1
@@ -281,8 +282,6 @@ export default function DoiPublication(
             </dd>
           </dl>
         </Card>
-
-        <LinkBackToCollection collection="pubs" lang={lang} />
       </article>
     </Page>
   );

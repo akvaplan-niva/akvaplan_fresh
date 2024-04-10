@@ -12,7 +12,7 @@ const _header = {
   marginBlockStart: "1rem",
   marginBlockEnd: "0.5rem",
 };
-export const Offices = () => (
+export const Addresses = () => (
   <div>
     <section style={_section}>
       <h1 style={_header}>{t("about.HQ")}</h1>
@@ -66,6 +66,38 @@ export const Offices = () => (
         </dl>
       </Card>
     </section>
+
+    <section style={_section}>
+      <h1 style={_header}>{t("about.Identification")}</h1>
+      <dl>
+        <dt>
+          {t("about.Organisasjonsnummer")}
+        </dt>
+        <dd>
+          <a
+            href="https://w2.brreg.no/enhet/sok/detalj.jsp?orgnr=937375158"
+            target="_blank"
+          >
+            937375158
+          </a>
+        </dd>
+        <dt>
+          <abbr title={"Research Organization Registry"} lang="en">
+            ROR
+          </abbr>{" "}
+          ID:
+        </dt>
+        <dd>
+          <a
+            href=" https://ror.org/03nrps502"
+            target="_blank"
+          >
+            https://ror.org/03nrps502
+          </a>
+        </dd>
+      </dl>
+    </section>
+
     <section style={_section}>
       <h1 style={_header}>{t("about.Office_locations")}</h1>
       <menu>
@@ -83,6 +115,81 @@ export const Offices = () => (
           </li>
         ))}
       </menu>
+    </section>
+
+    <section style={_section}>
+      <h1 style={_header}>{t("about.Other_media")}</h1>
+
+      <Card>
+        <dl>
+          <dt>
+            {t("about.Social_media")}
+          </dt>
+          <dd>
+            <a
+              href="https://facebook.com/Akvaplan/"
+              target="_blank"
+            >
+              Facebook
+            </a>
+          </dd>
+          <dd>
+            <a
+              href="https://no.linkedin.com/company/akvaplan-niva"
+              target="_blank"
+            >
+              LinkedIn
+            </a>
+          </dd>
+          <dd>
+            <a
+              href=" https://www.mynewsdesk.com/no/akvaplan-niva"
+              target="_blank"
+            >
+              Mynewsdesk
+            </a>
+          </dd>
+
+          <dd>
+            <a
+              href="https://twitter.com/AkvaplanNiva"
+              target="_blank"
+            >
+              Twitter
+            </a>
+          </dd>
+          <dt>
+            {t("about.Open_access")}
+          </dt>
+          <dd>
+            <a
+              href="https://zenodo.org/communities/akvaplan-niva"
+              target="_blank"
+            >
+              Zenodo
+            </a>
+          </dd>
+          <dd>
+            <a
+              href="https://github.com/akvaplan-niva"
+              target="_blank"
+            >
+              GitHub
+            </a>
+          </dd>
+          <dt>
+            Video
+          </dt>
+          <dd>
+            <a
+              href="https://www.youtube.com/channel/UCD-AkBT1riN6TeNDzBP7g8g"
+              target="_blank"
+            >
+              YouTube
+            </a>
+          </dd>
+        </dl>
+      </Card>
     </section>
   </div>
 );

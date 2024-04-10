@@ -1,6 +1,6 @@
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
-import { AlbumHeader, Article } from "akvaplan_fresh/components/mod.ts";
+import { Article, CollectionHeader } from "akvaplan_fresh/components/mod.ts";
 import { MynewsdeskPanoramaPicture } from "akvaplan_fresh/components/panorama_picture.tsx";
 interface Link {
   href: string;
@@ -24,7 +24,7 @@ export const PictureNavArticle = (
 ) => (
   <>
     <div class="pad-1024">
-      <AlbumHeader
+      <CollectionHeader
         text={header}
         href={href}
       />

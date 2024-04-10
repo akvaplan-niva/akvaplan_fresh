@@ -1,14 +1,18 @@
 import { signal } from "@preact/signals";
+
+const _blue = "blue";
+const _dark = "dark";
+const _light = "light";
 export const defaultTheme = "blue";
-export const themes = new Set(["dark", defaultTheme, "light"]);
+export const themes = new Set([_dark, _blue, _light]);
 
 const getRoot = () => globalThis?.document?.documentElement;
 const getStorage = () => globalThis?.localStorage;
-const ATTR = "color-scheme";
+const COLOR_SCHEME = "color-scheme";
 
 export const getAttrColorScheme = (el: HTMLElement = getRoot()) => {
   if (el?.getAttribute) {
-    return el.getAttribute(ATTR);
+    return el.getAttribute(COLOR_SCHEME);
   }
 };
 export const theme = signal(getAttrColorScheme());
@@ -33,8 +37,8 @@ export const setAttrColorScheme = (
     theme.value = name;
 
     // Set attribute
-    if (el?.getAttribute && el.getAttribute(ATTR) !== name) {
-      el.setAttribute(ATTR, name);
+    if (el?.getAttribute && el.getAttribute(COLOR_SCHEME) !== name) {
+      el.setAttribute(COLOR_SCHEME, name);
     }
   }
 };
@@ -43,8 +47,8 @@ export const setAttrColorScheme = (
 //   el.removeAttribute("color-scheme");
 // }
 export const removeAttrColorScheme = (el = getRoot()) => {
-  if (el?.hasAttribute(ATTR)) {
-    el.removeAttribute(ATTR);
+  if (el?.hasAttribute(COLOR_SCHEME)) {
+    el.removeAttribute(COLOR_SCHEME);
   }
 };
 
@@ -78,7 +82,7 @@ export const buildInitTheming = () =>
   `(() => {
     const themes = new Set(${JSON.stringify([...themes])});
     const defaultTheme = "${defaultTheme}";
-    const ATTR = "${ATTR}";
+    const COLOR_SCHEME = "${COLOR_SCHEME}";
     const storeTheme = ${String(storeTheme)};
     const getRoot = ${String(getRoot)};
     const getStorage = ${String(getStorage)};

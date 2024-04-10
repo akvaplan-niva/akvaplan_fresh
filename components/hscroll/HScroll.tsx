@@ -3,7 +3,7 @@ import { Icon } from "akvaplan_fresh/components/mod.ts";
 import Button from "../button/button.tsx";
 
 type HScrollProps = HTMLElement & {
-  scrollerId: string;
+  scrollerId?: string;
   staticFirstElement?: HTMLElement;
   maxVisibleChildren?: number;
 };
@@ -46,7 +46,8 @@ export function HScroll({
 
   return (
     <div class="scroll-container">
-      <HScrollButton
+      {
+        /* <HScrollButton
         extraClass={"left"}
         dataFor={scrollerId}
         value={"left"}
@@ -57,7 +58,8 @@ export function HScroll({
         dataFor={scrollerId}
         value={"right"}
         ariaLabel={t("ui.scroll_right")}
-      />
+      /> */
+      }
 
       {staticFirstElement && staticFirstElement}
       <core-scroll

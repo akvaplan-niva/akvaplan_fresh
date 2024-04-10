@@ -5,7 +5,9 @@ import {
 
 import { getDoisFromDenoDeployService } from "akvaplan_fresh/services/dois.ts";
 
-import { atomizeAkvaplanist } from "akvaplan_fresh/search/indexers/akvaplanists.ts";
+import {
+  atomizeAkvaplanist,
+} from "akvaplan_fresh/search/indexers/akvaplanists.ts";
 import { atomizeCustomerService } from "./indexers/services.ts";
 import { insertMynewsdesk } from "akvaplan_fresh/search/indexers/mynewsdesk.ts";
 import { atomizeSlimPublication } from "akvaplan_fresh/search/indexers/pubs.ts";
@@ -22,6 +24,8 @@ import { getEmployedAkvaplanists } from "akvaplan_fresh/services/akvaplanist.ts"
 import { searchMynewsdesk } from "akvaplan_fresh/services/mynewsdesk.ts";
 import { atomizeMynewsdeskItem } from "akvaplan_fresh/search/indexers/mynewsdesk.ts";
 import { OramaAtom } from "akvaplan_fresh/search/types.ts";
+import { getResearchFromExternalService } from "akvaplan_fresh/services/research.ts";
+import { atomizeResearchTopic } from "akvaplan_fresh/search/indexers/research.ts";
 
 // Create orama index
 // Used at build time (see dev.ts)
@@ -40,9 +44,23 @@ export const createOramaIndex = async () => {
   console.warn(`Indexing ${services0.length} customer services`);
   await insertMultiple(orama, services0.map(atomizeCustomerService));
 
+  const research0 = (await getResearchFromExternalService()).filter(
+    levelFilter(0),
+  );
+
+  const research = (await Array.fromAsync(research0.map(atomizeResearchTopic)))
+    .flatMap((r) => [...r]);
+  console.warn(`Indexing ${research.length}/2 research topics`);
+  await insertMultiple(orama, research);
+
   const { data } = await getDoisFromDenoDeployService();
   console.warn(`Indexing ${data.length} pubs`);
-  await insertMultiple(orama, data.map(atomizeSlimPublication));
+  await insertMultiple(
+    orama,
+    await Array.fromAsync(data.map(atomizeSlimPublication)),
+  );
+  //console.warn([...notFoundNames]);
+  //console.warn([...foundNames]);
 
   console.warn(`Indexing Mynewsdesk`);
   const mynewsdesk_manifest = [];
@@ -63,6 +81,10 @@ export const createOramaIndex = async () => {
   return orama;
 };
 
+// read mynewsdesk_manifest?
+// put into Map
+// find articles where created >= last updated?
+// inject those into orama
 export const updateOramaIndexWithFreshContent = async (orama?: OramaAtom) => {
   orama = orama ?? await getOramaInstance();
 
@@ -84,23 +106,23 @@ export const updateOramaIndexWithFreshContent = async (orama?: OramaAtom) => {
     }
   }
 
-  //["news", "image", "video", "event", "blog_post"]
-  [].map(
-    async (type_of_media) => {
-      const { items } = await searchMynewsdesk({
-        q: "",
-        type_of_media,
-        limit: 10,
-      });
-      for (const item of items) {
-        const atom = await atomizeMynewsdeskItem(item);
-        const has = await getOramaDocument(atom.id as string);
-        if (!has) {
-          tryInsert(atom);
+  ["news", "image", "video", "event", "blog_post"]
+    .map(
+      async (type_of_media) => {
+        const { items } = await searchMynewsdesk({
+          q: "",
+          type_of_media,
+          limit: 10,
+        });
+        for (const item of items) {
+          const atom = await atomizeMynewsdeskItem(item);
+          const has = await getOramaDocument(atom.id as string);
+          if (!has) {
+            tryInsert(atom);
+          }
         }
-      }
-    },
-  );
+      },
+    );
 
   const { data } = await getDoisFromDenoDeployService();
   for (const pub of data) {

@@ -65,7 +65,7 @@ export default function News(
   { data: { lang, base, title, news } }: PageProps,
 ) {
   return (
-    <Page title={title} base={base}>
+    <Page title={title} base={base} collection="home">
       <h1>
         <a href="." style={{ color: "var(--text2)" }}>{title}</a>
       </h1>

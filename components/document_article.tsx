@@ -5,7 +5,6 @@ import { Article } from "akvaplan_fresh/components/mod.ts";
 import Button from "akvaplan_fresh/components/button/button.tsx";
 
 import type { MynewsdeskDocument } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
 
 const previewImageUrl = (cloudinary: string, width: number) =>
   `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_${width}/${cloudinary}`;
@@ -51,8 +50,6 @@ export function DocumentArticle(
           {t("ui.Download")}
         </a>
       </Button>
-
-      <LinkBackToCollection collection={"documents"} lang={lang} />
     </Article>
   );
 }

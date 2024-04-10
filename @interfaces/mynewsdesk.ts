@@ -11,7 +11,7 @@ export interface AbstractMynewsdeskItem {
   pressroom?: string;
   pressroom_id?: number;
   organization_number?: string;
-  id?: number;
+  id: number;
   url: string;
   published_at: At;
   created_at?: At;

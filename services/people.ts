@@ -15,21 +15,21 @@ import { familyAlias, givenAliasMap } from "./person.ts";
 export const newsOnPerson = async (
   { person, lang, limit, mapper = newsFromMynewsdesk({ lang }) },
 ) => {
-  const containsFamilyFx = buildContainsFilter(person.family);
-  const containsGivenFx = buildContainsFilter(person.given);
-  const exactMatchFamilyFx = buildExactFilter(person.family);
+  //const containsFamilyFx = buildContainsFilter(person.family);
+  // const containsGivenFx = buildContainsFilter(person.given);
+  // const exactMatchFamilyFx = buildExactFilter(person.family);
 
-  const _news = await multiSearchMynewsdesk(
-    [person.family, person.given],
-    ["news", "pressrelease"],
-    { limit },
-  ) ?? [];
+  // const _news = await multiSearchMynewsdesk(
+  //   [person.family, person.given],
+  //   ["news", "pressrelease"],
+  //   { limit },
+  // ) ?? [];
 
-  const _filteredNews = _news.filter((mnd) =>
-    containsFamilyFx(mnd) && containsGivenFx(mnd) && exactMatchFamilyFx(mnd)
-  );
+  // const _filteredNews = _news.filter((mnd) =>
+  //   containsFamilyFx(mnd) && containsGivenFx(mnd) && exactMatchFamilyFx(mnd)
+  // );
 
-  return _filteredNews.map(mapper);
+  // return _filteredNews.map(mapper);
 };
 
 export const extractInitials = (given: string) =>
@@ -89,12 +89,16 @@ export const pubsFromPerson = async (
   const q = ""; // q was `person.family`, but that would exclude spelling variants like Сикорский
   const { data } = await searchPubs({ q, limit: -1 }) ?? {};
 
-  return data
+  const pubs = data
     .filter(({ authors }) =>
       authors
         .some(personInAuthors(person))
     )
     .map(mapper);
+
+  console.warn({ person });
+
+  return pubs;
 };
 
 export const pubsFromPersonGroupedByYear = async (

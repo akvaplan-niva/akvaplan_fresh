@@ -1,8 +1,9 @@
-import { SiteNav } from "akvaplan_fresh/components/mod.ts";
+import { SiteNavVerticalLarge } from "akvaplan_fresh/components/site_nav.tsx";
 import ThemeSwitcher from "akvaplan_fresh/islands/theme_switcher.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
 import IconButton from "./button/icon_button.tsx";
 import GroupedSearch from "../islands/grouped_search.tsx";
+import { SiteLangLinks } from "akvaplan_fresh/components/site_lang_links.tsx";
 
 export default ({ lang }) => (
   <dialog
@@ -37,7 +38,18 @@ export default ({ lang }) => (
         color: "var(--text1)",
       }}
     >
-      <SiteNav />
+      <SiteNavVerticalLarge />
+      <span class="hide-l">
+        <span
+          style={{
+            fontSize: "var(--font-size-4)",
+            display: "grid",
+            placeItems: "left",
+          }}
+        >
+          <SiteLangLinks />
+        </span>
+      </span>
     </div>
     <footer
       style={{

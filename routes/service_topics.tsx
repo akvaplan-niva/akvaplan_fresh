@@ -29,7 +29,7 @@ import {
   findCustomerServiceByTopic,
   getCustomerService,
 } from "akvaplan_fresh/kv/customer_services.ts";
-import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
+
 export const config: RouteConfig = {
   routeOverride:
     "/:lang(en|no){/:page(services|service|tjenester|tjeneste)}{/:legacy(tema|topic)}?/:slug{/:uuid}?",
@@ -147,7 +147,6 @@ export default function ServiceTopics(
           </div>
         ))}
       </div>
-      <LinkBackToCollection collection={"services"} lang={lang} />
     </Page>
   );
 }

@@ -5,7 +5,7 @@ import { ImageArticle } from "akvaplan_fresh/components/image_article.tsx";
 
 import type { RouteConfig, RouteContext } from "$fresh/src/server/types.ts";
 import { search } from "akvaplan_fresh/search/search.ts";
-import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
+
 import { AtomCard } from "../components/atom_card.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 import { getItem } from "akvaplan_fresh/services/mynewsdesk.ts";
@@ -48,7 +48,7 @@ export default async function ImagePage(req: Request, ctx: RouteContext) {
                 <AtomCard
                   atom={atom}
                   hero={true}
-                  width={256}
+                  width={512}
                   reveal={true}
                 />
               ))}
@@ -56,7 +56,7 @@ export default async function ImagePage(req: Request, ctx: RouteContext) {
           </div>
         )}
       </section>
-      <LinkBackToCollection collection={"images"} lang={lang} />
+
       <Head>
         <link rel="stylesheet" href={asset("/css/bento.css")} />
       </Head>

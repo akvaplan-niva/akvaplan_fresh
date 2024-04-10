@@ -1,13 +1,11 @@
-import { count, create as _create, getByID, insert, load } from "@orama/orama";
+import { count, create as _create, getByID, load } from "@orama/orama";
 import { language, stemmer } from "@orama/stemmers/norwegian";
 
-import {
-  type OramaAtom,
-  oramaAtomSchema,
-} from "akvaplan_fresh/search/types.ts";
+import { type OramaAtom } from "akvaplan_fresh/search/types.ts";
+import { schema } from "./schema.ts";
 
 let _orama: OramaAtom;
-let _latest = false;
+
 export const latest = new Map<string, OramaAtom[]>();
 
 export const oramaJsonPath = "./_fresh/orama.json";
@@ -23,7 +21,6 @@ const normalizedWordTokenizer = (raw: string) => {
     .filter((s) => s.isWordLike).map((s) => normalize(s.segment));
   return words;
 };
-
 // const normalizer = (raw: string) =>
 //   raw
 //     .replace(/[\.,!?\n]+/g, " ")
@@ -31,8 +28,8 @@ const normalizedWordTokenizer = (raw: string) => {
 
 export const createOramaInstance = async (): Promise<OramaAtom> =>
   await _create({
-    schema: oramaAtomSchema,
-    //language,
+    schema: schema,
+    // language [only if no tokenizer is provided],
     components: {
       tokenizer: {
         normalizationCache: new Map(),
@@ -77,7 +74,7 @@ export const restoreOramaJson = async (path: string) => {
       return db;
     }
   } catch (e) {
-    console.error(`Could not restore Orama index ${path}`);
+    //console.error(`Could not restore Orama index ${path}`);
     throw "Search is currently unavailable";
   }
 };

@@ -191,6 +191,16 @@ html:has(dialog[open]) {
 @media screen and (min-width: 1024px) {
   .pad-1024 {
     padding: 1.5rem;
+  }
+}
 
+.news-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 1024px) {
+  .news-grid {
+    grid-template-columns: 1fr 1fr 1fr;
   }
 }

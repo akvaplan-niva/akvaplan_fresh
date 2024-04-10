@@ -17,3 +17,16 @@ if (Deno.args.includes("build")) {
   const orama = await createOramaIndex();
   await persistOramaJson(orama, oramaJsonPath);
 }
+
+// if (globalThis.Deno) {
+//   try {
+//     const path = "./_fresh/mynewsdesk_manifest.json";
+//     await Deno.stat(path);
+//     const m = JSON.parse(await Deno.readTextFile(path));
+//     for (const { type_of_media, last } of m) {
+//       console.warn(m);
+//       mynewsdeskLast.set(type_of_media, last);
+//     }
+//   } catch (_) {
+//   }
+// }

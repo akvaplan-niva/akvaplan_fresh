@@ -87,11 +87,11 @@ export const getCanonical = (
   }
 };
 
-export const searchImageAtoms = async ({ q = "" }) => {
+export const searchImageAtoms = async ({ q = "", limit = 25 }) => {
   const { items } = await searchMynewsdesk({
     q,
     type_of_media: "image",
-    limit: 25,
+    limit,
   }) as { items: MynewsdeskItem[] };
   const _images = items.sort((a, b) =>
     new Date(a.published_at?.datetime) <

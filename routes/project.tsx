@@ -13,7 +13,6 @@ import {
 
 import { isodate, normalize } from "akvaplan_fresh/utils/mod.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
-import { akvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
 
 import type { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 
@@ -25,7 +24,9 @@ import {
   ArticleHeader,
   ArticleSquare,
   Card,
+  CollectionHeader,
   HScroll,
+  MiniNewsCard,
   Page,
 } from "akvaplan_fresh/components/mod.ts";
 
@@ -35,7 +36,7 @@ import { intlRouteMap } from "../services/nav.ts";
 import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
 import { openKv } from "akvaplan_fresh/kv/mod.ts";
-import { LinkBackToCollection } from "akvaplan_fresh/components/link_back_to_collection.tsx";
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(project|prosjekt){/:date}?/:slug",
@@ -43,7 +44,8 @@ export const config: RouteConfig = {
 
 export const handler: Handlers = {
   async GET(req, ctx) {
-    const { slug, lang, type } = ctx.params;
+    const { url, params } = ctx;
+    const { slug, lang, type } = params;
     langSignal.value = lang;
 
     const numid = Number(slug?.split("-").at(-1));
@@ -100,7 +102,15 @@ export const handler: Handlers = {
     //   news.push(relLocalized);
     // }
 
-    return ctx.render({ item, lang, logo, news, contacts, alternate });
+    return ctx.render({
+      item,
+      lang,
+      logo,
+      news,
+      contacts,
+      alternate,
+      origin: url,
+    });
   },
 };
 
@@ -110,7 +120,7 @@ interface ArticleProps {
 }
 
 export default function ProjectHome(
-  { data: { item, lang, news, contacts, logo, alternate } }: PageProps<
+  { data: { item, lang, news, contacts, logo, alternate, origin } }: PageProps<
     ArticleProps
   >,
 ) {
@@ -145,18 +155,13 @@ export default function ProjectHome(
 
   const published = isodate(published_at.datetime);
 
+  const newsByYear = Map.groupBy(news, (n) => n?.published.substring(0, 4));
+
   const __html = body ?? summary;
 
   const _caption = {
     fontSize: "0.75rem",
   };
-
-  const title = (
-    <span>
-      <a href={intlRouteMap(lang).get("projects")}>{t(`nav.Projects`)}</a>:{" "}
-      {header} ({projectYears(start_at, end_at)})
-    </span>
-  );
 
   return (
     <Page title={header} collection="projects">
@@ -165,9 +170,7 @@ export default function ProjectHome(
         <link rel="stylesheet" href={asset("/css/article.css")} />
         <script src={asset("/@nrk/core-scroll.min.js")} />
       </Head>
-      <h1>
-        {title}
-      </h1>
+
       <figure style={_caption}>
         {logo && (
           <p>
@@ -180,9 +183,6 @@ export default function ProjectHome(
           </p>
         )}
       </figure>
-      <HScroll maxVisibleChildren={5.5}>
-        {news.map(ArticleSquare)}
-      </HScroll>
 
       <Article language={language}>
         <AltLangInfo lang={lang} language={language} alternate={alternate} />
@@ -190,6 +190,14 @@ export default function ProjectHome(
           header={`${header} (${projectYears(start_at, end_at)})`}
           image={img}
           imageCaption={image_caption}
+        />
+
+        <h2>{t("project.Outreach")}</h2>
+
+        <GroupedSearch
+          term={header}
+          exclude={["project", "image"]}
+          origin={origin}
         />
 
         <section
@@ -209,7 +217,7 @@ export default function ProjectHome(
             </section>
           )}
 
-        <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(440px, 1fr));grid-gap:1rem;">
+        <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:1rem;">
           {contacts && contacts.map(
             (contact) => (
               <section class="article-content">
@@ -218,7 +226,6 @@ export default function ProjectHome(
             ),
           )}
         </li>
-        <LinkBackToCollection collection={"projects"} lang={lang} />
       </Article>
     </Page>
   );

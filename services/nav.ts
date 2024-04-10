@@ -3,6 +3,8 @@ import { SignalLike, StringSignal } from "akvaplan_fresh/@interfaces/signal.ts";
 
 import { slug as _slug } from "https://deno.land/x/slug@v1.1.0/mod.ts";
 import { computed } from "@preact/signals-core";
+import { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
+import { Person } from "akvaplan_fresh/services/person.ts";
 export const siteNav: SignalLike<Array> = computed(() =>
   buildNav(langSignal.value)
 );
@@ -16,6 +18,7 @@ const En = new Map([
   ["dcat", "/en/dcat"],
   ["document", "/en/document"],
   ["documents", "/en/documents"],
+  ["home", "/en"],
   ["images", "/en/images"],
   ["image", "/en/image"],
   ["invoicing", "/en/invoice"],
@@ -42,6 +45,7 @@ const No = new Map([
   ["dcat", "/no/dcat"],
   ["document", "/no/dokument"],
   ["documents", "/no/dokumenter"],
+  ["home", "/no"],
   ["images", "/no/bilder"],
   ["image", "/no/bilde"],
   ["invoicing", "/no/faktura"],
@@ -144,13 +148,34 @@ export const videoURL = ({ lang, title, slug }: SlugLike) =>
 export const peopleURL = ({ lang }) =>
   `${intlRouteMap(lang).get("akvaplanists")}`;
 
-export const personURL = ({ id, given, family, email, lang, slug }) =>
+// export const personURL = ({ id, given, family, email, lang, slug }) =>
+//   id
+//     ? `${intlRouteMap(lang).get("akvaplanists")}/id/${id}/${family}/${given}`
+//     : `${intlRouteMap(lang).get("akvaplanists")}/name/${
+//       slug ? slug : `${family}/${given}`
+//     }`;
+
+export const akvaplanistUrl = (
+  { id, given, family, email, lang, slug }: Akvaplanist,
+) => {
+  const at = "@";
+  return encodeURI(
+    `/${at}${id}/${given}+${family}`.toLocaleLowerCase("no").replaceAll(
+      ".",
+      "",
+    ).replaceAll(" ", "+"),
+  );
+};
+
+export const anybodyUrl = ({ id, given, family, email, lang, slug }: Person) =>
   id
     ? `${intlRouteMap(lang).get("akvaplanists")}/id/${id}/${family}/${given}`
     : `${intlRouteMap(lang).get("akvaplanists")}/name/${
       slug ? slug : `${family}/${given}`
     }`;
 
+export const personURL = (p: Akvaplanist | Person) =>
+  p.id?.length === 3 ? akvaplanistUrl(p) : anybodyUrl(p);
 export const researchTopicURL = ({ topic, lang }) =>
   `${intlRouteMap(lang).get("research")}/${
     lang === "en" || lang?.value == "en" ? "topic" : "tema"
@@ -175,3 +200,29 @@ export const projectURL = ({ lang, title }: SlugLike) =>
 
 export const documentHref = ({ id, lang, slug, title }: SlugLike) =>
   `${intlRouteMap(lang).get("document")}/${title ? _slug(title) : ""}-${id}`;
+
+const navTransKeyForCollection = (c: string) => {
+  const [first, ...rest] = [...c];
+  return ["nav.", first.toLocaleUpperCase(), ...rest].join("");
+};
+
+export const collectionName = (c: string) =>
+  t(navTransKeyForCollection(c)).value;
+
+export const collectionHref = (c: string) =>
+  intlRouteMap(langSignal.value).get(c);
+
+export const collectionBreadcrumbs = (c: string) => [{
+  text: collectionName(c),
+  href: collectionHref(c) ?? "/",
+}];
+
+// const title = (
+//   <span>
+//     <a href={intlRouteMap(lang).get("projects")}>{t(`nav.Projects`)}</a>:{" "}
+//     {header} ({projectYears(start_at, end_at)})
+//   </span>
+// );
+// <h1>
+//   {title}
+// </h1>;
