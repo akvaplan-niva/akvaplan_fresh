@@ -175,18 +175,18 @@ export default function Research(
       </div> */
       }
 
-      {topics.map((t) => (
-        <section>
-          {JSON.stringify(t)}
-
-          <GroupedSearch
-            term={`research ${t.searchwords.join(" ")}`}
-            treshhold={0.5}
-            exclude={["person", "image", "document"]}
-            origin={origin}
-          />
-        </section>
-      ))}
+      {
+        /* {topics.map((_) => (
+        // <section>
+        //   <GroupedSearch
+        //     term={`research ${t.searchwords.join(" ")}`}
+        //     treshhold={0.5}
+        //     exclude={["person", "image", "document"]}
+        //     origin={origin}
+        //   />
+        // </section>
+      ))} */
+      }
     </Page>
   );
 }
