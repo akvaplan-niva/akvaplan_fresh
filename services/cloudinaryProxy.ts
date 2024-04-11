@@ -1,9 +1,12 @@
 import { getValue } from "akvaplan_fresh/kv/mod.ts";
 import { extractId } from "./extract_id.ts";
+import { search } from "akvaplan_fresh/search/search.ts";
+
 import type { MynewsdeskDocument } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import type { RouteContext } from "$fresh/server.ts";
+import { getItem } from "akvaplan_fresh/services/mynewsdesk.ts";
 
-const getCloudinaryId = async (slug: string) => {
+const getKvCloudinaryId = async (slug: string) => {
   const _id = extractId(slug);
   if (_id) {
     if (/^[a-z0-9]{20}$/.test(_id)) {
@@ -15,19 +18,44 @@ const getCloudinaryId = async (slug: string) => {
         const item = await getValue<MynewsdeskDocument>(key);
         if (item) {
           return extractId(item.document);
+        } else {
+          // FIXME put loudinary in orama atom
+          // const res = await search({
+          //   term: _id,
+          //   where: { collection: "document" },
+          // });
+          //{"elapsed":{"raw":2000000,"formatted":"2ms"},"hits":[
+          //  {"id":"mynewsdesk/document/439462","score":15.7369779208222,
+          //    "document":
+          //      {"title":"Ethical guidelines for our suppliers and business partners",
+          //        "id":"mynewsdesk/document/439462","collection":"document","lang":"en","slug":"2024-03-18/ethical-guidelines-for-our-suppliers-and-business-partners-439462","people":[" "],"published":"2024-03-18T11:58:37Z","updated":"2024-03-26T18:02:25Z","text":"---\n{}\n---\n\n ethical_guidelines_partners_v2024-03-12.pdf policy 439462"}}],"count":1}
+          const { document } = await getItem(numid, "document");
+          /*
+          {"newsdeskML":"2.1","type_of_media":"document","language":"en","source_id":63132,"source_name":"Akvaplan-niva","pressroom_name":"Akvaplan-niva","pressroom":"no","pressroom_id":69134,"organization_number":"937375158","id":439462,"url":"https://akvaplan.no/documents/ethical-guidelines-for-our-suppliers-and-business-partners-439462","published_at":{"text":"2024-03-18 12:58:37","datetime":"2024-03-18T11:58:37Z"},"created_at":{"text":"2024-03-18 12:57:16","datetime":"2024-03-18T11:57:16Z"},"updated_at":{"text":"2024-03-26 19:02:25","datetime":"2024-03-26T18:02:25Z"},"position":null,"links":[],"header":"Ethical guidelines for our suppliers and business partners","summary":null,"document_name":"ethical_guidelines_partners_v2024-03-12.pdf","document_format":".pdf","document_size":84372,"document_thumbnail":"https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_500,q_auto:good,w_500/aencventw6gmbaxqaau5","document":"https://mnd-assets.mynewsdesk.com/image/upload/f_pdf/aencventw6gmbaxqaau5","tags":[{"name":"policy"}],"related_items":[{"item_id":104758,"type_of_media":"contact_person"}]}
+          */
+          console.warn(document);
+          return document.split("/").at(-1);
         }
       }
     }
   }
 };
 export const cloudinaryProxy = async (_req: Request, ctx: RouteContext) => {
-  const id = await getCloudinaryId(ctx.params.slug);
-  const url = new URL(
-    `https://resources.mynewsdesk.com/image/upload/${id}`,
-  );
-  const { body, headers, status, ok } = await fetch(url);
-  if (!ok) {
-    return ctx.renderNotFound();
+  //const id = await getKvCloudinaryId(ctx.params.slug);
+  const _id = extractId(ctx.params.slug);
+  const id = Number(_id);
+  if (Number.isInteger(id) && id > 0) {
+    const { document } = await getItem(id, "document");
+
+    // const url = new URL(
+    //   old/bad: `https://resources.mynewsdesk.com/image/upload/${id}`,
+    //   new: https://mnd-assets.mynewsdesk.com/image/upload/f_pdf/aencventw6gmbaxqaau5
+    // );
+    const { body, headers, status, ok } = await fetch(document);
+    if (!ok) {
+      return ctx.renderNotFound();
+    }
+    return new Response(body, { status, headers });
   }
-  return new Response(body, { status, headers });
+  throw "Missing ID";
 };

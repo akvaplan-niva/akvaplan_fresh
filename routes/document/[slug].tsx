@@ -1,8 +1,6 @@
 import { findMarkdownDocument } from "akvaplan_fresh/services/documents.ts";
-
 import { cloudinaryProxy } from "akvaplan_fresh/services/cloudinaryProxy.ts";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
-import { search } from "akvaplan_fresh/search/search.ts";
 
 import {
   cloudinary0,
@@ -53,7 +51,6 @@ export default async function DocumentPage(
   if (!numid) {
     return ctx.renderNotFound();
     // @todo if (!numid) lookup clodinary
-    // const res = await search({ term: id /*where: { collection: "document" }*/ });
   }
 
   const item = await getItem(numid, "document");
