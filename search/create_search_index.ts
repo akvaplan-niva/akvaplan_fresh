@@ -48,10 +48,11 @@ export const createOramaIndex = async () => {
     levelFilter(0),
   );
 
-  const research = (await Array.fromAsync(research0.map(atomizeResearchTopic)))
-    .flatMap((r) => [...r]);
-  console.warn(`Indexing ${research.length}/2 research topics`);
-  await insertMultiple(orama, research);
+  // FIXME: https://github.com/akvaplan-niva/akvaplan_fresh/issues/331
+  // const research = (await Array.fromAsync(research0.map(atomizeResearchTopic)))
+  //   .flatMap((r) => [...r]);
+  // console.warn(`Indexing ${research.length}/2 research topics`);
+  // await insertMultiple(orama, research);
 
   const { data } = await getDoisFromDenoDeployService();
   console.warn(`Indexing ${data.length} pubs`);
@@ -59,8 +60,6 @@ export const createOramaIndex = async () => {
     orama,
     await Array.fromAsync(data.map(atomizeSlimPublication)),
   );
-  //console.warn([...notFoundNames]);
-  //console.warn([...foundNames]);
 
   console.warn(`Indexing Mynewsdesk`);
   const mynewsdesk_manifest = [];
