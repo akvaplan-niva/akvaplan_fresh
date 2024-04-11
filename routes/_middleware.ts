@@ -3,7 +3,7 @@
 // https://github.com/denoland/fresh/issues/586#issuecomment-1630175078
 import {
   acceptsNordic,
-  getLangFromURL,
+  extractLangFromUrl,
   setSiteLang,
 } from "akvaplan_fresh/text/mod.ts";
 
@@ -54,7 +54,7 @@ export function handler(req: Request, ctx: FreshContext) {
       const lang = acceptsNordic(acceptLanguages) ? "no" : "en";
       return response307(`/${lang}`);
     } else {
-      const langFromURL = getLangFromURL(url);
+      const langFromURL = extractLangFromUrl(url);
 
       const lang = langFromURL
         ? langFromURL

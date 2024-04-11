@@ -4,7 +4,7 @@
 /// <reference lib="dom.asynciterable" />
 /// <reference lib="deno.ns" />
 
-import { getLangFromURL } from "./text/mod.ts";
+import { extractLangFromUrl } from "./text/mod.ts";
 
 import {
   InnerRenderFunction,
@@ -20,7 +20,7 @@ const render: RenderFunction = (
   freshRender: InnerRenderFunction,
 ) => {
   // Set `lang` in render context -> reflects into html[lang]
-  const lang = getLangFromURL(ctx.url);
+  const lang = extractLangFromUrl(ctx.url);
   if (lang) {
     ctx.lang = lang;
   }

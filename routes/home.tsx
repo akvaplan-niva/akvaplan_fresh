@@ -4,7 +4,7 @@ import { getResearchLevel0FromExternalService } from "akvaplan_fresh/services/re
 import { latestNewsFromMynewsdeskService } from "akvaplan_fresh/services/news.ts";
 
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
-import { getLangFromURL, lang, t } from "akvaplan_fresh/text/mod.ts";
+import { extractLangFromUrl, lang, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
   ArticleSquare,
@@ -51,7 +51,7 @@ const latestText = (collection: string) => {
 export const handler: Handlers = {
   async GET(req, ctx) {
     const { url } = ctx;
-    const sitelang = getLangFromURL(req.url);
+    const sitelang = extractLangFromUrl(req.url);
     lang.value = sitelang;
 
     const news = await latestNewsFromMynewsdeskService({

@@ -390,7 +390,7 @@ export const canonicalRoute = (
   }
 };
 
-export const href = (
+export const hrefForMynewsdeskItem = (
   { header, type_of_media, language, published_at: { datetime } }:
     AbstractMynewsdeskItem, // language -> article language
   lang = language, // lang -> site language

@@ -1,4 +1,4 @@
-import { href } from "./mynewsdesk.ts";
+import { hrefForMynewsdeskItem } from "./mynewsdesk.ts";
 import { projectURL } from "./nav.ts";
 import {
   AbstractMynewsdeskItem,

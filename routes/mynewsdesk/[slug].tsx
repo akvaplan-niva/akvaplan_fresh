@@ -16,7 +16,7 @@ import {
   canonicalRoute,
   getCanonical,
   getItem,
-  href,
+  hrefForMynewsdeskItem,
   newsroom_lang,
   typeOfMediaFromMynewsdeskPage,
 } from "akvaplan_fresh/services/mynewsdesk.ts";

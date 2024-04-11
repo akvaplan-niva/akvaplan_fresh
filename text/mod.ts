@@ -53,7 +53,7 @@ export const acceptsNordic = (
   acceptLanguages: readonly string[] | Set<string>,
 ) => new Set([...acceptLanguages].map((lang) => nordic.has(lang))).has(true);
 
-export const getLangFromURL = (url: URL | string): string => {
+export const extractLangFromUrl = (url: URL | string): string => {
   const segm = new URL(url).pathname.split("/")?.slice(1, 2)?.at(0);
   switch (segm) {
     case "nb":

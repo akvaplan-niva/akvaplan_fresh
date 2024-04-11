@@ -5,6 +5,7 @@ import { slug as _slug } from "https://deno.land/x/slug@v1.1.0/mod.ts";
 import { computed } from "@preact/signals-core";
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
 import { Person } from "akvaplan_fresh/services/person.ts";
+import { getAkvaplanist } from "akvaplan_fresh/services/mod.ts";
 export const siteNav: SignalLike<Array> = computed(() =>
   buildNav(langSignal.value)
 );
@@ -156,16 +157,32 @@ export const peopleURL = ({ lang }) =>
 //     }`;
 
 export const akvaplanistUrl = (
-  { id, given, family, email, lang, slug }: Akvaplanist,
+  { id, given, family, name, email, slug }: Akvaplanist,
+  lang: string,
 ) => {
-  const at = "@";
+  const at = lang === "en" ? "@" : "~";
+  const _name = (given && family) ? `${given} ${family}` : name;
+  id = !id && email?.includes("@akvaplan")
+    ? email.split("@").at(0) as string
+    : "";
+
+  if (!id) {
+    //FIXME
+    // Links from /en/doi to detected person does not contain id, eg: http://localhost:7777/en/doi/10.3997/2214-4609.201902760
+    return anybodyUrl({ id, given, family, name, email, slug });
+  }
+  console.warn(id, lang, name);
+
   return encodeURI(
-    `/${at}${id}/${given}+${family}`.toLocaleLowerCase("no").replaceAll(
+    `/${at}${id}/${name}`.toLocaleLowerCase("no").replaceAll(
       ".",
       "",
     ).replaceAll(" ", "+"),
   );
 };
+
+export const akvaplanistUrlFromIdLang = async (id: string, lang: string) =>
+  akvaplanistUrl(await getAkvaplanist(id), lang);
 
 export const anybodyUrl = ({ id, given, family, email, lang, slug }: Person) =>
   id
