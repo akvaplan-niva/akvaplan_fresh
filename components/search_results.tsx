@@ -1,11 +1,11 @@
-import { OramaAtom } from "akvaplan_fresh/search/types.ts";
+import { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
 import { Signal } from "@preact/signals-core";
 import { useSignal } from "@preact/signals";
 import { SearchResultItem } from "akvaplan_fresh/components/search_result_item.tsx";
 
 export function SearchResults(
   { hits, display, collection, lang, etal = useSignal(true) }: {
-    hits: OramaAtom[];
+    hits: OramaAtomSchema[];
     display: string;
     lang: string;
     collection: string;

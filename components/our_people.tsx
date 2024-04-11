@@ -17,7 +17,7 @@ const getRandomPeopleImage = () => images.at(randomIndex(images));
 const NO = [
   { href: href("no"), text: "Alle ansatte" },
   {
-    href: href("no", "unit/ledels"),
+    href: href("no", "management"),
     text: "Ledelse",
   },
   {
@@ -28,7 +28,7 @@ const NO = [
 const EN = [
   { href: href("en"), text: "All employees" },
   {
-    href: href("en", "unit/ledels"),
+    href: href("en", "management"),
     text: "Management",
   },
   {

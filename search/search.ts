@@ -1,7 +1,10 @@
 import { getOramaInstance } from "./orama.ts";
 import { search as _search } from "@orama/orama";
 import type { Results, SearchParams, SorterParams } from "@orama/orama";
-import type { OramaAtom, SearchAtom } from "akvaplan_fresh/search/types.ts";
+import type {
+  OramaAtom,
+  OramaAtomSchema,
+} from "akvaplan_fresh/search/types.ts";
 import { normalize } from "akvaplan_fresh/text/mod.ts";
 
 export const { compare } = Intl.Collator("no", {
@@ -36,11 +39,11 @@ export const decadesFacet = {
 //   { from: 1900, to: 1999 },
 
 export const search = async (
-  params: SearchParams<OramaAtom>,
+  params: SearchParams<OramaAtomSchema>,
 ) => {
   const orama = await getOramaInstance();
   params.term = normalize(params.term);
-  return await _search(orama, params) as Results<SearchAtom>;
+  return await _search(orama, params) as Results<OramaAtom>;
 };
 export const searchViaApi = async (
   { q, base, limit, where, groupBy, facets, sort }: {
@@ -70,13 +73,13 @@ export const searchViaApi = async (
     searchParams.set("facets", JSON.stringify(facets));
   }
   if (sort) {
-    console.warn({ sort });
+    console.warn("searchViaApi", "sort is not implemented, received", { sort });
     //searchParams.set("sort", JSON.stringify(facets));
   }
   const r = await fetch(url);
   const { status, ok } = r;
   if (ok) {
-    return await r.json() as Results<SearchAtom>;
+    return await r.json() as Results<OramaAtom>;
   }
   return { error: { status } };
 };
@@ -89,7 +92,7 @@ export const latestGroupedByCollection = (
     properties: ["collection"],
     maxResult,
   };
-  const sortBy: SorterParams<OramaAtom> = {
+  const sortBy: SorterParams<OramaAtomSchema> = {
     property: "published",
     order: "DESC",
   };

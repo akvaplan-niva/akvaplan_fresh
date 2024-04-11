@@ -1,5 +1,5 @@
 import { searchNewsArticles } from "akvaplan_fresh/services/news.ts";
-import { href } from "akvaplan_fresh/services/mynewsdesk.ts";
+import { hrefForMynewsdeskItem } from "akvaplan_fresh/services/mynewsdesk.ts";
 
 import { ArticleSquare, HScroll, Page } from "akvaplan_fresh/components/mod.ts";
 

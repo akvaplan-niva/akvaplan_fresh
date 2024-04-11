@@ -1,12 +1,12 @@
 import { count, create as _create, getByID, load } from "@orama/orama";
 import { language, stemmer } from "@orama/stemmers/norwegian";
 
-import { type OramaAtom } from "akvaplan_fresh/search/types.ts";
+import { type OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
 import { schema } from "./schema.ts";
 
-let _orama: OramaAtom;
+let _orama: OramaAtomSchema;
 
-export const latest = new Map<string, OramaAtom[]>();
+export const latest = new Map<string, OramaAtomSchema[]>();
 
 export const oramaJsonPath = "./_fresh/orama.json";
 
@@ -26,7 +26,7 @@ const normalizedWordTokenizer = (raw: string) => {
 //     .replace(/[\.,!?\n]+/g, " ")
 //     .split(/\s+/).map((w) => normalize(w));
 
-export const createOramaInstance = async (): Promise<OramaAtom> =>
+export const createOramaInstance = async (): Promise<OramaAtomSchema> =>
   await _create({
     schema: schema,
     // language [only if no tokenizer is provided],
@@ -41,7 +41,7 @@ export const createOramaInstance = async (): Promise<OramaAtom> =>
     },
   });
 
-export const getOramaInstance = async (): Promise<OramaAtom> => {
+export const getOramaInstance = async (): Promise<OramaAtomSchema> => {
   if (!_orama) {
     try {
       const orama = await restoreOramaJson(oramaJsonPath);
@@ -57,7 +57,7 @@ export const getOramaInstance = async (): Promise<OramaAtom> => {
   }
   return _orama;
 };
-export const setOramaInstance = (orama: OramaAtom) => _orama = orama;
+export const setOramaInstance = (orama: OramaAtomSchema) => _orama = orama;
 
 export const restoreOramaJson = async (path: string) => {
   try {
@@ -80,7 +80,7 @@ export const restoreOramaJson = async (path: string) => {
 };
 
 export const persistOramaJson = async (
-  orama: OramaAtom,
+  orama: OramaAtomSchema,
   path: string,
 ) => {
   const { persist } = await import(

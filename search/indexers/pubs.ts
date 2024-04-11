@@ -1,4 +1,4 @@
-import type { SearchAtom } from "akvaplan_fresh/search/types.ts";
+import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
@@ -66,7 +66,7 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
   );
   const year = new Date(published).getFullYear();
 
-  const atom: SearchAtom = {
+  const atom: OramaAtom = {
     id: `https://doi.org/${doi}`,
     slug: `${doi}`,
     collection: "pubs",

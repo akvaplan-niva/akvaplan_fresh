@@ -1,5 +1,5 @@
 import { serviceSummaryMap } from "akvaplan_fresh/services/topic/mod.ts";
-import type { SearchAtom } from "akvaplan_fresh/search/types.ts";
+import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { CustomerService } from "akvaplan_fresh/@interfaces/customer_service.ts";
 
 import { slug as _slug } from "slug";
@@ -12,7 +12,7 @@ export const atomizeCustomerService = (value) => {
 
   const desc = serviceSummaryMap.get(topic);
 
-  const atom: SearchAtom = {
+  const atom: OramaAtom = {
     id: uuid,
     slug: `${_slug(no ?? tema)}/${uuid}`,
     collection: "service",

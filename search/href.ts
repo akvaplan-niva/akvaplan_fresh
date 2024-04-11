@@ -1,5 +1,10 @@
-import { SearchAtom } from "akvaplan_fresh/search/types.ts";
+import {
+  extractLangFromUrl,
+  lang as langSignal,
+} from "akvaplan_fresh/text/mod.ts";
+import { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import { akvaplanistUrl } from "akvaplan_fresh/services/nav.ts";
+import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
 const En = new Map([
   ["pubs", "publications"],
@@ -37,12 +42,14 @@ const No1 = new Map([
 // "collection.video": "filmer",
 
 const localizedRouteForSearchAtom = (
-  atom: SearchAtom & { hreflang?: "string" },
+  atom: OramaAtom & { hreflang?: "string" },
+  lang: string,
 ): string => {
-  const { lang, collection, slug } = atom;
-  if (collection === "person") {
-    console.warn(atom);
-    return slug.replace("id/", "/@");
+  const { collection, slug } = atom;
+
+  if (collection === "person" && slug.startsWith("id/")) {
+    const { title: name, id: email } = atom;
+    return akvaplanistUrl({ email, name, slug } as any, lang);
   }
   const intl_route = lang === "no"
     ? undefined === slug
@@ -52,16 +59,22 @@ const localizedRouteForSearchAtom = (
     ? En.get(collection) ?? collection
     : En1.get(collection) ?? collection;
 
-  return "/" + [lang, intl_route, slug].join("/");
+  const path = ["", lang, intl_route, slug].join("/");
+  return path;
 };
 
 export const href = (
-  atom: SearchAtom & { hreflang?: "string" },
+  atom: OramaAtom & { hreflang?: "string" },
 ) => {
-  const { lang } = atom;
-  atom.lang = lang === undefined ? "no" : atom.lang;
+  const url = !globalThis.Deno && globalThis.document
+    ? document.URL
+    : undefined;
+
+  const lang = url ? extractLangFromUrl(url) : langSignal.value;
+
+  //atom.lang = atom.lang === undefined ? langSignal.value : atom.lang;
   // if (slug?.startsWith(`/${lang}/`) && slug?.length > 4) {
   //   return slug;
   // }
-  return localizedRouteForSearchAtom(atom);
+  return localizedRouteForSearchAtom(atom, lang);
 };

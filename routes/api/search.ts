@@ -1,6 +1,9 @@
 import { search } from "akvaplan_fresh/search/search.ts";
 
-import type { OramaAtom, SearchAtom } from "akvaplan_fresh/search/types.ts";
+import type {
+  OramaAtom,
+  OramaAtomSchema,
+} from "akvaplan_fresh/search/types.ts";
 
 import type { GroupByParams, Results, SearchParams } from "@orama/orama";
 
@@ -42,7 +45,7 @@ export const handler: Handlers = {
       : ({
         "collection": {},
       });
-    const groupBy: GroupByParams<OramaAtom, SearchAtom> =
+    const groupBy: GroupByParams<OramaAtomSchema, OramaAtom> =
       searchParams.has("group-by")
         ? ({
           properties: [searchParams.get("group-by")],
@@ -64,7 +67,7 @@ export const handler: Handlers = {
     //   ? buildSort(searchParams.get("sort"))
     //   : sortPublishedReverse;
 
-    const params: SearchParams<OramaAtom> = {
+    const params: SearchParams<OramaAtomSchema> = {
       term,
       where,
       groupBy,
@@ -80,7 +83,7 @@ export const handler: Handlers = {
       limit,
     };
 
-    const results: Results<SearchAtom> = await search(params);
+    const results: Results<OramaAtom> = await search(params);
     return Response.json(results);
   },
 };

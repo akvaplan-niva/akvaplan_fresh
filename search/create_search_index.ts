@@ -23,7 +23,7 @@ import { getEmployedAkvaplanists } from "akvaplan_fresh/services/akvaplanist.ts"
 
 import { searchMynewsdesk } from "akvaplan_fresh/services/mynewsdesk.ts";
 import { atomizeMynewsdeskItem } from "akvaplan_fresh/search/indexers/mynewsdesk.ts";
-import { OramaAtom } from "akvaplan_fresh/search/types.ts";
+import { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
 import { getResearchFromExternalService } from "akvaplan_fresh/services/research.ts";
 import { atomizeResearchTopic } from "akvaplan_fresh/search/indexers/research.ts";
 
@@ -48,10 +48,11 @@ export const createOramaIndex = async () => {
     levelFilter(0),
   );
 
-  const research = (await Array.fromAsync(research0.map(atomizeResearchTopic)))
-    .flatMap((r) => [...r]);
-  console.warn(`Indexing ${research.length}/2 research topics`);
-  await insertMultiple(orama, research);
+  // FIXME: https://github.com/akvaplan-niva/akvaplan_fresh/issues/331
+  // const research = (await Array.fromAsync(research0.map(atomizeResearchTopic)))
+  //   .flatMap((r) => [...r]);
+  // console.warn(`Indexing ${research.length}/2 research topics`);
+  // await insertMultiple(orama, research);
 
   const { data } = await getDoisFromDenoDeployService();
   console.warn(`Indexing ${data.length} pubs`);
@@ -59,8 +60,6 @@ export const createOramaIndex = async () => {
     orama,
     await Array.fromAsync(data.map(atomizeSlimPublication)),
   );
-  //console.warn([...notFoundNames]);
-  //console.warn([...foundNames]);
 
   console.warn(`Indexing Mynewsdesk`);
   const mynewsdesk_manifest = [];
@@ -85,7 +84,9 @@ export const createOramaIndex = async () => {
 // put into Map
 // find articles where created >= last updated?
 // inject those into orama
-export const updateOramaIndexWithFreshContent = async (orama?: OramaAtom) => {
+export const updateOramaIndexWithFreshContent = async (
+  orama?: OramaAtomSchema,
+) => {
   orama = orama ?? await getOramaInstance();
 
   const tryInsert = async (atom) => {
