@@ -1,6 +1,6 @@
 import { stringifyAndNormalize } from "akvaplan_fresh/text/mod.ts";
 
-import type { SearchAtom } from "akvaplan_fresh/search/types.ts";
+import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
 import {
   familyAliasMap,
@@ -12,7 +12,7 @@ import {
 // Add intl elements…
 // FIXME   slug: "id/skd/synn%C3%B8ve-killie-dinnesen",
 
-export const atomizeAkvaplanist = (a: Akvaplanist): SearchAtom => {
+export const atomizeAkvaplanist = (a: Akvaplanist): OramaAtom => {
   const { id, family, given, created, updated, email, ...more } = a;
   const name = `${given} ${family}`;
   const slug = `id/${id as string}/${

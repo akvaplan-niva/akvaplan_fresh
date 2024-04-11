@@ -59,7 +59,7 @@ export default function AtHome({ data }: PageProps) {
       </Card>
 
       <GroupedSearch
-        term={`${family} ${[...given].slice(0, 6).join("")}`.trim()}
+        term={`${family} ${[...given].slice(0, 4).join("")}`.trim()}
         exclude={["person"]}
         origin={url}
         noInput

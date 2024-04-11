@@ -1,5 +1,5 @@
 import { href } from "akvaplan_fresh/search/href.ts";
-import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
+import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
 
 const names = (people: string[], max?: number) => {
   if (people.length === 0) {

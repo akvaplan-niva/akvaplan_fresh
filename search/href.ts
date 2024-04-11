@@ -1,4 +1,4 @@
-import { SearchAtom } from "akvaplan_fresh/search/types.ts";
+import { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import { akvaplanistUrl } from "akvaplan_fresh/services/nav.ts";
 
 const En = new Map([
@@ -37,7 +37,7 @@ const No1 = new Map([
 // "collection.video": "filmer",
 
 const localizedRouteForSearchAtom = (
-  atom: SearchAtom & { hreflang?: "string" },
+  atom: OramaAtom & { hreflang?: "string" },
 ): string => {
   const { lang, collection, slug } = atom;
   if (collection === "person") {
@@ -56,7 +56,7 @@ const localizedRouteForSearchAtom = (
 };
 
 export const href = (
-  atom: SearchAtom & { hreflang?: "string" },
+  atom: OramaAtom & { hreflang?: "string" },
 ) => {
   const { lang } = atom;
   atom.lang = lang === undefined ? "no" : atom.lang;

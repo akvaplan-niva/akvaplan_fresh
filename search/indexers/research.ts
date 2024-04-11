@@ -1,4 +1,4 @@
-import type { SearchAtom } from "akvaplan_fresh/search/types.ts";
+import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 
 import { slug, slug as _slug } from "slug";
 import { nameOfId } from "akvaplan_fresh/services/akvaplanist.ts";
@@ -10,7 +10,7 @@ export const atomizeResearchTopic = async (research) => {
   const published = research?.published ?? "2023-05-01";
   const year = new Date(published).getFullYear();
   //const slug = `${_slug(name)}/${uuid}`,
-  const atom: SearchAtom = {
+  const atom: OramaAtom = {
     slug: uuid,
     collection: "research",
     type: "research",

@@ -10,7 +10,7 @@ import {
   typeOfMediaCountMap,
 } from "akvaplan_fresh/services/mynewsdesk_batch.ts";
 
-import { OramaAtom, SearchAtom } from "akvaplan_fresh/search/types.ts";
+import { OramaAtom, OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
 import { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { MynewsdeskVideo } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
@@ -55,7 +55,7 @@ const materializeContacts = async (item: AbstractMynewsdeskItem) => {
 
 export const atomizeMynewsdeskItem = async (
   item: MynewsdeskArticle | MynewsdeskDocument | MynewsdeskVideo,
-): Promise<SearchAtom> => {
+): Promise<OramaAtom> => {
   const {
     id,
     header,
@@ -135,7 +135,7 @@ export const atomizeMynewsdeskItem = async (
 };
 
 export const insertMynewsdeskCollections = async (
-  orama: OramaAtom,
+  orama: OramaAtomSchema,
   list: Deno.KvListIterator<AbstractMynewsdeskItem>,
 ) => {
   for await (

@@ -23,7 +23,7 @@ import { getEmployedAkvaplanists } from "akvaplan_fresh/services/akvaplanist.ts"
 
 import { searchMynewsdesk } from "akvaplan_fresh/services/mynewsdesk.ts";
 import { atomizeMynewsdeskItem } from "akvaplan_fresh/search/indexers/mynewsdesk.ts";
-import { OramaAtom } from "akvaplan_fresh/search/types.ts";
+import { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
 import { getResearchFromExternalService } from "akvaplan_fresh/services/research.ts";
 import { atomizeResearchTopic } from "akvaplan_fresh/search/indexers/research.ts";
 
@@ -85,7 +85,9 @@ export const createOramaIndex = async () => {
 // put into Map
 // find articles where created >= last updated?
 // inject those into orama
-export const updateOramaIndexWithFreshContent = async (orama?: OramaAtom) => {
+export const updateOramaIndexWithFreshContent = async (
+  orama?: OramaAtomSchema,
+) => {
   orama = orama ?? await getOramaInstance();
 
   const tryInsert = async (atom) => {

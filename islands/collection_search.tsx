@@ -4,7 +4,7 @@ import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 
 import { InputSearch } from "../components/search/InputSearch.tsx";
 
-import type { SearchAtom } from "akvaplan_fresh/search/types.ts";
+import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { Result, Results } from "@orama/orama";
 
 import { computed, useSignal } from "@preact/signals";
@@ -62,14 +62,14 @@ export default function CollectionSearch(
     lang?: string;
     collection: string;
     placeholder?: string;
-    results: Results<SearchAtom>;
+    results: Results<OramaAtom>;
   },
 ) {
   const query = useSignal(q ?? "");
   const limit = useSignal(10);
   const nextLimit = useSignal(100);
   const etal = useSignal(true);
-  const hits = useSignal((results?.hits ?? []) as Result<SearchAtom>[]);
+  const hits = useSignal((results?.hits ?? []) as Result<OramaAtom>[]);
   const count = useSignal(results?.count ?? 0);
   const facet = useSignal(facetMapper(results?.facets));
   const display = useSignal("block");

@@ -15,12 +15,17 @@ import {
 } from "akvaplan_fresh/components/mod.ts";
 import { OurPeople } from "akvaplan_fresh/components/our_people.tsx";
 
-import { Handlers, RouteConfig } from "$fresh/server.ts";
-import { asset, Head } from "$fresh/runtime.ts";
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 import { latestGroupedByCollection } from "akvaplan_fresh/search/search.ts";
-//import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 
+import { asset, Head } from "$fresh/runtime.ts";
+
+import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
+import type { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mod.ts";
+import type { Results } from "@orama/orama";
+import type { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
+
+//import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
 };
@@ -64,7 +69,7 @@ export const handler: Handlers = {
 
     const announce = await getValue(["announce", "home", sitelang]);
 
-    const results = await latestGroupedByCollection([
+    const results: Results<OramaAtom> = await latestGroupedByCollection([
       "person",
       "pubs",
       "video",
@@ -87,6 +92,16 @@ export const handler: Handlers = {
     });
   },
 };
+
+interface HomeData {
+  announce: unknown;
+  news: MynewsdeskArticle[];
+  // services,
+  results: OramaAtom;
+  // our,
+  // lang,
+  // url,
+}
 export default function Home(
   {
     data: {
@@ -98,7 +113,7 @@ export default function Home(
       lang,
       url,
     },
-  },
+  }: PageProps<HomeData>,
 ) {
   const maxVisNews = 5.5;
 
