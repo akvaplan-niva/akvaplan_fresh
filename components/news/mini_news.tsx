@@ -6,7 +6,7 @@ import { type News } from "akvaplan_fresh/@interfaces/mod.ts";
 const newsItemStyle = {
   display: "grid",
   padding: "var(--size-1)",
-  fontSize: "var(--font-size-0)",
+  //fontSize: "var(--font-size-0)",
   gap: "var(--size-2)",
   placeItems: "center",
   minWidth: "340px",

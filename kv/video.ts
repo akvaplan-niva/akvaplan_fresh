@@ -1,22 +1,22 @@
-import { fetchVideoEmbedCode } from "akvaplan_fresh/services/mod.ts";
+import {
+  fetchVideoEmbedCode,
+  getItem,
+} from "akvaplan_fresh/services/mynewsdesk.ts";
 import { openKv } from "akvaplan_fresh/kv/mod.ts";
 import type { MynewsdeskVideo } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import { extractId } from "akvaplan_fresh/services/extract_id.ts";
-import { getValue } from "akvaplan_fresh/kv/mod.ts";
 
-export const getVideoEmbed = async (slug: string) => {
-  const kv = await openKv();
-  const id = extractId(slug);
-  const key = ["mynewsdesk_video_id", id];
-  console.warn(slug, key);
-  const { versionstamp, value } = await kv.get<MynewsdeskVideo>(key);
-  if (versionstamp && value.embed) {
-    return value.embed;
+export const getVideo = async (id: number) => {
+  id = Number(id);
+  const video = await getItem<MynewsdeskVideo>(Number(id), "video");
+  if (video && !video.embed) {
+    const slug = video.url.split("/").at(-1) as string;
+    const embed = await fetchVideoEmbedCode(slug);
+    if (embed) {
+      video.embed = embed;
+      const kv = await openKv();
+      const key = ["mynewsdesk_id", "video", id];
+      await kv.set(key, video);
+    }
   }
-  const embed = await fetchVideoEmbedCode(slug);
-  if (embed) {
-    return embed;
-  }
+  return video;
 };
-
-export const getVideo = (id: number) => getValue(["mynewsdesk_video_id", id]);

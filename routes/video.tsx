@@ -1,32 +1,22 @@
-import { getVideoEmbed } from "akvaplan_fresh/kv/video.ts";
-import { getItem } from "akvaplan_fresh/services/mynewsdesk.ts";
+import { getVideo } from "akvaplan_fresh/kv/video.ts";
 import { extractId } from "../services/extract_id.ts";
 
 import { Page } from "akvaplan_fresh/components/mod.ts";
 import { VideoArticle } from "akvaplan_fresh/components/VideoArticle.tsx";
 
 import type { RouteConfig, RouteContext } from "$fresh/src/server/types.ts";
-import { MynewsdeskVideo } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(film|video){/:date}?/:slug",
 };
 
 export default async function VideoPage(req: Request, ctx: RouteContext) {
-  const { slug, lang } = ctx.params;
+  const { slug } = ctx.params;
   const id = extractId(slug);
-
-  const video = await getItem(Number(id), "video") as MynewsdeskVideo;
+  const video = await getVideo(Number(id));
   if (!video) {
     return ctx.renderNotFound();
   }
-  if (video && !video.embed) {
-    const embed = await getVideoEmbed(slug);
-    if (embed) {
-      video.embed = embed;
-    }
-  }
-  console.warn(video.embed);
 
   return (
     <Page title={video.header} collection="videos">

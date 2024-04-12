@@ -1,4 +1,4 @@
-import { debounce } from "std/async/debounce.ts";
+import { debounce } from "@std/async/debounce";
 import KvTextInput, { isText } from "../islands/KvTextInput.tsx";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 

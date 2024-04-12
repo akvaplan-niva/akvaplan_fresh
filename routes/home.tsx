@@ -2,7 +2,6 @@ import { getValue } from "akvaplan_fresh/kv/mod.ts";
 import { getServicesLevel0FromExternalDenoService } from "akvaplan_fresh/services/svc.ts";
 import { getResearchLevel0FromExternalService } from "akvaplan_fresh/services/research.ts";
 import { latestNewsFromMynewsdeskService } from "akvaplan_fresh/services/news.ts";
-
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 import { extractLangFromUrl, lang, t } from "akvaplan_fresh/text/mod.ts";
 
@@ -14,7 +13,6 @@ import {
   Page,
 } from "akvaplan_fresh/components/mod.ts";
 import { OurPeople } from "akvaplan_fresh/components/our_people.tsx";
-
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 import { latestGroupedByCollection } from "akvaplan_fresh/search/search.ts";
 
@@ -24,7 +22,7 @@ import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mod.ts";
 import type { Results } from "@orama/orama";
 import type { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
-
+import type { ComponentChildren } from "preact";
 //import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -38,6 +36,28 @@ const _section = {
   marginBottom: "3rem",
   // padding: "1.5rem",
 };
+
+const PageSection = (
+  { children, ...props }: { children: ComponentChildren },
+) => (
+  <div {...props}>
+    <section style={_section}>{children}</section>
+  </div>
+);
+
+const Mini3ColGrid = (
+  { atoms }: { atoms: any[] },
+) => (
+  <div
+    class="news-grid"
+    style={{
+      marginBlockStart: "0.5rem",
+      fontSize: "var(--font-size-fluid-0, 1rem)",
+    }}
+  >
+    {atoms.map(MiniNewsCard)}
+  </div>
+);
 
 const latestText = (collection: string) => {
   switch (collection) {
@@ -96,11 +116,13 @@ export const handler: Handlers = {
 interface HomeData {
   announce: unknown;
   news: MynewsdeskArticle[];
-  // services,
   results: OramaAtom;
-  // our,
-  // lang,
-  // url,
+
+  services: any;
+
+  our: any;
+  lang: any;
+  url: URL;
 }
 export default function Home(
   {
@@ -131,71 +153,46 @@ export default function Home(
         : null} */
       }
 
-      <section style={_section}>
+      <PageSection>
         <CollectionHeader
           text={t(`our.${lang}.articles`)}
           href={intlRouteMap(lang).get("news")}
         />
-
         <HScroll maxVisibleChildren={maxVisNews}>
           {news.map(ArticleSquare)}
         </HScroll>
-      </section>
+      </PageSection>
 
-      <section>
-        <section
-          style={{
-            ..._section,
-            //padding: "0 var(--size-3)",
-          }}
-        >
-          <CollectionHeader
-            text={t(`our.services`)}
-            href={intlRouteMap(lang).get("services")}
-          />
-          <div class="">
-            <div class="news-grid">
-              {services.map(MiniNewsCard)}
-            </div>
-          </div>
-        </section>
+      <PageSection>
+        <CollectionHeader
+          text={t(`our.services`)}
+          href={intlRouteMap(lang).get("services")}
+        />
+        <Mini3ColGrid atoms={services} />
+
         {our.map((what) => (
-          <section
-            style={{
-              ..._section,
-            }}
-          >
+          <PageSection>
             <CollectionHeader
               text={t(`our.${what}`)}
               href={intlRouteMap(lang).get(what)}
             />
-          </section>
+          </PageSection>
         ))}
-      </section>
+      </PageSection>
+
       {results.groups.map(({ result: hits, values: [collection] }) => (
-        <section
-          style={{
-            ..._section,
-          }}
-        >
+        <PageSection>
           <CollectionHeader
             collection={collection}
             text={latestText(collection)}
           />
-          <SearchResults
-            hits={hits}
-          />
-        </section>
+          <SearchResults hits={hits} />
+        </PageSection>
       ))}
 
-      <section
-        style={{
-          ..._section,
-          background: "var(--surface0)",
-        }}
-      >
+      <PageSection style={{ background: "var(--surface0)" }}>
         <OurPeople />
-      </section>
+      </PageSection>
     </Page>
   );
 }

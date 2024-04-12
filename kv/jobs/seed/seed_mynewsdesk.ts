@@ -21,11 +21,11 @@ import type {
   MynewsdeskVideo,
 } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 
-import { pooledMap } from "std/async/mod.ts";
+import { pooledMap } from "@std/async/pool";
 
-import { ulid } from "std/ulid/mod.ts";
-import { extractId } from "../../../services/extract_id.ts";
-import { newsFilter } from "akvaplan_fresh/services/mod.ts";
+// import { ulid } from "@std/ulid";
+// import { extractId } from "akvaplan_fresh/services/extract_id.ts";
+// import { newsFilter } from "akvaplan_fresh/services/mod.ts";
 import {
   fetchMynewsdeskBatch,
   typeOfMediaCountMap,
