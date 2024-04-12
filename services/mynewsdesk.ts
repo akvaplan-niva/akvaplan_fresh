@@ -1,7 +1,10 @@
 // https://www.mynewsdesk.com/docs/webservice_pressroom
 import { detectDOIs } from "akvaplan_fresh/text/doi.ts";
 
-import { AbstractMynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import {
+  AbstractMynewsdeskItem,
+  MynewsdeskArticle,
+} from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 
 import { slug as _slug } from "https://deno.land/x/slug@v1.1.0/mod.ts";
 
@@ -233,10 +236,10 @@ export const getItemBySlug = async (
 };
 
 const whoWon = Symbol("getItem promise race winner");
-export const getItem = async (
+export const getItem = async <T = MynewsdeskArticle>(
   id: number,
   type_of_media: string,
-): Promise<AbstractMynewsdeskItem | undefined> => {
+): Promise<T | undefined> => {
   const controller = new AbortController();
   const { signal } = controller;
 
@@ -249,17 +252,18 @@ export const getItem = async (
   if (who === "KV") {
     controller.abort();
   }
-  return winner ?? _api;
+  return (winner ?? _api) as T;
 };
 
-export const getItemFromKv = async (
+export const getItemFromKv = async <T>(
   id: number,
   type_of_media: string,
-): Promise<AbstractMynewsdeskItem | undefined> => {
+): Promise<T | undefined> => {
   const kv = await openKv();
   const key = [id0, type_of_media, id];
+  console.warn({ key });
 
-  const { value, versionstamp } = await kv.get<AbstractMynewsdeskItem>(key);
+  const { value, versionstamp } = await kv.get<T>(key);
   if (versionstamp) {
     //@ts-ignore next
     value[whoWon] = "KV";
