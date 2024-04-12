@@ -186,7 +186,6 @@ export async function* insertMynewsdesk(orama: AnyOrama) {
       });
       const { items, total_count } = res;
       total.set(type_of_media, total_count);
-
       if (["contact_person"].includes(type_of_media)) {
         break;
       }
@@ -202,9 +201,14 @@ export async function* insertMynewsdesk(orama: AnyOrama) {
         }
         atoms.push(await atomizeMynewsdeskItem(item));
       }
-      await insertMultiple(orama, atoms);
-      offset += limit;
-      page += 1;
+      try {
+        await insertMultiple(orama, atoms);
+      } catch (e) {
+        //
+      } finally {
+        offset += limit;
+        page += 1;
+      }
     }
     yield ({
       type_of_media,

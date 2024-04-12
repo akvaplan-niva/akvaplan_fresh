@@ -3,7 +3,7 @@
 [Akvaplan-niva](https://akvaplan.no/)'s website
 
 - HTML-first multi-page web app
-- Rendered on the fly in Deno Deploy's edge compute network
+- Rendered on the fly in Deno Deploy's edge compute
 - Fully functional without JavaScript
 - Bilingual, including translated/SEO URLs
 
