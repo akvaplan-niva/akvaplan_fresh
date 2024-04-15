@@ -165,7 +165,6 @@ export const akvaplanistUrl = (
   id = !id && email?.includes("@akvaplan")
     ? email.split("@").at(0) as string
     : "";
-
   if (!id) {
     //FIXME
     // Links from /en/doi to detected person does not contain id, eg: http://localhost:7777/en/doi/10.3997/2214-4609.201902760
@@ -182,15 +181,18 @@ export const akvaplanistUrl = (
 export const akvaplanistUrlFromIdLang = async (id: string, lang: string) =>
   akvaplanistUrl(await getAkvaplanist(id), lang);
 
-export const anybodyUrl = ({ id, given, family, email, lang, slug }: Person) =>
+export const anybodyUrl = (
+  { id, given, family, email, slug }: Person,
+  lang,
+) =>
   id
     ? `${intlRouteMap(lang).get("akvaplanists")}/id/${id}/${family}/${given}`
     : `${intlRouteMap(lang).get("akvaplanists")}/name/${
       slug ? slug : `${family}/${given}`
     }`;
 
-export const personURL = (p: Akvaplanist | Person) =>
-  p.id?.length === 3 ? akvaplanistUrl(p) : anybodyUrl(p);
+export const personURL = (p: Akvaplanist | Person, lang) =>
+  p.id ? akvaplanistUrl(p, lang) : anybodyUrl(p, lang);
 export const researchTopicURL = ({ topic, lang }) =>
   `${intlRouteMap(lang).get("research")}/${
     lang === "en" || lang?.value == "en" ? "topic" : "tema"
