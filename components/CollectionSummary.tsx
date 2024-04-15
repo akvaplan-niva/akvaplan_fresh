@@ -2,7 +2,15 @@ import { t } from "akvaplan_fresh/text/mod.ts";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 
 export const CollectionSummary = (
-  { q, collection, length, count, lang, handlePressed }: {
+  {
+    q,
+    collection,
+    tprefix = "collection.",
+    length,
+    count,
+    lang,
+    handlePressed,
+  }: {
     q: string;
     collection: string;
     length: number;
@@ -12,7 +20,7 @@ export const CollectionSummary = (
   },
 ) => (
   <summary>
-    {t(`collection.${collection}`)}
+    {t(`${tprefix}${collection}`)}
 
     <Pill
       data-collection={collection}

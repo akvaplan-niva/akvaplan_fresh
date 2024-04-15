@@ -55,15 +55,13 @@ export function PeopleCard(
       </Head>
 
       <div class="people-name">
-        {name?.length > 1
-          ? <span>{name}</span>
-          : (
-            <a href={personURL({ id, given, family, lang })}>
-              <span style={{ color: "var(--text1)" }}>{given}</span>
-              &nbsp;
-              <span style={{ color: "var(--text2)" }}>{family}</span>
-            </a>
-          )}
+        {name?.length > 1 ? <span>{name}</span> : (
+          <a href={personURL(person)}>
+            <span style={{ color: "var(--text1)" }}>{given}</span>
+            &nbsp;
+            <span style={{ color: "var(--text2)" }}>{family}</span>
+          </a>
+        )}
       </div>
       <UseApnSym
         width="2rem"
