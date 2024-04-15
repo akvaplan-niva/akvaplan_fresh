@@ -54,12 +54,19 @@ export const acceptsNordic = (
 ) => new Set([...acceptLanguages].map((lang) => nordic.has(lang))).has(true);
 
 export const extractLangFromUrl = (url: URL | string): string => {
-  const segm = new URL(url).pathname.split("/")?.slice(1, 2)?.at(0);
+  const { pathname } = new URL(url);
+
+  const segm = /^\/[~@][a-z]{3}/.test(pathname)
+    ? pathname.substring(1, 2)
+    : pathname.split("/")?.slice(1, 2)?.at(0);
+
   switch (segm) {
+    case "~":
     case "nb":
     case "nn":
     case "no":
       return "no";
+    case "@":
     case "en":
       return "en";
     default:
