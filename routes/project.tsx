@@ -192,6 +192,12 @@ export default function ProjectHome(
           imageCaption={image_caption}
         />
 
+        <section
+          class="article-content"
+          dangerouslySetInnerHTML={{ __html }}
+        >
+        </section>
+
         <h2>{t("project.Outreach")}</h2>
 
         <GroupedSearch
@@ -200,12 +206,6 @@ export default function ProjectHome(
           origin={origin}
           noInput
         />
-
-        <section
-          class="article-content"
-          dangerouslySetInnerHTML={{ __html }}
-        >
-        </section>
 
         {(links && links?.length > 0) &&
           (
