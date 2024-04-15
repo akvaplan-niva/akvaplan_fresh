@@ -9,7 +9,11 @@ import {
   PeopleCard as PersonCard,
 } from "akvaplan_fresh/components/mod.ts";
 
-import { lang as langSignal } from "akvaplan_fresh/text/mod.ts";
+import {
+  extractLangFromUrl,
+  lang as langSignal,
+  t,
+} from "akvaplan_fresh/text/mod.ts";
 
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
@@ -19,10 +23,8 @@ import {
   PageProps,
   RouteConfig,
 } from "$fresh/server.ts";
-//import GroupedSearchResults from "../islands/grouped_search_collection_results.tsx";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import { getValue, openKv } from "akvaplan_fresh/kv/mod.ts";
-import { SearchResultItem } from "akvaplan_fresh/components/search_result_item.tsx";
 import { CollectionSummary } from "akvaplan_fresh/components/CollectionSummary.tsx";
 import { CristinListItem } from "akvaplan_fresh/components/cristin_list_item.tsx";
 
@@ -105,6 +107,7 @@ export const handler: Handlers = {
 export default function AtHome({ data }: PageProps) {
   const { akvaplanist, at, url, config, cristin } = data;
   const { given, family } = akvaplanist;
+  const lang = extractLangFromUrl(url);
 
   return (
     <Page>
@@ -122,10 +125,21 @@ export default function AtHome({ data }: PageProps) {
         />
       )}
 
+      {config.cristin.enabled && (
+        <header
+          style={{ paddingBlockStart: "1rem", paddingBlockEnd: "0.5rem" }}
+        >
+          <h2>{t("cristin.Works")}</h2>
+          {/* https://app.cristin.no/search.jsf?t=58003&type=result&filter=person_idfacet~58003 */}
+        </header>
+      )}
+
       {[...Map.groupBy(cristin.works, ({ category: { code } }) => code)].map((
         [code, works],
       ) => (
-        <section>
+        <section
+          style={{ paddingBlockStart: "1rem", paddingBlockEnd: "0.5rem" }}
+        >
           <CollectionSummary
             q={""}
             tprefix={"cristin."}
@@ -137,11 +151,11 @@ export default function AtHome({ data }: PageProps) {
 
           <ol
             style={{
-              display: "block",
+              display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
             }}
           >
-            {works.map(CristinListItem)}
+            {works.map((work) => <CristinListItem work={work} lang={lang} />)}
           </ol>
         </section>
       ))}

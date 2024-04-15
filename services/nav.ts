@@ -19,6 +19,7 @@ const En = new Map([
   ["dcat", "/en/dcat"],
   ["document", "/en/document"],
   ["documents", "/en/documents"],
+  ["doi", "/en/doi"],
   ["home", "/en"],
   ["images", "/en/images"],
   ["image", "/en/image"],
@@ -46,6 +47,7 @@ const No = new Map([
   ["dcat", "/no/dcat"],
   ["document", "/no/dokument"],
   ["documents", "/no/dokumenter"],
+  ["doi", "/no/doi"],
   ["home", "/no"],
   ["images", "/no/bilder"],
   ["image", "/no/bilde"],
@@ -207,8 +209,8 @@ export const servicePath = ({ lang, name, topic, uuid }) =>
 export const pubsURL = ({ lang } = {}) =>
   `${intlRouteMap(lang || langSignal.value).get("pubs")}`;
 
-export const pubURL = ({ doi, lang }) =>
-  `${intlRouteMap(lang).get("pubs")}/${doi}`;
+export const doiPublicationUrl = ({ doi, lang }) =>
+  `${intlRouteMap(lang).get("doi")}/${doi.replace("https://doi.org/", "")}`;
 
 // const projectURL = (title) =>
 //   title.toLowerCase().replaceAll(/\s/g, "-").split("-").at(0);
