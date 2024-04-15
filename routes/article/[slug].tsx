@@ -224,6 +224,9 @@ export default function NewsArticle(
               placeItems: "center",
             }}
           >
+            <CollectionHeader
+              text={video?.header ?? ""}
+            />
             <VideoArticle item={video} embed={video?.embed} />
           </div>
         ))}

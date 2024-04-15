@@ -36,7 +36,7 @@ function HScrollButton(
 
 export function HScroll({
   children,
-  scrollerId = crypto.randomUUID(),
+  scrollerId = `hscroll-${crypto.randomUUID()}`,
   staticFirstElement,
   maxVisibleChildren,
 }: HScrollProps) {

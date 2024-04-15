@@ -1,5 +1,9 @@
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
-import { t } from "akvaplan_fresh/text/mod.ts";
+import {
+  extractLangFromUrl,
+  lang as langSignal,
+  t,
+} from "akvaplan_fresh/text/mod.ts";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 import Button from "akvaplan_fresh/components/button/button.tsx";
 
@@ -24,18 +28,25 @@ const CollectionSummary = (
     number: number;
     lang: string;
   },
-) => (
-  <summary>
-    {t(`collection.${collection}`)}
+) => {
+  if (!globalThis.Deno) {
+    const lang = extractLangFromUrl(document.URL);
+    langSignal.value = lang;
+  }
 
-    <Pill
-      data-collection={collection}
-      onClick={handlePressed}
-    >
-      {count}
-    </Pill>
-  </summary>
-);
+  return (
+    <summary>
+      {t(`collection.${collection}`)}
+
+      <Pill
+        data-collection={collection}
+        onClick={handlePressed}
+      >
+        {count}
+      </Pill>
+    </summary>
+  );
+};
 
 // const toggleList = (e: Event) => {
 //   display.value = display.value === "grid" ? "block" : "grid";
