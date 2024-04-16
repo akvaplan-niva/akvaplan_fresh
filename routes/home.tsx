@@ -23,6 +23,9 @@ import type { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mod.ts";
 import type { Results } from "@orama/orama";
 import type { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import type { ComponentChildren } from "preact";
+import { buildImageMapper } from "akvaplan_fresh/services/cloudinary.ts";
+import { searchImageAtoms } from "akvaplan_fresh/services/mynewsdesk.ts";
+import { AImg } from "akvaplan_fresh/components/AImg.tsx";
 //import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -80,6 +83,9 @@ export const handler: Handlers = {
       limit: 12,
     });
 
+    const images = (await searchImageAtoms({ q: "", limit: 15 }))
+      .map(buildImageMapper({ lang: sitelang }));
+
     const services = (await getServicesLevel0FromExternalDenoService(sitelang))
       .sort(sortName);
 
@@ -97,8 +103,9 @@ export const handler: Handlers = {
     ], 4);
 
     const our = [
-      "projects",
       "research",
+      "projects",
+      "images",
     ];
 
     return ctx.render({
@@ -106,6 +113,7 @@ export const handler: Handlers = {
       news,
       results,
       services,
+      images,
       our,
       lang,
       url,
@@ -130,6 +138,7 @@ export default function Home(
       announce,
       news,
       services,
+      images,
       results,
       our,
       lang,
@@ -145,6 +154,7 @@ export default function Home(
         <link rel="stylesheet" href={asset("/css/mini-news.css")} />
         <link rel="stylesheet" href={asset("/css/hscroll.css")} />
         <script src={asset("/@nrk/core-scroll.min.js")} />
+        <link rel="stylesheet" href={asset("/css/gallery.css")} />
       </Head>
 
       {
@@ -179,6 +189,15 @@ export default function Home(
           </PageSection>
         ))}
       </PageSection>
+
+      {
+        /* <PageSection>
+        <CollectionHeader collection="images" />
+        <HScroll maxVisibleChildren={maxVisNews}>
+          {images.map(ArticleSquare)}
+        </HScroll>
+      </PageSection> */
+      }
 
       {results.groups.map(({ result: hits, values: [collection] }) => (
         <PageSection>
