@@ -1,5 +1,10 @@
-// FIXME Orama search is too inclusive: /@elo/evgenija+lorentzen
-// FIXME Use server side search like for Home
+import { search, sortPublishedReverse } from "akvaplan_fresh/search/search.ts";
+import _cristin_ids from "akvaplan_fresh/data/cristin_ids.json" with {
+  type: "json",
+};
+
+const crid = new Map<string, number>(_cristin_ids as [[string, number]]);
+
 import { buildAkvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
 import { priorAkvaplanistID as priors } from "akvaplan_fresh/services/prior_akvaplanists.ts";
 
@@ -25,8 +30,8 @@ import {
 } from "$fresh/server.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import { getValue, openKv } from "akvaplan_fresh/kv/mod.ts";
-import { CollectionSummary } from "akvaplan_fresh/components/CollectionSummary.tsx";
-import { CristinListItem } from "akvaplan_fresh/components/cristin_list_item.tsx";
+import { getWorks } from "akvaplan_fresh/services/cristin.ts";
+import { CristinWorksGrouped } from "../components/cristin_works_grouped.tsx";
 
 const kv = await openKv();
 kv.set(["@", "config", "nmi"], {
@@ -34,7 +39,6 @@ kv.set(["@", "config", "nmi"], {
     enabled: false,
   },
   cristin: {
-    id: 58003,
     enabled: true,
   },
 });
@@ -48,9 +52,13 @@ const defaultAtConfig = {
     enabled: false,
     rejectCategories: [
       "ACADEMICLECTURE",
-      "LECTURE",
-      "MEDIAINTERVIEW",
       "ARTICLEPOPULAR",
+      "DOCUMENTARY",
+      "LECTURE",
+      "LECTUREPOPULAR",
+      "MEDIAINTERVIEW",
+      "POPULARARTICLE",
+      "POSTER",
     ],
   },
 };
@@ -69,12 +77,14 @@ const ids = await buildAkvaplanistMap();
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
     const { at, id } = ctx.params;
+    const { searchParams } = new URL(req.url);
     const { url } = ctx;
     const akvaplanist = ids.get(id) ?? priors.get(id);
     if (!akvaplanist) {
       return ctx.renderNotFound();
     }
     akvaplanist.bio = ``;
+    const { given, family } = akvaplanist;
     const lang = at === "~" ? "no" : "en";
     langSignal.value = lang;
 
@@ -82,35 +92,47 @@ export const handler: Handlers = {
       await getValue<typeof defaultAtConfig>(["@", "config", id]) ??
         defaultAtConfig;
 
-    const cristin = { works: [] };
-    if (config.cristin) {
-      const url = `https://cristin.deno.dev/person/${config.cristin.id}/works`;
-      const r = await fetch(url);
+    const params = {
+      term: `${family} ${[...given].slice(0, 4).join("")}`.trim(),
+      limit: 5,
+      sortBy: sortPublishedReverse,
+      threshold: 0,
+      facets: { collection: {} },
+    };
+    const results = config.search.enabled === false ? undefined : undefined; //await search(params);
+    // FIXME Passing server-side results into GroupedSearch is broken: https://github.com/akvaplan-niva/akvaplan_fresh/issues/338
 
-      if (r.ok) {
-        const { works } = await r.json();
-        const { rejectCategories } = {
-          ...defaultAtConfig.cristin,
-          ...config.cristin,
-        };
-        cristin.works = works
-          .filter(({ category: { code } }) =>
-            false === rejectCategories.includes(code)
-          );
-      }
+    const orama = { results, params };
+
+    const cristin: { works: any[]; id?: number } = {
+      works: [],
+      id: crid.has(id) ? crid.get(id) as number : undefined,
+    };
+
+    if (config.cristin.enabled || searchParams.has("cristin")) {
+      const works = await getWorks(cristin.id, lang);
+      const { rejectCategories } = {
+        ...defaultAtConfig.cristin,
+        ...config.cristin,
+      };
+      cristin.works = works
+        .filter(({ category: { code } }) =>
+          false === rejectCategories.includes(code)
+        );
     }
 
-    return ctx.render({ akvaplanist, at, url, config, cristin });
+    return ctx.render({ akvaplanist, at, url, config, cristin, orama });
   },
 };
 
 export default function AtHome({ data }: PageProps) {
-  const { akvaplanist, at, url, config, cristin } = data;
+  const { akvaplanist, at, url, config, cristin, orama } = data;
   const { given, family } = akvaplanist;
+  const name = `${given} ${family}`;
   const lang = extractLangFromUrl(url);
 
   return (
-    <Page>
+    <Page base={`/${at}${akvaplanist.id}`} title={name}>
       <PersonCard person={akvaplanist} />
       <Card>
         <div dangerouslySetInnerHTML={{ __html: akvaplanist?.bio }} />
@@ -118,47 +140,61 @@ export default function AtHome({ data }: PageProps) {
 
       {config.search.enabled !== false && (
         <GroupedSearch
-          term={`${family} ${[...given].slice(0, 4).join("")}`.trim()}
+          term={orama.params.term}
+          results={orama.results}
           exclude={["person"]}
           origin={url}
           noInput
         />
       )}
 
-      {config.cristin.enabled && (
-        <header
-          style={{ paddingBlockStart: "1rem", paddingBlockEnd: "0.5rem" }}
-        >
-          <h2>{t("cristin.Works")}</h2>
-          {/* https://app.cristin.no/search.jsf?t=58003&type=result&filter=person_idfacet~58003 */}
-        </header>
+      {cristin.id && cristin.works?.length === 0 && (
+        <p style={{ fontSize: "0.75rem" }}>
+          <a href={`?cristin#cristin`}>
+            {t("cristin.Show_works_from_Cristin")}
+          </a>
+        </p>
       )}
 
-      {[...Map.groupBy(cristin.works, ({ category: { code } }) => code)].map((
-        [code, works],
-      ) => (
-        <section
-          style={{ paddingBlockStart: "1rem", paddingBlockEnd: "0.5rem" }}
-        >
-          <CollectionSummary
-            q={""}
-            tprefix={"cristin."}
-            collection={code}
-            length={works?.length}
-            //lang={lang}
-            count={works?.length}
-          />
-
-          <ol
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
-            }}
+      {cristin.id && cristin.works?.length > 0 && (
+        <>
+          <header
+            style={{ paddingBlockStart: "1rem", paddingBlockEnd: "0.5rem" }}
           >
-            {works.map((work) => <CristinListItem work={work} lang={lang} />)}
-          </ol>
-        </section>
-      ))}
+            <h2>{t("cristin.Works")}</h2>
+            <details style={{ fontSize: "0.75rem" }}>
+              <summary>
+                <cite>
+                  {t("ui.Data_from")}{" "}
+                  <a
+                    target="_blank"
+                    href={`https://app.cristin.no/search.jsf?t=${""}&type=result&filter=person_idfacet~${cristin.id}`}
+                  >
+                    Cristin
+                  </a>
+                </cite>
+              </summary>
+
+              {config.cristin.enabled !== true && (
+                <span>
+                  <a href="">{t("ui.Hide")}</a>
+                </span>
+              )}
+            </details>
+          </header>
+          <aside id="cristin">
+            <CristinWorksGrouped
+              grouped={Map.groupBy(
+                cristin.works,
+                ({ category: { code } }) => code,
+              )}
+              config={config}
+              person={cristin.id}
+              lang={lang}
+            />
+          </aside>
+        </>
+      )}
     </Page>
   );
 }

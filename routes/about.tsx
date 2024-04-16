@@ -99,7 +99,7 @@ export default (
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "1fr 2fr",
+                  gridTemplateColumns: "1fr 5fr",
                   gap: "1rem",
                 }}
               >
@@ -116,6 +116,21 @@ export default (
                 </details>
               </div>
             </Card>
+          </section>
+
+          <section
+            style={{
+              ..._section,
+              padding: "0 var(--size-3)",
+            }}
+            class="news-grid"
+          >
+            {our.map((what) => (
+              <CollectionHeader
+                text={t(`our.${what}`)}
+                href={intlRouteMap(lang).get(what)}
+              />
+            ))}
           </section>
 
           <section style={_section}>
@@ -140,21 +155,6 @@ export default (
                 </a>
               </li>
             </menu>
-          </section>
-
-          <section
-            style={{
-              ..._section,
-              padding: "0 var(--size-3)",
-            }}
-            class="news-grid"
-          >
-            {our.map((what) => (
-              <CollectionHeader
-                text={t(`our.${what}`)}
-                href={intlRouteMap(lang).get(what)}
-              />
-            ))}
           </section>
 
           <Addresses />

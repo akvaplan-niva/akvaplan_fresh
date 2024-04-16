@@ -14,7 +14,7 @@ export const AtomCard = (
   atom.cloudinary = atom?.cloudinary ?? atom?.img512?.split("/").at(-1);
   return (
     <a
-      href={"href()"}
+      href={href(atom)}
       class={`Card gap-1 ${reveal ? "reveal" : ""} ${
         hero ? "Hero block-center-center" : ""
       }`}
