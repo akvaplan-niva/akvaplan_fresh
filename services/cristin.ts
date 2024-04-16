@@ -3,12 +3,12 @@ export const apiv2 = "https://api.cristin.no/v2";
 export const cristinAkvaplanID = 6064;
 
 export const getWorks = async (id, lang) => {
-  const _cristin_cats = await import(
-    `https://api.cristin.no/v2/results/categories?lang=${
-      lang === "en" ? "en" : "nb"
-    }`,
-    { with: { type: "json" } }
-  );
+  // const _cristin_cats = await import(
+  //   `https://api.cristin.no/v2/results/categories?lang=${
+  //     lang === "en" ? "en" : "nb"
+  //   }`,
+  //   { with: { type: "json" } }
+  // );
   const url = `https://cristin.deno.dev/person/${id}/works`;
   const r = await fetch(url);
   if (r.ok) {
