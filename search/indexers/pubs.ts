@@ -1,3 +1,4 @@
+// FIXME https://github.com/akvaplan-niva/akvaplan_fresh/issues/339
 import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 

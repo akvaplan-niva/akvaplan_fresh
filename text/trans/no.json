@@ -24,6 +24,7 @@
   "cristin.ACADEMICREVIEW": "Akademisk oversiktsartikkel",
   "cristin.DOCTORDISSERTAT": "Doktorgradsarbeid",
   "cristin.THESISMASTER": "Masteroppgave",
+  "cristin.THESISSECOND": "Hovedfagsoppgave",
   "cristin.REPORT": "Rapport",
   "footer.Top": "Til toppen",
   "facet.people": "folk",
@@ -141,7 +142,6 @@
   "sort.label": "sortering",
   "sort.increasing": "alfabetisk (a↦)",
   "sort.decreasing": "synkende (å↦)",
-
   "collection.documents": "dokumenter",
   "collection.document": "dokumenter",
   "collection.images": "bilder",
@@ -150,7 +150,6 @@
   "collection.person": "folk",
   "collection.pubs": "publikasjoner",
   "collection.news": "nyheter",
-
   "collection.pressrelease": "pressemeldinger",
   "collection.projects": "prosjekter",
   "collection.project": "prosjekter",
@@ -160,7 +159,6 @@
   "collection.media": "media",
   "collection.video": "filmer",
   "collection.image": "bilder",
-
   "collection.1.documents": "dokument",
   "collection.1.blog": "blogg",
   "collection.1.person": "person",
@@ -174,7 +172,6 @@
   "collection.1.media": "media",
   "collection.1.video": "film",
   "collection.1.image": "bilde",
-
   "type.blog_post": "blogg",
   "type.erratum": "erratum",
   "type.proceedings paper": "konferanse-artikkel",
@@ -212,6 +209,8 @@
   "topic.research": "forskningstema",
   "Topic_services": "Tjenester",
   "topic.Topic": "Tema",
+  "ui.Data_from": "Data fra",
+  "ui.Hide": "Skjul",
   "ui.Download": "Last ned",
   "ui.From": "Fra",
   "ui.Until": "Til",
@@ -223,6 +222,7 @@
   "ui.E-mail": "E-post",
   "ui.Published": "Publisert",
   "ui.Telephone": "Telefon",
+  "cristin.Show_works_from_Cristin": "Vis akademiske arbeider fra Cristin",
   "ui.unknown": "ukjent",
   "ui.updated": "oppdatert",
   "ui.published": "publisert",

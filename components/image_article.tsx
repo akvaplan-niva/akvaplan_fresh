@@ -24,7 +24,7 @@ export function ImageArticle(
           <img
             title={image.header}
             alt={image.header}
-            src={image.image_medium}
+            src={image.image}
           />
         </a>
         <h1>
@@ -33,6 +33,7 @@ export function ImageArticle(
       </header>
       <figure>
         <figcaption>{image.photographer}</figcaption>
+        <figcaption>{image.summary}</figcaption>
       </figure>
 
       <dl>

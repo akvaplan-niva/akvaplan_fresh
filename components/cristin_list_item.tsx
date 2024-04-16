@@ -5,19 +5,28 @@ interface CristinPerson {
   first_name: string;
   surname: string;
 }
-const cristinNames = (names: CristinPerson[], max?: number) =>
+const cristinNames = (
+  names: CristinPerson[],
+  max?: number,
+  suff = names.length > max ? ", et al." : "",
+) =>
   _names(
     names.map(({ first_name, surname }) => `${first_name} ${surname}`),
     max,
-  );
+  )
+    // Ouch, Cristin work may not include full list of authors
+    .split(" [+").at(0) + suff;
 
 const _doi = (links) => links?.find(({ url_type }) => "DOI" === url_type)?.url;
 const _full = (links) =>
   links?.find(({ url_type }) => "FULLTEKST" === url_type)?.url;
+const _other = (links) => links?.find(({ url }) => url)?.url;
 
 export const CristinWorkTitle = (
   { work, lang },
 ) => {
+  const style = { fontSize: "1rem" };
+
   const {
     title,
     channel,
@@ -30,7 +39,7 @@ export const CristinWorkTitle = (
   const doi = _doi(links);
   if (doi) {
     return (
-      <a href={doiPublicationUrl({ doi: _doi(links), lang })}>
+      <a href={doiPublicationUrl({ doi: _doi(links), lang })} style={style}>
         {title?.[original_language]}
       </a>
     );
@@ -38,15 +47,20 @@ export const CristinWorkTitle = (
   const full = _full(links);
   if (full) {
     return (
-      <span>
-        <a href={full} target="_blank">
-          {title?.[original_language]}
-        </a>
-        {" "}
-      </span>
+      <a href={full} target="_blank" style={style}>
+        {title?.[original_language]}
+      </a>
     );
   }
-  return <p>{title?.[original_language]}</p>;
+  const other = _other(links);
+  if (other) {
+    return (
+      <a href={other}>
+        {title?.[original_language]}
+      </a>
+    );
+  }
+  return <p style={style}>{title?.[original_language]}</p>;
 };
 
 export const CristinListItem = (
@@ -59,7 +73,7 @@ export const CristinListItem = (
     year_published,
     publisher,
     links,
-    contributors: { preview: authors },
+    contributors: { preview: authors, count },
   } = work;
   return (
     <li
@@ -71,18 +85,18 @@ export const CristinListItem = (
       }}
     >
       <CristinWorkTitle work={work} lang={lang} />
-      <p>{channel?.title ?? publisher?.name} ({year_published})</p>
       {authors
         ? (
-          <p
-            title={cristinNames(authors)}
-          >
+          <p title={cristinNames(authors)}>
             {etal === true || etal?.value === true
               ? cristinNames(authors, 2)
               : cristinNames(authors)}
           </p>
         )
         : null}
+      <p>
+        <em>{(channel?.title ?? publisher?.name) + " "}</em>({year_published})
+      </p>
     </li>
   );
 };
