@@ -31,6 +31,9 @@ import { atomizeMynewsdeskItem } from "akvaplan_fresh/search/indexers/mynewsdesk
 const sortPublishedLatest = (a, b) =>
   b.published_at.datetime.localeCompare(a.published_at.datetime);
 
+const sortCreatedLatest = (a, b) =>
+  b.published_at.datetime.localeCompare(a.published_at.datetime);
+
 export const base = "https://www.mynewsdesk.com";
 
 export const newsroom_lang = "no";
@@ -96,12 +99,8 @@ export const searchImageAtoms = async ({ q = "", limit = 25 }) => {
     type_of_media: "image",
     limit,
   }) as { items: MynewsdeskItem[] };
-  const _images = items.sort((a, b) =>
-    new Date(a.published_at?.datetime) <
-        new Date(b.published_at?.datetime)
-      ? 1
-      : -1
-  );
+  const _images = items.sort(sortCreatedLatest);
+  //console.warn(_images.at(0).created_at, _images.at(-1).created_at);
   return await Promise.all(_images.map(atomizeMynewsdeskItem));
 };
 

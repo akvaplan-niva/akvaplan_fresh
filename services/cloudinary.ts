@@ -5,6 +5,7 @@ import { search } from "akvaplan_fresh/search/search.ts";
 import type { MynewsdeskDocument } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import type { RouteContext } from "$fresh/server.ts";
 import { getItem } from "akvaplan_fresh/services/mynewsdesk.ts";
+import { href } from "akvaplan_fresh/search/href.ts";
 
 const getKvCloudinaryId = async (slug: string) => {
   const _id = extractId(slug);
@@ -59,3 +60,21 @@ export const cloudinaryProxy = async (_req: Request, ctx: RouteContext) => {
   }
   throw "Missing ID";
 };
+
+export const buildImageMapper = ({ lang }) => (img: Img, i: number) => {
+  const w = i === 0 ? 512 : 512;
+  img.label = img.title;
+  img.src = cloudinaryImgUrl(img.cloudinary, w, w);
+  img.href = href({
+    slug: img.slug.split("/").at(-1),
+    lang: lang,
+    collection: "image",
+  });
+
+  return img;
+};
+
+export const cloudinaryImgUrl = (cloudinary: string, w = 512, h?: number) =>
+  `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto${
+    w ? `,w_${w}` : ""
+  }${h ? `,h_${h}` : ""},q_auto:good/${cloudinary}`;

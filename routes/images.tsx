@@ -17,28 +17,18 @@ import type {
 
 import { asset, Head } from "$fresh/runtime.ts";
 import { searchImageAtoms } from "akvaplan_fresh/services/mynewsdesk.ts";
+import { buildImageMapper } from "akvaplan_fresh/services/cloudinary.ts";
 import type { MynewsdeskImage } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { href } from "akvaplan_fresh/search/href.ts";
 import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
 import { collectionHref } from "akvaplan_fresh/services/mod.ts";
+import { AImg } from "../components/AImg.tsx";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(images|image|bilder|bilde)",
 };
-interface Img {
+export interface Img {
   src: string;
 }
-const buildImageMapper = ({ lang }) => (img: Img, i: number) => {
-  const w = i === 0 ? 512 : 512;
-  img.label = img.title;
-  img.src = cloudinaryImgUrl(img.cloudinary, w, w);
-  img.href = href({
-    slug: img.slug.split("/").at(-1),
-    lang: lang,
-    collection: "image",
-  });
-
-  return img;
-};
 
 export const handler: Handlers<ImagesProps> = {
   async GET(_req: Request, ctx: FreshContext) {
@@ -60,24 +50,6 @@ export const handler: Handlers<ImagesProps> = {
   },
 };
 
-const cloudinaryImgUrl = (cloudinary: string, w = 512, h?: number) =>
-  `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto${
-    w ? `,w_${w}` : ""
-  }${h ? `,h_${h}` : ""},q_auto:good/${cloudinary}`;
-
-const AImg = ({ id, href, src, alt = "", n }: Img) => {
-  id = id ?? `image-${n}`;
-  const loading = n < 11 ? "eager" : "lazy";
-  return (
-    <a href={href} class="">
-      <img
-        src={src}
-        alt={alt}
-        loading={loading}
-      />
-    </a>
-  );
-};
 export default function ImagesPage(
   { data: { title, lang, base, images, href } }: PageProps<
     ImagesProps

@@ -1,5 +1,5 @@
 import { findMarkdownDocument } from "akvaplan_fresh/services/documents.ts";
-import { cloudinaryProxy } from "akvaplan_fresh/services/cloudinaryProxy.ts";
+import { cloudinaryProxy } from "../../services/cloudinary.ts";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 
 import {
