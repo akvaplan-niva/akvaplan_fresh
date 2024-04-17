@@ -85,8 +85,8 @@ export const handler: Handlers = {
       return ctx.renderNotFound();
     }
     if (!name) {
-      const headers = { location: akvaplanistUrl(akvaplanist, lang) };
-      return new Response("", { status: 301, headers });
+      // const headers = { location: akvaplanistUrl(akvaplanist, lang) };
+      // return new Response("", { status: 301, headers });
     }
     akvaplanist.bio = ``;
     const { given, family } = akvaplanist;
