@@ -7,8 +7,8 @@ import {
   groupByCategory,
 } from "akvaplan_fresh/components/cristin_works_grouped.tsx";
 
-export default defineRoute(async (_r, _c) => {
-  const works = await getLatestAkvaplanWorks();
+export default defineRoute(async () => {
+  const works = await getLatestAkvaplanWorks({ per_page: 9999 });
 
   return (
     <Page>
