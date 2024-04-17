@@ -246,7 +246,6 @@ export const getItem = async <T = MynewsdeskArticle>(
   const _api = getItemFromMynewsdeskApi(id, type_of_media, signal);
 
   const winner = await Promise.race([_kv, _api]);
-
   const who = winner?.[whoWon];
   if (who === "KV") {
     controller.abort();

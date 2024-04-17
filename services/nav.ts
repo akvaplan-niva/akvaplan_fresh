@@ -151,32 +151,30 @@ export const videoURL = ({ lang, title, slug }: SlugLike) =>
 export const peopleURL = ({ lang }) =>
   `${intlRouteMap(lang).get("akvaplanists")}`;
 
-// export const personURL = ({ id, given, family, email, lang, slug }) =>
-//   id
-//     ? `${intlRouteMap(lang).get("akvaplanists")}/id/${id}/${family}/${given}`
-//     : `${intlRouteMap(lang).get("akvaplanists")}/name/${
-//       slug ? slug : `${family}/${given}`
-//     }`;
-
 export const akvaplanistUrl = (
-  { id, given, family, name, email, slug }: Akvaplanist,
+  a: Akvaplanist,
   lang: string,
 ) => {
+  const { given, family, name, email, slug } = a;
+  let { id } = a;
   const at = lang === "en" ? "@" : "~";
-  const _name = (given && family) ? `${given} ${family}` : name;
-  id = !id && email?.includes("@akvaplan")
-    ? email.split("@").at(0) as string
-    : "";
+  if (!id && email?.includes("@akvaplan")) {
+    id = email.split("@").at(0) as string;
+  }
+
   if (!id) {
     //FIXME
-    // Links from /en/doi to detected person does not contain id, eg: http://localhost:7777/en/doi/10.3997/2214-4609.201902760
+    // Links from /en/doi to detected person contains variant name spellings /en/doi/10.3997/2214-4609.201902760
     return anybodyUrl({ id, given, family, name, email, slug });
   }
+  const _name = (given && family) ? `${given} ${family}` : name;
+  const suf = name ? `/${name}` : "";
   return encodeURI(
-    `/${at}${id}/${name}`.toLocaleLowerCase("no").replaceAll(
-      ".",
-      "",
-    ).replaceAll(" ", "+"),
+    `/${at}${id}${suf}`.toLocaleLowerCase("no")
+      .replaceAll(
+        ".",
+        "",
+      ).replaceAll(" ", "+"),
   );
 };
 
@@ -184,17 +182,18 @@ export const akvaplanistUrlFromIdLang = async (id: string, lang: string) =>
   akvaplanistUrl(await getAkvaplanist(id), lang);
 
 export const anybodyUrl = (
-  { id, given, family, email, slug }: Person,
+  p: Person,
   lang,
 ) =>
-  id
-    ? `${intlRouteMap(lang).get("akvaplanists")}/id/${id}/${family}/${given}`
+  p.id
+    ? akvaplanistUrl(p, lang)
     : `${intlRouteMap(lang).get("akvaplanists")}/name/${
-      slug ? slug : `${family}/${given}`
+      p.slug ? p.slug : `${p.family}/${p.given}`
     }`;
 
 export const personURL = (p: Akvaplanist | Person, lang) =>
-  p.id ? akvaplanistUrl(p, lang) : anybodyUrl(p, lang);
+  p.id && p.id.length > 0 ? akvaplanistUrl(p, lang) : anybodyUrl(p, lang);
+
 export const researchTopicURL = ({ topic, lang }) =>
   `${intlRouteMap(lang).get("research")}/${
     lang === "en" || lang?.value == "en" ? "topic" : "tema"

@@ -2,7 +2,7 @@
 export const apiv2 = "https://api.cristin.no/v2";
 export const cristinAkvaplanID = 6064;
 
-export const getWorks = async (id, lang) => {
+export const getWorks = async (id) => {
   // const _cristin_cats = await import(
   //   `https://api.cristin.no/v2/results/categories?lang=${
   //     lang === "en" ? "en" : "nb"
@@ -14,6 +14,35 @@ export const getWorks = async (id, lang) => {
   if (r.ok) {
     const { works } = await r.json();
     return works;
+  }
+};
+
+// const fetchCristinWorks = (id: number|string) => {
+//   const url=`${apiv2}/results?contributor=${id}&sort=year_published+desc&per_page=1000`; //fields=all
+//   return fetch(url);
+// }
+
+export const getLatestAkvaplanWorks = async (
+  params: Record<[string, string]> = {},
+) => {
+  const defaults = {
+    "institution": String(cristinAkvaplanID),
+    sort: "year_published desc",
+    per_page: "50",
+    fields: "all",
+  };
+  const url = new URL(`${apiv2}/results`);
+  const { searchParams } = url;
+  for (const [k, v] of new URLSearchParams(defaults)) {
+    searchParams.set(k, v);
+  }
+  for (const [k, v] of new URLSearchParams(params)) {
+    searchParams.set(k, v);
+  }
+  const r = await fetch(url);
+
+  if (r.ok) {
+    return await r.json();
   }
 };
 

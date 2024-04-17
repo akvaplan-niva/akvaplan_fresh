@@ -1,4 +1,6 @@
-import { search, sortPublishedReverse } from "akvaplan_fresh/search/search.ts";
+import { sortPublishedReverse } from "akvaplan_fresh/search/search.ts";
+import { has } from "akvaplan_fresh/search/orama.ts";
+
 import _cristin_ids from "akvaplan_fresh/data/cristin_ids.json" with {
   type: "json",
 };
@@ -20,28 +22,23 @@ import {
   t,
 } from "akvaplan_fresh/text/mod.ts";
 
-import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
+import { getValue } from "akvaplan_fresh/kv/mod.ts";
+import { getWorks } from "akvaplan_fresh/services/cristin.ts";
 import {
+  CristinWorksGrouped,
+  groupByCategory,
+} from "../components/cristin_works_grouped.tsx";
+
+import type { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
+
+import type {
   FreshContext,
   Handlers,
   PageProps,
   RouteConfig,
 } from "$fresh/server.ts";
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-import { getValue, openKv } from "akvaplan_fresh/kv/mod.ts";
-import { getWorks } from "akvaplan_fresh/services/cristin.ts";
-import { CristinWorksGrouped } from "../components/cristin_works_grouped.tsx";
-
-const kv = await openKv();
-kv.set(["@", "config", "nmi"], {
-  search: {
-    enabled: false,
-  },
-  cristin: {
-    enabled: true,
-  },
-});
 
 const defaultAtConfig = {
   search: {
@@ -119,6 +116,11 @@ export const handler: Handlers = {
         .filter(({ category: { code } }) =>
           false === rejectCategories.includes(code)
         );
+      // const cristinDois = new Set(
+      //   cristin.works?.map((w) =>
+      //     w?.links?.find(({ url }) => url && /doi\.org\//i.test(url))
+      //   ).filter((l) => l !== undefined).map(({ url }) => url),
+      // );
     }
 
     return ctx.render({ akvaplanist, at, url, config, cristin, orama });
@@ -133,7 +135,7 @@ export default function AtHome({ data }: PageProps) {
 
   return (
     <Page base={`/${at}${akvaplanist.id}`} title={name}>
-      <PersonCard person={akvaplanist} />
+      <PersonCard person={akvaplanist} lang={lang} />
       <Card>
         <div dangerouslySetInnerHTML={{ __html: akvaplanist?.bio }} />
       </Card>
@@ -184,12 +186,7 @@ export default function AtHome({ data }: PageProps) {
           </header>
           <aside id="cristin">
             <CristinWorksGrouped
-              grouped={Map.groupBy(
-                cristin.works,
-                ({ category: { code } }) => code,
-              )}
-              config={config}
-              person={cristin.id}
+              grouped={Map.groupBy(cristin.works, groupByCategory)}
               lang={lang}
             />
           </aside>

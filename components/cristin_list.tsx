@@ -1,6 +1,6 @@
 import { doiPublicationUrl } from "akvaplan_fresh/services/nav.ts";
 import { names as _names } from "./search_result_item.tsx";
-import { Icon } from "akvaplan_fresh/components/icon.tsx";
+
 interface CristinPerson {
   first_name: string;
   surname: string;
@@ -25,7 +25,7 @@ const _other = (links) => links?.find(({ url }) => url)?.url;
 export const CristinWorkTitle = (
   { work, lang },
 ) => {
-  const style = { fontSize: "1rem" };
+  const _style = { fontSize: "1rem" };
 
   const {
     title,
@@ -39,7 +39,7 @@ export const CristinWorkTitle = (
   const doi = _doi(links);
   if (doi) {
     return (
-      <a href={doiPublicationUrl({ doi: _doi(links), lang })} style={style}>
+      <a href={doiPublicationUrl({ doi: _doi(links), lang })} style={_style}>
         {title?.[original_language]}
       </a>
     );
@@ -47,7 +47,7 @@ export const CristinWorkTitle = (
   const full = _full(links);
   if (full) {
     return (
-      <a href={full} target="_blank" style={style}>
+      <a href={full} target="_blank" style={_style}>
         {title?.[original_language]}
       </a>
     );
@@ -55,12 +55,12 @@ export const CristinWorkTitle = (
   const other = _other(links);
   if (other) {
     return (
-      <a href={other}>
+      <a href={other} style={_style}>
         {title?.[original_language]}
       </a>
     );
   }
-  return <p style={style}>{title?.[original_language]}</p>;
+  return <p style={_style}>{title?.[original_language]}</p>;
 };
 
 export const CristinListItem = (
@@ -100,3 +100,19 @@ export const CristinListItem = (
     </li>
   );
 };
+
+export const CristinList = ({ works, lang }) => (
+  <ol
+    style={{
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
+    }}
+  >
+    {works.map((work) => (
+      <CristinListItem
+        work={work}
+        lang={lang}
+      />
+    ))}
+  </ol>
+);
