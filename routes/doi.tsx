@@ -208,7 +208,7 @@ export default function DoiPublication(
                   {id || prior
                     ? (
                       <span>
-                        <a href={personURL({ id, given, family, lang })}>
+                        <a href={personURL({ id, given, family }, lang)}>
                           {name}
                         </a>{" "}
                         <ApnSym

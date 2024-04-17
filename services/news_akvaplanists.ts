@@ -9,7 +9,7 @@ export const newsFromAkvaplanists =
     title: `${given} ${family} ${t("people.employed_in")} ${
       t(`unit.${unit}`)
     }, ${workplace}`,
-    href: personURL({ id, given, family, lang }),
+    href: personURL({ id, given, family }, lang),
     hreflang: lang,
     published: created ?? new Date(),
     type: "person",

@@ -96,7 +96,12 @@ export const handler: Handlers = {
 
     //FIXME getItemBySlug (news articles)=> redirect 301 to item with id
     if (!item) {
-      const _news = await searchMynewsdesk({ q: "", limit: 32, type_of_media });
+      const _news = await searchMynewsdesk({
+        q: "",
+        lang,
+        limit: 32,
+        type_of_media,
+      });
       const found = _news?.items.find(({ url }) => url.includes(slug));
       if (found) {
         item = found;
@@ -297,7 +302,7 @@ export default function NewsArticle(
           {contacts && contacts.map(
             (contact) => (
               <section class="article-content">
-                <PersonCard id={contact} icons={false} />
+                <PersonCard id={contact} icons={false} lang={lang} />
               </section>
             ),
           )}
