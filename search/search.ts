@@ -7,17 +7,23 @@ import type {
 } from "akvaplan_fresh/search/types.ts";
 import { normalize } from "akvaplan_fresh/text/mod.ts";
 
-export const { compare } = Intl.Collator("no", {
-  usage: "sort",
-  ignorePunctuation: true,
-  sensitivity: "case",
-});
+// export const { compare } = Intl.Collator("no", {
+//   usage: "sort",
+//   ignorePunctuation: true,
+//   sensitivity: "case",
+// });
 
-export const sortPublishedReverse = (a, b) =>
-  compare(b[2]?.published, a[2]?.published);
+// export const sortPublishedReverse = (a, b) =>
+//   compare(b[2]?.published, a[2]?.published);
+
+export const sortPublishedReverse = {
+  property: "published",
+  order: "DESC",
+};
 
 const lastNYears = (n: number, start = new Date().getFullYear()) =>
   [...new Array(n)].map((_, i) => start - i);
+
 const since1970 = new Date().getFullYear() - 1970;
 
 export const yearFacet = {
@@ -33,11 +39,9 @@ export const decadesFacet = {
     { from: 2000, to: 2009 },
     { from: 1990, to: 1999 },
     { from: 1980, to: 1989 },
+    { from: 1970, to: 1979 },
   ],
 };
-//   { from: 2000, to: 2099 },
-//   { from: 1900, to: 1999 },
-
 export const search = async (
   params: SearchParams<OramaAtomSchema>,
 ) => {
