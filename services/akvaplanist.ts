@@ -122,8 +122,6 @@ export const findAkvaplanistViaOrama = async (
   if (count > 0) {
     const [first] = hits;
     const { id, family, given } = first.document;
-    console.warn({ given, family, score, count, first });
-
     return { id: id?.substring(0, 3), family, given };
   }
 
