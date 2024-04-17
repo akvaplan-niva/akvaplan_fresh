@@ -10,9 +10,9 @@
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.6.8/",
-    "@orama/orama": "jsr:@orama/orama@2.0.6",
-    "@orama/plugin-data-persistence": "npm:@orama/plugin-data-persistence@2.0.6",
-    "@orama/stemmers/norwegian": "https://esm.sh/v135/@orama/stemmers@2.0.6/es2022/norwegian.js",
+    "@orama/orama": "npm:@orama/orama@2.0.16",
+    "@orama/plugin-data-persistence": "npm:@orama/plugin-data-persistence@2.0.16",
+    "@orama/stemmers/norwegian": "https://esm.sh/v135/@orama/stemmers@2.0.16/es2022/norwegian.js",
     "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1",
     "@std/async": "jsr:@std/async@^0.222.1",
