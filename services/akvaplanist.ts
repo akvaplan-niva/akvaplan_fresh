@@ -113,7 +113,7 @@ export const findAkvaplanistViaOrama = async (
     return all.get(alias.get(aliaskey));
   }
 
-  const { hits, count } = await search({
+  const { hits, count, score } = await search({
     term: `${given} ${family}`,
     threshold: 0,
     where: { collection: "person" },
@@ -122,6 +122,8 @@ export const findAkvaplanistViaOrama = async (
   if (count > 0) {
     const [first] = hits;
     const { id, family, given } = first.document;
+    console.warn({ given, family, score, count, first });
+
     return { id: id?.substring(0, 3), family, given };
   }
 

@@ -23,6 +23,7 @@ import * as $article_slug_ from "./routes/article/[slug].tsx";
 import * as $bento from "./routes/bento.tsx";
 import * as $bento_slug_ from "./routes/bento/[slug].tsx";
 import * as $careers from "./routes/careers.tsx";
+import * as $cristin from "./routes/cristin.tsx";
 import * as $dcat from "./routes/dcat.tsx";
 import * as $document_MarkdownArticlePage from "./routes/document/MarkdownArticlePage.tsx";
 import * as $document_slug_ from "./routes/document/[slug].tsx";
@@ -95,6 +96,7 @@ const manifest = {
     "./routes/bento.tsx": $bento,
     "./routes/bento/[slug].tsx": $bento_slug_,
     "./routes/careers.tsx": $careers,
+    "./routes/cristin.tsx": $cristin,
     "./routes/dcat.tsx": $dcat,
     "./routes/document/MarkdownArticlePage.tsx": $document_MarkdownArticlePage,
     "./routes/document/[slug].tsx": $document_slug_,

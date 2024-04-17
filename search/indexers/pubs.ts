@@ -75,7 +75,7 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
     container,
     authors,
     people,
-    title,
+    title: title ?? `[${container} (${year}): ${doi}]`,
     published: String(published),
     year,
     text: "",

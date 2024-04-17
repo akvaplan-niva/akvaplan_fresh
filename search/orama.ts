@@ -115,3 +115,8 @@ Error: Build failed with 2 errors:
 
 export const getOramaDocument = async (id: string) =>
   await getByID(await getOramaInstance(), id);
+
+export const has = async (id: string) => {
+  const d = await getOramaDocument(id);
+  return d && d.id && d.id === id;
+};

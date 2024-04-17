@@ -26,6 +26,12 @@ import type { ComponentChildren } from "preact";
 import { buildImageMapper } from "akvaplan_fresh/services/cloudinary.ts";
 import { searchImageAtoms } from "akvaplan_fresh/services/mynewsdesk.ts";
 import { AImg } from "akvaplan_fresh/components/AImg.tsx";
+import { CristinWorksGrouped } from "akvaplan_fresh/components/cristin_works_grouped.tsx";
+import {
+  getLatestAkvaplanWorks,
+  getWorks,
+} from "akvaplan_fresh/services/cristin.ts";
+import { CristinList } from "akvaplan_fresh/components/cristin_list.tsx";
 //import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -113,7 +119,6 @@ export const handler: Handlers = {
       news,
       results,
       services,
-      images,
       our,
       lang,
       url,
@@ -138,13 +143,14 @@ export default function Home(
       announce,
       news,
       services,
-      images,
+      //images,
       results,
       our,
       lang,
       url,
     },
   }: PageProps<HomeData>,
+  groupByCategory,
 ) {
   const maxVisNews = 5.5;
 
@@ -154,7 +160,6 @@ export default function Home(
         <link rel="stylesheet" href={asset("/css/mini-news.css")} />
         <link rel="stylesheet" href={asset("/css/hscroll.css")} />
         <script src={asset("/@nrk/core-scroll.min.js")} />
-        <link rel="stylesheet" href={asset("/css/gallery.css")} />
       </Head>
 
       {

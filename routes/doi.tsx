@@ -74,9 +74,10 @@ export const handler: Handlers<SlimPublication> = {
 
         person.name = name ?? `${given ?? ""} ${family}`;
         const cand = await findAkvaplanistViaOrama({ given, family, name });
+        console.warn({ cand });
         if (cand?.id) {
           current++;
-          console.warn({ current }, cand);
+          //console.warn({ current }, cand);
           person.id = cand.id;
         } else {
           const prior = await findPriorAkvaplanist({ given, family, name });

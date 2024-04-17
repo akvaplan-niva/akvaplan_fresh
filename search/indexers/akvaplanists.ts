@@ -16,7 +16,7 @@ export const atomizeAkvaplanist = (a: Akvaplanist): OramaAtom => {
   const { id, family, given, created, updated, email, ...more } = a;
   const name = `${given} ${family}`;
   const slug = `id/${id as string}/${
-    encodeURIComponent(name.toLocaleLowerCase("no").replace(/\s/g, "-"))
+    encodeURIComponent(name.toLocaleLowerCase("no").replace(/\s/g, "+"))
   }`;
 
   const aliases = [

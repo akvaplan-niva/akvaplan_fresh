@@ -46,7 +46,6 @@ const localizedRouteForSearchAtom = (
   lang: string,
 ): string => {
   const { collection, slug } = atom;
-
   if (collection === "person" && slug.startsWith("id/")) {
     const { title: name, id: email } = atom;
     return akvaplanistUrl({ email, name, slug } as any, lang);

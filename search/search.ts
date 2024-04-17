@@ -43,6 +43,8 @@ export const search = async (
 ) => {
   const orama = await getOramaInstance();
   params.term = normalize(params.term);
+  params.threshold = params.threshold ?? 0;
+  //console.warn({ params });
   return await _search(orama, params) as Results<OramaAtom>;
 };
 export const searchViaApi = async (
