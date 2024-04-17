@@ -19,6 +19,7 @@ export const names = (people: string[], max?: number) => {
 };
 export const SearchResultItem = (
   {
+    score,
     document: {
       id,
       slug,
@@ -35,6 +36,7 @@ export const SearchResultItem = (
   },
 ) => (
   <li
+    title={score}
     style={{
       fontSize: "1rem",
       margin: "1px",
@@ -59,7 +61,7 @@ export const SearchResultItem = (
             <img
               width="148"
               height="148"
-              alt=""
+              alt={title}
               src={`https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_148,h_148,q_auto:good/${cloudinary}`}
             />
           )
