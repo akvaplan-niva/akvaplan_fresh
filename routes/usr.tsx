@@ -96,7 +96,8 @@ export const handler: Handlers = {
         defaultAtConfig;
 
     const params = {
-      term: `${family} ${[...given].slice(0, 4).join("")}`.trim(),
+      term: `${family} ${!/\s/.test(given) ? given : given.split(" ").at(0)}`
+        .trim(),
       limit: 5,
       sortBy: sortPublishedReverse,
       threshold: 0,
