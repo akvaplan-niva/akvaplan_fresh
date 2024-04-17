@@ -39,6 +39,7 @@ import type {
   PageProps,
   RouteConfig,
 } from "$fresh/server.ts";
+import { akvaplanistUrl } from "akvaplan_fresh/services/mod.ts";
 
 const defaultAtConfig = {
   search: {
@@ -73,17 +74,22 @@ export const config: RouteConfig = {
 const ids = await buildAkvaplanistMap();
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
-    const { at, id } = ctx.params;
+    const { at, id, name } = ctx.params;
     const { searchParams } = new URL(req.url);
     const { url } = ctx;
+    const lang = at === "~" ? "no" : "en";
+    langSignal.value = lang;
+
     const akvaplanist = ids.get(id) ?? priors.get(id);
     if (!akvaplanist) {
       return ctx.renderNotFound();
     }
+    if (!name) {
+      const headers = { location: akvaplanistUrl(akvaplanist, lang) };
+      return new Response("", { status: 301, headers });
+    }
     akvaplanist.bio = ``;
     const { given, family } = akvaplanist;
-    const lang = at === "~" ? "no" : "en";
-    langSignal.value = lang;
 
     const config =
       await getValue<typeof defaultAtConfig>(["@", "config", id]) ??

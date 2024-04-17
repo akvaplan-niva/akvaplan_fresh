@@ -165,10 +165,10 @@ export const akvaplanistUrl = (
   if (!id) {
     //FIXME
     // Links from /en/doi to detected person contains variant name spellings /en/doi/10.3997/2214-4609.201902760
-    return anybodyUrl({ id, given, family, name, email, slug });
+    //return anybodyUrl({ id, given, family, name, email, slug });
   }
-  const _name = (given && family) ? `${given} ${family}` : name;
-  const suf = name ? `/${name}` : "";
+  const _name = given && family ? `${given} ${family}` : name ?? "";
+  const suf = _name ? `/${_name}` : "";
   return encodeURI(
     `/${at}${id}${suf}`.toLocaleLowerCase("no")
       .replaceAll(
