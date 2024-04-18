@@ -8,6 +8,7 @@ import {
   initial0,
   removePuncts,
 } from "akvaplan_fresh/services/akvaplanist.ts";
+import { normalize } from "akvaplan_fresh/text/mod.ts";
 
 export interface Person {
   id?: string;
@@ -104,6 +105,12 @@ export const findCanonicalName = async (
 
   const orama = await findAkvaplanistViaOrama({ family, given });
   if (orama) {
+    if (
+      normalize(orama.family) !== normalize(family) ||
+      normalize(orama.given) !== normalize(given)
+    ) {
+      console.warn({ family, given, orama });
+    }
     return orama;
   }
   //find prior...

@@ -1,5 +1,4 @@
 import { sortPublishedReverse } from "akvaplan_fresh/search/search.ts";
-import { has } from "akvaplan_fresh/search/orama.ts";
 
 import _cristin_ids from "akvaplan_fresh/data/cristin_ids.json" with {
   type: "json",
@@ -91,13 +90,17 @@ export const handler: Handlers = {
     akvaplanist.bio = ``;
     const { given, family } = akvaplanist;
 
+    //./bin/kv_set '["@", "config", "nmi"]' '{"search":{"enabled":true,"exclude":["person","pubs"]},"cristin":{"enabled":true}}'
     const config =
       await getValue<typeof defaultAtConfig>(["@", "config", id]) ??
         defaultAtConfig;
 
+    const term = `${family} ${
+      !/\s/.test(given) ? given : given.split(/\s/).at(0)
+    }`.trim();
+
     const params = {
-      term: `${family} ${!/\s/.test(given) ? given : given.split(" ").at(0)}`
-        .trim(),
+      term,
       limit: 5,
       sortBy: sortPublishedReverse,
       threshold: 0,
@@ -114,7 +117,7 @@ export const handler: Handlers = {
     };
 
     if (config.cristin.enabled || searchParams.has("cristin")) {
-      const works = await getWorks(cristin.id, lang);
+      const works = await getWorks(cristin.id);
       const { rejectCategories } = {
         ...defaultAtConfig.cristin,
         ...config.cristin,
@@ -134,7 +137,7 @@ export const handler: Handlers = {
   },
 };
 
-export default function AtHome({ data }: PageProps) {
+export default function AtHome({ data }: PageProps<AtHome>) {
   const { akvaplanist, at, url, config, cristin, orama } = data;
   const { given, family } = akvaplanist;
   const name = `${given} ${family}`;
@@ -151,7 +154,7 @@ export default function AtHome({ data }: PageProps) {
         <GroupedSearch
           term={orama.params.term}
           results={orama.results}
-          exclude={["person"]}
+          exclude={config.search.exclude ?? ["person"]}
           origin={url}
           noInput
         />

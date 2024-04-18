@@ -11,6 +11,7 @@ import { useSignal } from "@preact/signals";
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 import { href } from "akvaplan_fresh/search/href.ts";
 import { GroupedSearchCollectionResults } from "akvaplan_fresh/islands/grouped_search_collection_results.tsx";
+import { HAlbum } from "akvaplan_fresh/components/mod.ts";
 
 const detailsOpen = (collection: string) => true;
 // ["image", "document", "video", "blog", "pubs"].includes(collection)
@@ -45,6 +46,9 @@ const CollectionSummary = (
     </Pill>
   </summary>
 );
+
+const isOpen = (collection: string) =>
+  ["image"].includes(collection) ? false : true;
 
 export default function GroupedSearch(
   {
@@ -209,8 +213,8 @@ export default function GroupedSearch(
 
         {groups.value?.map((
           { values, result },
-        ) => (!exclude.includes(values?.[0]) &&
-          (
+        ) => (!exclude.includes(values?.[0])
+          ? (
             <>
               <GroupedSearchCollectionResults
                 query={query}
@@ -219,16 +223,18 @@ export default function GroupedSearch(
                 count={facetCountCollection(values?.[0])}
                 display={display}
                 noDetails={noDetails}
-              />
-
-              <SearchControls
-                query={query}
-                length={result.length}
-                collection={values?.[0]}
-                count={facetCountCollection(values?.[0])}
-              />
+                open={isOpen(values?.[0])}
+              >
+                <SearchControls
+                  query={query}
+                  length={result.length}
+                  collection={values?.[0]}
+                  count={facetCountCollection(values?.[0])}
+                />
+              </GroupedSearchCollectionResults>
             </>
-          ))
+          )
+          : null)
         )}
         {false ?? query?.value?.length > 0
           ? (

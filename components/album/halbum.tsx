@@ -39,7 +39,7 @@ const ellipsis = {
   textOverflow: "ellipsis",
 };
 
-const PreviewFigure = ({
+export const PreviewFigure = ({
   image: { id, previews, headline, description },
   width,
   position,
