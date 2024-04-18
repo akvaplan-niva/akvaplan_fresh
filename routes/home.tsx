@@ -25,13 +25,6 @@ import type { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import type { ComponentChildren } from "preact";
 import { buildImageMapper } from "akvaplan_fresh/services/cloudinary.ts";
 import { searchImageAtoms } from "akvaplan_fresh/services/mynewsdesk.ts";
-import { AImg } from "akvaplan_fresh/components/AImg.tsx";
-import { CristinWorksGrouped } from "akvaplan_fresh/components/cristin_works_grouped.tsx";
-import {
-  getLatestAkvaplanWorks,
-  getWorks,
-} from "akvaplan_fresh/services/cristin.ts";
-import { CristinList } from "akvaplan_fresh/components/cristin_list.tsx";
 //import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",

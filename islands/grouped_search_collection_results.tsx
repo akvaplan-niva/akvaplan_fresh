@@ -61,6 +61,7 @@ export const GroupedSearchCollectionResults = ({
   lang,
   display,
   noDetails,
+  children,
 }) => (
   <details
     open={open}
@@ -81,5 +82,6 @@ export const GroupedSearchCollectionResults = ({
       count={count}
       q={query}
     />
+    {children}
   </details>
 );

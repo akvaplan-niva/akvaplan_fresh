@@ -53,16 +53,6 @@ export const handler: Handlers = {
         })
         : undefined;
 
-    const sortPublishedReverse = (a, b) =>
-      compare(b[2].published, a[2]?.published);
-
-    //const sortBy = sortPublishedReverse;
-
-    const sortBy = {
-      property: "published", // or 'year', 'inPromotion'
-      order: "DESC", // default is "ASC"
-    };
-
     // const sortBy = searchParams.has("sort")
     //   ? buildSort(searchParams.get("sort"))
     //   : sortPublishedReverse;

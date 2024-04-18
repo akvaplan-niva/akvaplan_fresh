@@ -2,6 +2,7 @@
 // @todo inspiration/link: https://openalex.org/works?sort=publication_date%3Adesc&column=display_name,publication_year,type,open_access.is_oa,cited_by_count&page=1&filter=authorships.author.id%3AA5053761479
 // https://openalex.org/authors/A5053761479
 import {
+  akvaplanistUrl,
   buildGroupFX,
   buildPeopleGrouper,
   cristinAppPersonURL,
@@ -29,6 +30,7 @@ import {
   Page,
   PeopleSearchForm,
 } from "akvaplan_fresh/components/mod.ts";
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
 import { buildContainsFilter } from "akvaplan_fresh/search/filter.ts";
 import { lang, normalize, t } from "akvaplan_fresh/text/mod.ts";
@@ -45,6 +47,8 @@ import {
 import { Head } from "$fresh/runtime.ts";
 import { priorAkvaplanists } from "../services/prior_akvaplanists.ts";
 
+import { search } from "akvaplan_fresh/search/search.ts";
+
 interface AkvaplanistsRouteProps {
   people: Akvaplanist[];
 
@@ -53,7 +57,6 @@ interface AkvaplanistsRouteProps {
   group: string;
 
   filter: string;
-
   grouped: Map<string, Akvaplanist[]>;
   lang: string;
   base: string;
@@ -96,16 +99,34 @@ export const config: RouteConfig = {
 
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
-    const { params } = ctx;
+    const { params, url } = ctx;
 
     const groupname = decodeURIComponent(params.groupname);
     const filter = decodeURIComponent(params.filter);
+    const fn = decodeURIComponent(params.fn);
     //const { groupname, filter } = params;
     const group = findGroup(groupname);
 
     // lang is optional for legacy URL (/ansatte)
     lang.value = ["en", "no"].includes(params.lang) ? params.lang : "no";
 
+    if (["id"].includes(groupname)) {
+      const headers = { location: akvaplanistUrl({ id: filter }, lang.value) };
+      return new Response("", { status: 301, headers });
+    } else if (["name"].includes(groupname)) {
+      const { count, hits } = await search({
+        term: `${fn} ${filter}`,
+        where: { collection: "person" },
+      });
+      if (count > 0) {
+        const { id, ...a } = hits[0].document;
+        const akvaplanist = { id: id.substring(0, 3), ...a };
+        const headers = {
+          location: akvaplanistUrl(a, lang.value),
+        };
+        return new Response("", { status: 301, headers });
+      }
+    }
     const page = ["employees", "people"].includes(params.page)
       ? "people"
       : "folk";
@@ -138,6 +159,7 @@ export const handler: Handlers = {
         normalize(p?.[group]) === normalize(filter)
       )
       : sorted;
+
     const queryFilter = q?.length > 0 ? buildContainsFilter(q) : () => true;
     const results = filtered.filter(queryFilter);
 
@@ -188,6 +210,7 @@ export const handler: Handlers = {
     if (person && !person.cristin) {
       person.cristin = await findAkvaplanistInCristin(person);
     }
+    const name = "name" === group ? `${filter} ${fn}` : undefined;
 
     //@todo separate route for 1 person!?
     const news = (person && person.family)
@@ -221,6 +244,8 @@ export const handler: Handlers = {
       q,
       office,
       searchParams,
+      url,
+      name,
     });
   },
 };
@@ -273,10 +298,11 @@ export default function Akvaplanists(
       q,
       person,
       news,
-      pubsByYear,
+      name,
       numPubs,
       office,
       searchParams,
+      url,
     },
   }: PageProps<
     AkvaplanistsRouteProps
@@ -353,23 +379,15 @@ export default function Akvaplanists(
         <HScroll maxVisibleChildren={5.5}>{news?.map(ArticleSquare)}</HScroll>
       </section>
 
-      {pubsByYear.size > 0 && (
+      {name && (
         <section>
-          <h1>{t("pubs.Pubs")} ({numPubs})</h1>
+          <GroupedSearch
+            term={name}
+            exclude={["person"]}
+            origin={url}
+            _noInput
+          />
 
-          <div style={{ fontSize: "1rem" }}>
-            {[...pubsByYear].map(([grpkey, grppubs], i) => (
-              <div>
-                <h3>
-                  {grpkey} ({grppubs.length})
-                </h3>
-                <NewsFilmStrip
-                  news={grppubs}
-                  lang={lang}
-                />
-              </div>
-            ))}
-          </div>
           {person?.cristin && (
             <div>
               {t("pubs.Also_view")}{" "}
