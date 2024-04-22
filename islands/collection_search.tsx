@@ -56,6 +56,7 @@ export default function CollectionSearch(
     facets,
     results,
     list,
+    noInput = false,
   }: {
     q?: string;
     people?: string;
@@ -130,28 +131,30 @@ export default function CollectionSearch(
 
   return (
     <main>
-      <form
-        action={``}
-        autocomplete="off"
-        style={list === "list" ? {} : {
-          // display: "grid",
-          // gridTemplateColumns: "1fr",
-          // gap: "1rem",
-          // marginTop: "0.25rem",
-        }}
-      >
-        <InputSearch
-          autofocus
-          name="q"
-          placeholder={placeholder}
-          label="Søk"
-          value={query}
+      {noInput !== true && (
+        <form
+          action={``}
           autocomplete="off"
-          onInput={handleSearchInput}
-        />
+          style={list === "list" ? {} : {
+            // display: "grid",
+            // gridTemplateColumns: "1fr",
+            // gap: "1rem",
+            // marginTop: "0.25rem",
+          }}
+        >
+          <InputSearch
+            autofocus
+            name="q"
+            placeholder={placeholder}
+            label="Søk"
+            value={query}
+            autocomplete="off"
+            onInput={handleSearchInput}
+          />
 
-        <label style={{ fontSize: "1rem", display: "none" }}></label>
-      </form>
+          <label style={{ fontSize: "1rem", display: "none" }}></label>
+        </form>
+      )}
       <output>
         <div
           style={{

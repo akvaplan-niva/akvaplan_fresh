@@ -21,42 +21,66 @@ export const names = (people: string[], max?: number) => {
 export const SearchResultItem = (
   {
     score,
-    document: {
-      id,
-      slug,
-      collection,
-      lang,
-      title,
-      subtitle,
-      container,
-      published,
-      authors,
-      cloudinary,
-    },
+    document,
     etal,
   },
-) => (
-  <li
-    title={score}
-    style={{
-      fontSize: "0.75rem",
-      margin: "1px",
-      //padding: "0.5rem",
-      background: "var(--surface0)",
-    }}
-  >
-    <div
+) => {
+  const {
+    id,
+    slug,
+    collection,
+    lang,
+    title,
+    subtitle,
+    container,
+    published,
+    authors,
+    cloudinary,
+  } = document;
+
+  return (
+    <li
+      title={score}
       style={{
-        display: "grid",
-        gap: ".5rem",
-        padding: ".25rem",
-        gridTemplateColumns: cloudinary ? "1fr 4fr" : "0 1fr",
+        fontSize: "0.75rem",
+        margin: "1px",
+        //padding: "0.5rem",
+        background: "var(--surface0)",
       }}
     >
-      {cloudinary
-        ? (
+      <div
+        style={{
+          display: "grid",
+          gap: ".5rem",
+          padding: ".25rem",
+          gridTemplateColumns: cloudinary ? "1fr 4fr" : "0 1fr",
+        }}
+      >
+        {cloudinary
+          ? (
+            <a
+              style={{ placeContent: "center" }}
+              href={href({
+                id,
+                slug,
+                collection,
+                lang,
+                title,
+                authors,
+                etal,
+              })}
+            >
+              <img
+                width="148"
+                height="148"
+                alt={title}
+                src={`https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_148,h_148,q_auto:good/${cloudinary}`}
+              />
+            </a>
+          )
+          : <a></a>}
+        <MiniCard style={{ placeContent: "center" }}>
           <a
-            style={{ placeContent: "center" }}
             href={href({
               id,
               slug,
@@ -67,53 +91,33 @@ export const SearchResultItem = (
               etal,
             })}
           >
-            <img
-              width="148"
-              height="148"
-              alt={title}
-              src={`https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_148,h_148,q_auto:good/${cloudinary}`}
+            <p
+              dangerouslySetInnerHTML={{ __html: title }}
             />
           </a>
-        )
-        : <a></a>}
-      <MiniCard style={{ placeContent: "center" }}>
-        <a
-          href={href({
-            id,
-            slug,
-            collection,
-            lang,
-            title,
-            authors,
-            etal,
-          })}
-        >
-          <p
-            dangerouslySetInnerHTML={{ __html: title }}
-          />
-        </a>
-        {authors?.length > 0
-          ? (
-            <p
-              style={{ fontSize: "0.75rem" }}
-              title={names(authors)}
-              onClick={() => etal.value = false === etal.value ? true : false}
-            >
-              {etal?.value === true ? names(authors, 2) : names(authors)}
-            </p>
-          )
-          : null}
-        <p style={{ fontSize: "0.75rem" }}>
-          <em>
-            {subtitle ? subtitle : null}
+          {authors?.length > 0
+            ? (
+              <p
+                style={{ fontSize: "0.75rem" }}
+                title={names(authors)}
+                onClick={() => etal.value = false === etal.value ? true : false}
+              >
+                {etal?.value === true ? names(authors, 2) : names(authors)}
+              </p>
+            )
+            : null}
+          <p style={{ fontSize: "0.75rem" }}>
+            <em>
+              {subtitle ? subtitle : null}
 
-            {container ? container : null}
-          </em>{" "}
-          {!["person"].includes(collection)
-            ? `(${published.substring(0, 10)})`
-            : `(${published.substring(0, 7)})`}
-        </p>
-      </MiniCard>
-    </div>
-  </li>
-);
+              {container ? container : null}
+            </em>{" "}
+            {!["person"].includes(collection)
+              ? `(${published.substring(0, 10)})`
+              : `(${published.substring(0, 7)})`}
+          </p>
+        </MiniCard>
+      </div>
+    </li>
+  );
+};

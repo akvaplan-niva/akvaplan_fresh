@@ -9,7 +9,6 @@ import {
   ArticleSquare,
   CollectionHeader,
   HScroll,
-  MiniNewsCard,
   Page,
 } from "akvaplan_fresh/components/mod.ts";
 import { OurPeople } from "akvaplan_fresh/components/our_people.tsx";
@@ -22,9 +21,10 @@ import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mod.ts";
 import type { Results } from "@orama/orama";
 import type { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
-import type { ComponentChildren } from "preact";
 import { buildImageMapper } from "akvaplan_fresh/services/cloudinary.ts";
 import { searchImageAtoms } from "akvaplan_fresh/services/mynewsdesk.ts";
+import { Mini3ColGrid } from "../components/Mini3ColGrid.tsx";
+import { PageSection } from "../components/PageSection.tsx";
 //import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -33,33 +33,11 @@ export const config: RouteConfig = {
 const { compare } = new Intl.Collator("no", { caseFirst: "upper" });
 const sortName = (a, b) => compare(a?.name, b?.name);
 
-const _section = {
+export const _section = {
   marginTop: "2rem",
   marginBottom: "3rem",
   // padding: "1.5rem",
 };
-
-const PageSection = (
-  { children, ...props }: { children: ComponentChildren },
-) => (
-  <div {...props}>
-    <section style={_section}>{children}</section>
-  </div>
-);
-
-const Mini3ColGrid = (
-  { atoms }: { atoms: any[] },
-) => (
-  <div
-    class="news-grid"
-    style={{
-      marginBlockStart: "0.5rem",
-      fontSize: "var(--font-size-fluid-0, 1rem)",
-    }}
-  >
-    {atoms.map(MiniNewsCard)}
-  </div>
-);
 
 const latestText = (collection: string) => {
   switch (collection) {

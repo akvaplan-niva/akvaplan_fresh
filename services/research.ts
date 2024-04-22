@@ -1,7 +1,6 @@
 import { researchTopicURL } from "./nav.ts";
-import { shuffle } from "akvaplan_fresh/grouping/mod.ts";
 
-type Research = Record<string, string | number | string[]>;
+type Research = Record<string, string | string[]>;
 
 export const getResearchFromExternalService = async () => {
   const r = await fetch("https://research.deno.dev/").catch(() => {});
@@ -9,24 +8,6 @@ export const getResearchFromExternalService = async () => {
     return r.json();
   }
 };
-
-// export const searchResearch = async ({ q, lang, sort, filter } = {}) => {
-//   const research = await fetchResearch({ sort, filter });
-//   if (research?.map) {
-//     return research.map((
-//       { details, detaljer, en, no, topic, tema, ...s },
-//     ) => ({
-//       ...s,
-//       lang,
-//       name: lang === "en" ? en : no,
-//       href: routes(lang).get("research") +
-//         `/${(lang === "en"
-//           ? `topic/${encodeURIComponent(topic)}`
-//           : `tema/${encodeURIComponent(tema)}`)}`,
-//       desc: lang === "en" ? details : detaljer,
-//     }));
-//   }
-// };
 
 const buildLevelFilter = (n: Number) => ({ level }: Research) => level === n;
 
@@ -57,5 +38,7 @@ export const getResearchLevel0FromExternalService = async (lang: string) => {
   }));
 
   const research0 = lang === "en" ? en0 : no0;
-  return shuffle(research0);
+  return research0.sort((a: Research, b: Research) =>
+    a.name.localeCompare(b.name)
+  );
 };

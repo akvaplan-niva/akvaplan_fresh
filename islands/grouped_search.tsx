@@ -56,6 +56,8 @@ export default function GroupedSearch(
     lang,
     collection,
     origin,
+
+    display = "grid",
     exclude = [],
     results,
     noInput = false,
@@ -74,7 +76,7 @@ export default function GroupedSearch(
   const facets = useSignal(new Map());
   const sort = useSignal(null);
   const first = useSignal(true);
-  const display = useSignal("grid");
+  display = useSignal(display);
 
   const remoteStatus = useSignal({ status: 0 });
 
