@@ -28,7 +28,9 @@ const toDocument = (d: MynewsdeskItem) => {
   return d;
 };
 
-export const searchDocuments = async ({ q = "", filter = () => true }) => {
+export const searchMynewsdeskAndMarkdownDocuments = async (
+  { q = "", filter = () => true },
+) => {
   const _docs = await searchMynewsdeskDocuments({
     q,
   }) ?? [];

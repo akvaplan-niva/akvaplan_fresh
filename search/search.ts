@@ -7,16 +7,7 @@ import type {
 } from "akvaplan_fresh/search/types.ts";
 import { normalize } from "akvaplan_fresh/text/mod.ts";
 
-// export const { compare } = Intl.Collator("no", {
-//   usage: "sort",
-//   ignorePunctuation: true,
-//   sensitivity: "case",
-// });
-
-// export const sortPublishedReverse = (a, b) =>
-//   compare(b[2]?.published, a[2]?.published);
-
-export const sortPublishedReverse = {
+export const oramaSortPublishedReverse = {
   property: "published",
   order: "DESC",
 };
