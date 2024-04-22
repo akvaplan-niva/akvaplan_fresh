@@ -1,5 +1,3 @@
-import { MynewsdeskVideo } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-
 export const db = globalThis?.Deno && Deno.env.has("deno_kv_database")
   ? Deno.env.get("deno_kv_database")
   : undefined;
