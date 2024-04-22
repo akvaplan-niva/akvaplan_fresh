@@ -40,12 +40,19 @@ import {
 import { MynewsdeskDocument } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { InputSearch } from "../components/search/InputSearch.tsx";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
-import { searchDocuments } from "akvaplan_fresh/services/documents.ts";
-import { sortPublishedReverse } from "akvaplan_fresh/search/search.ts";
+import { searchMynewsdeskAndMarkdownDocuments } from "akvaplan_fresh/services/documents.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(documents|document|dokumenter|dokument)",
 };
+
+const { compare } = Intl.Collator("no", {
+  usage: "sort",
+  ignorePunctuation: true,
+  sensitivity: "case",
+});
+const sortPublishedReverse = (a, b) =>
+  new Date(b?.published).getTime() - new Date(a?.published).getTime();
 
 export const handler: Handlers<DocumentsProps> = {
   async GET(req: Request, ctx: FreshContext) {
@@ -59,9 +66,11 @@ export const handler: Handlers<DocumentsProps> = {
     const q = _q.toLocaleLowerCase();
     const filter = ({ summary, document_format }: MynewsdeskDocument) =>
       (true || summary?.length > 0) && /pdf/.test(document_format);
-    const docs = (await searchDocuments({ q, filter })).sort(
-      sortPublishedReverse,
-    );
+
+    const docs = (await searchMynewsdeskAndMarkdownDocuments({ q, filter }))
+      .sort(
+        sortPublishedReverse,
+      );
     return ctx.render({ title, base, docs, lang });
   },
 };

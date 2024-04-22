@@ -1,7 +1,7 @@
 import { t } from "akvaplan_fresh/text/mod.ts";
 import {
+  oramaSortPublishedReverse as sortBy,
   search,
-  sortPublishedReverse as sortBy,
   yearFacet,
 } from "akvaplan_fresh/search/search.ts";
 

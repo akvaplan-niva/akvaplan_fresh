@@ -1,4 +1,4 @@
-import { sortPublishedReverse } from "akvaplan_fresh/search/search.ts";
+import { oramaSortPublishedReverse } from "akvaplan_fresh/search/search.ts";
 
 import _cristin_ids from "akvaplan_fresh/data/cristin_ids.json" with {
   type: "json",
@@ -102,7 +102,7 @@ export const handler: Handlers = {
     const params = {
       term,
       limit: 5,
-      sortBy: sortPublishedReverse,
+      sortBy: oramaSortPublishedReverse,
       threshold: 0,
       facets: { collection: {} },
     };
