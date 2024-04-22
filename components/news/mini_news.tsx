@@ -7,8 +7,8 @@ const newsItemStyle = {
   display: "grid",
   padding: "var(--size-1)",
   //fontSize: "var(--font-size-0)",
-  gap: "var(--size-2)",
-  placeItems: "center",
+  gap: "var(--size-4)",
+  alignItems: "center", // vertical
   minWidth: "340px",
   maxWidth: "540px",
   gridTemplateColumns: "128px auto",
@@ -36,7 +36,7 @@ export const MiniNewsCard = (
             alt={caption ?? title}
             title={caption ?? title}
             loading="lazy"
-            _style={{ height: "96px" }}
+            style={{ height: "96px", width: "auto" }}
           />
         </a>
       )}
