@@ -1,9 +1,9 @@
 # akvaplan_fresh
 
-[Akvaplan-niva](https://akvaplan.no/)'s website
+[Akvaplan-niva](https://akvaplan.no/) company website
 
 - HTML-first multi-page web app
-- Rendered on the fly in Deno Deploy's edge compute
+- Rendered on the fly in Deno Deploy (global edge compute)
 - Fully functional without JavaScript
 - Bilingual, including translated/SEO URLs
 
@@ -17,10 +17,18 @@
 - [Orama](https://oramasearch.com/)
 - [TypeScript](https://www.typescriptlang.org/)
 
-### Development
+## Development
 
 Start development server:
 
 ```sh
 deno task dev
+```
+
+## KV
+
+### User preferences
+
+```sh
+$ deno task kv_set '["@", "config", "nmi"]' '{"search":{"enabled":true,"exclude":["person","pubs"]},"cristin":{"enabled":true}}'
 ```
