@@ -51,6 +51,11 @@ export interface MynewsdeskVideo extends MynewsdeskDocument {
   embed_code: string;
 }
 
+export interface MynewsdeskEvent extends AbstractMynewsdeskItem {
+  end: Date;
+  start: Date | string;
+}
+
 export interface MynewsdeskImage extends AbstractMynewsdeskItem {
   position: number;
   photographer: string;

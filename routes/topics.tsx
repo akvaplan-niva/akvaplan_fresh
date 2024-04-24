@@ -21,8 +21,6 @@ import {
 
 import { intlRouteMap, researchTopicURL } from "akvaplan_fresh/services/nav.ts";
 
-import { groupIntoMap } from "akvaplan_fresh/grouping/mod.ts";
-
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
@@ -72,7 +70,7 @@ export const handler: Handlers = {
       ? ({ published }) => published.substring(0, 4)
       : () => t(`topic.${params.topic}`);
 
-    const newsGrouped = groupIntoMap(
+    const newsGrouped = Map.groupBy(
       news,
       fx,
     );

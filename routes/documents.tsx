@@ -1,12 +1,8 @@
-import { documentHref, searchMynewsdesk } from "akvaplan_fresh/services/mod.ts";
-import { groupIntoMap } from "akvaplan_fresh/grouping/mod.ts";
+import { documentHref } from "akvaplan_fresh/services/mod.ts";
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
-import { isodate } from "../time/mod.ts";
 
 import {
   ArticleSquare,
-  Card,
-  MiniNewsCard,
   Page,
 } from "akvaplan_fresh/components/mod.ts";
 
@@ -38,8 +34,6 @@ import {
   type RouteConfig,
 } from "$fresh/server.ts";
 import { MynewsdeskDocument } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import { InputSearch } from "../components/search/InputSearch.tsx";
-import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 import { searchMynewsdeskAndMarkdownDocuments } from "akvaplan_fresh/services/documents.ts";
 
 export const config: RouteConfig = {

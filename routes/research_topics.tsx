@@ -7,7 +7,6 @@ import {
 } from "akvaplan_fresh/services/mod.ts";
 
 import { search as searchPubs } from "akvaplan_fresh/services/dois.ts";
-import { groupIntoMap } from "akvaplan_fresh/grouping/mod.ts";
 
 import {
   Article,
@@ -72,7 +71,7 @@ export const handler: Handlers = {
     const pubsToNewsMapper = newsFromPubs({ lang: lang.value });
     const pubs = data?.map(pubsToNewsMapper);
 
-    const grouped = groupIntoMap(
+    const grouped = Map.groupBy(
       pubs,
       ({ published }) => published?.substring(0, 4),
     );
