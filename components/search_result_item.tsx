@@ -1,6 +1,8 @@
 import { href } from "akvaplan_fresh/search/href.ts";
-import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
+import { lang as langSignal } from "akvaplan_fresh/text/mod.ts";
 import { MiniCard } from "akvaplan_fresh/components/card.tsx";
+import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
+import { t } from "../text/mod.ts";
 
 export const names = (people: string[], max?: number) => {
   if (people.length === 0) {
@@ -113,8 +115,12 @@ export const SearchResultItem = (
               {container ? container : null}
             </em>{" "}
             {!["person"].includes(collection)
-              ? `(${published.substring(0, 10)})`
-              : `(${published.substring(0, 7)})`}
+              ? `${published.substring(0, 10)}`
+              : `${published.substring(0, 7)}`}
+            {!["image", "person"].includes(collection) && lang &&
+                lang !== langSignal.value
+              ? ` (${t(`lang.${lang}`)}) `
+              : null}
           </p>
         </MiniCard>
       </div>
