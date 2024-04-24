@@ -9,6 +9,7 @@ import {
   ArticleSquare,
   CollectionHeader,
   HScroll,
+  MiniNewsCard,
   Page,
 } from "akvaplan_fresh/components/mod.ts";
 import { OurPeople } from "akvaplan_fresh/components/our_people.tsx";
@@ -17,21 +18,20 @@ import { latestGroupedByCollection } from "akvaplan_fresh/search/search.ts";
 
 import { asset, Head } from "$fresh/runtime.ts";
 
+import { buildImageMapper } from "akvaplan_fresh/services/cloudinary.ts";
+import { searchImageAtoms } from "akvaplan_fresh/services/mynewsdesk.ts";
+import { Mini3ColGrid, Mini4ColGrid } from "../components/Mini3ColGrid.tsx";
+import { PageSection } from "../components/PageSection.tsx";
+//import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
+
 import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mod.ts";
 import type { Results } from "@orama/orama";
 import type { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
-import { buildImageMapper } from "akvaplan_fresh/services/cloudinary.ts";
-import { searchImageAtoms } from "akvaplan_fresh/services/mynewsdesk.ts";
-import { Mini3ColGrid } from "../components/Mini3ColGrid.tsx";
-import { PageSection } from "../components/PageSection.tsx";
-//import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
+import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
 };
-
-const { compare } = new Intl.Collator("no", { caseFirst: "upper" });
-const sortName = (a, b) => compare(a?.name, b?.name);
 
 export const _section = {
   marginTop: "2rem",
@@ -54,41 +54,37 @@ export const handler: Handlers = {
     const sitelang = extractLangFromUrl(req.url);
     lang.value = sitelang;
 
-    const news = await latestNewsFromMynewsdeskService({
+    const _news = await latestNewsFromMynewsdeskService({
       q: "",
       lang: sitelang,
       limit: 12,
     });
 
-    const images = (await searchImageAtoms({ q: "", limit: 15 }))
-      .map(buildImageMapper({ lang: sitelang }));
+    const news = _news.filter((n) => sitelang === n.hreflang);
+    const newsInAltLang = _news
+      .filter((n) => sitelang !== n.hreflang).slice(0, 4);
 
-    const services = (await getServicesLevel0FromExternalDenoService(sitelang))
-      .sort(sortName);
-
-    const topics = (await getResearchLevel0FromExternalService(sitelang)).sort(
-      sortName,
-    );
+    const services = await getServicesLevel0FromExternalDenoService(sitelang);
 
     const announce = await getValue(["announce", "home", sitelang]);
 
-    const results: Results<OramaAtom> = await latestGroupedByCollection([
-      "person",
-      "pubs",
-      "video",
-      "document",
-    ], 4);
+    // const results: Results<OramaAtom> = await latestGroupedByCollection([], 4);
+
+    // const images = (await searchImageAtoms({ q: "", limit: 15 }))
+    //   .map(buildImageMapper({ lang: sitelang }));
 
     const our = [
       "research",
+      "pubs",
       "projects",
       "images",
+      "video",
+      "documents",
     ];
 
     return ctx.render({
-      announce,
       news,
-      results,
+      newsInAltLang,
       services,
       our,
       lang,
@@ -100,10 +96,10 @@ export const handler: Handlers = {
 interface HomeData {
   announce: unknown;
   news: MynewsdeskArticle[];
-  results: OramaAtom;
+  newsInAltLang: MynewsdeskArticle[];
 
-  services: any;
-
+  results?: OramaAtom;
+  services: any[];
   our: any;
   lang: any;
   url: URL;
@@ -111,17 +107,16 @@ interface HomeData {
 export default function Home(
   {
     data: {
-      announce,
       news,
+      newsInAltLang,
       services,
-      //images,
+      announce,
       results,
       our,
       lang,
       url,
     },
   }: PageProps<HomeData>,
-  groupByCategory,
 ) {
   const maxVisNews = 5.5;
 
@@ -133,21 +128,20 @@ export default function Home(
         <script src={asset("/@nrk/core-scroll.min.js")} />
       </Head>
 
-      {
-        /* {announce
+      {announce
         ? <LinkBanner text={announce.text} href={announce.href} />
-        : null} */
-      }
+        : null}
 
-      <PageSection>
-        <CollectionHeader
-          text={t(`our.${lang}.articles`)}
-          href={intlRouteMap(lang).get("news")}
-        />
-        <HScroll maxVisibleChildren={maxVisNews}>
-          {news.map(ArticleSquare)}
-        </HScroll>
-      </PageSection>
+      <CollectionHeader
+        text={t(`our.${lang}.articles`)}
+        href={intlRouteMap(lang).get("news")}
+      />
+      <HScroll maxVisibleChildren={maxVisNews}>
+        {news.map(ArticleSquare)}
+      </HScroll>
+      <div style={{ background: "var(--surface0)" }}>
+        <Mini4ColGrid atoms={newsInAltLang} />
+      </div>
 
       <PageSection>
         <CollectionHeader
@@ -167,15 +161,7 @@ export default function Home(
       </PageSection>
 
       {
-        /* <PageSection>
-        <CollectionHeader collection="images" />
-        <HScroll maxVisibleChildren={maxVisNews}>
-          {images.map(ArticleSquare)}
-        </HScroll>
-      </PageSection> */
-      }
-
-      {results.groups.map(({ result: hits, values: [collection] }) => (
+        /* {results?.groups?.map(({ result: hits, values: [collection] }) => (
         <PageSection>
           <CollectionHeader
             collection={collection}
@@ -183,7 +169,8 @@ export default function Home(
           />
           <SearchResults hits={hits} />
         </PageSection>
-      ))}
+      ))} */
+      }
 
       <PageSection style={{ background: "var(--surface0)" }}>
         <OurPeople />

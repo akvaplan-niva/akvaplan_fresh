@@ -1,4 +1,4 @@
-import { searchViaApi } from "akvaplan_fresh/search/search.ts";
+import { searchViaApi } from "../search/search_via_api.ts";
 
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 

@@ -48,10 +48,7 @@ export const cloudinaryProxy = async (_req: Request, ctx: RouteContext) => {
   if (Number.isInteger(id) && id > 0) {
     const { document } = await getItem(id, "document");
 
-    // const url = new URL(
-    //   old/bad: `https://resources.mynewsdesk.com/image/upload/${id}`,
-    //   new: https://mnd-assets.mynewsdesk.com/image/upload/f_pdf/aencventw6gmbaxqaau5
-    // );
+    //pdf: https://mnd-assets.mynewsdesk.com/image/upload/f_pdf/aencventw6gmbaxqaau5
     const { body, headers, status, ok } = await fetch(document);
     if (!ok) {
       return ctx.renderNotFound();
@@ -78,3 +75,5 @@ export const cloudinaryImgUrl = (cloudinary: string, w = 512, h?: number) =>
   `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto${
     w ? `,w_${w}` : ""
   }${h ? `,h_${h}` : ""},q_auto:good/${cloudinary}`;
+
+// https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_96,q_auto:good,w_128/kqmqxucf3h4votizhwy7do

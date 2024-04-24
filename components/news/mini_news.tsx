@@ -5,13 +5,12 @@ import { type News } from "akvaplan_fresh/@interfaces/mod.ts";
 
 const newsItemStyle = {
   display: "grid",
-  padding: "var(--size-1)",
-  //fontSize: "var(--font-size-0)",
-  gap: "var(--size-4)",
+  //padding: "var(--size-1)",
+  gap: "var(--size-2)",
   alignItems: "center", // vertical
   minWidth: "340px",
-  maxWidth: "540px",
-  gridTemplateColumns: "128px auto",
+  maxWidth: "70ch",
+  gridTemplateColumns: "auto 1fr",
 };
 
 export const MiniNewsCard = (
@@ -36,7 +35,7 @@ export const MiniNewsCard = (
             alt={caption ?? title}
             title={caption ?? title}
             loading="lazy"
-            style={{ height: "96px", width: "auto" }}
+            style={{ height: "96px", width: "auto", minWidth: "96px" }}
           />
         </a>
       )}
@@ -50,7 +49,7 @@ export const MiniNewsCard = (
 
       <span style={{ color: "var(--text2)" }}>
         {published && <time>{isodate(published)}</time>}
-        {type && <span>{t(`type.${type}`)}</span>}
+
         {hreflang && hreflang !== lang
           ? (
             <span>

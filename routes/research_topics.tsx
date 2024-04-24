@@ -30,6 +30,7 @@ import {
 } from "$fresh/server.ts";
 
 import { asset, Head } from "$fresh/runtime.ts";
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -38,7 +39,7 @@ export const config: RouteConfig = {
 
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
-    const { params } = ctx;
+    const { params, url } = ctx;
     const { searchParams } = new URL(req.url);
 
     lang.value = params.lang;
@@ -84,11 +85,13 @@ export const handler: Handlers = {
       news: new Map([["ui.Read more", news.sort(sortLatest)]]),
       topic,
       grouped,
+      queries,
+      url,
     });
   },
 };
 
-export default function ServiceTopics(
+export default function ResearchTopics(
   {
     data: {
       lang,
@@ -98,9 +101,10 @@ export default function ServiceTopics(
       topics,
       news,
       topic,
-      searchwords,
+      queries,
       page,
       grouped,
+      url,
     },
   }: PageProps<
     unknown
@@ -120,16 +124,15 @@ export default function ServiceTopics(
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 18fr 1fr",
+            gridTemplateColumns: "1fr",
             gap: "1rem",
           }}
         >
-          <div></div>
           <Article>
             <ArticleHeader
               header={
                 <span>
-                  <a href=".">{t(`nav.Research`)}</a>: {research.name}
+                  {research.name}
                 </span>
               }
               image={research.img}
@@ -142,34 +145,17 @@ export default function ServiceTopics(
               <TopicSummary topic={topic} lang={lang.value} />
             </section>
           </Article>
-          <div>
-          </div>
         </div>
 
-        {[...news].slice(0, 3).map(([_name, children]) => (
-          <div style={{ marginBlockStart: "3rem" }}>
-            <HScroll maxVisibleChildren={5.5}>
-              {children.map(ArticleSquare)}
-            </HScroll>
-          </div>
-        ))}
-
-        <section>
-          <h1>{t("pubs.Research_pubs")}</h1>
-          <div style={{ fontSize: "1rem" }}>
-            {[...grouped].filter(() => true).map(([grpkey, grppubs]) => (
-              <div>
-                <h3>
-                  {grpkey}
-                </h3>
-                <NewsFilmStrip
-                  news={grppubs}
-                  lang={lang.value}
-                />
-              </div>
-            ))}
-          </div>
-        </section>
+        {
+          /* <GroupedSearch
+          term={queries.at(0)}
+          exclude={["person", "image", "document", "blog"]}
+          origin={url}
+          display={"block"}
+          noInput
+        /> */
+        }
       </div>
     </Page>
   );

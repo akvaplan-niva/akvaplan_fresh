@@ -4,6 +4,9 @@ type Svc = Record<string, string | number | string[]>;
 
 const _services = [];
 
+const { compare } = new Intl.Collator("no", { caseFirst: "upper" });
+const sortName = (a, b) => compare(a?.name, b?.name);
+
 export const getServicesFromExternalDenoService = async () => {
   const r = await fetch("https://svc.deno.dev/").catch(() => {});
   if (r?.ok) {
@@ -42,5 +45,5 @@ export const getServicesLevel0FromExternalDenoService = async (
   }));
 
   const svc = lang === "en" ? en0 : no0;
-  return svc;
+  return svc.sort(sortName);
 };
