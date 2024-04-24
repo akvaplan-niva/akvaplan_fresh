@@ -125,6 +125,7 @@ export default function ProjectHome(
   >,
 ) {
   const {
+    id,
     header,
     image,
     // image_small,
@@ -201,7 +202,8 @@ export default function ProjectHome(
         <h2>{t("project.Outreach")}</h2>
 
         <GroupedSearch
-          term={header}
+          term={`${header}`}
+          exact={true}
           exclude={["project", "image"]}
           origin={origin}
           noInput

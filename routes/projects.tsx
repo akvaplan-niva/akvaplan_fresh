@@ -75,10 +75,9 @@ export default function Projects(
 
       {[null, true, false].map((key) => (
         <PageSection>
-          <CollectionHeader
-            text={`${t(`project.Future.${key}`)} ${key === null ? year : ""}`}
-            href=""
-          />
+          <p style={{ fontSize: "1rem" }}>
+            {`${t(`project.Future.${key}`)} ${key === null ? year : ""}`}
+          </p>
           <Mini4ColGrid atoms={grouped.get(key)} />
         </PageSection>
       ))}

@@ -1,4 +1,7 @@
-import { oramaSortPublishedReverse } from "akvaplan_fresh/search/search.ts";
+import {
+  oramaSortPublishedReverse,
+  search,
+} from "akvaplan_fresh/search/search.ts";
 
 import _cristin_ids from "akvaplan_fresh/data/cristin_ids.json" with {
   type: "json",
@@ -90,7 +93,6 @@ export const handler: Handlers = {
     akvaplanist.bio = ``;
     const { given, family } = akvaplanist;
 
-    //./bin/kv_set '["@", "config", "nmi"]' '{"search":{"enabled":true,"exclude":["person","pubs"]},"cristin":{"enabled":true}}'
     const config =
       await getValue<typeof defaultAtConfig>(["@", "config", id]) ??
         defaultAtConfig;
@@ -105,9 +107,14 @@ export const handler: Handlers = {
       sortBy: oramaSortPublishedReverse,
       threshold: 0,
       facets: { collection: {} },
+      groupBy: {
+        properties: ["collection"],
+        maxResult: 5,
+      },
     };
-    const results = config.search.enabled === false ? undefined : undefined; //await search(params);
-    // FIXME Passing server-side results into GroupedSearch is broken: https://github.com/akvaplan-niva/akvaplan_fresh/issues/338
+    const results = config.search.enabled === false
+      ? undefined
+      : await search(params);
 
     const orama = { results, params };
 
@@ -155,6 +162,7 @@ export default function AtHome({ data }: PageProps<AtHome>) {
           term={orama.params.term}
           results={orama.results}
           exclude={config.search.exclude ?? ["person"]}
+          sort={"-published"}
           origin={url}
           noInput
         />
