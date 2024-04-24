@@ -23,7 +23,7 @@ export function Card({
         //margin: "0.25rem",
       }}
     >
-      {img ? <img src={img} alt="Card image cap" /> : null}
+      {img ? <img src={img} alt="" /> : null}
       {children}
     </div>
   );
