@@ -20,7 +20,6 @@ import { searchImageAtoms } from "akvaplan_fresh/services/mynewsdesk.ts";
 import { buildImageMapper } from "akvaplan_fresh/services/cloudinary.ts";
 import type { MynewsdeskImage } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { href } from "akvaplan_fresh/search/href.ts";
-import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
 import { collectionHref } from "akvaplan_fresh/services/mod.ts";
 import { AImg } from "../components/AImg.tsx";
 export const config: RouteConfig = {

@@ -73,7 +73,6 @@ export const searchNews = async (
 };
 export const latestNewsFromMynewsdeskService = async (params: Search) =>
   (await searchNews(params))
-    .filter(({ type }) => !["erratum"].includes(type))
     .sort((a, b) => b.published.localeCompare(a.published)).slice(
       0,
       params.limit ?? 128,

@@ -9,7 +9,7 @@ import {
 const extractID = (url: string) => url.split("/").at(-1);
 
 const thumbURL = (id: string, { w = 128, h = 96 } = {}) =>
-  `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_${h},q_auto:good,w_${w}/${id}`;
+  `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_${w}/${id}`;
 export const newsFromMynewsdesk = ({ lang }: NewsMapper) =>
 (
   {
@@ -35,6 +35,7 @@ export const newsFromMynewsdesk = ({ lang }: NewsMapper) =>
   img: image_thumbnail_large, //thumbURL(extractID(image ?? ""), { w: 512, h: 512 }),
   caption: image_caption ?? header,
   thumb: thumbURL(extractID(image ?? "")),
+  //cloudinary: extractID(image),
   type: type_of_media,
   rels,
 });

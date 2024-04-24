@@ -17,18 +17,18 @@ export interface Person {
   name?: string;
 }
 
-const locale = "no";
-
-const segmenter = new Intl.Segmenter(locale, {
-  granularity: "word",
-});
-
 export const extractNames = (
   s: string,
-) =>
-  [...segmenter.segment(s)].filter(({ isWordLike }) => isWordLike).map((s) =>
-    s.segment
-  );
+) => s.split(/\s/);
+
+// Still breaks in Firefox 125 …
+// const locale = "no";
+// const segmenter = new Intl.Segmenter(locale, {
+//   granularity: "word",
+// });
+// [...segmenter.segment(s)].filter(({ isWordLike }) => isWordLike).map((s) =>
+//   s.segment
+// );
 
 const first = (s: string) => {
   const [f] = s;
@@ -39,9 +39,10 @@ export const extractInitials = (
   s: string,
   num = -1,
 ) =>
-  [...segmenter.segment(s)].filter(({ isWordLike }) => isWordLike).map((s) =>
-    s.segment
-  ).map(first).map((c) => c.toLocaleUpperCase(locale)).slice(0, num);
+  extractNames(s)?.map(first)?.map((c) => c.toLocaleUpperCase(locale)).slice(
+    0,
+    num,
+  );
 
 export const toName = ({ given, family, name }: Person) =>
   name ? removePuncts(name) : removePuncts(`${given} ${family}`);

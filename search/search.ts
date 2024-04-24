@@ -7,7 +7,7 @@ import type {
 } from "akvaplan_fresh/search/types.ts";
 import { normalize } from "akvaplan_fresh/text/mod.ts";
 
-export const oramaSortPublishedReverse = {
+export const oramaSortPublishedReverse: SorterParams<OramaAtomSchema> = {
   property: "published",
   order: "DESC",
 };
@@ -42,45 +42,6 @@ export const search = async (
   //console.warn({ params });
   return await _search(orama, params) as Results<OramaAtom>;
 };
-export const searchViaApi = async (
-  { q, base, limit, where, groupBy, facets, sort }: {
-    q: string;
-    base: string;
-    sort: string;
-    limit: number;
-    where: unknown;
-    facets: unknown;
-    groupBy: string | false;
-  },
-) => {
-  base = base ?? globalThis?.document?.URL;
-  const url = new URL("/api/search", base);
-  const { searchParams } = url;
-  searchParams.set("q", q);
-  if (Number.isInteger(limit) && limit >= 0) {
-    searchParams.set("limit", String(limit));
-  }
-  if (groupBy !== false) {
-    searchParams.set("group-by", groupBy ?? "collection");
-  }
-  if (where) {
-    searchParams.set("where", JSON.stringify(where));
-  }
-  if (facets !== undefined) {
-    searchParams.set("facets", JSON.stringify(facets));
-  }
-  if (sort) {
-    console.warn("searchViaApi", "sort is not implemented, received", { sort });
-    //searchParams.set("sort", JSON.stringify(facets));
-  }
-  const r = await fetch(url);
-  const { status, ok } = r;
-  if (ok) {
-    return await r.json() as Results<OramaAtom>;
-  }
-  return { error: { status } };
-};
-
 export const latestGroupedByCollection = (
   collection: string[],
   maxResult = 3,
@@ -89,10 +50,7 @@ export const latestGroupedByCollection = (
     properties: ["collection"],
     maxResult,
   };
-  const sortBy: SorterParams<OramaAtomSchema> = {
-    property: "published",
-    order: "DESC",
-  };
+  const sortBy = oramaSortPublishedReverse;
   const where = { collection };
   return search({
     term: "",
