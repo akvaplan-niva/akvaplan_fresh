@@ -2,7 +2,7 @@ import type { Results } from "@orama/orama";
 import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 
 export const searchViaApi = async (
-  { q, base, limit, where, groupBy, facets, sort }: {
+  { q, base, limit, where, groupBy, facets, sort, exact, threshold }: {
     q: string;
     base: string;
     sort: string;
@@ -10,6 +10,8 @@ export const searchViaApi = async (
     where: unknown;
     facets: unknown;
     groupBy: string | false;
+    exact?: boolean;
+    threshold?: number;
   },
 ) => {
   base = base ?? globalThis?.document?.URL;
@@ -29,8 +31,10 @@ export const searchViaApi = async (
     searchParams.set("facets", JSON.stringify(facets));
   }
   if (sort) {
-    console.warn("searchViaApi", "sort is not implemented, received", { sort });
-    //searchParams.set("sort", JSON.stringify(facets));
+    searchParams.set("sort", sort);
+  }
+  if (exact === true) {
+    searchParams.set("exact", "true");
   }
   const r = await fetch(url);
   const { status, ok } = r;

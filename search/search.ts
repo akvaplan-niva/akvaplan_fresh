@@ -37,10 +37,13 @@ export const search = async (
   params: SearchParams<OramaAtomSchema>,
 ) => {
   const orama = await getOramaInstance();
-  params.term = normalize(params.term);
+  params.term = params.exact !== true ? normalize(params.term) : params.term;
   params.threshold = params.threshold ?? 0;
-  //console.warn({ params });
-  return await _search(orama, params) as Results<OramaAtom>;
+
+  //console.warn("orama search params", params);
+
+  const res = await _search(orama, params) as Results<OramaAtom>;
+  return res;
 };
 export const latestGroupedByCollection = (
   collection: string[],

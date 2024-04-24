@@ -56,12 +56,15 @@ export default function GroupedSearch(
     lang,
     collection,
     origin,
-
+    limit = 5,
     display = "grid",
     exclude = [],
     results,
+    sort,
+    first = false,
     noInput = false,
     noDetails = false,
+    exact = false,
   }: {
     term?: string;
     lang?: string;
@@ -71,19 +74,32 @@ export default function GroupedSearch(
   { url }: { url: URL },
 ) {
   const query = useSignal(term);
-  const limit = useSignal(5);
+  limit = useSignal(limit);
   const groups = useSignal(results ? results.groups : []);
   const facets = useSignal(new Map());
-  const sort = useSignal(null);
-  const first = useSignal(true);
-  display = useSignal(display);
+  sort = useSignal(sort);
 
+  display = useSignal(display);
   const remoteStatus = useSignal({ status: 0 });
+
+  if (results?.facets?.collection) {
+    for (
+      const [collection, count] of Object.entries(
+        results?.facets?.collection?.values,
+      )
+    ) {
+      facets.value.set(collection, count);
+    }
+  }
+
+  first = useSignal(first);
 
   const performSearch = async (
     { q, ...params }: { q: string },
   ) => {
     query.value = q;
+    params.exact = params.exact ?? exact;
+    params.sort = params.sort ?? sort.value;
 
     const results = await searchViaApi({ q, ...params, limit: limit.value });
     const { error } = results;
@@ -132,6 +148,7 @@ export default function GroupedSearch(
   if (first.value === true && query?.value?.length > 0) {
     first.value = false;
     const q = query.value;
+    console.warn("FIRST");
     performSearch({ q, base: origin, where: { collection } });
   }
 
