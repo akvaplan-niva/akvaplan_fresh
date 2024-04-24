@@ -5,7 +5,6 @@ import { ArticleSquare, HScroll, Page } from "akvaplan_fresh/components/mod.ts";
 
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 import { monthname } from "akvaplan_fresh/time/mod.ts";
-import { groupIntoMap } from "akvaplan_fresh/grouping/mod.ts";
 
 import {
   type FreshContext,
@@ -18,7 +17,7 @@ export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(news|nyheter)",
 };
 
-import { MynewsdeskItem } from "../@interfaces/mynewsdesk.ts";
+import { MynewsdeskArticle } from "../@interfaces/mynewsdesk.ts";
 import { asset, Head } from "$fresh/runtime.ts";
 type Props = {};
 const _section = {
@@ -26,12 +25,6 @@ const _section = {
   marginBottom: "6rem",
 };
 
-// const quarters = (published) => {
-//   const t = new Date(published);
-//   const year = t.getFullYear();
-//   const quarter = "Q" + t.getMonth() / 12;
-//   return `${year}-H${quarter}`;
-// };
 export const handler: Handlers<Props> = {
   async GET(req: Request, ctx: FreshContext) {
     const { params } = ctx;
@@ -47,7 +40,7 @@ export const handler: Handlers<Props> = {
       await searchNewsArticles({ q, lang: lang.value, limit: 48 }) ??
         { items: [] };
 
-    const news = groupIntoMap(
+    const news = Map.groupBy(
       _news,
       ({ published }) => published.substring(0, 7),
     );

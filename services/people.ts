@@ -9,7 +9,7 @@ import {
   buildContainsFilter,
   buildExactFilter,
 } from "akvaplan_fresh/search/filter.ts";
-import { groupIntoMap } from "akvaplan_fresh/grouping/mod.ts";
+
 import { normalize as n } from "akvaplan_fresh/text/mod.ts";
 import { familyAlias, givenAliasMap } from "./person.ts";
 export const newsOnPerson = async (
@@ -104,7 +104,7 @@ export const pubsFromPerson = async (
 export const pubsFromPersonGroupedByYear = async (
   { person, lang, limit },
 ) =>
-  groupIntoMap(
+  Map.groupBy(
     await pubsFromPerson({ person, lang, limit }),
     ({ published }) => published?.substring(0, 4),
   );

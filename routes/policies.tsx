@@ -34,10 +34,6 @@ export const handler: Handlers<InternationalProps> = {
       type_of_media: "documents",
     }) ?? [];
 
-    // const news = groupIntoMap(
-    //   _news,
-    //   ({ published }) => published.substring(0, 7),
-    // );
     const _docs = q?.length > 1
       ? items
       : items.filter(({ summary, document_format }: MynewsdeskItem) =>

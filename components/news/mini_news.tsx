@@ -3,23 +3,36 @@ import { ApnSym, Icon, MiniCard } from "akvaplan_fresh/components/mod.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 import { type News } from "akvaplan_fresh/@interfaces/mod.ts";
 
-const newsItemStyle = {
+const newsItemStyle = ({ type }) => ({
   display: "grid",
   //padding: "var(--size-1)",
   gap: "var(--size-2)",
   alignItems: "center", // vertical
   minWidth: "340px",
   maxWidth: "70ch",
-  gridTemplateColumns: "auto 1fr",
-};
+  gridTemplateColumns: `${
+    ["news", "pressrelease"].includes(type) ? "auto" : "128px"
+  } 1fr`,
+});
 
 export const MiniNewsCard = (
-  { img, name, title, caption, href, published, type, hreflang, lang }:
+  {
+    img,
+    name,
+    title,
+    caption,
+    href,
+    published,
+    duration,
+    type,
+    hreflang,
+    lang,
+  }:
     & HTMLElement
     & News,
 ) => (
   <li
-    style={newsItemStyle}
+    style={newsItemStyle({ type })}
   >
     {type === "person" || !img
       ? (
@@ -48,7 +61,8 @@ export const MiniNewsCard = (
       />
 
       <span style={{ color: "var(--text2)" }}>
-        {published && <time>{isodate(published)}</time>}
+        {published && !duration && <time>{isodate(published)}</time>}
+        {duration && <time>{duration}</time>}
 
         {hreflang && hreflang !== lang
           ? (
