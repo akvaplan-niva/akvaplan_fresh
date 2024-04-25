@@ -30,6 +30,7 @@ import {
 
 import { asset, Head } from "$fresh/runtime.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -120,42 +121,34 @@ export default function ResearchTopics(
         <script src={asset("/@nrk/core-scroll.min.js")} />
       </Head>
       <div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr",
-            gap: "1rem",
-          }}
-        >
-          <Article>
-            <ArticleHeader
-              header={
-                <span>
-                  {research.name}
-                </span>
-              }
-              image={research.img}
-              imageCaption={""}
-            />
-            <div>
-              <PersonCard id={research.contact_id} />
-            </div>
-            <section>
-              <TopicSummary topic={topic} lang={lang.value} />
-            </section>
-          </Article>
-        </div>
-
-        {
-          /* <GroupedSearch
-          term={queries.at(0)}
-          exclude={["person", "image", "document", "blog"]}
-          origin={url}
-          display={"block"}
-          noInput
-        /> */
-        }
+        <Article>
+          <ArticleHeader
+            header={
+              <span>
+                {research.name}
+              </span>
+            }
+            image={research.img}
+            imageCaption={""}
+          />
+          <div>
+            <PersonCard id={research.contact_id} />
+          </div>
+          <section>
+            <TopicSummary topic={topic} lang={lang.value} />
+          </section>
+        </Article>
       </div>
+
+      <PageSection>
+        <GroupedSearch
+          term={queries.at(0)}
+          sort="-published"
+          exclude={["person", "image", "document", "blog", "pubs"]}
+          origin={url}
+          noInput
+        />
+      </PageSection>
     </Page>
   );
 }

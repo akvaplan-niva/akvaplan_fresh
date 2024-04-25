@@ -31,6 +31,7 @@ export default async function ResearchPage(req: Request, ctx: RouteContext) {
           term={`research`}
           //results={results}
           first={true}
+          sort="-published"
           exclude={["person", "image", "document", "blog", "pubs", "video"]}
           origin={url}
           display={"block"}
