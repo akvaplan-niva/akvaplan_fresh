@@ -9,9 +9,6 @@ import {
   PeopleCard,
 } from "akvaplan_fresh/components/mod.ts";
 
-import HScrollWithDynamicImage from "akvaplan_fresh/islands/HScrollWithDynamicImage.tsx";
-import { OurServices } from "../islands/our_x.tsx";
-
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
@@ -21,6 +18,7 @@ import {
   type RouteConfig,
 } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(services|tjenester)",
 };
@@ -36,7 +34,7 @@ const _header = {
 
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
-    const { params } = ctx;
+    const { params, url } = ctx;
     const { searchParams } = new URL(req.url);
     lang.value = params.lang;
 
@@ -54,12 +52,12 @@ export const handler: Handlers = {
     const people = await buildAkvaplanistMap();
     const contacts = new Map([["lab", "mfr"]]);
 
-    return ctx.render({ lang, title, base, services, people, contacts });
+    return ctx.render({ lang, title, base, services, people, contacts, url });
   },
 };
 
 export default function Services(
-  { data: { lang, title, base, services, people, contacts } }: PageProps<
+  { data: { lang, title, base, services, people, contacts, url } }: PageProps<
     unknown
   >,
 ) {
@@ -90,69 +88,17 @@ export default function Services(
           <p>{t("services.accreditations.Intro")}</p>
         </Card>
         <Accreditations lang={lang.value} />
-        {
-          /* <PeopleCard person={people.get("kaj")} lang={lang} />
-        <PeopleCard person={people.get("khs")} lang={lang} />
-        <PeopleCard person={people.get("krs")} lang={lang} />
-        <PeopleCard person={people.get("lit")} lang={lang} /> */
-        }
+        <GroupedSearch
+          term={`akvaplan-niva`}
+          //results={results}
+          first={true}
+          sort="-published"
+          collection={["pressrelease"]}
+          origin={url}
+          display={"block"}
+          noInput
+        />
       </section>
     </Page>
   );
-}
-
-{
-  /* <section style={_section}>
-<Card>
-  <h1>{t("services.lab.Header")}</h1>
-  <p>{t("services.lab.Intro")}</p>
-</Card>
-<PeopleCard id={contacts.get("lab")} lang={lang} />
-<PeopleCard person={people.get("tri")} lang={lang} />
-</section>
-
-<section style={_section}>
-<Card>
-  <h1>{t("services.autonomous.Header")}</h1>
-  <p>{t("services.autonomous.Intro")}</p>
-</Card>
-<PeopleCard person={people.get("lca")} lang={lang} />
-<PeopleCard person={people.get("mth")} lang={lang} />
-</section>
-
-<section style={_section}>
-<Card>
-  <h1>
-    {t("services.consult.Header")}
-  </h1>
-  <p>{t("services.consult.Intro")}</p>
-</Card>
-<PeopleCard person={people.get("cst")} lang={lang} />
-<PeopleCard person={people.get("lhl")} lang={lang} />
-<PeopleCard person={people.get("ksa")} lang={lang} />
-</section>
-
-<section style={_section}>
-<Card>
-  <h1>
-    {t("services.oceanography.Header")}
-  </h1>
-  <p>{t("services.oceanography.Intro")}</p>
-</Card>
-<PeopleCard person={people.get("mad")} lang={lang} />
-</section>
-
-<section style={_section}>
-<Card>
-  <h1>
-    {t("services.aquaculture.Header")}
-  </h1>
-  <p>{t("services.aquaculture.Intro")}</p>
-</Card>
-
-<PeopleCard person={people.get("atf")} lang={lang} />
-<PeopleCard person={people.get("aki")} lang={lang} />
-<PeopleCard person={people.get("crs")} lang={lang} />
-<PeopleCard person={people.get("los")} lang={lang} />
-</section> */
 }

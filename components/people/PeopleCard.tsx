@@ -72,7 +72,13 @@ export function PeopleCard(
       />{" "}
       {prior === true && <span>{t("people.akvaplanist(prior)")}</span>}
       <span class="people-position">
-        {person?.position?.[lang]}
+        {position?.[lang]}
+        {responsibility?.[lang] && (
+          <span>
+            <br />
+            {responsibility?.[lang]}
+          </span>
+        )}
       </span>
 
       <div class="people-workplace">

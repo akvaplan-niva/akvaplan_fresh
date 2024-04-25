@@ -28,14 +28,15 @@ export default async function ResearchPage(req: Request, ctx: RouteContext) {
       <Mini4ColGrid atoms={topics} />{" "}
       <PageSection>
         <GroupedSearch
-          term={`research`}
+          term={"forskning science vitenskap"}
           //results={results}
           first={true}
           sort="-published"
-          exclude={["person", "image", "document", "blog", "pubs", "video"]}
+          collection={["news", "pressrelease", "blog", "video"]}
           origin={url}
+          threshold={0.1}
           display={"block"}
-          noInput
+          //noInput
         />
       </PageSection>
     </Page>

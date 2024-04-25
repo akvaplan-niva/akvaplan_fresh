@@ -30,12 +30,16 @@ export const searchViaApi = async (
   if (facets !== undefined) {
     searchParams.set("facets", JSON.stringify(facets));
   }
+  if (threshold) {
+    searchParams.set("threshold", threshold);
+  }
   if (sort) {
     searchParams.set("sort", sort);
   }
   if (exact === true) {
     searchParams.set("exact", "true");
   }
+  //console.warn([...searchParams]);
   const r = await fetch(url);
   const { status, ok } = r;
   if (ok) {
