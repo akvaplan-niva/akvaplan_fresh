@@ -14,8 +14,8 @@ export const getAkvaplanistsFromDenoService = async (): Promise<
   Akvaplanist[]
 > => {
   console.warn("FETCH", base);
-  const r = await fetch(base);
-  if (r.ok) {
+  const r = await fetch(base).catch((e) => console.error(e));
+  if (r?.ok) {
     const empl = await r.json();
     return empl.map((p: Akvaplanist) => {
       if (!p.email) {

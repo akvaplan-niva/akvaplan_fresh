@@ -118,26 +118,23 @@ export const handler: Handlers = {
 
     const orama = { results, params };
 
-    const cristin: { works: any[]; id?: number } = {
-      works: [],
+    const cristin: { works?: any[]; id?: number } = {
       id: crid.has(id) ? crid.get(id) as number : undefined,
     };
 
     if (config.cristin.enabled || searchParams.has("cristin")) {
-      const works = await getWorks(cristin.id);
+      const _works = await getWorks(cristin.id);
       const { rejectCategories } = {
         ...defaultAtConfig.cristin,
         ...config.cristin,
       };
-      cristin.works = works
+      const works = _works
         .filter(({ category: { code } }) =>
           false === rejectCategories.includes(code)
         );
-      // const cristinDois = new Set(
-      //   cristin.works?.map((w) =>
-      //     w?.links?.find(({ url }) => url && /doi\.org\//i.test(url))
-      //   ).filter((l) => l !== undefined).map(({ url }) => url),
-      // );
+      if (works?.length > 0) {
+        cristin.works = works;
+      }
     }
 
     return ctx.render({ akvaplanist, at, url, config, cristin, orama });
@@ -168,7 +165,7 @@ export default function AtHome({ data }: PageProps<AtHome>) {
         />
       )}
 
-      {cristin.id && cristin.works?.length === 0 && (
+      {cristin.id && !cristin.works && (
         <p style={{ fontSize: "0.75rem" }}>
           <a href={`?cristin#cristin`}>
             {t("cristin.Show_works_from_Cristin")}
@@ -176,7 +173,7 @@ export default function AtHome({ data }: PageProps<AtHome>) {
         </p>
       )}
 
-      {cristin.id && cristin.works?.length > 0 && (
+      {cristin.id && cristin.works && (
         <>
           <header
             style={{ paddingBlockStart: "1rem", paddingBlockEnd: "0.5rem" }}

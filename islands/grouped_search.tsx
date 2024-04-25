@@ -61,7 +61,7 @@ export default function GroupedSearch(
     exclude = [],
     results,
     sort,
-    first = false,
+    first = true,
     noInput = false,
     noDetails = false,
     exact = false,
@@ -144,11 +144,10 @@ export default function GroupedSearch(
     e.preventDefault();
   };
 
-  //Handle search via URL query (on first load)
-  if (first.value === true && query?.value?.length > 0) {
+  // Handle client side search via URL (on first load)
+  if (!results && first.value === true && query?.value?.length > 0) {
     first.value = false;
     const q = query.value;
-    console.warn("FIRST");
     performSearch({ q, base: origin, where: { collection } });
   }
 
