@@ -7,7 +7,7 @@ import { InputSearch } from "../components/search/InputSearch.tsx";
 import Button from "akvaplan_fresh/components/button/button.tsx";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 
-import { useSignal } from "@preact/signals";
+import { computed, useSignal } from "@preact/signals";
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 import { href } from "akvaplan_fresh/search/href.ts";
 import { GroupedSearchCollectionResults } from "akvaplan_fresh/islands/grouped_search_collection_results.tsx";
@@ -57,6 +57,7 @@ export default function GroupedSearch(
     collection,
     origin,
     limit = 5,
+    threshold,
     display = "grid",
     exclude = [],
     results,
@@ -100,6 +101,8 @@ export default function GroupedSearch(
     query.value = q;
     params.exact = params.exact ?? exact;
     params.sort = params.sort ?? sort.value;
+    params.threshold = threshold ?? undefined;
+    params.where = collection ? { collection } : undefined;
 
     const results = await searchViaApi({ q, ...params, limit: limit.value });
     const { error } = results;
