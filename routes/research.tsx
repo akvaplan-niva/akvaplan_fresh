@@ -36,7 +36,7 @@ export default async function ResearchPage(req: Request, ctx: RouteContext) {
           origin={url}
           threshold={0.1}
           display={"block"}
-          //noInput
+          noInput
         />
       </PageSection>
     </Page>
