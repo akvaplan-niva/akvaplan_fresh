@@ -1,4 +1,6 @@
+import { search } from "akvaplan_fresh/search/search.ts";
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
+
 import { Page } from "akvaplan_fresh/components/mod.ts";
 import GroupedSearch from "../islands/grouped_search.tsx";
 
@@ -21,7 +23,7 @@ export const config: RouteConfig = {
 };
 
 export const handler: Handlers = {
-  GET(req: Request, ctx: FreshContext) {
+  async GET(req: Request, ctx: FreshContext) {
     const { params } = ctx;
     lang.value = params.lang;
     const title = t("nav.Search");
@@ -30,17 +32,24 @@ export const handler: Handlers = {
     const { searchParams } = ctx.url;
     const q = searchParams.get("q") ?? "";
     const { origin } = new URL(req.url);
-    const data = { lang, title, base, q, origin };
+    const results = await search({ term: q });
+    const data = { lang, title, base, q, origin, results };
+    console.warn(data);
     return ctx.render(data);
   },
 };
 
 export default function Search(
-  { data: { title, lang, base, q, origin } }: PageProps<Data>,
+  { data: { title, lang, base, q, origin, results } }: PageProps<Data>,
 ) {
   return (
     <Page title={title} base={base}>
-      <GroupedSearch lang={lang} term={q} origin={origin} />
+      <GroupedSearch
+        lang={lang}
+        term={q}
+        origin={origin}
+        results={results}
+      />
     </Page>
   );
 }

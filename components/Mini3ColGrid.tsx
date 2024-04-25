@@ -10,7 +10,7 @@ export const Mini3ColGrid = (
       fontSize: ".75rem",
     }}
   >
-    {atoms.map(MiniNewsCard)}
+    {atoms?.map(MiniNewsCard)}
   </div>
 );
 
@@ -24,6 +24,6 @@ export const Mini4ColGrid = (
       fontSize: ".75rem",
     }}
   >
-    {atoms.map(MiniNewsCard)}
+    {atoms?.map(MiniNewsCard)}
   </div>
 );

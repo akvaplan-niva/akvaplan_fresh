@@ -29,6 +29,8 @@ export default async function ResearchPage(req: Request, ctx: RouteContext) {
       <PageSection>
         <GroupedSearch
           term={`research`}
+          //results={results}
+          first={true}
           exclude={["person", "image", "document", "blog", "pubs", "video"]}
           origin={url}
           display={"block"}
