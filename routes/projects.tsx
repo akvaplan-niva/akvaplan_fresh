@@ -13,7 +13,7 @@ import { CollectionHeader, Page } from "akvaplan_fresh/components/mod.ts";
 import { Mini4ColGrid } from "akvaplan_fresh/components/Mini3ColGrid.tsx";
 import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
 import { MynewsdeskEvent } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import {
+import type {
   FreshContext,
   Handlers,
   PageProps,
@@ -23,15 +23,27 @@ export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(projects|project|prosjekter|prosjekt)",
 };
 
+const [FRESH, ENDING, ONGOING, PAST] = [
+  "fresh",
+  "ending",
+  "ongoing",
+  "past",
+] as const;
+
 const year = new Date().getFullYear();
 
-const groupEndingFuturePast = ({ end }: { end: Date | string }) => {
+const groupFreshEndingFuturePast = (
+  { end, start }: MynewsdeskEvent,
+) => {
   const endYear = new Date(end).getFullYear();
+  const startYear = new Date(start).getFullYear();
   switch (true) {
+    case startYear === year:
+      return FRESH;
     case endYear === year:
-      return null;
+      return ENDING;
     default:
-      return endYear > year;
+      return endYear > year ? ONGOING : PAST;
   }
 };
 
@@ -43,10 +55,11 @@ export const handler: Handlers = {
     const type_of_media = "event";
 
     const url = searchURL("", type_of_media, { limit: 100, strict: true });
+
     const props = extractRenderProps(req, ctx);
     const { lang } = props;
 
-    const r = await fetch(url);
+    const r = await fetch(url).catch((e) => console.error(e));
     const { search_result: { items } } = await r?.json() ?? [];
 
     const projects = items
@@ -55,7 +68,7 @@ export const handler: Handlers = {
 
     const grouped = Map.groupBy<boolean | null, MynewsdeskEvent>(
       projects,
-      groupEndingFuturePast,
+      groupFreshEndingFuturePast,
     );
 
     const title = t(`nav.Projects`);
@@ -73,10 +86,10 @@ export default function Projects(
     <Page title={title} base={base}>
       <CollectionHeader text={t(`our.projects`)} />
 
-      {[null, true, false].map((key) => (
+      {[FRESH, ENDING, ONGOING, PAST].map((key) => (
         <PageSection>
           <p style={{ fontSize: "1rem" }}>
-            {`${t(`project.Future.${key}`)} ${key === null ? year : ""}`}
+            {t(`project.Lifecycle.${key}`)}
           </p>
           <Mini4ColGrid atoms={grouped.get(key)} />
         </PageSection>
