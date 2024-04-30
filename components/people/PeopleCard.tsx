@@ -21,6 +21,20 @@ interface PeopleProps {
 }
 const people = await buildAkvaplanistMap();
 
+const isExpired = ({ expired }) => {
+  if (!expired) {
+    return false;
+  }
+  return new Date() >= new Date(expired) ? true : false;
+};
+
+const isPrior = ({ expired, prior }) => {
+  if (prior === true) {
+    return true;
+  }
+  return isExpired({ expired });
+};
+
 export function PeopleCard(
   {
     person,
@@ -45,6 +59,7 @@ export function PeopleCard(
     management,
     responsibility,
     prior,
+    expired,
   } = person ?? {};
 
   return (
@@ -68,87 +83,92 @@ export function PeopleCard(
       <UseApnSym
         width="2rem"
         height="2rem"
-        style={prior === true ? { filter: "grayscale(1)" } : {}}
+        style={isPrior(person) ? { filter: "grayscale(1)" } : {}}
       />{" "}
-      {prior === true && <span>{t("people.akvaplanist(prior)")}</span>}
-      <span class="people-position">
-        {position?.[lang]}
-        {responsibility?.[lang] && (
+      {isExpired(person)
+        ? <span>{t("people.akvaplanist(prior)")}</span>
+        : (
           <span>
-            <br />
-            {responsibility?.[lang]}
+            <span class="people-position">
+              {position?.[lang]}
+              {responsibility?.[lang] && (
+                <span>
+                  <br />
+                  {responsibility?.[lang]}
+                </span>
+              )}
+            </span>
+
+            <div class="people-workplace">
+              {management === true && (
+                <a
+                  class="people-workplace"
+                  href={`${peopleURL({ lang })}/management`}
+                >
+                  {t("people.Management")}
+                </a>
+              )}
+            </div>
+
+            <div class="people-workplace">
+              {section && section !== "LEDELS"
+                ? (
+                  <a
+                    style={{ color: "var(--text2)" }}
+                    href={`${peopleURL({ lang })}/section/${
+                      section.toLocaleLowerCase("no")
+                    }`}
+                  >
+                    {t(`section.${section}`)}
+                  </a>
+                )
+                : null}
+            </div>
+            {workplace?.length > 0 && (
+              <div class="people-workplace">
+                <a
+                  href={`${peopleURL({ lang })}/workplace/${
+                    workplace.toLocaleLowerCase("no")
+                  }`}
+                  style={{ color: "var(--text2)" }}
+                >
+                  {workplace}
+                </a>
+              </div>
+            )}
+
+            <p style={{ marginTop: "1rem" }}></p>
+            {icons && (
+              <div class="people-workplace">
+                {tel && (
+                  <span>
+                    <a
+                      href={`tel:${tel}`}
+                      style={{ color: "var(--text2)" }}
+                    >
+                      <Icon name="phone_in_talk">
+                      </Icon>
+
+                      {[...tel].map((c, i) => i % 2 ? c : `${c} `)}
+                    </a>
+                  </span>
+                )}
+              </div>
+            )}
+            {icons && (
+              <div class="people-workplace">
+                {email && (
+                  <a
+                    href={`mailto:${email}`}
+                    style={{ color: "var(--text2)" }}
+                  >
+                    <Icon name="contact_mail" /> {email}
+                  </a>
+                )}
+              </div>
+            )}
           </span>
         )}
-      </span>
-
-      <div class="people-workplace">
-        {management === true && (
-          <a
-            class="people-workplace"
-            href={`${peopleURL({ lang })}/management`}
-          >
-            {t("people.Management")}
-          </a>
-        )}
-      </div>
-
-      <div class="people-workplace">
-        {section && section !== "LEDELS"
-          ? (
-            <a
-              style={{ color: "var(--text2)" }}
-              href={`${peopleURL({ lang })}/section/${
-                section.toLocaleLowerCase("no")
-              }`}
-            >
-              {t(`section.${section}`)}
-            </a>
-          )
-          : null}
-      </div>
-      {workplace?.length > 0 && (
-        <div class="people-workplace">
-          <a
-            href={`${peopleURL({ lang })}/workplace/${
-              workplace.toLocaleLowerCase("no")
-            }`}
-            style={{ color: "var(--text2)" }}
-          >
-            {workplace}
-          </a>
-        </div>
-      )}
-
-      <p style={{ marginTop: "1rem" }}></p>
-      {icons && (
-        <div class="people-workplace">
-          {tel && (
-            <span>
-              <a
-                href={`tel:${tel}`}
-                style={{ color: "var(--text2)" }}
-              >
-                <Icon name="phone_in_talk">
-                </Icon>
-
-                {[...tel].map((c, i) => i % 2 ? c : `${c} `)}
-              </a>
-            </span>
-          )}
-        </div>
-      )}
-      {icons && (
-        <div class="people-workplace">
-          {email && (
-            <a
-              href={`mailto:${email}`}
-              style={{ color: "var(--text2)" }}
-            >
-              <Icon name="contact_mail" /> {email}
-            </a>
-          )}
-        </div>
-      )}
     </Card>
   );
 }
