@@ -29,6 +29,8 @@ import {
   findCustomerServiceByTopic,
   getCustomerService,
 } from "akvaplan_fresh/kv/customer_services.ts";
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+import Editable from "akvaplan_fresh/islands/editable.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -38,7 +40,7 @@ export const config: RouteConfig = {
 
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
-    const { params } = ctx;
+    const { params, url } = ctx;
     const { searchParams } = new URL(req.url);
 
     lang.value = params.lang;
@@ -52,6 +54,7 @@ export const handler: Handlers = {
     }
     const { en, no } = service;
     service.name = params.lang === "en" ? en ?? no : no ?? en;
+    const edit = searchParams.has("edit");
 
     const topic = params.lang === "en" ? service.topic : service.tema;
     const base = `/${params.lang}/${params.page}/${params.groupname}`;
@@ -77,6 +80,9 @@ export const handler: Handlers = {
       service,
       news: new Map([["ui.Read more", news.sort(sortLatest)]]),
       topic,
+      queries,
+      url,
+      edit,
     });
   },
 };
@@ -94,8 +100,10 @@ export default function ServiceTopics(
       topics,
       news,
       topic,
-      searchwords,
+      queries,
       page,
+      url,
+      edit,
     },
   }: PageProps<
     unknown
@@ -103,7 +111,8 @@ export default function ServiceTopics(
 ) {
   const width = 512;
   const height = 512;
-
+  const sort = undefined;
+  const handleServiceDescInput = (e) => console.log(e);
   return (
     <Page title={title} base={base} collection="services">
       <Head>
@@ -129,9 +138,14 @@ export default function ServiceTopics(
               image={service?.img ?? service?.img512}
               imageCaption={""}
             />
-
             <section>
-              <ServiceTopicDesc topic={topic} lang={lang.value} />
+              {edit
+                ? (
+                  <Editable key={["service"]}>
+                    <ServiceTopicDesc topic={topic} lang={lang.value} />
+                  </Editable>
+                )
+                : <ServiceTopicDesc topic={topic} lang={lang.value} />}
             </section>
 
             <section class="article-content">
@@ -139,6 +153,7 @@ export default function ServiceTopics(
             </section>
           </Article>
         </div>
+
         {[...news].slice(0, 3).map(([_name, children]) => (
           <div style={{ marginBlockStart: "3rem" }}>
             <HScroll maxVisibleChildren={5.5}>
@@ -147,6 +162,14 @@ export default function ServiceTopics(
           </div>
         ))}
       </div>
+      <GroupedSearch
+        term={queries.join(", ")}
+        sort={sort}
+        origin={url}
+        threshold={0.5}
+        exclude={["image", "pubs", "blog"]}
+        noInput={edit === false}
+      />
     </Page>
   );
 }

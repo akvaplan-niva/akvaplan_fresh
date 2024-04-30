@@ -7,11 +7,12 @@ import { InputSearch } from "../components/search/InputSearch.tsx";
 import Button from "akvaplan_fresh/components/button/button.tsx";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 
-import { computed, useSignal } from "@preact/signals";
+import { computed, Signal, useSignal } from "@preact/signals";
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 import { href } from "akvaplan_fresh/search/href.ts";
 import { GroupedSearchCollectionResults } from "akvaplan_fresh/islands/grouped_search_collection_results.tsx";
 import { HAlbum } from "akvaplan_fresh/components/mod.ts";
+import { SignalLike } from "akvaplan_fresh/@interfaces/signal.ts";
 
 const detailsOpen = (collection: string) => true;
 // ["image", "document", "video", "blog", "pubs"].includes(collection)
@@ -64,13 +65,16 @@ export default function GroupedSearch(
     sort,
     first = true,
     noInput = false,
-    noDetails = false,
     exact = false,
   }: {
     term?: string;
     lang?: string;
     origin?: string;
-    collection?: string;
+    collection?: string[] | string;
+    sort?: string;
+    limit?: number;
+    threshold?: number;
+    exact?: boolean;
   },
   { url }: { url: URL },
 ) {
@@ -140,7 +144,7 @@ export default function GroupedSearch(
     const { selected, value, ownerDocument, dataset: { collection, action } } =
       target;
     const { origin } = new URL(ownerDocument.URL);
-    limit.value += 20;
+    limit.value += 10;
     const q = query.value;
     const where = { collection };
     performSearch({ q, base: origin, limit: limit.value, where });
@@ -227,7 +231,7 @@ export default function GroupedSearch(
         {remoteStatus.value.status > 299
           ? (
             <p>
-              {t("ui.search.Error_search_currently_unavailable")}
+              {/* {t("ui.search.Error_search_currently_unavailable")} */}
             </p>
           )
           : null}
@@ -243,7 +247,6 @@ export default function GroupedSearch(
                 collection={values?.[0]}
                 count={facetCountCollection(values?.[0])}
                 display={display}
-                noDetails={noDetails}
                 open={isOpen(values?.[0])}
               >
                 <SearchControls

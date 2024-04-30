@@ -1,4 +1,7 @@
-import { getResearchLevel0FromExternalService } from "akvaplan_fresh/services/research.ts";
+import _research from "akvaplan_fresh/data/orama/2024-04-30_research_topics.json" with {
+  type: "json",
+};
+//import { getResearchLevel0FromExternalService } from "akvaplan_fresh/services/research.ts";
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
@@ -9,6 +12,7 @@ import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
 import { ResearchIntro } from "../components/ResearchIntro.tsx";
 
 import type { RouteConfig, RouteContext } from "$fresh/server.ts";
+import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(research|forskning)",
@@ -18,26 +22,32 @@ export default async function ResearchPage(req: Request, ctx: RouteContext) {
   const { params, url } = ctx;
   lang.value = params.lang;
 
-  const title = t("nav.Research");
+  const title = t("our.research");
   const base = `/${params.lang}/${params.page}/`;
-  const topics = await getResearchLevel0FromExternalService(params.lang);
+  const hits = _research.map(({ published, ...r }) => r).map((document) => ({
+    document,
+  }));
 
   return (
     <Page title={title} base={base} collection="home">
       <CollectionHeader text={t(`our.research`)} />
-      <Mini4ColGrid atoms={topics} />{" "}
+
+      <SearchResults
+        hits={hits}
+      />
       <PageSection>
-        <GroupedSearch
+        {
+          /* <GroupedSearch
           term={"forskning science vitenskap"}
-          //results={results}
           first={true}
-          sort="-published"
           collection={["news", "pressrelease", "blog", "video"]}
           origin={url}
           threshold={0.1}
-          display={"block"}
+          display={"grid"}
+          limit={2}
           noInput
-        />
+        /> */
+        }
       </PageSection>
     </Page>
   );

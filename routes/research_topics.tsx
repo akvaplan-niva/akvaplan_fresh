@@ -32,20 +32,46 @@ import { asset, Head } from "$fresh/runtime.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
 
+// export const config: RouteConfig = {
+//   routeOverride:
+//     "/:lang(en|no)/:page(research|forskning){/:groupname(topic|topics|tema)}?/:topic",
+// };
+
+import _research from "akvaplan_fresh/data/orama/2024-04-30_research_topics.json" with {
+  type: "json",
+};
+import { search } from "akvaplan_fresh/search/search.ts";
+// Legacy:
+// https://akvaplan.no/no/forskning/tema/akvakultur_milj%C3%B8
 export const config: RouteConfig = {
   routeOverride:
-    "/:lang(en|no)/:page(research|forskning){/:groupname(topic|topics|tema)}?/:topic",
+    "/:lang(en|no){/:page(research|forskning)}{/:legacy(tema|topic)}?/:slug{/:id}?",
+};
+
+const map = _research.reduce((p, c) => {
+  p.set(c.id, c);
+  return p;
+}, new Map());
+
+const findBySlug = async (slug: string) => {
+  const { hits } = await search({
+    term: decodeURIComponent(slug),
+    where: { collection: ["research"] },
+  });
+  return hits.at(0);
 };
 
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
     const { params, url } = ctx;
-    const { searchParams } = new URL(req.url);
 
     lang.value = params.lang;
 
-    const research = (await getResearchLevel0FromExternalService(params.lang))
-      ?.find(({ topic }) => decodeURIComponent(params.topic) === topic);
+    const id = await params?.id && params.id?.length > 0
+      ? params.id
+      : (await findBySlug(params.slug))?.id;
+
+    const research = map.get(id);
     if (!research) {
       return ctx.renderNotFound();
     }
@@ -55,97 +81,64 @@ export const handler: Handlers = {
 
     const queries = [
       ...(research?.searchwords ?? []),
-      topic,
+      decodeURIComponent(topic),
     ].filter((s) => s.length > 3).map((s) => s.toLowerCase());
-
-    const _news = await multiSearchMynewsdesk(
-      queries,
-      ["news", "pressrelease"],
-      { limit: 64 },
-    ) ?? [];
-
-    const news = _news?.map(newsFromMynewsdesk({ lang: params.lang })) ?? [];
-    // FIXME implement multiSearchPubs
-    // FIXME store special searchwords for pubs must (usually) be English
-    // @todo make sure first searchword is in English
-    const { data } = await searchPubs({ q: queries[0], limit: -1 });
-    const pubsToNewsMapper = newsFromPubs({ lang: lang.value });
-    const pubs = data?.map(pubsToNewsMapper);
-
-    const grouped = Map.groupBy(
-      pubs,
-      ({ published }) => published?.substring(0, 4),
-    );
 
     return ctx.render({
       lang,
-      title: research.name,
       base,
       research,
-      news: new Map([["ui.Read more", news.sort(sortLatest)]]),
-      topic,
-      grouped,
-      queries,
       url,
     });
   },
 };
 
-export default function ResearchTopics(
+export default function ResearchTopicsPage(
   {
     data: {
       lang,
-      title,
       base,
       research,
-      topics,
-      news,
-      topic,
-      queries,
-      page,
-      grouped,
       url,
     },
   }: PageProps<
     unknown
   >,
 ) {
-  const width = 512;
-  const height = 512;
-
+  const name = research.intl.name[lang];
+  // ResearchTopicsPage presents group of related research topics,
+  // with related material under (using client-side GroupedSearch)
   return (
-    <Page title={title} base={base} collection="research">
+    <Page title={name} base={base} collection="research">
       <Head>
-        <link rel="stylesheet" href={asset("/css/hscroll.css")} />
         <link rel="stylesheet" href={asset("/css/article.css")} />
-        <script src={asset("/@nrk/core-scroll.min.js")} />
       </Head>
       <div>
         <Article>
           <ArticleHeader
             header={
               <span>
-                {research.name}
+                {name}
               </span>
             }
             image={research.img}
             imageCaption={""}
           />
           <div>
-            <PersonCard id={research.contact_id} />
+            <PersonCard id={research.people_ids.at(0)} />
           </div>
           <section>
-            <TopicSummary topic={topic} lang={lang.value} />
+            {/* <TopicSummary topic={topic} lang={lang.value} /> */}
           </section>
         </Article>
       </div>
 
       <PageSection>
         <GroupedSearch
-          term={queries.at(0)}
-          sort="-published"
+          term={research?.searchwords.join(" ")}
           exclude={["person", "image", "document", "blog", "pubs"]}
           origin={url}
+          threshold={0.5}
           noInput
         />
       </PageSection>

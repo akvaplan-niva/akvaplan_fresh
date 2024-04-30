@@ -1,6 +1,8 @@
 import {
   oramaSortPublishedReverse,
+  paramsForAuthoredPubs,
   search,
+  searchForAuthoredPubs,
 } from "akvaplan_fresh/search/search.ts";
 
 import _cristin_ids from "akvaplan_fresh/data/cristin_ids.json" with {
@@ -97,21 +99,8 @@ export const handler: Handlers = {
       await getValue<typeof defaultAtConfig>(["@", "config", id]) ??
         defaultAtConfig;
 
-    const term = `${family} ${
-      !/\s/.test(given) ? given : given.split(/\s/).at(0)
-    }`.trim();
+    const params = paramsForAuthoredPubs(akvaplanist);
 
-    const params = {
-      term,
-      limit: 5,
-      sortBy: oramaSortPublishedReverse,
-      threshold: 0,
-      facets: { collection: {} },
-      groupBy: {
-        properties: ["collection"],
-        maxResult: 5,
-      },
-    };
     const results = config.search.enabled === false
       ? undefined
       : await search(params);
@@ -141,15 +130,16 @@ export const handler: Handlers = {
   },
 };
 
-export default function AtHome({ data }: PageProps<AtHome>) {
+export default function UsrPage({ data }: PageProps<AtHome>) {
   const { akvaplanist, at, url, config, cristin, orama } = data;
-  const { given, family } = akvaplanist;
+  const { given, family, expired } = akvaplanist;
   const name = `${given} ${family}`;
   const lang = extractLangFromUrl(url);
 
   return (
     <Page base={`/${at}${akvaplanist.id}`} title={name}>
       <PersonCard person={akvaplanist} lang={lang} />
+
       <Card>
         <div dangerouslySetInnerHTML={{ __html: akvaplanist?.bio }} />
       </Card>
@@ -167,7 +157,7 @@ export default function AtHome({ data }: PageProps<AtHome>) {
 
       {cristin.id && !cristin.works && (
         <p style={{ fontSize: "0.75rem" }}>
-          <a href={`?cristin#cristin`}>
+          <a href={`?cristin`}>
             {t("cristin.Show_works_from_Cristin")}
           </a>
         </p>

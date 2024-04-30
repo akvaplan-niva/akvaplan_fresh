@@ -34,6 +34,7 @@ export function Page(
     href,
     collection,
     breadcrumbs,
+    Logo,
     Header = CleanHeader,
     Footer = SiteFooter,
     Left = null,
@@ -90,6 +91,7 @@ export function Page(
           href={href}
           lang={lang.value}
           breadcrumbs={breadcrumbs}
+          Logo={Logo}
         />
         <main style={{ minHeight: "100vh", padding: "0 var(--size-3)" }}>
           {children}

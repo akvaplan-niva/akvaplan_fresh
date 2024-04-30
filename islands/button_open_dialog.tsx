@@ -28,10 +28,8 @@ export default (
     iconWidth="1.5rem"
     popovertargetaction="show"
     aria-label={t("menu.open")}
-    {
-      //popovertarget={popovertarget}
-      ...props
-    }
+    //popovertarget={popovertarget}
+    {...props}
   >
   </IconButton>
 );

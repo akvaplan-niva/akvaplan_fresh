@@ -34,7 +34,7 @@ export const KvListNav = (
             <details>
               <summary>
                 <span style={{ color: "var(--link)" }}>
-                  {value?.text ?? JSON.stringify(key.slice(1))}
+                  {value?.text ?? JSON.stringify(key)}
                 </span>
               </summary>
               <div style={{ fontSize: "0.75rem" }}>

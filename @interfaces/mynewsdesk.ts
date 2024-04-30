@@ -49,6 +49,7 @@ export interface MynewsdeskVideo extends MynewsdeskDocument {
   embed: string;
   video_url: string;
   embed_code: string;
+  thumbnail: string;
 }
 
 export interface MynewsdeskEvent extends AbstractMynewsdeskItem {

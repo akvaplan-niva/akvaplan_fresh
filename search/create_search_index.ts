@@ -1,3 +1,6 @@
+import research from "akvaplan_fresh/data/orama/2024-04-30_research_topics.json" with {
+  type: "json",
+};
 import {
   getServicesFromExternalDenoService,
   levelFilter,
@@ -24,8 +27,6 @@ import { getEmployedAkvaplanists } from "akvaplan_fresh/services/akvaplanist.ts"
 import { searchMynewsdesk } from "akvaplan_fresh/services/mynewsdesk.ts";
 import { atomizeMynewsdeskItem } from "akvaplan_fresh/search/indexers/mynewsdesk.ts";
 import { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
-import { getResearchFromExternalService } from "akvaplan_fresh/services/research.ts";
-import { atomizeResearchTopic } from "akvaplan_fresh/search/indexers/research.ts";
 
 // Create orama index
 // Used at build time (see dev.ts)
@@ -41,18 +42,12 @@ export const createOramaIndex = async () => {
   const services0 = (await getServicesFromExternalDenoService()).filter(
     levelFilter(0),
   );
-  console.warn(`Indexing ${services0.length} customer services`);
-  await insertMultiple(orama, services0.map(atomizeCustomerService));
+  const services = await Array.fromAsync(services0.map(atomizeCustomerService));
+  console.warn(`Indexing ${services.length} customer services`);
+  await insertMultiple(orama, services);
 
-  const research0 = (await getResearchFromExternalService()).filter(
-    levelFilter(0),
-  );
-
-  // FIXME: https://github.com/akvaplan-niva/akvaplan_fresh/issues/331
-  // const research = (await Array.fromAsync(research0.map(atomizeResearchTopic)))
-  //   .flatMap((r) => [...r]);
-  // console.warn(`Indexing ${research.length}/2 research topics`);
-  // await insertMultiple(orama, research);
+  console.warn(`Indexing ${research.length} research topics`);
+  await insertMultiple(orama, research);
 
   const { data } = await getDoisFromDenoDeployService();
   console.warn(`Indexing ${data.length} pubs`);

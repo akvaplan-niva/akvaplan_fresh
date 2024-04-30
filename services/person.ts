@@ -106,16 +106,14 @@ export const findCanonicalName = async (
 
   const orama = await findAkvaplanistViaOrama({ family, given });
   if (orama) {
-    if (
-      normalize(orama.family) !== normalize(family) ||
-      normalize(orama.given) !== normalize(given)
-    ) {
-      console.warn({ family, given, orama });
-    }
+    // if (
+    //   normalize(orama.family) !== normalize(family) ||
+    //   normalize(orama.given) !== normalize(given)
+    // ) {
+    //   console.debug({ family, given, orama });
+    // }
     return orama;
   }
-  //find prior...
-  //find orama
 };
 //spellingVariants.find((v) => toName(v) === toName({ family, given }));
 

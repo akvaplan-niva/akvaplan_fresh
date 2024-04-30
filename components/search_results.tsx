@@ -4,7 +4,7 @@ import { useSignal } from "@preact/signals";
 import { SearchResultItem } from "akvaplan_fresh/components/search_result_item.tsx";
 
 export function SearchResults(
-  { hits, display, collection, lang, etal = useSignal(true) }: {
+  { hits, display, collection, lang, etal = useSignal(true), onResultClick }: {
     hits: OramaAtomSchema[];
     display: string;
     lang: string;

@@ -1,0 +1,149 @@
+[
+  {
+    "id": "01hwq488byaejre7jt7fq12c4p",
+    "collection": "research",
+    "people": ["Kjetil Sagerup"],
+    "people_ids": ["ksa"],
+    "text": "forurensing pollution     ",
+    "published": "2023-05-01",
+    "img": "https://mediebank.deno.dev/preview_big/8045404",
+    "img512": "https://mediebank.deno.dev/preview/8045404",
+    "searchwords": [
+      "pollution",
+      "forurensing",
+      "plast",
+      "mikroplast",
+      "contaminants",
+      "plastic",
+      "microplastic"
+    ],
+    "intl": {
+      "name": { "en": "Environmental pollution", "no": "Forurensing" }
+    }
+  },
+  {
+    "id": "01hwq488bzv9h82rb6agzwb6bw",
+    "collection": "research",
+    "people": ["Claudia Halsband"],
+    "people_ids": ["clh"],
+    "text": "plast plastics     ",
+    "published": "2023-05-01",
+    "img": "https://mediebank.deno.dev/preview_big/10316322",
+    "img512": "https://mediebank.deno.dev/preview/10316322",
+    "searchwords": ["plast", "mikroplast", "plastics", "microplastics"],
+    "intl": {
+      "name": { "en": "Plastics / microplastics", "no": "Plast og mikroplast" }
+    }
+  },
+  {
+    "id": "01hwq488bzrdnnc732x2srr5sx",
+    "collection": "research",
+    "people": ["Magnus Drivdal"],
+    "people_ids": ["mad"],
+    "text": "oseanografi oceanography Modellering av strøm, utslipp, sedimentering og partikkeldrift  Modellering av strøm, utslipp, sedimentering og partikkeldrift <div class><details><summary></summary></details></div> <div class><details><summary></summary></details></div>",
+    "published": "2023-05-01",
+    "img": "https://mediebank.deno.dev/preview_big/11732782",
+    "img512": "https://mediebank.deno.dev/preview/11732782",
+    "searchwords": ["oceanography", "fvcom", "opendrift"],
+    "intl": {
+      "name": { "en": "Ocean dynamics", "no": "Havdynamikk" }
+    }
+  },
+  {
+    "id": "01hwq488bzsbgf70he01qz825x",
+    "collection": "research",
+    "people": ["Albert K. D. Imsland"],
+    "people_ids": ["aki"],
+    "text": "oppdrettsarter aquaculture_species     ",
+    "published": "2023-05-01",
+    "img": "https://mediebank.deno.dev/preview_big/11271394",
+    "img512": "https://mediebank.deno.dev/preview/11271394",
+    "searchwords": [
+      "imsland",
+      "lumpfish",
+      "species",
+      "oppdrettsarter",
+      "tare",
+      "torsk",
+      "steinbit",
+      "arter",
+      "species"
+    ],
+    "intl": {
+      "name": { "en": "New aquaculture species", "no": "Nye oppdrettsarter" }
+    }
+  },
+  {
+    "id": "01hwq488c0tkhmd9y109hjjhn5",
+    "collection": "research",
+    "people": ["Paul E. Renaud"],
+    "people_ids": ["per"],
+    "text": "klima climate     ",
+    "published": "2023-05-01",
+    "img": "https://mediebank.deno.dev/preview_big/8009265",
+    "img512": "https://mediebank.deno.dev/preview/8009265",
+    "searchwords": ["climate", "klima", "klimaendring"],
+    "intl": {
+      "name": {
+        "en": "Climate change effects",
+        "no": "Effekter av klimaendringer"
+      }
+    }
+  },
+  {
+    "id": "01hwq488c0ejy4s2kdka4j8xbb",
+    "collection": "research",
+    "people": ["Paul E. Renaud"],
+    "people_ids": ["per"],
+    "text": "økosystemer ecosystems",
+    "published": "2023-05-01",
+    "img": "https://mediebank.deno.dev/preview_big/12384894",
+    "img512": "https://mediebank.deno.dev/preview/12384894",
+    "searchwords": ["ecosystem", "ecosystems", "ecology"],
+    "intl": {
+      "name": { "en": "Ecosystem understanding", "no": "Økosystemforståelse" }
+    }
+  },
+  {
+    "id": "01hwq488c0jwf53d4cev9957ze",
+    "collection": "research",
+    "people": ["Lionel Camus"],
+    "people_ids": ["lca"],
+    "text": "autonom rov observation platform",
+    "published": "2023-05-01",
+    "img": "https://mediebank.deno.dev/preview_big/11955849",
+    "img512": "https://mediebank.deno.dev/preview/11955849",
+    "searchwords": [
+      "autonomous vehicle",
+      "seaglider",
+      "sailbuoy",
+      "otter",
+      "ek80",
+      "hydrophone",
+      "glider"
+    ],
+    "intl": {
+      "name": {
+        "en": "Remote & autonomous observing technology",
+        "no": "Autonom og fjernstyrt observasjonsteknologi"
+      }
+    }
+  },
+  {
+    "id": "01hwq488c0t1a31kmvfja3ynhz",
+    "collection": "research",
+    "people": ["Anita Evenset"],
+    "people_ids": ["aev"],
+    "text": "akvakultur miljø aquaculture_environment",
+    "published": "2023-05-01",
+    "img": "https://mediebank.deno.dev/preview_big/384673",
+    "img512": "https://mediebank.deno.dev/preview/384673",
+    "searchwords": ["aquaculture", "akvakultur", "utslipp"],
+    "intl": {
+      "name": {
+        "en": "Aquaculture and environment",
+        "no": "Akvakultur og miljø"
+      }
+    }
+  }
+]

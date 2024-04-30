@@ -60,7 +60,6 @@ export const GroupedSearchCollectionResults = ({
   query,
   lang,
   display,
-  noDetails,
   children,
 }) => (
   <details

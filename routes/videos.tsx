@@ -27,7 +27,7 @@ export const handler: Handlers<VideosProps> = {
     const { params } = ctx;
     lang.value = params.lang;
     const base = `/${params.lang}/${params.page}/`;
-    const title = t("nav.Videos");
+    const title = t("our.video");
     const kv = await openKv();
 
     const _vid = [];
