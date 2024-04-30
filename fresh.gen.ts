@@ -65,9 +65,11 @@ import * as $KvTextInput from "./islands/KvTextInput.tsx";
 import * as $button_open_dialog from "./islands/button_open_dialog.tsx";
 import * as $collection_search from "./islands/collection_search.tsx";
 import * as $doi_search from "./islands/doi_search.tsx";
+import * as $editable from "./islands/editable.tsx";
 import * as $grouped_search from "./islands/grouped_search.tsx";
 import * as $grouped_search_collection_results from "./islands/grouped_search_collection_results.tsx";
 import * as $lang_switcher from "./islands/lang_switcher.tsx";
+import * as $list_selector from "./islands/list_selector.tsx";
 import * as $our_x from "./islands/our_x.tsx";
 import * as $text from "./islands/text.tsx";
 import * as $theme_switcher from "./islands/theme_switcher.tsx";
@@ -140,10 +142,12 @@ const manifest = {
     "./islands/button_open_dialog.tsx": $button_open_dialog,
     "./islands/collection_search.tsx": $collection_search,
     "./islands/doi_search.tsx": $doi_search,
+    "./islands/editable.tsx": $editable,
     "./islands/grouped_search.tsx": $grouped_search,
     "./islands/grouped_search_collection_results.tsx":
       $grouped_search_collection_results,
     "./islands/lang_switcher.tsx": $lang_switcher,
+    "./islands/list_selector.tsx": $list_selector,
     "./islands/our_x.tsx": $our_x,
     "./islands/text.tsx": $text,
     "./islands/theme_switcher.tsx": $theme_switcher,

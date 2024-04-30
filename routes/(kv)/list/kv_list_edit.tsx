@@ -12,7 +12,7 @@ export const config: RouteConfig = {
 export default async function KvListEditPage(req: Request, ctx: RouteContext) {
   const kv = await openKv();
   const { _prefix } = ctx.params;
-  const prefix = _prefix.split("/");
+  const prefix = _prefix ? _prefix.split("/") : [];
   const entries = await Array.fromAsync(kv.list({ prefix }, { limit: 100 }));
 
   return (

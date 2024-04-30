@@ -1,9 +1,6 @@
-import { getValue } from "akvaplan_fresh/kv/mod.ts";
-import { getServicesLevel0FromExternalDenoService } from "akvaplan_fresh/services/svc.ts";
 import { latestNewsFromMynewsdeskService } from "akvaplan_fresh/services/news.ts";
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 import { extractLangFromUrl, lang, t } from "akvaplan_fresh/text/mod.ts";
-
 import {
   ArticleSquare,
   CollectionHeader,
@@ -12,20 +9,26 @@ import {
 } from "akvaplan_fresh/components/mod.ts";
 import { OurPeople } from "akvaplan_fresh/components/our_people.tsx";
 
-import { asset, Head } from "$fresh/runtime.ts";
-
-import { Mini3ColGrid, Mini4ColGrid } from "../components/Mini3ColGrid.tsx";
 import { PageSection } from "../components/PageSection.tsx";
 //import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 
-import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
+import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
+import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+
+import { asset, Head } from "$fresh/runtime.ts";
+
+import type {
+  OramaAtom,
+  OramaAtomSchema,
+} from "akvaplan_fresh/search/types.ts";
 import type { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mod.ts";
 import type { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
-import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
+import type { Signal } from "@preact/signals-core";
+
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
 };
-
 export const handler: Handlers = {
   async GET(req, ctx) {
     const { url } = ctx;
@@ -35,70 +38,45 @@ export const handler: Handlers = {
     const _news = await latestNewsFromMynewsdeskService({
       q: "",
       lang: sitelang,
-      limit: 15,
+      limit: 20,
     }).catch((e) => console.error(e));
 
     const news = _news?.filter((n) => sitelang === n.hreflang);
-    const newsInAltLang = _news
-      ?.filter((n) => sitelang !== n.hreflang).slice(0, 4);
+    const newsInAltLangHits = _news
+      ?.filter((n) => sitelang !== n.hreflang).slice(0, 4).map(
+        (n) => ({ document: { collection: "news", ...n } }),
+      );
 
-    const services = await getServicesLevel0FromExternalDenoService(sitelang)
-      .catch((e) => console.error(e));
+    // const headlineNumericalIds = new Set<number>(
+    //   [...news.slice(0, 2), ...newsInAltLang].map(({ id }) => id),
+    // );
+    // const moreNews = _news?.filter(({ id }) => !headlineNumericalIds.has(id));
 
-    const announce = await getValue(["announce", "home", sitelang]);
+    // const services = await getServicesLevel0FromExternalDenoService(sitelang)
+    //   .catch((e) => console.error(e));
 
-    // let hits;
-    // if (!news?.length > 0) {
-    //   const results: Results<OramaAtom> = await latestGroupedByCollection(
-    //     ["news"],
-    //     4,
-    //   );
-    //   hits = results.hits.map(({ document }) => document);
-    // }
+    //const announce = await getValue(["announce", "home", sitelang]);
+    //const { results } = await search(paramsLatestGroupedByCollection());
 
-    // const images = (await searchImageAtoms({ q: "", limit: 15 }))
-    //   .map(buildImageMapper({ lang: sitelang }));
-
-    const our = [
-      "research",
-      "pubs",
-      "projects",
-      "images",
-      "video",
-      "documents",
-    ];
-
-    return ctx.render({
-      news,
-      newsInAltLang,
-      services,
-      our,
-      lang,
-      url,
-    });
+    return ctx.render({ news, newsInAltLangHits, lang, url });
   },
 };
 
 interface HomeData {
-  announce: unknown;
+  announce?: unknown;
   news: MynewsdeskArticle[];
-  newsInAltLang: MynewsdeskArticle[];
+  newsInAltLangHits: OramaAtomSchema[];
 
-  results?: OramaAtom;
-  services: any[];
-  our: any;
-  lang: any;
+  lang: Signal<string>;
   url: URL;
 }
+
 export default function Home(
   {
     data: {
       news,
-      newsInAltLang,
-      services,
+      newsInAltLangHits,
       announce,
-      results,
-      our,
       lang,
       url,
     },
@@ -109,14 +87,16 @@ export default function Home(
   return (
     <Page>
       <Head>
-        <link rel="stylesheet" href={asset("/css/mini-news.css")} />
+        {/* <link rel="stylesheet" href={asset("/css/mini-news.css")} /> */}
         <link rel="stylesheet" href={asset("/css/hscroll.css")} />
         <script src={asset("/@nrk/core-scroll.min.js")} />
       </Head>
 
-      {announce
+      {
+        /* {announce
         ? <LinkBanner text={announce.text} href={announce.href} />
-        : null}
+        : null} */
+      }
 
       <CollectionHeader
         text={t(`our.${lang}.articles`)}
@@ -125,19 +105,20 @@ export default function Home(
       <HScroll maxVisibleChildren={maxVisNews}>
         {news?.map(ArticleSquare)}
       </HScroll>
-      <div style={{ background: "var(--surface0)" }}>
-        <Mini4ColGrid atoms={newsInAltLang} />
-      </div>
 
       <PageSection>
-        <CollectionHeader
-          text={t(`our.services`)}
-          href={intlRouteMap(lang).get("services")}
+        <SearchResults
+          display="grid"
+          hits={newsInAltLangHits}
         />
-        {services?.length > 0 && <Mini3ColGrid atoms={services} />}
       </PageSection>
 
-      {our.map((what) => (
+      {[
+        "services",
+        "research",
+        "projects",
+        "pubs",
+      ].map((what) => (
         <PageSection>
           <CollectionHeader
             text={t(`our.${what}`)}
@@ -146,8 +127,29 @@ export default function Home(
         </PageSection>
       ))}
 
-      <PageSection style={{ background: "var(--surface0)" }}>
+      <PageSection>
         <OurPeople />
+      </PageSection>
+
+      <PageSection>
+        <CollectionHeader
+          text={t(`our.Latest`)}
+        />
+        {
+          /* <noscript>
+          <a href=""></a>
+        </noscript> */
+        }
+        <GroupedSearch
+          term={"202"} // FIXME (home.tsx) GroupedSearch for "" fails
+          limit={2}
+          origin={url}
+          sort={"-published"}
+          noInput
+          // FIXME (home.tsx) GroupedSearch Rename and refactor exclude (substract from collections rather than post-filtering results)
+          // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/difference collection = all.difference(exclude)
+          exclude={["research", "service", "image"]}
+        />
       </PageSection>
     </Page>
   );

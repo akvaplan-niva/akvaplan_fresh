@@ -73,9 +73,11 @@ export const handler: Handlers = {
       groupBy,
       facets,
       boost: {
-        title: 5,
+        title: 50,
         people: 10,
-        published: 100,
+        published: 20,
+        "intl.name.en": 50,
+        "intl.name.no": 50,
       },
       threshold,
       sortBy,

@@ -1,10 +1,7 @@
 import { documentHref } from "akvaplan_fresh/services/mod.ts";
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
-import {
-  ArticleSquare,
-  Page,
-} from "akvaplan_fresh/components/mod.ts";
+import { ArticleSquare, Page } from "akvaplan_fresh/components/mod.ts";
 
 import { type InternationalProps } from "akvaplan_fresh/utils/page/international_page.ts";
 
@@ -70,15 +67,6 @@ export const handler: Handlers<DocumentsProps> = {
 };
 
 const style: StyleProps = { section: "", header: "" };
-{
-  /*
-Datapolitikk
-Kvalitetspolicy og etiske retningslinjer
-Vilkår (for kjøp av tjenester)
-Arbeid for likestilling og mot diskriminering
-Likestillingsplan
-Redegjørelse Åpenhetsloven (Norwegian) */
-}
 
 export default function DocumentsPage(
   { data: { title, lang, base, docs } }: PageProps<DocumentsProps>,

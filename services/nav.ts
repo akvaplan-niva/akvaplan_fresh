@@ -192,7 +192,7 @@ export const anybodyUrl = (
     }`;
 
 export const personURL = (p: Akvaplanist | Person, lang) =>
-  p.id && p.id.length > 0 ? akvaplanistUrl(p, lang) : anybodyUrl(p, lang);
+  p && p.id && p.id.length > 0 ? akvaplanistUrl(p, lang) : anybodyUrl(p, lang);
 
 export const researchTopicURL = ({ topic, lang }) =>
   `${intlRouteMap(lang).get("research")}/${

@@ -25,7 +25,9 @@ import {
   type RouteConfig,
 } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
-import { Addresses } from "akvaplan_fresh/components/offices.tsx";
+import { MainOffice } from "akvaplan_fresh/components/offices.tsx";
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
 
 interface AboutProps {
   lang: string;
@@ -41,7 +43,7 @@ export const config: RouteConfig = {
 
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
-    const { params } = ctx;
+    const { params, url } = ctx;
     lang.value = params.lang;
 
     const akvaplan = {
@@ -58,7 +60,7 @@ export const handler: Handlers = {
     const title = t("about.About_us");
 
     const base = `/${params.lang}/${params.page}/`;
-    return ctx.render({ lang, title, base, akvaplan });
+    return ctx.render({ lang, title, base, akvaplan, url });
   },
 };
 const _section = {
@@ -69,6 +71,7 @@ const _header = {
   marginBlockStart: "1rem",
   marginBlockEnd: "0.5rem",
 };
+const _p = { ..._header };
 
 const our = [
   "people",
@@ -82,7 +85,7 @@ const our = [
 ];
 
 export default (
-  { data: { title, lang, base, akvaplan } }: PageProps<AboutProps>,
+  { data: { title, lang, base, akvaplan, url } }: PageProps<AboutProps>,
 ) => {
   return (
     <Page title={title} base={base} lang={lang}>
@@ -92,48 +95,51 @@ export default (
       <div>
         <Article>
           <section style={_section}>
-            <h1 style={_header}>
-              {t("about.About_us")}
-            </h1>
             <Card>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 5fr",
-                  gap: "1rem",
-                }}
-              >
-                <img
-                  alt=""
-                  title=""
-                  style={{ aspectRatio: 4 / 3 }}
-                  width="100%"
-                  src="https://mediebank.deno.dev/preview/8022361"
-                />
-                <details>
-                  <summary>{t("about.Summary")}</summary>
-                  <p>{t("about.Details")}</p>
-                </details>
-              </div>
+              <h1 style={_header}>{t("about.About_us")}</h1>
+              <p style={_p}>{t("about.Summary")}</p>
+              <p style={_p}>{t("about.Details")}</p>
+              <img
+                alt=""
+                width="512"
+                height="384"
+                style={{ aspectRatio: 4 / 3 }}
+                src="https://mediebank.deno.dev/preview/8022361"
+              />
             </Card>
           </section>
 
-          <section
-            style={{
-              ..._section,
-              padding: "0 var(--size-3)",
-            }}
-            class="news-grid"
-          >
-            {our.map((what) => (
+          <MainOffice />
+
+          {[
+            "people",
+            "services",
+            "research",
+            "pubs",
+            "projects",
+            "images",
+            "video",
+            "documents",
+          ].map((what) => (
+            <PageSection>
               <CollectionHeader
                 text={t(`our.${what}`)}
                 href={intlRouteMap(lang).get(what)}
               />
-            ))}
-          </section>
+            </PageSection>
+          ))}
 
-          <section style={_section}>
+          <GroupedSearch
+            term={`akvaplan`}
+            collection={["pressrelease"]}
+            origin={url}
+            noInput
+            display="block"
+            sort="-published"
+          />
+
+          {
+            /* <section style={_section}>
             <h1 style={_header}>
               {t("people.Management")}
             </h1>
@@ -155,9 +161,8 @@ export default (
                 </a>
               </li>
             </menu>
-          </section>
-
-          <Addresses />
+          </section> */
+          }
         </Article>
       </div>
     </Page>

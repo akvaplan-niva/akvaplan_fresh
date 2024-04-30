@@ -1,25 +1,54 @@
 import { serviceSummaryMap } from "akvaplan_fresh/services/topic/mod.ts";
-import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
-import type { CustomerService } from "akvaplan_fresh/@interfaces/customer_service.ts";
 
 import { slug as _slug } from "slug";
+import { render } from "preact-render-to-string";
 
-export const atomizeCustomerService = (value) => {
-  const people: string[] = [];
+import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
+import type { CustomerService } from "akvaplan_fresh/@interfaces/customer_service.ts";
+import {
+  buildAkvaplanistMap,
+  getAkvaplanist,
+} from "akvaplan_fresh/services/akvaplanist.ts";
 
-  const { uuid, topic, en, no, details, tema, detaljer, published }:
-    CustomerService = value;
+const akvaplanist = await buildAkvaplanistMap();
+
+export const atomizeCustomerService = async (value) => {
+  const {
+    uuid,
+    topic,
+    en,
+    no,
+    details,
+    tema,
+    detaljer,
+    searchwords,
+    published,
+    img512,
+    contact,
+  }: CustomerService = value;
+
+  const person = await getAkvaplanist(contact);
+
+  const people: string[] = person ? [`${person.given} ${person.family}`] : [];
 
   const desc = serviceSummaryMap.get(topic);
 
+  const text = `${detaljer ?? details} ${render(desc?.get("no"))}`;
+
+  const id = `service:${uuid}`;
+
   const atom: OramaAtom = {
-    id: uuid,
+    id,
     slug: `${_slug(no ?? tema)}/${uuid}`,
     collection: "service",
-    people: [],
+    people,
     title: no ?? en,
-    text: `${detaljer ?? details} ${desc?.get("no")}`,
+    text,
     published: published ?? "2023-05-01",
+    img512,
+    searchwords,
+    intl: { name: { en, no } },
   };
+
   return atom;
 };

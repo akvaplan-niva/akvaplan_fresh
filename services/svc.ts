@@ -1,6 +1,19 @@
 import { servicePath } from "./nav.ts";
 
 type Svc = Record<string, string | number | string[]>;
+// uuid: "aa41809a-7651-4ec3-ad09-fa26d6762c11",
+// en: "Environmental risks and contingency",
+// no: "Miljørisiko og beredskap",
+// img: "https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1600,ar_16"... 23 more characters,
+// topic: "environmental_risk",
+// tema: "miljørisiko",
+// details: "",
+// detaljer: "",
+// contact: "cst",
+// searchwords: [ "miljørisikoanalyse", "miljørisiko", "risk", "acute", "sense" ],
+// level: 0,
+// thumb: "https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_256,ar_16:"... 22 more characters,
+// img512: "https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_512,ar_16:"... 22 more characters
 
 const _services = [];
 

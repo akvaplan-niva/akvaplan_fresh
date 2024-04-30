@@ -12,6 +12,10 @@ export const oramaSortPublishedReverse: SorterParams<OramaAtomSchema> = {
   order: "DESC",
 };
 
+export const oramaGroupByCollection = {
+  properties: ["collection"],
+};
+
 const lastNYears = (n: number, start = new Date().getFullYear()) =>
   [...new Array(n)].map((_, i) => start - i);
 
@@ -40,25 +44,52 @@ export const search = async (
   params.term = params.exact !== true ? normalize(params.term) : params.term;
   params.threshold = params.threshold ?? 0;
 
-  //console.warn("orama search params", params);
+  //console.debug("orama params", params);
 
   const res = await _search(orama, params) as Results<OramaAtom>;
   return res;
 };
-export const latestGroupedByCollection = (
-  collection: string[],
-  maxResult = 3,
-) => {
-  const groupBy = {
-    properties: ["collection"],
-    maxResult,
+export const paramsLatestGroupedByCollection = ({ term }) => {
+  return {
+    term,
+    groupBy: oramaGroupByCollection,
+    sortBy: oramaSortPublishedReverse,
   };
-  const sortBy = oramaSortPublishedReverse;
-  const where = { collection };
-  return search({
+};
+
+export const searchForServicesOrderedByIntlName = async (
+  { lang }: { lang: string },
+) =>
+  await search({
     term: "",
-    where,
-    groupBy,
-    sortBy,
+    limit: 24,
+    sortBy: {
+      property: lang ? `intl.name.${lang}` : "title",
+    },
+    where: { collection: "service" },
   });
+
+export const removePublished = (hits) =>
+  hits.map((h) => {
+    delete h.document.published;
+    return h;
+  });
+
+export const paramsForAuthoredPubs = ({ family, given }) => {
+  const term = `${family} ${
+    !/\s/.test(given) ? given : given.split(/\s/).at(0)
+  }`.trim();
+
+  return {
+    term,
+    limit: 5,
+    sortBy: oramaSortPublishedReverse,
+    threshold: 0,
+    exact: true,
+    facets: { collection: {} },
+    groupBy: {
+      properties: ["collection"],
+      maxResult: 5,
+    },
+  };
 };

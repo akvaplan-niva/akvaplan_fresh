@@ -4,7 +4,6 @@ import {
 } from "akvaplan_fresh/text/mod.ts";
 import { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import { akvaplanistUrl } from "akvaplan_fresh/services/nav.ts";
-import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
 const En = new Map([
   ["pubs", "publications"],
@@ -30,6 +29,7 @@ const No1 = new Map([
   ["project", "prosjekt"],
   ["news", "nyhet"],
   ["pressrelease", "pressemelding"],
+  ["research", "forskning"],
 ]);
 
 // "collection.blog_post": "blogger",

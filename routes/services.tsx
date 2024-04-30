@@ -88,7 +88,8 @@ export default function Services(
           <p>{t("services.accreditations.Intro")}</p>
         </Card>
         <Accreditations lang={lang.value} />
-        <GroupedSearch
+        {
+          /* <GroupedSearch
           term={`akvaplan-niva`}
           //results={results}
           first={true}
@@ -97,7 +98,8 @@ export default function Services(
           origin={url}
           display={"block"}
           noInput
-        />
+        /> */
+        }
       </section>
     </Page>
   );

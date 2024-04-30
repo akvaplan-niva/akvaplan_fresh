@@ -53,6 +53,21 @@ const materializeContacts = async (item: AbstractMynewsdeskItem) => {
   );
 };
 
+const extractCloudinary = (
+  { type_of_media, image, thumbnail, document_thumbnail }:
+    | MynewsdeskArticle
+    | MynewsdeskVideo
+    | MynewsdeskDocument,
+): string | undefined => {
+  switch (type_of_media) {
+    case "video":
+      return thumbnail && extractId(thumbnail);
+    case "document":
+      return document_thumbnail && extractId(document_thumbnail);
+    default:
+      return image && extractId(image);
+  }
+};
 export const atomizeMynewsdeskItem = async (
   item: MynewsdeskArticle | MynewsdeskDocument | MynewsdeskVideo,
 ): Promise<OramaAtom> => {
@@ -61,6 +76,9 @@ export const atomizeMynewsdeskItem = async (
     header,
     image,
     video_name,
+    document_thumbnail, //document
+    thumbnail, //video
+    thumbnail_poster, //video
     image_name,
     document_name,
     language,
@@ -79,7 +97,9 @@ export const atomizeMynewsdeskItem = async (
   if (!item.tags) {
     item.tags = [];
   }
-  const cloudinary = image ? extractId(image) : undefined;
+
+  const cloudinary = extractCloudinary(item);
+
   item.tags.push({ name: cloudinary });
 
   const published = published_at?.datetime ?? new Date().toJSON();
@@ -149,15 +169,14 @@ export const insertMynewsdeskCollections = async (
       // case "video"
       // insert (["video",embed], video]
 
-      // deno-lint-ignore no-fallthrough
-      case "document": {
-        const document = value as MynewsdeskDocument;
-        if (document.summary && /pdf/i.test(document.document_format)) {
-          // no-break => index pdf document with summary
-        } else {
-          break;
-        }
-      }
+      // case "document": {
+      //   const document = value as MynewsdeskDocument;
+      //   if (document.summary && /pdf/i.test(document.document_format)) {
+      //     // no-break => index pdf document with summary
+      //   } else {
+      //     break;
+      //   }
+      // }
       default: {
         const atom = await atomizeMynewsdeskItem(value);
         await insert(orama, atom);

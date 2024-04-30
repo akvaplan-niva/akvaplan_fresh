@@ -1,17 +1,17 @@
 .dynamic-image-hscroll {
   position: relative;
-  height: 800px;
+  height: 75vh;
 }
 
 .dynamic-image-hscroll::after {
   position: absolute;
   content: "";
   inset: 0px;
-  background: linear-gradient(
+  /* background: linear-gradient(
     90deg,
     rgb(10, 35, 67) 0%,
     rgba(10, 35, 67, 0) 100%
-  );
+  ); */
 }
 
 .dynamic-image-big {

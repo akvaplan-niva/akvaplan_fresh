@@ -10,6 +10,7 @@ import {
   documentFilter,
   fetchContacts,
   fetchRelated,
+  getAkvaplanist,
   getItem,
   getItemBySlug,
   imageFilter,
@@ -42,6 +43,7 @@ import { asset, Head } from "$fresh/runtime.ts";
 
 import { getVideo } from "akvaplan_fresh/kv/video.ts";
 import { VideoArticle } from "akvaplan_fresh/components/VideoArticle.tsx";
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -86,13 +88,13 @@ export const handler: Handlers = {
 
     const numid = Number(slug?.split("-").at(-1));
 
-    const orama = await getOramaDocument(
-      `mynewsdesk/${type_of_media}/${numid}`,
-    );
-
     let item = (numid > 9999)
       ? await getItem(numid, type_of_media)
       : await getItemBySlug(slug, type_of_media);
+
+    // const orama = await getOramaDocument(
+    //   `mynewsdesk/${type_of_media}/${numid}`,
+    // );
 
     //FIXME getItemBySlug (news articles)=> redirect 301 to item with id
     if (!item) {
@@ -153,6 +155,7 @@ export const handler: Handlers = {
       alternate,
       projects,
       related,
+      origin: ctx.url,
     });
   },
 };
@@ -160,9 +163,10 @@ export const handler: Handlers = {
 //console.log("@todo News article needs bullet points for <li> elements");
 
 export default function NewsArticle(
-  { data: { item, lang, contacts, alternate, projects, related } }: PageProps<
-    ArticleProps
-  >,
+  { data: { item, lang, contacts, alternate, projects, related, origin } }:
+    PageProps<
+      ArticleProps
+    >,
 ) {
   const {
     header,
@@ -204,7 +208,7 @@ export default function NewsArticle(
     <Page title={header} collection="news">
       <Head>
         <link rel="stylesheet" href={asset("/css/hscroll.css")} />
-        {/* <script src={asset("/@nrk/core-scroll.min.js")} /> */}
+        <script src={asset("/@nrk/core-scroll.min.js")} />
       </Head>
       <Article language={language}>
         <AltLangInfo lang={lang} language={language} alternate={alternate} />
@@ -281,7 +285,7 @@ export default function NewsArticle(
               text={t("nav.Images")}
             /> */
             }
-            <HScroll maxVisibleChildren={5.5}>
+            <HScroll>
               {related.images.map(ArticleSquare)}
             </HScroll>
           </section>
@@ -308,6 +312,20 @@ export default function NewsArticle(
           )}
         </li>
       </Article>
+
+      {
+        /* <GroupedSearch
+        term={[header, body].join(
+          " ",
+        ).replace(
+          /akvaplan-niva/i,
+          " ",
+        )}
+        origin={origin}
+        threshold={0.05}
+        noInput
+      /> */
+      }
     </Page>
   );
 }

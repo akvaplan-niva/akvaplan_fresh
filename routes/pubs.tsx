@@ -1,6 +1,9 @@
+// Pubs: FIXME Add lastest & "greatest" (most cited)
+// Pubs: FIXME Change sort (eg. from latest to relevance)
+// Pubs: FIXME Real filters (not just links)
 import { t } from "akvaplan_fresh/text/mod.ts";
 import {
-  oramaSortPublishedReverse as sortBy,
+  oramaSortPublishedReverse,
   search,
   yearFacet,
 } from "akvaplan_fresh/search/search.ts";
@@ -37,10 +40,10 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
 
   const results = await search({
     term: q ?? "",
-    limit: 5,
+    limit: 10,
     where,
     facets,
-    sortBy,
+    sortBy: oramaSortPublishedReverse,
     threshold: 0,
   });
   return (

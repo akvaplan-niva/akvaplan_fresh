@@ -3,14 +3,13 @@
 [Akvaplan-niva](https://akvaplan.no/) company website
 
 - HTML-first multi-page web app
-- Rendered on the fly in Deno Deploy (global edge compute)
+- Rendered on the fly in Deno [Deploy](https://deno.com/deploy/)
 - Fully functional without JavaScript
 - Bilingual, including translated/SEO URLs
 
 ## Tech stack
 
 - [Deno](https://deno.land/)
-- [Deploy](https://deno.com/deploy/)
 - [KV](https://deno.com/kv/)
 - [Fresh](https://fresh.deno.dev/)
 - [Preact](https://preactjs.com/)
@@ -32,3 +31,8 @@ deno task dev
 ```sh
 $ deno task kv_set '["@", "config", "nmi"]' '{"search":{"enabled":true,"exclude":["person","pubs"]},"cristin":{"enabled":true}}'
 ```
+
+Better with /:id (and not -:id) in order to isolate from slug with - Intl objl
+like name: {en,no}
+
+In most cases related items sjhould e pulled in client side

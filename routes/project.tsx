@@ -199,16 +199,6 @@ export default function ProjectHome(
         >
         </section>
 
-        <h2>{t("project.Outreach")}</h2>
-
-        <GroupedSearch
-          term={`${header}`}
-          exact={true}
-          exclude={["project", "image"]}
-          origin={origin}
-          noInput
-        />
-
         {(links && links?.length > 0) &&
           (
             <section class="article-content">
@@ -230,6 +220,16 @@ export default function ProjectHome(
           )}
         </li>
       </Article>
+      <h2>{t("project.Outreach")}</h2>
+
+      <GroupedSearch
+        term={`${header}`}
+        exact={true}
+        exclude={["project", "image"]}
+        origin={origin}
+        noInput
+        sort="-published"
+      />
     </Page>
   );
 }

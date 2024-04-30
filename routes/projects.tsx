@@ -1,3 +1,4 @@
+// FIXME (projects.tsx) https://github.com/akvaplan-niva/akvaplan_fresh/issues/232
 import {
   projectFromMynewsdesk,
   searchURL,
