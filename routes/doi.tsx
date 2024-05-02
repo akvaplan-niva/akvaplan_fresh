@@ -33,6 +33,7 @@ import {
 } from "$fresh/server.ts";
 
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
+import Button from "akvaplan_fresh/components/button/button.tsx";
 
 //import { Akvaplanist } from "../@interfaces/akvaplanist.ts";
 
@@ -178,6 +179,38 @@ export default function DoiPublication(
             )}
           </p>
         </Card>
+        {pdf && (
+          <a download href={pdf} hreflang={hreflang}>
+            <Button
+              style={{
+                backgroundColor: "transparent",
+                fontSize: "0.75rem",
+              }}
+              href={``}
+            >
+              {t("Download pdf")}
+            </Button>
+          </a>
+        )}
+        {openalex && (
+          <a href={openalex.id} hreflang={hreflang} target="_blank">
+            <Button
+              style={{
+                backgroundColor: "transparent",
+                fontSize: "0.75rem",
+              }}
+            >
+              {
+                /* <img
+                src="https://explore.openalex.org/img/openalex-logo-icon-black-and-white.ea51cede.png"
+                width="24"
+              /> */
+              }
+              <span>Se i OpenAlex</span>
+            </Button>
+          </a>
+        )}
+
         <div style={{ marginTop: "2rem" }} />
         <Card>
           <h2>
@@ -202,7 +235,7 @@ export default function DoiPublication(
             </p>
           )}
           <dl style={{ fontSize: "1rem" }}>
-            {authors?.map(({ name, given, family, id, prior }, n) => (
+            {authors?.map(({ name, given, family, id, prior, ...p }, n) => (
               <>
                 <dt>
                   {id || prior
@@ -230,58 +263,60 @@ export default function DoiPublication(
         </Card>
         <div style={{ marginTop: "2rem" }} />
         <Card>
-          <h2>
-            Metadata
-          </h2>
-          <dl class="ellipsis" style={{ fontSize: "1rem" }}>
-            <dt>type</dt>
-            <dd>{t(`type.${type}`)}</dd>
+          <details>
+            <summary>
+              Metadata
+            </summary>
+            <dl class="ellipsis" style={{ fontSize: "1rem" }}>
+              <dt>type</dt>
+              <dd>{t(`type.${type}`)}</dd>
 
-            <dt>{t("pubs.license")}</dt>
-            <dd>
-              {license ? license.toUpperCase() : t("ui.unknown")}
-            </dd>
+              <dt>{t("pubs.license")}</dt>
+              <dd>
+                {license ? license.toUpperCase() : t("ui.unknown")}
+              </dd>
 
-            <dt>language</dt>
-            <dd>{t(`lang.${openalex?.language}`)}</dd>
+              <dt>language</dt>
+              <dd>{t(`lang.${openalex?.language}`)}</dd>
 
-            {pdf && (
-              <>
-                <dt>{t("pubs.fulltext")}</dt>
-                <dd>
-                  <a download href={pdf} hreflang={hreflang}>{pdf}</a>
-                </dd>
-              </>
-            )}
+              {pdf && (
+                <>
+                  <dt>{t("pubs.fulltext")}</dt>
+                  <dd>
+                    <a download href={pdf} hreflang={hreflang}>{pdf}</a>
+                  </dd>
+                </>
+              )}
 
-            <dt>{t("pubs.cites")}</dt>
-            <dd>
-              {cites}
-            </dd>
+              <dt>{t("pubs.cites")}</dt>
+              <dd>
+                {cites}
+              </dd>
 
-            <dt>{t("pubs.funding")}</dt>
-            {openalex?.grants?.map(({ funder_display_name, award_id }) => (
-              <dd>{funder_display_name} {award_id && `: ${award_id}`}</dd>
-            ))}
+              <dt>{t("pubs.funding")}</dt>
+              {openalex?.grants?.map(({ funder_display_name, award_id }) => (
+                <dd>{funder_display_name} {award_id && `: ${award_id}`}</dd>
+              ))}
 
-            <dt>{t("pubs.linked_data")}</dt>
-            <dd>
-              <a href={`https://api.crossref.org/works/${doi}`}>Crossref</a>
-            </dd>
-            <dd>
-              <a
-                target="_blank"
-                hrefLang="en"
-                href={openalex?.id?.replace("https://", "https://api.")}
-              >
-                OpenAlex
-              </a>
-            </dd>
-            <dt>{t("ui.updated")}</dt>
-            <dd>
-              {isodate(openalex.updated_date)}
-            </dd>
-          </dl>
+              <dt>{t("pubs.linked_data")}</dt>
+              <dd>
+                <a href={`https://api.crossref.org/works/${doi}`}>Crossref</a>
+              </dd>
+              <dd>
+                <a
+                  target="_blank"
+                  hrefLang="en"
+                  href={openalex?.id?.replace("https://", "https://api.")}
+                >
+                  OpenAlex
+                </a>
+              </dd>
+              <dt>{t("ui.updated")}</dt>
+              <dd>
+                {isodate(openalex.updated_date)}
+              </dd>
+            </dl>
+          </details>
         </Card>
       </article>
     </Page>
