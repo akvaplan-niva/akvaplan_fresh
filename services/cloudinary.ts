@@ -34,7 +34,6 @@ const getKvCloudinaryId = async (slug: string) => {
           /*
           {"newsdeskML":"2.1","type_of_media":"document","language":"en","source_id":63132,"source_name":"Akvaplan-niva","pressroom_name":"Akvaplan-niva","pressroom":"no","pressroom_id":69134,"organization_number":"937375158","id":439462,"url":"https://akvaplan.no/documents/ethical-guidelines-for-our-suppliers-and-business-partners-439462","published_at":{"text":"2024-03-18 12:58:37","datetime":"2024-03-18T11:58:37Z"},"created_at":{"text":"2024-03-18 12:57:16","datetime":"2024-03-18T11:57:16Z"},"updated_at":{"text":"2024-03-26 19:02:25","datetime":"2024-03-26T18:02:25Z"},"position":null,"links":[],"header":"Ethical guidelines for our suppliers and business partners","summary":null,"document_name":"ethical_guidelines_partners_v2024-03-12.pdf","document_format":".pdf","document_size":84372,"document_thumbnail":"https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_500,q_auto:good,w_500/aencventw6gmbaxqaau5","document":"https://mnd-assets.mynewsdesk.com/image/upload/f_pdf/aencventw6gmbaxqaau5","tags":[{"name":"policy"}],"related_items":[{"item_id":104758,"type_of_media":"contact_person"}]}
           */
-          console.warn(document);
           return document.split("/").at(-1);
         }
       }
@@ -55,7 +54,7 @@ export const cloudinaryProxy = async (_req: Request, ctx: RouteContext) => {
     }
     return new Response(body, { status, headers });
   }
-  throw "Missing ID";
+  throw `Missing Cloudinary id for slug: ${ctx.params.slug}`;
 };
 
 export const buildImageMapper = ({ lang }) => (img: Img, i: number) => {
