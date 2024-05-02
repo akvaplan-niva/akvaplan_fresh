@@ -45,6 +45,7 @@ export const SearchResultItem = (
   const hreflang = document?.lang ?? lang;
 
   const name = intl && intl.name && intl.name[lang] ? intl.name[lang] : title;
+
   const _slug = intl && intl.slug && intl.slug[lang]
     ? intl.slug[lang]
     : document.slug;
@@ -92,7 +93,7 @@ export const SearchResultItem = (
               <img
                 width="148"
                 height="148"
-                alt={title}
+                alt={name}
                 src={img}
               />
             </a>
