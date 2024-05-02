@@ -14,8 +14,6 @@ import {
 import { isodate, normalize } from "akvaplan_fresh/utils/mod.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 
-import type { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-
 import {
   AlsoInNative,
   AltLangInfo,
@@ -69,19 +67,6 @@ export const handler: Handlers = {
     searchwords = [...new Set([...searchwords ?? [], slug].map(normalize))];
     const regex = searchwords.join("|");
     const needle = new RegExp(normalize(regex), "ui");
-
-    const _news = await multiSearchMynewsdesk(
-      searchwords,
-      ["news", "pressrelease", "blog_post"],
-      { limit: 64 },
-    ) ?? [];
-    const _matching = _news.filter((news) => {
-      if (exclude?.some(({ id }) => id === news.id)) {
-        return false;
-      }
-      return needle.test(normalize(JSON.stringify(news)));
-    });
-    const news = _matching?.map(newsFromMynewsdesk({ lang }));
 
     const alternate = null;
 
