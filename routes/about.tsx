@@ -89,9 +89,6 @@ export default (
 ) => {
   return (
     <Page title={title} base={base} lang={lang}>
-      <Head>
-        <link rel="stylesheet" href="/css/people-card.css" />
-      </Head>
       <div>
         <Article>
           <section style={_section}>
