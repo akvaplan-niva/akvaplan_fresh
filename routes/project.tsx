@@ -91,7 +91,6 @@ export const handler: Handlers = {
       item,
       lang,
       logo,
-      news,
       contacts,
       alternate,
       origin: url,
@@ -140,8 +139,6 @@ export default function ProjectHome(
   const img = image; //?.replace(",w_1782", ",w_1600,ar_16:9") ?? defaultImage;
 
   const published = isodate(published_at.datetime);
-
-  const newsByYear = Map.groupBy(news, (n) => n?.published.substring(0, 4));
 
   const __html = body ?? summary;
 
