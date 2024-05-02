@@ -14,8 +14,6 @@ import {
 import { isodate, normalize } from "akvaplan_fresh/utils/mod.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 
-import type { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-
 import {
   AlsoInNative,
   AltLangInfo,
@@ -70,19 +68,6 @@ export const handler: Handlers = {
     const regex = searchwords.join("|");
     const needle = new RegExp(normalize(regex), "ui");
 
-    const _news = await multiSearchMynewsdesk(
-      searchwords,
-      ["news", "pressrelease", "blog_post"],
-      { limit: 64 },
-    ) ?? [];
-    const _matching = _news.filter((news) => {
-      if (exclude?.some(({ id }) => id === news.id)) {
-        return false;
-      }
-      return needle.test(normalize(JSON.stringify(news)));
-    });
-    const news = _matching?.map(newsFromMynewsdesk({ lang }));
-
     const alternate = null;
 
     // const kv = await openKv();
@@ -106,7 +91,6 @@ export const handler: Handlers = {
       item,
       lang,
       logo,
-      news,
       contacts,
       alternate,
       origin: url,
@@ -155,8 +139,6 @@ export default function ProjectHome(
   const img = image; //?.replace(",w_1782", ",w_1600,ar_16:9") ?? defaultImage;
 
   const published = isodate(published_at.datetime);
-
-  const newsByYear = Map.groupBy(news, (n) => n?.published.substring(0, 4));
 
   const __html = body ?? summary;
 

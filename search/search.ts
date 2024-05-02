@@ -12,7 +12,7 @@ export const oramaSortPublishedReverse: SorterParams<OramaAtomSchema> = {
   order: "DESC",
 };
 
-export const oramaGroupByCollection = {
+export const groupByCollection = {
   properties: ["collection"],
 };
 
@@ -52,7 +52,7 @@ export const search = async (
 export const paramsLatestGroupedByCollection = ({ term }) => {
   return {
     term,
-    groupBy: oramaGroupByCollection,
+    groupBy: groupByCollection,
     sortBy: oramaSortPublishedReverse,
   };
 };
@@ -92,4 +92,9 @@ export const paramsForAuthoredPubs = ({ family, given }) => {
       maxResult: 5,
     },
   };
+};
+
+export const exportDocuments = async () => {
+  const { hits } = await search({ term: "", limit: 1e6 });
+  return hits.map(({ document }) => document);
 };

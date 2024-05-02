@@ -7,17 +7,8 @@ import { InputSearch } from "../components/search/InputSearch.tsx";
 import Button from "akvaplan_fresh/components/button/button.tsx";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 
-import { computed, Signal, useSignal } from "@preact/signals";
-import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
-import { href } from "akvaplan_fresh/search/href.ts";
+import { useSignal } from "@preact/signals";
 import { GroupedSearchCollectionResults } from "akvaplan_fresh/islands/grouped_search_collection_results.tsx";
-import { HAlbum } from "akvaplan_fresh/components/mod.ts";
-import { SignalLike } from "akvaplan_fresh/@interfaces/signal.ts";
-
-const detailsOpen = (collection: string) => true;
-// ["image", "document", "video", "blog", "pubs"].includes(collection)
-//   ? false
-//   : true;
 
 const collectionHref = ({ collection, lang }) => {
   if (!intlRouteMap(lang).has(collection)) {
@@ -109,6 +100,7 @@ export default function GroupedSearch(
     params.where = collection ? { collection } : undefined;
 
     const results = await searchViaApi({ q, ...params, limit: limit.value });
+
     const { error } = results;
     if (error?.status > 299) {
       remoteStatus.value = { status: error.status };

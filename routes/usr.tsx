@@ -118,7 +118,7 @@ export const handler: Handlers = {
         ...config.cristin,
       };
       const works = _works
-        .filter(({ category: { code } }) =>
+        ?.filter(({ category: { code } }) =>
           false === rejectCategories.includes(code)
         );
       if (works?.length > 0) {

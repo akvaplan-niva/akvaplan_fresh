@@ -11,7 +11,6 @@ import {
   getAkvaplanists,
   //groupByChar0,
   getAugmentedAkvaplanists,
-  newsOnPerson,
   offices,
   priorAkvaplanistID,
   pubsFromPersonGroupedByYear,

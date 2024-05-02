@@ -64,21 +64,11 @@ export const handler: Handlers = {
       ...(service?.searchwords ?? []),
     ].filter((s) => s.length > 3).map((s) => s.toLowerCase());
 
-    const _news = await multiSearchMynewsdesk(
-      queries,
-      ["news", "pressrelease"],
-      { limit: 64 },
-    ) ?? [];
-
-    const news = [];
-    //_news?.map(newsFromMynewsdesk({ lang: params.lang })) ?? [];
-
     return ctx.render({
       lang,
       title: service.name,
       base,
       service,
-      news: new Map([["ui.Read more", news.sort(sortLatest)]]),
       topic,
       queries,
       url,
@@ -116,52 +106,31 @@ export default function ServiceTopics(
   return (
     <Page title={title} base={base} collection="services">
       <Head>
-        <link rel="stylesheet" href={asset("/css/hscroll.css")} />
-        <link rel="stylesheet" href={asset("/css/article.css")} />
-        <script src={asset("/@nrk/core-scroll.min.js")} />
         <style
           dangerouslySetInnerHTML={{ __html: _style }}
         />
       </Head>
-      <div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 18fr 1fr",
-            gap: "1rem",
-          }}
-        >
-          <div></div>
-          <Article>
-            <ArticleHeader
-              header={service.name}
-              image={service?.img ?? service?.img512}
-              imageCaption={""}
-            />
-            <section>
-              {edit
-                ? (
-                  <Editable key={["service"]}>
-                    <ServiceTopicDesc topic={topic} lang={lang.value} />
-                  </Editable>
-                )
-                : <ServiceTopicDesc topic={topic} lang={lang.value} />}
-            </section>
+      <Article>
+        <ArticleHeader
+          header={service.name}
+          image={service?.img ?? service?.img512}
+          imageCaption={""}
+        />
+        <section>
+          {edit
+            ? (
+              <Editable key={["service"]}>
+                <ServiceTopicDesc topic={topic} lang={lang.value} />
+              </Editable>
+            )
+            : <ServiceTopicDesc topic={topic} lang={lang.value} />}
+        </section>
 
-            <section class="article-content">
-              <PersonCard id={service.contact} icons={false} />
-            </section>
-          </Article>
-        </div>
+        <section class="article-content">
+          <PersonCard id={service.contact} icons={false} />
+        </section>
+      </Article>
 
-        {[...news].slice(0, 3).map(([_name, children]) => (
-          <div style={{ marginBlockStart: "3rem" }}>
-            <HScroll maxVisibleChildren={5.5}>
-              {children.map(ArticleSquare)}
-            </HScroll>
-          </div>
-        ))}
-      </div>
       <GroupedSearch
         term={queries.join(", ")}
         sort={sort}

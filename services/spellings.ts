@@ -15,6 +15,12 @@ export const spellings: PersonWithSpellings[] = [
     spellings: [{ family: "Blevin" }],
   },
   {
+    id: "iyu",
+    family: "Utengen",
+    given: "Ingvild",
+    spellings: [{ given: "Ingvild Ytterhus" }],
+  },
+  {
     family: "Halsband",
     given: "Claudia",
     spellings: [{ family: "Halsband-Lenk" }, {

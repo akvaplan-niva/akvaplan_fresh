@@ -108,11 +108,9 @@ export default function ResearchTopicsPage(
   const name = research.intl.name[lang];
   // ResearchTopicsPage presents group of related research topics,
   // with related material under (using client-side GroupedSearch)
+  // FIXME ResearcResearchTopicsPage: Support custom GroupedSearch ie for each of the "new species"
   return (
     <Page title={name} base={base} collection="research">
-      <Head>
-        <link rel="stylesheet" href={asset("/css/article.css")} />
-      </Head>
       <div>
         <Article>
           <ArticleHeader

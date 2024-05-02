@@ -1,5 +1,5 @@
-import type { Results } from "@orama/orama";
 import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
+import type { Results } from "@orama/orama";
 
 export const searchViaApi = async (
   { q, base, limit, where, groupBy, facets, sort, exact, threshold }: {
@@ -31,7 +31,7 @@ export const searchViaApi = async (
     searchParams.set("facets", JSON.stringify(facets));
   }
   if (threshold) {
-    searchParams.set("threshold", threshold);
+    searchParams.set("threshold", String(threshold));
   }
   if (sort) {
     searchParams.set("sort", sort);
@@ -39,11 +39,14 @@ export const searchViaApi = async (
   if (exact === true) {
     searchParams.set("exact", "true");
   }
-  //console.warn([...searchParams]);
+
   const r = await fetch(url);
+
   const { status, ok } = r;
+
   if (ok) {
     return await r.json() as Results<OramaAtom>;
   }
+
   return { error: { status } };
 };

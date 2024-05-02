@@ -1,36 +1,10 @@
 import {
-  multiSearchMynewsdesk,
-  newsFromMynewsdesk,
   newsFromPubs,
   search as searchPubs,
 } from "akvaplan_fresh/services/mod.ts";
 
-import {
-  buildContainsFilter,
-  buildExactFilter,
-} from "akvaplan_fresh/search/filter.ts";
-
 import { normalize as n } from "akvaplan_fresh/text/mod.ts";
 import { familyAlias, givenAliasMap } from "./person.ts";
-export const newsOnPerson = async (
-  { person, lang, limit, mapper = newsFromMynewsdesk({ lang }) },
-) => {
-  //const containsFamilyFx = buildContainsFilter(person.family);
-  // const containsGivenFx = buildContainsFilter(person.given);
-  // const exactMatchFamilyFx = buildExactFilter(person.family);
-
-  // const _news = await multiSearchMynewsdesk(
-  //   [person.family, person.given],
-  //   ["news", "pressrelease"],
-  //   { limit },
-  // ) ?? [];
-
-  // const _filteredNews = _news.filter((mnd) =>
-  //   containsFamilyFx(mnd) && containsGivenFx(mnd) && exactMatchFamilyFx(mnd)
-  // );
-
-  // return _filteredNews.map(mapper);
-};
 
 export const extractInitials = (given: string) =>
   given?.split(/[\s\.]/).filter((s: string) => s?.length > 0)

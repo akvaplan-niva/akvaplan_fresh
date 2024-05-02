@@ -8,11 +8,7 @@ import {
   Page,
 } from "akvaplan_fresh/components/mod.ts";
 import { OurPeople } from "akvaplan_fresh/components/our_people.tsx";
-
 import { PageSection } from "../components/PageSection.tsx";
-//import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
-
-import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
@@ -46,17 +42,6 @@ export const handler: Handlers = {
       ?.filter((n) => sitelang !== n.hreflang).slice(0, 4).map(
         (n) => ({ document: { collection: "news", ...n } }),
       );
-
-    // const headlineNumericalIds = new Set<number>(
-    //   [...news.slice(0, 2), ...newsInAltLang].map(({ id }) => id),
-    // );
-    // const moreNews = _news?.filter(({ id }) => !headlineNumericalIds.has(id));
-
-    // const services = await getServicesLevel0FromExternalDenoService(sitelang)
-    //   .catch((e) => console.error(e));
-
-    //const announce = await getValue(["announce", "home", sitelang]);
-    //const { results } = await search(paramsLatestGroupedByCollection());
 
     return ctx.render({ news, newsInAltLangHits, lang, url });
   },
@@ -135,13 +120,9 @@ export default function Home(
         <CollectionHeader
           text={t(`our.Latest`)}
         />
-        {
-          /* <noscript>
-          <a href=""></a>
-        </noscript> */
-        }
+
         <GroupedSearch
-          term={"202"} // FIXME (home.tsx) GroupedSearch for "" fails
+          term={"2"} // FIXME (home.tsx) GroupedSearch for "" fails
           limit={2}
           origin={url}
           sort={"-published"}

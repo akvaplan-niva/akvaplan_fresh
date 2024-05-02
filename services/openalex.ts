@@ -30,3 +30,16 @@ export const fetchOpenAlexCites = async ({
     `${endpoint}?filter=cites:${id}&per_page=${per_page}&page=${page}&mailto=${mailto}`;
   return fetchJSON(url);
 };
+// ids:
+// https://api.openalex.org/works?group_by=authorships.author.id&per_page=200&filter=authorships.institutions.lineage:i4210138062&
+// orcids
+// https://api.openalex.org/works?group_by=authorships.author.orcid&per_page=200&filter=authorships.institutions.lineage:i4210138062
+// top topics
+//https://api.openalex.org/works?group_by=primary_topic.id&per_page=200&filter=authorships.institutions.lineage:i4210138062
+
+//curl "https://api.openalex.org/works?group_by=authorships.author.id&per_page=200&filter=authorships.institutions.lineage:i4210138062" | nd-map 'd.group_by.map( ({key}) =>key)' | nd-map 'ndjson=(o)=>log(stringify(o)), d.map(ndjson), undefined' | nd-map 'd.replace("//", "//api.")' | nd-fetch  | nd-map 'd.works_api_url' > data/openalex/author_works_api_url.ndjson
+
+//  $ cat data/openalex/author_works_api_url.ndjson  | nd-fetch | nd-map 'ndjson=(o)=>log(stringify(o)),d.results.map(r => r.doi).map(ndjson),undefined'
+
+// $ cat data/openalex/author_works_api_url.ndjson  | nd-fetch | nd-map 'ndjson=(o)=>log(stringify(o)),d.results.map(r => r.doi).map(ndjson),undefined' > data/openalex/dois.ndjson
+// 3000!?
