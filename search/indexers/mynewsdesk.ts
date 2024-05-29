@@ -15,9 +15,42 @@ import { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { MynewsdeskVideo } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 import { markdownFromHtml } from "akvaplan_fresh/utils/markdown/turndown.ts";
-import { mynewsdeskPeople } from "akvaplan_fresh/services/akvaplanist.ts";
+
+// import peopleWithMyn from "akvaplan_fresh/data/akvaplanists.json" with {
+//   type: "json",
+// };
+// const myn = peopleWithMyn.filter((p) => p.myn).map(
+//   (p) => [p.myn, p.id],
+// );
+const myn_id_text = `[
+  [ 54869, "aev" ],  [ 61587, "agi" ],  [ 104988, "ahz" ],
+  [ 55272, "aki" ],  [ 66915, "anb" ],  [ 128843, "ara" ],
+  [ 61583, "atf" ],  [ 109034, "bhw" ], [ 106746, "bme" ],
+  [ 110083, "che" ], [ 73576, "clh" ],  [ 58786, "cse" ],
+  [ 73704, "cst" ],  [ 111118, "ctw" ], [ 63076, "eva" ],
+  [ 129373, "fac" ], [ 93559, "ghr" ],  [ 129294, "gms" ],
+  [ 54868, "gnc" ],  [ 94176, "gwl" ],  [ 83835, "hpm" ],
+  [ 128798, "iyu" ], [ 111242, "jen" ], [ 62696, "jon" ],
+  [ 127667, "kba" ], [ 120734, "kbo" ], [ 114842, "khs" ],
+  [ 102597, "krs" ], [ 62412, "ksa" ],  [ 56332, "lca" ],
+  [ 54870, "lhl" ],  [ 94289, "los" ],  [ 123743, "lsi" ],
+  [ 119251, "mad" ], [ 101863, "mar" ], [ 102889, "mbd" ],
+  [ 118526, "mfr" ], [ 104758, "mkr" ], [ 114856, "mth" ],
+  [ 127715, "nmi" ], [ 99305, "pae" ],  [ 103839, "pbl" ],
+  [ 55035, "per" ],  [ 113977, "pgh" ], [ 127945, "ppr" ],
+  [ 127668, "qin" ], [ 72371, "rap" ],  [ 54871, "ref" ],
+  [ 110210, "rfr" ], [ 116104, "rpa" ], [ 54983, "sda" ],
+  [ 66553, "sfp" ],  [ 129468, "she" ], [ 99304, "skc" ],
+  [ 125328, "svl" ], [ 54860, "tbo" ],  [ 111408, "tko" ],
+  [ 119116, "tmj" ], [ 104343, "vra" ], [ 106793, "yns" ]
+]`;
+
+const used = new Set();
+const contacts = new Map(JSON.parse(myn_id_text));
 
 import { AnyOrama, insert, insertMultiple } from "@orama/orama";
+import { getAkvaplanist } from "akvaplan_fresh/services/mod.ts";
+import { isoDate } from "@valibot/valibot";
 
 const itemCollection = ({ type_of_media }: AbstractMynewsdeskItem) => {
   switch (type_of_media) {
@@ -36,23 +69,19 @@ const itemCollection = ({ type_of_media }: AbstractMynewsdeskItem) => {
   }
 };
 
-const materializeContacts = async (item: AbstractMynewsdeskItem) => {
-  const contacts = await mynewsdeskPeople();
-  return Promise.all(
-    item.related_items.filter((
-      { type_of_media }: { type_of_media: string },
-    ) => type_of_media === "contact_person").map(async ({ item_id }) => {
-      const myn = contacts.get(item_id) ?? { family: "", given: "", id: "" };
-      // const { name, email } = await getValue([
-      //   "mynewsdesk_id",
-      //   "contact_person",
-      //   numid,
-      // ]);
-      return myn;
-    }),
-  );
-};
+const peopleNamesFromMynewskItemContacts = async (
+  item: AbstractMynewsdeskItem,
+) => {
+  const cids = item.related_items.filter((
+    { type_of_media }: { type_of_media: string },
+  ) => type_of_media === "contact_person").map((c) => c.item_id);
 
+  const ids = cids.map((cid) => contacts.get(cid));
+  const people = (await Array.fromAsync(ids.map(getAkvaplanist))).filter((
+    maybe,
+  ) => maybe).map(({ given, family }) => `${given} ${family}`);
+  return people;
+};
 const extractCloudinary = (
   { type_of_media, image, thumbnail, document_thumbnail }:
     | MynewsdeskArticle
@@ -111,9 +140,7 @@ export const atomizeMynewsdeskItem = async (
   const slug = [isodate(published), _slug].join("/");
 
   const collection = itemCollection(item);
-  const people = (await materializeContacts(item)).map((
-    { given, family, id },
-  ) => `${given} ${family} ${id}`);
+  const people = await peopleNamesFromMynewskItemContacts(item);
 
   const _tags = item.tags.map(({ name }) => name).join(" ");
   // links: [
@@ -183,6 +210,7 @@ export const insertMynewsdeskCollections = async (
       }
     }
   }
+  console.warn([...used]);
 };
 
 export async function* insertMynewsdesk(orama: AnyOrama) {

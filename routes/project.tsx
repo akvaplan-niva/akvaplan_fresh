@@ -1,12 +1,9 @@
 import {
-  defaultImage,
+  editHref,
   fetchContacts,
   fetchImages,
-  getCanonical,
   getItem,
   getItemBySlug,
-  multiSearchMynewsdesk,
-  newsFromMynewsdesk,
   projectMap,
   projectYears,
 } from "akvaplan_fresh/services/mod.ts";
@@ -15,26 +12,23 @@ import { isodate, normalize } from "akvaplan_fresh/utils/mod.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
-  AlsoInNative,
   AltLangInfo,
   Article,
-  ArticleContact,
   ArticleHeader,
-  ArticleSquare,
   Card,
-  CollectionHeader,
-  HScroll,
-  MiniNewsCard,
   Page,
 } from "akvaplan_fresh/components/mod.ts";
 
 import { PeopleCard as PersonCard } from "akvaplan_fresh/components/mod.ts";
-import { intlRouteMap } from "../services/nav.ts";
 
 import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+import { EditLinkIcon } from "akvaplan_fresh/components/edit_link.tsx";
+import {
+  CloudinaryImageOverlayCard,
+  megaPropsFromMynewsdeskItem,
+} from "akvaplan_fresh/components/panel.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(project|prosjekt){/:date}?/:slug",
@@ -148,25 +142,6 @@ export default function ProjectHome(
 
   return (
     <Page title={header} collection="projects">
-      <Head>
-        <link rel="stylesheet" href={asset("/css/hscroll.css")} />
-        <link rel="stylesheet" href={asset("/css/article.css")} />
-        <script src={asset("/@nrk/core-scroll.min.js")} />
-      </Head>
-
-      <figure style={_caption}>
-        {logo && (
-          <p>
-            <img
-              alt="project logo"
-              width="350"
-              height="auto"
-              src={logo}
-            />
-          </p>
-        )}
-      </figure>
-
       <Article language={language}>
         <AltLangInfo lang={lang} language={language} alternate={alternate} />
         <ArticleHeader
@@ -202,6 +177,7 @@ export default function ProjectHome(
           )}
         </li>
       </Article>
+
       <h2>{t("project.Outreach")}</h2>
 
       <GroupedSearch
@@ -212,6 +188,7 @@ export default function ProjectHome(
         noInput
         sort="-published"
       />
+      <EditLinkIcon href={editHref(item)} />
     </Page>
   );
 }

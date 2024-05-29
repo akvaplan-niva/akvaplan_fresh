@@ -2,12 +2,6 @@
 import { searchMynewsdesk } from "./mynewsdesk.ts";
 import { newsFromMynewsdesk } from "./news_mynewsdesk.ts";
 
-import { search as searchPubs } from "./dois.ts";
-import { newsFromPubs } from "./news_pubs.ts";
-
-import { getAkvaplanists as searchAkvaplanists } from "./akvaplanist.ts";
-import { newsFromAkvaplanists } from "./news_akvaplanists.ts";
-
 import { type News, type Search } from "akvaplan_fresh/@interfaces/mod.ts";
 
 export const sortLatest = (a: News, b: News) =>

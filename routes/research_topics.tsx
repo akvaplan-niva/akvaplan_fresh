@@ -53,7 +53,7 @@ const map = _research.reduce((p, c) => {
   return p;
 }, new Map());
 
-const findBySlug = async (slug: string) => {
+const searchResearchBySlug = async (slug: string) => {
   const { hits } = await search({
     term: decodeURIComponent(slug),
     where: { collection: ["research"] },
@@ -69,7 +69,7 @@ export const handler: Handlers = {
 
     const id = await params?.id && params.id?.length > 0
       ? params.id
-      : (await findBySlug(params.slug))?.id;
+      : (await searchResearchBySlug(params.slug))?.id;
 
     const research = map.get(id);
     if (!research) {

@@ -10,6 +10,7 @@
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.6.8/",
+    "@hyperjump/json-pointer": "npm:@hyperjump/json-pointer@^1.1.0",
     "@orama/orama": "npm:@orama/orama@2.0.16",
     "@orama/plugin-data-persistence": "npm:@orama/plugin-data-persistence@2.0.16",
     "@orama/stemmers/norwegian": "https://esm.sh/v135/@orama/stemmers@2.0.16/es2022/norwegian.js",

@@ -25,10 +25,19 @@
 
 .article-header h1 {
   position: absolute;
-  bottom: 2rem;
+  bottom: 3rem;
   left: 2rem;
   color: var(--text1);
   font-size: 2rem;
+  max-width: 95%;
+  padding: var(--size-2);
+}
+.article-header p {
+  position: absolute;
+  top: 3rem;
+  left: 2rem;
+  color: var(--text1);
+  font-size: 1rem;
   max-width: 95%;
   padding: var(--size-2);
 }
@@ -153,4 +162,143 @@
   font-style: italic;  
   padding-top: 1rem;
   padding-bottom: 0.125rem;
+}
+
+
+.mega-header {
+  position: relative;
+  border-radius: var(--radius-2);
+}
+
+.mega-header .cta {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  color: var(--text1);
+  font-size: 2rem;
+  max-width: 95%;
+  padding: var(--size-2);
+}
+
+
+.mega-card .mega-upper {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  color: var(--text1);
+  font-size: 1rem;
+  /* max-width: 95%; */
+  padding: var(--size-2);
+}
+
+.mega-card .mega-heading {
+  position: absolute;
+  top: 5rem;
+  left: 2rem;
+  color: var(--text1);
+  font-size: 3rem;
+  font-weight: 900;
+  /* max-width: 95%; */
+  padding: var(--size-2);
+}
+
+
+.mega-mobile-upper {
+  display: none;
+}
+.mega-upper {
+  display: inline;
+
+}
+.mega-mobile-button {
+  display: none;
+}
+
+.mega-header img, .wide-image-card img {
+  width: min-content;
+  max-height: 67dvh;
+  aspect-ratio: 3/1;
+  object-fit: cover;
+}
+
+.wide-image-card-upper {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+}
+
+.wide-image-card-upper-always {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
+.wide-image-card-lower {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+}
+
+.wide-image-card-lower-mobile {
+  display: none;
+}
+
+.wide-image-card-title {
+  color: var(--text1);
+  font-size: 2.5rem;
+  font-weight: 900;
+  max-width: 95%;
+  padding: var(--size-2);
+}
+
+.wide-image-card-lower-always {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+}
+
+.wide-image-card-title-always {
+  color: var(--text1);
+  font-size: var(--size-fluid-4);
+  font-weight: 900;
+  max-width: 95%;
+  padding: var(--size-2);
+}
+
+@media screen and (max-width: 1365px) {
+  .mega-header .cta {
+    display: none;
+  }
+
+  .mega-upper {
+    display: none;
+  }
+
+  .mega-heading {
+    display: none;
+  }
+
+  .mega-mobile-button {
+    display: block;
+    font-size: 0.75rem;
+  }
+
+  .mega-mobile-upper {
+    display: block;
+    background-color: var(--surface0);
+    color: var(--text2);
+  }
+
+
+  .wide-image-card-upper {
+    display: none;
+  }
+
+  .wide-image-card-title {
+    display: none;
+  }
+
+  .wide-image-card-lower-mobile {
+    display: block;
+  }
 }

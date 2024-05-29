@@ -1,5 +1,5 @@
 import { alias, familyAliasMap, offices } from "akvaplan_fresh/services/mod.ts";
-import { normalize, normalize as n, tr } from "akvaplan_fresh/text/mod.ts";
+import { normalize as n, tr } from "akvaplan_fresh/text/mod.ts";
 import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 import { search } from "akvaplan_fresh/search/search.ts";

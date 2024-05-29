@@ -57,6 +57,20 @@ export const typeOfMediaFromMynewsdeskPage = (mynewsdesk_page: string) => {
   }
 };
 
+const editType = (type_of_media: string) => {
+  switch (type_of_media) {
+    case "news":
+      return "news";
+    default:
+      return type_of_media + "s";
+  }
+};
+
+export const editHref = (item: MynewsdeskArticle) =>
+  `https://publish.mynewsdesk.com/69134/publish/${
+    editType(item.type_of_media)
+  }/edit/${item.id}`;
+
 export const getCanonical = (
   { type_of_media, lang, title, id, slug, url }: {
     type_of_media: string;

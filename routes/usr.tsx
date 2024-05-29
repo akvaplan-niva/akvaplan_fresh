@@ -1,9 +1,4 @@
-import {
-  oramaSortPublishedReverse,
-  paramsForAuthoredPubs,
-  search,
-  searchForAuthoredPubs,
-} from "akvaplan_fresh/search/search.ts";
+import { paramsForAuthoredPubs, search } from "akvaplan_fresh/search/search.ts";
 
 import _cristin_ids from "akvaplan_fresh/data/cristin_ids.json" with {
   type: "json",

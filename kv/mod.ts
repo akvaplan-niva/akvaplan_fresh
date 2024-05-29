@@ -1,3 +1,4 @@
+// FIXME Export from KV to JSON on dev start?
 export const db = globalThis?.Deno && Deno.env.has("deno_kv_database")
   ? Deno.env.get("deno_kv_database")
   : undefined;

@@ -12,7 +12,6 @@ export const KvListNav = (
   const save = async (entry, kv) => {
     const { key, value } = entry;
     const res = await kv.set(key, value);
-    console.warn(res);
   };
 
   return (
@@ -50,6 +49,7 @@ export const KvListNav = (
                     ))
                     : null
                 )}
+                <pre>{JSON.stringify(value, null, "  ")}</pre>
                 <form>
                   <Pill onClick={() => save({ key, value })}>
                     Save

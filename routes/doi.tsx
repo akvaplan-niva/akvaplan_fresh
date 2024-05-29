@@ -180,7 +180,7 @@ export default function DoiPublication(
           </p>
         </Card>
         {pdf && (
-          <a download href={pdf} hreflang={hreflang}>
+          <a download href={pdf} hreflang={hreflang} target="_blank">
             <Button
               style={{
                 backgroundColor: "transparent",

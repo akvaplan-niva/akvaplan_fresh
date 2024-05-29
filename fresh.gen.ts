@@ -42,6 +42,10 @@ import * as $nav from "./routes/nav.tsx";
 import * as $news from "./routes/news.tsx";
 import * as $null from "./routes/null.tsx";
 import * as $offices from "./routes/offices.tsx";
+import * as $page_kv_edit from "./routes/page_kv_edit.tsx";
+import * as $panel from "./routes/panel.tsx";
+import * as $panel_edit from "./routes/panel_edit.tsx";
+import * as $panels from "./routes/panels.tsx";
 import * as $policies from "./routes/policies.tsx";
 import * as $pref from "./routes/pref.tsx";
 import * as $priors from "./routes/priors.tsx";
@@ -49,17 +53,20 @@ import * as $project from "./routes/project.tsx";
 import * as $projects from "./routes/projects.tsx";
 import * as $pubs from "./routes/pubs.tsx";
 import * as $research from "./routes/research.tsx";
+import * as $research_panels from "./routes/research_panels.tsx";
 import * as $research_topics from "./routes/research_topics.tsx";
 import * as $search from "./routes/search.tsx";
 import * as $service_edit from "./routes/service_edit.tsx";
 import * as $service_topics from "./routes/service_topics.tsx";
 import * as $services from "./routes/services.tsx";
+import * as $services2 from "./routes/services2.tsx";
 import * as $services_vt from "./routes/services_vt.tsx";
 import * as $sitemap_txt from "./routes/sitemap.txt.ts";
 import * as $topics from "./routes/topics.tsx";
 import * as $usr from "./routes/usr.tsx";
 import * as $video from "./routes/video.tsx";
 import * as $videos from "./routes/videos.tsx";
+import * as $FieldSetOfObject from "./islands/FieldSetOfObject.tsx";
 import * as $HScrollWithDynamicImage from "./islands/HScrollWithDynamicImage.tsx";
 import * as $KvTextInput from "./islands/KvTextInput.tsx";
 import * as $button_open_dialog from "./islands/button_open_dialog.tsx";
@@ -71,6 +78,7 @@ import * as $grouped_search_collection_results from "./islands/grouped_search_co
 import * as $lang_switcher from "./islands/lang_switcher.tsx";
 import * as $list_selector from "./islands/list_selector.tsx";
 import * as $our_x from "./islands/our_x.tsx";
+import * as $panel_edit_1 from "./islands/panel_edit.tsx";
 import * as $text from "./islands/text.tsx";
 import * as $theme_switcher from "./islands/theme_switcher.tsx";
 import { type Manifest } from "$fresh/server.ts";
@@ -117,6 +125,10 @@ const manifest = {
     "./routes/news.tsx": $news,
     "./routes/null.tsx": $null,
     "./routes/offices.tsx": $offices,
+    "./routes/page_kv_edit.tsx": $page_kv_edit,
+    "./routes/panel.tsx": $panel,
+    "./routes/panel_edit.tsx": $panel_edit,
+    "./routes/panels.tsx": $panels,
     "./routes/policies.tsx": $policies,
     "./routes/pref.tsx": $pref,
     "./routes/priors.tsx": $priors,
@@ -124,11 +136,13 @@ const manifest = {
     "./routes/projects.tsx": $projects,
     "./routes/pubs.tsx": $pubs,
     "./routes/research.tsx": $research,
+    "./routes/research_panels.tsx": $research_panels,
     "./routes/research_topics.tsx": $research_topics,
     "./routes/search.tsx": $search,
     "./routes/service_edit.tsx": $service_edit,
     "./routes/service_topics.tsx": $service_topics,
     "./routes/services.tsx": $services,
+    "./routes/services2.tsx": $services2,
     "./routes/services_vt.tsx": $services_vt,
     "./routes/sitemap.txt.ts": $sitemap_txt,
     "./routes/topics.tsx": $topics,
@@ -137,6 +151,7 @@ const manifest = {
     "./routes/videos.tsx": $videos,
   },
   islands: {
+    "./islands/FieldSetOfObject.tsx": $FieldSetOfObject,
     "./islands/HScrollWithDynamicImage.tsx": $HScrollWithDynamicImage,
     "./islands/KvTextInput.tsx": $KvTextInput,
     "./islands/button_open_dialog.tsx": $button_open_dialog,
@@ -149,6 +164,7 @@ const manifest = {
     "./islands/lang_switcher.tsx": $lang_switcher,
     "./islands/list_selector.tsx": $list_selector,
     "./islands/our_x.tsx": $our_x,
+    "./islands/panel_edit.tsx": $panel_edit_1,
     "./islands/text.tsx": $text,
     "./islands/theme_switcher.tsx": $theme_switcher,
   },

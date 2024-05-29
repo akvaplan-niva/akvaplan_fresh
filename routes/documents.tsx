@@ -1,4 +1,4 @@
-import { documentHref } from "akvaplan_fresh/services/mod.ts";
+import { documentHref } from "akvaplan_fresh/services/nav.ts";
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
 import { ArticleSquare, Page } from "akvaplan_fresh/components/mod.ts";

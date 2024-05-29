@@ -44,7 +44,7 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
     where,
     facets,
     sortBy: oramaSortPublishedReverse,
-    threshold: 0,
+    threshold: 0.5,
   });
   return (
     <Page title={title} collection="home">

@@ -1,21 +1,12 @@
 import {
-  getServicesLevel0FromExternalDenoService,
-  multiSearchMynewsdesk,
-  newsFromMynewsdesk,
-  sortLatest,
-} from "akvaplan_fresh/services/mod.ts";
-
-import {
   Article,
   ArticleHeader,
-  ArticleSquare,
-  HScroll,
   Page,
   PeopleCard as PersonCard,
   ServiceTopicDesc,
 } from "akvaplan_fresh/components/mod.ts";
 
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
+import { lang } from "akvaplan_fresh/text/mod.ts";
 
 import {
   type FreshContext,
@@ -24,13 +15,14 @@ import {
   type RouteConfig,
 } from "$fresh/server.ts";
 
-import { asset, Head } from "$fresh/runtime.ts";
+import { Head } from "$fresh/runtime.ts";
 import {
   findCustomerServiceByTopic,
   getCustomerService,
 } from "akvaplan_fresh/kv/customer_services.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import Editable from "akvaplan_fresh/islands/editable.tsx";
+import { getOramaDocument } from "akvaplan_fresh/search/orama.ts";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -46,7 +38,7 @@ export const handler: Handlers = {
     lang.value = params.lang;
 
     const service = params.uuid
-      ? await getCustomerService(params.uuid)
+      ? await getOramaDocument(params.uuid)
       : await findCustomerServiceByTopic(decodeURIComponent(params.slug));
 
     if (!service) {
@@ -62,7 +54,7 @@ export const handler: Handlers = {
     const queries = [
       topic,
       ...(service?.searchwords ?? []),
-    ].filter((s) => s.length > 3).map((s) => s.toLowerCase());
+    ].filter((s) => s?.length > 3).map((s) => s.toLowerCase());
 
     return ctx.render({
       lang,
@@ -127,7 +119,7 @@ export default function ServiceTopics(
         </section>
 
         <section class="article-content">
-          <PersonCard id={service.contact} icons={false} />
+          <PersonCard id={service.people_ids.at(0)} />
         </section>
       </Article>
 

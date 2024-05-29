@@ -1,3 +1,4 @@
+// FIXME update URLs for standard.no: https://online.standard.no/nb/ns-en-isoiec-17025-2017
 export const standardNO = new Map([[
   "NS-EN ISO/IEC 17025:2017",
   "https://www.standard.no/no/Nettbutikk/produktkatalogen/Produktpresentasjon/?ProductID=958400",

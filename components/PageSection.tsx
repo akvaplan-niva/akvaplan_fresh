@@ -1,6 +1,6 @@
 import type { ComponentChildren } from "preact";
 const _section = {
-  marginTop: "2rem",
+  marginTop: "0rem",
   marginBottom: "3rem",
   // padding: "1.5rem",
 };

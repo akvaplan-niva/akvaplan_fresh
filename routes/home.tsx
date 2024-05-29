@@ -1,30 +1,50 @@
 import { latestNewsFromMynewsdeskService } from "akvaplan_fresh/services/news.ts";
-import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
+
 import { extractLangFromUrl, lang, t } from "akvaplan_fresh/text/mod.ts";
+import { extractId } from "akvaplan_fresh/services/extract_id.ts";
+
+import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
+
+import { ArticleSquare, HScroll, Page } from "akvaplan_fresh/components/mod.ts";
+import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
 import {
-  ArticleSquare,
-  CollectionHeader,
-  HScroll,
-  Page,
-} from "akvaplan_fresh/components/mod.ts";
-import { OurPeople } from "akvaplan_fresh/components/our_people.tsx";
-import { PageSection } from "../components/PageSection.tsx";
-import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+  ArticlePanelTitleLow,
+  ImagePanel,
+  WideCard,
+} from "akvaplan_fresh/components/panel.tsx";
 
-import { asset, Head } from "$fresh/runtime.ts";
-
-import type {
-  OramaAtom,
-  OramaAtomSchema,
-} from "akvaplan_fresh/search/types.ts";
+import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
 import type { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mod.ts";
 import type { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import type { Signal } from "@preact/signals-core";
+import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
+
+import { getHomePanels } from "akvaplan_fresh/kv/panel.ts";
+import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
+import { isAuthorized } from "akvaplan_fresh/auth_/authorized.ts";
+import { EditIconButton } from "akvaplan_fresh/components/edit_icon_button.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
 };
+
+const toImageCard =
+  ({ theme, backdrop }: { theme?: string; backdrop?: boolean } = {}) =>
+  (
+    n,
+    i,
+  ) => ({
+    ...n,
+    image: {
+      url: cloudinaryUrl(
+        extractId(n.img) as string,
+        i === 0 ? { ar: "3:1", w: 512 } : { ar: "3:1", w: 512 },
+      ),
+    },
+    backdrop,
+    theme,
+  });
+
 export const handler: Handlers = {
   async GET(req, ctx) {
     const { url } = ctx;
@@ -34,104 +54,113 @@ export const handler: Handlers = {
     const _news = await latestNewsFromMynewsdeskService({
       q: "",
       lang: sitelang,
-      limit: 20,
+      limit: 25,
     }).catch((e) => console.error(e));
 
     const news = _news?.filter((n) => sitelang === n.hreflang);
-    const newsInAltLangHits = _news
-      ?.filter((n) => sitelang !== n.hreflang).slice(0, 4).map(
-        (n) => ({ document: { collection: "news", ...n } }),
-      );
 
-    return ctx.render({ news, newsInAltLangHits, lang, url });
+    const _newsInAltLang = _news?.filter((n) => sitelang !== n.hreflang);
+
+    const newsInAltLang = _newsInAltLang
+      ?.map(toImageCard());
+
+    const sticky = news?.slice(5, 6); //await getSticky(["page", "home"]);
+
+    const [firstPanel, ...panels] = await getHomePanels({ lang });
+
+    const authorized = false; //await isAuthorized();
+
+    return ctx.render({
+      firstPanel,
+      news,
+      newsInAltLang,
+      panels,
+      //sticky,
+      lang,
+      url,
+      authorized,
+    });
   },
 };
 
 interface HomeData {
-  announce?: unknown;
+  firstPanel: Panel;
+  panels: Panel[];
   news: MynewsdeskArticle[];
-  newsInAltLangHits: OramaAtomSchema[];
+  newsInAltLang: OramaAtomSchema[];
 
   lang: Signal<string>;
+
   url: URL;
+  authorized: boolean;
 }
 
 export default function Home(
   {
     data: {
+      firstPanel,
       news,
-      newsInAltLangHits,
-      announce,
+      newsInAltLang,
+      panels,
       lang,
+      sticky,
       url,
+      authorized,
     },
   }: PageProps<HomeData>,
 ) {
-  const maxVisNews = 5.5;
+  const maxVisNews = 4.75;
 
   return (
     <Page>
-      <Head>
-        {/* <link rel="stylesheet" href={asset("/css/mini-news.css")} /> */}
-        <link rel="stylesheet" href={asset("/css/hscroll.css")} />
-        <script src={asset("/@nrk/core-scroll.min.js")} />
-      </Head>
+      {[].map((b) => <LinkBanner text={b.text} href={b.href} />)}
 
-      {
-        /* {announce
-        ? <LinkBanner text={announce.text} href={announce.href} />
-        : null} */
-      }
-
-      <CollectionHeader
-        text={t(`our.${lang}.articles`)}
-        href={intlRouteMap(lang).get("news")}
-      />
-      <HScroll maxVisibleChildren={maxVisNews}>
-        {news?.map(ArticleSquare)}
-      </HScroll>
-
-      <PageSection>
-        <SearchResults
-          display="grid"
-          hits={newsInAltLangHits}
-        />
-      </PageSection>
-
-      {[
-        "services",
-        "research",
-        "projects",
-        "pubs",
-      ].map((what) => (
-        <PageSection>
-          <CollectionHeader
-            text={t(`our.${what}`)}
-            href={intlRouteMap(lang).get(what)}
-          />
+      {sticky?.map((props) => (
+        <PageSection style={{ display: "grid", placeItems: "center" }}>
+          <ArticlePanelTitleLow {...props} />
         </PageSection>
       ))}
 
-      <PageSection>
-        <OurPeople />
-      </PageSection>
+      {
+        /* <PageSection style={{ display: "grid", placeItems: "center" }}>
+        <ImagePanel {...firstPanel} lang={lang} />
+        <EditIconButton
+          authorized={authorized}
+          href={`/${lang}/panel/${firstPanel.id}/edit`}
+        />
+      </PageSection> */
+      }
 
       <PageSection>
-        <CollectionHeader
-          text={t(`our.Latest`)}
-        />
+        <HScroll maxVisibleChildren={maxVisNews}>
+          {news?.map(ArticleSquare)}
+        </HScroll>
 
-        <GroupedSearch
-          term={"2"} // FIXME (home.tsx) GroupedSearch for "" fails
-          limit={2}
-          origin={url}
-          sort={"-published"}
-          noInput
-          // FIXME (home.tsx) GroupedSearch Rename and refactor exclude (substract from collections rather than post-filtering results)
-          // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/difference collection = all.difference(exclude)
-          exclude={["research", "service", "image"]}
-        />
+        <p style={{ fontSize: ".75rem" }}>
+          <em>{t(`lang.In_altlang_native`)}</em>
+        </p>
+
+        <div style={{ marginBottom: "2rem" }}>
+          <HScroll maxVisibleChildren={3}>
+            {newsInAltLang?.map((props) => (
+              <WideCard
+                {...props}
+                sizes="30vw"
+              />
+            ))}
+          </HScroll>
+        </div>
       </PageSection>
+
+      {panels?.map((panel) => (
+        <PageSection style={{ display: "grid", placeItems: "center" }}>
+          <ImagePanel {...panel} lang={lang} />
+          <EditIconButton
+            authorized={authorized}
+            href={`/${lang}/panel/${panel.id}/edit`}
+          />
+        </PageSection>
+      ))}
     </Page>
   );
 }

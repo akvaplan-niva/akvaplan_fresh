@@ -35,7 +35,7 @@ export function CleanHeader(
         }}
       >
         <a href={href}>
-          <ApnLogo id="apn-logo" />
+          <ApnLogo id="apn-logo" width="192" />
         </a>
       </span>
 

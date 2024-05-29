@@ -21,14 +21,14 @@ interface PeopleProps {
 }
 const people = await buildAkvaplanistMap();
 
-const isExpired = ({ expired }) => {
+const isExpired = ({ expired } = {}) => {
   if (!expired) {
     return false;
   }
   return new Date() >= new Date(expired) ? true : false;
 };
 
-const isPrior = ({ expired, prior }) => {
+const isPrior = ({ expired, prior } = {}) => {
   if (prior === true) {
     return true;
   }
