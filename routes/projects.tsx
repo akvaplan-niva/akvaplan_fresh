@@ -30,11 +30,7 @@ import {
   WideCard,
 } from "akvaplan_fresh/components/panel.tsx";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
-import {
-  getServicePanels,
-  projectsHero,
-  servicesHero,
-} from "akvaplan_fresh/data/panels.ts";
+
 import { Naked } from "akvaplan_fresh/components/naked.tsx";
 import {
   getCollectionPanelsInLang,

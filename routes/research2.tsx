@@ -1,16 +1,12 @@
 import _research from "akvaplan_fresh/data/orama/2024-05-23_research_topics.json" with {
   type: "json",
 };
-// import _services from "akvaplan_fresh/data/orama/2024-05-23_customer_services.json" with {
-//   type: "json",
-// };
-// export const config: RouteConfig = {
-//   routeOverride: "/:lang(en|no)/:page(services|tjenester)",
-// };
 
-import { researchHero } from "akvaplan_fresh/data/panels.ts";
 import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
-import { getCollectionPanelsInLang } from "akvaplan_fresh/kv/panel.ts";
+import {
+  getCollectionPanelsInLang,
+  getPanelInLang,
+} from "akvaplan_fresh/kv/panel.ts";
 import { Mini4ColGrid } from "akvaplan_fresh/components/Mini3ColGrid.tsx";
 
 export const config: RouteConfig = {
@@ -26,7 +22,12 @@ export default defineRoute(async (req, ctx) => {
   const props = extractRenderProps(req, ctx);
   const { lang } = props;
 
-  const { image, title } = { ...researchHero({ lang }) };
+  const heroPanel = await getPanelInLang({
+    id: "01hyd6qeqvy0ghjnk1nwdfwvyq",
+    lang,
+  });
+
+  const { image, title } = heroPanel;
 
   const panels = await getCollectionPanelsInLang({
     collection: "research",
