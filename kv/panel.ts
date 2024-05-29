@@ -4,8 +4,6 @@ import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
 
 const kv = await openKv();
 
-const list = { no: [], en: [] };
-
 export const panelTemplate = {
   id: undefined,
   theme: "dark",
@@ -38,8 +36,8 @@ export const deintlPanel = (
   { panel, lang }: { panel: Panel; lang: string },
 ) => ({
   ...panel,
-  image: derefCloudinary(panel.image),
-  ...panel.intl?.[lang] ?? {},
+  image: derefCloudinary(panel?.image),
+  ...panel?.intl?.[lang] ?? {},
 });
 
 export interface PanelFilter {
