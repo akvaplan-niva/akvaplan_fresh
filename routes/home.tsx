@@ -121,15 +121,13 @@ export default function Home(
         </PageSection>
       ))}
 
-      {
-        /* <PageSection style={{ display: "grid", placeItems: "center" }}>
+      <PageSection style={{ display: "grid", placeItems: "center" }}>
         <ImagePanel {...firstPanel} lang={lang} />
         <EditIconButton
           authorized={authorized}
           href={`/${lang}/panel/${firstPanel.id}/edit`}
         />
-      </PageSection> */
-      }
+      </PageSection>
 
       <PageSection>
         <HScroll maxVisibleChildren={maxVisNews}>
