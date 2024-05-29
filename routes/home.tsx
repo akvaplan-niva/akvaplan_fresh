@@ -68,7 +68,7 @@ export const handler: Handlers = {
 
     const [firstPanel, ...panels] = await getHomePanels({ lang });
 
-    const authorized = false; //await isAuthorized();
+    const authorized = await isAuthorized();
 
     return ctx.render({
       firstPanel,
