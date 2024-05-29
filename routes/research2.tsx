@@ -1,6 +1,10 @@
-import _research from "akvaplan_fresh/data/orama/2024-05-23_research_topics.json" with {
+import _research from "akvaplan_fresh/data/orama/2024-04-30_research_topics.json" with {
   type: "json",
 };
+
+// import _research from "akvaplan_fresh/data/orama/2024-05-23_research_topics.json" with {
+//   type: "json",
+// };
 
 import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
 import {
