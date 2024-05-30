@@ -1,6 +1,21 @@
 import { Card, CollectionHeader } from "akvaplan_fresh/components/mod.ts";
-import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
-import { standardEN, standardNO } from "akvaplan_fresh/services/standard_no.ts";
+
+//
+const standard = new Map([
+  ["NS-EN ISO 14001", "ns-en-iso-14001-2015"],
+  [
+    "NS-EN ISO/IEC 17025:2017",
+    "ns-en-isoiec-17025-2017",
+  ],
+  [
+    "NS-EN ISO/IEC 17020:2012",
+    "ns-en-isoiec-17020-2012",
+  ],
+  [
+    "NS-EN ISO 9001:2015",
+    "ns-en-iso-9001-2015",
+  ],
+]);
 
 import { t } from "akvaplan_fresh/text/mod.ts";
 
@@ -16,17 +31,25 @@ const labURL = (lang: string) =>
     lang === "en" ? "/en" : ""
   }/akkrediterte-organisasjoner/akkrediteringsomfang/?AkkId=212`;
 
-const LinkTo = ({ name, lang, text = name }) =>
-  "no" === lang
-    ? <a href={standardNO.get(name)} target="_blank">{text}</a>
-    : <a href={standardEN.get(name)} target="_blank">{text}</a>;
+const LinkTo = ({ name, lang, text = name }) => (
+  <a
+    href={`https://online.standard.no/${lang === "en" ? "en" : "nb"}/${
+      standard.get(name)
+    }`}
+    target="_blank"
+  >
+    {text}
+  </a>
+);
 
-const No = ({ lang = "no" } = {}) => {
+const AccredNo = ({ lang = "no" } = {}) => {
   return (
-    <div>
+    <>
       <Card>
         <p style={_accred}>
-          Akvaplan-niva har akkrediterte laboratorietjenester innen{" "}
+          Akvaplan-niva tilbyr akkrediterte tjenester for å sikre presisjon,
+          sporbarhet og åpenhet i alle faser av våre prosjekt. Vi tilbyr
+          akkrediterte laboratorietjenester innen{" "}
           <a href={labURL(lang)} target="_blank">
             kjemisk analyse, marine bunndyr og taksonomi
           </a>
@@ -52,25 +75,18 @@ const No = ({ lang = "no" } = {}) => {
           />.
         </p>
       </Card>
-      <Card>
-        <p style={_accred}>
-          Vårt styringssystem for kvalitet er sertifisert etter{" "}
-          <LinkTo
-            name="NS-EN ISO 9001:2015"
-            lang={lang}
-          />.
-        </p>
-      </Card>
-    </div>
+    </>
   );
 };
 
-const En = ({ lang = "en" } = {}) => {
+const AccredEn = ({ lang = "en" } = {}) => {
   return (
-    <div>
+    <>
       <Card>
         <p style={_accred}>
-          Akvaplan-niva provides accredited laboratory services for{"  "}
+          Akvaplan-niva offers accredited services to ensure precision,
+          traceability, and transparency in all phases of our projects. We
+          provide accredited laboratory services for{"  "}
           <a href={labURL(lang)} target="_blank">
             chemical analysis, benthic fauna analysis, and taxonomy
           </a>{" "}
@@ -96,20 +112,37 @@ const En = ({ lang = "en" } = {}) => {
           />.
         </p>
       </Card>
+    </>
+  );
+};
 
-      <Card>
-        <p style={_accred}>
-          Akvaplan-niva is certified according to the{" "}
+const Cert = ({ lang = "no" } = {}) => (
+  <Card>
+    <p style={_accred}>
+      {t("cert.Intro")}
+      <ul style={{ paddingLeft: "1.75rem", listStyleType: "disc" }}>
+        <li>
           <LinkTo
             name="NS-EN ISO 9001:2015"
             lang={lang}
+            text="Ledelsessystemer for kvalitet"
           />{" "}
-          quality standards.
-        </p>
-      </Card>
-    </div>
-  );
-};
+          <em style={{ fontSize: "0.75rem" }}>NS-EN ISO 9001:2015</em>
+        </li>
+
+        <li>
+          <LinkTo
+            name="NS-EN ISO 14001"
+            lang={lang}
+            text="Ledelsessystemer for miljø"
+          />{" "}
+          <em style={{ fontSize: "0.75rem" }}>NS-EN ISO 14001</em>
+        </li>
+      </ul>
+    </p>
+  </Card>
+);
+
 export const Accreditations = ({ lang }) => (
   <div
     style={{
@@ -118,6 +151,18 @@ export const Accreditations = ({ lang }) => (
       gridTemplateColumns: "1fr",
     }}
   >
-    {lang == "no" ? <No /> : <En />}
+    {lang == "no" ? <AccredNo /> : <AccredEn />}
+  </div>
+);
+
+export const Certifications = ({ lang }) => (
+  <div
+    style={{
+      display: "grid",
+      gap: "1rem",
+      gridTemplateColumns: "1fr",
+    }}
+  >
+    {lang == "no" ? <Cert lang="no" /> : <Cert lang="en" />}
   </div>
 );

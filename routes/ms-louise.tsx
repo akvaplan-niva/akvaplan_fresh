@@ -3,7 +3,7 @@ import { Page } from "akvaplan_fresh/components/page.tsx";
 import { type RouteConfig } from "$fresh/server.ts";
 
 export const config: RouteConfig = {
-  routeOverride: "{/:lang(en|no)}?/ms-louise",
+  routeOverride: "{/:lang(en|no)}?/{ms-}?louise",
 };
 const louise = (
   <main id="main" class="site-main">

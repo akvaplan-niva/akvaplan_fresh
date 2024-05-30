@@ -5,7 +5,12 @@ import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 
 import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 
-import { ArticleSquare, HScroll, Page } from "akvaplan_fresh/components/mod.ts";
+import {
+  ArticleSquare,
+  CollectionHeader,
+  HScroll,
+  Page,
+} from "akvaplan_fresh/components/mod.ts";
 import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
 import {
   ArticlePanelTitleLow,
@@ -64,11 +69,11 @@ export const handler: Handlers = {
     const newsInAltLang = _newsInAltLang
       ?.map(toImageCard());
 
-    const sticky = news?.slice(5, 6); //await getSticky(["page", "home"]);
+    //const sticky = news?.slice(5, 6); //await getSticky(["page", "home"]);
 
     const [firstPanel, ...panels] = await getHomePanels({ lang });
 
-    const authorized = await isAuthorized();
+    const authorized = false; // ?? await isAuthorized();
 
     return ctx.render({
       firstPanel,
@@ -130,6 +135,7 @@ export default function Home(
       </PageSection>
 
       <PageSection>
+        <CollectionHeader collection="news" />
         <HScroll maxVisibleChildren={maxVisNews}>
           {news?.map(ArticleSquare)}
         </HScroll>

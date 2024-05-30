@@ -47,7 +47,7 @@ export const seedPanels = async () => {
   for await (const panel of panels) {
     const key = ["panel", panel.id];
     atomic
-      .check({ key, versionstamp: null })
+      //.check({ key, versionstamp: null })
       .set(key, panel);
   }
   const response = await atomic.commit();

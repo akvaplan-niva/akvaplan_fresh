@@ -1,8 +1,10 @@
-import { SiteNavVerticalLarge } from "akvaplan_fresh/components/mod.ts";
+import { Icon, SiteNavVerticalLarge } from "akvaplan_fresh/components/mod.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 import { SocialMediaIcons } from "akvaplan_fresh/components/social_media_icons.tsx";
 import { href } from "akvaplan_fresh/search/href.ts";
 import { intlRouteMap } from "akvaplan_fresh/services/mod.ts";
+import { Menu } from "akvaplan_fresh/components/header/site_menu.tsx";
+import { ApnLogo } from "akvaplan_fresh/components/akvaplan/logo.tsx";
 
 const footerStyle = {
   margin: 0,
@@ -16,11 +18,9 @@ const footerStyle = {
 
 export function Footer({ lang }) {
   return (
-    <footer>
+    <footer class="footer">
       <a class="footer__logo" href="https://akvaplan.no/">
-        <svg width="200">
-          <use href="#apn-logo" />
-        </svg>
+        <ApnLogo width="300" />
       </a>
       <noscript>
         <nav
@@ -43,6 +43,7 @@ export function Footer({ lang }) {
           <SiteNavVerticalLarge />
         </nav>
       </noscript>
+
       <ul class="footer__list">
         <li class="footer__item">
           <a href={href({ collection: "person", lang, slug: "" })}>
@@ -55,6 +56,8 @@ export function Footer({ lang }) {
           </a>
         </li>
       </ul>
+
+      <Menu />
 
       <div class="footer__links">
         <SocialMediaIcons lang={lang.value} />

@@ -225,17 +225,17 @@ html:has(dialog[open]) {
   }
 }
 
- footer {
+ .footer {
   align-items: center;
   background: var(--surfce0);
   display: flex;
   flex-direction: column;
-  /* min-height: 27rem; */
+  min-height: 27rem;
   padding: 4.5rem 0;
   width: 100%
 }
 
-footer>:not(:last-child) {
+.footer>:not(:last-child) {
   margin-bottom: 2rem
 }
 

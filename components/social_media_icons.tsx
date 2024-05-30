@@ -1,3 +1,5 @@
+import { Icon } from "akvaplan_fresh/components/icon.tsx";
+
 interface Social {
   icon: string;
   name: string;

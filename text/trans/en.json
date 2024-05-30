@@ -175,6 +175,10 @@
   "pubs.works": "works",
   "pubs.and": "and",
   "pubs.person": "person",
+
+  "acc.Header": "Accredited services",
+  "cert.Header": "Certifications",
+  "cert.Intro": "Akvaplan-niva innehar følgende ISO-sertifiseringer",
   "research.Latest_pubs": "Latest research publications",
   "pubs.Latest_peer_reviewed_research_articles": "Latest peer reviewed research articles",
   "research.people.Header": "Research management",

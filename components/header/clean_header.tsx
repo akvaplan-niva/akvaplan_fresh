@@ -4,7 +4,7 @@ import {
   Breadcrumbs,
 } from "akvaplan_fresh/components/site_nav.tsx";
 import { lang as langSignal } from "akvaplan_fresh/text/mod.ts";
-import { SiteSearchDialog } from "./site_menu.tsx";
+import { Menu } from "./site_menu.tsx";
 import { collectionBreadcrumbs } from "akvaplan_fresh/services/nav.ts";
 import { SiteLangLinks } from "akvaplan_fresh/components/site_lang_links.tsx";
 
@@ -73,7 +73,7 @@ export function CleanHeader(
       </span>
 
       <span style={{ padding: "0 var(--size-3)" }}>
-        <SiteSearchDialog lang={lang} />
+        <Menu lang={lang} />
       </span>
     </header>
   );
