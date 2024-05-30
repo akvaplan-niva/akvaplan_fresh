@@ -62,7 +62,7 @@ export const handler: Handlers = {
     );
 
     const _services = getServicesLevel0FromExternalDenoService(params.lang);
-    const services = _services.filter(buildTopicFilter(params));
+    const services = _services?.filter(buildTopicFilter(params));
 
     const news = items?.map(newsFromMynewsdesk({ lang: params.lang })) ?? [];
 

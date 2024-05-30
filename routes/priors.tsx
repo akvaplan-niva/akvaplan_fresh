@@ -13,7 +13,7 @@ export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/akvaplanist{/:which(prior)}?",
 };
 
-const getAkvaplanistsInKv = async (kind: string) => {
+const getAkvaplanistsInExternalKvService = async (kind: string) => {
   const r = await fetch(`https://akvaplanists.deno.dev/kv/${kind}`);
   const sortkey = kind === "expired" ? "expired" : "from";
   const arr: Akvaplanist[] = (await Array.fromAsync(await r.json())).map((
@@ -32,7 +32,7 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
   const { lang, which } = ctx.params;
   const kind = ["expired", "prior"].includes(which) ? "expired" : "person";
 
-  const priors = (await getAkvaplanistsInKv(kind)).map((p) => {
+  const priors = (await getAkvaplanistsInExternalKvService(kind)).map((p) => {
     const { id, family, given } = p;
     const slug = `id/${id}/${given}+${family}`;
     p.homepage = href({ slug, collection: "person", lang }) as string;

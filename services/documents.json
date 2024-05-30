@@ -1,20 +1,24 @@
 [
   {
     "id": "01hfp89sh4amexjkbqw6kq3k9y",
+    "collection": "document",
     "source": "/md/policy/env_policy_no.md",
-    "slug": "miljøpolitikk",
+    "slug": "miljøpolitikk/01hfp89sh4amexjkbqw6kq3k9y",
     "title": "Miljøpolitikk",
-    "thumb": "https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_500,q_auto:good,w_500/snlcxc38hperptakjpi5",
+    "cloudinary": "snlcxc38hperptakjpi5",
+    "img": "https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_500,q_auto:good,w_500/snlcxc38hperptakjpi5",
     "published": "2023-11-16",
     "lang": "no",
     "alt": "01hfp89w4t1y82z7h5zn7zeg8a"
   },
   {
     "id": "01hfp89w4t1y82z7h5zn7zeg8a",
+    "collection": "document",
     "source": "/md/policy/env_policy_en.md",
-    "slug": "environmental-policy",
+    "slug": "environmental-policy/01hfp89w4t1y82z7h5zn7zeg8a",
     "title": "Environmental Policy",
-    "thumb": "https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_500,q_auto:good,w_500/snlcxc38hperptakjpi5",
+    "cloudinary": "snlcxc38hperptakjpi5",
+    "image": "https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_500,q_auto:good,w_500/snlcxc38hperptakjpi5",
     "published": "2023-11-16",
     "lang": "en",
     "alt": "01hfp89sh4amexjkbqw6kq3k9y"

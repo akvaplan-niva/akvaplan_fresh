@@ -22,7 +22,7 @@ import {
 } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
 export const config: RouteConfig = {
-  routeOverride: "/:lang(en|no)/:page(services2|tjenester2)",
+  routeOverride: "/:lang(en|no)/:page(services3|tjenester3)",
 };
 
 const _section = {

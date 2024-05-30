@@ -5,12 +5,9 @@ import { render } from "preact-render-to-string";
 
 import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { CustomerService } from "akvaplan_fresh/@interfaces/customer_service.ts";
-import {
-  buildAkvaplanistMap,
-  getAkvaplanist,
-} from "akvaplan_fresh/services/akvaplanist.ts";
+import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
 
-const akvaplanist = await buildAkvaplanistMap();
+//const akvaplanist = await buildAkvaplanistMap();
 
 export const atomizeCustomerService = async (value) => {
   const {
@@ -33,21 +30,25 @@ export const atomizeCustomerService = async (value) => {
 
   const desc = serviceSummaryMap.get(topic);
 
-  const text = `${detaljer ?? details} ${render(desc?.get("no"))}`;
+  const text = `${detaljer ?? details}`;
 
-  const id = `service:${uuid}`;
+  const id = `${uuid}`;
 
   const atom: OramaAtom = {
     id,
-    slug: `${_slug(no ?? tema)}/${uuid}`,
+    //slug: `${_slug(no ?? tema)}/${uuid}`,
     collection: "service",
     people,
-    title: no ?? en,
+    people_ids: [contact],
+    //title: no ?? en,
     text,
     published: published ?? "2023-05-01",
     img512,
     searchwords,
-    intl: { name: { en, no } },
+    intl: {
+      name: { en, no },
+      desc: { en: render(desc?.get("en")), no: render(desc?.get("no")) },
+    },
   };
 
   return atom;

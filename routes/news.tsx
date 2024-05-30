@@ -1,7 +1,12 @@
 import { searchNewsArticles } from "akvaplan_fresh/services/news.ts";
 import { hrefForMynewsdeskItem } from "akvaplan_fresh/services/mynewsdesk.ts";
 
-import { ArticleSquare, HScroll, Page } from "akvaplan_fresh/components/mod.ts";
+import {
+  ArticleSquare,
+  CollectionHeader,
+  HScroll,
+  Page,
+} from "akvaplan_fresh/components/mod.ts";
 
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 import { monthname } from "akvaplan_fresh/time/mod.ts";
@@ -19,6 +24,9 @@ export const config: RouteConfig = {
 
 import { MynewsdeskArticle } from "../@interfaces/mynewsdesk.ts";
 import { asset, Head } from "$fresh/runtime.ts";
+import { url } from "@valibot/valibot";
+import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 type Props = {};
 const _section = {
   marginTop: "4rem",
@@ -27,7 +35,7 @@ const _section = {
 
 export const handler: Handlers<Props> = {
   async GET(req: Request, ctx: FreshContext) {
-    const { params } = ctx;
+    const { params, url } = ctx;
     lang.value = params.lang;
     const base = `/${params.lang}/${params.page}/`;
     const title = t("nav.News");
@@ -50,18 +58,19 @@ export const handler: Handlers<Props> = {
     // pressreleases
     // pubs
     // people?
-    return ctx.render({ title, base, news, lang });
+    return ctx.render({ title, base, news, lang, url });
   },
 };
 
 export default function News(
-  { data: { lang, base, title, news } }: PageProps,
+  { data: { lang, base, title, news, url } }: PageProps,
 ) {
   return (
     <Page title={title} base={base} collection="home">
       <h1>
         <a href="." style={{ color: "var(--text2)" }}>{title}</a>
       </h1>
+
       {[...news].map(([grpkey, grpmembers], i) => (
         <section style={_section}>
           <h2>
@@ -75,6 +84,19 @@ export default function News(
           </HScroll>
         </section>
       ))}
+
+      <PageSection>
+        <GroupedSearch
+          term={"202"} // FIXME (home.tsx) GroupedSearch for "" fails
+          limit={3}
+          origin={url}
+          sort={"-published"}
+          noInput
+          // FIXME (home.tsx) GroupedSearch Rename and refactor exclude (substract from collections rather than post-filtering results)
+          // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/difference collection = all.difference(exclude)
+          //exclude={["research", "service", "image"]}
+        />
+      </PageSection>
 
       <Head>
         <link rel="stylesheet" href={asset("/css/akvaplanist.css")} />

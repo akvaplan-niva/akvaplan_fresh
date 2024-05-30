@@ -1,28 +1,24 @@
-// FIXME pressreleases add media
-// FIXME Compare /en/press/2958380 with https://www.mynewsdesk.com/no/akvaplan-niva/pressreleases/ny-rapport-evaluering-av-nye-oppdrettsarter-2958380
-//console.log("@todo News article: auto-fetch related contacts");
-
-import { getOramaDocument } from "akvaplan_fresh/search/orama.ts";
-import { search } from "akvaplan_fresh/search/search.ts";
-
 import {
   defaultImage,
   documentFilter,
-  fetchContacts,
-  fetchRelated,
-  getAkvaplanist,
-  getItem,
-  getItemBySlug,
-  imageFilter,
   intlRouteMap,
   newsFromMynewsdesk,
   projectFilter,
   projectFromMynewsdesk,
-  searchMynewsdesk,
   videoFilter,
 } from "akvaplan_fresh/services/mod.ts";
+
+import {
+  editHref,
+  fetchContacts,
+  fetchRelated,
+  getItem,
+  getItemBySlug,
+  imageFilter,
+  searchMynewsdesk,
+} from "akvaplan_fresh/services/mynewsdesk.ts";
 import { href } from "akvaplan_fresh/search/href.ts";
-import { isodate, longDate } from "akvaplan_fresh/time/mod.ts";
+import { longDate } from "akvaplan_fresh/time/mod.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
@@ -33,17 +29,21 @@ import {
   Card,
   CollectionHeader,
   HScroll,
+  Icon,
   Page,
   PeopleCard as PersonCard,
 } from "akvaplan_fresh/components/mod.ts";
 
-import { AbstractMynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import {
+  AbstractMynewsdeskItem,
+  MynewsdeskArticle,
+} from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
 
 import { getVideo } from "akvaplan_fresh/kv/video.ts";
 import { VideoArticle } from "akvaplan_fresh/components/VideoArticle.tsx";
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+import { EditLinkIcon } from "akvaplan_fresh/components/edit_link.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -76,6 +76,7 @@ const typeOfMedia = (type: string) => {
       return "news";
   }
 };
+
 const _section = {
   marginTop: "2rem",
   marginBottom: "3rem",
@@ -91,10 +92,6 @@ export const handler: Handlers = {
     let item = (numid > 9999)
       ? await getItem(numid, type_of_media)
       : await getItemBySlug(slug, type_of_media);
-
-    // const orama = await getOramaDocument(
-    //   `mynewsdesk/${type_of_media}/${numid}`,
-    // );
 
     //FIXME getItemBySlug (news articles)=> redirect 301 to item with id
     if (!item) {
@@ -189,11 +186,12 @@ export default function NewsArticle(
     url,
     language,
     body,
+    id,
     ...mynewsdeskItem
   } = item;
 
   //https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
-  const img = image?.replace(",w_1782", ",w_1440,ar_16:9") ?? defaultImage;
+  const img = image?.replace(",w_1782", ",w_1600,ar_18:9") ?? defaultImage;
 
   const __html = `<p style="font-size: 1rem">
   ${longDate(published_at.datetime, lang)} <a href="${
@@ -223,6 +221,16 @@ export default function NewsArticle(
           dangerouslySetInnerHTML={{ __html }}
         >
         </section>
+
+        <p style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:1rem;">
+          {contacts && contacts.map(
+            (contact) => (
+              <section class="article-content">
+                <PersonCard id={contact} icons={false} lang={lang} />
+              </section>
+            ),
+          )}
+        </p>
 
         {related.videos?.map((video) => (
           <div
@@ -278,6 +286,17 @@ export default function NewsArticle(
           </section>
         )}
 
+        {(links && links?.length > 0) &&
+          (
+            <section class="article-content">
+              {links?.map(({ url, text }) => (
+                <Card>
+                  <a href={url} class="ellipsis">{text ?? url}</a>
+                </Card>
+              ))}
+            </section>
+          )}
+
         {related?.images?.length > 0 && (
           <section style={_section}>
             {
@@ -290,29 +309,14 @@ export default function NewsArticle(
             </HScroll>
           </section>
         )}
-
-        {(links && links?.length > 0) &&
-          (
-            <section class="article-content">
-              {links?.map(({ url, text }) => (
-                <Card>
-                  <a href={url} class="ellipsis">{text ?? url}</a>
-                </Card>
-              ))}
-            </section>
-          )}
-
-        <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:1rem;">
-          {contacts && contacts.map(
-            (contact) => (
-              <section class="article-content">
-                <PersonCard id={contact} icons={false} lang={lang} />
-              </section>
-            ),
-          )}
-        </li>
+        <EditLinkIcon href={editHref(item)} />
       </Article>
+      {
+        /*
 
+      FIXME Article: Edit icon when authorized
+       */
+      }
       {
         /* <GroupedSearch
         term={[header, body].join(

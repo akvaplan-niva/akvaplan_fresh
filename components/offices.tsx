@@ -64,6 +64,35 @@ export const MainOffice = () => (
   </Card>
 );
 
+export const MainContacts = () => (
+  <Card>
+    <dl>
+      <dt>
+        {t("ui.Telephone")}
+      </dt>
+      <dd>
+        <a
+          href={`tel:${akvaplan.tel}`}
+        >
+          <Icon name="phone_in_talk" /> {akvaplan.tel}
+        </a>
+      </dd>
+
+      <dt>
+        {t("ui.E-mail")}
+      </dt>
+      <dd>
+        <a
+          href={`mailto:${akvaplan.email}`}
+        >
+          <Icon name="mail" />
+          {akvaplan.email}
+        </a>
+      </dd>
+    </dl>
+  </Card>
+);
+
 export const Addresses = () => (
   <div>
     <section style={_section}>
@@ -120,81 +149,6 @@ export const Addresses = () => (
           </li>
         ))}
       </menu>
-    </section>
-
-    <section style={_section}>
-      <h1 style={_header}>{t("about.Other_media")}</h1>
-
-      <Card>
-        <dl>
-          <dt>
-            {t("about.Social_media")}
-          </dt>
-          <dd>
-            <a
-              href="https://facebook.com/Akvaplan/"
-              target="_blank"
-            >
-              Facebook
-            </a>
-          </dd>
-          <dd>
-            <a
-              href="https://no.linkedin.com/company/akvaplan-niva"
-              target="_blank"
-            >
-              LinkedIn
-            </a>
-          </dd>
-          <dd>
-            <a
-              href=" https://www.mynewsdesk.com/no/akvaplan-niva"
-              target="_blank"
-            >
-              Mynewsdesk
-            </a>
-          </dd>
-
-          <dd>
-            <a
-              href="https://twitter.com/AkvaplanNiva"
-              target="_blank"
-            >
-              Twitter
-            </a>
-          </dd>
-          <dt>
-            {t("about.Open_access")}
-          </dt>
-          <dd>
-            <a
-              href="https://zenodo.org/communities/akvaplan-niva"
-              target="_blank"
-            >
-              Zenodo
-            </a>
-          </dd>
-          <dd>
-            <a
-              href="https://github.com/akvaplan-niva"
-              target="_blank"
-            >
-              GitHub
-            </a>
-          </dd>
-          <dt>
-            Video
-          </dt>
-          <dd>
-            <a
-              href="https://www.youtube.com/channel/UCD-AkBT1riN6TeNDzBP7g8g"
-              target="_blank"
-            >
-              YouTube
-            </a>
-          </dd>
-        </dl>
-      </Card>
     </section>
   </div>
 );

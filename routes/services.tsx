@@ -83,23 +83,10 @@ export default function Services(
       <section style={_section}>
         <Card>
           <h1>
-            {t("services.accreditations.Header")}
+            {t("acc.Header")}
           </h1>
-          <p>{t("services.accreditations.Intro")}</p>
         </Card>
         <Accreditations lang={lang.value} />
-        {
-          /* <GroupedSearch
-          term={`akvaplan-niva`}
-          //results={results}
-          first={true}
-          sort="-published"
-          collection={["pressrelease"]}
-          origin={url}
-          display={"block"}
-          noInput
-        /> */
-        }
       </section>
     </Page>
   );

@@ -1,9 +1,11 @@
+import { SquareImage } from "akvaplan_fresh/components/square_image.tsx";
 import { lang, t } from "../../text/mod.ts";
 import { isodate } from "../../time/mod.ts";
 const _caption = {
   fontSize: "0.75rem",
   color: "var(--text2)",
 };
+
 export const ArticleSquare = (
   {
     title,
@@ -38,25 +40,21 @@ export const ArticleSquare = (
       target={target}
       title={desc}
     >
-      <img
-        width={width}
-        height={height}
-        alt=""
-        loading="lazy"
-        src={img512 ?? img ?? thumb}
-      />
+      <SquareImage w={512} url={img512 ?? img ?? thumb} />
 
       <p
         dangerouslySetInnerHTML={{ __html: title ?? name ?? "" }}
         style={{ textAlign: "left", fontWeight: "normal" }}
       />
     </a>
-    <p style={_caption}>
+    {
+      /* <p style={_caption}>
       {duration ? duration : isodate(published)}{" "}
       {title !== undefined && hreflang !== undefined && lang.value !== hreflang
         ? <span>({t(`lang.${hreflang}`)})</span>
         : null}
-    </p>
+    </p> */
+    }
   </div>
 );
 

@@ -9,7 +9,11 @@ import {
   extractRenderProps,
   type InternationalProps,
 } from "akvaplan_fresh/utils/page/international_page.ts";
-import { CollectionHeader, Page } from "akvaplan_fresh/components/mod.ts";
+import {
+  CollectionHeader,
+  HScroll,
+  Page,
+} from "akvaplan_fresh/components/mod.ts";
 
 import { Mini4ColGrid } from "akvaplan_fresh/components/Mini3ColGrid.tsx";
 import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
@@ -20,6 +24,18 @@ import type {
   PageProps,
   RouteConfig,
 } from "$fresh/server.ts";
+import {
+  HeroPanel,
+  ImagePanel,
+  WideCard,
+} from "akvaplan_fresh/components/panel.tsx";
+import { extractId } from "akvaplan_fresh/services/extract_id.ts";
+
+import { Naked } from "akvaplan_fresh/components/naked.tsx";
+import {
+  getCollectionPanelsInLang,
+  getPanelInLang,
+} from "akvaplan_fresh/kv/panel.ts";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(projects|project|prosjekter|prosjekt)",
 };
@@ -34,7 +50,7 @@ const [FRESH, ENDING, ONGOING, PAST] = [
 const year = new Date().getFullYear();
 
 const groupFreshEndingFuturePast = (
-  { end, start }: MynewsdeskEvent,
+  { end, start }: Partial<MynewsdeskEvent>,
 ) => {
   const endYear = new Date(end).getFullYear();
   const startYear = new Date(start).getFullYear();
@@ -51,6 +67,16 @@ const groupFreshEndingFuturePast = (
 const sortStartReverse = (a: MynewsdeskEvent, b: MynewsdeskEvent) =>
   b.start.localeCompare(a.start);
 
+const _img = (id: string = "", { ar, w }) =>
+  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_${w},ar_${ar}/${
+    extractId(id)
+  }`;
+
+const toWideImage = (p) => ({
+  ...p,
+  url: _img(p.img, { ar: "16:19", w: 512 }),
+});
+
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
     const type_of_media = "event";
@@ -65,36 +91,54 @@ export const handler: Handlers = {
 
     const projects = items
       ?.map(projectFromMynewsdesk({ lang }))
+      .map(toWideImage)
       .sort(sortStartReverse);
 
-    const grouped = Map.groupBy<boolean | null, MynewsdeskEvent>(
+    const { image, title } = await getPanelInLang({
+      id: "01hyd6qeqv71dyhcd3356q31sy",
+      lang,
+    });
+
+    const panels = await getCollectionPanelsInLang({
+      collection: "project",
+      lang,
+    });
+
+    const grouped = Map.groupBy<string, MynewsdeskEvent>(
       projects,
       groupFreshEndingFuturePast,
     );
 
-    const title = t(`nav.Projects`);
-
-    return ctx.render({ ...props, title, grouped });
+    return ctx.render({ ...props, title, grouped, image, panels, lang });
   },
 };
 
 export default function Projects(
-  { data: { title, base, grouped } }: PageProps<
+  { data: { title, base, grouped, image, panels, lang } }: PageProps<
     InternationalProps
   >,
 ) {
+  const hero = { title, image, backdrop: true, lang };
   return (
-    <Page title={title} base={base}>
-      <CollectionHeader text={t(`our.projects`)} />
+    <Naked title={title} base={base} collection="home">
+      <HeroPanel {...hero} />
 
       {[FRESH, ENDING, ONGOING, PAST].map((key) => (
-        <PageSection>
+        <PageSection
+          style={{ padding: "0 1rem" }}
+        >
           <p style={{ fontSize: "1rem" }}>
             {t(`project.Lifecycle.${key}`)}
           </p>
           <Mini4ColGrid atoms={grouped.get(key)} />
         </PageSection>
       ))}
-    </Page>
+
+      {panels?.map((panel) => (
+        <PageSection style={{ display: "grid", placeItems: "center" }}>
+          <ImagePanel {...panel} lang={lang} />
+        </PageSection>
+      ))}
+    </Naked>
   );
 }

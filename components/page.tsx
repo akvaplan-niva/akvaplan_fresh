@@ -5,12 +5,14 @@ import { type Breadcrumb } from "akvaplan_fresh/components/site_nav.tsx";
 import { base as baseForLang, lang, t } from "akvaplan_fresh/text/mod.ts";
 import { buildInitTheming } from "akvaplan_fresh/theming/mod.ts";
 
-import { Head } from "$fresh/runtime.ts";
+import { asset, Head } from "$fresh/runtime.ts";
 import { FunctionComponent, JSX } from "preact";
 
 //import { computed } from "@preact/signals-core";
 import { type StringSignal } from "akvaplan_fresh/@interfaces/signal.ts";
 import { collectionBreadcrumbs } from "akvaplan_fresh/services/mod.ts";
+import { SocialMediaIcons } from "akvaplan_fresh/components/social_media_icons.tsx";
+import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
 //import { symbolDataURI } from "akvaplan_fresh/components/akvaplan/symbol.tsx";
 
 export type StdProps =
@@ -74,6 +76,7 @@ export function Page(
       />
 
       <Styles />
+      <script defer src={asset("/@nrk/core-scroll.min.js")} />
     </Head>
   );
 
@@ -93,10 +96,17 @@ export function Page(
           breadcrumbs={breadcrumbs}
           Logo={Logo}
         />
-        <main style={{ minHeight: "100vh", padding: "0 var(--size-3)" }}>
+        <main
+          style={{
+            minHeight: "100vh",
+            padding: "0 2vw",
+            _padding: "0 var(--size-3)",
+          }}
+        >
           {children}
         </main>
         <Footer lang={lang.value} />
+
         <div hidden>
           <ApnSym />
         </div>

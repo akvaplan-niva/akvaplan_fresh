@@ -26,6 +26,18 @@ deno task dev
 
 ## KV
 
+### Panels
+
+Export/seed
+
+
+```
+$ ./bin/kv_list '["panel"]' |  nd-map d.value > data/seed/panels.ndjson
+$
+```
+
+
+
 ### User preferences
 
 ```sh

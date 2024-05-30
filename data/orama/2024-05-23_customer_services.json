@@ -1,0 +1,199 @@
+[
+  {
+    "id": "0618d159-5a99-4938-ae38-6c083da7da57",
+    "slug": "miljoovervaking/0618d159-5a99-4938-ae38-6c083da7da57",
+    "collection": "service",
+    "people": ["Anita Evenset"],
+    "people_ids": ["aev"],
+    "title": "Miljøovervåking",
+    "text": "",
+    "published": "2023-05-01",
+    "img512": "https://mediebank.deno.dev/preview/11271356",
+    "searchwords": ["miljøovervåking"],
+    "intl": {
+      "name": { "en": "Environmental monitoring", "no": "Miljøovervåking" },
+      "desc": {
+        "en": "<div class><details><summary>Human activities influences nature and environment. Through baseline surveys, and regular monitoring during implementation, the degree and extent of this influence is documented. Should the monitoring reveal unacceptable impacts, the owner/operator may be enforced to implement amending measures or termination of the activity.</summary>Akvaplan-niva designs monitoring programmes extending from pre-activity baseline mapping to regular surveys documenting extent, duration and degree of influence for the actual project. We also provide data to national and international Arctic monitoring programs like AMAP. We perform research to identify substances and components deserving restrictions in application and/or discharge. In our environmental monitoring projects, we use biological diversity in benthic macrofaunal communities as a strong, recognised and robust indicator. Akvaplan-niva also plays a key role in developing new techniques for example visual monitoring of sensitive habitats, and the use of environmental DNA.</details><p>Video: <a href=\"https://www.youtube.com/watch?v=8LHUf3SEWmM\" target=\"_blank\">Akvaplan-niva on offshore survey…</a></p></div>",
+        "no": "<div class><details><summary>Menneskelig aktivitet medfører inngrep i natur og miljø. Gjennom grunnlagsundersøkelser før igangsetting, og regelmessig overvåking av miljøtilstand under og etter gjennomført tiltak, dokumenteres grad og omfang av miljøpåvirkning. Dersom påvirkningen overskrider vedtatte grenser, kan tiltakshaver pålegges avbøtende tiltak og evt. opphør av aktiviteten.</summary>Akvaplan-niva skreddersyr overvåkingsprogram fra grunnlagsundersøkelser til periodiske overvåkingsundersøkelser som avdekker, stedfester og dokumenterer miljøpåvirkning fra den aktuelle aktiviteten. Akvaplan-niva fremskaffer overvåkingsdata til nasjonale og internasjonale kartleggingsprogram som bl.a. AMAP, og vi forsker på effekter av nye miljøgifter for å kunne vurdere behov for begrensninger i bruk og/eller utslipp. I vårt arbeid med miljøovervåking er biologisk mangfold hos bunnfauna en utsagnskraftig og robust indikator, som vi benytter i en lang rekke sammenhenger. Samtidig er vi også sentrale i utvikling av nye metoder innen visuell overvåking av bunnhabitat og innen utvikling og test av nye metoder, f.eks. eDNA.</details>Video: <a href=\"https://www.youtube.com/watch?v=8LHUf3SEWmM\" target=\"_blank\">Akvaplan-niva på offshore tokt…</a></div>"
+      }
+    }
+  },
+  {
+    "id": "074a2a83-59c6-41ee-8a3b-20910ce6b93d",
+    "slug": "konsekvensutredninger/074a2a83-59c6-41ee-8a3b-20910ce6b93d",
+    "collection": "service",
+    "people": ["Lars-Henrik Larsen"],
+    "people_ids": ["lhl"],
+    "title": "Konsekvensutredninger",
+    "text": "",
+    "published": "2023-05-01",
+    "img512": "https://mediebank.deno.dev/preview/8006685",
+    "searchwords": ["konsekvensutredning", "miljøutredning", "assessment"],
+    "intl": {
+      "name": {
+        "en": "Environmental assessments",
+        "no": "Konsekvensutredninger"
+      },
+      "desc": { "en": "", "no": "" }
+    }
+  },
+  {
+    "id": "0abc6240-b48b-404d-aa74-aec4268e5730",
+    "slug": "havdynamikk-og-spredningsmodellering/0abc6240-b48b-404d-aa74-aec4268e5730",
+    "collection": "service",
+    "people": ["Magnus Drivdal"],
+    "people_ids": ["mad"],
+    "title": "Havdynamikk og spredningsmodellering",
+    "text": "Overvåking og modellering av strøm, utslipp, sedimentering og partikkeldrift",
+    "published": "2023-05-01",
+    "img512": "https://mediebank.deno.dev/preview/11706434",
+    "searchwords": ["fvcom"],
+    "intl": {
+      "name": {
+        "en": "Ocean dynamics and dispersion modelling",
+        "no": "Havdynamikk og spredningsmodellering"
+      },
+      "desc": {
+        "en": "<div class><details><summary></summary></details></div>",
+        "no": "<div class><details><summary></summary></details></div>"
+      }
+    }
+  },
+  {
+    "id": "29bb9b22-9c10-41a9-81c8-965f7c31183e",
+    "slug": "tekniske-tjenester-akvakultur/29bb9b22-9c10-41a9-81c8-965f7c31183e",
+    "collection": "service",
+    "people": ["Kristine Steffensen"],
+    "people_ids": ["krs"],
+    "title": "Tekniske tjenester akvakultur",
+    "text": "",
+    "published": "2023-05-01",
+    "img512": "https://mediebank.deno.dev/preview/11996750",
+    "searchwords": [
+      "nytek",
+      "steffensen",
+      "lokalitetsundersøkelse",
+      "anleggssertifikat",
+      "nytek23"
+    ],
+    "intl": {
+      "name": {
+        "en": "Technical services aquaculture",
+        "no": "Tekniske tjenester akvakultur"
+      },
+      "desc": {
+        "en": "<div class=\"nytek\"><h2>Location Investigations and Construction Certificates</h2>Akvaplan-niva is accredited according to NS-EN ISO / IEC 17020 for inspection of floating aquaculture plants in accordance with NS 9415 and offers site surveys and inspection of plants before issuing a NYTEK23 plant certificate.</div>",
+        "no": "<div class=\"nytek\">Akvaplan-niva er akkreditert etter NS-EN ISO/IEC 17020 for inspeksjon av flytende oppdrettsanlegg i henhold til NS 9415 og tilbyr <b>lokalitetsundersøkelser</b> og inspeksjon av anlegg før utstedelse av <b>anleggssertifikat</b>.<details><summary>Lokalitetsundersøkelse</summary><span>En lokalitetsundersøkelse leder til fastsettelsen av dimensjonerende verdier for bølgehøyder, strømforhold og andre relevante miljøkrefter på en oppdrettslokalitet. Resultatene av denne undersøkelsen utgjør lokalitetsrapporten. Dette er den viktigste rapporten for videre arbeid med krav som stilles i NYTEK23-forskriften og som setter rammer for bruk og dimensjonering av teknisk utstyr. Lokalitetsrapporter fra Akvaplan-niva inneholder påkrevd og relevant informasjon om miljøforhold på en lokalitet.</span></details><details><summary>Anleggssertifikat</summary><p>Et anleggssertifikat utstedes av et akkreditert inspeksjonsorgan og er en bekreftelse på at et flytende oppdrettsanlegg tilfredsstiller kravene i NYTEK23-forskriften og NS 9415:2009. Gjennom vår akkreditering <a href=\"https://www.akkreditert.no/akkrediterte-organisasjoner/inspeksjon/?AkkId=542\" target=\"_blank\" rel=\"noopener noreferrer\">INSP 013</a> innehar Akvaplan-niva den nødvendige kompetanse til å utstede anleggssertifikat.</p><p>Et anleggssertifikat utstedes for fem år. Før et anleggssertifikat kan utstedes vil Akvaplan-niva foreta en gjennomgang av lokalitetsrapport, oppdretters dokumenter, inspisere anlegget og sjekke for avvik.</p><p>Et anleggssertifikat beskriver det flytende akvakulturanleggets nåværende og fremtidige konfigurasjon. Anleggets konfigurasjon beskrives i form av fortøyning, flåte, flytekrage, not og ekstrautstyr. Dersom det gjennomføres endringer ut over beskrivelser gitt i anleggssertifikatet, må sertifikatet oppdateres. Den endrede delen av anlegget kan ikke tas i bruk før nytt anleggssertifikat er innhentet.</p><p>Følgende dokumentasjon må foreligge før et anleggssertifikat kan utstedes:</p><menu><li>Fortøyningsanalyse som er I samsvar med installasjon på lokalitet</li><li>Kart over fortøyningen</li><li>Oversikt over fortøyningens konstruksjonsdeler</li><li>Fortøyningsrapport etter utlegginsarbeidet</li><li>Fortøyningsinspeksjonrapport (ROV-inspeksjon)</li><li>Produktsertifikat for hovedkomponentene/hovedkomponentbevis</li><li>Brukerhåndbøker for hovedkomponenter og ekstrautstyr</li></menu></details></div>"
+      }
+    }
+  },
+  {
+    "id": "743796be-c47b-4f06-955f-827e5e4def83",
+    "slug": "avansert-marin-forskningsstasjon/743796be-c47b-4f06-955f-827e5e4def83",
+    "collection": "service",
+    "people": ["Marianne Frantzen"],
+    "people_ids": ["mfr"],
+    "title": "Avansert marin forskningsstasjon",
+    "text": "",
+    "published": "2023-05-01",
+    "img512": "https://mediebank.deno.dev/preview/8022793",
+    "searchwords": ["fisk"],
+    "intl": {
+      "name": {
+        "en": "Advanced marine experimental facilities",
+        "no": "Avansert marin forskningsstasjon"
+      },
+      "desc": { "en": "", "no": "" }
+    }
+  },
+  {
+    "id": "83168297-4518-4b33-a982-68b3474f605f",
+    "slug": "autonom-og-fjernstyrt-miljoovervaking/83168297-4518-4b33-a982-68b3474f605f",
+    "collection": "service",
+    "people": ["Lionel Camus"],
+    "people_ids": ["lca"],
+    "title": "Autonom og fjernstyrt miljøovervåking",
+    "text": "undersøk store områder under vann med vår flåte av autonome farkoster",
+    "published": "2023-05-01",
+    "img512": "https://mediebank.deno.dev/preview/11741963",
+    "searchwords": [
+      "autonomous",
+      "vehicle",
+      "seaglider",
+      "sailbuoy",
+      "otter",
+      "ek80",
+      "hydrophone"
+    ],
+    "intl": {
+      "name": {
+        "en": "Remote and autonomous monitoring services",
+        "no": "Autonom og fjernstyrt miljøovervåking"
+      },
+      "desc": { "en": "<p></p>", "no": "<p></p>" }
+    }
+  },
+  {
+    "id": "a06644bc-043b-4a49-b2a1-1a0b20a8e586",
+    "slug": "bunndyrsanalyse/a06644bc-043b-4a49-b2a1-1a0b20a8e586",
+    "collection": "service",
+    "people": ["Kristine Hopland Sperre"],
+    "people_ids": ["khs"],
+    "title": "Bunndyrsanalyse",
+    "text": "",
+    "published": "2023-05-01",
+    "img512": "https://mediebank.deno.dev/preview/11706338",
+    "searchwords": ["seafloor", "benthos"],
+    "intl": {
+      "name": { "en": "Benthic analysis", "no": "Bunndyrsanalyse" },
+      "desc": {
+        "en": "<div class><details><summary>Akvaplan-niva offers sampling, processing, identification and reporting of marine sediment samples, as well as biological examination of littoral and sublittoral hard bottom flora and fauna.</summary>In relation to our baseline surveys and monitoring programs, our benthic laboratory offers accredited (EN ISO-IEC 17025) services including processing, taxonomic identification, interpretation and reporting of benthic faunal samples from both offshore (petroleum operations) and coastal areas (e.g. aquaculture, harbor basins, emission recipients).</details></div>",
+        "no": "<div class><details><summary>Akvaplan-niva tilbyr prøvetaking, opparbeiding, identifisering og rapportering av marine bløtbunnsprøver samt biologisk undersøkelse av litoral og sublitoral hardbunnsflora og hardbunnsfauna</summary>Vårt bentoslaboratorium tilbyr akkrediterte (NS-EN ISO-IEC 17025) tjenester innen opparbeiding, identifisering og faglig fortolkning av bunndyrsprøver knyttet til miljøundersøkelser og miljøovervåking, både offshore (petroleumsvirksomhet) og i kystnære områder (oppdrett, havnebasseng, utslippsområder o.l.).</details></div>"
+      }
+    }
+  },
+  {
+    "id": "a5b5c5b8-049a-401c-b087-23ecf13774a9",
+    "slug": "kjemisk-analyse/a5b5c5b8-049a-401c-b087-23ecf13774a9",
+    "collection": "service",
+    "people": ["Lisa Torske"],
+    "people_ids": ["lit"],
+    "title": "Kjemisk analyse",
+    "text": "",
+    "published": "2023-05-01",
+    "img512": "https://mediebank.deno.dev/preview/7986302",
+    "searchwords": ["kjemi", "kjemilab", "økotoks", "ecotox"],
+    "intl": {
+      "name": { "en": "Chemical analysis", "no": "Kjemisk analyse" },
+      "desc": { "en": "", "no": "" }
+    }
+  },
+  {
+    "id": "aa41809a-7651-4ec3-ad09-fa26d6762c11",
+    "slug": "miljorisiko-og-beredskap/aa41809a-7651-4ec3-ad09-fa26d6762c11",
+    "collection": "service",
+    "people": ["Cathrine Stephansen"],
+    "people_ids": ["cst"],
+    "title": "Miljørisiko og beredskap",
+    "text": "",
+    "published": "2023-05-01",
+    "img512": "https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_512,ar_16:9/n3bycrmerfzxiynzorz8",
+    "searchwords": [
+      "miljørisikoanalyse",
+      "miljørisiko",
+      "risk",
+      "acute",
+      "sense"
+    ],
+    "intl": {
+      "name": {
+        "en": "Environmental risks and contingency",
+        "no": "Miljørisiko og beredskap"
+      },
+      "desc": {
+        "en": "<div class=\"page-header\"><h2>Sensitive Environments Decision Support Group</h2><p><abbr title=\"Sensitive Environments Decision Support Group\">SensE</abbr> in Akvaplan-niva offers methodology development and a number of services within environmental risk and oil spill response. Primary clients are the petroleum and other offshore industries, particulary for activities in environmentally sensitive areas.</p><details open><summary>Environmental risk analyses</summary><p>Akvaplan-niva/SensE carries out projects in methodology development, data adaptation and standardisation for the Norwegian offshore industry. Environmental risk assessments (ERAs) for acute oil spills are carried out using the ERA Acute methodology.</p><div class=\"scroll-container\"><core-scroll id=\"hscroll-1d79b430-6d46-492e-9f24-ff6a47cc9283\" class=\"hscroll \"><li style=\"display:grid;gap:var(--size-2);align-items:center;min-width:340px;max-width:70ch;grid-template-columns:128px 1fr;\"><span style=\"height:96px;\"><svg id=\"akvaplan_symbol\" class=\"akvaplan_symbol\" xmlns=\"http://www.w3.org/2000/svg\" x=\"0px\" y=\"0px\" viewBox=\"0 0 436 436\"><style type=\"text/css\">.akvaplan_symbol {\n  --green: #00A2B2;\n  --blue: #005392;\n  --black: hsl(200 66% 7%);\n  --white: white;\n  background: transparent;\n}\n.upper-wave { fill: var(--white); }\n.lower-wave { fill: var(--blue);  }\n.circle { fill: var(--green); }\n\n@media (prefers-color-scheme: dark) {\n  .upper-wave{ fill: var(--blue); }\n  .lower-wave{ fill: var(--green); }\n  .circle { fill: var(--black); }\n}</style><g><path class=\"circle\" d=\"M417.81,129.59C383.79,53.25,307.31,0,218.33,0C97.75,0,0,97.75,0,218.33c0,5.89,0.3,11.71,0.76,17.49   C143.34,215.52,210.21,39.3,417.81,129.59\"></path><path class=\"circle\" d=\"M5.44,266.7c22.01,97.29,108.94,169.97,212.89,169.97c120.58,0,218.33-97.75,218.33-218.33   c0-26.41-4.69-51.73-13.28-75.16C231.16,90.05,170.56,284.22,5.44,266.7\"></path><path class=\"lower-wave\" d=\"M15.25,298.47c2.29,5.79,4.8,11.46,7.55,16.99c191.34,73.83,252.81-113.13,412.96-116.65   c-0.78-8.75-2.04-17.35-3.82-25.77C249.38,138.24,188.69,332.68,15.25,298.47\"></path><path class=\"upper-wave\" d=\"M0.76,235.82c142.58-20.3,209.45-196.52,417.05-106.23c0,0,3.18,6.39,6.04,14.9c-0.15-0.44-0.31-0.88-0.47-1.32  C231.16,90.05,170.56,284.22,5.44,266.7C2.78,254.44,0.76,235.82,0.76,235.82z\"></path></g></svg></span><span><a href=\"/en/doi/10.1007/978-3-030-70176-5\" class=\"line-clamp3\">Assessing Environmental Risk of Oil Spills with ERA Acute</a><span style=\"color:var(--text2);\"><time>2021-01-01</time></span></span></li><li style=\"display:grid;gap:var(--size-2);align-items:center;min-width:340px;max-width:70ch;grid-template-columns:auto 1fr;\"><a href=\"/en/pressrelease/2021-05-18/ny-miljorisikometode-for-akutte-oljeutslipp\" target=\"_self\"><img src=\"https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,h_96,ar_1:1/n3bycrmerfzxiynzorz8\" alt=\"Ny miljørisikometode for akutte oljeutslipp\" title=\"Ny miljørisikometode for akutte oljeutslipp\" loading=\"lazy\" style=\"height:96px;width:auto;min-width:96px;\"/></a><span><a href=\"/en/pressrelease/2021-05-18/ny-miljorisikometode-for-akutte-oljeutslipp\" class=\"line-clamp3\">Ny miljørisikometode for akutte oljeutslipp</a><span style=\"color:var(--text2);\"><time>2021-05-18</time><span> (norsk)</span></span></span></li></core-scroll></div></details><details open><summary>Oil spill response preparedness</summary><p>Oil spill response preparedness analyses and planning: SensE develops methodology and services related to analysis of oil spill response contingency requirements for activities. Oil spill preparedness analyses are carried out for activities on the Norwegian Continental Shelf.</p><p>Detailed oil spill preparedness plans for sensitive areas are based on field studies, for use in environmentally strategic contingency planning. SensE contributes substantially to the  <a href=\"https://nofo.no/planverk\" hreflang=\"no\" target=\"_blank\">operating industry preparedness website (Norwegian)</a> and carry out oil spill exercises and activities related to strategic oil spill response.</p></details><details open><summary>Decision support</summary><p>SensE projects involve structuring of data and results from research activities as a foundation for decision support.</p></details></div>",
+        "no": "<div class=\"page-header\"><h2>SensE</h2><p><abbr title=\"Sensitive Environments Decision Support Group\">SensE</abbr> i Akvaplan-niva tilbyr metodeutvikling og en rekke tjenester innenfor miljørisiko og oljevernberedskap, primært for petroleumsoperasjoner og aktiviteter i sensitive marine områder, men også for andre næringer i havrommet.</p><details open><summary>Miljørisikoanalyser</summary><p>Akvaplan-niva, ved SensE, gjennomfører prosjekter knyttet til metodeutvikling, datatilrettelegging og standardisering for norsk offshoreindustri. Analyser av miljørisiko for akutte oljeutslipp gjennomføres etter ERA Acute-metoden.</p><div class=\"scroll-container\"><core-scroll id=\"hscroll-7fa481a8-2bd9-4b79-8420-0897d37257eb\" class=\"hscroll \"><li style=\"display:grid;gap:var(--size-2);align-items:center;min-width:340px;max-width:70ch;grid-template-columns:128px 1fr;\"><span style=\"height:96px;\"><svg id=\"akvaplan_symbol\" class=\"akvaplan_symbol\" xmlns=\"http://www.w3.org/2000/svg\" x=\"0px\" y=\"0px\" viewBox=\"0 0 436 436\"><style type=\"text/css\">.akvaplan_symbol {\n  --green: #00A2B2;\n  --blue: #005392;\n  --black: hsl(200 66% 7%);\n  --white: white;\n  background: transparent;\n}\n.upper-wave { fill: var(--white); }\n.lower-wave { fill: var(--blue);  }\n.circle { fill: var(--green); }\n\n@media (prefers-color-scheme: dark) {\n  .upper-wave{ fill: var(--blue); }\n  .lower-wave{ fill: var(--green); }\n  .circle { fill: var(--black); }\n}</style><g><path class=\"circle\" d=\"M417.81,129.59C383.79,53.25,307.31,0,218.33,0C97.75,0,0,97.75,0,218.33c0,5.89,0.3,11.71,0.76,17.49   C143.34,215.52,210.21,39.3,417.81,129.59\"></path><path class=\"circle\" d=\"M5.44,266.7c22.01,97.29,108.94,169.97,212.89,169.97c120.58,0,218.33-97.75,218.33-218.33   c0-26.41-4.69-51.73-13.28-75.16C231.16,90.05,170.56,284.22,5.44,266.7\"></path><path class=\"lower-wave\" d=\"M15.25,298.47c2.29,5.79,4.8,11.46,7.55,16.99c191.34,73.83,252.81-113.13,412.96-116.65   c-0.78-8.75-2.04-17.35-3.82-25.77C249.38,138.24,188.69,332.68,15.25,298.47\"></path><path class=\"upper-wave\" d=\"M0.76,235.82c142.58-20.3,209.45-196.52,417.05-106.23c0,0,3.18,6.39,6.04,14.9c-0.15-0.44-0.31-0.88-0.47-1.32  C231.16,90.05,170.56,284.22,5.44,266.7C2.78,254.44,0.76,235.82,0.76,235.82z\"></path></g></svg></span><span><a href=\"/no/doi/10.1007/978-3-030-70176-5\" class=\"line-clamp3\">Assessing Environmental Risk of Oil Spills with ERA Acute</a><span style=\"color:var(--text2);\"><time>2021-01-01</time><span> (engelsk)</span></span></span></li><li style=\"display:grid;gap:var(--size-2);align-items:center;min-width:340px;max-width:70ch;grid-template-columns:auto 1fr;\"><a href=\"/no/pressemelding/2021-05-18/ny-miljorisikometode-for-akutte-oljeutslipp\" target=\"_self\"><img src=\"https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,h_96,ar_1:1/n3bycrmerfzxiynzorz8\" alt=\"Ny miljørisikometode for akutte oljeutslipp\" title=\"Ny miljørisikometode for akutte oljeutslipp\" loading=\"lazy\" style=\"height:96px;width:auto;min-width:96px;\"/></a><span><a href=\"/no/pressemelding/2021-05-18/ny-miljorisikometode-for-akutte-oljeutslipp\" class=\"line-clamp3\">Ny miljørisikometode for akutte oljeutslipp</a><span style=\"color:var(--text2);\"><time>2021-05-18</time></span></span></li></core-scroll></div></details><details open><summary>Oljevernberedskap</summary><p>SensE arbeider med metodeutvikling og tjenester knyttet til analyse av beredskapsbehov for aktiviteter som kan medføre akutte oljeutslipp. SensE gjennomfører beredskapsanalyser for aktiviteter på norsk sokkel. På basis av feltundersøkelser utvikler vi detaljerte oljevernplaner for spesielt sensitive områder, til bruk i miljøstrategisk beredskapsplanlegging. SensE bidrar vesentlig til <a href=\"https://nofo.no/planverk\">operatørenes planverk for oljevernberedskap</a> og gjennomfører beredskapsøvelser og trening i strategisk beredskap. Øvrig beslutningsstøtte: SensE arbeider med strukturering av data og resultater fra forskningsaktiviteter som grunnlag for beslutningsstøtte.</p></details><details open><summary>Beslutningsstøtte</summary><p>SensE arbeider med strukturering av data og resultater fra forskningsaktiviteter som grunnlag for beslutningsstøtte.</p></details></div>"
+      }
+    }
+  }
+]

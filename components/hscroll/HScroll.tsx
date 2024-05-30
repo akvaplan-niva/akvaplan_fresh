@@ -1,6 +1,7 @@
 import { t } from "akvaplan_fresh/text/mod.ts";
 import { Icon } from "akvaplan_fresh/components/mod.ts";
 import Button from "../button/button.tsx";
+import { asset, Head } from "$fresh/runtime.ts";
 
 type HScrollProps = HTMLElement & {
   scrollerId?: string;
@@ -73,6 +74,9 @@ export function HScroll({
       >
         {children}
       </core-scroll>
+      <Head>
+        <link rel="stylesheet" href={asset("/css/hscroll.css")} />
+      </Head>
     </div>
   );
 }

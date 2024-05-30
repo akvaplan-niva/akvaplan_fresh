@@ -32,8 +32,9 @@
 .button:hover,
 .custom-button:hover,
 .custom-button:focus {
-  border: var(--border-size-2) solid var(--surface4);
+  border: var(--border-size-2) solid var(--accent);
   text-decoration: none;
+  background: var(--surface2);
 }
 
 .custom-button[aria-pressed="true"],

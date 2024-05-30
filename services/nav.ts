@@ -185,10 +185,10 @@ export const anybodyUrl = (
   p: Person,
   lang,
 ) =>
-  p.id
+  p && p.id
     ? akvaplanistUrl(p, lang)
     : `${intlRouteMap(lang).get("akvaplanists")}/name/${
-      p.slug ? p.slug : `${p.family}/${p.given}`
+      p?.slug ? p.slug : `${p?.family ?? ""}/${p?.given ?? ""}`
     }`;
 
 export const personURL = (p: Akvaplanist | Person, lang) =>

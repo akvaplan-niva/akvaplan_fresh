@@ -1,7 +1,7 @@
 import SiteNavDialog from "akvaplan_fresh/components/site_menu_dialog.tsx";
 import ButtonOpenDialog from "akvaplan_fresh/islands/button_open_dialog.tsx";
 
-export const SiteSearchDialog = ({ lang }) => (
+export const Menu = ({ lang }) => (
   <span
     style={{
       display: "grid",

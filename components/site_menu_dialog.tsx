@@ -4,6 +4,7 @@ import { t } from "akvaplan_fresh/text/mod.ts";
 import IconButton from "./button/icon_button.tsx";
 import GroupedSearch from "../islands/grouped_search.tsx";
 import { SiteLangLinks } from "akvaplan_fresh/components/site_lang_links.tsx";
+import { ApnLogo } from "akvaplan_fresh/components/akvaplan/logo.tsx";
 
 export default ({ lang }) => (
   <dialog
@@ -21,9 +22,7 @@ export default ({ lang }) => (
   >
     <header>
       <a href="/" aria-label={t("nav.go_home")} style={{ marginTop: "1rem" }}>
-        <svg width="100%" height="3rem">
-          <use href="#apn-logo" />
-        </svg>
+        <ApnLogo width="192" />
       </a>
     </header>
     <GroupedSearch lang={lang} />
@@ -39,17 +38,17 @@ export default ({ lang }) => (
       }}
     >
       <SiteNavVerticalLarge />
-      <span class="hide-l">
-        <span
-          style={{
-            fontSize: "var(--font-size-4)",
-            display: "grid",
-            placeItems: "left",
-          }}
-        >
-          <SiteLangLinks />
-        </span>
-      </span>
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          margin: "0.5rem",
+          padding: "0.5rem",
+        }}
+      >
+        <SiteLangLinks />
+      </div>
     </div>
     <footer
       style={{

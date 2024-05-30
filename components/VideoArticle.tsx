@@ -1,5 +1,7 @@
 import { Article } from "akvaplan_fresh/components/mod.ts";
 import type { MynewsdeskVideo } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import { editHref } from "akvaplan_fresh/services/mynewsdesk.ts";
+import { EditLinkIcon } from "akvaplan_fresh/components/edit_link.tsx";
 
 export function VideoArticle(
   { item }: { item: MynewsdeskVideo },
@@ -19,6 +21,7 @@ export function VideoArticle(
           </iframe>
         )}
       </div>
+      <EditLinkIcon href={editHref(item)} />
     </Article>
   );
 }

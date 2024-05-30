@@ -43,8 +43,8 @@ export const ScrollImage = ({ image, onHover }: ScrollImageProps) => {
 
 export default function HScrollWithDynamicImage({ images }: Props) {
   const [bigImage, setBigImage] = useState(images.at(0));
-
-  if (!bigImage) return null;
+  console.warn(bigImage);
+  //if (!bigImage) return null;
 
   const onHover = (e) => {
     console.warn(e);
@@ -75,6 +75,7 @@ export default function HScrollWithDynamicImage({ images }: Props) {
         </HScroll>
       </div>
       <Head>
+        <link rel="stylesheet" href={asset("/css/hscroll.css")} />
         <link rel="stylesheet" href={asset("/css/hscroll-dynamic.css")} />
       </Head>
     </section>

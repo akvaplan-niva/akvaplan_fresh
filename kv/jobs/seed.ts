@@ -4,6 +4,9 @@ import { seedAkvaplanists } from "./seed/seed_akvaplanists.ts";
 import { seedCustomerServices } from "./seed/seed_customer_services.ts";
 import { seedMynewsdesk } from "./seed/seed_mynewsdesk.ts";
 
+//Beware run with --env or else prod
+const kv = await openKv();
+
 // FIXME, Move search atomization, ie homogenize all content *not* while running, but at build time (or via cron)
 
 const seedArcticFrontiers = async () => {
@@ -36,14 +39,37 @@ const seedHomeBanner = async () => {
   await kv.set(["announce", "home", "en"], en);
 };
 
+export const seedPanels = async () => {
+  const atomic = kv.atomic();
+  const panels = (await Deno.readTextFile("./data/seed/panels.ndjson"))
+    .trim().split("\n").map((txt) => JSON.parse(txt));
+
+  for await (const panel of panels) {
+    const key = ["panel", panel.id];
+    atomic
+      //.check({ key, versionstamp: null })
+      .set(key, panel);
+  }
+  const response = await atomic.commit();
+  console.warn(response);
+};
+
+export const listPanels = async () => {
+  for await (const entry of kv.list({ prefix: ["panel"] })) {
+    //console.warn(entry);
+  }
+};
+
 export const seedKv = async () => {
   //await seedHomeBanner();
   //seedArcticFrontiers();
-  await seedAkvaplanists();
-  await seedCustomerServices();
-  //seedReserchTopics();
-  await seedMynewsdesk();
-  seedDois();
+  // await seedAkvaplanists();
+  // await seedCustomerServices();
+  // //seedReserchTopics();
+  // await seedMynewsdesk();
+  // seedDois();
+  //await seedPanels(kv);
+  await seedPanels();
 };
 
 if (import.meta.main) {

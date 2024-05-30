@@ -3,7 +3,7 @@ export function extractId(str: string) {
     const { pathname } = new URL(str);
     str = pathname;
   }
-  str = str.split("/")?.at(-1)!;
+  str = str?.split("/")?.at(-1)!;
   if (!/-/.test(str)) {
     return str;
   }

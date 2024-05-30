@@ -47,6 +47,8 @@ import { Head } from "$fresh/runtime.ts";
 import { priorAkvaplanists } from "../services/prior_akvaplanists.ts";
 
 import { search } from "akvaplan_fresh/search/search.ts";
+import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
+import { MainContacts } from "akvaplan_fresh/components/offices.tsx";
 
 interface AkvaplanistsRouteProps {
   people: Akvaplanist[];
@@ -354,11 +356,20 @@ export default function Akvaplanists(
 
       {filter?.length > 0 ? <OnePersonGroup members={results} /> : (
         <>
+          {
+            /* <PageSection>
+            <h2 style={{ fontWeight: "900" }}>
+              {t("about.MainContacts")}
+            </h2>
+            <MainContacts />
+          </PageSection> */
+          }
           <PeopleSearchForm
             q={q}
             sortdir={searchParams.get("sortdir")}
             group={group}
           />
+
           <GroupedPeople group={group} grouped={grouped} />
         </>
       )}

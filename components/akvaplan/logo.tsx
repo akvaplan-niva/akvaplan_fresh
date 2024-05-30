@@ -5,8 +5,8 @@ const style = `@media only screen and (min-width: 1440px) {
  };`;
 export const ApnLogo = (props = {}) => (
   <svg
-    width={props?.width ?? "100%"}
-    height={props.height ?? "2.75rem"}
+    width={props?.width}
+    height={props?.height}
     viewBox="0 0 127.11 30.276"
     aria-label="Akvaplan-niva"
     alt="Akvaplan-niva logo"
