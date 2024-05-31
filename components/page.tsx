@@ -50,11 +50,9 @@ export function Page(
   }
   const head = (
     <Head>
-      {title ? <title>{title} – Akvaplan-niva</title> : (
-        <title>
-          Akvaplan-niva – {lang.value === "en" ? slogun : slagord}
-        </title>
-      )}
+      <title>
+        {title && title + ` / `}Akvaplan-niva
+      </title>
 
       <script
         dangerouslySetInnerHTML={{ __html: buildInitTheming() }}
@@ -66,7 +64,7 @@ export function Page(
       <meta name="color-scheme" content="dark light" />
       <meta
         name="description"
-        content={t("meta.description")}
+        content={title ?? t("meta.description")}
       />
 
       <link

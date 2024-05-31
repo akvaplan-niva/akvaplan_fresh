@@ -66,12 +66,12 @@ export const getPanelsByIds = async (
   return _panels.map(({ value }) => value as Panel);
 };
 
-// FIXME Panel: add sort order
+// FIXME Panel: add sort order (or else we need list of ids like for home panel ids)
 export const homePanelIds = [
   "01hyd6qeqv77bp980k1mw33rt0", // about
   "01hyd6qeqv4n3qrcv735aph6yy", // services
-  "01hyd6qeqv71dyhcd3356q31sy",
   "01hyd6qeqvy0ghjnk1nwdfwvyq",
+  "01hyd6qeqv71dyhcd3356q31sy",
   "01hyd6qeqtfewhjjxtmyvgv35q",
 ];
 

@@ -1,11 +1,3 @@
-import {
-  Accreditations,
-  Card,
-  Certifications,
-  CollectionHeader,
-  Page,
-} from "akvaplan_fresh/components/mod.ts";
-
 import { t } from "akvaplan_fresh/text/mod.ts";
 
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
@@ -13,11 +5,18 @@ import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
 
-import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
 import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
-import { MainContacts } from "akvaplan_fresh/components/offices.tsx";
+import {
+  Accreditations,
+  Certifications,
+} from "akvaplan_fresh/components/akvaplan/accreditations.tsx";
+
+import { Card } from "akvaplan_fresh/components/card.tsx";
+import { Page } from "akvaplan_fresh/components/page.tsx";
+
+import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -78,7 +77,6 @@ export default defineRoute(async (_req, ctx) => {
 
       <PageSection>
         <h2 style={{ fontWeight: "900" }}>
-          Viktige dokumenter
         </h2>
         <Card>
           <GroupedSearch

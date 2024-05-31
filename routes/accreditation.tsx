@@ -166,7 +166,7 @@ const en = (
   </main>
 );
 
-export default function Accreditations(
+export function Accreditations(
   { data: { title, lang, base } }: PageProps<NullProps>,
 ) {
   return (
