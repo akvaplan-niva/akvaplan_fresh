@@ -71,7 +71,7 @@ const findGroup = (groupname) => {
   if ("ledelse" === groupname) {
     return "management";
   }
-  return groupname?.length > 0 ? groupname : "given0";
+  return groupname?.length > 0 ? groupname : "section";
 };
 
 const getSortKey = (key: string) => {
