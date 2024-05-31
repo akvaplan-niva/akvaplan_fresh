@@ -1,93 +1,73 @@
-import { getServicesLevel0FromExternalDenoService } from "akvaplan_fresh/services/svc.ts";
-import { buildAkvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
-import {
-  Accreditations,
-  ArticleSquare,
-  Card,
-  HScroll,
-  Page,
-  PeopleCard,
-} from "akvaplan_fresh/components/mod.ts";
+import _services from "akvaplan_fresh/data/orama/2024-05-23_customer_services.json" with {
+  type: "json",
+};
 
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
-
+import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
 import {
-  type FreshContext,
-  type Handlers,
-  type PageProps,
-  type RouteConfig,
-} from "$fresh/server.ts";
-import { asset, Head } from "$fresh/runtime.ts";
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+  getCollectionPanelsInLang,
+  getPanelInLang,
+} from "akvaplan_fresh/kv/panel.ts";
+import { EditIconButton } from "akvaplan_fresh/components/edit_icon_button.tsx";
+
+import { defineRoute, type RouteConfig } from "$fresh/server.ts";
+import {
+  HeroPanel,
+  ImagePanel,
+  WideCard,
+} from "akvaplan_fresh/components/panel.tsx";
+import { Naked } from "akvaplan_fresh/components/naked.tsx";
+import { isAuthorized } from "akvaplan_fresh/auth_/authorized.ts";
+import HScroll from "akvaplan_fresh/components/hscroll/HScroll.tsx";
+
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(services|tjenester)",
 };
+const panelHashId = (id: string) => `panel-${id}`;
 
-const _section = {
-  marginTop: "2rem",
-  marginBottom: "3rem",
-};
-const _header = {
-  marginBlockStart: "1rem",
-  marginBlockEnd: "0.5rem",
-};
+// FIXME Services page: 301 for /no/tjenester/tema/milj%C3%B8overv%C3%A5king & /no/tjenester/miljoovervaking/0618d159-5a99-4938-ae38-6c083da7da57
+export default defineRoute(async (req, ctx) => {
+  const { lang, page } = ctx.params;
 
-export const handler: Handlers = {
-  async GET(req: Request, ctx: FreshContext) {
-    const { params, url } = ctx;
-    const { searchParams } = new URL(req.url);
-    lang.value = params.lang;
+  const heroPanel = await getPanelInLang({
+    id: "01hyd6qeqv4n3qrcv735aph6yy",
+    lang,
+  });
 
-    const title = t("nav.Services");
-    const base = `/${params.lang}/${params.page}/`;
+  const { title, image } = heroPanel;
 
-    const { groupname, filter } = params;
-    const group = groupname?.length > 0 ? groupname : "year";
-    const q = searchParams.get("q") ?? "";
+  const hero = { title, image, backdrop: true, lang };
 
-    const services = await getServicesLevel0FromExternalDenoService(
-      params.lang,
-    );
+  const panels = (await getCollectionPanelsInLang({
+    collection: "service",
+    lang,
+  })).sort((a, b) => a.title.localeCompare(b.title));
 
-    const people = await buildAkvaplanistMap();
-    const contacts = new Map([["lab", "mfr"]]);
+  const authorized = await isAuthorized();
 
-    return ctx.render({ lang, title, base, services, people, contacts, url });
-  },
-};
-
-export default function Services(
-  { data: { lang, title, base, services, people, contacts, url } }: PageProps<
-    unknown
-  >,
-) {
-  const width = 512;
-  const height = 512;
   return (
-    <Page title={title} base={base} collection="home">
-      <Head>
-        <link rel="stylesheet" href={asset("/css/hscroll.css")} />
-        <link rel="stylesheet" href={asset("/css/hscroll-dynamic.css")} />
-        <link rel="stylesheet" href={asset("/css/article.css")} />
-        <script src={asset("/@nrk/core-scroll.min.js")} />
-      </Head>
+    <Naked title={title} collection="home">
+      <HeroPanel {...hero} />
 
-      <h1>{title}</h1>
-
-      {/* <OurServices services={services} /> */}
-
-      <HScroll maxVisibleChildren={6.5}>
-        {services.map(ArticleSquare)}
-      </HScroll>
-
-      <section style={_section}>
-        <Card>
-          <h1>
-            {t("acc.Header")}
-          </h1>
-        </Card>
-        <Accreditations lang={lang.value} />
-      </section>
-    </Page>
+      <PageSection style={{ marginTop: "2rem" }}>
+        <HScroll maxVisibleChildren={5}>
+          {panels.map(({ href, id, ...props }) => (
+            <WideCard
+              {...props}
+              href={`/${lang}/${page}#${panelHashId(id)}`}
+              sizes="30vw"
+            />
+          ))}
+        </HScroll>
+      </PageSection>
+      {panels?.map((panel) => (
+        <PageSection style={{ display: "grid", placeItems: "center" }}>
+          <ImagePanel {...panel} lang={lang} id={panelHashId(panel.id)} />
+          <EditIconButton
+            authorized={authorized}
+            href={`/${lang}/panel/${panel.id}/edit`}
+          />
+        </PageSection>
+      ))}
+    </Naked>
   );
-}
+});
