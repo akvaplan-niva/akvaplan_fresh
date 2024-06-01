@@ -30,7 +30,7 @@ import {
 
 import { asset, Head } from "$fresh/runtime.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "akvaplan_fresh/components/PageSection.tsx";
 
 // export const config: RouteConfig = {
 //   routeOverride:
@@ -131,7 +131,7 @@ export default function ResearchTopicsPage(
         </Article>
       </div>
 
-      <PageSection>
+      <Section>
         <GroupedSearch
           term={research?.searchwords.join(" ")}
           exclude={["person", "image", "document", "blog", "pubs"]}
@@ -139,7 +139,7 @@ export default function ResearchTopicsPage(
           threshold={0.5}
           noInput
         />
-      </PageSection>
+      </Section>
     </Page>
   );
 }

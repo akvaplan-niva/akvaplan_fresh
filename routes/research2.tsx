@@ -8,7 +8,7 @@ import { lang, t } from "akvaplan_fresh/text/mod.ts";
 import { CollectionHeader, Page } from "akvaplan_fresh/components/mod.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import { Mini4ColGrid } from "akvaplan_fresh/components/Mini3ColGrid.tsx";
-import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "akvaplan_fresh/components/PageSection.tsx";
 import { ResearchIntro } from "../components/ResearchIntro.tsx";
 
 import type { RouteConfig, RouteContext } from "$fresh/server.ts";
@@ -35,7 +35,7 @@ export default async function ResearchPage(req: Request, ctx: RouteContext) {
       <SearchResults
         hits={hits}
       />
-      <PageSection>
+      <Section>
         {
           /* <GroupedSearch
           term={"forskning science vitenskap"}
@@ -48,7 +48,7 @@ export default async function ResearchPage(req: Request, ctx: RouteContext) {
           noInput
         /> */
         }
-      </PageSection>
+      </Section>
     </Page>
   );
 }

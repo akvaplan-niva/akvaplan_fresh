@@ -2,7 +2,7 @@ import _services from "akvaplan_fresh/data/orama/2024-05-23_customer_services.js
   type: "json",
 };
 
-import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "akvaplan_fresh/components/PageSection.tsx";
 import {
   getCollectionPanelsInLang,
   getPanelInLang,
@@ -18,6 +18,10 @@ import {
 import { Naked } from "akvaplan_fresh/components/naked.tsx";
 import { isAuthorized } from "akvaplan_fresh/auth_/authorized.ts";
 import HScroll from "akvaplan_fresh/components/hscroll/HScroll.tsx";
+import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
+import { Page } from "akvaplan_fresh/components/page.tsx";
+import { CollectionHeader } from "akvaplan_fresh/components/album/album_header.tsx";
+import { ArticleSquare } from "akvaplan_fresh/components/news/article_square.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(services|tjenester)",
@@ -28,14 +32,12 @@ const panelHashId = (id: string) => `panel-${id}`;
 export default defineRoute(async (req, ctx) => {
   const { lang, page } = ctx.params;
 
-  const heroPanel = await getPanelInLang({
+  const hero = await getPanelInLang({
     id: "01hyd6qeqv4n3qrcv735aph6yy",
     lang,
   });
 
-  const { title, image } = heroPanel;
-
-  const hero = { title, image, backdrop: true, lang };
+  const { title, image } = hero;
 
   const panels = (await getCollectionPanelsInLang({
     collection: "service",
@@ -45,10 +47,24 @@ export default defineRoute(async (req, ctx) => {
   const authorized = await isAuthorized();
 
   return (
-    <Naked title={title} collection="home">
-      <HeroPanel {...hero} />
+    <Page title={title} collection="home">
+      <Section style={{ display: "grid", placeItems: "center" }}>
+        <HeroPanel {...hero} lang={lang} />
+        <EditIconButton
+          authorized={authorized}
+          href={`/${lang}/panel/${hero.id}/edit`}
+        />
+      </Section>
+      <Section>
+        {
+          /* <CollectionHeader collection="news" />
+        <HScroll>
+          {panels?.map(ArticleSquare)}
+        </HScroll> */
+        }
+      </Section>
 
-      <PageSection style={{ marginTop: "2rem" }}>
+      <Section>
         <HScroll maxVisibleChildren={5}>
           {panels.map(({ href, id, ...props }) => (
             <WideCard
@@ -58,16 +74,21 @@ export default defineRoute(async (req, ctx) => {
             />
           ))}
         </HScroll>
-      </PageSection>
+      </Section>
+
+      <Section>
+        {hero?.desc && <Markdown text={hero.desc} />}
+      </Section>
+
       {panels?.map((panel) => (
-        <PageSection style={{ display: "grid", placeItems: "center" }}>
+        <Section style={{ display: "grid", placeItems: "center" }}>
           <ImagePanel {...panel} lang={lang} id={panelHashId(panel.id)} />
           <EditIconButton
             authorized={authorized}
             href={`/${lang}/panel/${panel.id}/edit`}
           />
-        </PageSection>
+        </Section>
       ))}
-    </Naked>
+    </Page>
   );
 });

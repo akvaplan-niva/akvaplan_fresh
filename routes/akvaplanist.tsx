@@ -47,7 +47,7 @@ import { Head } from "$fresh/runtime.ts";
 import { priorAkvaplanists } from "../services/prior_akvaplanists.ts";
 
 import { search } from "akvaplan_fresh/search/search.ts";
-import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "akvaplan_fresh/components/PageSection.tsx";
 import { MainContacts } from "akvaplan_fresh/components/offices.tsx";
 
 interface AkvaplanistsRouteProps {

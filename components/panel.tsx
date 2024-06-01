@@ -171,7 +171,7 @@ function WidePictureOverlay({
             justifyContent: "end",
           }}
         >
-          {image.caption ?? ""}
+          {image?.caption ?? ""}
         </figcaption>
       </figure>
 

@@ -3,7 +3,7 @@ import { t } from "akvaplan_fresh/text/mod.ts";
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "akvaplan_fresh/components/PageSection.tsx";
 
 import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
@@ -38,44 +38,46 @@ export default defineRoute(async (_req, ctx) => {
 
   return (
     <Page title={title} base={base} lang={lang}>
-      <ImagePanel {...hero} lang={lang} />
+      <Section style={{ display: "grid", placeItems: "center" }}>
+        <ImagePanel {...hero} lang={lang} />
+      </Section>
 
-      <PageSection>
+      <Section>
         <h2 style={{ fontWeight: "900" }}>
         </h2>
         <Card>
           {hero?.desc && <Markdown text={hero.desc} />}
         </Card>
-      </PageSection>
+      </Section>
 
-      <PageSection>
+      <Section>
         {[].map((what) => (
           <CollectionHeader
             text={t(`about.${what}`)}
             href={intlRouteMap(lang).get(what)}
           />
         ))}
-      </PageSection>
+      </Section>
 
-      <PageSection>
+      <Section>
         <h2 style={{ fontWeight: "900" }}>
           {t("acc.Header")}
         </h2>
         <Card>
           <Accreditations lang={lang} />
         </Card>
-      </PageSection>
+      </Section>
 
-      <PageSection>
+      <Section>
         <h2 style={{ fontWeight: "900" }}>
           {t("cert.Header")}
         </h2>
         <Card>
           <Certifications lang={lang} />
         </Card>
-      </PageSection>
+      </Section>
 
-      <PageSection>
+      <Section>
         <h2 style={{ fontWeight: "900" }}>
         </h2>
         <Card>
@@ -89,7 +91,7 @@ export default defineRoute(async (_req, ctx) => {
             sort="title"
           />
         </Card>
-      </PageSection>
+      </Section>
     </Page>
   );
 });

@@ -6,7 +6,7 @@ import _research from "akvaplan_fresh/data/orama/2024-04-30_research_topics.json
 //   type: "json",
 // };
 
-import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "akvaplan_fresh/components/PageSection.tsx";
 import {
   getCollectionPanelsInLang,
   getPanelInLang,
@@ -42,13 +42,13 @@ export default defineRoute(async (req, ctx) => {
   return (
     <Naked title={title} collection="home" color-scheme="dark">
       <HeroPanel {...heroProps} />
-      <PageSection>
+      <Section>
         <Mini4ColGrid atoms={_research} />
-      </PageSection>
+      </Section>
       {panels?.map((panel) => (
-        <PageSection style={{ display: "grid", placeItems: "center" }}>
+        <Section style={{ display: "grid", placeItems: "center" }}>
           <ImagePanel {...panel} lang={lang} />
-        </PageSection>
+        </Section>
       ))}
     </Naked>
   );

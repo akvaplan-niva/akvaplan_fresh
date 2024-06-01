@@ -1,10 +1,22 @@
-import { marky } from "https://deno.land/x/marky@v1.1.7/mod.ts";
+import { render } from "jsr:@deno/gfm@0.6";
+export const Markdown = ({ text, ...props }) => {
+  const __html = render(text, {
+    //baseUrl: "https://example.com",
+  });
 
-export const Markdown = ({ text, ...props }) => (
-  <div
-    dangerouslySetInnerHTML={{
-      __html: marky(text),
-    }}
-    {...props}
-  />
-);
+  return (
+    <article class="markdown">
+      <div
+        style={{ margin: "0 auto", fontFamily: "inherit" }}
+        data-color-mode="auto"
+        data-light-theme="light"
+        data-dark-theme="dark"
+        class="markdown-body"
+        {...props}
+        dangerouslySetInnerHTML={{
+          __html,
+        }}
+      />
+    </article>
+  );
+};

@@ -2,18 +2,8 @@ import { Article } from "akvaplan_fresh/components/mod.ts";
 import { lang } from "akvaplan_fresh/text/mod.ts";
 import { isodate } from "akvaplan_fresh/time/mod.ts";
 
-import { href } from "akvaplan_fresh/search/href.ts";
-
 import type { MynewsdeskImage } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
-
-const Link = ({ document: { title, ...rest } }) => (
-  <li>
-    <a href={href(rest)}>
-      {title}
-    </a>
-  </li>
-);
 
 export function ImageArticle(
   { image }: { image: MynewsdeskImage },

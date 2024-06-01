@@ -3,7 +3,7 @@ import { latestNewsFromMynewsdeskService } from "akvaplan_fresh/services/news.ts
 import { extractLangFromUrl, lang, t } from "akvaplan_fresh/text/mod.ts";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 
-import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
+//import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 
 import {
   ArticleSquare,
@@ -11,7 +11,7 @@ import {
   HScroll,
   Page,
 } from "akvaplan_fresh/components/mod.ts";
-import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "akvaplan_fresh/components/PageSection.tsx";
 import {
   ArticlePanelTitleLow,
   ImagePanel,
@@ -118,23 +118,28 @@ export default function Home(
 
   return (
     <Page>
-      {[].map((b) => <LinkBanner text={b.text} href={b.href} />)}
-
-      {sticky?.map((props) => (
+      {
+        /* <PageSection style={{ display: "grid", placeItems: "center" }}>
+        {[].map((b) => <LinkBanner text={b.text} href={b.href} />)}
+      </PageSection> */
+      }
+      {
+        /* {sticky?.map((props) => (
         <PageSection style={{ display: "grid", placeItems: "center" }}>
           <ArticlePanelTitleLow {...props} />
         </PageSection>
-      ))}
+      ))} */
+      }
 
-      <PageSection style={{ display: "grid", placeItems: "center" }}>
+      <Section style={{ display: "grid", placeItems: "center" }}>
         <ImagePanel {...firstPanel} lang={lang} />
         <EditIconButton
           authorized={authorized}
           href={`/${lang}/panel/${firstPanel.id}/edit`}
         />
-      </PageSection>
+      </Section>
 
-      <PageSection>
+      <Section>
         <CollectionHeader collection="news" />
         <HScroll maxVisibleChildren={maxVisNews}>
           {news?.map(ArticleSquare)}
@@ -154,16 +159,16 @@ export default function Home(
             ))}
           </HScroll>
         </div>
-      </PageSection>
+      </Section>
 
       {panels?.map((panel) => (
-        <PageSection style={{ display: "grid", placeItems: "center" }}>
+        <Section style={{ display: "grid", placeItems: "center" }}>
           <ImagePanel {...panel} lang={lang} />
           <EditIconButton
             authorized={authorized}
             href={`/${lang}/panel/${panel.id}/edit`}
           />
-        </PageSection>
+        </Section>
       ))}
     </Page>
   );

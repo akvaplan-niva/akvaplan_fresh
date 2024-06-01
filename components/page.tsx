@@ -12,7 +12,7 @@ import { FunctionComponent, JSX } from "preact";
 import { type StringSignal } from "akvaplan_fresh/@interfaces/signal.ts";
 import { collectionBreadcrumbs } from "akvaplan_fresh/services/mod.ts";
 import { SocialMediaIcons } from "akvaplan_fresh/components/social_media_icons.tsx";
-import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "akvaplan_fresh/components/PageSection.tsx";
 //import { symbolDataURI } from "akvaplan_fresh/components/akvaplan/symbol.tsx";
 
 export type StdProps =
