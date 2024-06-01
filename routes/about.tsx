@@ -3,7 +3,7 @@ import { t } from "akvaplan_fresh/text/mod.ts";
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-import { Section } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "../components/section.tsx";
 
 import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";

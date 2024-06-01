@@ -25,7 +25,7 @@ export const config: RouteConfig = {
 import { MynewsdeskArticle } from "../@interfaces/mynewsdesk.ts";
 import { asset, Head } from "$fresh/runtime.ts";
 import { url } from "@valibot/valibot";
-import { Section } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "../components/section.tsx";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 type Props = {};
 const _section = {

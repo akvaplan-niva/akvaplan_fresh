@@ -2,7 +2,7 @@ import _services from "akvaplan_fresh/data/orama/2024-05-23_customer_services.js
   type: "json",
 };
 
-import { Section } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "akvaplan_fresh/components/section.tsx";
 import {
   getCollectionPanelsInLang,
   getPanelInLang,

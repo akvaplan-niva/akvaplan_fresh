@@ -30,7 +30,7 @@ import {
 
 import { asset, Head } from "$fresh/runtime.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-import { Section } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "../components/section.tsx";
 
 // export const config: RouteConfig = {
 //   routeOverride:

@@ -11,7 +11,7 @@ import {
   HScroll,
   Page,
 } from "akvaplan_fresh/components/mod.ts";
-import { Section } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "../components/section.tsx";
 import {
   ArticlePanelTitleLow,
   ImagePanel,
@@ -119,15 +119,15 @@ export default function Home(
   return (
     <Page>
       {
-        /* <PageSection style={{ display: "grid", placeItems: "center" }}>
+        /* <Section style={{ display: "grid", placeItems: "center" }}>
         {[].map((b) => <LinkBanner text={b.text} href={b.href} />)}
-      </PageSection> */
+      </Section> */
       }
       {
         /* {sticky?.map((props) => (
-        <PageSection style={{ display: "grid", placeItems: "center" }}>
+        <Section style={{ display: "grid", placeItems: "center" }}>
           <ArticlePanelTitleLow {...props} />
-        </PageSection>
+        </Section>
       ))} */
       }
 

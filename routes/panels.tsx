@@ -2,7 +2,7 @@ import { getPanelsInLang, PanelFilter } from "akvaplan_fresh/kv/panel.ts";
 
 import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 import { EditIconButton } from "akvaplan_fresh/components/edit_icon_button.tsx";
-import { Section } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "../components/section.tsx";
 import { Page } from "akvaplan_fresh/components/page.tsx";
 
 import { defineRoute, RouteConfig } from "$fresh/server.ts";

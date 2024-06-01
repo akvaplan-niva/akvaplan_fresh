@@ -6,7 +6,7 @@ import _research from "akvaplan_fresh/data/orama/2024-04-30_research_topics.json
 //   type: "json",
 // };
 
-import { Section } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "../components/section.tsx";
 import {
   getCollectionPanelsInLang,
   getPanelInLang,

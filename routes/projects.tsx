@@ -11,7 +11,7 @@ import {
   Page,
 } from "akvaplan_fresh/components/mod.ts";
 
-import { Section } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "../components/section.tsx";
 import { MynewsdeskEvent } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { ImagePanel, WideCard } from "akvaplan_fresh/components/panel.tsx";
