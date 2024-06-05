@@ -61,6 +61,7 @@ import * as $service_topics from "./routes/service_topics.tsx";
 import * as $services from "./routes/services.tsx";
 import * as $services2 from "./routes/services2.tsx";
 import * as $services_vt from "./routes/services_vt.tsx";
+import * as $sign_in from "./routes/sign/in.tsx";
 import * as $sitemap_txt from "./routes/sitemap.txt.ts";
 import * as $topics from "./routes/topics.tsx";
 import * as $usr from "./routes/usr.tsx";
@@ -144,6 +145,7 @@ const manifest = {
     "./routes/services.tsx": $services,
     "./routes/services2.tsx": $services2,
     "./routes/services_vt.tsx": $services_vt,
+    "./routes/sign/in.tsx": $sign_in,
     "./routes/sitemap.txt.ts": $sitemap_txt,
     "./routes/topics.tsx": $topics,
     "./routes/usr.tsx": $usr,

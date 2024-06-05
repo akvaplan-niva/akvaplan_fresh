@@ -17,6 +17,7 @@ import { Card } from "akvaplan_fresh/components/card.tsx";
 import { Page } from "akvaplan_fresh/components/page.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
+import { MainOffice } from "akvaplan_fresh/components/offices.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -32,7 +33,7 @@ export default defineRoute(async (_req, ctx) => {
   const base = `/${params.lang}/${params.page}/`;
 
   const hero = await getPanelInLang({
-    id: "01hz1r7654ptzs2tys6qxtv01m",
+    id: "01hzfwfctv0h33c494bje9y7r0",
     lang,
   });
 
@@ -41,24 +42,18 @@ export default defineRoute(async (_req, ctx) => {
       <ImagePanel {...hero} lang={lang} />
 
       <PageSection>
-        <h2 style={{ fontWeight: "900" }}>
-        </h2>
         <Card>
           {hero?.desc && <Markdown text={hero.desc} />}
         </Card>
       </PageSection>
 
       <PageSection>
-        {[].map((what) => (
-          <CollectionHeader
-            text={t(`about.${what}`)}
-            href={intlRouteMap(lang).get(what)}
-          />
-        ))}
+        <h2>{t("about.HQ")}</h2>
+        <MainOffice />
       </PageSection>
 
       <PageSection>
-        <h2 style={{ fontWeight: "900" }}>
+        <h2>
           {t("acc.Header")}
         </h2>
         <Card>
@@ -67,7 +62,7 @@ export default defineRoute(async (_req, ctx) => {
       </PageSection>
 
       <PageSection>
-        <h2 style={{ fontWeight: "900" }}>
+        <h2>
           {t("cert.Header")}
         </h2>
         <Card>
@@ -76,8 +71,6 @@ export default defineRoute(async (_req, ctx) => {
       </PageSection>
 
       <PageSection>
-        <h2 style={{ fontWeight: "900" }}>
-        </h2>
         <Card>
           <GroupedSearch
             term={`policy miljøpolitikk likestilling gep arp`}
