@@ -3,7 +3,7 @@ import { t } from "akvaplan_fresh/text/mod.ts";
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-import { Section } from "../components/section.tsx";
+import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
 
 import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
@@ -17,6 +17,7 @@ import { Card } from "akvaplan_fresh/components/card.tsx";
 import { Page } from "akvaplan_fresh/components/page.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
+import { MainOffice } from "akvaplan_fresh/components/offices.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -32,54 +33,44 @@ export default defineRoute(async (_req, ctx) => {
   const base = `/${params.lang}/${params.page}/`;
 
   const hero = await getPanelInLang({
-    id: "01hz1r7654ptzs2tys6qxtv01m",
+    id: "01hzfwfctv0h33c494bje9y7r0",
     lang,
   });
 
   return (
     <Page title={title} base={base} lang={lang}>
-      <Section style={{ display: "grid", placeItems: "center" }}>
-        <ImagePanel {...hero} lang={lang} />
-      </Section>
+      <ImagePanel {...hero} lang={lang} />
 
-      <Section>
-        <h2 style={{ fontWeight: "900" }}>
-        </h2>
+      <PageSection>
         <Card>
           {hero?.desc && <Markdown text={hero.desc} />}
         </Card>
-      </Section>
+      </PageSection>
 
-      <Section>
-        {[].map((what) => (
-          <CollectionHeader
-            text={t(`about.${what}`)}
-            href={intlRouteMap(lang).get(what)}
-          />
-        ))}
-      </Section>
+      <PageSection>
+        <h2>{t("about.HQ")}</h2>
+        <MainOffice />
+      </PageSection>
 
-      <Section>
-        <h2 style={{ fontWeight: "900" }}>
+      <PageSection>
+        <h2>
           {t("acc.Header")}
         </h2>
         <Card>
           <Accreditations lang={lang} />
         </Card>
-      </Section>
+      </PageSection>
 
-      <Section>
-        <h2 style={{ fontWeight: "900" }}>
+      <PageSection>
+        <h2>
           {t("cert.Header")}
         </h2>
         <Card>
           <Certifications lang={lang} />
         </Card>
-      </Section>
+      </PageSection>
 
-      <Section>
-        <h2 style={{ fontWeight: "900" }}>
-        </h2>
+      <PageSection>
         <Card>
           <GroupedSearch
             term={`policy miljøpolitikk likestilling gep arp`}
@@ -91,7 +82,7 @@ export default defineRoute(async (_req, ctx) => {
             sort="title"
           />
         </Card>
-      </Section>
+      </PageSection>
     </Page>
   );
 });

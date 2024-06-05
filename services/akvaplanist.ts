@@ -297,7 +297,7 @@ export const boardURL = (
 
 export const akvaplan = {
   name: "Akvaplan-niva",
-  tel: "+47 77 75 03 00",
+  tel: "+4777750300",
   email: "info@akvaplan.niva.no",
   addr: {
     hq: {

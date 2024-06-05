@@ -42,11 +42,12 @@ export const MainOffice = () => (
         {t("ui.Telephone")}
       </dt>
       <dd>
-        <a
+        <Icon name="phone_in_talk" />
+        <span
           href={`tel:${akvaplan.tel}`}
         >
-          <Icon name="phone_in_talk" /> {akvaplan.tel}
-        </a>
+          {akvaplan.tel.replace("+47", "(+47) ")}
+        </span>
       </dd>
 
       <dt>
