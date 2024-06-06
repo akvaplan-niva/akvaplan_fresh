@@ -1,7 +1,13 @@
 import { latestNewsFromMynewsdeskService } from "akvaplan_fresh/services/news.ts";
-
 import { extractLangFromUrl, lang, t } from "akvaplan_fresh/text/mod.ts";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
+import {
+  getHomePanels,
+  getPanelInLang,
+  HOME_HERO_ID,
+} from "akvaplan_fresh/kv/panel.ts";
+import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
+import { isAuthorized } from "akvaplan_fresh/auth_/authorized.ts";
 
 //import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 
@@ -12,22 +18,13 @@ import {
   Page,
 } from "akvaplan_fresh/components/mod.ts";
 import { Section } from "../components/section.tsx";
-import {
-  ArticlePanelTitleLow,
-  ImagePanel,
-  WideCard,
-} from "akvaplan_fresh/components/panel.tsx";
+import { ImagePanel, WideCard } from "akvaplan_fresh/components/panel.tsx";
 
 import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
 import type { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mod.ts";
 import type { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import type { Signal } from "@preact/signals-core";
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
-
-import { getHomePanels } from "akvaplan_fresh/kv/panel.ts";
-import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
-import { isAuthorized } from "akvaplan_fresh/auth_/authorized.ts";
-import { EditIconButton } from "akvaplan_fresh/components/edit_icon_button.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -69,14 +66,18 @@ export const handler: Handlers = {
     const newsInAltLang = _newsInAltLang
       ?.map(toImageCard());
 
+    const hero = await getPanelInLang({ id: HOME_HERO_ID, lang });
+
     //const sticky = news?.slice(5, 6); //await getSticky(["page", "home"]);
 
-    const [firstPanel, ...panels] = await getHomePanels({ lang });
+    const panels = (await getHomePanels({ lang })).map((
+      { intro, ...withoutIntro },
+    ) => withoutIntro);
 
     const authorized = await isAuthorized();
 
     return ctx.render({
-      firstPanel,
+      hero,
       news,
       newsInAltLang,
       panels,
@@ -103,12 +104,11 @@ interface HomeData {
 export default function Home(
   {
     data: {
-      firstPanel,
+      hero,
       news,
       newsInAltLang,
       panels,
       lang,
-      sticky,
       url,
       authorized,
     },
@@ -132,11 +132,7 @@ export default function Home(
       }
 
       <Section style={{ display: "grid", placeItems: "center" }}>
-        <ImagePanel {...firstPanel} lang={lang} />
-        <EditIconButton
-          authorized={authorized}
-          href={`/${lang}/panel/${firstPanel.id}/edit`}
-        />
+        <ImagePanel {...hero} lang={lang} editor={authorized} />
       </Section>
 
       <Section>
@@ -163,11 +159,7 @@ export default function Home(
 
       {panels?.map((panel) => (
         <Section style={{ display: "grid", placeItems: "center" }}>
-          <ImagePanel {...panel} lang={lang} />
-          <EditIconButton
-            authorized={authorized}
-            href={`/${lang}/panel/${panel.id}/edit`}
-          />
+          <ImagePanel {...panel} lang={lang} editor={authorized === true} />
         </Section>
       ))}
     </Page>

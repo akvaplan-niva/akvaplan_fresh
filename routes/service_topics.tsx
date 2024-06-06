@@ -23,10 +23,12 @@ import {
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import Editable from "akvaplan_fresh/islands/editable.tsx";
 import { getOramaDocument } from "akvaplan_fresh/search/orama.ts";
+import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
+import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
-    "/:lang(en|no){/:page(services|service|tjenester|tjeneste)}{/:legacy(tema|topic)}?/:slug{/:uuid}?",
+    "/:lang(en|no){/:page(services|service|tjenester|tjeneste)}{/:slug}?/:id",
 };
 // Notice the :legacy part is to support URLs without UUID, like /no/tjenester/tema/miljørisiko
 
@@ -34,16 +36,22 @@ export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
     const { params, url } = ctx;
     const { searchParams } = new URL(req.url);
-
+    console.log(params);
     lang.value = params.lang;
 
-    const service = params.uuid
-      ? await getOramaDocument(params.uuid)
-      : await findCustomerServiceByTopic(decodeURIComponent(params.slug));
+    let service = await getPanelInLang({
+      id: params.id,
+      lang: params.lang,
+    });
 
     if (!service) {
-      return ctx.renderNotFound();
+      service = await getOramaDocument(params.id);
+      //   : await findCustomerServiceByTopic(decodeURIComponent(params.slug));
     }
+
+    // if (!service) {
+    //   return ctx.renderNotFound();
+    // }
     const { en, no } = service;
     service.name = params.lang === "en" ? en ?? no : no ?? en;
     const edit = searchParams.has("edit");
@@ -102,35 +110,13 @@ export default function ServiceTopics(
           dangerouslySetInnerHTML={{ __html: _style }}
         />
       </Head>
-      <Article>
-        <ArticleHeader
-          header={service.name}
-          image={service?.img ?? service?.img512}
-          imageCaption={""}
-        />
-        <section>
-          {edit
-            ? (
-              <Editable key={["service"]}>
-                <ServiceTopicDesc topic={topic} lang={lang.value} />
-              </Editable>
-            )
-            : <ServiceTopicDesc topic={topic} lang={lang.value} />}
-        </section>
-
-        <section class="article-content">
-          <PersonCard id={service.people_ids.at(0)} />
-        </section>
-      </Article>
-
-      <GroupedSearch
-        term={queries.join(", ")}
-        sort={sort}
-        origin={url}
-        threshold={0.5}
-        exclude={["image", "pubs", "blog"]}
-        noInput={edit === false}
+      <BentoPanel
+        panel={service}
+        hero={false}
+        width={512}
+        reveal={true}
       />
+      <PersonCard id={service?.people_ids?.at(0)} />
     </Page>
   );
 }

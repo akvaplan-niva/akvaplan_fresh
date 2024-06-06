@@ -5,6 +5,7 @@ import { defineRoute } from "$fresh/src/server/defines.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
 import { Icon } from "akvaplan_fresh/components/icon.tsx";
+import { isAuthorized } from "akvaplan_fresh/auth_/authorized.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/panel/:id",
@@ -13,16 +14,18 @@ export const config: RouteConfig = {
 export default defineRoute(async (_req, ctx) => {
   const { lang, id } = ctx.params;
   const panel = await getPanelInLang({ id, lang });
+  const user = "æøå";
+  const authorized = await isAuthorized({
+    user,
+    system: "kv",
+    resource: ["panel"],
+    action: "update",
+  });
 
   return panel
     ? (
       <Page collection="home" title={t("ui.Edit_panel")}>
-        <ImagePanel {...panel} />
-        {true && (
-          <a href={`/${lang}/panel/${id}/edit`}>
-            <Icon name="edit" style={{ minWidth: "24px", width: "1rem" }} />
-          </a>
-        )}
+        <ImagePanel {...panel} lang={lang} editor={authorized} />
       </Page>
     )
     : ctx.renderNotFound();

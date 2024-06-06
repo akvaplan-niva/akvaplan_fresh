@@ -239,7 +239,7 @@ html:has(dialog[open]) {
   margin-bottom: 2rem
 }
 
-.footer__to-top {
+/* .footer__to-top {
   align-items: center;
   background: none;
   border: none;
@@ -254,7 +254,7 @@ html:has(dialog[open]) {
 
 .footer__to-top img {
   margin-top: .5rem
-}
+} */
 
 .footer__logo img {
   -o-object-fit: contain;
@@ -282,12 +282,6 @@ html:has(dialog[open]) {
   justify-content: center
 }
 
-/* .footer__link span {
-  display: inline-block;
-  margin: -.6rem;
-  padding: .6rem
-} */
-
 .footer__item {
   margin: .75rem
 }
@@ -307,4 +301,35 @@ html:has(dialog[open]) {
 
 .footer__some:hover img {
   transform: scale(1.5)
+}
+
+
+label, textarea {
+  font-size: 0.8rem;
+  font-family: inherit;
+  letter-spacing: 1px;
+}
+
+
+textarea.textarea {
+  box-sizing: border-box;
+  background: var(--surface4);
+  color: var(--text2);
+  border-radius: 50px;
+  padding: 0.25rem 0.5rem 0.25rem 2.5rem;
+  font-size: 0.8rem;
+  height: 8rem;
+  border: none;
+  width: 100%;
+  outline: none;
+  font-family: var(--font-sans);
+}
+
+.textarea:focus-visible {
+  outline: 2px solid var(--accent);
+}
+
+.textarea::placeholder {
+  opacity: 0.5;
+  color: var(--text1);
 }

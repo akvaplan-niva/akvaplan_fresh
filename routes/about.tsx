@@ -1,9 +1,7 @@
 import { t } from "akvaplan_fresh/text/mod.ts";
 
-import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
-
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "akvaplan_fresh/components/section.tsx";
 
 import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
@@ -17,7 +15,7 @@ import { Card } from "akvaplan_fresh/components/card.tsx";
 import { Page } from "akvaplan_fresh/components/page.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import { MainOffice } from "akvaplan_fresh/components/offices.tsx";
+import { MainOffice, Offices } from "akvaplan_fresh/components/offices.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -37,40 +35,58 @@ export default defineRoute(async (_req, ctx) => {
     lang,
   });
 
+  // const globus = {
+  //   title: "Hvor er vi?",
+  //   url: "/img/globus.png",
+  // };
+
   return (
     <Page title={title} base={base} lang={lang}>
       <ImagePanel {...hero} lang={lang} />
 
-      <PageSection>
+      <Section>
         <Card>
           {hero?.desc && <Markdown text={hero.desc} />}
         </Card>
-      </PageSection>
+      </Section>
 
-      <PageSection>
+      <Section>
         <h2>{t("about.HQ")}</h2>
         <MainOffice />
-      </PageSection>
 
-      <PageSection>
+        <h2>{t("about.Office_locations")}</h2>
+        <Offices />
+
+        {
+          /*<h2 style={{ fontWeight: "900" }}>
+          Hvor er vi?
+        </h2><img src={globus.url} lang={lang} width="100%" />
+        Vi har hovedkontor i Tromsø og flere kontor langs kysten av Norge og på
+        Island. Figuren viser hvor vi har utført hydrografimålinger. */
+        }
+      </Section>
+
+      <Section>
         <h2>
           {t("acc.Header")}
         </h2>
-        <Card>
-          <Accreditations lang={lang} />
-        </Card>
-      </PageSection>
 
-      <PageSection>
+        <Accreditations lang={lang} />
+      </Section>
+
+      <Section>
         <h2>
           {t("cert.Header")}
         </h2>
         <Card>
           <Certifications lang={lang} />
         </Card>
-      </PageSection>
+      </Section>
 
-      <PageSection>
+      <Section>
+        <h2 style={{ fontWeight: "900" }}>
+          {t("about.Documents")}
+        </h2>
         <Card>
           <GroupedSearch
             term={`policy miljøpolitikk likestilling gep arp`}
@@ -82,7 +98,7 @@ export default defineRoute(async (_req, ctx) => {
             sort="title"
           />
         </Card>
-      </PageSection>
+      </Section>
     </Page>
   );
 });

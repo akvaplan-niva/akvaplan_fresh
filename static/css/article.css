@@ -216,7 +216,7 @@
 
 .mega-header img, .wide-image-card img {
   width: min-content;
-  max-height: 67dvh;
+  max-height: 60vh;
   aspect-ratio: 3/1;
   object-fit: cover;
 }

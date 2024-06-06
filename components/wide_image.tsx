@@ -3,8 +3,8 @@ import { cloudinaryUrl, srcset } from "akvaplan_fresh/services/cloudinary.ts";
 export const WIDTHS = [2880, 1920, 1782, 1536, 1024, 768, 512, 384];
 export const WideImage = (
   {
-    image,
     url,
+    cloudinary,
     caption,
     sizes = "calc(96vw - 3vw)",
     widths = WIDTHS,

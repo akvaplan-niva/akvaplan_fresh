@@ -1,11 +1,10 @@
 export const isAuthorized = async (
   _args: {
     user: string;
-    token: string;
     system: string;
-    resource: string;
-    actions: string;
+    resource: string[];
+    action: string;
   },
 ) => {
-  return await true;
+  return await false;
 };

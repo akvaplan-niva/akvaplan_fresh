@@ -1,4 +1,4 @@
-import { Pointable, set } from "@hyperjump/json-pointer";
+import { set } from "@hyperjump/json-pointer";
 import { useSignal } from "@preact/signals";
 import Button from "akvaplan_fresh/components/button/button.tsx";
 
@@ -25,6 +25,8 @@ const schema = {
 
 const bool = ["/backdrop"];
 const number = ["/position"];
+const textarea = ["/intl/desc"];
+
 export const panelTemplate = {
   id: undefined,
   theme: "dark",
@@ -35,19 +37,19 @@ export const panelTemplate = {
   intl: {
     en: {
       title: "",
-      href: "/en",
+      href: "/en/…",
       cta: "",
     },
     no: {
       title: "",
-      href: "/no",
+      href: "/no/…",
       cta: "",
     },
   },
 };
 
 export const PanelEditIsland = (
-  { id, panel, lang, url }: { key: Deno.KvKey; panel: Panel; lang: string },
+  { panel, lang, url }: { key: Deno.KvKey; panel: Panel; lang: string },
 ) => {
   const p = useSignal({ ...panelTemplate, ...panel });
 
@@ -58,6 +60,7 @@ export const PanelEditIsland = (
     }
     const withModified = { ...p.value, modified };
     p.value = set(path, withModified, value);
+    console.warn(p.value);
   };
 
   const handleInput = ({ target }) => {
@@ -70,6 +73,7 @@ export const PanelEditIsland = (
   return (
     <form onChange={handleInput} method="post" action={url}>
       <textarea
+        class="textarea"
         type="text"
         name="_panel"
         hidden
@@ -83,6 +87,7 @@ export const PanelEditIsland = (
           legend={t(`lang.${lang}`)}
           path={`/intl/${lang}`}
           object={p.value.intl?.[lang]}
+          areas={["desc"]}
         />
       ))}
 
@@ -107,11 +112,13 @@ export const PanelEditIsland = (
         disabled
       />
 
-      {false && <Button name="_btn" value="publish">Publish</Button>}
+      {/* {false && <Button name="_btn" value="publish">Publish</Button>} */}
 
-      <Button onClick={() => history.back()}>Discard</Button>
-      <Button name="_btn" type="submit" value="duplicate">Duplicate</Button>
-      <Button name="_btn" type="submit" value="save" filled>Save</Button>
+      <Button onClick={() => history.back()}>Cancel</Button>
+      {/* <Button name="_btn" type="submit" value="duplicate">Duplicate</Button> */}
+      {panel.id === null
+        ? <Button name="_btn" type="submit" value="new" filled>Create</Button>
+        : <Button name="_btn" type="submit" value="save" filled>Save</Button>}
     </form>
   );
 };

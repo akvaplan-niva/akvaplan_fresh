@@ -23,6 +23,7 @@ import * as $article_slug_ from "./routes/article/[slug].tsx";
 import * as $bento from "./routes/bento.tsx";
 import * as $bento_slug_ from "./routes/bento/[slug].tsx";
 import * as $careers from "./routes/careers.tsx";
+import * as $contact from "./routes/contact.tsx";
 import * as $cristin from "./routes/cristin.tsx";
 import * as $dcat from "./routes/dcat.tsx";
 import * as $document_MarkdownArticlePage from "./routes/document/MarkdownArticlePage.tsx";
@@ -40,7 +41,6 @@ import * as $ms_louise from "./routes/ms-louise.tsx";
 import * as $mynewsdesk_slug_ from "./routes/mynewsdesk/[slug].tsx";
 import * as $nav from "./routes/nav.tsx";
 import * as $news from "./routes/news.tsx";
-import * as $null from "./routes/null.tsx";
 import * as $offices from "./routes/offices.tsx";
 import * as $page_kv_edit from "./routes/page_kv_edit.tsx";
 import * as $panel from "./routes/panel.tsx";
@@ -61,7 +61,6 @@ import * as $service_topics from "./routes/service_topics.tsx";
 import * as $services from "./routes/services.tsx";
 import * as $services2 from "./routes/services2.tsx";
 import * as $services_vt from "./routes/services_vt.tsx";
-import * as $sign_in from "./routes/sign/in.tsx";
 import * as $sitemap_txt from "./routes/sitemap.txt.ts";
 import * as $topics from "./routes/topics.tsx";
 import * as $usr from "./routes/usr.tsx";
@@ -107,6 +106,7 @@ const manifest = {
     "./routes/bento.tsx": $bento,
     "./routes/bento/[slug].tsx": $bento_slug_,
     "./routes/careers.tsx": $careers,
+    "./routes/contact.tsx": $contact,
     "./routes/cristin.tsx": $cristin,
     "./routes/dcat.tsx": $dcat,
     "./routes/document/MarkdownArticlePage.tsx": $document_MarkdownArticlePage,
@@ -124,7 +124,6 @@ const manifest = {
     "./routes/mynewsdesk/[slug].tsx": $mynewsdesk_slug_,
     "./routes/nav.tsx": $nav,
     "./routes/news.tsx": $news,
-    "./routes/null.tsx": $null,
     "./routes/offices.tsx": $offices,
     "./routes/page_kv_edit.tsx": $page_kv_edit,
     "./routes/panel.tsx": $panel,
@@ -145,7 +144,6 @@ const manifest = {
     "./routes/services.tsx": $services,
     "./routes/services2.tsx": $services2,
     "./routes/services_vt.tsx": $services_vt,
-    "./routes/sign/in.tsx": $sign_in,
     "./routes/sitemap.txt.ts": $sitemap_txt,
     "./routes/topics.tsx": $topics,
     "./routes/usr.tsx": $usr,

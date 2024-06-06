@@ -4,8 +4,15 @@ import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
 
 const kv = await openKv();
 
+export const HOME_HERO_ID = "01hyd6qeqv77bp980k1mw33rt0";
+// "01hyd6qeqtfewhjjxtmyvgv35q", // people
+// "01hyd6qeqv4n3qrcv735aph6yy", // services
+// "01hyd6qeqvy0ghjnk1nwdfwvyq", // research
+// "01hyd6qeqv71dyhcd3356q31sy", // projects
+// "01hz1r7654ptzs2tys6qxtv01m", // about
+
 export const panelTemplate = {
-  id: undefined,
+  id: null,
   theme: "dark",
   backdrop: true,
   image: {
@@ -23,6 +30,16 @@ export const panelTemplate = {
       cta: "",
     },
   },
+};
+
+const validate = (panel) => {
+  throw "Invalid panel";
+  return true;
+};
+
+export const save = async (panel, kv) => {
+  const isValid = validate(panel);
+  return await kv.set(["panel", panel.id], panel);
 };
 
 const derefCloudinary = (image) => {
@@ -43,9 +60,6 @@ export const deintlPanel = (
 export interface PanelFilter {
   (p: Panel): Boolean;
 }
-
-// const invalidPanelFilter: PanelFilter = ({ collection }: Panel) =>
-//   !["home", "service", "research", "infra"].includes(collection);
 
 export const getPanelList = (opts: Deno.KvListOptions = {}) =>
   kv.list<Panel>({ ...opts, prefix: ["panel"] });
@@ -68,11 +82,11 @@ export const getPanelsByIds = async (
 
 // FIXME Panel: add sort order (or else we need list of ids like for home panel ids)
 export const homePanelIds = [
-  "01hyd6qeqv77bp980k1mw33rt0", // about
+  "01hyd6qeqtfewhjjxtmyvgv35q", // people
   "01hyd6qeqv4n3qrcv735aph6yy", // services
-  "01hyd6qeqvy0ghjnk1nwdfwvyq",
-  "01hyd6qeqv71dyhcd3356q31sy",
-  "01hyd6qeqtfewhjjxtmyvgv35q",
+  "01hyd6qeqvy0ghjnk1nwdfwvyq", // research
+  "01hyd6qeqv71dyhcd3356q31sy", // projects
+  //"01hz1r7654ptzs2tys6qxtv01m", // about
 ];
 
 export const getHomePanels = async (
@@ -91,6 +105,5 @@ export const getPanelInLang = async (
   { id, lang }: { id: string; lang: string },
 ) => {
   const { value, versionstamp } = await kv.get<Panel>(["panel", id]);
-  if (!versionstamp) throw "Nonexisting id";
-  return deintlPanel({ panel: value, lang });
+  return versionstamp && value ? deintlPanel({ panel: value, lang }) : null;
 };

@@ -43,6 +43,12 @@ Export/seed
 deno task kv-seed
 ```
 
+From research topics
+
+```sh
+ndjson-cat data/orama/2024-04-30_research_topics.json | ndjson-split  | nd-map '{id,text,intl: {name}}=d, intl={ no: { title: name.no}, en: { title: name.en } }, { id, theme: "dark", backdrop: true, image: { cloudinary: "snlcxc38hperptakjpi5" }, ...d, intl, comment: text, draft: true}' >> data/seed/panels.ndjson
+```
+
 ### User preferences
 
 ```sh

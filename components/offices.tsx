@@ -65,6 +65,26 @@ export const MainOffice = () => (
   </Card>
 );
 
+export const Offices = () => (
+  <Card>
+    <menu>
+      {[...offices.values()].filter(({ hq }) => true).map((
+        { name },
+      ) => (
+        <li>
+          <a
+            href={`${intlRouteMap(lang).get("people")}/workplace/${
+              name.split(" ").at(0)
+            }`}
+          >
+            {name}
+          </a>
+        </li>
+      ))}
+    </menu>
+  </Card>
+);
+
 export const MainContacts = () => (
   <Card>
     <dl>

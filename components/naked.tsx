@@ -81,7 +81,7 @@ export function Naked(
 
       <body
         {...propsExceptChildren}
-        color-scheme="dark"
+        color-scheme
       >
         {
           /* <Header

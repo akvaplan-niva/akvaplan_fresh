@@ -187,7 +187,7 @@
 
     /* --lg-n-above */
     @media (width >= 1024px) {
-      grid-column: span calc(var(--columns) / 3);
+      grid-column: span calc(var(--columns) / 4);
 
       &.Hero {
         grid-column: span var(--columns);
@@ -199,7 +199,7 @@
         grid-column: span calc(var(--columns) / 6);
         min-block-size: calc(var(--card-min-block-size) * 1.25);
         border: 1px dotted red;
-      }*/
+      }
     }
 
     /* --motionOK and --mouse  */
@@ -219,10 +219,10 @@
 @layer animation.reveal {
   /* --motionOK */
   @media (prefers-reduced-motion: no-preference) {
-    /* .Card:not(.Hero) {
+    .Card:not(.Hero) {
       opacity: 0;
       will-change: transform;
-    } */
+    } 
 
     .reveal {
       /* Animation: fade-in from Open Props */

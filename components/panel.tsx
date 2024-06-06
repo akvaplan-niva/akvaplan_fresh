@@ -3,8 +3,7 @@ import { asset, Head } from "$fresh/runtime.ts";
 
 import { WideImage } from "./wide_image.tsx";
 import { ApnLogo } from "akvaplan_fresh/components/mod.ts";
-import { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
-import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
+import { EditIconButton } from "akvaplan_fresh/components/edit_icon_button.tsx";
 
 // FIXME Panel: refactor markup/css
 // FIXME Panel: support left-right-cemter text/cta, center eg: https://codepen.io/sflinz/pen/dvEbwz
@@ -56,7 +55,20 @@ export function PictureOverlay({
 
 // FIXME MegaCard Use CloudinaryPicture cor multiple resolutions
 export const ImagePanel = (
-  { upper, title, href, image, cta, theme, backdrop, intro, ...props },
+  {
+    upper,
+    title,
+    href,
+    image,
+    cta,
+    theme,
+    backdrop,
+    intro,
+    id,
+    lang,
+    editor = false,
+    ...props
+  },
 ) => (
   <a href={href} class="mega-card" {...props}>
     <Head>
@@ -96,62 +108,66 @@ export const ImagePanel = (
         {upper}
       </p>
     </div>
+    <EditIconButton
+      authorized={editor === true}
+      href={`/${lang}/panel/${id}/edit`}
+    />
   </a>
 );
 
-export const PanelIntl = ({ panel, lang }: { panel: Panel; lang: string }) => {
-  const intl = panel?.intl?.[lang] ?? {};
-  const p = { ...panel, ...intl };
+// export const PanelIntl = ({ panel, lang }: { panel: Panel; lang: string }) => {
+//   const intl = panel?.intl?.[lang] ?? {};
+//   const p = { ...panel, ...intl };
 
-  const { title, href, intro, cta, upper, theme, backdrop } = p;
+//   const { title, href, intro, cta, upper, theme, backdrop } = p;
 
-  const image = panel?.image ?? {};
-  image.url = image?.cloudinary
-    ? cloudinaryUrl(image.cloudinary, { ar: "3:1", w: 1782 })
-    : image.url;
+//   const image = panel?.image ?? {};
+//   image.url = image?.cloudinary
+//     ? cloudinaryUrl(image.cloudinary, { ar: "3:1", w: 1782 })
+//     : image.url;
 
-  return (
-    <a href={href} class="mega-card">
-      <Head>
-        <link rel="stylesheet" href={asset("/css/article.css")} />
-      </Head>
-      <PictureOverlay
-        upper={upper}
-        cta={cta
-          ? (
-            <Button filled>
-              {cta}
-            </Button>
-          )
-          : null}
-        image={image}
-        title={title}
-        theme={theme}
-        backdrop={backdrop}
-      />
-      <div
-        class="mega-mobile-upper"
-        aria-disabled="true"
-        style={{ marginBottom: "0.25rem", padding: "0.25rem" }}
-      >
-        <h3
-          style={{
-            fontSize: "var(--font-size-4)",
-            color: "var(--text1)",
-            fontWeight: 900,
-          }}
-        >
-          {title}
-        </h3>
-        <p
-          style={{ fontSize: "0.75rem" }}
-        >
-          {intro}
-        </p>
-      </div>
-    </a>
-  );
-};
+//   return (
+//     <a href={href} class="mega-card">
+//       <Head>
+//         <link rel="stylesheet" href={asset("/css/article.css")} />
+//       </Head>
+//       <PictureOverlay
+//         upper={upper}
+//         cta={cta
+//           ? (
+//             <Button filled>
+//               {cta}
+//             </Button>
+//           )
+//           : null}
+//         image={image}
+//         title={title}
+//         theme={theme}
+//         backdrop={backdrop}
+//       />
+//       <div
+//         class="mega-mobile-upper"
+//         aria-disabled="true"
+//         style={{ marginBottom: "0.25rem", padding: "0.25rem" }}
+//       >
+//         <h3
+//           style={{
+//             fontSize: "var(--font-size-4)",
+//             color: "var(--text1)",
+//             fontWeight: 900,
+//           }}
+//         >
+//           {title}
+//         </h3>
+//         <p
+//           style={{ fontSize: "0.75rem" }}
+//         >
+//           {intro}
+//         </p>
+//       </div>
+//     </a>
+//   );
+// };
 
 function WidePictureOverlay({
   title,
@@ -252,9 +268,19 @@ export const WideCard = (
 );
 
 export const HeroPanel = (
-  { image, lang, title, backdrop, children, ...props },
+  {
+    image,
+    lang,
+    title,
+    theme,
+    backdrop,
+    id,
+    editor = false,
+    children,
+    ...props
+  },
 ) => (
-  <header class="wide-image-card" {...props}>
+  <header class="wide-image-card" {...props} color-scheme={theme}>
     <WideImage
       {...image}
       style={{ width: "100%", maxHeight: "50dvh", borderRadius: 0 }}
@@ -270,9 +296,13 @@ export const HeroPanel = (
       }}
     >
       <a href={`/${lang}`}>
-        <ApnLogo width="192" />
+        <ApnLogo width="192" color-scheme={theme} />
       </a>
       {backdrop ? <span class="backdrop-blur">{title}</span> : title}
+      <EditIconButton
+        authorized={editor === true}
+        href={`/${lang}/panel/${id}/edit`}
+      />
     </div>
     <div class="wide-image-card-lower-always"></div>
     <Head>
@@ -280,41 +310,3 @@ export const HeroPanel = (
     </Head>
   </header>
 );
-
-export const HeroIntl = (
-  { panel, lang, ...props }: { panel: Panel; lang: string },
-) => {
-  const intl = panel?.intl?.[lang] ?? {};
-  const p = { ...panel, ...intl };
-
-  const { title, image, href, intro, cta, upper, theme, backdrop } = p;
-
-  return (
-    <header class="wide-image-card" {...props}>
-      <WideImage
-        {...image}
-        style={{ width: "100%", maxHeight: "50dvh", borderRadius: 0 }}
-      />
-
-      <div
-        class="wide-image-card-upper-always"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr",
-          gap: "0.5rem",
-          fontSize: "var(--size-fluid-3)",
-        }}
-      >
-        <a href={`/${lang}`}>
-          <ApnLogo />
-        </a>
-        {backdrop ? <span class="backdrop-blur">{title}</span> : title}
-      </div>
-      <div class="wide-image-card-lower-always">
-      </div>
-      <Head>
-        <link rel="stylesheet" href={asset("/css/article.css")} />
-      </Head>
-    </header>
-  );
-};
