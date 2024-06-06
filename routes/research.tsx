@@ -69,9 +69,6 @@ export default defineRoute(async (req, ctx) => {
               <BentoPanel
                 panel={atomFromPanel(panel)}
                 lang={lang}
-                hero={false}
-                width={512}
-                reveal={true}
                 editor={authorized}
               />
             ))}
@@ -84,9 +81,6 @@ export default defineRoute(async (req, ctx) => {
                   image: { cloudinary: "snlcxc38hperptakjpi5" },
                 }}
                 editor={authorized}
-                hero={false}
-                width={512}
-                reveal={true}
                 href={`/${lang}/panel/_/new?collection=research`}
               />
             )}

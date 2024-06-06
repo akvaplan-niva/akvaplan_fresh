@@ -74,7 +74,6 @@ export default defineRoute(async (req, ctx) => {
                 panel={p}
                 hero={false}
                 lang={lang}
-                reveal={true}
                 editor={authorized}
               />
             ))}
@@ -88,8 +87,6 @@ export default defineRoute(async (req, ctx) => {
                 }}
                 editor={authorized}
                 hero={false}
-                width={512}
-                reveal={true}
                 href={`/${lang}/panel/_/new?collection=service`}
               />
             )}

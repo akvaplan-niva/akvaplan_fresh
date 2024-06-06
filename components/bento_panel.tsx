@@ -23,7 +23,7 @@ export const BentoPanel = (
     href = editor ? editHref(panel, { lang }) : panelHref(panel, { lang }),
     reveal = true,
     hero = false,
-    width = 340,
+    width = 512,
   },
 ) => {
   return (
