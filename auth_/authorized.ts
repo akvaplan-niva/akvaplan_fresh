@@ -6,5 +6,5 @@ export const isAuthorized = async (
     action: string;
   },
 ) => {
-  return await false;
+  return await true;
 };

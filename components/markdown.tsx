@@ -3,17 +3,24 @@ export const Markdown = ({ text, renderOptions, ...props }) => {
   const __html = render(text, renderOptions);
 
   return (
-    <div
-      class="markdown markdown-body"
-      {...props}
-      style={{ margin: "0 auto", fontFamily: "inherit" }}
-      data-color-mode="auto"
-      data-light-theme="light"
-      data-dark-theme="dark"
-      {...props}
-      dangerouslySetInnerHTML={{
-        __html,
-      }}
-    />
+    <>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: "",
+        }}
+      />
+      <div
+        class="markdown markdown-body"
+        {...props}
+        style={{ margin: "0 auto", fontFamily: "inherit" }}
+        data-color-mode="auto"
+        data-light-theme="light"
+        data-dark-theme="dark"
+        {...props}
+        dangerouslySetInnerHTML={{
+          __html,
+        }}
+      />
+    </>
   );
 };
