@@ -35,6 +35,7 @@ DENO_KV_ACCESS_TOKEN=
 ```
 
 ### Permissions
+Rights are set using a system, resource, email list, with permitted actions ("crud") like:
 ```sh
 $ ./bin/kv_set '["rights","kv","panel","xyz@akvaplan.niva.no"]' '{"actions":"cru"}'
 
