@@ -36,7 +36,7 @@ DENO_KV_ACCESS_TOKEN=
 
 ### Permissions
 ```sh
-$ ./bin/kv_set '["rights", "kv", "panel", "xyz"]' '{ "actions": "crud" }'
+$ ./bin/kv_set '["rights","kv","panel","xyz@akvaplan.niva.no"]' '{"actions":"cru"}'
 
 ```
 
