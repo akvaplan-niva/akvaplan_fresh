@@ -89,6 +89,7 @@ export const handler: Handlers = {
     langSignal.value = lang;
 
     const akvaplanist = ids.get(id) ?? priors.get(id);
+    // @todop Consider falling back to orama ?
     if (!akvaplanist) {
       return ctx.renderNotFound();
     }
