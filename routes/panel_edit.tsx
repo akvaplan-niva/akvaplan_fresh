@@ -1,5 +1,5 @@
 import { openKv } from "akvaplan_fresh/kv/mod.ts";
-import { panelTemplate, save } from "akvaplan_fresh/kv/panel.ts";
+import { mayEdit, panelTemplate, save } from "akvaplan_fresh/kv/panel.ts";
 
 import { Page } from "akvaplan_fresh/components/page.tsx";
 import { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
@@ -9,9 +9,11 @@ import { PanelEditIsland } from "akvaplan_fresh/islands/panel_edit.tsx";
 
 import { defineRoute } from "$fresh/src/server/defines.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
-import { ulid } from "@std/ulid";
-import { deintlPanel } from "akvaplan_fresh/kv/panel.ts";
+
+import { deintlPanel, genid } from "akvaplan_fresh/kv/panel.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
+import { getSessionUser } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
+import { MicrosoftUserinfo } from "akvaplan_fresh/oauth/microsoft_userinfo.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/panel/:id/:action(edit|new)",
@@ -33,22 +35,38 @@ const PanelEditPage = ({ panel, lang, url }) => (
     />
   </Page>
 );
-const genid = () => ulid().toLowerCase();
+
+const Forbidden = () =>
+  new Response(
+    `<body>
+    <h1>403 Forbidden</h1>
+    <a href="/auth/sign-in">Sign in</a>
+    </body>`,
+    {
+      status: 403,
+      headers: { "content-type": "text/html" },
+    },
+  );
+
 export const handler: Handlers = {
   async POST(req, ctx) {
     try {
+      const editor = await mayEdit(req);
+      if (!editor) {
+        return Forbidden();
+      }
+
       const { action } = ctx.params;
 
       const form = await req.formData();
       const panel = JSON.parse(form.get("_panel") as string);
+      const patches = JSON.parse(form.get("_patch") as string);
+      const formButton = form.get("_btn");
 
-      switch (action) {
-        case "new":
-          panel.id = genid();
-          break;
+      if ("new" === action) {
+        panel.id = genid();
       }
 
-      const formButton = form.get("_btn");
       if ("duplicate" === formButton) {
         panel.id = genid();
         panel.intl.no.title = "[Kopi av] " + panel.intl.no.title;
@@ -56,18 +74,17 @@ export const handler: Handlers = {
       }
 
       // validate request
-      if (panel.id !== ctx.params.id) {
-        throw "Invalid id";
-      }
-      //validate
-
-      const kv = await openKv();
-      const response = await kv.set(["panel", panel.id], panel);
+      // if (acton is edit && panel.id !== ctx.params.id) {
+      //   throw "Invalid id";
+      // }
+      //validate panel
+      const user: MicrosoftUserinfo = await getSessionUser(req);
+      const response = await save(panel, user, patches);
       if (!response.ok) {
         throw "Save failed";
       }
-      const location = `/${ctx.params.lang}/panel/${panel.id}`;
 
+      const location = `/${ctx.params.lang}/panel/${panel.id}`;
       return new Response("", {
         status: 303,
         headers: { location },
@@ -78,7 +95,11 @@ export const handler: Handlers = {
   },
 };
 
-export default defineRoute(async (_req, ctx) => {
+export default defineRoute(async (req, ctx) => {
+  const editor = await mayEdit(req);
+  if (!editor) {
+    return Forbidden();
+  }
   const { lang, id, action } = ctx.params;
   const collection = ctx.url.searchParams.get("collection") ?? "unknown";
 

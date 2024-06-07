@@ -4,26 +4,16 @@ import _services from "akvaplan_fresh/data/orama/2024-05-23_customer_services.js
 
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import {
-  getCollectionPanelsInLang,
   getPanelInLang,
   getPanelsInLang,
+  mayCreate,
+  mayEdit,
 } from "akvaplan_fresh/kv/panel.ts";
-import { EditIconButton } from "akvaplan_fresh/components/edit_icon_button.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import {
-  HeroPanel,
-  ImagePanel,
-  WideCard,
-} from "akvaplan_fresh/components/panel.tsx";
+import { HeroPanel } from "akvaplan_fresh/components/panel.tsx";
 import { Naked } from "akvaplan_fresh/components/naked.tsx";
-import { isAuthorized } from "akvaplan_fresh/auth_/authorized.ts";
-import HScroll from "akvaplan_fresh/components/hscroll/HScroll.tsx";
 import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
-import { Page } from "akvaplan_fresh/components/page.tsx";
-import { CollectionHeader } from "akvaplan_fresh/components/album/album_header.tsx";
-import { ArticleSquare } from "akvaplan_fresh/components/news/article_square.tsx";
-import { atomFromPanel } from "akvaplan_fresh/routes/research.tsx";
 import { BentoPanel } from "../components/bento_panel.tsx";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
@@ -53,11 +43,11 @@ export default defineRoute(async (req, ctx) => {
     filter: (p: Panel) => "service" === p.collection && p?.draft !== true,
   })).sort((a, b) => a.title.localeCompare(b.title));
 
-  const authorized = await isAuthorized();
+  const editor = await mayEdit(req);
 
   return (
     <Naked title={title} collection="home">
-      <HeroPanel {...hero} lang={lang} editor={authorized} />
+      <HeroPanel {...hero} lang={lang} editor={editor} />
 
       <Card>
         <p>
@@ -74,18 +64,18 @@ export default defineRoute(async (req, ctx) => {
                 panel={p}
                 hero={false}
                 lang={lang}
-                editor={authorized}
+                editor={editor}
               />
             ))}
 
-            {authorized && (
+            {editor && (
               <BentoPanel
                 panel={{
                   title: null,
                   id: null,
                   image: { cloudinary: "snlcxc38hperptakjpi5" },
                 }}
-                editor={authorized}
+                editor={editor}
                 hero={false}
                 href={`/${lang}/panel/_/new?collection=service`}
               />

@@ -6,8 +6,11 @@ import _research from "akvaplan_fresh/data/orama/2024-04-30_research_topics.json
 // };
 
 import { Section } from "../components/section.tsx";
-import { getPanelInLang, getPanelsInLang } from "akvaplan_fresh/kv/panel.ts";
-import { isAuthorized } from "akvaplan_fresh/auth_/authorized.ts";
+import {
+  getPanelInLang,
+  getPanelsInLang,
+  mayEdit,
+} from "akvaplan_fresh/kv/panel.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(research|forskning)",
@@ -48,11 +51,11 @@ export default defineRoute(async (req, ctx) => {
     filter: (p: Panel) => "research" === p.collection && p?.draft !== true,
   });
 
-  const authorized = await isAuthorized();
+  const editor = await mayEdit(req);
 
   return (
     <Naked title={title} collection="home">
-      <HeroPanel {...hero} lang={lang} editor={authorized} />
+      <HeroPanel {...hero} lang={lang} editor={editor} />
 
       <Card>
         <p>
@@ -69,18 +72,18 @@ export default defineRoute(async (req, ctx) => {
               <BentoPanel
                 panel={atomFromPanel(panel)}
                 lang={lang}
-                editor={authorized}
+                editor={editor}
               />
             ))}
 
-            {authorized && (
+            {editor && (
               <BentoPanel
                 panel={{
                   title: null,
                   id: null,
                   image: { cloudinary: "snlcxc38hperptakjpi5" },
                 }}
-                editor={authorized}
+                editor={editor}
                 href={`/${lang}/panel/_/new?collection=research`}
               />
             )}

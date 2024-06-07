@@ -2,12 +2,14 @@ import { latestNewsFromMynewsdeskService } from "akvaplan_fresh/services/news.ts
 import { extractLangFromUrl, lang, t } from "akvaplan_fresh/text/mod.ts";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 import {
-  getHomePanels,
+  deintlPanel,
   getPanelInLang,
+  getPanelsByIds,
   HOME_HERO_ID,
+  mayEdit,
 } from "akvaplan_fresh/kv/panel.ts";
 import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
-import { isAuthorized } from "akvaplan_fresh/auth_/authorized.ts";
+import { hasRights } from "../kv/rights.ts";
 
 //import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 
@@ -29,6 +31,22 @@ import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
 };
+
+// FIXME Panel: add sort order (or else we need list of ids like for home panel ids)
+const homePanelIds = [
+  "01hyd6qeqtfewhjjxtmyvgv35q", // people
+  "01hyd6qeqv4n3qrcv735aph6yy", // services
+  "01hyd6qeqvy0ghjnk1nwdfwvyq", // research
+  "01hyd6qeqv71dyhcd3356q31sy", // projects
+  //"01hz1r7654ptzs2tys6qxtv01m", // about
+];
+
+const getHomePanels = async (
+  { lang }: { lang: string },
+) =>
+  (await getPanelsByIds(homePanelIds)).map((panel) =>
+    deintlPanel({ panel, lang })
+  );
 
 const toImageCard =
   ({ theme, backdrop }: { theme?: string; backdrop?: boolean } = {}) =>
@@ -74,7 +92,7 @@ export const handler: Handlers = {
       { intro, ...withoutIntro },
     ) => withoutIntro);
 
-    const authorized = await isAuthorized();
+    const authorized = await mayEdit(req);
 
     return ctx.render({
       hero,
@@ -131,7 +149,7 @@ export default function Home(
       ))} */
       }
 
-      <Section style={{ display: "grid", placeItems: "center" }}>
+      <Section style={{ display: "grid", placeItems: "center", width: "100%" }}>
         <ImagePanel {...hero} lang={lang} editor={authorized} />
       </Section>
 

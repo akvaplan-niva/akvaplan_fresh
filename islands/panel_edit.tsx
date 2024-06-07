@@ -11,7 +11,13 @@ import type {
 import { FieldSetOfObject } from "akvaplan_fresh/islands/FieldSetOfObject.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
 
-const core: (keyof Panel)[] = ["collection", "theme", "backdrop", "comment"];
+const core: (keyof Panel)[] = [
+  "collection",
+  "theme",
+  "backdrop",
+  "comment",
+  "draft",
+];
 const image: (keyof PanelImage)[] = ["cloudinary", "url"];
 const intl: (keyof PanelIntl)[] = ["title", "href", "intro", "cta", "desc"];
 
@@ -51,7 +57,9 @@ export const panelTemplate = {
 export const PanelEditIsland = (
   { panel, lang, url }: { key: Deno.KvKey; panel: Panel; lang: string },
 ) => {
+  panel.created = panel.created ?? panel.modified;
   const p = useSignal({ ...panelTemplate, ...panel });
+  const patches = useSignal([]);
 
   const applyPatch = (op, path, value) => {
     const modified = new Date().toJSON();
@@ -60,7 +68,8 @@ export const PanelEditIsland = (
     }
     const withModified = { ...p.value, modified };
     p.value = set(path, withModified, value);
-    console.warn(p.value);
+
+    patches.value = [...patches.value, { op, path, value }];
   };
 
   const handleInput = ({ target }) => {
@@ -79,6 +88,15 @@ export const PanelEditIsland = (
         hidden
         aria-hidden
         value={JSON.stringify(p.value, null, "  ")}
+      />
+
+      <textarea
+        class="textarea"
+        type="text"
+        name="_patch"
+        hidden
+        aria-hidden
+        value={JSON.stringify(patches.value, null, "  ")}
       />
 
       {["no", "en"].map((lang) => (
@@ -105,12 +123,15 @@ export const PanelEditIsland = (
         object={p.value}
       />
 
-      <FieldSetOfObject
-        fields={["id", "modified"]}
-        legend={t("ui.internal")}
-        object={panel}
-        disabled
-      />
+      {panel.id !== null &&
+        (
+          <FieldSetOfObject
+            fields={["id", "created_by", "modified_by", "created", "modified"]}
+            legend={t("ui.internal")}
+            object={panel}
+            disabled
+          />
+        )}
 
       {/* {false && <Button name="_btn" value="publish">Publish</Button>} */}
 

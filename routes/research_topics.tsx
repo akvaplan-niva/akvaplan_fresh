@@ -41,6 +41,8 @@ import _research from "akvaplan_fresh/data/orama/2024-04-30_research_topics.json
   type: "json",
 };
 import { search } from "akvaplan_fresh/search/search.ts";
+import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
+import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
 // Legacy:
 // https://akvaplan.no/no/forskning/tema/akvakultur_milj%C3%B8
 export const config: RouteConfig = {
@@ -67,6 +69,11 @@ export const handler: Handlers = {
 
     lang.value = params.lang;
 
+    let panel = await getPanelInLang({
+      id: params.id,
+      lang: params.lang,
+    });
+
     const id = await params?.id && params.id?.length > 0
       ? params.id
       : (await searchResearchBySlug(params.slug))?.id;
@@ -84,11 +91,14 @@ export const handler: Handlers = {
       decodeURIComponent(topic),
     ].filter((s) => s.length > 3).map((s) => s.toLowerCase());
 
+    const editor = true;
     return ctx.render({
       lang,
       base,
       research,
       url,
+      panel,
+      editor,
     });
   },
 };
@@ -100,6 +110,8 @@ export default function ResearchTopicsPage(
       base,
       research,
       url,
+      panel,
+      editor,
     },
   }: PageProps<
     unknown
@@ -111,25 +123,10 @@ export default function ResearchTopicsPage(
   // FIXME ResearcResearchTopicsPage: Support custom GroupedSearch ie for each of the "new species"
   return (
     <Page title={name} base={base} collection="research">
-      <div>
-        <Article>
-          <ArticleHeader
-            header={
-              <span>
-                {name}
-              </span>
-            }
-            image={research.img}
-            imageCaption={""}
-          />
-          <div>
-            <PersonCard id={research.people_ids.at(0)} />
-          </div>
-          <section>
-            {/* <TopicSummary topic={topic} lang={lang.value} /> */}
-          </section>
-        </Article>
-      </div>
+      <Section style={{ display: "grid", placeItems: "center" }}>
+        <ImagePanel {...panel} lang={lang} editor={editor} />
+        <PersonCard id={research.people_ids.at(0)} />
+      </Section>
 
       <Section>
         <GroupedSearch

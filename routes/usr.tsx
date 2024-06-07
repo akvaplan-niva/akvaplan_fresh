@@ -11,6 +11,7 @@ import { priorAkvaplanistID as priors } from "akvaplan_fresh/services/prior_akva
 
 import {
   Card,
+  Icon,
   Page,
   PeopleCard as PersonCard,
 } from "akvaplan_fresh/components/mod.ts";
@@ -32,13 +33,21 @@ import {
 
 import type { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
+import {
+  avatarBase64DataUri,
+  buildMicrosoftOauthHelpers,
+} from "akvaplan_fresh/oauth/microsoft_helpers.ts";
+
 import type {
   FreshContext,
   Handlers,
   PageProps,
   RouteConfig,
 } from "$fresh/server.ts";
-import { akvaplanistUrl } from "akvaplan_fresh/services/mod.ts";
+import { getAvatar, getSession } from "akvaplan_fresh/kv/session.ts";
+import { Section } from "akvaplan_fresh/components/section.tsx";
+import Button from "akvaplan_fresh/components/button/button.tsx";
+import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 
 const defaultAtConfig = {
   search: {
@@ -88,7 +97,12 @@ export const handler: Handlers = {
       // return new Response("", { status: 301, headers });
     }
     akvaplanist.bio = ``;
-    const { given, family } = akvaplanist;
+    //const { given, family } = akvaplanist;
+
+    const { getSessionId } = buildMicrosoftOauthHelpers(req);
+    const session = await getSessionId(req);
+    const user = session ? await getSession(session) : null;
+    const avatar = user?.email ? await getAvatar(user?.email) : null;
 
     const config =
       await getValue<typeof defaultAtConfig>(["@", "config", id]) ??
@@ -121,12 +135,21 @@ export const handler: Handlers = {
       }
     }
 
-    return ctx.render({ akvaplanist, at, url, config, cristin, orama });
+    return ctx.render({
+      akvaplanist,
+      at,
+      url,
+      config,
+      cristin,
+      orama,
+      user,
+      avatar,
+    });
   },
 };
 
 export default function UsrPage({ data }: PageProps<AtHome>) {
-  const { akvaplanist, at, url, config, cristin, orama } = data;
+  const { akvaplanist, at, url, config, cristin, orama, user, avatar } = data;
   const { given, family, expired } = akvaplanist;
   const name = `${given} ${family}`;
   const lang = extractLangFromUrl(url);
@@ -151,7 +174,7 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
       )}
 
       {cristin.id && !cristin.works && (
-        <p style={{ fontSize: "0.75rem" }}>
+        <p style={{ fontSize: "0.8rem" }}>
           <a href={`?cristin`}>
             {t("cristin.Show_works_from_Cristin")}
           </a>
@@ -170,6 +193,7 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
                   {t("ui.Data_from")}{" "}
                   <a
                     target="_blank"
+                    sessionId
                     href={`https://app.cristin.no/search.jsf?t=${""}&type=result&filter=person_idfacet~${cristin.id}`}
                   >
                     Cristin
@@ -192,6 +216,31 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
           </aside>
         </>
       )}
+
+      <Section>
+        <p style={{ fontSize: "0.8rem" }}>
+          {user && user.email.startsWith(akvaplanist.id)
+            ? (
+              <span>
+                <p>
+                  <a style={{ fontSize: "0.8rem" }} href="/auth/sign-out">
+                    {avatar && (
+                      <img src={avatarBase64DataUri(avatar)} width="48" />
+                    )} Sign out
+                  </a>
+                </p>
+              </span>
+            )
+            : (
+              <span>
+                Are you {name}?{" "}
+                <a style={{ fontSize: "0.8rem" }} href="/auth/sign-in">
+                  Sign in
+                </a>
+              </span>
+            )}
+        </p>
+      </Section>
     </Page>
   );
 }

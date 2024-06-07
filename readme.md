@@ -34,6 +34,12 @@ deno_kv_database=https://api.deno.com/databases/$preview/connect
 DENO_KV_ACCESS_TOKEN=
 ```
 
+### Permissions
+```sh
+$ ./bin/kv_set '["rights", "kv", "panel", "xyz"]' '{ "actions": "crud" }'
+
+```
+
 ### Panels
 
 Export/seed
