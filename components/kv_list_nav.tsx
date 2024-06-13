@@ -11,7 +11,7 @@ export const KvListNav = (
 
   const save = async (entry, kv) => {
     const { key, value } = entry;
-    const res = await kv.set(key, value);
+    throw "Not implemented (and not secure)";
   };
 
   return (

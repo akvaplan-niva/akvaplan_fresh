@@ -15,12 +15,25 @@ import {
 } from "akvaplan_fresh/services/mod.ts";
 
 import { parse } from "accept-language-parser";
+//import { getCookies } from "@std/http/cookie";
 
 import type { FreshContext } from "$fresh/server.ts";
-import { blogURL, projectURL } from "akvaplan_fresh/services/nav.ts";
+import { getCookies } from "@std/http";
+import { getSession } from "akvaplan_fresh/kv/session.ts";
+import { buildMicrosoftOauthHelpers } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
 
 export function handler(req: Request, ctx: FreshContext) {
   if (ctx.destination === "route") {
+    ctx.state.xyz = "æøå";
+    // console.warn(ctx.state);
+    // for (const [name, cookie] of Object.entries(getCookies(req.headers))) {
+    //   if (/site-session/.test(name)) {
+    //     getSession(cookie).then((user) => {
+    //       ctx.state.user = user;
+    //     });
+    //   }
+    // }
+
     const { url, params } = ctx;
     const { pathname, hostname } = url;
 

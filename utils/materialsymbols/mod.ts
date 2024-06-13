@@ -1,4 +1,5 @@
 export const icons = new Set([
+  "add",
   "android",
   "arrow_back_ios_new",
   "arrow_forward_ios",

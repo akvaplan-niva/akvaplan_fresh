@@ -27,4 +27,4 @@ const render: RenderFunction = (
   freshRender();
 };
 
-await start(manifest, { render, /*plugins: [],*/ port: 7777 });
+await start(manifest, { render, plugins: [], port: 7777 });

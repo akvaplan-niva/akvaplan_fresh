@@ -4,7 +4,7 @@ const _section = {
   marginBottom: "3rem",
   // padding: "1.5rem",
 };
-export const PageSection = (
+export const Section = (
   { children, ...props }: { children: ComponentChildren },
 ) => (
   <div {...props}>

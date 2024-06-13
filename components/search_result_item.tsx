@@ -1,4 +1,4 @@
-import { href } from "akvaplan_fresh/search/href.ts";
+import { href as _href } from "akvaplan_fresh/search/href.ts";
 import { lang as langSignal } from "akvaplan_fresh/text/mod.ts";
 import { MiniCard } from "akvaplan_fresh/components/card.tsx";
 import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
@@ -30,6 +30,7 @@ export const SearchResultItem = (
 ) => {
   const {
     id,
+    href,
     collection,
     title,
     subtitle,
@@ -80,7 +81,7 @@ export const SearchResultItem = (
           ? (
             <a
               style={{ placeContent: "center" }}
-              href={href({
+              href={href ?? _href({
                 id,
                 slug,
                 collection,
@@ -102,7 +103,7 @@ export const SearchResultItem = (
 
         <MiniCard style={{ placeContent: "center" }}>
           <a
-            href={href({
+            href={href ?? _href({
               id,
               slug,
               collection,

@@ -16,6 +16,7 @@ export function CleanHeader(
     title = "",
     collection = "",
     breadcrumbs = emptyBreadcrumbs,
+    Avatar = () => null,
   },
 ) {
   return (
@@ -45,6 +46,7 @@ export function CleanHeader(
           placeItems: "center",
         }}
       >
+        <Avatar />
         <div class="hide-s">
           <span
             style={{

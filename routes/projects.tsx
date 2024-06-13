@@ -1,4 +1,3 @@
-// FIXME (projects.tsx) https://github.com/akvaplan-niva/akvaplan_fresh/issues/232
 import {
   projectFromMynewsdesk,
   searchURL,
@@ -6,32 +5,18 @@ import {
 
 import { t } from "akvaplan_fresh/text/mod.ts";
 import {
-  extractRenderProps,
-  type InternationalProps,
-} from "akvaplan_fresh/utils/page/international_page.ts";
-import {
+  ArticleSquare,
   CollectionHeader,
   HScroll,
   Page,
 } from "akvaplan_fresh/components/mod.ts";
 
-import { Mini4ColGrid } from "akvaplan_fresh/components/Mini3ColGrid.tsx";
-import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "../components/section.tsx";
 import { MynewsdeskEvent } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import type {
-  FreshContext,
-  Handlers,
-  PageProps,
-  RouteConfig,
-} from "$fresh/server.ts";
-import {
-  HeroPanel,
-  ImagePanel,
-  WideCard,
-} from "akvaplan_fresh/components/panel.tsx";
+import { defineRoute, type RouteConfig } from "$fresh/server.ts";
+import { ImagePanel, WideCard } from "akvaplan_fresh/components/panel.tsx";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 
-import { Naked } from "akvaplan_fresh/components/naked.tsx";
 import {
   getCollectionPanelsInLang,
   getPanelInLang,
@@ -67,78 +52,49 @@ const groupFreshEndingFuturePast = (
 const sortStartReverse = (a: MynewsdeskEvent, b: MynewsdeskEvent) =>
   b.start.localeCompare(a.start);
 
-const _img = (id: string = "", { ar, w }) =>
-  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_${w},ar_${ar}/${
-    extractId(id)
-  }`;
+export default defineRoute(async (req, ctx) => {
+  const { lang, page } = ctx.params;
 
-const toWideImage = (p) => ({
-  ...p,
-  url: _img(p.img, { ar: "16:19", w: 512 }),
-});
+  const type_of_media = "event";
 
-export const handler: Handlers = {
-  async GET(req: Request, ctx: FreshContext) {
-    const type_of_media = "event";
+  const url = searchURL("", type_of_media, { limit: 100, strict: true });
+  const r = await fetch(url).catch((e) => console.error(e));
+  const { search_result: { items } } = await r?.json() ?? [];
 
-    const url = searchURL("", type_of_media, { limit: 100, strict: true });
+  const projects = items
+    ?.map(projectFromMynewsdesk({ lang }))
+    .sort(sortStartReverse);
 
-    const props = extractRenderProps(req, ctx);
-    const { lang } = props;
+  const { image, title } = await getPanelInLang({
+    id: "01hyd6qeqv71dyhcd3356q31sy",
+    lang,
+  });
 
-    const r = await fetch(url).catch((e) => console.error(e));
-    const { search_result: { items } } = await r?.json() ?? [];
+  const panels = await getCollectionPanelsInLang({
+    collection: "project",
+    lang,
+  });
 
-    const projects = items
-      ?.map(projectFromMynewsdesk({ lang }))
-      .map(toWideImage)
-      .sort(sortStartReverse);
+  const grouped = Map.groupBy<string, MynewsdeskEvent>(
+    projects,
+    groupFreshEndingFuturePast,
+  );
 
-    const { image, title } = await getPanelInLang({
-      id: "01hyd6qeqv71dyhcd3356q31sy",
-      lang,
-    });
-
-    const panels = await getCollectionPanelsInLang({
-      collection: "project",
-      lang,
-    });
-
-    const grouped = Map.groupBy<string, MynewsdeskEvent>(
-      projects,
-      groupFreshEndingFuturePast,
-    );
-
-    return ctx.render({ ...props, title, grouped, image, panels, lang });
-  },
-};
-
-export default function Projects(
-  { data: { title, base, grouped, image, panels, lang } }: PageProps<
-    InternationalProps
-  >,
-) {
   const hero = { title, image, backdrop: true, lang };
   return (
-    <Naked title={title} base={base} collection="home">
-      <HeroPanel {...hero} />
+    <Page title={title} _base={""} collection="home">
+      <Section style={{ display: "grid", placeItems: "center" }}>
+        <ImagePanel {...hero} lang={lang} />
+      </Section>
 
       {[FRESH, ENDING, ONGOING, PAST].map((key) => (
-        <PageSection
-          style={{ padding: "0 1rem" }}
-        >
-          <p style={{ fontSize: "1rem" }}>
-            {t(`project.Lifecycle.${key}`)}
-          </p>
-          <Mini4ColGrid atoms={grouped.get(key)} />
-        </PageSection>
+        <Section>
+          <CollectionHeader text={t(`project.Lifecycle.${key}`)} />
+          <HScroll>
+            {grouped.get(key)?.map(ArticleSquare)}
+          </HScroll>
+        </Section>
       ))}
-
-      {panels?.map((panel) => (
-        <PageSection style={{ display: "grid", placeItems: "center" }}>
-          <ImagePanel {...panel} lang={lang} />
-        </PageSection>
-      ))}
-    </Naked>
+    </Page>
   );
-}
+});

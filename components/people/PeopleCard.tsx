@@ -41,6 +41,7 @@ export function PeopleCard(
     lang = langSignal.value,
     id,
     icons = true,
+    avatar,
   }: PeopleProps,
 ) {
   if (id) {
@@ -80,11 +81,22 @@ export function PeopleCard(
             </a>
           )}
       </div>
-      <UseApnSym
-        width="2rem"
-        height="2rem"
-        style={isPrior(person) ? { filter: "grayscale(1)" } : {}}
-      />{" "}
+      {avatar
+        ? (
+          <img
+            src={avatar}
+            width="44"
+            height="44"
+            style={{ borderRadius: "22px" }}
+          />
+        )
+        : (
+          <UseApnSym
+            width="2rem"
+            height="2rem"
+            style={isPrior(person) ? { filter: "grayscale(1)" } : {}}
+          />
+        )}
       {isExpired(person)
         ? <span>{t("people.akvaplanist(prior)")}</span>
         : (

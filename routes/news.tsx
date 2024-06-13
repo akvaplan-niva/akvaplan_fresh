@@ -25,7 +25,7 @@ export const config: RouteConfig = {
 import { MynewsdeskArticle } from "../@interfaces/mynewsdesk.ts";
 import { asset, Head } from "$fresh/runtime.ts";
 import { url } from "@valibot/valibot";
-import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
+import { Section } from "../components/section.tsx";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 type Props = {};
 const _section = {
@@ -85,7 +85,7 @@ export default function News(
         </section>
       ))}
 
-      <PageSection>
+      <Section>
         <GroupedSearch
           term={"202"} // FIXME (home.tsx) GroupedSearch for "" fails
           limit={3}
@@ -96,7 +96,7 @@ export default function News(
           // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/difference collection = all.difference(exclude)
           //exclude={["research", "service", "image"]}
         />
-      </PageSection>
+      </Section>
 
       <Head>
         <link rel="stylesheet" href={asset("/css/akvaplanist.css")} />

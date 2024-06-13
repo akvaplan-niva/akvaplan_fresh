@@ -1,93 +1,131 @@
-import { getServicesLevel0FromExternalDenoService } from "akvaplan_fresh/services/svc.ts";
-import { buildAkvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
+import _services from "akvaplan_fresh/data/orama/2024-05-23_customer_services.json" with {
+  type: "json",
+};
+
+import { Section } from "akvaplan_fresh/components/section.tsx";
+import {
+  getPanelInLang,
+  getPanelsInLang,
+  mayCreate,
+  mayEdit,
+} from "akvaplan_fresh/kv/panel.ts";
+
+import { defineRoute, type RouteConfig } from "$fresh/server.ts";
+import { HeroPanel } from "akvaplan_fresh/components/panel.tsx";
+import { Naked } from "akvaplan_fresh/components/naked.tsx";
+import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
+import { BentoPanel } from "../components/bento_panel.tsx";
+import { Card } from "akvaplan_fresh/components/card.tsx";
+import { asset, Head } from "$fresh/runtime.ts";
 import {
   Accreditations,
-  ArticleSquare,
-  Card,
-  HScroll,
-  Page,
-  PeopleCard,
+  Certifications,
 } from "akvaplan_fresh/components/mod.ts";
 
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
-
-import {
-  type FreshContext,
-  type Handlers,
-  type PageProps,
-  type RouteConfig,
-} from "$fresh/server.ts";
-import { asset, Head } from "$fresh/runtime.ts";
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(services|tjenester)",
 };
+const panelHashId = (id: string) => `panel-${id}`;
 
-const _section = {
-  marginTop: "2rem",
-  marginBottom: "3rem",
-};
-const _header = {
-  marginBlockStart: "1rem",
-  marginBlockEnd: "0.5rem",
-};
+// FIXME Services page: 301 for /no/tjenester/tema/milj%C3%B8overv%C3%A5king & /no/tjenester/miljoovervaking/0618d159-5a99-4938-ae38-6c083da7da57
+export default defineRoute(async (req, ctx) => {
+  const { lang, page } = ctx.params;
 
-export const handler: Handlers = {
-  async GET(req: Request, ctx: FreshContext) {
-    const { params, url } = ctx;
-    const { searchParams } = new URL(req.url);
-    lang.value = params.lang;
+  const hero = await getPanelInLang({
+    id: "01hyd6qeqv4n3qrcv735aph6yy",
+    lang,
+  });
 
-    const title = t("nav.Services");
-    const base = `/${params.lang}/${params.page}/`;
+  const { title, image } = hero;
 
-    const { groupname, filter } = params;
-    const group = groupname?.length > 0 ? groupname : "year";
-    const q = searchParams.get("q") ?? "";
+  const panels = (await getPanelsInLang({
+    lang,
+    filter: (p: Panel) => "service" === p.collection && p?.draft !== true,
+  })).sort((a, b) => a.title.localeCompare(b.title));
 
-    const services = await getServicesLevel0FromExternalDenoService(
-      params.lang,
-    );
+  const editor = await mayEdit(req);
 
-    const people = await buildAkvaplanistMap();
-    const contacts = new Map([["lab", "mfr"]]);
-
-    return ctx.render({ lang, title, base, services, people, contacts, url });
-  },
-};
-
-export default function Services(
-  { data: { lang, title, base, services, people, contacts, url } }: PageProps<
-    unknown
-  >,
-) {
-  const width = 512;
-  const height = 512;
   return (
-    <Page title={title} base={base} collection="home">
-      <Head>
-        <link rel="stylesheet" href={asset("/css/hscroll.css")} />
-        <link rel="stylesheet" href={asset("/css/hscroll-dynamic.css")} />
-        <link rel="stylesheet" href={asset("/css/article.css")} />
-        <script src={asset("/@nrk/core-scroll.min.js")} />
-      </Head>
+    <Naked title={title} collection="home">
+      <HeroPanel {...hero} lang={lang} editor={editor} />
 
-      <h1>{title}</h1>
+      <Card>
+        <p>
+          {hero?.intro && <Markdown text={hero.intro} />}
+        </p>
+      </Card>
+      <Section>{/* spacer :) */}</Section>
 
-      {/* <OurServices services={services} /> */}
+      <section class="Section block-center-center">
+        <div class="Container content-3">
+          <div class="BentoGrid block gap-3">
+            {panels?.map((p) => (
+              <BentoPanel
+                panel={p}
+                hero={false}
+                lang={lang}
+                editor={false}
+              />
+            ))}
 
-      <HScroll maxVisibleChildren={6.5}>
-        {services.map(ArticleSquare)}
-      </HScroll>
+            {editor && (
+              <BentoPanel
+                panel={{
+                  title: null,
+                  id: null,
+                  image: { cloudinary: "snlcxc38hperptakjpi5" },
+                }}
+                editor={editor}
+                hero={false}
+                href={`/${lang}/panel/_/new?collection=service`}
+              />
+            )}
+          </div>
 
-      <section style={_section}>
-        <Card>
-          <h1>
-            {t("acc.Header")}
-          </h1>
-        </Card>
-        <Accreditations lang={lang.value} />
+          <Section>{/* spacer :) */}</Section>
+
+          <Section>
+            <Card>
+              <h2>Om våre tjenester</h2>
+
+              <Section>
+                {hero?.desc && (
+                  <Markdown
+                    text={hero.desc}
+                    style={{ fontSize: "1rem", whiteSpace: "pre-wrap" }}
+                  />
+                )}
+              </Section>
+            </Card>
+          </Section>
+          <Section style={{ fontSize: "1rem", whiteSpace: "pre-wrap" }}>
+            <Accreditations
+              lang={lang}
+            />
+            <Certifications lang={lang} />
+          </Section>
+        </div>
       </section>
-    </Page>
+
+      <Section>
+        {
+          /* <CollectionHeader collection="news" />
+        <HScroll>
+          {panels?.map(ArticleSquare)}
+        </HScroll> */
+        }
+      </Section>
+
+      {
+        /* {panels?.map((panel) => (
+        <Section style={{ display: "grid", placeItems: "center" }}>
+          <ImagePanel {...panel} lang={lang} id={panelHashId(panel.id)} />
+        </Section>
+      ))} */
+      }
+      <Head>
+        <link rel="stylesheet" href={asset("/css/bento.css")} />
+      </Head>
+    </Naked>
   );
-}
+});

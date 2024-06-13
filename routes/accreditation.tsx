@@ -1,33 +1,17 @@
 import { Page } from "akvaplan_fresh/components/page.tsx";
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
+import { lang } from "akvaplan_fresh/text/mod.ts";
 
+import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import {
-  type FreshContext,
-  type Handlers,
-  type PageProps,
-  type RouteConfig,
-} from "$fresh/server.ts";
-
-interface NullProps {
-  lang: string;
-  base: string;
-  title: string;
-}
+  Accreditations,
+  Certifications,
+} from "akvaplan_fresh/components/akvaplan/accreditations.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
-    "/:lang(en|no)/:page(accreditations|accreditation|akkreditering|akkreditert)",
+    "/:lang(en|no)/:page(accreditations|accreditation|accreditated|akkreditering|akkrediteringer|akkreditert)",
 };
 
-export const handler: Handlers = {
-  GET(req: Request, ctx: FreshContext) {
-    const { params } = ctx;
-    lang.value = params.lang;
-    const title = t(params.page);
-    const base = `/${params.lang}/${params.page}/`;
-    return ctx.render({ lang, title, base });
-  },
-};
 const no = (
   <main id="main" class="site-main">
     <header class="page-header">
@@ -166,12 +150,13 @@ const en = (
   </main>
 );
 
-export function Accreditations(
-  { data: { title, lang, base } }: PageProps<NullProps>,
-) {
+export default defineRoute((req, ctx) => {
+  const title = "Accreditations";
   return (
-    <Page title={title} base={base}>
-      {lang.value === "en" ? en : no}
+    <Page title={title}>
+      <h1>{title}</h1>
+      <Accreditations lang={lang} />
+      <Certifications lang={lang} />
     </Page>
   );
-}
+});

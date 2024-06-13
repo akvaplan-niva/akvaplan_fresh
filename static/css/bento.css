@@ -123,11 +123,14 @@
     grid-template-columns: repeat(var(--columns), 1fr);
 
     /* --lg-only */
-    @media (768px <= width <= 1024px) {
+    @media (768px <= width < 1024px) {
       --columns: 2;
     }
+    @media (1024px <= width < 1600px) {
+      --columns: 3;
+    }
     /* --lg-n-above */
-    @media (width >= 1024px) {
+    @media (width >= 1600px) {
       --columns: 12;
     }
   }
@@ -187,7 +190,7 @@
 
     /* --lg-n-above */
     @media (width >= 1024px) {
-      grid-column: span calc(var(--columns) / 3);
+      grid-column: span calc(var(--columns) / 4);
 
       &.Hero {
         grid-column: span var(--columns);
@@ -199,7 +202,7 @@
         grid-column: span calc(var(--columns) / 6);
         min-block-size: calc(var(--card-min-block-size) * 1.25);
         border: 1px dotted red;
-      }*/
+      }
     }
 
     /* --motionOK and --mouse  */
@@ -219,10 +222,10 @@
 @layer animation.reveal {
   /* --motionOK */
   @media (prefers-reduced-motion: no-preference) {
-    /* .Card:not(.Hero) {
+    .Card:not(.Hero) {
       opacity: 0;
       will-change: transform;
-    } */
+    } 
 
     .reveal {
       /* Animation: fade-in from Open Props */

@@ -1,4 +1,4 @@
-import { Pointable, set } from "@hyperjump/json-pointer";
+import { set } from "@hyperjump/json-pointer";
 import { useSignal } from "@preact/signals";
 import Button from "akvaplan_fresh/components/button/button.tsx";
 
@@ -10,9 +10,19 @@ import type {
 
 import { FieldSetOfObject } from "akvaplan_fresh/islands/FieldSetOfObject.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
+import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
-const core: (keyof Panel)[] = ["collection", "theme", "backdrop", "comment"];
-const image: (keyof PanelImage)[] = ["cloudinary", "url"];
+const core: (keyof Panel)[] = [
+  "collection",
+  "people_ids",
+  "theme",
+  "backdrop",
+  "comment",
+  "draft",
+];
+//const cover: (keyof PanelImage)[] = ["cloudinary", "url"];
+const image: (keyof PanelImage)[] = ["cloudinary", "url", "ar"];
 const intl: (keyof PanelIntl)[] = ["title", "href", "intro", "cta", "desc"];
 
 const schema = {
@@ -25,6 +35,8 @@ const schema = {
 
 const bool = ["/backdrop"];
 const number = ["/position"];
+const textarea = ["/intl/desc"];
+
 export const panelTemplate = {
   id: undefined,
   theme: "dark",
@@ -35,21 +47,23 @@ export const panelTemplate = {
   intl: {
     en: {
       title: "",
-      href: "/en",
+      href: "/en/…",
       cta: "",
     },
     no: {
       title: "",
-      href: "/no",
+      href: "/no/…",
       cta: "",
     },
   },
 };
 
 export const PanelEditIsland = (
-  { id, panel, lang, url }: { key: Deno.KvKey; panel: Panel; lang: string },
+  { panel, lang, url }: { key: Deno.KvKey; panel: Panel; lang: string },
 ) => {
+  panel.created = panel.created ?? panel.modified;
   const p = useSignal({ ...panelTemplate, ...panel });
+  const patches = useSignal([]);
 
   const applyPatch = (op, path, value) => {
     const modified = new Date().toJSON();
@@ -58,6 +72,8 @@ export const PanelEditIsland = (
     }
     const withModified = { ...p.value, modified };
     p.value = set(path, withModified, value);
+
+    patches.value = [...patches.value, { op, path, value }];
   };
 
   const handleInput = ({ target }) => {
@@ -70,11 +86,21 @@ export const PanelEditIsland = (
   return (
     <form onChange={handleInput} method="post" action={url}>
       <textarea
+        class="textarea"
         type="text"
         name="_panel"
         hidden
         aria-hidden
         value={JSON.stringify(p.value, null, "  ")}
+      />
+
+      <textarea
+        class="textarea"
+        type="text"
+        name="_patch"
+        hidden
+        aria-hidden
+        value={JSON.stringify(patches.value, null, "  ")}
       />
 
       {["no", "en"].map((lang) => (
@@ -83,6 +109,7 @@ export const PanelEditIsland = (
           legend={t(`lang.${lang}`)}
           path={`/intl/${lang}`}
           object={p.value.intl?.[lang]}
+          areas={["desc"]}
         />
       ))}
 
@@ -100,18 +127,30 @@ export const PanelEditIsland = (
         object={p.value}
       />
 
-      <FieldSetOfObject
-        fields={["id", "modified"]}
-        legend={t("ui.internal")}
-        object={panel}
-        disabled
-      />
+      {panel.id !== null &&
+        (
+          <FieldSetOfObject
+            fields={[
+              "id",
+              "created_by",
+              "modified_by",
+              "created",
+              "modified",
+              "parent",
+            ]}
+            legend={t("ui.internal")}
+            object={panel}
+            disabled
+          />
+        )}
 
-      {false && <Button name="_btn" value="publish">Publish</Button>}
+      {/* {false && <Button name="_btn" value="publish">Publish</Button>} */}
 
-      <Button onClick={() => history.back()}>Discard</Button>
-      <Button name="_btn" type="submit" value="duplicate">Duplicate</Button>
-      <Button name="_btn" type="submit" value="save" filled>Save</Button>
+      <Button onClick={() => history.back()}>Cancel</Button>
+      {/* <Button name="_btn" type="submit" value="duplicate">Duplicate</Button> */}
+      {panel.id === null
+        ? <Button name="_btn" type="submit" value="new" filled>Create</Button>
+        : <Button name="_btn" type="submit" value="save" filled>Save</Button>}
     </form>
   );
 };

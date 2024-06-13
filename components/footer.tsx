@@ -18,8 +18,8 @@ const footerStyle = {
 export function Footer({ lang }) {
   return (
     <footer class="footer">
-      <a class="footer__logo" href="https://akvaplan.no">
-        <ApnLogo width="192" />
+      <a class="footer__logo" href="/">
+        <ApnLogo width="288" />
       </a>
 
       <noscript>

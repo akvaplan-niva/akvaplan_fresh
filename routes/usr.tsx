@@ -32,13 +32,19 @@ import {
 
 import type { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
+import {
+  base64DataUri,
+  buildMicrosoftOauthHelpers,
+} from "akvaplan_fresh/oauth/microsoft_helpers.ts";
+
 import type {
   FreshContext,
   Handlers,
   PageProps,
   RouteConfig,
 } from "$fresh/server.ts";
-import { akvaplanistUrl } from "akvaplan_fresh/services/mod.ts";
+import { getAvatarImageBytes, getSession } from "akvaplan_fresh/kv/session.ts";
+import { Section } from "akvaplan_fresh/components/section.tsx";
 
 const defaultAtConfig = {
   search: {
@@ -89,7 +95,12 @@ export const handler: Handlers = {
       // return new Response("", { status: 301, headers });
     }
     akvaplanist.bio = ``;
-    const { given, family } = akvaplanist;
+    //const { given, family } = akvaplanist;
+
+    const { getSessionId } = buildMicrosoftOauthHelpers(req);
+    const session = await getSessionId(req);
+    const user = session ? await getSession(session) : null;
+    const avatar = user?.email ? await getAvatarImageBytes(user?.email) : null;
 
     const config =
       await getValue<typeof defaultAtConfig>(["@", "config", id]) ??
@@ -122,23 +133,54 @@ export const handler: Handlers = {
       }
     }
 
-    return ctx.render({ akvaplanist, at, url, config, cristin, orama });
+    return ctx.render({
+      akvaplanist,
+      at,
+      url,
+      config,
+      cristin,
+      orama,
+      user,
+      avatar,
+    });
   },
 };
 
 export default function UsrPage({ data }: PageProps<AtHome>) {
-  const { akvaplanist, at, url, config, cristin, orama } = data;
+  const { akvaplanist, at, url, config, cristin, orama, user, avatar } = data;
   const { given, family, expired } = akvaplanist;
   const name = `${given} ${family}`;
+  const bio = akvaplanist?.bio;
   const lang = extractLangFromUrl(url);
 
   return (
     <Page base={`/${at}${akvaplanist.id}`} title={name}>
-      <PersonCard person={akvaplanist} lang={lang} />
+      <PersonCard
+        person={akvaplanist}
+        lang={lang}
+        avatar={avatar && user && user.email.startsWith(akvaplanist.id)
+          ? base64DataUri(avatar)
+          : undefined}
+      />
+      <p style={{ fontSize: "0.8rem" }}>
+        {user && user.email.startsWith(akvaplanist.id)
+          ? (
+            <a href="/auth/sign-out">
+              Sign out
+            </a>
+          )
+          : (
+            <a href="/auth/sign-in">
+              Sign in
+            </a>
+          )}
+      </p>
 
-      <Card>
-        <div dangerouslySetInnerHTML={{ __html: akvaplanist?.bio }} />
-      </Card>
+      {bio && (
+        <Card>
+          <div dangerouslySetInnerHTML={{ __html: bio }} />
+        </Card>
+      )}
 
       {config.search.enabled !== false && (
         <GroupedSearch
@@ -152,7 +194,7 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
       )}
 
       {cristin.id && !cristin.works && (
-        <p style={{ fontSize: "0.75rem" }}>
+        <p style={{ fontSize: "0.8rem" }}>
           <a href={`?cristin`}>
             {t("cristin.Show_works_from_Cristin")}
           </a>
@@ -171,6 +213,7 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
                   {t("ui.Data_from")}{" "}
                   <a
                     target="_blank"
+                    sessionId
                     href={`https://app.cristin.no/search.jsf?t=${""}&type=result&filter=person_idfacet~${cristin.id}`}
                   >
                     Cristin
@@ -193,6 +236,9 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
           </aside>
         </>
       )}
+
+      <Section>
+      </Section>
     </Page>
   );
 }

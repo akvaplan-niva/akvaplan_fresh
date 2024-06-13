@@ -54,12 +54,6 @@ export const seedPanels = async () => {
   console.warn(response);
 };
 
-export const listPanels = async () => {
-  for await (const entry of kv.list({ prefix: ["panel"] })) {
-    //console.warn(entry);
-  }
-};
-
 export const seedKv = async () => {
   //await seedHomeBanner();
   //seedArcticFrontiers();

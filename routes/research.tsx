@@ -1,54 +1,114 @@
 import _research from "akvaplan_fresh/data/orama/2024-04-30_research_topics.json" with {
   type: "json",
 };
-//import { getResearchLevel0FromExternalService } from "akvaplan_fresh/services/research.ts";
-import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
+// import _research from "akvaplan_fresh/data/orama/2024-05-23_research_topics.json" with {
+//   type: "json",
+// };
 
-import { CollectionHeader, Page } from "akvaplan_fresh/components/mod.ts";
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-import { Mini4ColGrid } from "akvaplan_fresh/components/Mini3ColGrid.tsx";
-import { PageSection } from "akvaplan_fresh/components/PageSection.tsx";
-import { ResearchIntro } from "../components/ResearchIntro.tsx";
-
-import type { RouteConfig, RouteContext } from "$fresh/server.ts";
-import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
+import { Section } from "../components/section.tsx";
+import {
+  getPanelInLang,
+  getPanelsInLang,
+  mayEdit,
+} from "akvaplan_fresh/kv/panel.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(research|forskning)",
 };
 
-export default async function ResearchPage(req: Request, ctx: RouteContext) {
-  const { params, url } = ctx;
-  lang.value = params.lang;
+import { defineRoute, type RouteConfig } from "$fresh/server.ts";
+import { HeroPanel } from "akvaplan_fresh/components/panel.tsx";
+import { Naked } from "akvaplan_fresh/components/naked.tsx";
+import { extractRenderProps } from "akvaplan_fresh/utils/page/international_page.ts";
 
-  const title = t("our.research");
-  const base = `/${params.lang}/${params.page}/`;
-  const hits = _research.map(({ published, ...r }) => r).map((document) => ({
-    document,
-  }));
+import { asset, Head } from "$fresh/runtime.ts";
+
+import { Card } from "akvaplan_fresh/components/card.tsx";
+import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
+import { Icon } from "akvaplan_fresh/components/icon.tsx";
+import Button from "akvaplan_fresh/components/button/button.tsx";
+import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
+
+import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
+
+export const atomFromPanel = (p: Panel) => {
+  return p;
+};
+
+export default defineRoute(async (req, ctx) => {
+  const props = extractRenderProps(req, ctx);
+  const { lang } = props;
+
+  const hero = await getPanelInLang({
+    id: "01hyd6qeqvy0ghjnk1nwdfwvyq",
+    lang,
+  });
+
+  const { image, title } = hero;
+
+  const panels = (await getPanelsInLang({
+    lang,
+    filter: (p: Panel) => "research" === p.collection && p?.draft !== true,
+  })).sort((a, b) => a.title.localeCompare(b.title));
+
+  const editor = await mayEdit(req);
 
   return (
-    <Page title={title} base={base} collection="home">
-      <CollectionHeader text={t(`our.research`)} />
+    <Naked title={title} collection="home">
+      <HeroPanel {...hero} lang={lang} editor={editor} />
 
-      <SearchResults
-        hits={hits}
-      />
-      <PageSection>
-        {
-          /* <GroupedSearch
-          term={"forskning science vitenskap"}
-          first={true}
-          collection={["news", "pressrelease", "blog", "video"]}
-          origin={url}
-          threshold={0.1}
-          display={"grid"}
-          limit={2}
-          noInput
-        /> */
-        }
-      </PageSection>
-    </Page>
+      <Card>
+        <p>
+          {hero?.intro && <Markdown text={hero.intro} />}
+        </p>
+      </Card>
+
+      <Section>{/* spacer :) */}</Section>
+
+      <section class="Section block-center-center">
+        <div class="Container content-3">
+          <div class="BentoGrid block gap-3">
+            {panels?.map((panel) => (
+              <BentoPanel
+                panel={atomFromPanel(panel)}
+                lang={lang}
+              />
+            ))}
+
+            {editor && (
+              <BentoPanel
+                panel={{
+                  title: null,
+                  id: null,
+                  image: { cloudinary: "snlcxc38hperptakjpi5" },
+                }}
+                editor={editor}
+                href={`/${lang}/panel/_/new?collection=research`}
+              />
+            )}
+          </div>
+          <Section>{/* spacer :) */}</Section>
+          <Section>
+            <Card>
+              <h2>Om vår forskning</h2>
+              <p>
+                <Section>
+                  {hero?.desc && (
+                    <Markdown
+                      text={hero.desc}
+                      style={{ fontSize: "1rem", whiteSpace: "pre-wrap" }}
+                    />
+                  )}
+                </Section>
+              </p>
+            </Card>
+          </Section>
+        </div>
+      </section>
+
+      <Head>
+        <link rel="stylesheet" href={asset("/css/bento.css")} />
+      </Head>
+    </Naked>
   );
-}
+});
