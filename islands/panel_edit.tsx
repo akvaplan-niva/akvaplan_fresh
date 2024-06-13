@@ -10,15 +10,19 @@ import type {
 
 import { FieldSetOfObject } from "akvaplan_fresh/islands/FieldSetOfObject.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
+import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
 const core: (keyof Panel)[] = [
   "collection",
+  "people_ids",
   "theme",
   "backdrop",
   "comment",
   "draft",
 ];
-const image: (keyof PanelImage)[] = ["cloudinary", "url"];
+//const cover: (keyof PanelImage)[] = ["cloudinary", "url"];
+const image: (keyof PanelImage)[] = ["cloudinary", "url", "ar"];
 const intl: (keyof PanelIntl)[] = ["title", "href", "intro", "cta", "desc"];
 
 const schema = {
@@ -126,7 +130,14 @@ export const PanelEditIsland = (
       {panel.id !== null &&
         (
           <FieldSetOfObject
-            fields={["id", "created_by", "modified_by", "created", "modified"]}
+            fields={[
+              "id",
+              "created_by",
+              "modified_by",
+              "created",
+              "modified",
+              "parent",
+            ]}
             legend={t("ui.internal")}
             object={panel}
             disabled

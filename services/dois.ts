@@ -1,5 +1,4 @@
 import { buildContainsFilter } from "akvaplan_fresh/search/filter.ts";
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
 
 export const DOIS_BASE = globalThis?.Deno?.env?.get("dois_base") ??
   "https://dois.deno.dev";
@@ -11,6 +10,9 @@ const defaults = {
 };
 
 const { entries } = Object;
+
+export const extractNakedDoi = (s: string) =>
+  /10./.test(s) ? "10." + s.split("10.").at(1) : undefined;
 
 export const getDoisFromDenoDeployService = async () => {
   const url = new URL(`/doi?limit=-1&sort=-published&q=`, DOIS_BASE);

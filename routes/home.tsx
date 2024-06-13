@@ -24,9 +24,18 @@ import { ImagePanel, WideCard } from "akvaplan_fresh/components/panel.tsx";
 
 import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
 import type { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mod.ts";
-import type { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
+import {
+  defineRoute,
+  type Handlers,
+  type PageProps,
+  type RouteConfig,
+} from "$fresh/server.ts";
 import type { Signal } from "@preact/signals-core";
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
+import {
+  createAvatar,
+  createAvatarLink,
+} from "akvaplan_fresh/components/akvaplan/avatar.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -65,77 +74,56 @@ const toImageCard =
     theme,
   });
 
-export const handler: Handlers = {
-  async GET(req, ctx) {
-    const { url } = ctx;
-    const sitelang = extractLangFromUrl(req.url);
-    lang.value = sitelang;
+// export const handler: Handlers = {
+//   async GET(req, ctx) {
 
-    const _news = await latestNewsFromMynewsdeskService({
-      q: "",
-      lang: sitelang,
-      limit: 25,
-    }).catch((e) => console.error(e));
+//     return ctx.render({
+//       hero,
+//       news,
+//       newsInAltLang,
+//       panels,
+//       //sticky,
+//       lang,
+//       url,
+//       authorized,
+//     });
+//   },
+// };
 
-    const news = _news?.filter((n) => sitelang === n.hreflang);
+export default defineRoute(async (req, ctx) => {
+  const { url } = ctx;
+  const sitelang = extractLangFromUrl(req.url);
+  lang.value = sitelang;
 
-    const _newsInAltLang = _news?.filter((n) => sitelang !== n.hreflang);
+  const _news = await latestNewsFromMynewsdeskService({
+    q: "",
+    lang: sitelang,
+    limit: 25,
+  }).catch((e) => console.error(e));
 
-    const newsInAltLang = _newsInAltLang
-      ?.map(toImageCard());
+  const news = _news?.filter((n) => sitelang === n.hreflang);
 
-    const hero = await getPanelInLang({ id: HOME_HERO_ID, lang });
+  const _newsInAltLang = _news?.filter((n) => sitelang !== n.hreflang);
 
-    //const sticky = news?.slice(5, 6); //await getSticky(["page", "home"]);
+  const newsInAltLang = _newsInAltLang
+    ?.map(toImageCard());
 
-    const panels = (await getHomePanels({ lang })).map((
-      { intro, ...withoutIntro },
-    ) => withoutIntro);
+  const hero = await getPanelInLang({ id: HOME_HERO_ID, lang });
 
-    const authorized = await mayEdit(req);
+  //const sticky = news?.slice(5, 6); //await getSticky(["page", "home"]);
 
-    return ctx.render({
-      hero,
-      news,
-      newsInAltLang,
-      panels,
-      //sticky,
-      lang,
-      url,
-      authorized,
-    });
-  },
-};
+  const panels = (await getHomePanels({ lang })).map((
+    { intro, ...withoutIntro },
+  ) => withoutIntro);
 
-interface HomeData {
-  firstPanel: Panel;
-  panels: Panel[];
-  news: MynewsdeskArticle[];
-  newsInAltLang: OramaAtomSchema[];
+  const authorized = await mayEdit(req);
 
-  lang: Signal<string>;
+  const AvatarLink = await createAvatarLink(req, { lang });
 
-  url: URL;
-  authorized: boolean;
-}
-
-export default function Home(
-  {
-    data: {
-      hero,
-      news,
-      newsInAltLang,
-      panels,
-      lang,
-      url,
-      authorized,
-    },
-  }: PageProps<HomeData>,
-) {
-  const maxVisNews = 4.75;
+  const maxVisNews = 5.5;
 
   return (
-    <Page>
+    <Page Avatar={AvatarLink}>
       {
         /* <Section style={{ display: "grid", placeItems: "center" }}>
         {[].map((b) => <LinkBanner text={b.text} href={b.href} />)}
@@ -155,7 +143,10 @@ export default function Home(
 
       <Section>
         <CollectionHeader collection="news" />
-        <HScroll maxVisibleChildren={maxVisNews}>
+
+        <HScroll
+          maxVisibleChildren={maxVisNews}
+        >
           {news?.map(ArticleSquare)}
         </HScroll>
 
@@ -182,4 +173,4 @@ export default function Home(
       ))}
     </Page>
   );
-}
+});

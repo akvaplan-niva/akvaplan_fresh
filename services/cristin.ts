@@ -38,8 +38,12 @@ export const getLatestAkvaplanWorks = async (
     searchParams.set(k, v);
   }
   for (const [k, v] of new URLSearchParams(params)) {
-    searchParams.set(k, v);
+    if (v !== undefined) {
+      searchParams.set(k, v);
+    }
   }
+
+  console.warn("Cristin URL", url.href);
   const r = await fetch(url);
 
   if (r.ok) {

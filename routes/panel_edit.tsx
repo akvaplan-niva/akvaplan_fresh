@@ -14,6 +14,8 @@ import { deintlPanel, genid } from "akvaplan_fresh/kv/panel.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { getSessionUser } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
 import { MicrosoftUserinfo } from "akvaplan_fresh/oauth/microsoft_userinfo.ts";
+import { Forbidden } from "../components/forbidden.tsx";
+import { panelHref } from "akvaplan_fresh/services/panelHref.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/panel/:id/:action(edit|new)",
@@ -36,18 +38,6 @@ const PanelEditPage = ({ panel, lang, url }) => (
   </Page>
 );
 
-const Forbidden = () =>
-  new Response(
-    `<body>
-    <h1>403 Forbidden</h1>
-    <a href="/auth/sign-in">Sign in</a>
-    </body>`,
-    {
-      status: 403,
-      headers: { "content-type": "text/html" },
-    },
-  );
-
 export const handler: Handlers = {
   async POST(req, ctx) {
     try {
@@ -55,8 +45,9 @@ export const handler: Handlers = {
       if (!editor) {
         return Forbidden();
       }
+      const { action, lang } = ctx.params;
 
-      const { action } = ctx.params;
+      const user = await getSessionUser(req) as MicrosoftUserinfo;
 
       const form = await req.formData();
       const panel = JSON.parse(form.get("_panel") as string);
@@ -78,13 +69,13 @@ export const handler: Handlers = {
       //   throw "Invalid id";
       // }
       //validate panel
-      const user: MicrosoftUserinfo = await getSessionUser(req);
+
       const response = await save(panel, user, patches);
       if (!response.ok) {
         throw "Save failed";
       }
 
-      const location = `/${ctx.params.lang}/panel/${panel.id}`;
+      const location = panelHref(panel, { lang });
       return new Response("", {
         status: 303,
         headers: { location },

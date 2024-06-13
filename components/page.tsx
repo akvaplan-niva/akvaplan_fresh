@@ -37,6 +37,7 @@ export function Page(
     collection,
     breadcrumbs,
     Logo,
+    Avatar = null,
     Header = CleanHeader,
     Footer = SiteFooter,
     Left = null,
@@ -93,6 +94,7 @@ export function Page(
           lang={lang.value}
           breadcrumbs={breadcrumbs}
           Logo={Logo}
+          Avatar={Avatar}
         />
         <main
           style={{

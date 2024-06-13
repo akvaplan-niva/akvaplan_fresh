@@ -40,13 +40,14 @@ export function HScroll({
   scrollerId = `hscroll-${crypto.randomUUID()}`,
   staticFirstElement,
   maxVisibleChildren,
+  ...props
 }: HScrollProps) {
   const maxVisibleChildrenClass = maxVisibleChildren
     ? "max-visible-children"
     : "";
 
   return (
-    <div class="scroll-container">
+    <div class="scroll-container" {...props}>
       {
         /* <HScrollButton
         extraClass={"left"}

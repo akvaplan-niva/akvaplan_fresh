@@ -64,7 +64,7 @@ export default defineRoute(async (req, ctx) => {
                 panel={p}
                 hero={false}
                 lang={lang}
-                editor={editor}
+                editor={false}
               />
             ))}
 

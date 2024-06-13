@@ -120,8 +120,10 @@ export const Accreditations = ({ lang, ...props }) => {
         <Card>
           <p>
             {/* {t("accred.Intro")} */}
-            Akvaplan-niva tilbyr akkrediterte tjenester for å sikre presisjon,
-            sporbarhet og åpenhet i alle faser av våre prosjekt.
+            Akvaplan-niva tilbyr akkrediterte{" "}
+            <a href="/no/tjenester">tjenester</a>{" "}
+            for å sikre presisjon, sporbarhet og åpenhet i alle faser av våre
+            prosjekt.
           </p>
           <a
             href={akkreditertUrl(lang)}

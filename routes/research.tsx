@@ -46,10 +46,10 @@ export default defineRoute(async (req, ctx) => {
 
   const { image, title } = hero;
 
-  const panels = await getPanelsInLang({
+  const panels = (await getPanelsInLang({
     lang,
     filter: (p: Panel) => "research" === p.collection && p?.draft !== true,
-  });
+  })).sort((a, b) => a.title.localeCompare(b.title));
 
   const editor = await mayEdit(req);
 
@@ -72,7 +72,6 @@ export default defineRoute(async (req, ctx) => {
               <BentoPanel
                 panel={atomFromPanel(panel)}
                 lang={lang}
-                editor={editor}
               />
             ))}
 

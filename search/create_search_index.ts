@@ -4,7 +4,9 @@ import research from "akvaplan_fresh/data/orama/2024-04-30_research_topics.json"
 import services from "akvaplan_fresh/data/orama/2024-05-23_customer_services.json" with {
   type: "json",
 };
-import md from "akvaplan_fresh/services/documents.json" with { type: "json" };
+import markdownDocuments from "akvaplan_fresh/services/documents.json" with {
+  type: "json",
+};
 
 import { getDoisFromDenoDeployService } from "akvaplan_fresh/services/dois.ts";
 
@@ -33,8 +35,8 @@ export const createOramaIndex = async () => {
   console.warn(`Indexing ${services.length} customer services`);
   await insertMultiple(orama, services);
 
-  console.warn(`Indexing ${md.length} markdown documents`);
-  await insertMultiple(orama, md);
+  console.warn(`Indexing ${markdownDocuments.length} markdown documents`);
+  await insertMultiple(orama, markdownDocuments);
 
   console.warn(`Indexing ${research.length} research topics`);
   await insertMultiple(orama, research);
@@ -62,58 +64,3 @@ export const createOramaIndex = async () => {
   console.timeEnd("Orama indexing");
   return orama;
 };
-
-// read mynewsdesk_manifest?
-// put into Map
-// find articles where created >= last updated?
-// inject those into orama
-// export const updateOramaIndexWithFreshContent = async (
-//   orama?: OramaAtomSchema,
-// ) => {
-//   orama = orama ?? await getOramaInstance();
-
-//   const tryInsert = async (atom) => {
-//     try {
-//       await insert(orama, atom);
-//       console.warn("Added to orama search:", atom.id);
-//     } catch (_) {
-//       console.error("Failed adding", atom.id);
-//     }
-//   };
-
-//   const akvaplanists = await getEmployedAkvaplanists();
-//   for (const a of akvaplanists) {
-//     const id = a.email;
-//     const has = await getOramaDocument(id);
-//     if (!has) {
-//       tryInsert(atomizeAkvaplanist(a));
-//     }
-//   }
-
-//   ["news", "image", "video", "event", "blog_post"]
-//     .map(
-//       async (type_of_media) => {
-//         const { items } = await searchMynewsdesk({
-//           q: "",
-//           type_of_media,
-//           limit: 10,
-//         });
-//         for (const item of items) {
-//           const atom = await atomizeMynewsdeskItem(item);
-//           const has = await getOramaDocument(atom.id as string);
-//           if (!has) {
-//             tryInsert(atom);
-//           }
-//         }
-//       },
-//     );
-
-//   const { data } = await getDoisFromDenoDeployService();
-//   for (const pub of data) {
-//     const id = `https://doi.org/${pub.doi}`;
-//     const has = await getOramaDocument(id);
-//     if (!has) {
-//       tryInsert(atomizeSlimPublication(pub));
-//     }
-//   }
-// };

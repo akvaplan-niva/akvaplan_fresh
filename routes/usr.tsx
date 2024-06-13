@@ -11,7 +11,6 @@ import { priorAkvaplanistID as priors } from "akvaplan_fresh/services/prior_akva
 
 import {
   Card,
-  Icon,
   Page,
   PeopleCard as PersonCard,
 } from "akvaplan_fresh/components/mod.ts";
@@ -34,7 +33,7 @@ import {
 import type { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
 import {
-  avatarBase64DataUri,
+  base64DataUri,
   buildMicrosoftOauthHelpers,
 } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
 
@@ -44,10 +43,8 @@ import type {
   PageProps,
   RouteConfig,
 } from "$fresh/server.ts";
-import { getAvatar, getSession } from "akvaplan_fresh/kv/session.ts";
+import { getAvatarImageBytes, getSession } from "akvaplan_fresh/kv/session.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
-import Button from "akvaplan_fresh/components/button/button.tsx";
-import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 
 const defaultAtConfig = {
   search: {
@@ -103,7 +100,7 @@ export const handler: Handlers = {
     const { getSessionId } = buildMicrosoftOauthHelpers(req);
     const session = await getSessionId(req);
     const user = session ? await getSession(session) : null;
-    const avatar = user?.email ? await getAvatar(user?.email) : null;
+    const avatar = user?.email ? await getAvatarImageBytes(user?.email) : null;
 
     const config =
       await getValue<typeof defaultAtConfig>(["@", "config", id]) ??
@@ -153,15 +150,37 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
   const { akvaplanist, at, url, config, cristin, orama, user, avatar } = data;
   const { given, family, expired } = akvaplanist;
   const name = `${given} ${family}`;
+  const bio = akvaplanist?.bio;
   const lang = extractLangFromUrl(url);
 
   return (
     <Page base={`/${at}${akvaplanist.id}`} title={name}>
-      <PersonCard person={akvaplanist} lang={lang} />
+      <PersonCard
+        person={akvaplanist}
+        lang={lang}
+        avatar={avatar && user && user.email.startsWith(akvaplanist.id)
+          ? base64DataUri(avatar)
+          : undefined}
+      />
+      <p style={{ fontSize: "0.8rem" }}>
+        {user && user.email.startsWith(akvaplanist.id)
+          ? (
+            <a href="/auth/sign-out">
+              Sign out
+            </a>
+          )
+          : (
+            <a href="/auth/sign-in">
+              Sign in
+            </a>
+          )}
+      </p>
 
-      <Card>
-        <div dangerouslySetInnerHTML={{ __html: akvaplanist?.bio }} />
-      </Card>
+      {bio && (
+        <Card>
+          <div dangerouslySetInnerHTML={{ __html: bio }} />
+        </Card>
+      )}
 
       {config.search.enabled !== false && (
         <GroupedSearch
@@ -219,28 +238,6 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
       )}
 
       <Section>
-        <p style={{ fontSize: "0.8rem" }}>
-          {user && user.email.startsWith(akvaplanist.id)
-            ? (
-              <span>
-                <p>
-                  <a style={{ fontSize: "0.8rem" }} href="/auth/sign-out">
-                    {avatar && (
-                      <img src={avatarBase64DataUri(avatar)} width="48" />
-                    )} Sign out
-                  </a>
-                </p>
-              </span>
-            )
-            : (
-              <span>
-                Are you {name}?{" "}
-                <a style={{ fontSize: "0.8rem" }} href="/auth/sign-in">
-                  Sign in
-                </a>
-              </span>
-            )}
-        </p>
       </Section>
     </Page>
   );

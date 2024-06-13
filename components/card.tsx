@@ -41,3 +41,21 @@ export const MiniCard = (props: HTMLElement) => (
     {props.children}
   </div>
 );
+
+{
+  // HorizontalCard
+  /* <Card>
+  <div style="display: grid; gap: 0.75rem; padding: .5rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)">
+    <div style="place-content: center;">
+      <h1>
+        <p>{title}</p>
+      </h1>
+      <p style="font-size: 1rem;">
+      </p>
+    </div>
+    <span style="place-content: center;">
+      <WideImage {...service.image} />
+    </span>
+  </div>
+</Card>; */
+}

@@ -66,6 +66,7 @@ export const ImagePanel = (
     intro,
     id,
     lang,
+
     editor = false,
     ...props
   },
@@ -114,60 +115,6 @@ export const ImagePanel = (
     />
   </a>
 );
-
-// export const PanelIntl = ({ panel, lang }: { panel: Panel; lang: string }) => {
-//   const intl = panel?.intl?.[lang] ?? {};
-//   const p = { ...panel, ...intl };
-
-//   const { title, href, intro, cta, upper, theme, backdrop } = p;
-
-//   const image = panel?.image ?? {};
-//   image.url = image?.cloudinary
-//     ? cloudinaryUrl(image.cloudinary, { ar: "3:1", w: 1782 })
-//     : image.url;
-
-//   return (
-//     <a href={href} class="mega-card">
-//       <Head>
-//         <link rel="stylesheet" href={asset("/css/article.css")} />
-//       </Head>
-//       <PictureOverlay
-//         upper={upper}
-//         cta={cta
-//           ? (
-//             <Button filled>
-//               {cta}
-//             </Button>
-//           )
-//           : null}
-//         image={image}
-//         title={title}
-//         theme={theme}
-//         backdrop={backdrop}
-//       />
-//       <div
-//         class="mega-mobile-upper"
-//         aria-disabled="true"
-//         style={{ marginBottom: "0.25rem", padding: "0.25rem" }}
-//       >
-//         <h3
-//           style={{
-//             fontSize: "var(--font-size-4)",
-//             color: "var(--text1)",
-//             fontWeight: 900,
-//           }}
-//         >
-//           {title}
-//         </h3>
-//         <p
-//           style={{ fontSize: "0.75rem" }}
-//         >
-//           {intro}
-//         </p>
-//       </div>
-//     </a>
-//   );
-// };
 
 function WidePictureOverlay({
   title,

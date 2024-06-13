@@ -1,6 +1,7 @@
-import { createAzureAdOAuthConfig, createHelpers } from "jsr:@deno/kv-oauth";
-import { encodeBase64 } from "jsr:@std/encoding/base64";
+import { createAzureAdOAuthConfig, createHelpers } from "@deno/kv-oauth";
+import { encodeBase64 } from "@std/encoding/base64";
 import { getSession } from "akvaplan_fresh/kv/session.ts";
+
 export const buildMicrosoftOauthHelpers = (req: Request) => {
   const callback = new URL("/auth/callback", req.url);
   const oauthConfig = createAzureAdOAuthConfig(
@@ -27,7 +28,6 @@ export const fetchMicrosoftUserinfo = async (jwt: string) => {
 
 // https://learn.microsoft.com/en-us/graph/api/profilephoto-get?view=graph-rest-1.0&tabs=http#http-request
 // The supported sizes of HD photos on Microsoft 365 are as follows: 48x48, 64x64, 96x96, 120x120, 240x240, 360x360, 432x432, 504x504, and 648x648.
-
 export const fetchAvatar = async (jwt: string, size: number) => {
   const url = size
     ? `https://graph.microsoft.com/v1.0/me/photos/${size}x${size}/$value`
@@ -35,7 +35,7 @@ export const fetchAvatar = async (jwt: string, size: number) => {
   const headers = { authorization: `Bearer ${jwt}` };
   return await fetch(url, { headers });
 };
-export const avatarBase64DataUri = (bytes: Uint8Array) => {
+export const base64DataUri = (bytes: Uint8Array) => {
   const contentType = "application/octet-stream";
   return `data:${contentType};base64,${encodeBase64(bytes)}`;
 };
