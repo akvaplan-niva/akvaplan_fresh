@@ -15,16 +15,16 @@ import {
 } from "akvaplan_fresh/services/mod.ts";
 
 import { parse } from "accept-language-parser";
+
 //import { getCookies } from "@std/http/cookie";
+// import { getCookies } from "@std/http";
+// import { getSession } from "akvaplan_fresh/kv/session.ts";
+// import { buildMicrosoftOauthHelpers } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
 
 import type { FreshContext } from "$fresh/server.ts";
-import { getCookies } from "@std/http";
-import { getSession } from "akvaplan_fresh/kv/session.ts";
-import { buildMicrosoftOauthHelpers } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
 
 export function handler(req: Request, ctx: FreshContext) {
   if (ctx.destination === "route") {
-    ctx.state.xyz = "æøå";
     // console.warn(ctx.state);
     // for (const [name, cookie] of Object.entries(getCookies(req.headers))) {
     //   if (/site-session/.test(name)) {
@@ -36,6 +36,11 @@ export function handler(req: Request, ctx: FreshContext) {
 
     const { url, params } = ctx;
     const { pathname, hostname } = url;
+
+    if ("akvaplan-niva.no" === hostname) {
+      const fresh = req.url.replace("akvaplan-niva.", "akvaplan.");
+      return Response.redirect(fresh, 301);
+    }
 
     if (legacyHosts.includes(hostname)) {
       const fresh = req.url.replace("www.", "").replace(
