@@ -57,7 +57,7 @@ export const save = async (panel: Panel, user: MicrosoftUserinfo, patches) => {
     user.email,
     genid(),
   ];
-  console.warn(panel, patchkey, patches);
+
   if (patches?.length > 0) {
     await kv.set(patchkey, {
       patches,

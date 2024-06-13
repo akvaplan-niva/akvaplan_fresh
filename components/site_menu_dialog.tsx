@@ -5,6 +5,12 @@ import IconButton from "./button/icon_button.tsx";
 import GroupedSearch from "../islands/grouped_search.tsx";
 import { SiteLangLinks } from "akvaplan_fresh/components/site_lang_links.tsx";
 import { ApnLogo } from "akvaplan_fresh/components/akvaplan/logo.tsx";
+import { indexPanels } from "akvaplan_fresh/search/indexers/panel.ts";
+import { getOramaInstance } from "akvaplan_fresh/search/orama.ts";
+
+// Add panels to search index on each boot
+const _orama = await getOramaInstance();
+await indexPanels(_orama);
 
 export default ({ lang }) => (
   <dialog
@@ -45,6 +51,7 @@ export default ({ lang }) => (
           left: 0,
           margin: "0.5rem",
           padding: "0.5rem",
+          zIndex: -1000,
         }}
       >
         <SiteLangLinks />

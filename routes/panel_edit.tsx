@@ -64,6 +64,16 @@ export const handler: Handlers = {
         panel.intl.en.title = "[Copy of] " + panel.intl.en.title;
       }
 
+      // FIXME lookup people ids
+      // const { people_ids } = panel;
+      // if (people_ids && !Array.isArray(people_ids)) {
+      //   const people = await Array.fromAsync(
+      //     // @ts-ignore bail
+      //     contacts?.map(findCanonicalPersonName),
+      //   );
+      //   console.warn(people);
+      // }
+
       // validate request
       // if (acton is edit && panel.id !== ctx.params.id) {
       //   throw "Invalid id";

@@ -41,6 +41,7 @@ export const search = async (
   params: SearchParams<OramaAtomSchema>,
 ) => {
   const orama = await getOramaInstance();
+
   params.term = params.exact !== true ? normalize(params.term) : params.term;
   params.threshold = params.threshold ?? 0;
 

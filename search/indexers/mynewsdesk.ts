@@ -50,7 +50,6 @@ const contacts = new Map(JSON.parse(myn_id_text));
 
 import { AnyOrama, insert, insertMultiple } from "@orama/orama";
 import { getAkvaplanist } from "akvaplan_fresh/services/mod.ts";
-import { isoDate } from "@valibot/valibot";
 
 const itemCollection = ({ type_of_media }: AbstractMynewsdeskItem) => {
   switch (type_of_media) {

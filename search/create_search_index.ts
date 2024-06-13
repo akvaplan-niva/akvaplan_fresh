@@ -1,9 +1,3 @@
-import research from "akvaplan_fresh/data/orama/2024-04-30_research_topics.json" with {
-  type: "json",
-};
-import services from "akvaplan_fresh/data/orama/2024-05-23_customer_services.json" with {
-  type: "json",
-};
 import markdownDocuments from "akvaplan_fresh/services/documents.json" with {
   type: "json",
 };
@@ -22,7 +16,11 @@ import { insertMultiple } from "@orama/orama";
 import { getEmployedAkvaplanists } from "akvaplan_fresh/services/akvaplanist.ts";
 
 // Create orama index
-// Used by `deno task build` and therefore also in GitHub build prior to deploy
+// Used to persiste index to disk during `deno task build` running on GitHub build prior to deploy
+//
+// Data held in KV may not so easily be pre-indexed, since the GitHub build server has no contact with the KV in production
+// Data from KV is therefore indexed by the Menu component, ie when someone opens the global search dialog
+
 export const createOramaIndex = async () => {
   const orama = await createOramaInstance();
 
@@ -32,14 +30,8 @@ export const createOramaIndex = async () => {
   console.warn(`Indexing ${akvaplanists.length} akvaplanists`);
   await insertMultiple(orama, akvaplanists.map(atomizeAkvaplanist));
 
-  console.warn(`Indexing ${services.length} customer services`);
-  await insertMultiple(orama, services);
-
   console.warn(`Indexing ${markdownDocuments.length} markdown documents`);
   await insertMultiple(orama, markdownDocuments);
-
-  console.warn(`Indexing ${research.length} research topics`);
-  await insertMultiple(orama, research);
 
   const { data } = await getDoisFromDenoDeployService();
   console.warn(`Indexing ${data.length} pubs`);
@@ -56,10 +48,10 @@ export const createOramaIndex = async () => {
       mynewsdesk_manifest.push(manifest);
     }
   }
-  await Deno.writeTextFile(
-    "./_fresh/mynewsdesk_manifest.json",
-    JSON.stringify(mynewsdesk_manifest),
-  );
+  // await Deno.writeTextFile(
+  //   "./_fresh/mynewsdesk_manifest.json",
+  //   JSON.stringify(mynewsdesk_manifest),
+  // );
 
   console.timeEnd("Orama indexing");
   return orama;
