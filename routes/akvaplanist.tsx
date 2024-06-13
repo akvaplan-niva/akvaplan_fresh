@@ -214,9 +214,12 @@ export const handler: Handlers = {
     const name = "name" === group ? `${filter} ${fn}` : undefined;
 
     //@todo separate route for 1 person!?
-    const news = (person && person.family)
-      ? await newsOnPerson({ person, lang: params.lang })
-      : [];
+    //ReferenceError: newsOnPerson is not defined
+
+    const news = [];
+    // (person && person.family)
+    //   ? await newsOnPerson({ person, lang: params.lang })
+    //   : [];
 
     const pubsByYear = (person && person.family)
       ? await pubsFromPersonGroupedByYear({ person, lang: params.lang })
