@@ -1,8 +1,9 @@
+import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
+import { schema } from "./schema.ts";
+
 import { count, create as _create, getByID, load } from "@orama/orama";
 import { language, stemmer } from "@orama/stemmers/norwegian";
-
-import { type OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
-import { schema } from "./schema.ts";
+import { indexPanels } from "akvaplan_fresh/search/indexers/panel.ts";
 
 let _orama: OramaAtomSchema;
 
@@ -48,8 +49,8 @@ export const getOramaInstance = async (): Promise<OramaAtomSchema> => {
       if (orama) {
         setOramaInstance(orama);
       }
-    } catch (_) {
-      //
+    } catch (e) {
+      console.error(e);
     }
   }
   if (!_orama) {

@@ -163,7 +163,7 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
           : undefined}
       />
       <p style={{ fontSize: "0.8rem" }}>
-        {user && user.email.startsWith(akvaplanist.id)
+        {user?.email?.startsWith(akvaplanist.id)
           ? (
             <a href="/auth/sign-out">
               Sign out
@@ -174,6 +174,8 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
               Sign in
             </a>
           )}
+        {akvaplanist?.orcid}
+        {akvaplanist?.openalex}
       </p>
 
       {bio && (

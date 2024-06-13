@@ -1,29 +1,44 @@
-import { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
+import { deintlPanel, getPanelList } from "akvaplan_fresh/kv/panel.ts";
+import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
+import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
+import { insert } from "@orama/orama";
+import { id0, imageFilter } from "akvaplan_fresh/services/mod.ts";
+
+export const indexPanels = async (orama: OramaAtomSchema) => {
+  for await (const { value } of getPanelList()) {
+    const panel = deintlPanel({ panel: value, lang: "no" });
+    const { draft, title, collection } = panel;
+    if (draft !== true && !["home", "infra", "about"].includes(collection)) {
+      console.warn(`Indexing [${collection}] panel: "${title}"`);
+      await insert(orama, await atomizePanel(value));
+    }
+  }
+};
 
 export const atomizePanel = async (panel: Panel) => {
-  // const { title, published, doi, type, container } = pub;
-  // const authors: string[] = pub.authors?.map((
-  //   { family, given, name },
-  // ) => name ?? `${given} ${family}`) ?? [];
-
-  // const people = await Array.fromAsync(
-  //   // @ts-ignore bail
-  //   pub.authors?.map(findCanonicalPersonName),
-  // );
-  //const year = new Date(published).getFullYear();
+  const {
+    id,
+    image,
+    collection,
+    people,
+    created_by,
+    modified_by,
+    created,
+    modified,
+    ...rest
+  } = panel;
+  const { cloudinary } = image;
 
   const atom: OramaAtom = {
-    // id: `https://doi.org/${doi}`,
-    // slug: `${doi}`,
-    // collection: "pubs",
-    // type,
-    // container,
-    // authors,
-    // people,
-    // title: title ?? `[${container} (${year}): ${doi}]`,
-    // published: String(published),
-    // year,
-    // text: "",
+    id,
+    collection,
+    people,
+    published: (created ?? modified) as string,
+    cloudinary,
+    text: JSON.stringify(rest),
+    "intl": {
+      "name": { "en": panel.intl.en.title, "no": panel.intl.no.title },
+    },
   };
   return atom;
 };
