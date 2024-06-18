@@ -1,9 +1,14 @@
 import { openKv } from "akvaplan_fresh/kv/mod.ts";
-import { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
+import { findCanonicalName } from "akvaplan_fresh/services/person.ts";
+
 import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
 import { getSessionUser } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
 import { hasRights } from "./rights.ts";
-import { MicrosoftUserinfo } from "akvaplan_fresh/oauth/microsoft_userinfo.ts";
+
+import type { MicrosoftUserinfo } from "akvaplan_fresh/oauth/microsoft_userinfo.ts";
+
+import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
+
 import { ulid } from "@std/ulid";
 
 const kv = await openKv();
@@ -11,6 +16,9 @@ const kv = await openKv();
 export const genid = () => ulid().toLowerCase();
 
 export const HOME_HERO_ID = "01hyd6qeqv77bp980k1mw33rt0";
+
+export const ID_ACCREDITATION = "01j0b947qxcrgvehnpzskttfd2";
+
 // "01hyd6qeqtfewhjjxtmyvgv35q", // people
 // "01hyd6qeqv4n3qrcv735aph6yy", // services
 // "01hyd6qeqvy0ghjnk1nwdfwvyq", // research
@@ -26,14 +34,10 @@ export const panelTemplate = {
   },
   intl: {
     en: {
-      title: "Tittel",
-      href: "/en",
-      cta: "",
+      title: "",
     },
     no: {
-      title: "Title",
-      href: "/no",
-      cta: "",
+      title: "",
     },
   },
 };
@@ -44,6 +48,17 @@ export const save = async (panel: Panel, user: MicrosoftUserinfo, patches) => {
   panel.modified = now.toJSON();
   panel.created_by = panel.created_by ?? user.email;
   panel.modified_by = user.email;
+
+  // FIXME lookup people ids
+  const { people_ids } = panel;
+  if (people_ids && !Array.isArray(people_ids)) {
+    const _ids = people_ids.trim().split(",");
+    const people = await Array.fromAsync(
+      // @ts-ignore bail
+      _ids?.map((id) => findCanonicalName({ id })),
+    );
+    console.warn({ people, _ids });
+  }
 
   const [year, month, day] = now.toJSON().substring(0, 10).split("-")
     .map(Number);
@@ -106,11 +121,6 @@ export const getPanelsByIds = async (
   return _panels.map(({ value }) => value as Panel);
 };
 
-export const getCollectionPanelsInLang = async (
-  { lang, collection }: { collection: string; lang: string },
-) =>
-  getPanelsInLang({ lang, filter: (p: Panel) => collection === p.collection });
-
 export const getPanelInLang = async (
   { id, lang }: { id: string; lang: string },
 ) => {
@@ -118,7 +128,7 @@ export const getPanelInLang = async (
   return versionstamp && value ? deintlPanel({ panel: value, lang }) : null;
 };
 
-export const mayEdit = async (req: Request) => {
+export const mayEditKvPanel = async (req: Request) => {
   const user = await getSessionUser(req);
   return user ? await hasRights(["kv", "panel", user.email, "cru"]) : false;
 };

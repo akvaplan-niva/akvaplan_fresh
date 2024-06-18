@@ -41,11 +41,18 @@ export const BentoPanel = (
     reveal = true,
     hero = false,
     width = 512,
+    src = panel.image.cloudinary
+      ? cloudinaryUrl(panel?.image?.cloudinary, {
+        ar: "16:9",
+        w: width,
+      })
+      : panel.image.url,
+    maxHeight = panel.image.cloudinary?.length > 0 ? undefined : "25vh",
   },
 ) => {
   return (
     <a
-      href={href}
+      href={panel?.href ?? href}
       class={`Card gap-1 ${reveal ? "reveal" : ""} ${
         hero ? "Hero block-center-center" : ""
       }`}
@@ -54,10 +61,14 @@ export const BentoPanel = (
         {panel?.image && (
           <picture>
             <img
-              src={cloudinaryUrl(panel?.image?.cloudinary, {
-                ar: "16:9",
-                w: width,
-              })}
+              style={{
+                maxHeight: maxHeight,
+                minHeight: "10vh",
+                background: panel?.theme === "light"
+                  ? `var(--light)`
+                  : `var(--dark)`,
+              }}
+              src={src}
               alt=""
               width={width}
               height={width}

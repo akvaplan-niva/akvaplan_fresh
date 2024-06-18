@@ -57,7 +57,7 @@ export const SearchResultItem = (
     ? `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_148,h_148,q_auto:good/${cloudinary}`
     : undefined;
 
-  const img = _img ?? img512 ?? document.img;
+  const img = _img ?? img512 ?? thumb ?? document.img;
 
   return (
     <li

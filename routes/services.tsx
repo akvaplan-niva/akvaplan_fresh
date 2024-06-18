@@ -6,8 +6,8 @@ import { Section } from "akvaplan_fresh/components/section.tsx";
 import {
   getPanelInLang,
   getPanelsInLang,
-  mayCreate,
-  mayEdit,
+  ID_ACCREDITATION,
+  mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
@@ -17,10 +17,8 @@ import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
 import { BentoPanel } from "../components/bento_panel.tsx";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
-import {
-  Accreditations,
-  Certifications,
-} from "akvaplan_fresh/components/mod.ts";
+import { t } from "akvaplan_fresh/text/mod.ts";
+import { WideImage } from "akvaplan_fresh/components/wide_image.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(services|tjenester)",
@@ -43,7 +41,7 @@ export default defineRoute(async (req, ctx) => {
     filter: (p: Panel) => "service" === p.collection && p?.draft !== true,
   })).sort((a, b) => a.title.localeCompare(b.title));
 
-  const editor = await mayEdit(req);
+  const editor = await mayEditKvPanel(req);
 
   return (
     <Naked title={title} collection="home">
@@ -86,7 +84,7 @@ export default defineRoute(async (req, ctx) => {
 
           <Section>
             <Card>
-              <h2>Om våre tjenester</h2>
+              {/* <h2>{t("services.About")}</h2> */}
 
               <Section>
                 {hero?.desc && (
@@ -95,34 +93,21 @@ export default defineRoute(async (req, ctx) => {
                     style={{ fontSize: "1rem", whiteSpace: "pre-wrap" }}
                   />
                 )}
+
+                <a href="https://www.akkreditert.no/" target="_blank">
+                  <WideImage
+                    style={{ background: "var(--light)", maxWidth: "10vh" }}
+                    url="/icon/logo/akkreditert.svg"
+                    lang={lang}
+                    editor={editor}
+                  />
+                </a>
               </Section>
             </Card>
-          </Section>
-          <Section style={{ fontSize: "1rem", whiteSpace: "pre-wrap" }}>
-            <Accreditations
-              lang={lang}
-            />
-            <Certifications lang={lang} />
           </Section>
         </div>
       </section>
 
-      <Section>
-        {
-          /* <CollectionHeader collection="news" />
-        <HScroll>
-          {panels?.map(ArticleSquare)}
-        </HScroll> */
-        }
-      </Section>
-
-      {
-        /* {panels?.map((panel) => (
-        <Section style={{ display: "grid", placeItems: "center" }}>
-          <ImagePanel {...panel} lang={lang} id={panelHashId(panel.id)} />
-        </Section>
-      ))} */
-      }
       <Head>
         <link rel="stylesheet" href={asset("/css/bento.css")} />
       </Head>

@@ -17,10 +17,8 @@ import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { ImagePanel, WideCard } from "akvaplan_fresh/components/panel.tsx";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 
-import {
-  getCollectionPanelsInLang,
-  getPanelInLang,
-} from "akvaplan_fresh/kv/panel.ts";
+import { getPanelInLang, getPanelsInLang } from "akvaplan_fresh/kv/panel.ts";
+import { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(projects|project|prosjekter|prosjekt)",
 };
@@ -70,8 +68,8 @@ export default defineRoute(async (req, ctx) => {
     lang,
   });
 
-  const panels = await getCollectionPanelsInLang({
-    collection: "project",
+  const panels = await getPanelsInLang({
+    filter: ({ collection }: Panel) => "project" === collection,
     lang,
   });
 

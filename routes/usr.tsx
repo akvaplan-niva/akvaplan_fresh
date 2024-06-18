@@ -44,7 +44,10 @@ import type {
   RouteConfig,
 } from "$fresh/server.ts";
 import { getAvatarImageBytes, getSession } from "akvaplan_fresh/kv/session.ts";
-import { Section } from "akvaplan_fresh/components/section.tsx";
+import {
+  buildPersonalSocialMediaLinks,
+  SocialMediaIcons,
+} from "akvaplan_fresh/components/social_media_icons.tsx";
 
 const defaultAtConfig = {
   search: {
@@ -148,10 +151,11 @@ export const handler: Handlers = {
 
 export default function UsrPage({ data }: PageProps<AtHome>) {
   const { akvaplanist, at, url, config, cristin, orama, user, avatar } = data;
-  const { given, family, expired } = akvaplanist;
+  const { given, family, prior, expired, openalex, orcid } = akvaplanist;
   const name = `${given} ${family}`;
   const bio = akvaplanist?.bio;
   const lang = extractLangFromUrl(url);
+  const externalIdentities = buildPersonalSocialMediaLinks(akvaplanist);
 
   return (
     <Page base={`/${at}${akvaplanist.id}`} title={name}>
@@ -162,21 +166,30 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
           ? base64DataUri(avatar)
           : undefined}
       />
-      <p style={{ fontSize: "0.8rem" }}>
-        {user?.email?.startsWith(akvaplanist.id)
-          ? (
-            <a href="/auth/sign-out">
-              Sign out
-            </a>
-          )
-          : (
-            <a href="/auth/sign-in">
-              Sign in
-            </a>
-          )}
-        {akvaplanist?.orcid}
-        {akvaplanist?.openalex}
-      </p>
+
+      {akvaplanist && !(prior || expired) && (
+        <p style={{ fontSize: "0.8rem" }}>
+          {user?.email?.startsWith(akvaplanist.id)
+            ? (
+              <a href="/auth/sign-out">
+                Sign out
+              </a>
+            )
+            : (
+              <a href="/auth/sign-in">
+                Sign in
+              </a>
+            )}
+        </p>
+      )}
+
+      <div class="footer__links">
+        <SocialMediaIcons
+          lang={lang.value}
+          list={externalIdentities}
+          filter={""}
+        />
+      </div>
 
       {bio && (
         <Card>
@@ -238,9 +251,6 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
           </aside>
         </>
       )}
-
-      <Section>
-      </Section>
     </Page>
   );
 }

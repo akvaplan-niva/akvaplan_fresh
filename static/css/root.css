@@ -16,6 +16,7 @@
   );
   --blue: hsl(200, 66%, 17%);
   --gray: hsl(200, calc(66%/1.25), 14%);
+  --light: hsl(var(--brand-hue) calc(var(--brand-saturation)*0.9) calc(var(--brand-lightness)*5.7));
   --dark: hsl(
     var(--brand-hue)
     calc(var(--brand-saturation) / 2)
@@ -279,7 +280,7 @@ html:has(dialog[open]) {
 .footer__links {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center
+  justify-content: center;
 }
 
 .footer__item {

@@ -1,7 +1,6 @@
 import { getServicesLevel0FromExternalDenoService } from "akvaplan_fresh/services/svc.ts";
 import { buildAkvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
 import {
-  Accreditations,
   ArticleSquare,
   Card,
   HScroll,
@@ -81,12 +80,6 @@ export default function Services(
       </HScroll>
 
       <section style={_section}>
-        <Card>
-          <h1>
-            {t("acc.Header")}
-          </h1>
-        </Card>
-        <Accreditations lang={lang.value} />
       </section>
     </Page>
   );

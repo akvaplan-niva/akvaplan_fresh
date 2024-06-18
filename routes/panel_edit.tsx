@@ -1,21 +1,27 @@
 import { openKv } from "akvaplan_fresh/kv/mod.ts";
-import { mayEdit, panelTemplate, save } from "akvaplan_fresh/kv/panel.ts";
+import {
+  mayEditKvPanel,
+  panelTemplate,
+  save,
+} from "akvaplan_fresh/kv/panel.ts";
+import { t } from "akvaplan_fresh/text/mod.ts";
+import { deintlPanel, genid } from "akvaplan_fresh/kv/panel.ts";
+
+import { getSessionUser } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
+import { MicrosoftUserinfo } from "akvaplan_fresh/oauth/microsoft_userinfo.ts";
+
+import { panelHref } from "akvaplan_fresh/services/panelHref.tsx";
 
 import { Page } from "akvaplan_fresh/components/page.tsx";
 import { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 import { Handlers, RouteConfig } from "$fresh/server.ts";
 import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 import { PanelEditIsland } from "akvaplan_fresh/islands/panel_edit.tsx";
+import { Forbidden } from "../components/forbidden.tsx";
+import { Section } from "akvaplan_fresh/components/section.tsx";
 
 import { defineRoute } from "$fresh/src/server/defines.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
-
-import { deintlPanel, genid } from "akvaplan_fresh/kv/panel.ts";
-import { Section } from "akvaplan_fresh/components/section.tsx";
-import { getSessionUser } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
-import { MicrosoftUserinfo } from "akvaplan_fresh/oauth/microsoft_userinfo.ts";
-import { Forbidden } from "../components/forbidden.tsx";
-import { panelHref } from "akvaplan_fresh/services/panelHref.tsx";
+import { WideImage } from "akvaplan_fresh/components/wide_image.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/panel/:id/:action(edit|new)",
@@ -24,8 +30,8 @@ export const config: RouteConfig = {
 const PanelEditPage = ({ panel, lang, url }) => (
   <Page title={t("ui.Edit_panel")}>
     <Section style={{ display: "grid", placeItems: "center" }}>
-      <ImagePanel
-        {...deintlPanel({ panel, lang })}
+      <WideImage
+        {...panel.image}
         lang={lang}
       />
     </Section>
@@ -41,7 +47,7 @@ const PanelEditPage = ({ panel, lang, url }) => (
 export const handler: Handlers = {
   async POST(req, ctx) {
     try {
-      const editor = await mayEdit(req);
+      const editor = await mayEditKvPanel(req);
       if (!editor) {
         return Forbidden();
       }
@@ -64,16 +70,6 @@ export const handler: Handlers = {
         panel.intl.en.title = "[Copy of] " + panel.intl.en.title;
       }
 
-      // FIXME lookup people ids
-      // const { people_ids } = panel;
-      // if (people_ids && !Array.isArray(people_ids)) {
-      //   const people = await Array.fromAsync(
-      //     // @ts-ignore bail
-      //     contacts?.map(findCanonicalPersonName),
-      //   );
-      //   console.warn(people);
-      // }
-
       // validate request
       // if (acton is edit && panel.id !== ctx.params.id) {
       //   throw "Invalid id";
@@ -85,7 +81,7 @@ export const handler: Handlers = {
         throw "Save failed";
       }
 
-      const location = panelHref(panel, { lang });
+      const location = panel.intl?.[lang]?.href ?? panelHref(panel, { lang });
       return new Response("", {
         status: 303,
         headers: { location },
@@ -97,7 +93,7 @@ export const handler: Handlers = {
 };
 
 export default defineRoute(async (req, ctx) => {
-  const editor = await mayEdit(req);
+  const editor = await mayEditKvPanel(req);
   if (!editor) {
     return Forbidden();
   }

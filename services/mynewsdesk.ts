@@ -264,6 +264,7 @@ export const getItem = async <T = MynewsdeskArticle>(
   if (who === "KV") {
     controller.abort();
   }
+  console.warn(winner);
   return (winner ?? _api) as T;
 };
 

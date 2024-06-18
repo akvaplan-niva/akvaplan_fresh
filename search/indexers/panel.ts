@@ -5,14 +5,16 @@ import { insert } from "@orama/orama";
 import { id0, imageFilter } from "akvaplan_fresh/services/mod.ts";
 
 export const indexPanels = async (orama: OramaAtomSchema) => {
+  //let n = 0;
   for await (const { value } of getPanelList()) {
     const panel = deintlPanel({ panel: value, lang: "no" });
-    const { draft, title, collection } = panel;
-    if (draft !== true && !["home", "infra", "about"].includes(collection)) {
-      console.warn(`Indexing [${collection}] panel: "${title}"`);
+    const { draft, collection } = panel;
+    if (draft !== true && !["infra"].includes(collection)) {
+      //++n;
       await insert(orama, await atomizePanel(value));
     }
   }
+  //console.warn(`Indexed ${n} panels`);
 };
 
 export const atomizePanel = async (panel: Panel) => {
@@ -27,18 +29,22 @@ export const atomizePanel = async (panel: Panel) => {
     modified,
     ...rest
   } = panel;
-  const { cloudinary } = image;
+  const { cloudinary, url } = image;
 
   const atom: OramaAtom = {
     id,
     collection,
     people,
     published: (created ?? modified) as string,
-    cloudinary,
     text: JSON.stringify(rest),
     "intl": {
       "name": { "en": panel.intl.en.title, "no": panel.intl.no.title },
     },
   };
+  if (url && cloudinary?.length === 0) {
+    atom.thumb = url;
+  } else {
+    atom.cloudinary = cloudinary;
+  }
   return atom;
 };

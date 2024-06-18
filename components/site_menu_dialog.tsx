@@ -51,7 +51,6 @@ export default ({ lang }) => (
           left: 0,
           margin: "0.5rem",
           padding: "0.5rem",
-          zIndex: -1000,
         }}
       >
         <SiteLangLinks />

@@ -1,4 +1,15 @@
-export const _no = (c: string) => "research" === c ? "forskning" : "tjeneste";
+export const _no = (c: string) => {
+  //home?
+  switch (c) {
+    case "resarch":
+      return "forskning";
+    case "company":
+      return "selskapet";
+    default:
+      return c;
+  }
+};
+
 import { slug } from "slug";
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 

@@ -4,6 +4,7 @@ import { asset, Head } from "$fresh/runtime.ts";
 import { WideImage } from "./wide_image.tsx";
 import { ApnLogo } from "akvaplan_fresh/components/mod.ts";
 import { EditIconButton } from "akvaplan_fresh/components/edit_icon_button.tsx";
+import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
 
 // FIXME Panel: refactor markup/css
 // FIXME Panel: support left-right-cemter text/cta, center eg: https://codepen.io/sflinz/pen/dvEbwz
@@ -256,4 +257,17 @@ export const HeroPanel = (
       <link rel="stylesheet" href={asset("/css/article.css")} />
     </Head>
   </header>
+);
+
+export const NewPanel = ({ collection, lang }) => (
+  <BentoPanel
+    panel={{
+      title: null,
+      id: null,
+      image: { cloudinary: "snlcxc38hperptakjpi5" },
+    }}
+    editor={true}
+    hero={false}
+    href={`/${lang}/panel/_/new?collection=${collection}`}
+  />
 );

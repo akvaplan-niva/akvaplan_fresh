@@ -1,6 +1,11 @@
 // import { getValue, openKv } from "./mod.ts";
 // import type { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
 
+import { getSessionUser } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
+import { hasRights } from "akvaplan_fresh/kv/rights.ts";
+import { akvaplan } from "akvaplan_fresh/services/akvaplanist.ts";
+import { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
+
 // const _map = new Map<string, Akvaplanist>();
 
 // export async function* akvaplanistsKvGenerator() {
@@ -31,3 +36,10 @@
 //   }
 //   return await getValue(["akvaplanists", id]);
 // };
+
+export const mayEdit = async (req: Request) => {
+  const user = await getSessionUser(req);
+  return user
+    ? await hasRights(["kv", "akvaplanist", user.email, "cru"])
+    : false;
+};

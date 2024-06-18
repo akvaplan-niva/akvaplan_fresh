@@ -138,6 +138,7 @@ export const PanelEditIsland = (
               "modified",
               "parent",
             ]}
+            path={``}
             legend={t("ui.internal")}
             object={panel}
             disabled

@@ -24,6 +24,7 @@ import * as $auth_action_ from "./routes/auth/[action].tsx";
 import * as $bento from "./routes/bento.tsx";
 import * as $bento_slug_ from "./routes/bento/[slug].tsx";
 import * as $careers from "./routes/careers.tsx";
+import * as $company_topic from "./routes/company_topic.tsx";
 import * as $contact from "./routes/contact.tsx";
 import * as $cristin from "./routes/cristin.tsx";
 import * as $dcat from "./routes/dcat.tsx";
@@ -108,6 +109,7 @@ const manifest = {
     "./routes/bento.tsx": $bento,
     "./routes/bento/[slug].tsx": $bento_slug_,
     "./routes/careers.tsx": $careers,
+    "./routes/company_topic.tsx": $company_topic,
     "./routes/contact.tsx": $contact,
     "./routes/cristin.tsx": $cristin,
     "./routes/dcat.tsx": $dcat,

@@ -9,7 +9,7 @@ import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 
 export const config: RouteConfig = {
   routeOverride:
-    "/:lang(en|no){/:page(services|service|tjenester|tjeneste)}{/:slug}?/:id",
+    "/:lang(en|no){/:collection(company|about|selskapet|om)}{/:slug}?/:id",
 };
 
 export default defineRoute(async (req, ctx) => {

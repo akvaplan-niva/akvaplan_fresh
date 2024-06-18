@@ -32,16 +32,17 @@ export function Footer({ lang }) {
             <span>{t("nav.Contact")}</span>
           </a>
         </li>
-        <li class="footer__item">
+        {
+          /* <li class="footer__item">
           <a href={intlRouteMap(lang).get("about")}>
             <span>{t("nav.About")}</span>
           </a>
-        </li>
+        </li> */
+        }
       </ul>
-
-      <div class="footer__links">
+      <ul class="footer__links">
         <SocialMediaIcons lang={lang.value} />
-      </div>
+      </ul>
     </footer>
   );
 }

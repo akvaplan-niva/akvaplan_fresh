@@ -209,7 +209,12 @@ export default function NewsArticle(
         <script src={asset("/@nrk/core-scroll.min.js")} />
       </Head>
       <Article language={language}>
-        <AltLangInfo lang={lang} language={language} alternate={alternate} />
+        <AltLangInfo
+          lang={lang}
+          language={language}
+          alternate={alternate}
+          title={t(`lang.${lang}`)}
+        />
         <ArticleHeader
           header={header}
           image={img}

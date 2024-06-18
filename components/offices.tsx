@@ -17,7 +17,6 @@ export const MainOffice = () => (
   <Card>
     <dl>
       <dt>Akvaplan-niva</dt>
-      <dd>{akvaplan.addr.hq.post}</dd>
 
       <dt>
         {t("about.Visit")}
@@ -31,23 +30,18 @@ export const MainOffice = () => (
         </a>)
       </dd>
 
-      <dt>{t("about.Invoice")}</dt>
-      <dd>
-        <a href={intlRouteMap(lang).get("invoicing")}>
-          {t("about.Invoicing")}
-        </a>
-      </dd>
+      <dd>{akvaplan.addr.hq.post}</dd>
 
       <dt>
         {t("ui.Telephone")}
       </dt>
       <dd>
         <Icon name="phone_in_talk" />
-        <span
+        <a
           href={`tel:${akvaplan.tel}`}
         >
-          {akvaplan.tel.replace("+47", "(+47) ")}
-        </span>
+          {akvaplan.tel}
+        </a>
       </dd>
 
       <dt>
