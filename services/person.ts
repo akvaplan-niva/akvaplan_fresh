@@ -104,14 +104,11 @@ export const findCanonicalName = async (
     return variant;
   }
 
-  const orama = await findAkvaplanistViaOrama({ family, given });
+  const orama = await findAkvaplanistViaOrama({ id, family, given });
   if (orama) {
-    // if (
-    //   normalize(orama.family) !== normalize(family) ||
-    //   normalize(orama.given) !== normalize(given)
-    // ) {
-    //   console.debug({ family, given, orama });
-    // }
+    if (id && orama?.id === id) {
+      return orama;
+    }
     return orama;
   }
 };

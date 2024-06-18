@@ -1,6 +1,6 @@
 import {
   getPanelsInLang,
-  mayEdit,
+  mayEditKvPanel,
   PanelFilter,
 } from "akvaplan_fresh/kv/panel.ts";
 
@@ -11,6 +11,8 @@ import { defineRoute, RouteConfig } from "$fresh/server.ts";
 import { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 import { SearchResultItem } from "akvaplan_fresh/components/search_result_item.tsx";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+import Button from "akvaplan_fresh/components/button/button.tsx";
+import { Icon } from "akvaplan_fresh/components/icon.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(panel|panels)}",
@@ -32,7 +34,7 @@ const getPanelsSortedAndGrouped = async ({ lang, searchParams, grouper }) => {
 };
 
 const prep = ({ ...document }) => {
-  document.href = document.id;
+  document.href = document.id + "/edit";
   return { document };
 };
 
@@ -45,11 +47,18 @@ export default defineRoute(async (req, ctx) => {
     searchParams,
     grouper,
   });
-  const editor = await mayEdit(req);
+  const editor = await mayEditKvPanel(req);
   const base = `/${lang}/panel/`;
 
   return (
     <Page base={base}>
+      {editor && (
+        <a href={`_/new`}>
+          <Button style={{ fontSize: "0.8rem" }}>
+            <Icon name="add" style={{ width: "1.1rem" }} /> Nytt
+          </Button>
+        </a>
+      )}
       {[...grouped].map(([k, panels]) => (
         <div>
           <h2>{k}</h2>

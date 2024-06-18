@@ -66,7 +66,6 @@ export function PeopleCard(
   return (
     <Card customClass="people-card">
       <Head>
-        <link rel="stylesheet" href="/css/article.css" />
         <link rel="stylesheet" href="/css/people-card.css" />
       </Head>
 
@@ -97,8 +96,12 @@ export function PeopleCard(
             style={isPrior(person) ? { filter: "grayscale(1)" } : {}}
           />
         )}
-      {isExpired(person)
-        ? <span>{t("people.akvaplanist(prior)")}</span>
+      {isPrior(person)
+        ? (
+          <span style={{ fontSize: ".8rem" }}>
+            {t("people.akvaplanist(prior)")}
+          </span>
+        )
         : (
           <span>
             <span class="people-position">

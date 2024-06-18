@@ -9,7 +9,7 @@ import { Section } from "../components/section.tsx";
 import {
   getPanelInLang,
   getPanelsInLang,
-  mayEdit,
+  mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
 
 export const config: RouteConfig = {
@@ -51,7 +51,7 @@ export default defineRoute(async (req, ctx) => {
     filter: (p: Panel) => "research" === p.collection && p?.draft !== true,
   })).sort((a, b) => a.title.localeCompare(b.title));
 
-  const editor = await mayEdit(req);
+  const editor = await mayEditKvPanel(req);
 
   return (
     <Naked title={title} collection="home">
@@ -90,7 +90,7 @@ export default defineRoute(async (req, ctx) => {
           <Section>{/* spacer :) */}</Section>
           <Section>
             <Card>
-              <h2>Om vår forskning</h2>
+              {/* <h2>Om vår forskning</h2> */}
               <p>
                 <Section>
                   {hero?.desc && (

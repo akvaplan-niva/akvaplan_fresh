@@ -1,7 +1,10 @@
 import sd from "npm:showdown";
-import sanitize, { type } from "npm:sanitize-html";
+import sanitize from "npm:sanitize-html";
 import type { Converter, ConverterOptions } from "npm:@types/showdown";
 import type { IOptions as SanitizeOptions } from "npm:@types/sanitize-html";
+import { Section } from "akvaplan_fresh/components/section.tsx";
+import { Card } from "akvaplan_fresh/components/card.tsx";
+import { WideImage } from "akvaplan_fresh/components/wide_image.tsx";
 
 const allowedTags = [
   ...sanitize.defaults.allowedTags,
@@ -11,11 +14,27 @@ const allowedTags = [
 ].sort();
 const sanitizeOptions: SanitizeOptions = { allowedTags };
 
-const style = `p { padding: 0.5 1rem; }
-h2 { font-weight: 800; margin: 1rem 0; }
+const style = `@layer markdown {
+
+
+  .markdown p { padding: 0.5 1rem; }
+  .markdown h2 { font-weight: 800; margin: 1rem 0; }
+  .markdown li {
+    margin-left: 1.5rem;
+    list-style-type: square;
+  }
+}
+
+
+
 `;
+
+const defaultConverterOptions: ConverterOptions = {
+  openLinksInNewWindow: true,
+};
+
 export const Markdown = (
-  { text, converterOptions, ...props }: {
+  { text, converterOptions = defaultConverterOptions, ...props }: {
     text: string;
     converterOptions: ConverterOptions;
   },
@@ -32,7 +51,7 @@ export const Markdown = (
       />
 
       <div
-        class="markdown markdown-body"
+        class="markdown"
         style={{ margin: "0 auto", fontFamily: "inherit" }}
         {...props}
         dangerouslySetInnerHTML={{
@@ -40,6 +59,47 @@ export const Markdown = (
         }}
         {...props}
       />
+    </>
+  );
+};
+
+export const MarkdownPanel = (
+  { panel, editor = false, lang, ...props },
+) => {
+  return (
+    <>
+      {panel?.intro && (
+        <Section>
+          <Card>
+            <p id="intro">
+              <Markdown
+                text={panel.intro}
+                style={{ whiteSpace: "pre-wrap" }}
+              />
+            </p>
+
+            <WideImage
+              style={{ background: "var(--light)", maxWidth: "10vh" }}
+              {...panel?.image}
+              lang={lang}
+              editor={editor}
+            />
+          </Card>
+        </Section>
+      )}
+
+      <Section>
+        <Card>
+          <p>
+            {panel?.desc && (
+              <Markdown
+                text={panel.desc}
+                style={{ whiteSpace: "pre-wrap", fontSize: "1rem" }}
+              />
+            )}
+          </p>
+        </Card>
+      </Section>
     </>
   );
 };

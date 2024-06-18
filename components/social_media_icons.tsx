@@ -1,4 +1,5 @@
 import { Icon } from "akvaplan_fresh/components/icon.tsx";
+import type { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
 
 interface Social {
   icon: string;
@@ -6,7 +7,16 @@ interface Social {
   href: string;
   width?: number;
 }
-
+const mail = {
+  icon: "mail",
+  name: "E-mail",
+  href: "mailto:info@akvaplan.niva.no",
+};
+const phone = {
+  icon: "phone_in_talk",
+  name: "Ring (8–16)",
+  href: "tel:+47 77 75 03 00",
+};
 const x = {
   icon: "/icon/logo/x.svg",
   name: "X",
@@ -30,13 +40,24 @@ const github = {
 //snap?
 //insta?
 
-const akvaplanSocial: Social[] = [x, face, linked, github] as const;
+const akvaplanSocial: Social[] = [
+  phone,
+  mail,
+  x,
+  face,
+  linked,
+  github,
+] as const;
 
 export const SocialMediaIcons = (
-  { list = akvaplanSocial }: { lang?: string; list?: Social[] },
+  { list = akvaplanSocial, filter = "invert(.5)" }: {
+    lang?: string;
+    list?: Social[];
+    filter?: string;
+  },
 ) => (
   <>
-    {list.map(({ name, icon, href, width }) => (
+    {list?.map(({ name, icon, href, width, height = width }) => (
       <a
         href={href}
         rel="noreferrer noopener"
@@ -44,20 +65,51 @@ export const SocialMediaIcons = (
         title={`${name}`}
         class="icon footer__some"
       >
-        <img
-          src={icon}
-          alt={""}
-          aria-disabled
-          width={width ? String(width) : "24"}
-          height="24"
-          style={{
-            // invert colors
-            // => trick to enable visibility on dark backgrounds
-            // => nice side-effect is diffusing on light
-            filter: "invert(.5)",
-          }}
-        />
+        {icon.startsWith("/")
+          ? (
+            <img
+              src={icon}
+              alt={""}
+              aria-disabled
+              width={width ? String(width) : "24"}
+              height={height ? String(height) : "24"}
+              style={{
+                // invert colors
+                // => trick to enable visibility on dark backgrounds
+                // => nice side-effect is diffusing on light
+                filter: filter ? filter : undefined,
+              }}
+            />
+          )
+          : (
+            <Icon
+              name={icon}
+              aria-disabled
+              width={width ? String(width) : "24"}
+              height={height ? String(height) : "24"}
+            />
+          )}
       </a>
     ))}
   </>
 );
+
+export const buildPersonalSocialMediaLinks = (akvaplanist: Akvaplanist) => {
+  const { given, family, openalex, orcid } = akvaplanist;
+  const name = `${given} ${family}`;
+  return [
+    orcid &&
+    {
+      name: `ORCID (${name})`,
+      href: `https://orcid.org/${orcid}`,
+      "icon": "/icon/logo/orcid.svg",
+    },
+    openalex &&
+    {
+      name: `OpenAlex (${name})`,
+      href: `https://openalex.org/authors/${openalex}`,
+      "icon":
+        "https://openalex.org/img/openalex-logo-icon-black-and-white.ea51cede.png",
+    },
+  ].filter((ident) => ![undefined, null].includes(ident));
+};

@@ -1,16 +1,17 @@
 import {
   Card,
+  HScroll,
   Page,
   PeopleCard as PersonCard,
 } from "akvaplan_fresh/components/mod.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
-import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
+import { ImagePanel, WideCard } from "akvaplan_fresh/components/panel.tsx";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
 import { asset, Head } from "$fresh/runtime.ts";
 export const PanelPage = (
-  { base, collection, panel, lang, editor, contacts, url },
+  { base, collection, panel, lang, editor, contacts, url, more },
 ) => (
   <Page base={base} title={panel.title} collection={collection}>
     <Section style={{ display: "grid", placeItems: "center" }}>
@@ -45,6 +46,15 @@ export const PanelPage = (
           )}
         </p>
       </Card>
+
+      <HScroll maxVisibleChildren={3}>
+        {more?.map((props) => (
+          <WideCard
+            {...props}
+            sizes="30vw"
+          />
+        ))}
+      </HScroll>
     </Section>
 
     <Section>

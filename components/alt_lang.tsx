@@ -15,19 +15,18 @@ export const AlsoInNative = ({ href, hreflang, lang, title = href }) => {
     </span>
   );
 };
-// lang = site lang
+// lang = current site lang
 // language = current document's language
 // alternate = link to alternate version
-export const AltLangInfo = ({ alternate, lang, language, title }) => (
+export const AltLangInfo = ({ alternate, lang, language }) => (
   <section style={_caption}>
     <em style={{ color: "var(--text2)" }}>
       {alternate && lang !== language
         ? (
           <AlsoInNative
             href={alternate.href}
-            hreflang={alternate.lang}
-            lang={alternate.hreflang}
-            title={alternate.title}
+            hreflang={lang ?? alternate.lang}
+            lang={lang}
           />
         )
         : null}

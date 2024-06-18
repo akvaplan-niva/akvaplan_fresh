@@ -15,6 +15,9 @@ export interface Akvaplanist {
   updated?: Date | string;
   from?: Date | string;
   expired?: Date | string;
+  openalex?: string;
+  github?: string;
+  orcid?: string;
 }
 export interface IntlString {
   [lang: string]: string;

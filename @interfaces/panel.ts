@@ -13,6 +13,10 @@ export interface Panel {
   href: string;
   intro: string;
   cta: string;
+  created: string;
+  modified: string;
+  created_by: string;
+  modified_by: string;
 }
 
 export interface PanelImage {

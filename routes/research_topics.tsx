@@ -1,4 +1,4 @@
-import { getPanelInLang, mayEdit } from "akvaplan_fresh/kv/panel.ts";
+import { getPanelInLang, mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
 import { PanelPage } from "akvaplan_fresh/components/panel_page.tsx";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 
@@ -33,7 +33,7 @@ export default defineRoute(async (req, ctx) => {
   if (!panel) {
     return ctx.renderNotFound();
   }
-  const editor = await mayEdit(req);
+  const editor = await mayEditKvPanel(req);
   const base = `/${params.lang}/${params.page}/${params.groupname}`;
   const contacts = Array.isArray(panel?.people_ids)
     ? panel.people_ids

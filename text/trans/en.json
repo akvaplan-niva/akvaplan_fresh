@@ -22,6 +22,7 @@
   "collection.documents": "documents",
   "collection.document": "documents",
   "collection.blog": "blogs",
+  "collection.company": "company",
   "collection.people": "people",
   "collection.person": "people",
   "collection.pubs": "publications",

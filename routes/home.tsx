@@ -6,7 +6,7 @@ import {
   getPanelInLang,
   getPanelsByIds,
   HOME_HERO_ID,
-  mayEdit,
+  mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
 import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
 import { hasRights } from "../kv/rights.ts";
@@ -116,7 +116,7 @@ export default defineRoute(async (req, ctx) => {
     { intro, ...withoutIntro },
   ) => withoutIntro);
 
-  const authorized = await mayEdit(req);
+  const authorized = await mayEditKvPanel(req);
 
   const AvatarLink = await createAvatarLink(req, { lang });
 
