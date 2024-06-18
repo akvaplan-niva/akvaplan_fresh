@@ -1,5 +1,5 @@
 import { lang } from "akvaplan_fresh/text/mod.ts";
-import { Page } from "akvaplan_fresh/components/mod.ts";
+import { Page } from "akvaplan_fresh/components/page.tsx";
 
 import type { InternationalProps } from "akvaplan_fresh/utils/page/international_page.ts";
 

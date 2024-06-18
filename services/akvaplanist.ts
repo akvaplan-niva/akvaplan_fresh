@@ -289,23 +289,23 @@ export const buildGroupFX = ({ group, filter }) => {
 export const groupByChar0 = (key: string) => (a: Akvaplanist) =>
   [...a?.[key]].at(0);
 
-export const boardUpdated = "2023-01-23";
-export const boardKid = 20230000030372;
+// export const boardUpdated = "2023-01-23";
+// export const boardKid = 20230000030372;
 
-export const boardURL = (
-  lang: string,
-  { kid = boardKid, spraak = lang === "en" ? "en" : "nb" } = {},
-) =>
-  `https://w2.brreg.no/kunngjoring/hent_en.jsp?kid=${kid}&sokeverdi=937375158&spraak=${spraak}`;
+// export const boardURL = (
+//   lang: string,
+//   { kid = boardKid, spraak = lang === "en" ? "en" : "nb" } = {},
+// ) =>
+//   `https://w2.brreg.no/kunngjoring/hent_en.jsp?kid=${kid}&sokeverdi=937375158&spraak=${spraak}`;
 
 export const akvaplan = {
   name: "Akvaplan-niva",
-  tel: "+4777750300",
+  tel: "+47 77 75 03 00",
   email: "info@akvaplan.niva.no",
   addr: {
     hq: {
-      visit: "Framsenteret, 9296 Tromsø, Norway",
-      post: "Framsenteret, Postbox 6606, Stakkevollan, 9296 Tromsø, Norway",
+      visit: "Framsenteret, Tromsø",
+      post: "Postboks 6606 Stakkevollan, 9296 Tromsø, Norway",
     },
   },
 };

@@ -8,7 +8,7 @@ import {
   id0,
 } from "akvaplan_fresh/services/mynewsdesk.ts";
 
-import { Page } from "akvaplan_fresh/components/mod.ts";
+import { Page } from "akvaplan_fresh/components/page.tsx";
 import { DocumentArticle } from "akvaplan_fresh/components/document_article.tsx";
 import { MarkdownArticlePage } from "./MarkdownArticlePage.tsx";
 

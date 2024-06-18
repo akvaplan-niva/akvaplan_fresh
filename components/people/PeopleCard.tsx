@@ -19,7 +19,7 @@ interface PeopleProps {
   lang?: string;
   icons: boolean;
 }
-const people = await buildAkvaplanistMap();
+const people = globalThis?.Deno ? await buildAkvaplanistMap() : [];
 
 const isExpired = ({ expired } = {}) => {
   if (!expired) {

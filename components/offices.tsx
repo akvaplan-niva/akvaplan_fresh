@@ -4,59 +4,48 @@ import { lang, t } from "akvaplan_fresh/text/mod.ts";
 import { akvaplan } from "akvaplan_fresh/services/akvaplanist.ts";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { Icon } from "akvaplan_fresh/components/icon.tsx";
-const _section = {
-  marginTop: "2rem",
-  marginBottom: "3rem",
-};
-const _header = {
-  marginBlockStart: "1rem",
-  marginBlockEnd: "0.5rem",
-};
+import { Section } from "akvaplan_fresh/components/section.tsx";
 
-export const MainOffice = () => (
-  <Card>
-    <dl>
-      <dt>Akvaplan-niva</dt>
+export const MainOffice = ({ lang }) => (
+  <dl style="display: grid; grid-template-columns: max-content auto;">
+    <dt>
+      <a
+        href="https://goo.gl/maps/P73K9hcVKeKd7jkz5"
+        target="_blank"
+        title={t("ui.Google_maps")}
+      >
+        <Icon name="place" aria-ignore />
+      </a>
+      {" "}
+    </dt>
+    <dd>
+      Tromsø (Framsenteret)
+    </dd>
 
-      <dt>
-        {t("about.Visit")}
-      </dt>
-      <dd>
-        {akvaplan.addr.hq.visit} (<a
-          href="https://goo.gl/maps/P73K9hcVKeKd7jkz5"
-          target="_blank"
-        >
-          {t("ui.Google_maps")}
-        </a>)
-      </dd>
+    <dt aria-label="ring">
+      <Icon name="phone_in_talk" aria-ignore />
+    </dt>
+    <dd>
+      <a
+        href={`tel:${akvaplan.tel}`}
+      >
+        {akvaplan.tel}
+      </a>
+    </dd>
 
-      <dd>{akvaplan.addr.hq.post}</dd>
+    <dt aria-label="mail">
+      <Icon name="mail" aria-ignore />
+    </dt>
 
-      <dt>
-        {t("ui.Telephone")}
-      </dt>
-      <dd>
-        <Icon name="phone_in_talk" />
-        <a
-          href={`tel:${akvaplan.tel}`}
-        >
-          {akvaplan.tel}
-        </a>
-      </dd>
-
-      <dt>
-        {t("ui.E-mail")}
-      </dt>
-      <dd>
-        <a
-          href={`mailto:${akvaplan.email}`}
-        >
-          <Icon name="mail" />
-          {akvaplan.email}
-        </a>
-      </dd>
-    </dl>
-  </Card>
+    <dd>
+      <a
+        href={`mailto:${akvaplan.email}`}
+      >
+        {akvaplan.email}
+      </a>{" "}
+      | {akvaplan.addr.hq.post}
+    </dd>
+  </dl>
 );
 
 export const Offices = () => (
@@ -110,13 +99,14 @@ export const MainContacts = () => (
 
 export const Addresses = () => (
   <div>
-    <section style={_section}>
-      <h1 style={_header}>{t("about.HQ")}</h1>
+    <Section>
+      <h1>{t("about.HQ")}</h1>
 
       <MainOffice />
-    </section>
+    </Section>
 
-    <section style={_section}>
+    {
+      /* <section style={_section}>
       <h1 style={_header}>{t("about.Identification")}</h1>
       <dl>
         <dt>
@@ -145,11 +135,16 @@ export const Addresses = () => (
           </a>
         </dd>
       </dl>
-    </section>
+    </section> */
+    }
 
-    <section style={_section}>
-      <h1 style={_header}>{t("about.Office_locations")}</h1>
-      <menu>
+    <Section>
+      <h2
+        href={`${intlRouteMap(lang).get("people")}/workplace`}
+      >
+        {t("company.Offices")}
+      </h2>
+      <ul>
         {[...offices.values()].filter(({ hq }) => true).map((
           { name },
         ) => (
@@ -163,7 +158,7 @@ export const Addresses = () => (
             </a>
           </li>
         ))}
-      </menu>
-    </section>
+      </ul>
+    </Section>
   </div>
 );

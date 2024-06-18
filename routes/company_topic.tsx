@@ -2,6 +2,7 @@ import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import {
   getPanelInLang,
   getPanelsInLang,
+  ID_INVOICING,
   mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
 import { PanelPage } from "akvaplan_fresh/components/panel_page.tsx";
@@ -9,12 +10,17 @@ import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 
 export const config: RouteConfig = {
   routeOverride:
-    "/:lang(en|no){/:collection(company|about|selskapet|om)}{/:slug}?/:id",
+    "/:lang(en|no){/:collection(company|about|selskapet|om)}/:slug{/:id}?",
 };
+
+const slugIds = new Map([
+  ["fakturering", ID_INVOICING],
+]);
 
 export default defineRoute(async (req, ctx) => {
   const { params, url } = ctx;
-  const { lang, id } = params;
+  const { lang, slug } = params;
+  const id = params?.id !== "" ? params.id : slugIds.get(slug);
 
   const panel = await getPanelInLang({ id, lang });
 

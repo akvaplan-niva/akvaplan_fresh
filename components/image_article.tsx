@@ -1,4 +1,4 @@
-import { Article } from "akvaplan_fresh/components/mod.ts";
+import { Article } from "akvaplan_fresh/components/article/Article.tsx";
 import { lang } from "akvaplan_fresh/text/mod.ts";
 import { isodate } from "akvaplan_fresh/time/mod.ts";
 

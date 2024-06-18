@@ -138,11 +138,16 @@ export const SearchResultItem = (
               {subtitle ? subtitle : null}
 
               {container ? container : null}
-            </em>{" "}
+            </em>
             {published
               ? !["person"].includes(collection)
                 ? `${published.substring(0, 10)}`
-                : `${published.substring(0, 7)}`
+                : [
+                  document.position[lang],
+                  t(`section.${document.section}`),
+                  document.workplace,
+                  published.substring(0, 7),
+                ].join(" | ")
               : null}
 
             {!["image", "person"].includes(collection) && hreflang &&

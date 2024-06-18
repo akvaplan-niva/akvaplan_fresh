@@ -154,6 +154,8 @@
   "sort.label": "sortering",
   "sort.increasing": "alfabetisk (a↦)",
   "sort.decreasing": "synkende (å↦)",
+  "company.Offices": "Kontorsteder",
+  "company.Offices.List_intro": "Vi er også tilstede i Alta, Bergen, Bodø, Oslo, Ski, Sortland og Trondheim, samt i Reykjavík",
   "collection.company": "selskapet",
   "collection.documents": "dokumenter",
   "collection.document": "dokumenter",

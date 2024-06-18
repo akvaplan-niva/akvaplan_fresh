@@ -1,7 +1,7 @@
 import { isodate } from "akvaplan_fresh/time/mod.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 
-import { Article } from "akvaplan_fresh/components/mod.ts";
+import { Article } from "akvaplan_fresh/components/article/Article.tsx";
 import Button from "akvaplan_fresh/components/button/button.tsx";
 
 import type { MynewsdeskDocument } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";

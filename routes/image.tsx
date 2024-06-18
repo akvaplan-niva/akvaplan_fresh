@@ -1,6 +1,6 @@
 import { extractId } from "../services/extract_id.ts";
 
-import { Page } from "akvaplan_fresh/components/mod.ts";
+import { Page } from "akvaplan_fresh/components/page.tsx";
 import { ImageArticle } from "akvaplan_fresh/components/image_article.tsx";
 
 import type { RouteConfig, RouteContext } from "$fresh/src/server/types.ts";

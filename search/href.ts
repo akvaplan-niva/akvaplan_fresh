@@ -50,6 +50,7 @@ const localizedRouteForSearchAtom = (
     const { title: name, id: email } = atom;
     return akvaplanistUrl({ email, name, slug } as any, lang);
   }
+  console.warn(atom, lang);
   const intl_route = lang === "no"
     ? undefined === slug
       ? No.get(collection) ?? collection

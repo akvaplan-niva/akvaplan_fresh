@@ -5,7 +5,7 @@ import {
   deintlPanel,
   getPanelInLang,
   getPanelsByIds,
-  HOME_HERO_ID,
+  ID_HOME_HERO,
   mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
 import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
@@ -108,7 +108,7 @@ export default defineRoute(async (req, ctx) => {
   const newsInAltLang = _newsInAltLang
     ?.map(toImageCard());
 
-  const hero = await getPanelInLang({ id: HOME_HERO_ID, lang });
+  const hero = await getPanelInLang({ id: ID_HOME_HERO, lang });
 
   //const sticky = news?.slice(5, 6); //await getSticky(["page", "home"]);
 

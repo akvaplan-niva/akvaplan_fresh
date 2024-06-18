@@ -3,7 +3,7 @@
   "about.Board": "Board",
   "about.Contact": "Contact",
   "about.Details": "We have a special focus on ocean industries and offer science based tools and services to ensure sustainable value creation. We work interdisciplinary and provide a knowledge base and advice to both environmental management and industry.",
-  "about.HQ": "Main office (Tromsø, Norway)",
+  "about.HQ": "Main office",
   "about.Identification": "Organization IDs",
   "about.Organisasjonsnummer": "Norwegian VAT number",
   "about.Invoice": "Invoice",
@@ -18,7 +18,8 @@
   "about.Summary": "Akvaplan-niva is a not-for profit research and development institute with expertise in all aquatic environments",
   "about.Visit": "Visit",
   "auto": "automatic",
-
+  "company.Offices": "Office locations",
+  "company.Offices.List_intro": "We are also present in Alta, Bergen, Bodø, Oslo, Ski, Sortland, Trondheim, and in Reykjavík",
   "collection.documents": "documents",
   "collection.document": "documents",
   "collection.blog": "blogs",
