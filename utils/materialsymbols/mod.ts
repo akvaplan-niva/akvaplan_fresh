@@ -14,6 +14,7 @@ export const icons = new Set([
   "search",
   "sms_failed",
   "west",
+  "place",
 ]);
 export const iconurl = (name: string) =>
   `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/wght300/48px.svg`;

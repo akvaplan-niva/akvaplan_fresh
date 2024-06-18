@@ -1,7 +1,7 @@
 import { getVideo } from "akvaplan_fresh/kv/video.ts";
 import { extractId } from "../services/extract_id.ts";
 
-import { Page } from "akvaplan_fresh/components/mod.ts";
+import { Page } from "akvaplan_fresh/components/page.tsx";
 //import { Screen9Video } from "../islands/screen9.tsx";
 
 import type { RouteConfig, RouteContext } from "$fresh/src/server/types.ts";

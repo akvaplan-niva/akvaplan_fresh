@@ -1,11 +1,6 @@
-import { PropsWithChildren } from "preact";
 import { asset, Head } from "$fresh/runtime.ts";
 
-type ArticleProps = PropsWithChildren & {
-  language: string;
-};
-
-export default function Article({ language, children }: ArticleProps) {
+export function Article({ language, children }: { language: string }) {
   return (
     <article class="article" lang={language}>
       <Head>
@@ -15,3 +10,4 @@ export default function Article({ language, children }: ArticleProps) {
     </article>
   );
 }
+export default Article;

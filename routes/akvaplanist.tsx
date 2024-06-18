@@ -49,6 +49,8 @@ import { priorAkvaplanists } from "../services/prior_akvaplanists.ts";
 import { search } from "akvaplan_fresh/search/search.ts";
 import { Section } from "../components/section.tsx";
 import { MainContacts } from "akvaplan_fresh/components/offices.tsx";
+import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
+import { getPanelInLang, ID_PEOPLE } from "akvaplan_fresh/kv/panel.ts";
 
 interface AkvaplanistsRouteProps {
   people: Akvaplanist[];
@@ -64,6 +66,9 @@ interface AkvaplanistsRouteProps {
   title: string;
   q?: string;
 }
+
+const getHero = async (lang: string) =>
+  await getPanelInLang({ id: ID_PEOPLE, lang });
 
 const _section = { padding: 0 };
 
@@ -232,6 +237,8 @@ export const handler: Handlers = {
 
     const office = group === "workplace" ? offices.get(filter) : null;
 
+    const { intro, cta, ...hero } = await getHero(params.lang);
+
     return ctx.render({
       lang,
       base,
@@ -250,6 +257,7 @@ export const handler: Handlers = {
       searchParams,
       url,
       name,
+      hero,
     });
   },
 };
@@ -307,6 +315,7 @@ export default function Akvaplanists(
       office,
       searchParams,
       url,
+      hero,
     },
   }: PageProps<
     AkvaplanistsRouteProps
@@ -331,7 +340,6 @@ export default function Akvaplanists(
       <Head>
         <link rel="stylesheet" href="/css/hscroll.css" />
         <link rel="stylesheet" href="/css/akvaplanist.css" />
-        <script src="/@nrk/core-scroll.min.js" />
       </Head>
 
       {group === "workplace" && office && (
@@ -353,12 +361,12 @@ export default function Akvaplanists(
               <h1>{title}</h1>
               {/* <p>{t("people.subtitle")}</p> */}
             </div>
-            <Picture />
           </section>
         )}
 
       {filter?.length > 0 ? <OnePersonGroup members={results} /> : (
         <>
+          <h1>{t("our.people")}</h1>
           {
             /* <Section>
             <h2 style={{ fontWeight: "900" }}>
@@ -367,13 +375,18 @@ export default function Akvaplanists(
             <MainContacts />
           </Section> */
           }
-          <PeopleSearchForm
-            q={q}
-            sortdir={searchParams.get("sortdir")}
-            group={group}
-          />
+          {/* <ImagePanel {...hero} /> */}
+          <GroupedSearch collection={"person"} placeholder="Søk etter ansatt" />
 
-          <GroupedPeople group={group} grouped={grouped} />
+          <div hidden>
+            <PeopleSearchForm
+              q={q}
+              sortdir={searchParams.get("sortdir")}
+              group={group}
+            />
+          </div>
+
+          {/* <GroupedPeople group={group} grouped={grouped} /> */}
         </>
       )}
 

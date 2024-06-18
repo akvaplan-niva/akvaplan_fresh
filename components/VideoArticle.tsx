@@ -1,4 +1,4 @@
-import { Article } from "akvaplan_fresh/components/mod.ts";
+import { Article } from "akvaplan_fresh/components/article/Article.tsx";
 import type { MynewsdeskVideo } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { editHref } from "akvaplan_fresh/services/mynewsdesk.ts";
 import { EditLinkIcon } from "akvaplan_fresh/components/edit_link.tsx";

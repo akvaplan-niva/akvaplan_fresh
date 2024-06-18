@@ -15,15 +15,16 @@ const kv = await openKv();
 
 export const genid = () => ulid().toLowerCase();
 
-export const HOME_HERO_ID = "01hyd6qeqv77bp980k1mw33rt0";
-
 export const ID_ACCREDITATION = "01j0b947qxcrgvehnpzskttfd2";
+export const ID_ABOUT = "01hzfwfctv0h33c494bje9y7r0";
+export const ID_PEOPLE = "01hyd6qeqtfewhjjxtmyvgv35q";
+export const ID_HOME_HERO = "01hyd6qeqv77bp980k1mw33rt0";
+export const ID_INVOICING = "01j0k42cn0qmmh0knsj3v2wpn2";
 
-// "01hyd6qeqtfewhjjxtmyvgv35q", // people
 // "01hyd6qeqv4n3qrcv735aph6yy", // services
 // "01hyd6qeqvy0ghjnk1nwdfwvyq", // research
 // "01hyd6qeqv71dyhcd3356q31sy", // projects
-// "01hz1r7654ptzs2tys6qxtv01m", // about
+// "01hz1r7654ptzs2tys6qxtv01m", // about !?
 
 export const panelTemplate = {
   id: null,

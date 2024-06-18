@@ -5,17 +5,13 @@ import { Section } from "akvaplan_fresh/components/section.tsx";
 
 import { ImagePanel, NewPanel } from "akvaplan_fresh/components/panel.tsx";
 import {
-  deintlPanel,
   getPanelInLang,
-  getPanelsByIds,
   getPanelsInLang,
+  ID_ABOUT,
+  ID_PEOPLE,
   mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
 import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
-import {
-  Certifications,
-  MarkdownPanel,
-} from "akvaplan_fresh/components/akvaplan/accreditations.tsx";
 
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { Page } from "akvaplan_fresh/components/page.tsx";
@@ -23,27 +19,25 @@ import { Page } from "akvaplan_fresh/components/page.tsx";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { MainOffice, Offices } from "akvaplan_fresh/components/offices.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
-import { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
+import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
+import { addressesBase } from "akvaplan_fresh/routes/offices.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
     "/:lang(en|no)/:page(about|about-us|company|om|om-oss|selskapet)",
 };
 
-const about = "01hzfwfctv0h33c494bje9y7r0";
-const accred = "01j0b947qxcrgvehnpzskttfd2";
-const people = "01hyd6qeqtfewhjjxtmyvgv35q";
-
 const getHero = async (lang: string) =>
-  await getPanelInLang({ id: about, lang });
+  await getPanelInLang({ id: ID_ABOUT, lang });
 
 const getPanels = async (lang: string) =>
   await getPanelsInLang({
     lang,
     filter: (
       { collection, id },
-    ) => ([people].includes(id) || "company" === collection && id !== about),
+    ) => ([ID_PEOPLE].includes(id) ||
+      "company" === collection && id !== ID_ABOUT),
   });
 
 // const getPanels = async (lang: string) =>
@@ -73,12 +67,17 @@ export default defineRoute(async (req, ctx) => {
   return (
     <Page title={title} base={base} lang={lang}>
       <ImagePanel {...{ ...hero, intro: "" }} lang={lang} />
-
+      {hero?.intro && <Markdown text={hero.intro} />}
       <Section>
-        <Card>
-          {hero?.intro && <Markdown text={hero.intro} />}
-          {hero?.desc && <Markdown text={hero.desc} />}
-        </Card>
+        <MainOffice lang={lang} />
+        <p style={{ fontSize: "1rem" }}>
+          {t("company.Offices.List_intro")} (
+          <a
+            href={addressesBase(lang)}
+          >
+            {"adresser"}
+          </a>)
+        </p>
       </Section>
 
       <section class="Section block-center-center">
@@ -99,6 +98,9 @@ export default defineRoute(async (req, ctx) => {
       </section>
 
       <Section>
+        <Card>
+          {hero?.desc && <Markdown text={hero.desc} />}
+        </Card>
       </Section>
 
       <Section>
@@ -117,6 +119,7 @@ export default defineRoute(async (req, ctx) => {
           />
         </Card>
       </Section>
+
       <Head>
         <link rel="stylesheet" href={asset("/css/bento.css")} />
       </Head>

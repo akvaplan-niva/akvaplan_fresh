@@ -32,6 +32,7 @@ export const atomizePanel = async (panel: Panel) => {
   const { cloudinary, url } = image;
 
   const atom: OramaAtom = {
+    ...panel,
     id,
     collection,
     people,
@@ -39,6 +40,7 @@ export const atomizePanel = async (panel: Panel) => {
     text: JSON.stringify(rest),
     "intl": {
       "name": { "en": panel.intl.en.title, "no": panel.intl.no.title },
+      "href": { "en": panel.intl.en.href, "no": panel.intl.no.href },
     },
   };
   if (url && cloudinary?.length === 0) {

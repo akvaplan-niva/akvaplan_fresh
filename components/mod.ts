@@ -1,4 +1,3 @@
-export * from "./akvaplan/accreditations.tsx";
 export * from "./akvaplan/logo.tsx";
 export * from "./akvaplan/symbol.tsx";
 export * from "./album/album_header.tsx";

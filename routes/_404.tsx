@@ -1,4 +1,4 @@
-import { Page } from "akvaplan_fresh/components/mod.ts";
+import { Page } from "akvaplan_fresh/components/page.tsx";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import { PageProps } from "$fresh/server.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
