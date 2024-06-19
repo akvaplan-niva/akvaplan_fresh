@@ -52,7 +52,7 @@ export const BentoPanel = (
 ) => {
   return (
     <a
-      href={panel?.href ?? href}
+      href={panel?.href && panel?.href.length > 2 ? panel.href : href}
       class={`Card gap-1 ${reveal ? "reveal" : ""} ${
         hero ? "Hero block-center-center" : ""
       }`}
