@@ -24,6 +24,41 @@ Start development server:
 deno task dev
 ```
 
+## Intl
+
+The app is server-rendered in one of two locales (`en` or `no`).
+
+### Locale detection
+
+For requests to `/` the browser's list of accepted languages is used to pick
+locale (see [_middleware.tsx](routes/_middleware.tsx)).
+
+Users are then redirected to either `/en` or `/no` and served the `Home` route.
+
+```ts
+// routes/home.tsx
+export const config: RouteConfig = {
+  routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
+};
+```
+
+All regular HTML-routes starts with a language segment, which is used to set the
+app's `lang` signal for use in translation.
+
+### Translations
+
+In TSX, use the translation function `t` to lookup a text string in the present
+language.
+
+```tsx
+import { t } from "akvaplan_fresh/text/mod.ts";
+<p>{
+  t(`some.prefix.some.key`);
+}</p>
+```
+
+Translations are kept in a simple (key-value) JSON file for each locale.
+
 ## KV
 
 Connect to preview or production database, by setting env variables
@@ -35,10 +70,12 @@ DENO_KV_ACCESS_TOKEN=
 ```
 
 ### Permissions
-Rights are set using a system, resource, email list, with permitted actions ("crud") like:
+
+Rights are set using a system, resource, email list, with permitted actions
+("crud") like:
+
 ```sh
 $ ./bin/kv_set '["rights","kv","panel","xyz@akvaplan.niva.no"]' '{"actions":"cru"}'
-
 ```
 
 ### Panels
