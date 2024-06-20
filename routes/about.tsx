@@ -1,4 +1,4 @@
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import { Section } from "akvaplan_fresh/components/section.tsx";
@@ -48,6 +48,7 @@ const getPanels = async (lang: string) =>
 export default defineRoute(async (req, ctx) => {
   const { params, url } = ctx;
   const { lang } = params;
+  //langSignal.value = lang;
 
   const title = t("about.About_us");
 
@@ -75,10 +76,18 @@ export default defineRoute(async (req, ctx) => {
           <a
             href={addressesBase(lang)}
           >
-            {"adresser"}
+            {t("company.adresses_map")}
           </a>)
         </p>
       </Section>
+      <Section>
+        <div id="map" style={{ height: "600px" }}></div>
+      </Section>
+      <script type="module" src="/maplibre-gl/offices.js" />
+      <link
+        rel="stylesheet"
+        href="https://esm.sh/maplibre-gl@4.4.1/dist/maplibre-gl.css"
+      />
 
       <section class="Section block-center-center">
         <div class="Container content-3">
@@ -105,7 +114,7 @@ export default defineRoute(async (req, ctx) => {
 
       <Section>
         <h2 style={{ fontWeight: "900" }}>
-          {t("about.Documentation")}
+          {t("company.Documentation")}
         </h2>
         <Card>
           <GroupedSearch

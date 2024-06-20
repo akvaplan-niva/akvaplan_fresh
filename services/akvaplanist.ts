@@ -306,6 +306,7 @@ export const akvaplan = {
     hq: {
       visit: "Framsenteret, Tromsø",
       post: "Postboks 6606 Stakkevollan, 9296 Tromsø, Norway",
+      map: "https://goo.gl/maps/P73K9hcVKeKd7jkz5",
     },
   },
 };

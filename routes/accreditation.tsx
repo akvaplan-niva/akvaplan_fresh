@@ -2,7 +2,7 @@ import { Page } from "akvaplan_fresh/components/page.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { MarkdownPanel } from "akvaplan_fresh/components/markdown.tsx";
-import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
+import { t } from "akvaplan_fresh/text/mod.ts";
 import { getPanelInLang, ID_ACCREDITATION } from "akvaplan_fresh/kv/panel.ts";
 
 export const config: RouteConfig = {
@@ -12,8 +12,6 @@ export const config: RouteConfig = {
 
 export default defineRoute(async (req, ctx) => {
   const { lang } = ctx.params;
-  langSignal.value = lang;
-
   const title = t("our.accreditations");
   const panel = await getPanelInLang({ id: ID_ACCREDITATION, lang });
 

@@ -4,6 +4,7 @@
 import {
   acceptsNordic,
   extractLangFromUrl,
+  lang as langSignal,
   setSiteLang,
 } from "akvaplan_fresh/text/mod.ts";
 
