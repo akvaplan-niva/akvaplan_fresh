@@ -10,7 +10,7 @@ export const MainOffice = ({ lang }) => (
   <dl style="display: grid; grid-template-columns: max-content auto;">
     <dt>
       <a
-        href="https://goo.gl/maps/P73K9hcVKeKd7jkz5"
+        href={akvaplan.addr.hq.map}
         target="_blank"
         title={t("ui.Google_maps")}
       >
@@ -19,7 +19,14 @@ export const MainOffice = ({ lang }) => (
       {" "}
     </dt>
     <dd>
-      Tromsø (Framsenteret)
+      Tromsø (
+      <a
+        href={akvaplan.addr.hq.map}
+        target="_blank"
+        title={t("ui.Google_maps")}
+      >
+        Framsenteret
+      </a>)
     </dd>
 
     <dt aria-label="ring">
@@ -42,13 +49,14 @@ export const MainOffice = ({ lang }) => (
         href={`mailto:${akvaplan.email}`}
       >
         {akvaplan.email}
-      </a>{" "}
-      | {akvaplan.addr.hq.post}
+      </a>
+      <br />
+      {akvaplan.addr.hq.post}
     </dd>
   </dl>
 );
 
-export const Offices = () => (
+export const OfficeseList = () => (
   <Card>
     <menu>
       {[...offices.values()].filter(({ hq }) => true).map((
@@ -97,68 +105,27 @@ export const MainContacts = () => (
   </Card>
 );
 
-export const Addresses = () => (
-  <div>
-    <Section>
-      <h1>{t("about.HQ")}</h1>
-
-      <MainOffice />
-    </Section>
-
-    {
-      /* <section style={_section}>
-      <h1 style={_header}>{t("about.Identification")}</h1>
-      <dl>
-        <dt>
-          {t("about.Organisasjonsnummer")}
-        </dt>
-        <dd>
+export const Offices = () => (
+  <Section>
+    <h2
+      href={`${intlRouteMap(lang).get("people")}/workplace`}
+    >
+      {t("company.Office_addr_employees")}
+    </h2>
+    <ul>
+      {[...offices.values()].filter(({ hq }) => true).map((
+        { name },
+      ) => (
+        <li>
           <a
-            href="https://w2.brreg.no/enhet/sok/detalj.jsp?orgnr=937375158"
-            target="_blank"
+            href={`${intlRouteMap(lang).get("people")}/workplace/${
+              name.split(" ").at(0)
+            }`}
           >
-            937375158
+            {name}
           </a>
-        </dd>
-        <dt>
-          <abbr title={"Research Organization Registry"} lang="en">
-            ROR
-          </abbr>{" "}
-          ID:
-        </dt>
-        <dd>
-          <a
-            href=" https://ror.org/03nrps502"
-            target="_blank"
-          >
-            https://ror.org/03nrps502
-          </a>
-        </dd>
-      </dl>
-    </section> */
-    }
-
-    <Section>
-      <h2
-        href={`${intlRouteMap(lang).get("people")}/workplace`}
-      >
-        {t("company.Offices")}
-      </h2>
-      <ul>
-        {[...offices.values()].filter(({ hq }) => true).map((
-          { name },
-        ) => (
-          <li>
-            <a
-              href={`${intlRouteMap(lang).get("people")}/workplace/${
-                name.split(" ").at(0)
-              }`}
-            >
-              {name}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </Section>
-  </div>
+        </li>
+      ))}
+    </ul>
+  </Section>
 );

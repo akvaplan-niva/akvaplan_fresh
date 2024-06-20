@@ -57,6 +57,7 @@ export default function GroupedSearch(
     first = true,
     noInput = false,
     exact = false,
+    action = `/${lang}/search`,
   }: {
     term?: string;
     lang?: string;
@@ -199,7 +200,7 @@ export default function GroupedSearch(
       {noInput !== true && (
         <form
           id="site-search"
-          action={`/${lang}/_`}
+          action={action}
           autocomplete="off"
           style={{
             display: "grid",

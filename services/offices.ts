@@ -95,8 +95,8 @@ export const tromsø: Office = {
   },
 };
 
-export const vesterålen: Office = {
-  name: "Vesterålen",
+export const sortland: Office = {
+  name: "Sortland",
   tel: "",
   email: "",
   addr: {
@@ -126,7 +126,7 @@ export const offices = new Map<string, Office>([
   ["Reykjavík", reykjavík],
   ["Ski", ski],
   //["Stord", stord],
-  ["Sortland", vesterålen],
+  ["Sortland", sortland],
   ["Tromsø", tromsø],
   ["Trondheim", trondheim],
 ]);

@@ -54,7 +54,7 @@ export const handler: Handlers<SlimPublication> = {
     const { params } = ctx;
     const lang = params.lang;
 
-    langSignal.value = lang;
+    //langSignal.value = lang;
 
     const doi = doiFromParams(params);
     const slim = await getSlimPublication(doi);

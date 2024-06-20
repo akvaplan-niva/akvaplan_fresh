@@ -107,6 +107,8 @@ export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
     const { params, url } = ctx;
 
+    const { origin } = url;
+
     const groupname = decodeURIComponent(params.groupname);
     const filter = decodeURIComponent(params.filter);
     const fn = decodeURIComponent(params.fn);
@@ -258,6 +260,7 @@ export const handler: Handlers = {
       url,
       name,
       hero,
+      origin,
     });
   },
 };
@@ -316,6 +319,7 @@ export default function Akvaplanists(
       searchParams,
       url,
       hero,
+      origin,
     },
   }: PageProps<
     AkvaplanistsRouteProps
@@ -353,16 +357,20 @@ export default function Akvaplanists(
         </section>
       )}
 
-      {!["id", "name", "workplace"].includes(group) &&
+      {
+        /*
+        Floating UI title on mobile
+        {!["id", "name", "workplace"].includes(group) &&
         (
           <section class="page-header">
-            {/* <NewsFilmStrip news={news} lang={lang.value} /> */}
+            <NewsFilmStrip news={news} lang={lang.value} />
             <div class="page-header__content">
               <h1>{title}</h1>
-              {/* <p>{t("people.subtitle")}</p> */}
+              {t("people.subtitle")}
             </div>
           </section>
-        )}
+        )} */
+      }
 
       {filter?.length > 0 ? <OnePersonGroup members={results} /> : (
         <>
@@ -376,8 +384,13 @@ export default function Akvaplanists(
           </Section> */
           }
           {/* <ImagePanel {...hero} /> */}
-          <GroupedSearch collection={"person"} placeholder="Søk etter ansatt" />
-
+          <GroupedSearch
+            lang={lang}
+            origin={origin}
+            action={`/lang/${"folk"}`}
+            collection={"person"}
+            term={q}
+          />
           <div hidden>
             <PeopleSearchForm
               q={q}
