@@ -10,6 +10,7 @@ import type { MicrosoftUserinfo } from "akvaplan_fresh/oauth/microsoft_userinfo.
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 
 import { ulid } from "@std/ulid";
+import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 
 const kv = await openKv();
 
@@ -18,13 +19,30 @@ export const genid = () => ulid().toLowerCase();
 export const ID_ACCREDITATION = "01j0b947qxcrgvehnpzskttfd2";
 export const ID_ABOUT = "01hzfwfctv0h33c494bje9y7r0";
 export const ID_PEOPLE = "01hyd6qeqtfewhjjxtmyvgv35q";
+
+export const ID_SERVICES = "01hyd6qeqv4n3qrcv735aph6yy";
+export const ID_RESEARCH = "01hyd6qeqvy0ghjnk1nwdfwvyq";
+
+export const ID_PROJECTS = "01hyd6qeqv71dyhcd3356q31sy";
 export const ID_HOME_HERO = "01hyd6qeqv77bp980k1mw33rt0";
 export const ID_INVOICING = "01j0k42cn0qmmh0knsj3v2wpn2";
 
-// "01hyd6qeqv4n3qrcv735aph6yy", // services
-// "01hyd6qeqvy0ghjnk1nwdfwvyq", // research
-// "01hyd6qeqv71dyhcd3356q31sy", // projects
-// "01hz1r7654ptzs2tys6qxtv01m", // about !?
+// Main collection panels in correct sort order
+// (these are promoted on Home, and visible in site menu dialog)
+export const collectionPanelIds = [
+  ID_PEOPLE,
+  ID_SERVICES,
+  ID_RESEARCH,
+  ID_PROJECTS,
+  //"@todo", // pubs
+];
+
+export const getCollectionPanels = async (
+  { lang }: { lang: string },
+) =>
+  (await getPanelsByIds(collectionPanelIds)).map((panel) =>
+    deintlPanel({ panel, lang })
+  );
 
 export const panelTemplate = {
   id: null,
@@ -133,3 +151,20 @@ export const mayEditKvPanel = async (req: Request) => {
   const user = await getSessionUser(req);
   return user ? await hasRights(["kv", "panel", user.email, "cru"]) : false;
 };
+
+export const imageCardFromPanel =
+  ({ theme, backdrop }: { theme?: string; backdrop?: boolean } = {}) =>
+  (
+    n,
+    i,
+  ) => ({
+    ...n,
+    image: {
+      url: cloudinaryUrl(
+        extractId(n.img) as string,
+        i === 0 ? { ar: "3:1", w: 512 } : { ar: "3:1", w: 512 },
+      ),
+    },
+    backdrop,
+    theme,
+  });

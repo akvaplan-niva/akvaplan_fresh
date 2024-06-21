@@ -1,15 +1,13 @@
 import { latestNewsFromMynewsdeskService } from "akvaplan_fresh/services/news.ts";
 import { extractLangFromUrl, lang, t } from "akvaplan_fresh/text/mod.ts";
-import { extractId } from "akvaplan_fresh/services/extract_id.ts";
+
 import {
-  deintlPanel,
+  getCollectionPanels,
   getPanelInLang,
-  getPanelsByIds,
   ID_HOME_HERO,
+  imageCardFromPanel,
   mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
-import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
-import { hasRights } from "../kv/rights.ts";
 
 //import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 
@@ -22,57 +20,14 @@ import {
 import { Section } from "../components/section.tsx";
 import { ImagePanel, WideCard } from "akvaplan_fresh/components/panel.tsx";
 
-import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
-import type { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mod.ts";
+import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import {
-  defineRoute,
-  type Handlers,
-  type PageProps,
-  type RouteConfig,
-} from "$fresh/server.ts";
-import type { Signal } from "@preact/signals-core";
-import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
-import {
-  createAvatar,
   createAvatarLink,
 } from "akvaplan_fresh/components/akvaplan/avatar.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
 };
-
-// FIXME Panel: add sort order (or else we need list of ids like for home panel ids)
-const homePanelIds = [
-  "01hyd6qeqtfewhjjxtmyvgv35q", // people
-  "01hyd6qeqv4n3qrcv735aph6yy", // services
-  "01hyd6qeqvy0ghjnk1nwdfwvyq", // research
-  "01hyd6qeqv71dyhcd3356q31sy", // projects
-  //"01hz1r7654ptzs2tys6qxtv01m", // about
-];
-
-const getHomePanels = async (
-  { lang }: { lang: string },
-) =>
-  (await getPanelsByIds(homePanelIds)).map((panel) =>
-    deintlPanel({ panel, lang })
-  );
-
-const toImageCard =
-  ({ theme, backdrop }: { theme?: string; backdrop?: boolean } = {}) =>
-  (
-    n,
-    i,
-  ) => ({
-    ...n,
-    image: {
-      url: cloudinaryUrl(
-        extractId(n.img) as string,
-        i === 0 ? { ar: "3:1", w: 512 } : { ar: "3:1", w: 512 },
-      ),
-    },
-    backdrop,
-    theme,
-  });
 
 // export const handler: Handlers = {
 //   async GET(req, ctx) {
@@ -106,13 +61,18 @@ export default defineRoute(async (req, ctx) => {
   const _newsInAltLang = _news?.filter((n) => sitelang !== n.hreflang);
 
   const newsInAltLang = _newsInAltLang
-    ?.map(toImageCard());
+    ?.map(imageCardFromPanel());
 
   const hero = await getPanelInLang({ id: ID_HOME_HERO, lang });
+  hero.image.cloudinary = "11o3yoqtwbhhg9zfusu56s";
+  hero.backdrop = false;
+  hero.image.ar = "5:2";
+  hero.image.url =
+    "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,q_auto:good,w_1782,ar_5:2/11o3yoqtwbhhg9zfusu56s";
 
   //const sticky = news?.slice(5, 6); //await getSticky(["page", "home"]);
 
-  const panels = (await getHomePanels({ lang })).map((
+  const panels = (await getCollectionPanels({ lang })).map((
     { intro, ...withoutIntro },
   ) => withoutIntro);
 

@@ -5,19 +5,19 @@ import { Section } from "akvaplan_fresh/components/section.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
 
 export const config: RouteConfig = {
-  routeOverride: "/:lang(no|en)/:page(addresses|map|adresser|kart)",
+  routeOverride: "/:lang(no|en)/:page(addresses|offices|adresser|kontor)",
 };
 
 export const addressesBase = (lang: string) => {
   switch (lang) {
     case "en":
-      return "/en/map";
+      return "/en/offices";
     default:
-      return "/no/kart";
+      return "/no/kontor";
   }
 };
 
-export default function AddressesMapPage(_req: Request, _ctx: RouteContext) {
+export default function OfficesPage(_req: Request, _ctx: RouteContext) {
   return (
     <Page title={t("company.Offices")} collection="home">
       <Section>

@@ -58,6 +58,7 @@ export default function GroupedSearch(
     noInput = false,
     exact = false,
     action = `/${lang}/search`,
+    autofocus = true,
   }: {
     term?: string;
     lang?: string;
@@ -210,7 +211,7 @@ export default function GroupedSearch(
           }}
         >
           <InputSearch
-            autofocus
+            autofocus={autofocus}
             name="q"
             placeholder={t("ui.search.site.Search")}
             label="Søk i Akvaplan-niva (folk, tjenester, forskningstema, prosjekter, nyheter, publikasjoner, dokumenter, media)"

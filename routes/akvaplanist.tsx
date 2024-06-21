@@ -1,3 +1,4 @@
+// FIXME I hereby declare, this is the most messy code ever…needs a total refactor
 // FIXME akvaplanist.tsx – add noindex,nofollow on anything but root route to avoid search engine clutter
 // @todo inspiration/link: https://openalex.org/works?sort=publication_date%3Adesc&column=display_name,publication_year,type,open_access.is_oa,cited_by_count&page=1&filter=authorships.author.id%3AA5053761479
 // https://openalex.org/authors/A5053761479
@@ -9,21 +10,16 @@ import {
   cristinAppWorksURL,
   findAkvaplanistInCristin,
   getAkvaplanists,
-  //groupByChar0,
-  getAugmentedAkvaplanists,
+  intlRouteMap,
   offices,
   priorAkvaplanistID,
   pubsFromPersonGroupedByYear,
 } from "akvaplan_fresh/services/mod.ts";
 
 import {
-  ApnSym,
   ArticleSquare,
   Card,
-  CollectionHeader,
-  GroupedPeople,
   HScroll,
-  NewsFilmStrip,
   OfficeCard,
   OnePersonGroup,
   Page,
@@ -47,10 +43,8 @@ import { Head } from "$fresh/runtime.ts";
 import { priorAkvaplanists } from "../services/prior_akvaplanists.ts";
 
 import { search } from "akvaplan_fresh/search/search.ts";
-import { Section } from "../components/section.tsx";
-import { MainContacts } from "akvaplan_fresh/components/offices.tsx";
-import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 import { getPanelInLang, ID_PEOPLE } from "akvaplan_fresh/kv/panel.ts";
+import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 
 interface AkvaplanistsRouteProps {
   people: Akvaplanist[];
@@ -346,6 +340,8 @@ export default function Akvaplanists(
         <link rel="stylesheet" href="/css/akvaplanist.css" />
       </Head>
 
+      <ImagePanel {...hero} />
+
       {group === "workplace" && office && (
         <section class="page-header">
           <H1ATitle
@@ -374,7 +370,7 @@ export default function Akvaplanists(
 
       {filter?.length > 0 ? <OnePersonGroup members={results} /> : (
         <>
-          <h1>{t("our.people")}</h1>
+          {/* <h1>{t("our.people")}</h1> */}
           {
             /* <Section>
             <h2 style={{ fontWeight: "900" }}>
@@ -387,7 +383,7 @@ export default function Akvaplanists(
           <GroupedSearch
             lang={lang}
             origin={origin}
-            action={`/lang/${"folk"}`}
+            action={intlRouteMap(lang).get("akvaplanists")}
             collection={"person"}
             term={q}
           />

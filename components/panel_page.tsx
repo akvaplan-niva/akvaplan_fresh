@@ -20,10 +20,7 @@ export const PanelPage = (
         lang={lang}
         editor={editor}
       />
-    </Section>
-
-    {panel?.intro && (
-      <Section>
+      {panel?.intro && (
         <Card>
           <p id="intro">
             <Markdown
@@ -32,8 +29,8 @@ export const PanelPage = (
             />
           </p>
         </Card>
-      </Section>
-    )}
+      )}
+    </Section>
 
     <Section>
       <Card>
@@ -69,6 +66,7 @@ export const PanelPage = (
         exclude={["person", "image", "document", "blog", "pubs"]}
         origin={url}
         threshold={0.5}
+        limit={3}
         noInput
       />
     </Section>

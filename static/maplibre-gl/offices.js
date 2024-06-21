@@ -29,84 +29,102 @@ const nonHq = [Alta, Bergen, Bodø, Oslo, Trondheim, Reykjavík, Ski, Sortland]
     toFeature,
   );
 
-const map = new maplibregl.Map({
-  container: "map",
-  style: CARTO_BASEMAPS.DARK_MATTER_NOLABELS,
-  center: [13.5, 64.5],
-  zoom: 3.5,
+const createIconImageLayerProps = (id, marker, size) => ({
+  id,
+  "type": "symbol",
+  "source": id,
+  "layout": {
+    "icon-image": marker,
+    "icon-size": size,
+  },
 });
-// Shared name display popup
-const popup = new maplibregl.Popup({
-  closeButton: false,
-  closeOnClick: true,
-});
-const logo = await map.loadImage(
-  // works: "data:image/png;base64,iVBOR
-  `/akvaplan_symbol_dark.png`,
-);
-const symbol = await map.loadImage(
-  `/akvaplan_symbol_dark.png`,
-);
 
 const popupHtml = (f, lang) =>
   `<div color-scheme="light" style="font-family: Roboto Flex, sans-serif;
-     color: var(--text1); 
-     background: var(--surface1);
-     font-size: 1rem;
-     font-weight: 700;
-  ">
-  <a href="/${lang}/folk/workplace/${f.properties.where}">${f.properties.where}</a>
+   color: var(--text1); 
+   background: var(--surface1);
+   font-size: 1rem;
+   font-weight: 700;
+">
+<a href="/${lang}/folk/workplace/${f.properties.where}">${f.properties.where}</a>
 </div>`;
 
-map.on("load", () => {
-  map.addImage("logo-marker", logo.data);
+const createOfficesMap = async (config) => {
+  const map = new maplibregl.Map(config);
 
-  map.addImage("symbol-marker", symbol.data);
+  map.scrollZoom.disable();
 
-  map.addSource("offices-layer", {
-    "type": "geojson",
-    data: { "type": "FeatureCollection", features: nonHq },
+  const popup = new maplibregl.Popup({
+    closeButton: false,
+    closeOnClick: true,
   });
 
-  map.addSource("hq-layer", {
-    "type": "geojson",
-    data: { "type": "FeatureCollection", features: hq },
-  });
-
-  const createIconImageLayerProps = (id, marker, size) => ({
-    id,
-    "type": "symbol",
-    "source": id,
-    "layout": {
-      "icon-image": marker,
-      "icon-size": size,
-    },
-  });
-
-  map.addLayer(
-    createIconImageLayerProps("offices-layer", "symbol-marker", 0.125),
+  // const logo = await map.loadImage(
+  //   // works: "data:image/png;base64,iVBOR
+  //   `/akvaplan_logo_dark.png`,
+  // );
+  const symbol = await map.loadImage(
+    `/akvaplan_symbol_dark.png`,
   );
-  map.addLayer(createIconImageLayerProps("hq-layer", "logo-marker", 0.3));
+  const logo = symbol;
 
-  const onHoverShowPopup = (e) => {
-    map.getCanvas().style.cursor = "pointer";
+  map.on("load", () => {
+    map.addImage("logo-marker", logo.data);
 
-    const coordinates = e.features[0].geometry.coordinates;
+    map.addImage("symbol-marker", symbol.data);
 
-    // Ensure that if the map is zoomed out such that multiple
-    // copies of the feature are visible, the popup appears
-    // over the copy being pointed to.
-    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-    }
-    const { pathname } = new URL(document.URL);
-    const lang = pathname.slice(1, 3);
-    popup.setLngLat(coordinates).setHTML(
-      popupHtml(e.features[0], lang),
-    ).addTo(map);
-  };
+    map.addSource("offices-layer", {
+      "type": "geojson",
+      data: { "type": "FeatureCollection", features: nonHq },
+    });
 
-  map.on("mouseenter", "offices-layer", onHoverShowPopup);
+    map.addSource("hq-layer", {
+      "type": "geojson",
+      data: { "type": "FeatureCollection", features: hq },
+    });
 
-  map.on("mouseenter", "hq-layer", onHoverShowPopup);
-});
+    map.addLayer(
+      createIconImageLayerProps("offices-layer", "symbol-marker", 0.125),
+    );
+    map.addLayer(createIconImageLayerProps("hq-layer", "logo-marker", 0.3));
+
+    const onHoverShowPopup = (e) => {
+      map.getCanvas().style.cursor = "pointer";
+
+      const [office] = e?.features ?? [];
+      if (office) {
+        const { coordinates } = office.geometry;
+
+        // Ensure that if the map is zoomed out such that multiple
+        // copies of the feature are visible, the popup appears
+        // over the copy being pointed to.
+        // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        //   coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        // }
+        const { pathname } = new URL(document.URL);
+        const lang = pathname.slice(1, 3);
+        popup
+          .setLngLat(coordinates)
+          .setHTML(
+            popupHtml(office, lang),
+          ).addTo(map);
+      }
+    };
+
+    map.on("mouseenter", "offices-layer", onHoverShowPopup);
+
+    map.on("mouseenter", "hq-layer", onHoverShowPopup);
+  });
+};
+
+document.onreadystatechange = () => {
+  if (document.readyState === "complete") {
+    createOfficesMap({
+      container: "map",
+      style: CARTO_BASEMAPS.DARK_MATTER_NOLABELS,
+      center: [13.5, 64.5],
+      zoom: 3.5,
+      dragPan: false,
+    });
+  }
+};
