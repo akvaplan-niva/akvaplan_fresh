@@ -16,7 +16,7 @@ export default async function VideoPage(req: Request, ctx: RouteContext) {
   const { slug } = ctx.params;
   const id = extractId(slug);
   const video = await getVideo(Number(id));
-  console.warn(video.embed);
+
   if (!video) {
     return ctx.renderNotFound();
   }

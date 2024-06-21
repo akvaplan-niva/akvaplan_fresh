@@ -35,7 +35,7 @@ export const atomizePanel = async (panel: Panel) => {
     ...panel,
     id,
     collection,
-    people,
+    people: people ?? [],
     published: (created ?? modified) as string,
     text: JSON.stringify(rest),
     "intl": {

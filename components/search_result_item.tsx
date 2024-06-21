@@ -30,7 +30,7 @@ export const SearchResultItem = (
 ) => {
   const {
     id,
-    href,
+    //href,
     collection,
     title,
     subtitle,
@@ -59,6 +59,18 @@ export const SearchResultItem = (
 
   const img = _img ?? img512 ?? thumb ?? document.img;
 
+  const href = intl && intl?.href?.[lang]?.length > 3
+    ? intl.href[lang]
+    : _href({
+      id,
+      slug,
+      collection,
+      hreflang,
+      title,
+      authors,
+      etal,
+    });
+
   return (
     <li
       title={score}
@@ -69,6 +81,7 @@ export const SearchResultItem = (
         background: "var(--surface0)",
       }}
     >
+      {JSON.stringify(intl)}
       <div
         style={{
           display: "grid",
@@ -81,15 +94,7 @@ export const SearchResultItem = (
           ? (
             <a
               style={{ placeContent: "center" }}
-              href={href ?? _href({
-                id,
-                slug,
-                collection,
-                hreflang,
-                title,
-                authors,
-                etal,
-              })}
+              href={href}
             >
               <img
                 width="148"
@@ -103,19 +108,12 @@ export const SearchResultItem = (
 
         <MiniCard style={{ placeContent: "center" }}>
           <a
-            href={href ?? _href({
-              id,
-              slug,
-              collection,
-              lang,
-              title,
-              authors,
-              etal,
-            })}
+            href={href}
           >
             <p
               dangerouslySetInnerHTML={{ __html: name }}
             />
+
             {"person" === collection && (
               <svg class="icon" width="1rem" height="1rem">
                 <use href="#akvaplan_symbol"></use>
