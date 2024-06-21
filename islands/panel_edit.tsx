@@ -141,7 +141,7 @@ export const PanelEditIsland = (
             path={``}
             legend={t("ui.internal")}
             object={panel}
-            //disabled
+            disabled
           />
         )}
 

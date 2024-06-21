@@ -1,4 +1,4 @@
-import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
+import { t } from "akvaplan_fresh/text/mod.ts";
 
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import { Section } from "akvaplan_fresh/components/section.tsx";
@@ -8,6 +8,7 @@ import {
   getPanelInLang,
   getPanelsInLang,
   ID_ABOUT,
+  ID_HOME_HERO,
   ID_PEOPLE,
   mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
@@ -20,18 +21,18 @@ import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { MainOffice, Offices } from "akvaplan_fresh/components/offices.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
-import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 import { addressesBase } from "akvaplan_fresh/routes/offices.tsx";
+import { Naked } from "akvaplan_fresh/components/naked.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
     "/:lang(en|no)/:page(about|about-us|company|om|om-oss|selskapet)",
 };
 
-const getHero = async (lang: string) =>
+const getAboutHero = async (lang: string) =>
   await getPanelInLang({ id: ID_ABOUT, lang });
 
-const getPanels = async (lang: string) =>
+const getAboutPanels = async (lang: string) =>
   await getPanelsInLang({
     lang,
     filter: (
@@ -39,11 +40,6 @@ const getPanels = async (lang: string) =>
     ) => ([ID_PEOPLE].includes(id) ||
       "company" === collection && id !== ID_ABOUT),
   });
-
-// const getPanels = async (lang: string) =>
-//   (await getPanelsByIds([accred, people])).map((panel) =>
-//     deintlPanel({ panel, lang })
-//   );
 
 export default defineRoute(async (req, ctx) => {
   const { params, url } = ctx;
@@ -54,40 +50,26 @@ export default defineRoute(async (req, ctx) => {
 
   const base = `/${params.lang}/${params.page}/`;
 
-  const hero = await getHero(lang);
+  const hero = await getAboutHero(lang);
 
-  const panels = await getPanels(lang);
+  const panels = await getAboutPanels(lang);
 
   const editor = await mayEditKvPanel(req);
 
-  const globus = {
-    title: "Hvor er vi?",
-    url: "/img/globus.png",
-  };
-
   return (
     <Page title={title} base={base} lang={lang}>
-      <ImagePanel {...{ ...hero, intro: "" }} lang={lang} />
-      {hero?.intro && <Markdown text={hero.intro} />}
+      <ImagePanel {...{ ...hero, intro: "" }} lang={lang} editor={editor} />
+
       <Section>
-        <MainOffice lang={lang} />
-        <p style={{ fontSize: "1rem" }}>
-          {t("company.Offices.List_intro")} (
-          <a
-            href={addressesBase(lang)}
-          >
-            {t("company.adresses_map")}
-          </a>)
-        </p>
+        <div style={{ padding: ".5rem" }}>
+          <Markdown text={hero.intro} />
+          <MainOffice lang={lang} />
+        </div>
+
+        <Card>
+          <Markdown text={hero.desc} style={{ fontSize: "1rem" }} />
+        </Card>
       </Section>
-      <Section>
-        <div id="map" style={{ height: "600px" }}></div>
-      </Section>
-      <script type="module" src="/maplibre-gl/offices.js" />
-      <link
-        rel="stylesheet"
-        href="https://esm.sh/maplibre-gl@4.4.1/dist/maplibre-gl.css"
-      />
 
       <section class="Section block-center-center">
         <div class="Container content-3">
@@ -107,10 +89,13 @@ export default defineRoute(async (req, ctx) => {
       </section>
 
       <Section>
-        <Card>
-          {hero?.desc && <Markdown text={hero.desc} />}
-        </Card>
+        <div id="map" style={{ height: "600px" }}></div>
       </Section>
+      <script type="module" src="/maplibre-gl/offices.js" />
+      <link
+        rel="stylesheet"
+        href="https://esm.sh/maplibre-gl@4.4.1/dist/maplibre-gl.css"
+      />
 
       <Section>
         <h2 style={{ fontWeight: "900" }}>

@@ -145,9 +145,9 @@ export const SearchResultItem = (
                 : [
                   document.position[lang],
                   t(`section.${document.section}`),
-                  document.workplace,
-                  published.substring(0, 7),
-                ].join(" | ")
+                  // document.workplace,
+                  // published.substring(0, 7),
+                ].join(", ")
               : null}
 
             {!["image", "person"].includes(collection) && hreflang &&

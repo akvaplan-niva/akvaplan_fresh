@@ -16,19 +16,14 @@ const allowedTags = [
 const sanitizeOptions: SanitizeOptions = { allowedTags };
 
 const style = `@layer markdown {
-
+  .markdown { font-size: 1rem; margin: "0 auto"; font-family: inherit; white-space: pre-wrap; }
 
   .markdown p { padding: 0.5 1rem; }
+
   .markdown h2 { font-weight: 800; margin: 1rem 0; }
-  .markdown li {
-    margin-left: 1.5rem;
-    list-style-type: square;
-  }
-}
-
-
-
-`;
+  
+  .markdown li { margin-left: 1.5rem; list-style-type: square; }
+}`;
 
 const defaultConverterOptions: ConverterOptions = {
   openLinksInNewWindow: true,
@@ -53,8 +48,6 @@ export const Markdown = (
 
       <div
         class="markdown"
-        style={{ margin: "0 auto", fontFamily: "inherit" }}
-        {...props}
         dangerouslySetInnerHTML={{
           __html,
         }}

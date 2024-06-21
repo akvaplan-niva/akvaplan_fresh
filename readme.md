@@ -69,6 +69,18 @@ deno_kv_database=https://api.deno.com/databases/$preview/connect
 DENO_KV_ACCESS_TOKEN=
 ```
 
+## Namespaces
+
+```
+["@","config"]
+["@","config"]
+["page","home"]
+["panel","01hwq488byaejre7jt7fq12c4p"]
+["rights","kv"]
+["rights","kv"]
+["rights","kv"]
+```
+
 ### Permissions
 
 Rights are set using a system, resource, email list, with permitted actions
@@ -85,6 +97,8 @@ Export/seed
 ```sh
 ./bin/kv_list '["panel"]' |  nd-map d.value > data/seed/panels.ndjson
 deno task kv-seed
+
+# h$ ./bin/kv_list '[]' | nd-filter '!/(mynewsdesk|avatar|sessions)/.test(JSON.stringify(d.key))' > data/kv_export/2024-06-20.ndjson
 ```
 
 From research topics

@@ -19,13 +19,13 @@ interface Data {
 }
 
 export const config: RouteConfig = {
-  routeOverride: "/:lang(en|no)/:page(_|search|sok|s)",
+  routeOverride: "/:lang(en|no)/:page(_|search|sok)",
 };
 
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
     const { params } = ctx;
-    lang.value = params.lang;
+
     const title = t("nav.Search");
     const base = `/${params.lang}/${params.page}/`;
 
@@ -34,7 +34,7 @@ export const handler: Handlers = {
     const { origin } = new URL(req.url);
     const results = await search({ term: q });
     const data = { lang, title, base, q, origin, results };
-    console.warn(data);
+
     return ctx.render(data);
   },
 };
@@ -48,7 +48,7 @@ export default function Search(
         lang={lang}
         term={q}
         origin={origin}
-        results={results}
+        //results={results}
       />
     </Page>
   );
