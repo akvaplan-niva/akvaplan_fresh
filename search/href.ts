@@ -66,8 +66,6 @@ const localizedRouteForSearchAtom = (
 export const href = (
   atom: OramaAtom & { hreflang?: "string" },
 ) => {
-  console.warn(atom);
-
   const url = !globalThis.Deno && globalThis.document
     ? document.URL
     : undefined;

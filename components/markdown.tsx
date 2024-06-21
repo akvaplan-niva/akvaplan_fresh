@@ -26,7 +26,7 @@ const style = `@layer markdown {
 }`;
 
 const defaultConverterOptions: ConverterOptions = {
-  openLinksInNewWindow: true,
+  //openLinksInNewWindow: true,
 };
 
 export const Markdown = (

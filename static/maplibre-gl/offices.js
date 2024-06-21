@@ -3,6 +3,17 @@
 import maplibregl from "https://esm.sh/maplibre-gl@4.4.1/dist/maplibre-gl.js";
 import { CARTO_BASEMAPS } from "./CARTO_BASEMAPS.js";
 
+const getZoom = () =>
+  document.querySelector(":root").clientWidth < 1024 ? 2 : 3.5;
+
+const officesMapConfig = {
+  container: "map",
+  style: CARTO_BASEMAPS.DARK_MATTER_NOLABELS,
+  center: [9, 64.5],
+  zoom: getZoom(),
+  dragPan: false,
+};
+console.warn();
 // Locations from https://nominatim.openstreetmap.org/ui/search.html?street=&city=&country=Norway&postalcode=&accept-language=no
 const Alta = ["Alta", [23.27543, 69.96680]];
 const Bergen = ["Bergen", [5.323333, 60.3925]];
@@ -119,12 +130,6 @@ const createOfficesMap = async (config) => {
 
 document.onreadystatechange = () => {
   if (document.readyState === "complete") {
-    createOfficesMap({
-      container: "map",
-      style: CARTO_BASEMAPS.DARK_MATTER_NOLABELS,
-      center: [13.5, 64.5],
-      zoom: 3.5,
-      dragPan: false,
-    });
+    createOfficesMap(officesMapConfig);
   }
 };

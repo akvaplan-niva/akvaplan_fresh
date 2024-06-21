@@ -81,7 +81,6 @@ export const SearchResultItem = (
         background: "var(--surface0)",
       }}
     >
-      {JSON.stringify(intl)}
       <div
         style={{
           display: "grid",
