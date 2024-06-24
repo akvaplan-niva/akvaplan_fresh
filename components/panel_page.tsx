@@ -15,11 +15,20 @@ export const PanelPage = (
 ) => (
   <Page base={base} title={panel.title} collection={collection}>
     <Section style={{ display: "grid", placeItems: "center" }}>
-      <ImagePanel
-        {...{ ...panel, intro: "" }}
-        lang={lang}
-        editor={editor}
-      />
+      {panel?.image?.cloudinary
+        ? (
+          <ImagePanel
+            {...{ ...panel, intro: "" }}
+            lang={lang}
+            editor={editor}
+          />
+        )
+        : (
+          <header>
+            <h1>{panel.title}</h1>
+            {panel?.image?.url && <img src={panel.image.url} />}
+          </header>
+        )}
       {panel?.intro && (
         <Card>
           <p id="intro">
@@ -60,7 +69,8 @@ export const PanelPage = (
       </div>
     </Section>
 
-    <Section>
+    {
+      /* <Section>
       <GroupedSearch
         term={panel.title?.replace("–", " ")}
         exclude={["person", "image", "document", "blog", "pubs"]}
@@ -69,7 +79,9 @@ export const PanelPage = (
         limit={3}
         noInput
       />
-    </Section>
+    </Section> */
+    }
+
     <Head>
       <link rel="stylesheet" href={asset("/css/bento.css")} />
     </Head>

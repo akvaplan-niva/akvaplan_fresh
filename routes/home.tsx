@@ -97,9 +97,10 @@ export default defineRoute(async (req, ctx) => {
       ))} */
       }
 
-      <Section style={{ display: "grid", placeItems: "center", width: "100%" }}>
+      <div style={{ display: "grid", placeItems: "center" }}>
         <ImagePanel {...hero} lang={lang} editor={authorized} />
-      </Section>
+      </div>
+      <Section />
 
       <Section>
         <CollectionHeader collection="news" />

@@ -33,9 +33,7 @@ export function PictureOverlay({
       <header class="mega-header" color-scheme={theme}>
         <WideImage {...image} />
 
-        <h3 class="mega-heading">
-          {backdrop ? <span class="backdrop-blur">{title}</span> : title}
-        </h3>
+        <h2 class="mega-heading backdrop-blur">{title}</h2>
 
         <p class="wide-image-card-upper"></p>
 
@@ -240,7 +238,8 @@ export const HeroPanel = (
         display: "grid",
         gridTemplateColumns: "1fr",
         gap: "0.5rem",
-        fontSize: "var(--size-fluid-3)",
+        fontSize: "var(--size-fluid-4)",
+        fontWeight: "900",
       }}
     >
       <a href={`/${lang}`}>

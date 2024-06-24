@@ -58,7 +58,9 @@ export default defineRoute(async (req, ctx) => {
 
   return (
     <Page title={title} base={base} lang={lang}>
-      <ImagePanel {...{ ...hero, intro: "" }} lang={lang} editor={editor} />
+      <div style={{ display: "grid", placeItems: "center", width: "100%" }}>
+        <ImagePanel {...{ ...hero, intro: "" }} lang={lang} editor={editor} />
+      </div>
 
       <Section>
         <div style={{ padding: ".5rem" }}>
@@ -87,6 +89,8 @@ export default defineRoute(async (req, ctx) => {
           </div>
         </div>
       </section>
+
+      <Section />
 
       <Section>
         <div id="map" style={{ height: "600px" }}></div>

@@ -77,7 +77,11 @@ export const BentoPanel = (
         )}
       </div>
       <div class="Content block-center-start gap-1">
-        {panel.title ?? ""}
+        <h2
+          style={{ color: "var(--text1)", fontSize: "1.4rem" }}
+        >
+          {panel.title ?? ""}
+        </h2>
 
         {editor && (
           <p>

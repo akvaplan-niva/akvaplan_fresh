@@ -7,7 +7,7 @@ import { lang, t } from "akvaplan_fresh/text/mod.ts";
 
 import { CollectionHeader, Page } from "akvaplan_fresh/components/mod.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-import { Mini4ColGrid } from "akvaplan_fresh/components/Mini3ColGrid.tsx";
+
 import { Section } from "../components/section.tsx";
 import { ResearchIntro } from "../components/ResearchIntro.tsx";
 
