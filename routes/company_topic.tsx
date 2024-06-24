@@ -55,7 +55,7 @@ export default defineRoute(async (req, ctx) => {
   return (
     <PanelPage
       base={base}
-      collection={"services"}
+      collection={"company"}
       panel={panel}
       lang={lang}
       editor={editor}
