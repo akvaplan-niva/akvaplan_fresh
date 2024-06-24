@@ -45,8 +45,8 @@
 .backdrop-blur {
   color: var(--text1);
   backdrop-filter: blur(12px);
-  background-color: var(--surface0_backdrop);
-}
+  /* background-color: var(--surface0_backdrop);*/
+} 
 
 .article-header img {
   width: 100%;
