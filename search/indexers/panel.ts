@@ -1,20 +1,20 @@
 import { deintlPanel, getPanelList } from "akvaplan_fresh/kv/panel.ts";
+
+import { insert } from "@orama/orama";
+
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
-import { insert } from "@orama/orama";
-import { id0, imageFilter } from "akvaplan_fresh/services/mod.ts";
+import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
 
-export const indexPanels = async (orama: OramaAtomSchema) => {
-  //let n = 0;
-  for await (const { value } of getPanelList()) {
-    const panel = deintlPanel({ panel: value, lang: "no" });
-    const { draft, collection } = panel;
-    if (draft !== true && !["infra"].includes(collection)) {
-      //++n;
-      await insert(orama, await atomizePanel(value));
-    }
-  }
-  //console.warn(`Indexed ${n} panels`);
+const peopleNames = async (
+  people_ids: string,
+) => {
+  const ids = people_ids?.trim().split(",");
+  const people = (await Array.fromAsync(ids.map(getAkvaplanist))).filter((
+    maybe,
+  ) => maybe).map(({ given, family }) => `${given} ${family}`);
+
+  return people;
 };
 
 export const atomizePanel = async (panel: Panel) => {
@@ -22,7 +22,7 @@ export const atomizePanel = async (panel: Panel) => {
     id,
     image,
     collection,
-    people,
+    people_ids,
     created_by,
     modified_by,
     created,
@@ -31,11 +31,16 @@ export const atomizePanel = async (panel: Panel) => {
   } = panel;
   const { cloudinary, url } = image;
 
+  const people = people_ids?.length > 2 ? await peopleNames(people_ids) : [];
+
+  if (people.length === 0 && people_ids) {
+    console.warn({ id, collection, people_ids }, panel.intl.no.title, people);
+  }
   const atom: OramaAtom = {
     ...panel,
     id,
     collection,
-    people: people ?? [],
+    people,
     published: (created ?? modified) as string,
     text: JSON.stringify(rest),
     "intl": {
@@ -49,4 +54,17 @@ export const atomizePanel = async (panel: Panel) => {
     atom.cloudinary = cloudinary;
   }
   return atom;
+};
+
+export const indexPanels = async (orama: OramaAtomSchema) => {
+  //let n = 0;
+  for await (const { value } of getPanelList()) {
+    const panel = deintlPanel({ panel: value, lang: "no" });
+    const { draft, collection } = panel;
+    if (draft !== true && !["infra"].includes(collection)) {
+      //++n;
+      await insert(orama, await atomizePanel(value));
+    }
+  }
+  //console.warn(`Indexed ${n} panels`);
 };

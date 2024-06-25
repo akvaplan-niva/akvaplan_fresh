@@ -264,7 +264,7 @@ export const getItem = async <T = MynewsdeskArticle>(
   if (who === "KV") {
     controller.abort();
   }
-  console.warn(winner);
+  //console.warn(winner);
   return (winner ?? _api) as T;
 };
 
@@ -274,7 +274,7 @@ export const getItemFromKv = async <T>(
 ): Promise<T | undefined> => {
   const kv = await openKv();
   const key = [id0, type_of_media, id];
-  console.warn({ key });
+  //console.warn({ key });
 
   const { value, versionstamp } = await kv.get<T>(key);
   if (versionstamp) {

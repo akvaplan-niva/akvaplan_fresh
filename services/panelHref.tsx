@@ -1,5 +1,4 @@
 export const _no = (c: string) => {
-  console.warn({ c });
   switch (c) {
     case "research":
       return "forskning";

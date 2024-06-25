@@ -21,6 +21,7 @@ export const PanelPage = (
             {...{ ...panel, intro: "" }}
             lang={lang}
             editor={editor}
+            maxHeight={"86vh"}
           />
         )
         : (
