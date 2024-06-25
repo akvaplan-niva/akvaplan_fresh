@@ -66,12 +66,12 @@ export const handler: Handlers<SlimPublication> = {
 
     const slim = { ...slimFromCrossref(xr), doi };
 
-    const response = await putSlimPublication(
-      slim,
-      Deno.env.get("AKVAPLAN_DOIS_AUTHORIZATION") ?? "",
-    );
-    const { status } = response;
-    console.warn({ doi, status, response });
+    // const response = await putSlimPublication(
+    //   slim,
+    //   Deno.env.get("AKVAPLAN_DOIS_AUTHORIZATION") ?? "",
+    // );
+    // const { status } = response;
+    // console.warn({ doi, status, response });
     // if (201===status)
 
     // add to corpus
@@ -178,15 +178,15 @@ export default function DoiPublication(
         <p style="display:grid; grid-gap: 0.25rem; grid-template-columns: 48px auto; align-items: center;">
           <Icon name="sms_failed" />
           <span>
-            This work is not part of Akvaplan-niva's
-            corpus{akvaplanDetectedByOpenAlex?.length > 0
-              ? `, but the following (${akvaplanDetectedByOpenAlex.length}) are affiliated with Akvaplan-niva in OpenAlex: ${
-                akvaplanDetectedByOpenAlex.join(", ")
-              }`
-              : ``}
+            This work is not part of Akvaplan-niva's corpus
           </span>
         </p>
       )}
+      {akvaplanDetectedByOpenAlex?.length > 0
+        ? `The following authors (n=${akvaplanDetectedByOpenAlex.length}) are affiliated with Akvaplan-niva in OpenAlex: ${
+          akvaplanDetectedByOpenAlex.join(", ")
+        }`
+        : ``}
       <p class="pill">{t(`type.${type}`)}</p>
       <article>
         <Card>

@@ -32,7 +32,7 @@ export default function ArticleHeader({
           style="transition: opacity 12s ease-in-out;"
         />
         <h1>
-          <span class="backdrop-blur">{header}</span>
+          <span class="backdrop-hard">{header}</span>
         </h1>
       </header>
       <figure style={_caption}>

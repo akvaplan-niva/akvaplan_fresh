@@ -42,10 +42,14 @@
   padding: var(--size-2);
 }
 
+.backdrop-hard {
+  color: var(--text1);
+  background-color: var(--surface0_backdrop);
+} 
+
 .backdrop-blur {
   color: var(--text1);
   backdrop-filter: blur(12px);
-  /* background-color: var(--surface0_backdrop);*/
 } 
 
 .article-header img {

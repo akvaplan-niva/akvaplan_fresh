@@ -108,8 +108,7 @@ export const buildPersonalSocialMediaLinks = (akvaplanist: Akvaplanist) => {
     {
       name: `OpenAlex (${name})`,
       href: `https://openalex.org/authors/${openalex}`,
-      "icon":
-        "https://openalex.org/img/openalex-logo-icon-black-and-white.ea51cede.png",
+      "icon": "/icon/logo/openalex.png",
     },
   ].filter((ident) => ![undefined, null].includes(ident));
 };

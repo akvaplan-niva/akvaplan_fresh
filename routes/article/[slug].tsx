@@ -205,8 +205,6 @@ export default function NewsArticle(
   return (
     <Page title={header} collection="news">
       <Head>
-        <link rel="stylesheet" href={asset("/css/hscroll.css")} />
-        <script src={asset("/@nrk/core-scroll.min.js")} />
       </Head>
       <Article language={language}>
         <AltLangInfo

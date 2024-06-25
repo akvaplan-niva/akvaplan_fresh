@@ -102,7 +102,6 @@ export default function News(
         <link rel="stylesheet" href={asset("/css/akvaplanist.css")} />
         <link rel="stylesheet" href={asset("/css/hscroll.css")} />
         <link rel="stylesheet" href={asset("/css/article.css")} />
-        <script src={asset("/@nrk/core-scroll.min.js")} />
       </Head>
     </Page>
   );
