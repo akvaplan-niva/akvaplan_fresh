@@ -2,7 +2,7 @@
 import { getLatestAkvaplanWorks } from "akvaplan_fresh/services/cristin.ts";
 import { Page } from "akvaplan_fresh/components/page.tsx";
 
-import { defineRoute } from "$fresh/server.ts";
+import { defineRoute, RouteConfig } from "$fresh/server.ts";
 import {
   CristinWorksGrouped,
   groupByCategory,
@@ -12,10 +12,17 @@ import {
   getDoisFromDenoDeployService,
 } from "akvaplan_fresh/services/dois.ts";
 import { CristinListItem } from "akvaplan_fresh/components/cristin_list.tsx";
+import { countAkvaplanistAuthors } from "akvaplan_fresh/services/mod.ts";
+import { doiPublicationUrl } from "akvaplan_fresh/services/nav.ts";
 
 const NO_DOI = "NO_DOI_IN_CRISTIN";
 
+export const config: RouteConfig = {
+  routeOverride: "{/:lang(en|no)}?/doi/cristin",
+};
+
 export default defineRoute(async (_r, ctx) => {
+  const { lang } = ctx.params;
   const params = { per_page: 9999 };
   const category = ctx.url.searchParams.get("category") ?? undefined;
   if (category) {
@@ -37,23 +44,31 @@ export default defineRoute(async (_r, ctx) => {
 
   const akvaplanDois = new Set(data.map(({ doi }) => doi));
 
-  const onlyInCristin = cristinDois.difference(akvaplanDois);
+  const _onlyCristin = cristinDois.difference(akvaplanDois);
   const onlyInAkvaplan = akvaplanDois.difference(cristinDois);
+
+  const onlyCristin = [..._onlyCristin].map((doi) =>
+    cristinWorksByDoi.get(doi)
+  );
 
   return (
     <Page>
       <details>
-        <summary>{onlyInCristin.size} works only in Cristin</summary>
+        <summary>{onlyCristin.length} works only in Cristin</summary>
         <ul>
-          {[...onlyInCristin].map((doi) => (
-            <CristinListItem work={cristinWorksByDoi.get(doi)} />
-          ))}
+          {onlyCristin.map((work) => <CristinListItem work={work} />)}
         </ul>
       </details>
 
       <details>
         <summary>{onlyInAkvaplan.size} works only in Akvaplan-niva</summary>
-        <ul>{[...onlyInAkvaplan].map((doi) => <li>{doi}</li>)}</ul>
+        <ul>
+          {[...onlyInAkvaplan].map((doi) => (
+            <li>
+              <a href={doiPublicationUrl({ doi, lang })}>{doi}</a>
+            </li>
+          ))}
+        </ul>
       </details>
 
       {/* {[...onlyInAkvaplan].map((doi) => <li>{doi}</li>)} */}

@@ -5,7 +5,7 @@ import {
   save,
 } from "akvaplan_fresh/kv/panel.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
-import { deintlPanel, genid } from "akvaplan_fresh/kv/panel.ts";
+import { genid } from "akvaplan_fresh/kv/panel.ts";
 
 import { getSessionUser } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
 import { MicrosoftUserinfo } from "akvaplan_fresh/oauth/microsoft_userinfo.ts";
@@ -15,7 +15,6 @@ import { panelHref } from "akvaplan_fresh/services/panelHref.tsx";
 import { Page } from "akvaplan_fresh/components/page.tsx";
 import { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 import { Handlers, RouteConfig } from "$fresh/server.ts";
-import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 import { PanelEditIsland } from "akvaplan_fresh/islands/panel_edit.tsx";
 import { Forbidden } from "../components/forbidden.tsx";
 import { Section } from "akvaplan_fresh/components/section.tsx";
@@ -24,7 +23,7 @@ import { defineRoute } from "$fresh/src/server/defines.ts";
 import { WideImage } from "akvaplan_fresh/components/wide_image.tsx";
 
 export const config: RouteConfig = {
-  routeOverride: "/:lang(no|en)/panel/:id/:action(edit|new)",
+  routeOverride: "/:lang(no|en)/:collection{/:slug}?/:id/:action(edit|new)",
 };
 
 const PanelEditPage = ({ panel, lang, url }) => (

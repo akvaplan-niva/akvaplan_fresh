@@ -1,4 +1,5 @@
 import { buildContainsFilter } from "akvaplan_fresh/search/filter.ts";
+import { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 
 export const DOIS_BASE = globalThis?.Deno?.env?.get("dois_base") ??
   "https://dois.deno.dev";
@@ -10,6 +11,12 @@ const defaults = {
 };
 
 const { entries } = Object;
+
+export const slimFromCrossref = (xr) => {
+  const { message, ...rest } = xr;
+  console.warn(rest);
+  return message;
+};
 
 export const extractNakedDoi = (s: string) =>
   /10./.test(s) ? "10." + s.split("10.").at(1) : undefined;
@@ -88,6 +95,19 @@ export const getSlimPublication = async (
   }
 };
 
+export const putSlimPublication = async (
+  slim: SlimPublication,
+  authorization: string,
+) => {
+  const base = Deno?.env?.get("dois_base") ?? DOIS_BASE;
+  const { doi } = slim;
+  const url = new URL(`/doi/${doi}`, base);
+  return await fetch(url.href, {
+    body: JSON.stringify(slim),
+    method: "put",
+    headers: { authorization, "content-type": "application/json" },
+  });
+};
 // for await (const person of (slim.authors ?? [])) {
 //   const { given, family } = person;
 //   person.name = `${given} ${family}`;

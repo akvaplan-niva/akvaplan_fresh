@@ -1,7 +1,7 @@
 export const _no = (c: string) => {
-  //home?
+  console.warn({ c });
   switch (c) {
-    case "resarch":
+    case "research":
       return "forskning";
     case "company":
       return "selskapet";
@@ -10,10 +10,14 @@ export const _no = (c: string) => {
   }
 };
 
+export const _en = (c: string) => {
+  return c;
+};
+
 import { slug } from "slug";
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 
 export const panelHref = ({ id, collection, title, intl }: Panel, { lang }) =>
-  `/${lang}/${lang === "en" ? collection : _no(collection)}/${
+  `/${lang}/${lang === "en" ? _en(collection) : _no(collection)}/${
     slug(title ?? intl[lang].title)
   }/${id}`;

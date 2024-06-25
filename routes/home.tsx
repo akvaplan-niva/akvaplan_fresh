@@ -98,7 +98,12 @@ export default defineRoute(async (req, ctx) => {
       }
 
       <div style={{ display: "grid", placeItems: "center" }}>
-        <ImagePanel {...hero} lang={lang} editor={authorized} />
+        <ImagePanel
+          {...hero}
+          lang={lang}
+          editor={authorized}
+          maxHeight={"80vh"}
+        />
       </div>
       <Section />
 

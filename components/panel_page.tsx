@@ -15,7 +15,7 @@ export const PanelPage = (
 ) => (
   <Page base={base} title={panel.title} collection={collection}>
     <Section style={{ display: "grid", placeItems: "center" }}>
-      {panel?.image?.cloudinary
+      {panel?.image?.cloudinary?.length > 0
         ? (
           <ImagePanel
             {...{ ...panel, intro: "" }}

@@ -3,6 +3,7 @@ import { normalize as n, tr } from "akvaplan_fresh/text/mod.ts";
 import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 import { search } from "akvaplan_fresh/search/search.ts";
+import { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 
 const akvaplanistsJsonPath = "./_fresh/akvaplanists.json";
 
@@ -309,4 +310,23 @@ export const akvaplan = {
       map: "https://goo.gl/maps/P73K9hcVKeKd7jkz5",
     },
   },
+};
+
+export const countAkvaplanistAuthors = async (slim: SlimPublication) => {
+  let current = 0;
+  let priors = 0;
+  for await (const person of (slim?.authors ?? [])) {
+    const { given, family, name } = person;
+    const cand = await findAkvaplanistViaOrama({ given, family, name });
+
+    if (cand?.id) {
+      current++;
+    } else {
+      const prior = await findPriorAkvaplanist({ given, family, name });
+      if (prior) {
+        priors++;
+      }
+    }
+  }
+  return [current, priors];
 };

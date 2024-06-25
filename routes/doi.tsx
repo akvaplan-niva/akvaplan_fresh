@@ -11,10 +11,13 @@ import {
   doiImage,
   findAkvaplanistViaOrama,
   findPriorAkvaplanist,
+  getCrossrefWork,
   getOpenAlexWork,
   getSlimPublication,
   personURL,
   pubsURL,
+  putSlimPublication,
+  slimFromCrossref,
 } from "akvaplan_fresh/services/mod.ts";
 
 import { isodate } from "akvaplan_fresh/utils/mod.ts";
@@ -35,10 +38,11 @@ import {
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 import Button from "akvaplan_fresh/components/button/button.tsx";
 
+import { countAkvaplanistAuthors } from "akvaplan_fresh/services/mod.ts";
 //import { Akvaplanist } from "../@interfaces/akvaplanist.ts";
 
 //import { Head } from "$fresh/runtime.ts";
-
+const OPENALEX_AKVAPLAN = "https://openalex.org/I4210138062";
 export const config: RouteConfig = {
   routeOverride: "{/:lang(en|no)}?/doi/:prefix/:suffix0/:extra*",
 };
@@ -50,6 +54,32 @@ const doiFromParams = (params: Record<string, string>) => {
 };
 
 export const handler: Handlers<SlimPublication> = {
+  async POST(request: Request, ctx: FreshContext) {
+    const { params } = ctx;
+    const { lang } = params;
+
+    const doi = doiFromParams(params);
+
+    const openalex = await getOpenAlexWork({ doi }) ?? { open_access: {} };
+    const xr = await getCrossrefWork({ doi }) ??
+      { open_access: {} };
+
+    const slim = { ...slimFromCrossref(xr), doi };
+
+    const response = await putSlimPublication(
+      slim,
+      Deno.env.get("AKVAPLAN_DOIS_AUTHORIZATION") ?? "",
+    );
+    const { status } = response;
+    console.warn({ doi, status, response });
+    // if (201===status)
+
+    // add to corpus
+    // remove from corpus… add to ignore in kv?
+
+    return ctx.render({ slim: { doi, ...openalex }, lang, openalex });
+  },
+
   async GET(request: Request, ctx: FreshContext) {
     const { params } = ctx;
     const lang = params.lang;
@@ -75,7 +105,7 @@ export const handler: Handlers<SlimPublication> = {
 
         person.name = name ?? `${given ?? ""} ${family}`;
         const cand = await findAkvaplanistViaOrama({ given, family, name });
-        console.warn({ cand });
+
         if (cand?.id) {
           current++;
           //console.warn({ current }, cand);
@@ -137,14 +167,23 @@ export default function DoiPublication(
   doi = doi ?? openalex?.doi?.split("doi.org/").at(1);
   cites = openalex?.cited_by_count ?? cites; // openalex is continously updated
   const hreflang = slim?.lang ?? openalex?.language ?? "en";
-
+  const akvaplanDetectedByOpenAlex = ((openalex?.authorships) ?? []).filter((
+    a,
+  ) => a.raw_affiliation_strings.some((s) => /akvaplan.niva/i.test(s))).map((
+    { author },
+  ) => author.display_name);
   return (
     <Page title={title} collection="pubs">
       {!slim && (
         <p style="display:grid; grid-gap: 0.25rem; grid-template-columns: 48px auto; align-items: center;">
           <Icon name="sms_failed" />
           <span>
-            This work is not part of Akvaplan-niva's corpus
+            This work is not part of Akvaplan-niva's
+            corpus{akvaplanDetectedByOpenAlex?.length > 0
+              ? `, but the following (${akvaplanDetectedByOpenAlex.length}) are affiliated with Akvaplan-niva in OpenAlex: ${
+                akvaplanDetectedByOpenAlex.join(", ")
+              }`
+              : ``}
           </span>
         </p>
       )}
@@ -211,11 +250,26 @@ export default function DoiPublication(
           </a>
         )}
 
+        <form method="post" style={{ display: "inline" }}>
+          {Deno.env.has("AKVAPLAN_DOIS_AUTHORIZATION") && (
+            <Button
+              style={{
+                backgroundColor: "transparent",
+                fontSize: "0.75rem",
+              }}
+            >
+              <span>Add to corpus</span>
+            </Button>
+          )}
+        </form>
+
         <div style={{ marginTop: "2rem" }} />
         <Card>
-          <h2>
-            {authors?.length > 1 ? t("pubs.Authors") : t("pubs.Author")}
-          </h2>
+          {slim && (
+            <h2>
+              {authors?.length > 1 ? t("pubs.Authors") : t("pubs.Author")}
+            </h2>
+          )}
           {current > 0 && (
             <p style={{ fontSize: "1rem" }}>
               <ApnSym width="1rem" height="1rem" /> {current > 0 && current}

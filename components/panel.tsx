@@ -15,6 +15,7 @@ export function PictureOverlay({
   image,
   theme,
   backdrop,
+  maxHeight,
 }) {
   return (
     <div>
@@ -31,7 +32,7 @@ export function PictureOverlay({
       </figure>
 
       <header class="mega-header" color-scheme={theme}>
-        <WideImage {...image} />
+        <WideImage {...image} style={{ maxHeight }} />
 
         <h2 class="mega-heading backdrop-blur">{title}</h2>
 
@@ -65,7 +66,7 @@ export const ImagePanel = (
     intro,
     id,
     lang,
-
+    maxHeight,
     editor = false,
     ...props
   },
@@ -87,6 +88,7 @@ export const ImagePanel = (
       title={title}
       theme={theme}
       backdrop={backdrop}
+      maxHeight={maxHeight}
     />
     <div
       aria-disabled="true"
@@ -243,7 +245,7 @@ export const HeroPanel = (
       }}
     >
       <a href={`/${lang}`}>
-        <ApnLogo width="192" color-scheme={theme} />
+        <ApnLogo width="192" color-scheme={"dark"} />
       </a>
       {backdrop ? <span class="backdrop-blur">{title}</span> : title}
       <EditIconButton
