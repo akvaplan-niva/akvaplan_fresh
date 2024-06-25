@@ -61,10 +61,11 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
     { family, given, name },
   ) => name ?? `${given} ${family}`) ?? [];
 
-  const people = await Array.fromAsync(
-    // @ts-ignore bail
-    pub.authors?.map(findCanonicalPersonName),
+  const asit = await pub?.authors?.map(async (p) =>
+    await findCanonicalPersonName(p)
   );
+
+  const people = asit ? await Array.fromAsync(asit) : [];
   const year = new Date(published).getFullYear();
 
   const atom: OramaAtom = {
