@@ -16,6 +16,7 @@ export const moreNav: SignalLike<Array> = computed(() =>
 const En = new Map([
   ["about", "/en/about"],
   ["akvaplanists", "/en/people"],
+  ["contact", "/en/contact"],
   ["dcat", "/en/dcat"],
   ["document", "/en/document"],
   ["documents", "/en/documents"],
@@ -43,6 +44,7 @@ const En = new Map([
 const No = new Map([
   ["about", "/no/om"],
   ["akvaplanists", "/no/folk"],
+  ["contact", "/no/kontakt"],
   ["person", "/no/folk"],
   ["blog", "/no/blog"],
   ["dcat", "/no/dcat"],

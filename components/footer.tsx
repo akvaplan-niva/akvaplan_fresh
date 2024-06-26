@@ -28,7 +28,7 @@ export function Footer({ lang }) {
       <Menu lang={lang} />
       <ul class="footer__list">
         <li class="footer__item">
-          <a href={intlRouteMap(lang).get("people")}>
+          <a href={intlRouteMap(lang).get("contact")}>
             <span>{t("nav.Contact")}</span>
           </a>
         </li>

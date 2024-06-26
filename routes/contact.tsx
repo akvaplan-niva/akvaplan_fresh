@@ -1,6 +1,6 @@
 import {
   getPanelInLang,
-  getPanelsInLang,
+  getPanelsInLangByIds,
   ID_PEOPLE,
 } from "akvaplan_fresh/kv/panel.ts";
 
@@ -22,13 +22,16 @@ export const config: RouteConfig = {
 const getPeopleHero = async (lang: string) =>
   await getPanelInLang({ id: ID_PEOPLE, lang });
 
+// Seksjoner ?
+
 const getContactPanels = async (lang: string) =>
-  await getPanelsInLang({
+  await getPanelsInLangByIds({
     lang,
-    filter: (
-      { collection, id },
-    ) => ([ID_PEOPLE].includes(id) ||
-      "contact" === collection),
+    ids: [
+      ID_PEOPLE,
+      "01j0n61jx4kx3xqwxz01yved5b",
+      "01j1a0ch6560nkkc7nb97adsb6",
+    ],
   });
 
 export default defineRoute(async (req, ctx) => {
@@ -38,20 +41,27 @@ export default defineRoute(async (req, ctx) => {
 
   return (
     <Page title={""} lang={"no"} base="/">
-      <section class="Section block-center-center">
-        <div class="Container content-3">
-          <div class="BentoGrid block gap-3">
-            {panels?.map((p) => (
-              <BentoPanel
-                panel={p}
-                lang={lang}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
+      <h1>Kontakt oss</h1>
+      <Section>
+        <MainOffice />
+      </Section>
 
       <Section>
+        <section class="Section block-center-center">
+          <div class="Container content-3">
+            <div class="BentoGrid block gap-3">
+              {panels?.map((p) => (
+                <BentoPanel
+                  panel={p}
+                  lang={lang}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      </Section>
+      {
+        /* <Section>
         <GroupedSearch
           lang={lang}
           origin={ctx.url.origin}
@@ -61,14 +71,11 @@ export default defineRoute(async (req, ctx) => {
           display={"block"}
           autofocus={false}
         />
-      </Section>
+      </Section> */
+      }
 
       <Section>
         <div id="map" style={{ height: "600px" }}></div>
-      </Section>
-
-      <Section>
-        <MainOffice />
       </Section>
 
       <Head>

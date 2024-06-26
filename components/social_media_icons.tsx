@@ -41,8 +41,8 @@ const github = {
 //insta?
 
 const akvaplanSocial: Social[] = [
-  phone,
-  mail,
+  // phone,
+  // mail,
   x,
   face,
   linked,

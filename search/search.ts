@@ -12,6 +12,11 @@ export const oramaSortPublishedReverse: SorterParams<OramaAtomSchema> = {
   order: "DESC",
 };
 
+export const oramaSortTitleAsc: SorterParams<OramaAtomSchema> = {
+  property: "title",
+  order: "ASC",
+};
+
 export const groupByCollection = {
   properties: ["collection"],
 };
