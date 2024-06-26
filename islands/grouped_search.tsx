@@ -108,7 +108,6 @@ export default function GroupedSearch(
       remoteStatus.value = { status: error.status };
     } else {
       remoteStatus.value = { status: 200 };
-      console.warn(q, results.groups);
       groups.value = results.groups;
 
       for (

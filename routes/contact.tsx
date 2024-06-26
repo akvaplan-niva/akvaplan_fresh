@@ -14,6 +14,7 @@ import { intlRouteMap } from "akvaplan_fresh/services/mod.ts";
 import { MainOffice } from "akvaplan_fresh/components/offices.tsx";
 import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
+import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(contact|kontakt)",
@@ -72,6 +73,18 @@ export default defineRoute(async (req, ctx) => {
           autofocus={false}
         />
       </Section> */
+      }
+
+      {
+        /* <CollectionSearch
+        lang={lang}
+        origin={ctx.url.origin}
+        action={intlRouteMap(lang).get("akvaplanists")}
+        collection={"person"}
+        term={""}
+        threshold={0.5}
+        display="block"
+      /> */
       }
 
       <Section>
