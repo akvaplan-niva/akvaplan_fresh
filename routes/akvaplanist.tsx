@@ -1,4 +1,4 @@
-// FIXME I hereby declare, this is the most messy code ever…needs a total refactor
+// FIXME People: I hereby declare, this is the most messy code ever… needs a total refactor
 // FIXME akvaplanist.tsx – add noindex,nofollow on anything but root route to avoid search engine clutter
 // @todo inspiration/link: https://openalex.org/works?sort=publication_date%3Adesc&column=display_name,publication_year,type,open_access.is_oa,cited_by_count&page=1&filter=authorships.author.id%3AA5053761479
 // https://openalex.org/authors/A5053761479
@@ -42,7 +42,7 @@ import {
 import { Head } from "$fresh/runtime.ts";
 import { priorAkvaplanists } from "../services/prior_akvaplanists.ts";
 
-import { search } from "akvaplan_fresh/search/search.ts";
+import { oramaSortTitleAsc, search } from "akvaplan_fresh/search/search.ts";
 import { getPanelInLang, ID_PEOPLE } from "akvaplan_fresh/kv/panel.ts";
 import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 
@@ -119,6 +119,7 @@ export const handler: Handlers = {
       const { count, hits } = await search({
         term: `${fn} ${filter}`,
         where: { collection: "person" },
+        limit: 200,
       });
       if (count > 0) {
         const { id, ...a } = hits[0].document;
@@ -235,6 +236,20 @@ export const handler: Handlers = {
 
     const { intro, cta, ...hero } = await getHero(params.lang);
 
+    const oramaParams = {
+      term: q,
+      where: { collection: ["person"] },
+      sortBy: oramaSortTitleAsc,
+      threshold: 0.5,
+      exact: true,
+      facets: { collection: {} },
+      groupBy: {
+        properties: ["collection"],
+        maxResult: 10,
+      },
+    };
+    const orama = await search(oramaParams);
+
     return ctx.render({
       lang,
       base,
@@ -255,6 +270,7 @@ export const handler: Handlers = {
       name,
       hero,
       origin,
+      orama,
     });
   },
 };
@@ -314,6 +330,7 @@ export default function Akvaplanists(
       url,
       hero,
       origin,
+      orama,
     },
   }: PageProps<
     AkvaplanistsRouteProps
@@ -339,9 +356,11 @@ export default function Akvaplanists(
         <link rel="stylesheet" href="/css/hscroll.css" />
         <link rel="stylesheet" href="/css/akvaplanist.css" />
       </Head>
+
       <div style={{ display: "grid", placeItems: "center" }}>
         <ImagePanel {...hero} maxHeight="40dvh" />
       </div>
+
       {group === "workplace" && office && (
         <section class="page-header">
           <H1ATitle
@@ -385,7 +404,11 @@ export default function Akvaplanists(
             origin={origin}
             action={intlRouteMap(lang).get("akvaplanists")}
             collection={"person"}
-            term={q}
+            term={q ?? ""}
+            results={orama}
+            //sort="title"
+            threshold={0.5}
+            display="block"
           />
           <div hidden>
             <PeopleSearchForm

@@ -86,17 +86,17 @@ export const SearchResultItem = (
           display: "grid",
           gap: ".5rem",
           padding: ".25rem",
-          gridTemplateColumns: (cloudinary || img) ? "1fr 4fr" : "0 1fr",
+          gridTemplateColumns: (cloudinary || img) ? "1fr 4fr" : "1fr 4fr",
         }}
       >
-        {img
-          ? (
-            <a
-              style={{
-                placeContent: "center",
-              }}
-              href={href}
-            >
+        <a
+          style={{
+            placeContent: "center",
+          }}
+          href={href}
+        >
+          {img
+            ? (
               <img
                 style={{
                   // maxHeight: "1fr",
@@ -106,24 +106,38 @@ export const SearchResultItem = (
                 alt={name}
                 src={img}
               />
-            </a>
-          )
-          : <a></a>}
+            )
+            : (
+              <span style={{ padding: "1rem" }}>
+                <svg class="icon" width="3rem" height="3rem">
+                  <use href="#akvaplan_symbol"></use>
+                </svg>
+              </span>
+            )}
+        </a>
 
         <MiniCard style={{ placeContent: "center" }}>
           <a
             href={href}
+            _style={{ fontSize: "1rem" }}
           >
             <p
               dangerouslySetInnerHTML={{ __html: name }}
             />
-
-            {"person" === collection && (
-              <svg class="icon" width="1rem" height="1rem">
-                <use href="#akvaplan_symbol"></use>
-              </svg>
-            )}
           </a>
+
+          {"person" === collection && (
+            <p>
+              <span style={{ color: "var(--accent)" }}>
+                {document.position[lang]}
+              </span>
+
+              <br />
+              {document.workplace}
+              <br />
+            </p>
+          )}
+
           {authors?.length > 0
             ? (
               <p
@@ -141,16 +155,8 @@ export const SearchResultItem = (
 
               {container ? container : null}
             </em>
-            {published
-              ? !["person"].includes(collection)
-                ? `${published.substring(0, 10)}`
-                : [
-                  document.position[lang],
-                  t(`section.${document.section}`),
-                  // document.workplace,
-                  // published.substring(0, 7),
-                ].join(", ")
-              : null}
+            {published && !["person"].includes(collection) &&
+              `${published.substring(0, 10)}`}
 
             {!["image", "person"].includes(collection) && hreflang &&
                 hreflang !== lang

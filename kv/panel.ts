@@ -141,6 +141,15 @@ export const getPanelsByIds = async (
   return _panels.map(({ value }) => value as Panel);
 };
 
+export const getPanelsInLangByIds = async (
+  { lang, ids }: { lang: string; ids: Deno.KvKeyPart[] },
+) => {
+  const panels = await getPanelsByIds(ids);
+  return await Array.fromAsync(
+    panels.map((panel) => deintlPanel({ panel, lang })),
+  );
+};
+
 export const getPanelInLang = async (
   { id, lang }: { id: string; lang: string },
 ) => {

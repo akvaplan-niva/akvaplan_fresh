@@ -108,7 +108,8 @@ export default function GroupedSearch(
       remoteStatus.value = { status: error.status };
     } else {
       remoteStatus.value = { status: 200 };
-      groups.value = q?.length > 0 ? results.groups : [];
+      console.warn(q, results.groups);
+      groups.value = results.groups;
 
       for (
         const [collection, count] of Object.entries(
@@ -135,14 +136,15 @@ export default function GroupedSearch(
     const {
       target,
     } = e;
+    e.preventDefault();
     const { selected, value, ownerDocument, dataset: { collection, action } } =
       target;
     const { origin } = new URL(ownerDocument.URL);
     limit.value += 10;
     const q = query.value;
     const where = { collection };
+
     performSearch({ q, base: origin, limit: limit.value, where });
-    e.preventDefault();
   };
 
   // Handle client side search via URL (on first load)
