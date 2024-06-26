@@ -92,10 +92,15 @@ export const SearchResultItem = (
         {img
           ? (
             <a
-              style={{ placeContent: "center" }}
+              style={{
+                placeContent: "center",
+              }}
               href={href}
             >
               <img
+                style={{
+                  // maxHeight: "1fr",
+                }}
                 width="148"
                 height="148"
                 alt={name}

@@ -339,9 +339,9 @@ export default function Akvaplanists(
         <link rel="stylesheet" href="/css/hscroll.css" />
         <link rel="stylesheet" href="/css/akvaplanist.css" />
       </Head>
-
-      <ImagePanel {...hero} />
-
+      <div style={{ display: "grid", placeItems: "center" }}>
+        <ImagePanel {...hero} maxHeight="40dvh" />
+      </div>
       {group === "workplace" && office && (
         <section class="page-header">
           <H1ATitle

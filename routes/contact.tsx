@@ -1,4 +1,8 @@
-import { getPanelInLang, ID_PEOPLE } from "akvaplan_fresh/kv/panel.ts";
+import {
+  getPanelInLang,
+  getPanelsInLang,
+  ID_PEOPLE,
+} from "akvaplan_fresh/kv/panel.ts";
 
 import { Page } from "akvaplan_fresh/components/page.tsx";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
@@ -8,30 +12,56 @@ import { defineRoute, RouteConfig } from "$fresh/server.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { intlRouteMap } from "akvaplan_fresh/services/mod.ts";
 import { MainOffice } from "akvaplan_fresh/components/offices.tsx";
-import { Naked } from "akvaplan_fresh/components/naked.tsx";
+import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
+import { asset, Head } from "$fresh/runtime.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(contact|kontakt)",
 };
 
-const getHero = async (lang: string) =>
+const getPeopleHero = async (lang: string) =>
   await getPanelInLang({ id: ID_PEOPLE, lang });
+
+const getContactPanels = async (lang: string) =>
+  await getPanelsInLang({
+    lang,
+    filter: (
+      { collection, id },
+    ) => ([ID_PEOPLE].includes(id) ||
+      "contact" === collection),
+  });
 
 export default defineRoute(async (req, ctx) => {
   const { lang } = ctx.params;
-  const { intro, cta, ...hero } = await getHero(lang);
+  const { intro, cta, ...hero } = await getPeopleHero(lang);
+  const panels = await getContactPanels(lang);
+
   return (
-    <Naked title={""} lang={"no"} base="/">
-      <HeroPanel {...hero} />
-      <GroupedSearch
-        lang={lang}
-        origin={ctx.url.origin}
-        action={intlRouteMap(lang).get("akvaplanists")}
-        collection={"person"}
-        term={ctx.url.searchParams.get("q") ?? ""}
-        display={"block"}
-        autofocus={false}
-      />
+    <Page title={""} lang={"no"} base="/">
+      <section class="Section block-center-center">
+        <div class="Container content-3">
+          <div class="BentoGrid block gap-3">
+            {panels?.map((p) => (
+              <BentoPanel
+                panel={p}
+                lang={lang}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Section>
+        <GroupedSearch
+          lang={lang}
+          origin={ctx.url.origin}
+          action={intlRouteMap(lang).get("akvaplanists")}
+          collection={"person"}
+          term={ctx.url.searchParams.get("q") ?? ""}
+          display={"block"}
+          autofocus={false}
+        />
+      </Section>
 
       <Section>
         <div id="map" style={{ height: "600px" }}></div>
@@ -40,11 +70,16 @@ export default defineRoute(async (req, ctx) => {
       <Section>
         <MainOffice />
       </Section>
-      <script type="module" src="/maplibre-gl/offices.js" />
-      <link
-        rel="stylesheet"
-        href="https://esm.sh/maplibre-gl@4.4.1/dist/maplibre-gl.css"
-      />
-    </Naked>
+
+      <Head>
+        <link rel="stylesheet" href={asset("/css/bento.css")} />
+
+        <script type="module" src="/maplibre-gl/offices.js" />
+        <link
+          rel="stylesheet"
+          href="https://esm.sh/maplibre-gl@4.4.1/dist/maplibre-gl.css"
+        />
+      </Head>
+    </Page>
   );
 });

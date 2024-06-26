@@ -6,6 +6,7 @@ import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
 import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
 
+// FIXME panel indexer: Move peopleNames from ids into before save
 const peopleNames = async (
   people_ids: string,
 ) => {
@@ -33,9 +34,9 @@ export const atomizePanel = async (panel: Panel) => {
 
   const people = people_ids?.length > 2 ? await peopleNames(people_ids) : [];
 
-  if (people.length === 0 && people_ids) {
-    console.warn({ id, collection, people_ids }, panel.intl.no.title, people);
-  }
+  // if (people.length === 0 && people_ids) {
+  //   console.warn({ id, collection, people_ids }, panel.intl.no.title, people);
+  // }
   const atom: OramaAtom = {
     ...panel,
     id,

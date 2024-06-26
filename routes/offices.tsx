@@ -21,7 +21,7 @@ export default function OfficesPage(_req: Request, _ctx: RouteContext) {
   return (
     <Page title={t("company.Offices")} collection="home">
       <Section>
-        <h1>{t("about.HQ")}</h1>
+        <h1>{t("our.offices")}</h1>
         <MainOffice />
       </Section>
       <div id="map" style={{ height: "600px" }}></div>

@@ -9,14 +9,7 @@ import { Section } from "akvaplan_fresh/components/section.tsx";
 export const MainOffice = ({ lang }) => (
   <dl style="display: grid; grid-template-columns: max-content auto;">
     <dt>
-      <a
-        href={akvaplan.addr.hq.map}
-        target="_blank"
-        title={t("ui.Google_maps")}
-      >
-        <Icon name="place" aria-ignore />
-      </a>
-      {" "}
+      <Icon name="place" />
     </dt>
     <dd>
       Tromsø (
@@ -26,11 +19,17 @@ export const MainOffice = ({ lang }) => (
         title={t("ui.Google_maps")}
       >
         Framsenteret
-      </a>)
+      </a>) og 8 andre{" "}
+      <a
+        href={`${intlRouteMap(lang).get("offices")}`}
+      >
+        steder
+      </a>{" "}
+      i Norge og på Island
     </dd>
 
     <dt aria-label="ring">
-      <Icon name="phone_in_talk" aria-ignore />
+      <Icon name="phone_in_talk" />
     </dt>
     <dd>
       <a
@@ -41,7 +40,7 @@ export const MainOffice = ({ lang }) => (
     </dd>
 
     <dt aria-label="mail">
-      <Icon name="mail" aria-ignore />
+      <Icon name="mail" />
     </dt>
 
     <dd>

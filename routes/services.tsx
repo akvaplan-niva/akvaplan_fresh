@@ -1,40 +1,37 @@
-import _services from "akvaplan_fresh/data/orama/2024-05-23_customer_services.json" with {
-  type: "json",
-};
+// import _services from "akvaplan_fresh/data/orama/2024-05-23_customer_services.json" with {
+//   type: "json",
+// };
+// FIXME Services page: 301 for /no/tjenester/tema/milj%C3%B8overv%C3%A5king & /no/tjenester/miljoovervaking/0618d159-5a99-4938-ae38-6c083da7da57
 
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import {
   getPanelInLang,
   getPanelsInLang,
-  ID_ACCREDITATION,
+  ID_SERVICES,
   mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import { HeroPanel } from "akvaplan_fresh/components/panel.tsx";
+import { HeroPanel, ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 import { Naked } from "akvaplan_fresh/components/naked.tsx";
 import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
 import { BentoPanel } from "../components/bento_panel.tsx";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
 import { WideImage } from "akvaplan_fresh/components/wide_image.tsx";
+import { Page } from "akvaplan_fresh/components/page.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(services|tjenester)",
 };
 const panelHashId = (id: string) => `panel-${id}`;
 
-// FIXME Services page: 301 for /no/tjenester/tema/milj%C3%B8overv%C3%A5king & /no/tjenester/miljoovervaking/0618d159-5a99-4938-ae38-6c083da7da57
 export default defineRoute(async (req, ctx) => {
   const { lang, page } = ctx.params;
 
-  const hero = await getPanelInLang({
-    id: "01hyd6qeqv4n3qrcv735aph6yy",
-    lang,
-  });
+  const hero = await getPanelInLang({ id: ID_SERVICES, lang });
 
-  const { title, image } = hero;
+  const { title, image, backdrop, theme } = hero;
 
   const panels = (await getPanelsInLang({
     lang,
@@ -46,6 +43,16 @@ export default defineRoute(async (req, ctx) => {
   return (
     <Naked title={title} collection="home">
       <HeroPanel {...hero} lang={lang} editor={editor} />
+      {
+        /* <div style={{ display: "grid", placeItems: "center" }}>
+        <ImagePanel
+          {...{ title, image, backdrop, theme }}
+          lang={lang}
+          editor={editor}
+          maxHeight={"50dvh"}
+        />
+      </div> */
+      }
 
       <Card>
         <p>
