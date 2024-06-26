@@ -15,11 +15,7 @@ import {
   PeopleCard as PersonCard,
 } from "akvaplan_fresh/components/mod.ts";
 
-import {
-  extractLangFromUrl,
-  lang as langSignal,
-  t,
-} from "akvaplan_fresh/text/mod.ts";
+import { extractLangFromUrl, t } from "akvaplan_fresh/text/mod.ts";
 
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
@@ -76,7 +72,7 @@ interface AtHome {
 export const config: RouteConfig = {
   //@... => "en" ("at")
   //~... => "no" ("hjem")
-  routeOverride: "/:at(@|~):id([a-zA-Z]{3}){/:name}*",
+  routeOverride: "/:at(@|~|en/user/|no/bruker/):id([a-zA-Z]{3}){/:name}*",
 };
 
 const ids = await buildAkvaplanistMap();
@@ -86,7 +82,7 @@ export const handler: Handlers = {
     const { searchParams } = new URL(req.url);
     const { url } = ctx;
     const lang = at === "~" ? "no" : "en";
-    langSignal.value = lang;
+    //langSignal.value = lang;
 
     const akvaplanist = ids.get(id) ?? priors.get(id);
     // @todop Consider falling back to orama ?
