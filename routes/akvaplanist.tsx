@@ -358,7 +358,7 @@ export default function Akvaplanists(
       </Head>
 
       <div style={{ display: "grid", placeItems: "center" }}>
-        <ImagePanel {...hero} maxHeight="40dvh" />
+        <ImagePanel {...hero} maxHeight="50dvh" />
       </div>
 
       {group === "workplace" && office && (
