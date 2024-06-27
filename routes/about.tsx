@@ -8,8 +8,8 @@ import {
   getPanelInLang,
   getPanelsInLang,
   ID_ABOUT,
-  ID_HOME_HERO,
   ID_PEOPLE,
+  ID_PUBLICATIONS,
   mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
 import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
@@ -18,11 +18,10 @@ import { Card } from "akvaplan_fresh/components/card.tsx";
 import { Page } from "akvaplan_fresh/components/page.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import { MainOffice, Offices } from "akvaplan_fresh/components/offices.tsx";
+import { MainOffice } from "akvaplan_fresh/components/offices.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
-import { addressesBase } from "akvaplan_fresh/routes/offices.tsx";
-import { Naked } from "akvaplan_fresh/components/naked.tsx";
+import { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -33,13 +32,13 @@ const getAboutHero = async (lang: string) =>
   await getPanelInLang({ id: ID_ABOUT, lang });
 
 const getAboutPanels = async (lang: string) =>
-  await getPanelsInLang({
+  (await getPanelsInLang({
     lang,
     filter: (
-      { collection, id },
-    ) => ([ID_PEOPLE].includes(id) ||
+      { collection, id }: Panel,
+    ) => ([ID_PEOPLE, ID_PUBLICATIONS].includes(id) ||
       "company" === collection && id !== ID_ABOUT),
-  });
+  })).sort((a, b) => a.title.localeCompare(b.title));
 
 export default defineRoute(async (req, ctx) => {
   const { params, url } = ctx;
