@@ -15,12 +15,12 @@ export const getAkvaplanistsFromDenoService = async (): Promise<
   Akvaplanist[]
 > => {
   //console.warn("FETCH", base+"/kv/person");
-  const r = await fetch(new URL(/*"/kv/person",*/ base)).catch((e) =>
+  const r = await fetch(new URL("/kv/person",base)).catch((e) =>
     console.error(e)
   );
   if (r?.ok) {
     const entries = await r.json();
-    const empl = entries; //.map(({ value }) => value);
+    const empl = entries.map(({ value }) => value);
     return empl.map((p: Akvaplanist) => {
       if (!p.email) {
         p.email = p.id + "@akvaplan.niva.no";
