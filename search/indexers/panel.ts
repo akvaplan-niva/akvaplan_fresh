@@ -6,7 +6,6 @@ import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
 import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
 
-// FIXME panel indexer: Move peopleNames from ids into before save
 const peopleNames = async (
   people_ids: string,
 ) => {
@@ -32,6 +31,7 @@ export const atomizePanel = async (panel: Panel) => {
   } = panel;
   const { cloudinary, url } = image;
 
+  // FIXME panel indexer: Move extracting peopleNames from people_ids into before save
   const people = people_ids?.length > 2 ? await peopleNames(people_ids) : [];
 
   // if (people.length === 0 && people_ids) {
@@ -61,8 +61,8 @@ export const indexPanels = async (orama: OramaAtomSchema) => {
   //let n = 0;
   for await (const { value } of getPanelList()) {
     const panel = deintlPanel({ panel: value, lang: "no" });
-    const { draft, collection } = panel;
-    if (draft !== true && !["infra"].includes(collection)) {
+    const { draft } = panel;
+    if (![true, "true", "yes"].includes(draft)) {
       //++n;
       await insert(orama, await atomizePanel(value));
     }

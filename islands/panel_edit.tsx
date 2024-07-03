@@ -15,10 +15,8 @@ import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
 const core: (keyof Panel)[] = [
   "collection",
-  "people_ids",
   "theme",
-  "backdrop",
-  "comment",
+  "people_ids",
   "draft",
 ];
 //const cover: (keyof PanelImage)[] = ["cloudinary", "url"];
@@ -114,17 +112,17 @@ export const PanelEditIsland = (
       ))}
 
       <FieldSetOfObject
-        fields={schema.image.map(({ name }) => name)}
-        legend={t("ui.image")}
-        path={"/image"}
-        object={p.value.image}
-      />
-
-      <FieldSetOfObject
         fields={schema.core.map(({ name }) => name)}
         legend={t("details")}
         path={``}
         object={p.value}
+      />
+
+      <FieldSetOfObject
+        fields={schema.image.map(({ name }) => name)}
+        legend={t("ui.image")}
+        path={"/image"}
+        object={p.value.image}
       />
 
       {panel.id !== null &&
@@ -137,6 +135,9 @@ export const PanelEditIsland = (
               "created",
               "modified",
               "parent",
+
+              "backdrop",
+              "comment",
             ]}
             path={``}
             legend={t("ui.internal")}

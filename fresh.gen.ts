@@ -37,6 +37,7 @@ import * as $home from "./routes/home.tsx";
 import * as $image from "./routes/image.tsx";
 import * as $images from "./routes/images.tsx";
 import * as $index from "./routes/index.tsx";
+import * as $infrastructure from "./routes/infrastructure.tsx";
 import * as $legacy from "./routes/legacy.tsx";
 import * as $legacy_pages_redirect from "./routes/legacy_pages_redirect.tsx";
 import * as $ms_louise from "./routes/ms-louise.tsx";
@@ -122,6 +123,7 @@ const manifest = {
     "./routes/image.tsx": $image,
     "./routes/images.tsx": $images,
     "./routes/index.tsx": $index,
+    "./routes/infrastructure.tsx": $infrastructure,
     "./routes/legacy.tsx": $legacy,
     "./routes/legacy_pages_redirect.tsx": $legacy_pages_redirect,
     "./routes/ms-louise.tsx": $ms_louise,

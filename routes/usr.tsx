@@ -11,6 +11,7 @@ import { priorAkvaplanistID as priors } from "akvaplan_fresh/services/prior_akva
 
 import {
   Card,
+  Icon,
   Page,
   PeopleCard as PersonCard,
 } from "akvaplan_fresh/components/mod.ts";
@@ -44,6 +45,8 @@ import {
   buildPersonalSocialMediaLinks,
   SocialMediaIcons,
 } from "akvaplan_fresh/components/social_media_icons.tsx";
+import { mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
+import { LinkButton } from "akvaplan_fresh/components/button/button.tsx";
 
 const defaultAtConfig = {
   search: {
@@ -132,6 +135,8 @@ export const handler: Handlers = {
       }
     }
 
+    const editor = await mayEditKvPanel(req);
+
     return ctx.render({
       akvaplanist,
       at,
@@ -141,12 +146,14 @@ export const handler: Handlers = {
       orama,
       user,
       avatar,
+      editor,
     });
   },
 };
 
 export default function UsrPage({ data }: PageProps<AtHome>) {
-  const { akvaplanist, at, url, config, cristin, orama, user, avatar } = data;
+  const { akvaplanist, at, url, config, cristin, orama, user, avatar, editor } =
+    data;
   const { given, family, prior, expired, openalex, orcid } = akvaplanist;
   const name = `${given} ${family}`;
   const bio = akvaplanist?.bio;
@@ -163,21 +170,24 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
           : undefined}
       />
 
-      {akvaplanist && !(prior || expired) && (
-        <p style={{ fontSize: "0.8rem" }}>
-          {user?.email?.startsWith(akvaplanist.id)
-            ? (
-              <a href="/auth/sign-out">
-                Sign out
-              </a>
-            )
-            : (
-              <a href="/auth/sign-in">
-                Sign in
-              </a>
-            )}
-        </p>
-      )}
+      <ul style={{ fontSize: "0.8rem" }}>
+        {akvaplanist && !(prior || expired) && (
+          <li>
+            {user?.email?.startsWith(akvaplanist.id)
+              ? <LinkButton href="/auth/sign-out" text="Sign out" />
+              : (
+                <a href="/auth/sign-in">
+                  Sign in
+                </a>
+              )}
+          </li>
+        )}
+        {editor && (
+          <LinkButton href={`/${lang}/panel`}>
+            Mitt innhold
+          </LinkButton>
+        )}
+      </ul>
 
       <div class="footer__links">
         <SocialMediaIcons

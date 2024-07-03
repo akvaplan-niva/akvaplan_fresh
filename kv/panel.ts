@@ -22,10 +22,11 @@ export const ID_PEOPLE = "01hyd6qeqtfewhjjxtmyvgv35q";
 
 export const ID_SERVICES = "01hyd6qeqv4n3qrcv735aph6yy";
 export const ID_RESEARCH = "01hyd6qeqvy0ghjnk1nwdfwvyq";
+export const ID_INFRASTRUCTURE = "01hyd6qeqvrzwkbkf4frh6ewhk";
 export const ID_PROJECTS = "01hyd6qeqv71dyhcd3356q31sy";
 export const ID_PUBLICATIONS = "01j14p49bxc5ek3n2dgb3133j0";
-
 export const ID_HOME_HERO = "01hyd6qeqv77bp980k1mw33rt0";
+
 export const ID_INVOICING = "01j0k42cn0qmmh0knsj3v2wpn2";
 
 // Main collection panels in correct sort order
@@ -69,37 +70,39 @@ export const save = async (panel: Panel, user: MicrosoftUserinfo, patches) => {
   panel.created_by = panel.created_by ?? user.email;
   panel.modified_by = user.email;
 
-  // FIXME lookup people ids
-  const { people_ids } = panel;
-  if (people_ids && !Array.isArray(people_ids)) {
-    const _ids = people_ids.trim().split(",");
-    const people = await Array.fromAsync(
-      // @ts-ignore bail
-      _ids?.map((id) => findCanonicalName({ id })),
-    );
-    console.warn({ people, _ids });
+  let { people_ids } = panel;
+  if (!Array.isArray(people_ids)) {
+    people_ids = people_ids.trim().split(",");
   }
 
-  const [year, month, day] = now.toJSON().substring(0, 10).split("-")
-    .map(Number);
-  const patchkey = [
-    "patch",
-    "panel",
-    panel.id,
-    year,
-    month,
-    day,
-    user.email,
-    genid(),
-  ];
-
-  if (patches?.length > 0) {
-    await kv.set(patchkey, {
-      patches,
-      modified: panel.modified,
-      modified_by: panel.modified_by,
-    });
+  if (Array.isArray(people_ids)) {
+    const _people = (await Array.fromAsync(
+      people_ids?.map(async (id) => await findCanonicalName({ id })),
+    )).filter(({ id }) => id);
+    panel.people_ids = _people.map(({ id }) => id).join(",");
+    panel.people = _people.map(({ given, family }) => `${given} ${family}`);
   }
+
+  // const [year, month, day] = now.toJSON().substring(0, 10).split("-")
+  //   .map(Number);
+  // const patchkey = [
+  //   "patch",
+  //   "panel",
+  //   panel.id,
+  //   year,
+  //   month,
+  //   day,
+  //   user.email,
+  //   genid(),
+  // ];
+
+  // if (patches?.length > 0) {
+  //   await kv.set(patchkey, {
+  //     patches,
+  //     modified: panel.modified,
+  //     modified_by: panel.modified_by,
+  //   });
+  // }
   return await kv.set(["panel", panel.id], panel);
 };
 

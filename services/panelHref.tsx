@@ -4,6 +4,8 @@ export const _no = (c: string) => {
       return "forskning";
     case "company":
       return "selskapet";
+    case "infrastructure":
+      return "infrastruktur";
     default:
       return c;
   }
