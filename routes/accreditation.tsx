@@ -11,7 +11,7 @@ export const config: RouteConfig = {
     "/:lang(en|no){/:collection(company|about|om|selskapet)}?/:page(accreditations|accreditation|accreditated|akkreditering|akkrediteringer|akkreditert){/:id}?",
 };
 
-export default defineRoute(async (req, ctx) => {
+export default defineRoute(async (_req, ctx) => {
   const { lang } = ctx.params;
   const title = t("our.accreditations");
   const panel = await getPanelInLang({ id: ID_ACCREDITATION, lang });

@@ -5,6 +5,7 @@ import { WideImage } from "./wide_image.tsx";
 import { ApnLogo } from "akvaplan_fresh/components/mod.ts";
 import { EditIconButton } from "akvaplan_fresh/components/edit_icon_button.tsx";
 import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
+import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
 
 // FIXME Panel: refactor markup/css
 // FIXME Panel: support left-right-cemter text/cta, center eg: https://codepen.io/sflinz/pen/dvEbwz
@@ -271,4 +272,40 @@ export const NewPanel = ({ collection, lang }) => (
     hero={false}
     href={`/${lang}/panel/_/new?collection=${collection}`}
   />
+);
+
+export const buildPanelListItem = ({ lang, editor, w, ar }) =>
+(
+  { intl, id, image, href = editor ? `${id}/edit` : id },
+) => (
+  <li
+    style={{
+      fontSize: "1rem",
+      margin: "1px",
+      background: "var(--surface0)",
+    }}
+  >
+    <a
+      style={{
+        placeContent: "center",
+        display: "grid",
+        gap: "1.5rem",
+        padding: ".25rem",
+        gridTemplateColumns: "auto 1fr",
+      }}
+      href={href}
+    >
+      <img
+        width={w}
+        height={w}
+        alt={""}
+        src={image?.cloudinary?.length > 0
+          ? cloudinaryUrl(image?.cloudinary, { ar, w })
+          : image.url}
+      />
+      <span style={{ placeContent: "center" }}>
+        {intl[lang].title}
+      </span>
+    </a>
+  </li>
 );

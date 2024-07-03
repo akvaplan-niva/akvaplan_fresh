@@ -10,7 +10,7 @@ import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 
 export const config: RouteConfig = {
   routeOverride:
-    "/:lang(en|no){/:collection(company|about|selskapet|om)}/:slug{/:id}?",
+    "/:lang(en|no){/:collection(company|about|selskapet|om|infrastructure|infra|infrastruktur)}/:slug{/:id}?",
 };
 
 const slugIds = new Map([
@@ -19,7 +19,7 @@ const slugIds = new Map([
 
 export default defineRoute(async (req, ctx) => {
   const { params, url } = ctx;
-  const { lang, slug } = params;
+  const { lang, slug, collection } = params;
   const id = params?.id !== "" ? params.id : slugIds.get(slug);
 
   const panel = await getPanelInLang({ id, lang });
@@ -43,10 +43,10 @@ export default defineRoute(async (req, ctx) => {
   const topic = params.lang === "en" ? panel.topic : panel.tema;
   const base = `/${params.lang}/${params.page}/${params.groupname}`;
 
-  const queries = [
-    topic,
-    ...(panel?.searchwords ?? []),
-  ].filter((s) => s?.length > 3).map((s) => s.toLowerCase());
+  // const queries = [
+  //   topic,
+  //   ...(panel?.searchwords ?? []),
+  // ].filter((s) => s?.length > 3).map((s) => s.toLowerCase());
 
   const contacts = panel?.people_ids?.trim
     ? panel?.people_ids?.trim().split(",")
@@ -55,7 +55,7 @@ export default defineRoute(async (req, ctx) => {
   return (
     <PanelPage
       base={base}
-      collection={"company"}
+      _collection={collection}
       panel={panel}
       lang={lang}
       editor={editor}

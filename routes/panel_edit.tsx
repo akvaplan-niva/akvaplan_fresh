@@ -80,7 +80,8 @@ export const handler: Handlers = {
         throw "Save failed";
       }
 
-      const location = panel.intl?.[lang]?.href ?? panelHref(panel, { lang });
+      //const location = panel.intl?.[lang]?.href ?? panelHref(panel, { lang });
+      const location = `/${lang}/panel?collection=${panel.collection}`;
       return new Response("", {
         status: 303,
         headers: { location },

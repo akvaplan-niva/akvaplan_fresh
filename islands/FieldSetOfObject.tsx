@@ -14,6 +14,7 @@ export const FieldSetOfObject = (
   return (
     <fieldset style={{ border: 0 }}>
       <legend>{legend}</legend>
+
       {fields.map((name, i) => (
         "desc" === name
           ? (

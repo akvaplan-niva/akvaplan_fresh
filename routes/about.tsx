@@ -8,6 +8,7 @@ import {
   getPanelInLang,
   getPanelsInLang,
   ID_ABOUT,
+  ID_INFRASTRUCTURE,
   ID_PEOPLE,
   ID_PUBLICATIONS,
   mayEditKvPanel,
@@ -36,9 +37,10 @@ const getAboutPanels = async (lang: string) =>
     lang,
     filter: (
       { collection, id }: Panel,
-    ) => ([ID_PEOPLE, ID_PUBLICATIONS].includes(id) ||
+    ) => ([ID_PEOPLE, ID_INFRASTRUCTURE].includes(id) ||
       "company" === collection && id !== ID_ABOUT),
-  })).sort((a, b) => a.title.localeCompare(b.title));
+  }))
+    .sort((a, b) => a.title.localeCompare(b.title));
 
 export default defineRoute(async (req, ctx) => {
   const { params, url } = ctx;
@@ -106,13 +108,13 @@ export default defineRoute(async (req, ctx) => {
         </h2>
         <Card>
           <GroupedSearch
-            term={`policy miljøpolitikk likestilling gep arp`}
-            threshold={1}
+            term={`policy miljøpolitikk likestilling gep arp åpenhetsloven`}
+            threshold={0.5}
             collection={["document"]}
             origin={url}
             noInput
             limit={4}
-            sort="title"
+            sort="-published"
           />
         </Card>
       </Section>

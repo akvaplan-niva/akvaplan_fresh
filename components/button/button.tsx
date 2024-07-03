@@ -5,20 +5,36 @@ type Props = HTMLProps<HTMLButtonElement> & {
   filled?: boolean;
 };
 
-export default function Button({
+export const Button = ({
   additionalClass = "",
   filled = false,
   children,
   ...props
-}: Props) {
-  return (
-    <button
-      class={`custom-button ${additionalClass} ${
-        filled ? "custom-button-filled" : ""
-      }`}
+}: Props) => (
+  <button
+    class={`custom-button ${additionalClass} ${
+      filled ? "custom-button-filled" : ""
+    }`}
+    {...props}
+  >
+    {children}
+  </button>
+);
+
+export const LinkButton = ({ href, text, style, children, props }) => (
+  <a href={href}>
+    <Button
+      style={{
+        backgroundColor: "transparent",
+        fontSize: ".8rem",
+        ...style,
+      }}
+      href={href}
       {...props}
     >
-      {children}
-    </button>
-  );
-}
+      {text ?? children}
+    </Button>
+  </a>
+);
+
+export default Button;

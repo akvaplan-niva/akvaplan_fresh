@@ -1,4 +1,5 @@
 import {
+  ArticleSquare,
   Card,
   HScroll,
   Page,
@@ -7,9 +8,10 @@ import {
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
 import { ImagePanel, WideCard } from "akvaplan_fresh/components/panel.tsx";
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
 import { asset, Head } from "$fresh/runtime.ts";
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+import { panelHref } from "akvaplan_fresh/services/panelHref.tsx";
 export const PanelPage = (
   { base, collection, panel, lang, editor, contacts, url, more },
 ) => (
@@ -42,7 +44,7 @@ export const PanelPage = (
       )}
     </Section>
 
-    <Section>
+    <Section style={{ display: "grid", placeItems: "center" }}>
       <Card>
         <p>
           {panel?.desc && (
@@ -53,12 +55,19 @@ export const PanelPage = (
           )}
         </p>
       </Card>
+    </Section>
 
+    <Section style={{ display: "grid", placeItems: "center" }}>
       <HScroll maxVisibleChildren={3}>
-        {more?.map((props) => (
-          <WideCard
-            {...props}
-            sizes="30vw"
+        {more?.map(({ id, collection, title, image }) => (
+          <ArticleSquare
+            title={title}
+            img={`https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_512,ar_1:1/${image.cloudinary}`}
+            published={""}
+            href={panelHref({ id, collection, title }, { lang })}
+            width="320"
+            height="320"
+            maxWidth="320px"
           />
         ))}
       </HScroll>
@@ -70,18 +79,21 @@ export const PanelPage = (
       </div>
     </Section>
 
-    {
-      /* <Section>
+    <Section>
       <GroupedSearch
-        term={panel.title?.replace("–", " ")}
-        exclude={["person", "image", "document", "blog", "pubs"]}
+        term={[panel.intl.en.title, panel.intl.no.title].map((
+          s,
+        ) => s?.replace("–", " ")).join(
+          " ",
+        )}
+        collection={["service"]}
+        //exclude={["person", "image", "document", "blog", "pubs"]}
         origin={url}
-        threshold={0.5}
+        threshold={1}
         limit={3}
         noInput
       />
-    </Section> */
-    }
+    </Section>
 
     <Head>
       <link rel="stylesheet" href={asset("/css/bento.css")} />
