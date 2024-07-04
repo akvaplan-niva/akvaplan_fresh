@@ -5,18 +5,17 @@ import {
   mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
 
-import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
-
 import { Section } from "akvaplan_fresh/components/section.tsx";
 
 import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
 import { BentoPanel } from "../components/bento_panel.tsx";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
-import { WideImage } from "akvaplan_fresh/components/wide_image.tsx";
 import { Page } from "akvaplan_fresh/components/page.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
+import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
+import { OpenGraphRequired } from "akvaplan_fresh/components/open_graph.tsx";
 
 const getInfrastructurePanels = async (lang: string) =>
   (await getPanelsInLang({
@@ -39,12 +38,17 @@ export default defineRoute(async (req, ctx) => {
 
   const hero = await getPanelInLang({ id: ID_INFRASTRUCTURE, lang });
 
-  const { title } = hero;
-  //const { id, title, image, backdrop, theme } = hero;
+  const { id, title, image } = hero;
+  const { cloudinary } = image;
 
   const panels = await getInfrastructurePanels(lang);
 
-  const editor = await mayEditKvPanel(req);
+  const og = {
+    title,
+    url: req.url,
+    image: cloudinaryUrl(cloudinary, { w: 1782 }),
+    type: "article",
+  };
 
   return (
     <Page title={title} collection="about">
@@ -82,8 +86,8 @@ export default defineRoute(async (req, ctx) => {
           </div>
         </div>
       </section>
-
       <Head>
+        <OpenGraphRequired {...og} />
         <link rel="stylesheet" href={asset("/css/bento.css")} />
       </Head>
     </Page>

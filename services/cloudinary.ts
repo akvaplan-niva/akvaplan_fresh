@@ -6,6 +6,7 @@ import type { MynewsdeskDocument } from "akvaplan_fresh/@interfaces/mynewsdesk.t
 import type { RouteContext } from "$fresh/server.ts";
 import { getItem } from "akvaplan_fresh/services/mynewsdesk.ts";
 import { href } from "akvaplan_fresh/search/href.ts";
+import { string } from "@valibot/valibot";
 
 const getKvCloudinaryId = async (slug: string) => {
   const _id = extractId(slug);
@@ -76,10 +77,13 @@ export const cloudinaryImgUrl = (cloudinary: string, w = 512, h?: number) =>
   }${h ? `,h_${h}` : ""},q_auto:good/${cloudinary}`;
 
 // https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_96,q_auto:good,w_128/kqmqxucf3h4votizhwy7do
-export const cloudinaryUrl = (id: string, { ar, w } = {}) =>
-  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_${w},ar_${ar}/${
-    /^https/.test(id) ? extractId(id) : id
-  }`;
+export const cloudinaryUrl = (
+  id: string,
+  { ar, w }: { ar?: string; w: number } = { w: 1782 },
+) =>
+  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_${w}${
+    ar ? `,ar_${ar}` : ""
+  }/${/^https/.test(id) ? extractId(id) : id}`;
 
 // export const megaPropsFromMynewsdeskItem = (n) => ({
 //   heading: n.header,
