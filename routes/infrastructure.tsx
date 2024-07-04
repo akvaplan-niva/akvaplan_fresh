@@ -5,15 +5,12 @@ import {
   mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
 
-import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
-
 import { Section } from "akvaplan_fresh/components/section.tsx";
 
 import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
 import { BentoPanel } from "../components/bento_panel.tsx";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
-import { WideImage } from "akvaplan_fresh/components/wide_image.tsx";
 import { Page } from "akvaplan_fresh/components/page.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";

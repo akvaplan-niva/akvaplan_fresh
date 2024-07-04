@@ -44,6 +44,7 @@ import { asset, Head } from "$fresh/runtime.ts";
 import { getVideo } from "akvaplan_fresh/kv/video.ts";
 import { VideoArticle } from "akvaplan_fresh/components/VideoArticle.tsx";
 import { EditLinkIcon } from "akvaplan_fresh/components/edit_link.tsx";
+import { OpenGraphRequired } from "akvaplan_fresh/components/open_graph.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -205,6 +206,12 @@ export default function NewsArticle(
   return (
     <Page title={header} collection="news">
       <Head>
+        <OpenGraphRequired
+          title={header}
+          url={url}
+          type="article"
+          image={image}
+        />
       </Head>
       <Article language={language}>
         <AltLangInfo

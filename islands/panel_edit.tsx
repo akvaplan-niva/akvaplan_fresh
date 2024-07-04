@@ -15,9 +15,11 @@ import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
 const core: (keyof Panel)[] = [
   "collection",
-  "theme",
   "people_ids",
   "draft",
+  "theme",
+  "backdrop",
+  "comment",
 ];
 //const cover: (keyof PanelImage)[] = ["cloudinary", "url"];
 const image: (keyof PanelImage)[] = ["cloudinary", "url", "ar"];
@@ -135,9 +137,6 @@ export const PanelEditIsland = (
               "created",
               "modified",
               "parent",
-
-              "backdrop",
-              "comment",
             ]}
             path={``}
             legend={t("ui.internal")}
