@@ -24,7 +24,7 @@ export const atomizeAkvaplanist = (a: Akvaplanist): OramaAtom => {
     givenAliasMap.get(id),
     familyAliasMap.get(id),
   ];
-  const text = stringifyAndNormalize([more, aliases]);
+  const text = stringifyAndNormalize([more, aliases, id]);
 
   return {
     ...a,

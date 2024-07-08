@@ -4,6 +4,12 @@ import {
   processIcon,
   svgMapFromStaticDir,
 } from "akvaplan_fresh/utils/materialsymbols/mod.ts";
+import { getLatestAkvaplanWorks } from "akvaplan_fresh/services/cristin.ts";
+import {
+  extractNakedDoi,
+  getDoisFromDenoDeployService,
+} from "akvaplan_fresh/services/dois.ts";
+import { ndjson } from "akvaplan_fresh/cli/ndjson.ts";
 
 const iconDir = "static/icon";
 
@@ -18,7 +24,38 @@ const fetchAndSaveMaterialSymbolIcons = async (list: Set<string>) => {
   }
 };
 
-const taskIcons = async (_args: string[] = []) => {
+// deno run --env --allow-env --allow-net=api.cristin.no,dois.deno.dev tasks.ts cristin
+const cristinTask = async () => {
+  const NO_DOI = "NO_DOI_IN_CRISTIN";
+
+  const works = await getLatestAkvaplanWorks({ per_page: 9999 });
+  const { data } = await getDoisFromDenoDeployService();
+  const cristinWorksWithDoi = works?.map((w) => {
+    const url = w?.links?.find(({ url }) =>
+      url && url?.startsWith("https://doi.org/10.")
+    );
+    w.doi = url ? extractNakedDoi(url.url)?.toLowerCase() : NO_DOI;
+    return w;
+  });
+
+  const cristinDois = new Set(cristinWorksWithDoi.map((w) => w?.doi));
+  cristinDois.delete(NO_DOI);
+  const cristinWorksByDoi = new Map(cristinWorksWithDoi.map((w) => [w.doi, w]));
+
+  const akvaplanDois = new Set(data.map(({ doi }) => doi));
+
+  const _onlyCristin = cristinDois.difference(akvaplanDois);
+  //const onlyInAkvaplan = akvaplanDois.difference(cristinDois);
+
+  const onlyCristin = [..._onlyCristin].map((doi) =>
+    cristinWorksByDoi.get(doi)
+  );
+  console.warn(onlyCristin.length);
+  onlyCristin.map(({ doi }) => ({ doi })).map(ndjson);
+  //console.warn(onlyCristin);
+};
+
+const iconsTask = async (_args: string[] = []) => {
   await fetchAndSaveMaterialSymbolIcons(materialsymbols);
 
   const hamburger_menu_right = await Deno.readTextFile(
@@ -37,7 +74,8 @@ const taskIcons = async (_args: string[] = []) => {
 };
 
 const tasks = new Map([
-  ["icons", taskIcons],
+  ["icons", iconsTask],
+  ["cristin", cristinTask],
 ]);
 
 if (import.meta.main) {

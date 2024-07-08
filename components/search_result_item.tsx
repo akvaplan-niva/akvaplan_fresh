@@ -153,7 +153,7 @@ export const SearchResultItem = (
             <em>
               {subtitle ? subtitle : null}
 
-              {container ? container : null}
+              {container ? container + " " : null}
             </em>
             {published && !["person"].includes(collection) &&
               `${published.substring(0, 10)}`}
