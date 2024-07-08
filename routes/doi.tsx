@@ -182,7 +182,7 @@ export default function DoiPublication(
           </span>
         </p>
       )}
-      {akvaplanDetectedByOpenAlex?.length > 0
+      {!slim && akvaplanDetectedByOpenAlex?.length > 0
         ? `The following authors (n=${akvaplanDetectedByOpenAlex.length}) are affiliated with Akvaplan-niva in OpenAlex: ${
           akvaplanDetectedByOpenAlex.join(", ")
         }`

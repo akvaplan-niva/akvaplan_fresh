@@ -71,8 +71,8 @@ export const save = async (panel: Panel, user: MicrosoftUserinfo, patches) => {
   panel.modified_by = user.email;
 
   let { people_ids } = panel;
-  if (!Array.isArray(people_ids)) {
-    people_ids = people_ids.trim().split(",");
+  if (!Array.isArray(people_ids) && people_ids?.length > 0) {
+    people_ids = people_ids?.trim().split(",");
   }
 
   if (Array.isArray(people_ids)) {

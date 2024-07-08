@@ -109,6 +109,7 @@ export const handler: Handlers = {
         defaultAtConfig;
 
     const params = paramsForAuthoredPubs(akvaplanist);
+    console.warn({ params });
 
     const results = config.search.enabled === false
       ? undefined

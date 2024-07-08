@@ -69,16 +69,10 @@ deno_kv_database=https://api.deno.com/databases/$preview/connect
 DENO_KV_ACCESS_TOKEN=
 ```
 
-## Namespaces
+### Export
 
-```
-["@","config"]
-["@","config"]
-["page","home"]
-["panel","01hwq488byaejre7jt7fq12c4p"]
-["rights","kv"]
-["rights","kv"]
-["rights","kv"]
+```sh
+$ ./bin/kv_list '[]' | nd-filter '!/^(avatar|mynewsdesk|session_user|site_sessions)/.test(d.key[0])' > data/kv_export/prod.ndjson
 ```
 
 ### Permissions
@@ -97,14 +91,6 @@ Export/seed
 ```sh
 ./bin/kv_list '["panel"]' |  nd-map d.value > data/seed/panels.ndjson
 deno task kv-seed
-
-# h$ ./bin/kv_list '[]' | nd-filter '!/(mynewsdesk|avatar|sessions)/.test(JSON.stringify(d.key))' > data/kv_export/2024-06-20.ndjson
-```
-
-From research topics
-
-```sh
-ndjson-cat data/orama/2024-04-30_research_topics.json | ndjson-split  | nd-map '{id,text,intl: {name}}=d, intl={ no: { title: name.no}, en: { title: name.en } }, { id, theme: "dark", backdrop: true, image: { cloudinary: "snlcxc38hperptakjpi5" }, ...d, intl, comment: text, draft: true}' >> data/seed/panels.ndjson
 ```
 
 ### User preferences
