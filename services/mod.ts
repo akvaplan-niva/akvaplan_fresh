@@ -2,7 +2,6 @@ export * from "./akvaplanist.ts";
 export * from "./cristin.ts";
 export * from "./dois.ts";
 export * from "./doi_augment.ts";
-export * from "./legacy.ts";
 export * from "./mynewsdesk.ts";
 export * from "./nav.ts";
 export * from "./news.ts";
