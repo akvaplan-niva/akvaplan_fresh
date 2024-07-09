@@ -1,9 +1,9 @@
 import {
   getPanelInLang,
   getPanelsInLang,
-  ID_INFRASTRUCTURE,
   mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
+import { ID_INFRASTRUCTURE } from "akvaplan_fresh/kv/id.ts";
 
 import { Section } from "akvaplan_fresh/components/section.tsx";
 

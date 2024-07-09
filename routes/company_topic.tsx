@@ -2,9 +2,9 @@ import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import {
   getPanelInLang,
   getPanelsInLang,
-  ID_INVOICING,
   mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
+import { ID_INVOICING } from "akvaplan_fresh/kv/id.ts";
 import { PanelPage } from "akvaplan_fresh/components/panel_page.tsx";
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 

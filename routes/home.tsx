@@ -4,10 +4,10 @@ import { extractLangFromUrl, lang, t } from "akvaplan_fresh/text/mod.ts";
 import {
   getCollectionPanels,
   getPanelInLang,
-  ID_HOME_HERO,
   imageCardFromPanel,
   mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
+import { ID_HOME_HERO } from "akvaplan_fresh/kv/id.ts";
 
 //import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
 
@@ -17,7 +17,7 @@ import {
   HScroll,
   Page,
 } from "akvaplan_fresh/components/mod.ts";
-import { Section } from "../components/section.tsx";
+import { Section } from "akvaplan_fresh/components/section.tsx";
 import { ImagePanel, WideCard } from "akvaplan_fresh/components/panel.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";

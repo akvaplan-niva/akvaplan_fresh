@@ -7,9 +7,9 @@ import { Section } from "akvaplan_fresh/components/section.tsx";
 import {
   getPanelInLang,
   getPanelsInLang,
-  ID_SERVICES,
   mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
+import { ID_SERVICES } from "akvaplan_fresh/kv/id.ts";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { HeroPanel, ImagePanel } from "akvaplan_fresh/components/panel.tsx";

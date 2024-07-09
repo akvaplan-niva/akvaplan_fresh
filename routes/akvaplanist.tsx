@@ -40,19 +40,18 @@ import {
 } from "$fresh/server.ts";
 
 import { Head } from "$fresh/runtime.ts";
-import { priorAkvaplanists } from "../services/prior_akvaplanists.ts";
+import { priorAkvaplanists } from "akvaplan_fresh/services/prior_akvaplanists.ts";
 
 import { oramaSortTitleAsc, search } from "akvaplan_fresh/search/search.ts";
-import { getPanelInLang, ID_PEOPLE } from "akvaplan_fresh/kv/panel.ts";
+import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
+import { ID_PEOPLE } from "akvaplan_fresh/kv/id.ts";
 import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 
 interface AkvaplanistsRouteProps {
   people: Akvaplanist[];
 
   results: Akvaplanist[];
-
   group: string;
-
   filter: string;
   grouped: Map<string, Akvaplanist[]>;
   lang: string;

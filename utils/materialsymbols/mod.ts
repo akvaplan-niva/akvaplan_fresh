@@ -3,27 +3,33 @@ export const icons = new Set([
   "android",
   "arrow_back_ios_new",
   "arrow_forward_ios",
+  "chat_info",
   "cell_tower",
   "close",
   "contact_mail",
-  "exit_to_app",
   "edit",
+  "exit_to_app",
   "language",
   "mail",
   "phone_in_talk",
+  "place",
   "search",
   "sms_failed",
+  "verified",
   "west",
-  "place",
 ]);
 export const iconurl = (name: string) =>
   `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/wght300/48px.svg`;
 
+const alticonurl = (name: string) =>
+  `https://esm.sh/@material-symbols/svg-300@0.21.0/outlined/${name}.svg`;
+
 export const processIcon = (text, name) =>
-  text.replace(/(width|height)="[0-9]+"/g, "")
+  text
+    .replace(/(width|height)="[0-9]+"/g, "")
     .replace(
       'xmlns="http://www.w3.org/2000/svg"',
-      `id="${name}" fill="currentColor"`,
+      `xmlns="http://www.w3.org/2000/svg" id="${name}" fill="currentColor"`,
     )
     .replace(
       /\s{2,}/g,

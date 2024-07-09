@@ -1,44 +1,40 @@
+// Have tried (and failed) to set auth state here…
 // For possible future automatic propagation of state, see:
 // https://github.com/denoland/fresh/issues/1128
 // https://github.com/denoland/fresh/issues/586#issuecomment-1630175078
-import {
-  acceptsNordic,
-  extractLangFromUrl,
-  lang as langSignal,
-  setSiteLang,
-} from "akvaplan_fresh/text/mod.ts";
-
-import {
-  legacyHosts,
-  legacyRoutes,
-  response307,
-  response307XRobotsTagNoIndex,
-} from "akvaplan_fresh/services/mod.ts";
-
-import { parse } from "accept-language-parser";
-
-//import { getCookies } from "@std/http/cookie";
+// import { getCookies } from "@std/http/cookie";
 // import { getCookies } from "@std/http";
 // import { getSession } from "akvaplan_fresh/kv/session.ts";
 // import { buildMicrosoftOauthHelpers } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
+// console.warn(ctx.state);
+// for (const [name, cookie] of Object.entries(getCookies(req.headers))) {
+//   if (/site-session/.test(name)) {
+//     getSession(cookie).then((user) => {
+//       ctx.state.user = user;
+//     });
+//   }
+// }
+import {
+  acceptsNordic,
+  extractLangFromUrl,
+  setSiteLang,
+} from "akvaplan_fresh/text/mod.ts";
+
+import { response307 } from "akvaplan_fresh/services/mod.ts";
+
+import { parse } from "accept-language-parser";
 
 import type { FreshContext } from "$fresh/server.ts";
 
+const legacyNaked = "akvaplan.niva.no";
+const legacyHosts = ["www." + legacyNaked, legacyNaked];
+
 export function handler(req: Request, ctx: FreshContext) {
   if (ctx.destination === "route") {
-    // console.warn(ctx.state);
-    // for (const [name, cookie] of Object.entries(getCookies(req.headers))) {
-    //   if (/site-session/.test(name)) {
-    //     getSession(cookie).then((user) => {
-    //       ctx.state.user = user;
-    //     });
-    //   }
-    // }
-
-    const { url, params } = ctx;
+    const { url } = ctx;
     const { pathname, hostname } = url;
 
-    if ("akvaplan-niva.no" === hostname) {
+    if (legacyNaked === hostname) {
       const fresh = req.url.replace("akvaplan-niva.", "akvaplan.");
       return Response.redirect(fresh, 301);
     }
@@ -49,11 +45,6 @@ export function handler(req: Request, ctx: FreshContext) {
         "akvaplan.",
       );
       return Response.redirect(fresh, 301);
-    }
-
-    if (legacyRoutes.has(pathname)) {
-      const Location = new URL(legacyRoutes.get(pathname) as string, url);
-      return response307XRobotsTagNoIndex(Location.href);
     }
 
     // Force /en on .com?

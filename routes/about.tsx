@@ -7,12 +7,14 @@ import { ImagePanel, NewPanel } from "akvaplan_fresh/components/panel.tsx";
 import {
   getPanelInLang,
   getPanelsInLang,
+  mayEditKvPanel,
+} from "akvaplan_fresh/kv/panel.ts";
+import {
   ID_ABOUT,
   ID_INFRASTRUCTURE,
   ID_PEOPLE,
   ID_PUBLICATIONS,
-  mayEditKvPanel,
-} from "akvaplan_fresh/kv/panel.ts";
+} from "akvaplan_fresh/kv/id.ts";
 import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
 
 import { Card } from "akvaplan_fresh/components/card.tsx";
@@ -108,7 +110,7 @@ export default defineRoute(async (req, ctx) => {
         </h2>
         <Card>
           <GroupedSearch
-            term={`policy miljøpolitikk likestilling gep arp åpenhetsloven`}
+            term={`policy politikk datapolitikk miljøpolitikk likestilling gep arp åpenhetsloven vilkår terms`}
             threshold={0.5}
             collection={["document"]}
             origin={url}

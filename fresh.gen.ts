@@ -30,17 +30,15 @@ import * as $cristin from "./routes/cristin.tsx";
 import * as $dcat from "./routes/dcat.tsx";
 import * as $document_MarkdownArticlePage from "./routes/document/MarkdownArticlePage.tsx";
 import * as $document_slug_ from "./routes/document/[slug].tsx";
+import * as $documentation from "./routes/documentation.tsx";
 import * as $documents from "./routes/documents.tsx";
 import * as $doi from "./routes/doi.tsx";
-import * as $fakturering from "./routes/fakturering.tsx";
 import * as $home from "./routes/home.tsx";
 import * as $image from "./routes/image.tsx";
 import * as $images from "./routes/images.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $infrastructure from "./routes/infrastructure.tsx";
-import * as $legacy from "./routes/legacy.tsx";
 import * as $legacy_pages_redirect from "./routes/legacy_pages_redirect.tsx";
-import * as $ms_louise from "./routes/ms-louise.tsx";
 import * as $mynewsdesk_slug_ from "./routes/mynewsdesk/[slug].tsx";
 import * as $nav from "./routes/nav.tsx";
 import * as $news from "./routes/news.tsx";
@@ -116,17 +114,15 @@ const manifest = {
     "./routes/dcat.tsx": $dcat,
     "./routes/document/MarkdownArticlePage.tsx": $document_MarkdownArticlePage,
     "./routes/document/[slug].tsx": $document_slug_,
+    "./routes/documentation.tsx": $documentation,
     "./routes/documents.tsx": $documents,
     "./routes/doi.tsx": $doi,
-    "./routes/fakturering.tsx": $fakturering,
     "./routes/home.tsx": $home,
     "./routes/image.tsx": $image,
     "./routes/images.tsx": $images,
     "./routes/index.tsx": $index,
     "./routes/infrastructure.tsx": $infrastructure,
-    "./routes/legacy.tsx": $legacy,
     "./routes/legacy_pages_redirect.tsx": $legacy_pages_redirect,
-    "./routes/ms-louise.tsx": $ms_louise,
     "./routes/mynewsdesk/[slug].tsx": $mynewsdesk_slug_,
     "./routes/nav.tsx": $nav,
     "./routes/news.tsx": $news,
