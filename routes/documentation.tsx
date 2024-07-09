@@ -23,12 +23,12 @@ export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(documentation|dokumentasjon)",
 };
 
-const ids = [ID_ACCREDITATION, ID_CERTIFICATION, ID_ABOUT, ID_DOCUMENTATION];
+const ids = [ID_ACCREDITATION, ID_CERTIFICATION];
 
 const getDocumentationPanels = async (lang: string) =>
-  (await getPanelsInLangByIds({ ids, lang }))
-    .map((p) => p.id === ID_ABOUT ? ({ ...p, href: "/x" }) : p)
-    .sort((a, b) => a.title.localeCompare(b.title));
+  (await getPanelsInLangByIds({ ids, lang })).sort((a, b) =>
+    a.title.localeCompare(b.title)
+  );
 
 export default defineRoute(async (req, ctx) => {
   const { lang } = ctx.params;
@@ -36,15 +36,15 @@ export default defineRoute(async (req, ctx) => {
     `policy politikk datapolitikk miljøpolitikk likestilling gep arp åpenhetsloven vilkår terms`;
   const panels = await getDocumentationPanels(lang);
   const panel = await getPanelInLang({ id: ID_DOCUMENTATION, lang });
-  //const results = await search({ term: q });
 
   return (
     <Page>
       <Section>
         <h1>{t("company.Documentation")}</h1>
-
         <MarkdownPanel panel={panel} lang={lang} />
+      </Section>
 
+      <Section>
         <GroupedSearch
           term={q}
           threshold={0.5}
