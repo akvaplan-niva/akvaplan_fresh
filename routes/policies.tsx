@@ -66,6 +66,7 @@ export default function Policies(
         {docs.map((
           {
             id,
+            header,
             document,
             document_thumbnail,
             document_name,
@@ -82,6 +83,7 @@ export default function Policies(
         ) => (
           <div>
             <header>{summary ?? document_name}</header>
+            <a href={`/no/dokument/${id}`}>{id} [{header}]</a>
           </div>
         ))}
       </section>

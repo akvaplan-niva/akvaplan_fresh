@@ -5,7 +5,7 @@ import {
   save,
 } from "akvaplan_fresh/kv/panel.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
-import { genid } from "akvaplan_fresh/kv/panel.ts";
+import { genid } from "../kv/id.ts";
 
 import { getSessionUser } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
 import { MicrosoftUserinfo } from "akvaplan_fresh/oauth/microsoft_userinfo.ts";

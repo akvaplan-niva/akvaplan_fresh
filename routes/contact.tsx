@@ -1,8 +1,8 @@
 import {
   getPanelInLang,
   getPanelsInLangByIds,
-  ID_PEOPLE,
 } from "akvaplan_fresh/kv/panel.ts";
+import { ID_PEOPLE } from "../kv/id.ts";
 
 import { Page } from "akvaplan_fresh/components/page.tsx";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";

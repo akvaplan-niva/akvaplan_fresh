@@ -3,6 +3,7 @@ import { Icon } from "akvaplan_fresh/components/icon.tsx";
 import Button from "akvaplan_fresh/components/button/button.tsx";
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 import { panelHref } from "../services/panelHref.tsx";
+import { asset, Head } from "$fresh/runtime.ts";
 
 const editHref = ({ id, collection, title }: Panel, { lang }) =>
   `/${lang}/panel/${id}/edit`;
@@ -102,3 +103,23 @@ export const BentoPanel = (
     </a>
   );
 };
+
+export const BentoPanels = ({ panels, editor, lang }) => (
+  <section class="Section block-center-center">
+    <div class="Container content-3">
+      <div class="BentoGrid block gap-3">
+        {panels?.map((p) => (
+          <BentoPanel
+            panel={p}
+            hero={false}
+            lang={lang}
+            editor={editor}
+          />
+        ))}
+      </div>
+    </div>
+    <Head>
+      <link rel="stylesheet" href={asset("/css/bento.css")} />
+    </Head>
+  </section>
+);

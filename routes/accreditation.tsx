@@ -1,5 +1,6 @@
 import { t } from "akvaplan_fresh/text/mod.ts";
-import { getPanelInLang, ID_ACCREDITATION } from "akvaplan_fresh/kv/panel.ts";
+import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
+import { ID_ACCREDITATION } from "akvaplan_fresh/kv/id.ts";
 
 import { MarkdownPanel } from "akvaplan_fresh/components/markdown.tsx";
 import { Page } from "akvaplan_fresh/components/page.tsx";
