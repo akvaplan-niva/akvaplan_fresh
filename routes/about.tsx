@@ -104,23 +104,6 @@ export default defineRoute(async (req, ctx) => {
         href="https://esm.sh/maplibre-gl@4.4.1/dist/maplibre-gl.css"
       />
 
-      <Section>
-        <h2 style={{ fontWeight: "900" }}>
-          {t("company.Documentation")}
-        </h2>
-        <Card>
-          <GroupedSearch
-            term={`policy politikk datapolitikk miljøpolitikk likestilling gep arp åpenhetsloven vilkår terms`}
-            threshold={0.5}
-            collection={["document"]}
-            origin={url}
-            noInput
-            limit={4}
-            sort="-published"
-          />
-        </Card>
-      </Section>
-
       <Head>
         <link rel="stylesheet" href={asset("/css/bento.css")} />
       </Head>
