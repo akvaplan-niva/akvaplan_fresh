@@ -13,6 +13,7 @@ import { type StringSignal } from "akvaplan_fresh/@interfaces/signal.ts";
 import { collectionBreadcrumbs } from "akvaplan_fresh/services/mod.ts";
 import { SocialMediaIcons } from "akvaplan_fresh/components/social_media_icons.tsx";
 import { Section } from "./section.tsx";
+import { Icon2, LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
 //import { symbolDataURI } from "akvaplan_fresh/components/akvaplan/symbol.tsx";
 
 export type StdProps =

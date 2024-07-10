@@ -6,6 +6,7 @@ export const icons = new Set([
   "chat_info",
   "cell_tower",
   "close",
+  "communities",
   "contact_mail",
   "edit",
   "exit_to_app",
@@ -29,7 +30,7 @@ export const processIcon = (text, name) =>
     .replace(/(width|height)="[0-9]+"/g, "")
     .replace(
       'xmlns="http://www.w3.org/2000/svg"',
-      `xmlns="http://www.w3.org/2000/svg" id="${name}" fill="currentColor"`,
+      `xmlns="http://www.w3.org/2000/svg" fill="currentColor"`,
     )
     .replace(
       /\s{2,}/g,

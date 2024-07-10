@@ -30,9 +30,9 @@ import {
 import type { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
 import {
-  base64DataUri,
   buildMicrosoftOauthHelpers,
 } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
+import { base64DataUri } from "akvaplan_fresh/img/data_uri.ts";
 
 import type {
   FreshContext,
@@ -47,6 +47,7 @@ import {
 } from "akvaplan_fresh/components/social_media_icons.tsx";
 import { mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
 import { LinkButton } from "akvaplan_fresh/components/button/button.tsx";
+import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
 
 const defaultAtConfig = {
   search: {
@@ -173,20 +174,25 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
 
       <ul style={{ fontSize: "0.8rem" }}>
         {akvaplanist && !(prior || expired) && (
-          <li>
-            {user?.email?.startsWith(akvaplanist.id)
-              ? <LinkButton href="/auth/sign-out" text="Sign out" />
-              : (
-                <a href="/auth/sign-in">
-                  Sign in
-                </a>
-              )}
-          </li>
-        )}
-        {editor && (
-          <LinkButton href={`/${lang}/panel`}>
-            Mitt innhold
-          </LinkButton>
+          <>
+            <li>
+              {user?.email?.startsWith(akvaplanist.id)
+                ? (
+                  <LinkIcon
+                    icon="exit_to_app"
+                    href="/auth/sign-out"
+                    children="Sign out"
+                  />
+                )
+                : (
+                  <LinkIcon
+                    icon="edit"
+                    href="/auth/sign-in"
+                    children="Sign in"
+                  />
+                )}
+            </li>
+          </>
         )}
       </ul>
 

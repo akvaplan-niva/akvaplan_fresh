@@ -1,16 +1,6 @@
-import {
-  Article,
-  Icon,
-  Page,
-  SiteNavVerticalLarge,
-} from "akvaplan_fresh/components/mod.ts";
-
 import { type RouteConfig } from "$fresh/server.ts";
-import { Footer } from "akvaplan_fresh/components/mod.ts";
+import { Page } from "akvaplan_fresh/components/page.tsx";
 import { moreNav } from "akvaplan_fresh/services/nav.ts";
-import IconButton from "akvaplan_fresh/components/button/icon_button.tsx";
-import ThemeSwitcher from "akvaplan_fresh/islands/theme_switcher.tsx";
-import { t } from "akvaplan_fresh/text/mod.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/(more|mer)",

@@ -1,5 +1,4 @@
 import { createAzureAdOAuthConfig, createHelpers } from "@deno/kv-oauth";
-import { encodeBase64 } from "@std/encoding/base64";
 import { getSession } from "akvaplan_fresh/kv/session.ts";
 
 export const buildMicrosoftOauthHelpers = (req: Request) => {
@@ -34,8 +33,4 @@ export const fetchAvatar = async (jwt: string, size: number) => {
     : "https://graph.microsoft.com/v1.0/me/photo/$value";
   const headers = { authorization: `Bearer ${jwt}` };
   return await fetch(url, { headers });
-};
-export const base64DataUri = (bytes: Uint8Array) => {
-  const contentType = "application/octet-stream";
-  return `data:${contentType};base64,${encodeBase64(bytes)}`;
 };
