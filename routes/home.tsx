@@ -29,22 +29,6 @@ export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
 };
 
-// export const handler: Handlers = {
-//   async GET(req, ctx) {
-
-//     return ctx.render({
-//       hero,
-//       news,
-//       newsInAltLang,
-//       panels,
-//       //sticky,
-//       lang,
-//       url,
-//       authorized,
-//     });
-//   },
-// };
-
 export default defineRoute(async (req, ctx) => {
   const { url } = ctx;
   const sitelang = extractLangFromUrl(req.url);
@@ -64,13 +48,6 @@ export default defineRoute(async (req, ctx) => {
     ?.map(imageCardFromPanel());
 
   const hero = await getPanelInLang({ id: ID_HOME_HERO, lang });
-  // hero.image.cloudinary = "11o3yoqtwbhhg9zfusu56s";
-  // hero.backdrop = false;
-  // hero.image.ar = "5:2";
-  // hero.image.url =
-  //   "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,q_auto:good,w_1782,ar_5:2/11o3yoqtwbhhg9zfusu56s";
-
-  //const sticky = news?.slice(5, 6); //await getSticky(["page", "home"]);
 
   const panels = (await getCollectionPanels({ lang })).map((
     { intro, ...withoutIntro },

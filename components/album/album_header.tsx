@@ -1,4 +1,4 @@
-import { Icon } from "akvaplan_fresh/components/icon.tsx";
+import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
 import { collectionHref, collectionName } from "akvaplan_fresh/services/nav.ts";
 
 export const CollectionHeader = (
@@ -24,21 +24,7 @@ export const CollectionHeader = (
       }}
     >
       {href
-        ? (
-          <a
-            href={href}
-            style={{ color: "var(--text1)" }}
-            target={target}
-          >
-            {text}{" "}
-            <Icon
-              name={icon}
-              width="1rem"
-              height="1rem"
-              style={{ color: "var(--accent)" }}
-            />
-          </a>
-        )
+        ? <LinkIcon href={href} icon={icon} children={text} right={true} />
         : (
           <span
             style={{

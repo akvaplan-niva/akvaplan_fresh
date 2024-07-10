@@ -1,9 +1,8 @@
-// FIXME PeopleCard: Priors with ID should use gray symbol and no email
-// https://akvaplan.no/no/nyhet/2021-04-26/tynn-men-fet-fisken-tverrhalet-langebarn-utgjor-en-energibombe-i-de-arktiske-hav
-// http:/localhost:7777/no/folk/name/Biuw/Martin
+// FIXME PeopleCard: Priors with ID should use gray symbol
+// https://akvaplan.no/no/folk/name/Biuw/Martin
 import { buildAkvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
 import { priorAkvaplanistID } from "akvaplan_fresh/services/prior_akvaplanists.ts";
-import { peopleURL, personURL } from "akvaplan_fresh/services/nav.ts";
+import { personURL } from "akvaplan_fresh/services/nav.ts";
 
 import { Card, UseApnSym } from "akvaplan_fresh/components/mod.ts";
 
@@ -72,10 +71,10 @@ export function PeopleCard(
   return (
     <Card customClass="people-card">
       <Head>
-        <link rel="stylesheet" href="/css/people-card.css" />
+        {/* <link rel="stylesheet" href="/css/people-card.css" /> */}
       </Head>
 
-      <div class="people-name">
+      <div class="people-name" style={{ whiteSpace: "nowrap" }}>
         {name?.length > 1
           ? <span>{name}</span>
           : (
@@ -95,7 +94,10 @@ export function PeopleCard(
         )}
 
       <span>
-        <span class="people-position">
+        <span style="font-size: 1rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  color: var(--accent);">
           {position?.[lang]}
           {responsibility?.[lang] && (
             <span>

@@ -24,7 +24,7 @@ import { PeopleCard as PersonCard } from "akvaplan_fresh/components/mod.ts";
 
 import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-import { TypeArgumentedNode } from "https://deno.land/x/ts_morph@21.0.1/ts_morph.js";
+import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(project|prosjekt){/:date}?/:slug",
@@ -185,11 +185,10 @@ export default function ProjectHome(
         sort="-published"
       />
 
-      {TypeArgumentedNode && (
+      {true && (
         <LinkIcon
           icon="edit"
           href={editHref(item)}
-          target="_blank"
           children={t("ui.Edit")}
         />
       )}
