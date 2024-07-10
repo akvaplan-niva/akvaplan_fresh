@@ -69,12 +69,10 @@ export function PeopleCard(
   } = person ?? {};
 
   return (
-    <Card customClass="people-card">
-      <Head>
-        {/* <link rel="stylesheet" href="/css/people-card.css" /> */}
-      </Head>
-
-      <div class="people-name" style={{ whiteSpace: "nowrap" }}>
+    <Card>
+      <div
+        style={{ whiteSpace: "nowrap", fontSize: "var(--font-size-fluid-1)" }}
+      >
         {name?.length > 1
           ? <span>{name}</span>
           : (
@@ -93,83 +91,76 @@ export function PeopleCard(
           </span>
         )}
 
-      <span>
-        <span style="font-size: 1rem;
+      <span style="font-size: .9rem;
   font-weight: 500;
-  margin-top: 0.5rem;
   color: var(--accent);">
-          {position?.[lang]}
-          {responsibility?.[lang] && (
-            <span>
-              <br />
-              {responsibility?.[lang]}
-            </span>
-          )}
-        </span>
-
-        <div class="people-workplace">
-          {management === true && (
-            <span>
-              {t("people.Management")}
-            </span>
-          )}
-        </div>
-
-        <div>
-          {avatar
-            ? (
-              <img
-                src={avatar}
-                width="44"
-                height="44"
-                style={{ borderRadius: "22px" }}
-              />
-            )
-            : (
-              <UseApnSym
-                width="2rem"
-                height="2rem"
-                style={isPrior(person) ? { filter: "grayscale(1)" } : {}}
-              />
-            )}
-        </div>
-
-        <div
-          style={{
-            marginTop: "1rem",
-            fontSize: "1rem",
-          }}
-        >
-          {section && section !== "LEDELS" && (
-            <div>
-              <TextIcon href={``} icon="communities">
-                <span style={{ color: "var(--text2)" }}>
-                  {t(`section.${section}`)}
-                </span>
-              </TextIcon>
-            </div>
-          )}
-          {workplace?.length > 0 && (
-            <div>
-              <TextIcon href={``} icon="place">{workplace}</TextIcon>
-            </div>
-          )}
-          {icons && tel && (
-            <div>
-              <LinkIcon href={`tel:${tel}`} icon="phone_in_talk">
-                {[...tel].map((c, i) => i % 2 ? c : `${c} `)}
-              </LinkIcon>
-            </div>
-          )}
-          {icons && email && (
-            <div>
-              <LinkIcon href={`mailto:${email}`} icon="contact_mail">
-                {email}
-              </LinkIcon>
-            </div>
-          )}
-        </div>
+        {position?.[lang]}
       </span>
+      {responsibility?.[lang] && (
+        <span style="font-size: .9rem">
+          {" "}
+          {responsibility?.[lang]}
+        </span>
+      )}
+
+      <div>
+        {avatar
+          ? (
+            <img
+              src={avatar}
+              width="44"
+              height="44"
+              style={{ borderRadius: "22px" }}
+            />
+          )
+          : (
+            <UseApnSym
+              width="2rem"
+              height="2rem"
+              style={isPrior(person) ? { filter: "grayscale(1)" } : {}}
+            />
+          )}
+      </div>
+
+      <div
+        style={{
+          marginTop: "1rem",
+          fontSize: ".9rem",
+        }}
+      >
+        {management === true && (
+          <TextIcon icon="communities">{t("people.Management")}</TextIcon>
+        )}
+
+        {section && section !== "LEDELS" && (
+          <div>
+            <TextIcon icon="communities">
+              <span style={{ color: "var(--text2)" }}>
+                {t(`section.${section}`)}
+              </span>
+            </TextIcon>
+          </div>
+        )}
+        {workplace?.length > 0 && (
+          <div>
+            <TextIcon icon="place">{workplace}</TextIcon>
+          </div>
+        )}
+        {icons && tel && (
+          <div>
+            <LinkIcon href={`tel:${tel}`} icon="phone_in_talk">
+              {[...tel].map((c, i) => i % 2 ? c : `${c} `)}
+            </LinkIcon>
+          </div>
+        )}
+        {icons && email && (
+          <div>
+            <LinkIcon href={`mailto:${email}`} icon="contact_mail">
+              {email}
+            </LinkIcon>
+          </div>
+        )}
+      </div>
     </Card>
   );
 }
