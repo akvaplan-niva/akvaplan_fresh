@@ -1,5 +1,6 @@
 import { siteNav } from "akvaplan_fresh/services/nav.ts";
 import { Icon } from "akvaplan_fresh/components/icon.tsx";
+import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
 
 export function SiteNavVerticalLarge() {
   return (
@@ -39,7 +40,13 @@ export function Breadcrumbs(
       <ol>
         {list.map(({ href, text }, n) => (
           <li style={{ display: "inline" }}>
-            <a
+            <LinkIcon
+              icon="arrow_back_ios_new"
+              href={href}
+              children={text}
+            />
+            {
+              /* <a
               class="pill"
               href={href}
               style={{ color: "var(--text1)", margin: "0.125rem" }}
@@ -56,7 +63,8 @@ export function Breadcrumbs(
                   />
                 )
                 : null} {text}
-            </a>
+            </a> */
+            }
           </li>
         ))}
         {" "}

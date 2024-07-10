@@ -3,7 +3,7 @@ import { offices } from "akvaplan_fresh/services/offices.ts";
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 import { akvaplan } from "akvaplan_fresh/services/akvaplanist.ts";
 import { Card } from "akvaplan_fresh/components/card.tsx";
-import { Icon } from "akvaplan_fresh/components/icon.tsx";
+import { Icon2 as Icon } from "akvaplan_fresh/components/icon_link.tsx";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 
 export const MainOffice = ({ lang }) => (

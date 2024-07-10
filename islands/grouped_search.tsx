@@ -54,7 +54,7 @@ export default function GroupedSearch(
     exclude = [],
     results,
     sort,
-    first = true,
+    //first = true, // changed, don't allow sending first
     noInput = false,
     exact = false,
     action = `/${lang}/search`,
@@ -90,45 +90,52 @@ export default function GroupedSearch(
     }
   }
 
-  first = useSignal(first);
+  const first = useSignal(true); // first
 
   const performSearch = async (
     { q, ...params }: { q: string },
   ) => {
     query.value = q;
-    params.exact = params.exact ?? exact;
-    params.sort = params.sort ?? sort.value;
-    params.threshold = threshold ?? undefined;
-    params.where = collection ? { collection } : undefined;
 
-    const results = await searchViaApi({ q, ...params, limit: limit.value });
-
-    const { error } = results;
-    if (error?.status > 299) {
-      remoteStatus.value = { status: error.status };
+    if (q === "" && first.value === false) {
+      // Clear results and don't perform a search if the input field is cleared
+      groups.value = [];
     } else {
-      remoteStatus.value = { status: 200 };
-      groups.value = results.groups;
+      params.exact = params.exact ?? exact;
+      params.sort = params.sort ?? sort.value;
+      params.threshold = threshold ?? undefined;
+      params.where = collection ? { collection } : undefined;
 
-      for (
-        const [collection, count] of Object.entries(
-          results?.facets?.collection?.values,
-        )
-      ) {
-        facets.value.set(collection, count);
+      const results = await searchViaApi({ q, ...params, limit: limit.value });
+
+      const { error } = results;
+      if (error?.status > 299) {
+        remoteStatus.value = { status: error.status };
+      } else {
+        remoteStatus.value = { status: 200 };
+        groups.value = results.groups;
+
+        for (
+          const [collection, count] of Object.entries(
+            results?.facets?.collection?.values,
+          )
+        ) {
+          facets.value.set(collection, count);
+        }
       }
     }
   };
 
   const handleUserSearchInput = async (e: Event) => {
-    e?.preventDefault();
     const { target: { value, ownerDocument } } = e;
 
     const base = origin
       ? origin
       : new URL(ownerDocument ? ownerDocument.URL : globalThis.document.URL)
         ?.origin;
+
     performSearch({ q: value, base: origin, limit: limit.value });
+    e?.preventDefault();
   };
 
   const handleMoreButtonPressed = async (e: Event) => {

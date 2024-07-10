@@ -1,11 +1,10 @@
 import {
-  base64DataUri,
   buildMicrosoftOauthHelpers,
   getSessionUser,
 } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
+import { base64DataUri } from "akvaplan_fresh/img/data_uri.ts";
 import { getAvatarImageBytes, getSession } from "akvaplan_fresh/kv/session.ts";
 import { akvaplanistUrl } from "akvaplan_fresh/services/nav.ts";
-import { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
 
 export const createAvatar = async (req: Request) => {
   const { getSessionId } = buildMicrosoftOauthHelpers(req);

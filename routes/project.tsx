@@ -23,13 +23,8 @@ import {
 import { PeopleCard as PersonCard } from "akvaplan_fresh/components/mod.ts";
 
 import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
-import { asset, Head } from "$fresh/runtime.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-import { EditLinkIcon } from "akvaplan_fresh/components/edit_link.tsx";
-import {
-  CloudinaryImageOverlayCard,
-  megaPropsFromMynewsdeskItem,
-} from "akvaplan_fresh/components/panel.tsx";
+import { TypeArgumentedNode } from "https://deno.land/x/ts_morph@21.0.1/ts_morph.js";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(project|prosjekt){/:date}?/:slug",
@@ -189,7 +184,15 @@ export default function ProjectHome(
         noInput
         sort="-published"
       />
-      <EditLinkIcon href={editHref(item)} />
+
+      {TypeArgumentedNode && (
+        <LinkIcon
+          icon="edit"
+          href={editHref(item)}
+          target="_blank"
+          children={t("ui.Edit")}
+        />
+      )}
     </Page>
   );
 }

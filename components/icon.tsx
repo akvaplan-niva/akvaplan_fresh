@@ -28,31 +28,33 @@ export const flexible = (
   </svg>
 );
 export const svgs = new Map([...icons, ["eco", eco]]);
+import { Icon2 } from "./icon_link.tsx";
 
-export const Icon = (
-  { name = "", usehref = false, width = 44, height = 44, ...props } = {},
-) =>
-  usehref
-    ? (
-      // Referencing icon via <use href="…"/> requires pre-injecting SVG into the current page,
-      // eg. using <HiddenIcons />
-      <svg class="icon" width={width} height={height} {...props}>
-        <use href={`#${name}`} />
-      </svg>
-    )
-    : (
-      (
-        <svg
-          width={width}
-          height={height}
-          class={`icon ${name}`}
-          {...props}
-          dangerouslySetInnerHTML={{
-            __html: svgs.get(name) ?? "",
-          }}
-        />
-      )
-    );
+export const Icon = Icon2;
+// export const Icon = (
+//   { name = "", usehref = false, width = 44, height = 44, ...props } = {},
+// ) =>
+//   usehref
+//     ? (
+//       // Referencing icon via <use href="…"/> requires pre-injecting SVG into the current page,
+//       // eg. using <HiddenIcons />
+//       <svg class="icon" width={width} height={height} {...props}>
+//         <use href={`#${name}`} />
+//       </svg>
+//     )
+//     : (
+//       (
+//         <svg
+//           width={width}
+//           height={height}
+//           class={`icon ${name}`}
+//           {...props}
+//           dangerouslySetInnerHTML={{
+//             __html: svgs.get(name) ?? "",
+//           }}
+//         />
+//       )
+//     );
 
 export const HiddenIcons = () => (
   <div

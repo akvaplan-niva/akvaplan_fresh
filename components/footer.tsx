@@ -1,4 +1,4 @@
-import { SiteNavVerticalLarge } from "akvaplan_fresh/components/mod.ts";
+import { SiteNavVerticalLarge } from "akvaplan_fresh/components/site_nav.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
 import { SocialMediaIcons } from "akvaplan_fresh/components/social_media_icons.tsx";
 import { intlRouteMap } from "akvaplan_fresh/services/mod.ts";

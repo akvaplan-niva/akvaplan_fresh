@@ -43,8 +43,9 @@ import { asset, Head } from "$fresh/runtime.ts";
 
 import { getVideo } from "akvaplan_fresh/kv/video.ts";
 import { VideoArticle } from "akvaplan_fresh/components/VideoArticle.tsx";
-import { EditLinkIcon } from "akvaplan_fresh/components/edit_link.tsx";
 import { OpenGraphRequired } from "akvaplan_fresh/components/open_graph.tsx";
+import { mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
+import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -146,6 +147,8 @@ export const handler: Handlers = {
 
     const related = { documents, videos, images };
 
+    const editor = await mayEditKvPanel(req);
+
     return ctx.render({
       item,
       lang,
@@ -154,6 +157,7 @@ export const handler: Handlers = {
       projects,
       related,
       origin: ctx.url,
+      editor,
     });
   },
 };
@@ -161,10 +165,20 @@ export const handler: Handlers = {
 //console.log("@todo News article needs bullet points for <li> elements");
 
 export default function NewsArticle(
-  { data: { item, lang, contacts, alternate, projects, related, origin } }:
-    PageProps<
-      ArticleProps
-    >,
+  {
+    data: {
+      item,
+      lang,
+      contacts,
+      alternate,
+      projects,
+      related,
+      origin,
+      editor,
+    },
+  }: PageProps<
+    ArticleProps
+  >,
 ) {
   const {
     header,
@@ -319,7 +333,14 @@ export default function NewsArticle(
             </HScroll>
           </section>
         )}
-        <EditLinkIcon href={editHref(item)} />
+        {editor && (
+          <LinkIcon
+            icon="edit"
+            href={editHref(item)}
+            target="_blank"
+            children={t("ui.Edit")}
+          />
+        )}
       </Article>
       {
         /*
