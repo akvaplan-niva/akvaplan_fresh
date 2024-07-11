@@ -81,7 +81,7 @@ export const removePublished = (hits) =>
     return h;
   });
 
-export const paramsForAuthoredPubs = ({ family, given }) => {
+export const oramaSearchParamsForAuthoredPubs = ({ family, given }) => {
   const term = `${family} ${
     !/\s/.test(given) ? given : given.split(/\s/).at(0)
   }`.trim();

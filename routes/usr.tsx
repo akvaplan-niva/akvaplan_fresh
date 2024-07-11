@@ -1,4 +1,7 @@
-import { paramsForAuthoredPubs, search } from "akvaplan_fresh/search/search.ts";
+import {
+  oramaSearchParamsForAuthoredPubs,
+  search,
+} from "akvaplan_fresh/search/search.ts";
 
 import _cristin_ids from "akvaplan_fresh/data/cristin_ids.json" with {
   type: "json",
@@ -109,8 +112,7 @@ export const handler: Handlers = {
       await getValue<typeof defaultAtConfig>(["@", "config", id]) ??
         defaultAtConfig;
 
-    const params = paramsForAuthoredPubs(akvaplanist);
-    console.warn({ params });
+    const params = oramaSearchParamsForAuthoredPubs(akvaplanist);
 
     const results = config.search.enabled === false
       ? undefined
