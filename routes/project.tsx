@@ -174,7 +174,7 @@ export default function ProjectHome(
         </li>
       </Article>
 
-      <h2>{t("project.Outreach")}</h2>
+      {/* <h2>{t("project.Outreach")}</h2> */}
 
       <GroupedSearch
         term={`${header}`}
@@ -185,7 +185,7 @@ export default function ProjectHome(
         sort="-published"
       />
 
-      {true && (
+      {false && (
         <LinkIcon
           icon="edit"
           href={editHref(item)}
