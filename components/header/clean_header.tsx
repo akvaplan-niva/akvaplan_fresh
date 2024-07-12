@@ -11,8 +11,8 @@ import { SiteLangLinks } from "akvaplan_fresh/components/site_lang_links.tsx";
 const emptyBreadcrumbs: Breadcrumb[] = [];
 export function CleanHeader(
   {
-    href = "/",
     lang = langSignal.value,
+    href = ["en", "no"].includes(lang) ? `/${lang}` : "/",
     title = "",
     collection = "",
     breadcrumbs = emptyBreadcrumbs,

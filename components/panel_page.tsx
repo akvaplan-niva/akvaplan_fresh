@@ -13,7 +13,7 @@ import { asset, Head } from "$fresh/runtime.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import { panelHref } from "akvaplan_fresh/services/panelHref.tsx";
 export const PanelPage = (
-  { base, collection, panel, lang, editor, contacts, url, more },
+  { base, collection, panel, lang, editor, contacts, url, more, search },
 ) => (
   <Page base={base} title={panel.title} collection={collection}>
     <Section style={{ display: "grid", placeItems: "center" }}>
@@ -80,19 +80,20 @@ export const PanelPage = (
     </Section>
 
     <Section>
-      <GroupedSearch
-        term={[panel.intl.en.title, panel.intl.no.title].map((
-          s,
-        ) => s?.replace("–", " ")).join(
-          " ",
-        )}
-        collection={["service"]}
-        //exclude={["person", "image", "document", "blog", "pubs"]}
-        origin={url}
-        threshold={1}
-        limit={3}
-        noInput
-      />
+      {search && (
+        <GroupedSearch
+          term={[panel.intl.en.title, panel.intl.no.title].map((
+            s,
+          ) => s?.replace("–", " ")).join(
+            " ",
+          )}
+          origin={url}
+          threshold={.75}
+          limit={4}
+          noInput
+          {...search}
+        />
+      )}
     </Section>
 
     <Head>

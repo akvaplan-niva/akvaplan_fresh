@@ -8,7 +8,7 @@ import { ID_INFRASTRUCTURE } from "akvaplan_fresh/kv/id.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 
 import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
-import { BentoPanel } from "../components/bento_panel.tsx";
+import { BentoPanels } from "../components/bento_panel.tsx";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 import { Page } from "akvaplan_fresh/components/page.tsx";
@@ -38,7 +38,7 @@ export default defineRoute(async (req, ctx) => {
 
   const hero = await getPanelInLang({ id: ID_INFRASTRUCTURE, lang });
 
-  const { id, title, image } = hero;
+  const { title, image } = hero;
   const { cloudinary } = image;
 
   const panels = await getInfrastructurePanels(lang);
@@ -71,21 +71,8 @@ export default defineRoute(async (req, ctx) => {
       )}
 
       <Section />
+      <BentoPanels panels={panels} lang={lang} />
 
-      <section class="Section block-center-center">
-        <div class="Container content-3">
-          <div class="BentoGrid block gap-3">
-            {panels?.map((p) => (
-              <BentoPanel
-                panel={p}
-                hero={false}
-                lang={lang}
-                editor={false}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
       <Head>
         <OpenGraphRequired {...og} />
         <link rel="stylesheet" href={asset("/css/bento.css")} />
