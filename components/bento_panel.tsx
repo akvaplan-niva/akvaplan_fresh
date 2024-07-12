@@ -104,14 +104,21 @@ export const BentoPanel = (
   );
 };
 
-export const BentoPanels = ({ panels, editor, lang }) => (
+export const BentoPanels = (
+  { panels, editor, lang, hero = (p: Panel, i: number) => false }: {
+    panels: Panel[];
+    editor: boolean;
+    lang: string;
+    hero: (p: Panel, i: number) => boolean;
+  },
+) => (
   <section class="Section block-center-center">
     <div class="Container content-3">
       <div class="BentoGrid block gap-3">
-        {panels?.map((p) => (
+        {panels?.map((p, i) => (
           <BentoPanel
             panel={p}
-            hero={false}
+            hero={hero(p, i)}
             lang={lang}
             editor={editor}
           />

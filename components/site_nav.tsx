@@ -45,29 +45,8 @@ export function Breadcrumbs(
               href={href}
               children={text}
             />
-            {
-              /* <a
-              class="pill"
-              href={href}
-              style={{ color: "var(--text1)", margin: "0.125rem" }}
-            >
-              {n === 0
-                ? (
-                  <Icon
-                    name={"arrow_back_ios_new"}
-                    style={{
-                      color: "var(--accent)",
-                      width: "1rem",
-                      height: "1rem",
-                    }}
-                  />
-                )
-                : null} {text}
-            </a> */
-            }
           </li>
         ))}
-        {" "}
       </ol>
     </nav>
   );

@@ -12,3 +12,8 @@ export const ID_RESEARCH = "01hyd6qeqvy0ghjnk1nwdfwvyq";
 export const ID_PROJECTS = "01hyd6qeqv71dyhcd3356q31sy";
 export const ID_PUBLICATIONS = "01j14p49bxc5ek3n2dgb3133j0";
 export const ID_SERVICES = "01hyd6qeqv4n3qrcv735aph6yy";
+
+export const slugIds = new Map([
+  ["fakturering", ID_INVOICING],
+  ["invoicing", ID_INVOICING],
+]);
