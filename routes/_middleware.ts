@@ -2,18 +2,10 @@
 // For possible future automatic propagation of state, see:
 // https://github.com/denoland/fresh/issues/1128
 // https://github.com/denoland/fresh/issues/586#issuecomment-1630175078
-// import { getCookies } from "@std/http/cookie";
-// import { getCookies } from "@std/http";
-// import { getSession } from "akvaplan_fresh/kv/session.ts";
-// import { buildMicrosoftOauthHelpers } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
-// console.warn(ctx.state);
-// for (const [name, cookie] of Object.entries(getCookies(req.headers))) {
-//   if (/site-session/.test(name)) {
-//     getSession(cookie).then((user) => {
-//       ctx.state.user = user;
-//     });
-//   }
-// }
+import { getCookies } from "@std/http/cookie";
+
+//import { buildMicrosoftOauthHelpers } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
+
 import {
   acceptsNordic,
   extractLangFromUrl,
@@ -25,6 +17,8 @@ import { response307 } from "akvaplan_fresh/services/mod.ts";
 import { parse } from "accept-language-parser";
 
 import type { FreshContext } from "$fresh/server.ts";
+import { getSessionUser } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
+import { userSignal } from "akvaplan_fresh/user.ts";
 
 const legacyNaked = "akvaplan.niva.no";
 const legacyHosts = ["www." + legacyNaked, legacyNaked];
@@ -64,6 +58,7 @@ export function handler(req: Request, ctx: FreshContext) {
       const lang = acceptsNordic(acceptLanguages) ? "no" : "en";
       return response307(`/${lang}`);
     } else {
+      // Normal intl route
       const langFromURL = extractLangFromUrl(url);
 
       const lang = langFromURL
@@ -74,7 +69,21 @@ export function handler(req: Request, ctx: FreshContext) {
       if (lang?.length === 2 && ["en", "no"].includes(lang)) {
         setSiteLang(lang);
       }
+
+      if (!Object.hasOwn(ctx.state, "session")) {
+        for (const [name, session] of Object.entries(getCookies(req.headers))) {
+          if (/site-session/.test(name)) {
+            ctx.state.session = session;
+            getSessionUser(req).then(({ name, email }) => {
+              const user = { name, email };
+              ctx.state.user = user;
+              userSignal.value = user;
+            });
+          }
+        }
+      }
     }
   }
+
   return ctx.next();
 }

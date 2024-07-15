@@ -105,6 +105,7 @@ export const handler: Handlers = {
 
     const { getSessionId } = buildMicrosoftOauthHelpers(req);
     const session = await getSessionId(req);
+
     const user = session ? await getSession(session) : null;
     const avatar = user?.email ? await getAvatarImageBytes(user?.email) : null;
 
@@ -178,21 +179,22 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
         {akvaplanist && !(prior || expired) && (
           <>
             <li>
-              {user?.email?.startsWith(akvaplanist.id)
-                ? (
-                  <LinkIcon
-                    icon="exit_to_app"
-                    href="/auth/sign-out"
-                    children="Sign out"
-                  />
-                )
-                : (
-                  <LinkIcon
-                    icon="edit"
-                    href="/auth/sign-in"
-                    children="Sign in"
-                  />
-                )}
+              {
+                user?.email?.startsWith(akvaplanist.id)
+                  ? (
+                    <LinkIcon
+                      icon="exit_to_app"
+                      href="/auth/sign-out"
+                      children="Sign out"
+                    />
+                  )
+                  : <></>
+                // <LinkIcon
+                //   icon="edit"
+                //   href="/auth/sign-in"
+                //   children="Sign in"
+                // />
+              }
             </li>
           </>
         )}

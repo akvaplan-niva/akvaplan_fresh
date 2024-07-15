@@ -16,6 +16,7 @@ export function CleanHeader(
     title = "",
     collection = "",
     breadcrumbs = emptyBreadcrumbs,
+    session,
     Avatar = () => null,
   },
 ) {

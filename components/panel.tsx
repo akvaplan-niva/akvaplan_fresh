@@ -232,7 +232,7 @@ export const HeroPanel = (
   <header class="wide-image-card" {...props} color-scheme={theme}>
     <WideImage
       {...image}
-      style={{ width: "100%", maxHeight: "50dvh", borderRadius: 0 }}
+      style={{ width: "100%", maxHeight: "50vh", borderRadius: 0 }}
     />
 
     <div

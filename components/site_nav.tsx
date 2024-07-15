@@ -1,6 +1,6 @@
 import { siteNav } from "akvaplan_fresh/services/nav.ts";
-import { Icon } from "akvaplan_fresh/components/icon.tsx";
 import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
+import { SiteLangLinks } from "akvaplan_fresh/components/site_lang_links.tsx";
 
 export function SiteNavVerticalLarge() {
   return (
@@ -22,6 +22,12 @@ export function SiteNavVerticalLarge() {
             </a>
           </li>
         ))}
+        <li
+          class="target"
+          style={{ color: "var(--text2)", fontSize: "var(--font-size-4)" }}
+        >
+          <SiteLangLinks />
+        </li>
       </ol>
     </nav>
   );

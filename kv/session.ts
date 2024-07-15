@@ -1,5 +1,6 @@
 import { openKv } from "./mod.ts";
-import type { MicrosoftUserinfo } from "../oauth/microsoft_userinfo.ts";
+import type { MicrosoftUserinfo } from "akvaplan_fresh/oauth/microsoft_userinfo.ts";
+import { userSignal } from "akvaplan_fresh/user.ts";
 
 const kv = await openKv();
 
@@ -7,7 +8,10 @@ export const setSession = async (
   session: string,
   user: MicrosoftUserinfo,
   options?: { expireIn?: number },
-) => await kv.set(["session_user", session], user, options);
+) => {
+  userSignal.value = user;
+  await kv.set(["session_user", session], user, options);
+};
 
 export const deleteSession = async (session: string) =>
   await kv.delete(["session_user", session]);
