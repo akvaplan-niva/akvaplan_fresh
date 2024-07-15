@@ -1,7 +1,6 @@
 import { openKv } from "./mod.ts";
-import type { MicrosoftUserinfo } from "../oauth/microsoft_userinfo.ts";
-import { Signal } from "@preact/signals";
-import { userSignal } from "../user.ts";
+import type { MicrosoftUserinfo } from "akvaplan_fresh/oauth/microsoft_userinfo.ts";
+import { userSignal } from "akvaplan_fresh/user.ts";
 
 const kv = await openKv();
 
