@@ -65,9 +65,11 @@ export const LinkIcon = (
     {...props}
   >
     {right !== true && <Icon2 name={icon} style={{ color: "var(--accent)" }} />}
-    <span style={{ color: "var(--text1)" }}>
-      {children}
-    </span>
+    {children && (
+      <span style={{ color: "var(--text1)" }}>
+        {children}
+      </span>
+    )}
     {right === true && <Icon2 name={icon} style={{ color: "var(--accent)" }} />}
   </a>
 );
@@ -88,8 +90,10 @@ export const TextIcon = (
     {...props}
   >
     <Icon2 name={icon} style={{ color: "var(--accent)" }} />
-    <span style={{ color: "var(--text1)" }}>
-      {children}
-    </span>
+    {children && (
+      <span style={{ color: "var(--text1)" }}>
+        {children}
+      </span>
+    )}
   </span>
 );

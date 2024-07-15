@@ -9,8 +9,6 @@ import {
 } from "akvaplan_fresh/kv/panel.ts";
 import { ID_HOME_HERO } from "akvaplan_fresh/kv/id.ts";
 
-//import { LinkBanner } from "akvaplan_fresh/components/link_banner.tsx";
-
 import {
   ArticleSquare,
   CollectionHeader,
@@ -21,9 +19,6 @@ import { Section } from "akvaplan_fresh/components/section.tsx";
 import { ImagePanel, WideCard } from "akvaplan_fresh/components/panel.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import {
-  createAvatarLink,
-} from "akvaplan_fresh/components/akvaplan/avatar.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -55,12 +50,10 @@ export default defineRoute(async (req, ctx) => {
 
   const authorized = await mayEditKvPanel(req);
 
-  const AvatarLink = await createAvatarLink(req, { lang });
-
   const maxVisNews = 5.5;
 
   return (
-    <Page Avatar={AvatarLink}>
+    <Page>
       {
         /* <Section style={{ display: "grid", placeItems: "center" }}>
         {[].map((b) => <LinkBanner text={b.text} href={b.href} />)}

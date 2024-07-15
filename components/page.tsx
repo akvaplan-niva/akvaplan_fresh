@@ -8,10 +8,8 @@ import { buildInitTheming } from "akvaplan_fresh/theming/mod.ts";
 import { asset, Head } from "$fresh/runtime.ts";
 import { FunctionComponent, JSX } from "preact";
 
-//import { computed } from "@preact/signals-core";
 import { type StringSignal } from "akvaplan_fresh/@interfaces/signal.ts";
 import { collectionBreadcrumbs } from "akvaplan_fresh/services/mod.ts";
-//import { symbolDataURI } from "akvaplan_fresh/components/akvaplan/symbol.tsx";
 
 export type StdProps =
   & JSX.HTMLAttributes<HTMLElement>
@@ -41,6 +39,7 @@ export function Page(
     Left = null,
     Right = null,
     context,
+    session,
     ...props
   }: StdProps,
 ) {
@@ -56,7 +55,6 @@ export function Page(
       <script
         dangerouslySetInnerHTML={{ __html: buildInitTheming() }}
       />
-
       <base href={base} />
 
       <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -94,6 +92,7 @@ export function Page(
           Logo={Logo}
           Avatar={Avatar}
         />
+
         <main
           style={{
             minHeight: "100vh",

@@ -82,6 +82,7 @@ import * as $our_x from "./islands/our_x.tsx";
 import * as $panel_edit_1 from "./islands/panel_edit.tsx";
 import * as $text from "./islands/text.tsx";
 import * as $theme_switcher from "./islands/theme_switcher.tsx";
+import * as $username_or_signin from "./islands/username_or_signin.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -169,6 +170,7 @@ const manifest = {
     "./islands/panel_edit.tsx": $panel_edit_1,
     "./islands/text.tsx": $text,
     "./islands/theme_switcher.tsx": $theme_switcher,
+    "./islands/username_or_signin.tsx": $username_or_signin,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
