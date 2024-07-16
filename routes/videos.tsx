@@ -57,7 +57,7 @@ export default function Videos(
 ) {
   return (
     <Page title={title} base={base} lang={lang}>
-      <h1>{title}</h1>
+      <h1 class="mega-heading">{title}</h1>
       <main
         style={{
           display: "grid",

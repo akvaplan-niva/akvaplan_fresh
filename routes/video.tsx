@@ -12,6 +12,13 @@ export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(film|video){/:date}?/:slug",
 };
 
+import { isAuthenticated } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
+import { editHref, fetchContacts } from "akvaplan_fresh/services/mynewsdesk.ts";
+import { Section } from "akvaplan_fresh/components/section.tsx";
+import { PeopleCard as PersonCard } from "akvaplan_fresh/components/mod.ts";
+import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
+import { t } from "akvaplan_fresh/text/mod.ts";
+
 export default async function VideoPage(req: Request, ctx: RouteContext) {
   const { slug } = ctx.params;
   const id = extractId(slug);
@@ -21,33 +28,25 @@ export default async function VideoPage(req: Request, ctx: RouteContext) {
     return ctx.renderNotFound();
   }
 
+  const contacts = await fetchContacts(video);
+  const editor = await isAuthenticated(req);
+
   return (
     <Page title={video.header} collection="videos">
-      <Head>
+      {
+        /* <Head>
         <script src="https://cdn.screen9.com/players/amber-player.js">
         </script>
         <link
           rel="stylesheet"
           href="https://cdn.screen9.com/players/amber-player.css"
         />
-      </Head>
-
-      <VideoArticle item={video} />
-      {
-        /* <dl>
-https://www.mynewsdesk.com/no/akvaplan-niva/videos/tareproduksjon-akvaplan-niva-forskningsstasjon-119373
-Tareproduksjon Akvaplan-niva Forskningsstasjon
-På Akvaplan-niva jobber vi med de "nye" oppdrettsartene sukkertare, torsk og flekksteinbit. Nylig fikk vi tilsendt sukkertare fra Finnmark som ble samlet inn på en solfylt vinterdag, ved Kjelmøya i Sør-Varanger av selskapet Aurora Seaweed som er partner i Akvaplan-niva prosjektet ARKELP. Sjekk ut ARKELP prosjektet: https://akvaplan.no/en/project/arkelp
-Lisens: Bruk i media
-Filformat: .mp4
-Lengde: 2:05
-Last ned
-Emner
-Vitenskap, teknikk
-Kategorier
-nye-oppdrettsarter new-aquaculture-species akvakultur nye-arter
-      </dl> */
+      </Head> */
       }
+
+      {/* <img src={video.thumbnail} /> */}
+
+      <VideoArticle item={video} editor={editor} />
 
       {
         /* <video
@@ -57,9 +56,22 @@ nye-oppdrettsarter new-aquaculture-species akvakultur nye-arter
         playsinline
       >
       </video>
-      <script type="module" src="/play.js">
-      </script> */
+      <script type="module" src="/play.js"></script> */
       }
+      <Section>
+        <div style="display: grid; gap: 0.75rem; padding: .5rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)">
+          {contacts.map((id) => <PersonCard id={id} icons={false} />)}
+        </div>
+      </Section>
+
+      {editor && (
+        <LinkIcon
+          icon="edit"
+          href={editHref(video)}
+          target="_blank"
+          children={t("ui.Edit")}
+        />
+      )}
     </Page>
   );
 }
