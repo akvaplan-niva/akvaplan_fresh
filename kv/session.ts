@@ -13,8 +13,10 @@ export const setSession = async (
   await kv.set(["session_user", session], user, options);
 };
 
-export const deleteSession = async (session: string) =>
+export const deleteSession = async (session: string) => {
+  userSignal.value = null;
   await kv.delete(["session_user", session]);
+};
 
 export const getSession = async (session: string) =>
   (await kv.get<MicrosoftUserinfo>(["session_user", session])).value;

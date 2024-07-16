@@ -13,6 +13,18 @@ export const buildMicrosoftOauthHelpers = (req: Request) => {
   return createHelpers(oauthConfig);
 };
 
+const UUID_LENGTH = 36;
+
+const isValidSession = (s: string) => {
+  return s.length === UUID_LENGTH;
+};
+
+export const isAuthenticated = async (req: Request) => {
+  const { getSessionId } = buildMicrosoftOauthHelpers(req);
+  const session = await getSessionId(req);
+  return session && isValidSession(session) ? true : false;
+};
+
 export const getSessionUser = async (req) => {
   const { getSessionId } = buildMicrosoftOauthHelpers(req);
   const session = await getSessionId(req);
