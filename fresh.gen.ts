@@ -83,7 +83,7 @@ import * as $panel_edit_1 from "./islands/panel_edit.tsx";
 import * as $text from "./islands/text.tsx";
 import * as $theme_switcher from "./islands/theme_switcher.tsx";
 import * as $username_or_signin from "./islands/username_or_signin.tsx";
-import { type Manifest } from "$fresh/server.ts";
+import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {

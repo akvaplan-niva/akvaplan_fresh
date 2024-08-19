@@ -149,6 +149,7 @@ export const givenAliasMap = new Map(
 // FIXME @todo Add redirect for known author spelling variants,
 // eg. /no/folk/id/avs/Сикорский/А.%20В.
 export const alias = new Map([
+  ["Amanda Fern|Ziegler", "azi"],
   ["Gro Harlaug|Olsen", "ghr"],
   ["Tarald Kleppa|Øvrebø", "tko"],
   ["ANDREY|SIKORSKI", "avs"],
