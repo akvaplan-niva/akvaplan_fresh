@@ -15,7 +15,7 @@ export const getAkvaplanistsFromDenoService = async (): Promise<
   Akvaplanist[]
 > => {
   //console.warn("FETCH", base+"/kv/person");
-  const r = await fetch(new URL("/kv/person",base)).catch((e) =>
+  const r = await fetch(new URL("/kv/person", base)).catch((e) =>
     console.error(e)
   );
   if (r?.ok) {

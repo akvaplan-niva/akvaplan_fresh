@@ -9,7 +9,7 @@
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
   "imports": {
-    "$fresh/": "https://deno.land/x/fresh@1.6.8/",
+    "$fresh/": "https://deno.land/x/fresh@1.7.1/",
     "@deno/kv-oauth": "jsr:@deno/kv-oauth@0.11.0",
     "@hyperjump/json-pointer": "npm:@hyperjump/json-pointer@1.1.0",
     "@orama/orama": "npm:@orama/orama@2.0.16",
