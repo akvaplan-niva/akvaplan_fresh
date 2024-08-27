@@ -17,6 +17,7 @@ import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 import { type Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
 import { Head } from "$fresh/runtime.ts";
+import { peopleURL } from "akvaplan_fresh/services/nav.ts";
 
 interface PeopleProps {
   id?: string;
@@ -142,17 +143,25 @@ export function PeopleCard(
           </div>
         )}
         {workplace?.length > 0 && (
-          <div>
-            <TextIcon icon="place">{workplace}</TextIcon>
-          </div>
+          <p>
+            <a
+              href={`${peopleURL({ lang })}/workplace/${workplace}`}
+              style={{ color: "var(--text2)" }}
+            >
+              <TextIcon icon="place">
+                {workplace}
+              </TextIcon>
+            </a>
+          </p>
         )}
-        {icons && tel && (
-          <div>
-            <LinkIcon href={`tel:${tel}`} icon="phone_in_talk">
-              {[...tel].map((c, i) => i % 2 ? c : `${c} `)}
-            </LinkIcon>
-          </div>
-        )}
+        {icons && tel &&
+          (
+            <p>
+              <LinkIcon href={`tel:${tel}`} icon="phone_in_talk">
+                {[...tel].map((c, i) => i % 2 ? c : `${c} `)}
+              </LinkIcon>
+            </p>
+          )}
         {icons && email && (
           <div>
             <LinkIcon href={`mailto:${email}`} icon="contact_mail">
