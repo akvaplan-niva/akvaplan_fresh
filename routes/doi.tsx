@@ -54,31 +54,31 @@ const doiFromParams = (params: Record<string, string>) => {
 };
 
 export const handler: Handlers<SlimPublication> = {
-  async POST(request: Request, ctx: FreshContext) {
-    const { params } = ctx;
-    const { lang } = params;
+  // async POST(request: Request, ctx: FreshContext) {
+  //   const { params } = ctx;
+  //   const { lang } = params;
 
-    const doi = doiFromParams(params);
+  //   const doi = doiFromParams(params);
 
-    const openalex = await getOpenAlexWork({ doi }) ?? { open_access: {} };
-    const xr = await getCrossrefWork({ doi }) ??
-      { open_access: {} };
+  //   const openalex = await getOpenAlexWork({ doi }) ?? { open_access: {} };
+  //   const xr = await getCrossrefWork({ doi }) ??
+  //     { open_access: {} };
 
-    const slim = { ...slimFromCrossref(xr), doi };
+  //   const slim = { ...slimFromCrossref(xr), doi };
 
-    // const response = await putSlimPublication(
-    //   slim,
-    //   Deno.env.get("AKVAPLAN_DOIS_AUTHORIZATION") ?? "",
-    // );
-    // const { status } = response;
-    // console.warn({ doi, status, response });
-    // if (201===status)
+  //   // const response = await putSlimPublication(
+  //   //   slim,
+  //   //   Deno.env.get("AKVAPLAN_DOIS_AUTHORIZATION") ?? "",
+  //   // );
+  //   // const { status } = response;
+  //   // console.warn({ doi, status, response });
+  //   // if (201===status)
 
-    // add to corpus
-    // remove from corpus… add to ignore in kv?
+  //   // add to corpus
+  //   // remove from corpus… add to ignore in kv?
 
-    return ctx.render({ slim: { doi, ...openalex }, lang, openalex });
-  },
+  //   return ctx.render({ slim: { doi, ...openalex }, lang, openalex });
+  // },
 
   async GET(request: Request, ctx: FreshContext) {
     const { params } = ctx;
@@ -250,7 +250,8 @@ export default function DoiPublication(
           </a>
         )}
 
-        <form method="post" style={{ display: "inline" }}>
+        {
+          /* <form method="post" style={{ display: "inline" }}>
           {Deno.env.has("AKVAPLAN_DOIS_AUTHORIZATION") && (
             <Button
               style={{
@@ -261,7 +262,8 @@ export default function DoiPublication(
               <span>Add to corpus</span>
             </Button>
           )}
-        </form>
+        </form> */
+        }
 
         <div style={{ marginTop: "2rem" }} />
         <Card>

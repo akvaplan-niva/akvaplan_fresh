@@ -21,11 +21,13 @@ export const slimFromCrossref = (xr) => {
 export const extractNakedDoi = (s: string) =>
   /10./.test(s) ? "10." + s.split("10.").at(1) : undefined;
 
-export const getDoisFromDenoDeployService = async () => {
+export const getDoisFromAkvaplanPubService = async () => {
   const url = new URL(`/doi?limit=-1&sort=-published&q=`, DOIS_BASE);
   const response = await fetch(url);
+  // const data = (await response.text())
+  //   .trim().split("\n").map((txt) => JSON.parse(txt));
   if (response.ok) {
-    return response.json();
+    return await response.json();
   }
 };
 

@@ -63,7 +63,7 @@ export const seedKv = async () => {
   // await seedMynewsdesk();
   // seedDois();
   //await seedPanels(kv);
-  await seedPanels();
+  //await seedPanels();
 };
 
 if (import.meta.main) {
