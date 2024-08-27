@@ -1,4 +1,3 @@
-// FIXME https://github.com/akvaplan-niva/akvaplan_fresh/issues/339
 import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 
@@ -83,9 +82,13 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
   };
   return atom;
 };
+// FIXME https://github.com/akvaplan-niva/akvaplan_fresh/issues/339
+//
 
-// (2024-04-04)
-// The names under are correctly not identified as Akvaplanist (except *)
+// Not about family name collisions (2024-04-04)
+// The family names under collides with known Akvaplanists, but are correctly not identified as Akvaplanists on the DOI page
+// Example: "Kai Christensen" in https://akvaplan.no/en/doi/10.3390/s21206752
+//
 // ["Ballantine",["Kate"]]
 // ["Berger",["Stella A.","U.","Urs"]]
 // ["Bluhm",["Bodil A.","BA","Bodil A"]]
