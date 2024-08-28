@@ -51,8 +51,8 @@ const cristinTask = async () => {
     cristinWorksByDoi.get(doi)
   );
   console.warn(onlyCristin.length);
-  onlyCristin.map(({ doi }) => ({ doi })).map(ndjson);
-  //console.warn(onlyCristin);
+  //onlyCristin.map(({ doi }) => ({ doi })).map(ndjson);
+  console.warn(_onlyCristin);
 };
 
 const iconsTask = async (_args: string[] = []) => {

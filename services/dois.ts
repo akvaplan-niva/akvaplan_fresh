@@ -2,11 +2,11 @@ import { buildContainsFilter } from "akvaplan_fresh/search/filter.ts";
 import { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 
 export const DOIS_BASE = globalThis?.Deno?.env?.get("dois_base") ??
-  "https://dois.deno.dev";
+  "https://pubs.deno.dev";
 
 const defaults = {
-  q: "",
-  sort: "-published",
+  //q: "",
+  //sort: "-published",
   limit: "-1",
 };
 
@@ -22,12 +22,13 @@ export const extractNakedDoi = (s: string) =>
   /10./.test(s) ? "10." + s.split("10.").at(1) : undefined;
 
 export const getDoisFromAkvaplanPubService = async () => {
-  const url = new URL(`/doi?limit=-1&sort=-published&q=`, DOIS_BASE);
+  const url = new URL(`/pub?limit=-1`, DOIS_BASE);
   const response = await fetch(url);
-  // const data = (await response.text())
-  //   .trim().split("\n").map((txt) => JSON.parse(txt));
+
   if (response.ok) {
-    return await response.json();
+    const data = (await response.text())
+      .trim().split("\n").map((txt) => JSON.parse(txt));
+    return { data };
   }
 };
 
