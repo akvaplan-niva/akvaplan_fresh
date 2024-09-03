@@ -1,4 +1,6 @@
 import { latestNewsFromMynewsdeskService } from "akvaplan_fresh/services/news.ts";
+import { latestPubsNotInTheFuture } from "akvaplan_fresh/search/search.ts";
+
 import { extractLangFromUrl, lang, t } from "akvaplan_fresh/text/mod.ts";
 
 import {
@@ -13,6 +15,7 @@ import {
   ArticleSquare,
   CollectionHeader,
   HScroll,
+  NewsFilmStrip,
   Page,
 } from "akvaplan_fresh/components/mod.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
@@ -37,6 +40,11 @@ export default defineRoute(async (req, ctx) => {
 
   const news = _news?.filter((n) => sitelang === n.hreflang);
 
+  const pubs = await latestPubsNotInTheFuture();
+
+  const results = [..._news, ...pubs]
+    .sort((a, b) => +new Date(b.published) - +new Date(a.published));
+
   const _newsInAltLang = _news?.filter((n) => sitelang !== n.hreflang);
 
   const newsInAltLang = _newsInAltLang
@@ -54,6 +62,10 @@ export default defineRoute(async (req, ctx) => {
 
   return (
     <Page>
+      <Section class="hide-s">
+        <NewsFilmStrip news={results} lang={sitelang} />
+      </Section>
+
       {
         /* <Section style={{ display: "grid", placeItems: "center" }}>
         {[].map((b) => <LinkBanner text={b.text} href={b.href} />)}

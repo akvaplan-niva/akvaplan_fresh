@@ -21,8 +21,8 @@
 
 .hscroll {
   display: flex;
-  padding: var(--size-1) 0 var(--size-3) 0;
-  background: var(--max-visible-children);
+  padding: var(--size-1) 0 var(--size-1) 0;
+  background: var(--surface0);
 }
 
 .max-visible-children > * {

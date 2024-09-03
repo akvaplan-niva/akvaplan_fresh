@@ -407,6 +407,9 @@ export const canonicalRoute = (
   }
 };
 
+// FIXME hrefForMynewsdeskItem  should be removed, breaks on imaages, video, etc.
+//
+// Similar functionality found in localizedRouteForSearchAtom (search/href.ts)
 export const hrefForMynewsdeskItem = (
   { header, type_of_media, language, published_at: { datetime } }:
     AbstractMynewsdeskItem, // language -> article language

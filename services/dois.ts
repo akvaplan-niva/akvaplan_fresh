@@ -19,7 +19,8 @@ export const slimFromCrossref = (xr) => {
 };
 
 export const extractNakedDoi = (s: string) =>
-  /10./.test(s) ? "10." + s.split("10.").at(1) : undefined;
+  URL.canParse(s) ? new URL(s?.toLowerCase()).pathname.slice(1) : null;
+//  /10./.test(s) ? "10." + s.split("10.").at(1) : undefined;
 
 export const getDoisFromAkvaplanPubService = async () => {
   const url = new URL(`/pub?limit=-1`, DOIS_BASE);
@@ -33,24 +34,25 @@ export const getDoisFromAkvaplanPubService = async () => {
 };
 
 export const search = async (params: Record<string, string> = {}) => {
-  const base = DOIS_BASE;
-  const url = new URL("/doi", base);
-  const { searchParams } = url;
+  return [];
+  // const base = DOIS_BASE;
+  // const url = new URL("/pub", base);
+  // const { searchParams } = url;
 
-  entries(defaults).map(([k, v]) => searchParams.set(k, v));
-  entries(params).map(([k, v]) => searchParams.set(k, v));
+  // entries(defaults).map(([k, v]) => searchParams.set(k, v));
+  // entries(params).map(([k, v]) => searchParams.set(k, v));
+  // throw url.href;
+  // const response = await fetch(url).catch((e) => console.error(e));
 
-  const response = await fetch(url).catch(() => {});
+  // if (response?.ok) {
+  //   const res = await response.json();
 
-  if (response?.ok) {
-    const res = await response.json();
-
-    if (params?.q?.length > 0 && res?.data?.length) {
-      const data = res.data.filter(buildContainsFilter(params.q));
-      res.data = data;
-    }
-    return res;
-  }
+  //   if (params?.q?.length > 0 && res?.data?.length) {
+  //     const data = res.data.filter(buildContainsFilter(params.q));
+  //     res.data = data;
+  //   }
+  //   return res;
+  // }
 };
 
 export const buildYearFilter = (year) =>

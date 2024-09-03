@@ -222,14 +222,15 @@ export const handler: Handlers = {
     //   ? await newsOnPerson({ person, lang: params.lang })
     //   : [];
 
-    const pubsByYear = (person && person.family)
-      ? await pubsFromPersonGroupedByYear({ person, lang: params.lang })
-      : [];
+    const pubsByYear = [];
+    // (person && person.family)
+    //   ? await pubsFromPersonGroupedByYear({ person, lang: params.lang })
+    //   : [];
 
-    const numPubs = [...pubsByYear.values()].map((a) => a.length).reduce(
-      (p, c) => p += c,
-      0,
-    );
+    const numPubs = 0; //[...pubsByYear.values()].map((a) => a.length).reduce(
+    //   (p, c) => p += c,
+    //   0,
+    // );
 
     const office = group === "workplace" ? offices.get(filter) : null;
 

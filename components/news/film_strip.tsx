@@ -2,6 +2,7 @@ import { MiniNewsCard } from "./mini_news.tsx";
 import { HScroll, Icon, MiniCard } from "akvaplan_fresh/components/mod.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 import { type News } from "akvaplan_fresh/@interfaces/mod.ts";
+import { asset, Head } from "$fresh/runtime.ts";
 
 type NewsFilmStripProps = {
   news: News[];
@@ -42,23 +43,26 @@ export function NewsFilmStrip(
   const href = lang === "en" ? "news" : "nyheter";
 
   return (
-    <HScroll>
-      {BeforeAfter && <BeforeAfter href={href} title={more} />}
-      {news.map((
-        { title, href, caption, published, thumb, type, hreflang },
-      ) => (
-        <MiniNewsCard
-          img={thumb}
-          href={href}
-          caption={caption}
-          title={title}
-          published={published}
-          type={type}
-          hreflang={hreflang}
-          lang={lang}
-        />
-      ))}
-      {BeforeAfter && <BeforeAfter href={href} title={more} />}
-    </HScroll>
+    <>
+      <link rel="stylesheet" href={asset("/css/mini-news.css")} />
+      <HScroll maxVisibleChildren={3} style={{ background: "var(--surface2)" }}>
+        {BeforeAfter && <BeforeAfter href={href} title={more} />}
+        {news.map((
+          { title, href, caption, published, thumb, type, hreflang },
+        ) => (
+          <MiniNewsCard
+            img={thumb}
+            href={href}
+            caption={caption}
+            title={title}
+            published={published}
+            type={type}
+            hreflang={hreflang}
+            lang={lang}
+          />
+        ))}
+        {BeforeAfter && <BeforeAfter href={href} title={more} />}
+      </HScroll>
+    </>
   );
 }

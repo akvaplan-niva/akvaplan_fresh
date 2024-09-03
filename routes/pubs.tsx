@@ -3,6 +3,7 @@
 // Pubs: FIXME Real filters (not just links)
 import { t } from "akvaplan_fresh/text/mod.ts";
 import {
+  latestPubsNotInTheFuture,
   oramaSortPublishedReverse,
   search,
   yearFacet,
@@ -12,7 +13,11 @@ import { Page } from "akvaplan_fresh/components/page.tsx";
 import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
 
 import { RouteConfig, RouteContext } from "$fresh/server.ts";
-import { asset, Head } from "$fresh/runtime.ts";
+import { NewsFilmStrip } from "akvaplan_fresh/components/mod.ts";
+import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
+import { ID_PUBLICATIONS } from "akvaplan_fresh/kv/id.ts";
+import { Section } from "akvaplan_fresh/components/section.tsx";
+import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/(pubs|publications|publikasjoner)",
@@ -24,7 +29,6 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
 
   const q = searchParams.get("q");
   const people = searchParams.get("people");
-  const debug = searchParams.has("debug");
   const collection = "pubs";
   const title = t("nav.Pubs").value;
 
@@ -37,7 +41,8 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
     type: {},
     //authors: {}
   };
-
+  const hero = await getPanelInLang<Panel>({ id: ID_PUBLICATIONS, lang });
+  hero.cta = "";
   const results = await search({
     term: q ?? "",
     limit: 10,
@@ -46,18 +51,27 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
     sortBy: oramaSortPublishedReverse,
     threshold: 0.5,
   });
+
+  // const news = await latestPubsNotInTheFuture();
   return (
     <Page title={title} collection="home">
-      <CollectionSearch
-        placeholder={title}
-        collection={collection}
-        q={q}
-        people={people}
-        lang={lang}
-        results={results}
-        facets={facets}
-        list="list"
-      />
+      <Section style={{ display: "grid", placeItems: "center" }}>
+        <ImagePanel {...hero} lang={lang} />
+      </Section>
+      {/* <NewsFilmStrip news={news} lang={lang} /> */}
+
+      <Section>
+        <CollectionSearch
+          placeholder={title}
+          collection={collection}
+          q={q}
+          people={people}
+          lang={lang}
+          results={results}
+          facets={facets}
+          list="list"
+        />
+      </Section>
     </Page>
   );
 }
