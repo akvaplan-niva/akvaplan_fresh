@@ -40,19 +40,34 @@ const cristinTask = async () => {
 
   const cristinDois = new Set(cristinWorksWithDoi.map((w) => w?.doi));
   cristinDois.delete(NO_DOI);
-  const cristinWorksByDoi = new Map(cristinWorksWithDoi.map((w) => [w.doi, w]));
 
-  const akvaplanDois = new Set(data.map(({ doi }) => doi));
+  const cristinWorksByDoi = new Map(cristinWorksWithDoi.map((w) => [w.doi, w]));
+  const cristinApiUrlsByDoi = new Map(
+    cristinWorksWithDoi.map((w) => [w.doi, w.url]),
+  );
+
+  const akvaplanDois = new Set(
+    data.map(({ doi }) =>
+      extractNakedDoi(new URL(doi, "https://doi.org").href)
+    ),
+  );
+  console.warn(akvaplanDois);
 
   const _onlyCristin = cristinDois.difference(akvaplanDois);
   //const onlyInAkvaplan = akvaplanDois.difference(cristinDois);
 
-  const onlyCristin = [..._onlyCristin].map((doi) =>
-    cristinWorksByDoi.get(doi)
-  );
+  const onlyCristin = (await Promise.all([..._onlyCristin].map(async (
+    doi,
+  ) => [
+    doi,
+    await fetch(`https://doi.org/doiRA/${doi}`).then((r) => r.json()),
+    cristinApiUrlsByDoi.get(doi),
+    `https://app.cristin.no/results/show.jsf?id=${
+      cristinApiUrlsByDoi.get(doi)?.split("/").at(-1)
+    }`,
+  ]))).filter(([, [{ status }]]) => status).map((r) => r.at(-1));
   console.warn(onlyCristin.length);
-  //onlyCristin.map(({ doi }) => ({ doi })).map(ndjson);
-  console.warn(_onlyCristin);
+  console.warn(onlyCristin);
 };
 
 const iconsTask = async (_args: string[] = []) => {

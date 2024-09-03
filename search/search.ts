@@ -6,6 +6,7 @@ import type {
   OramaAtomSchema,
 } from "akvaplan_fresh/search/types.ts";
 import { normalize } from "akvaplan_fresh/text/mod.ts";
+import { href } from "akvaplan_fresh/search/href.ts";
 
 export const oramaSortPublishedReverse: SorterParams<OramaAtomSchema> = {
   property: "published",
@@ -103,4 +104,34 @@ export const oramaSearchParamsForAuthoredPubs = ({ family, given }) => {
 export const exportDocuments = async () => {
   const { hits } = await search({ term: "", limit: 1e6 });
   return hits.map(({ document }) => document);
+};
+
+export const latestPubsNotInTheFuture = async () => {
+  const params = {
+    term: "",
+    limit: 10,
+    where: { collection: "pubs" },
+    sortBy: oramaSortPublishedReverse,
+  };
+
+  const results = (await search(params))?.hits
+    .map(({ document }) => document)
+    .map((p) => {
+      switch (p.published.length) {
+        case 4:
+          p.dt + p.published + "-01-01T12:00:00Z";
+          break;
+        case 7:
+          p.dt = p.published + "-01T12:00:00Z";
+          break;
+        case 10:
+          p.dt = p.published;
+          break;
+      }
+      p.href = href(p);
+      return p;
+    })
+    .filter(({ dt }) => new Date(dt) < new Date())
+    .sort((a, b) => +new Date(b.dt) - +new Date(a.dt));
+  return results;
 };

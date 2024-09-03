@@ -26,10 +26,21 @@ export const newsFromMynewsdesk = ({ lang }: NewsMapper) =>
     ...item
   }: AbstractMynewsdeskItem,
 ): News => ({
-  id,
+  //id,
   title: header,
   published: published_at.datetime,
-  href: new URL(url).pathname,
+  href: hrefForMynewsdeskItem({
+    language,
+    id,
+    url,
+    image_caption,
+    header,
+    published_at,
+    image,
+    image_thumbnail_large,
+    type_of_media,
+    rels,
+  }, lang),
   //href: href({ header, language, published_at, type_of_media }, lang),
   hreflang: language,
   img: image_thumbnail_large, //thumbURL(extractID(image ?? ""), { w: 512, h: 512 }),

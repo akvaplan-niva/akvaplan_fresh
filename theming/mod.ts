@@ -71,9 +71,7 @@ export const removeTheming = () => {
 };
 
 export const setTheme = (name: string) => {
-  //if (theme?.value) {
   theme.value = name;
-  //}
   setAttrColorScheme(name);
   storeTheme(name);
 };

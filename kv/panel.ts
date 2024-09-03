@@ -106,11 +106,12 @@ const derefCloudinary = (image) => {
 
 export const deintlPanel = (
   { panel, lang }: { panel: Panel; lang: string },
-) => ({
-  ...panel,
-  image: derefCloudinary(panel?.image),
-  ...panel?.intl?.[lang] ?? {},
-});
+) =>
+  ({
+    ...panel,
+    image: derefCloudinary(panel?.image),
+    ...panel?.intl?.[lang] ?? {},
+  }) as Panel;
 
 export interface PanelFilter {
   (p: Panel): boolean;

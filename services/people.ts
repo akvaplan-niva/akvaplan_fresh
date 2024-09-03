@@ -60,6 +60,7 @@ export const personInAuthors = (person) => ({ family, given, name }) => {
 export const pubsFromPerson = async (
   { person, lang, limit, mapper = newsFromPubs({ lang }) },
 ) => {
+  console.warn("pubsFromPerson", { person });
   const q = ""; // q was `person.family`, but that would exclude spelling variants like Сикорский
   const { data } = await searchPubs({ q, limit: -1 }) ?? {};
 
@@ -69,8 +70,6 @@ export const pubsFromPerson = async (
         .some(personInAuthors(person))
     )
     .map(mapper);
-
-  console.warn({ person });
 
   return pubs;
 };

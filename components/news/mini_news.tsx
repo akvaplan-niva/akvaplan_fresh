@@ -2,16 +2,18 @@ import { isodate } from "akvaplan_fresh/time/mod.ts";
 import { ApnSym, Icon, MiniCard } from "akvaplan_fresh/components/mod.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 import { type News } from "akvaplan_fresh/@interfaces/mod.ts";
+import { Padding } from "https://esm.sh/v135/maplibre-gl@4.4.1/dist/maplibre-gl.js";
 
 const newsItemStyle = ({ type }) => ({
   display: "grid",
+  fontSize: "0.75rem",
   //padding: "var(--size-1)",
   gap: "var(--size-2)",
   alignItems: "center", // vertical
   minWidth: "340px",
   maxWidth: "70ch",
   gridTemplateColumns: `${
-    ["news", "pressrelease"].includes(type) ? "auto" : "128px"
+    ["news", "pressrelease"].includes(type) ? "auto" : "110px"
   } 1fr`,
 });
 
@@ -36,8 +38,8 @@ export const MiniNewsCard = (
   >
     {type === "person" || !img
       ? (
-        <span style={{ height: "96px" }}>
-          <ApnSym />
+        <span>
+          <ApnSym style={{ maxHeight: "110px", padding: ".5rem" }} />
         </span>
       )
       : (
@@ -48,7 +50,12 @@ export const MiniNewsCard = (
             alt={caption ?? title}
             title={caption ?? title}
             loading="lazy"
-            style={{ height: "96px", width: "auto", minWidth: "96px" }}
+            style={{
+              height: "auto",
+              width: "auto",
+              minHeight: "96px",
+              maxHeight: "128px",
+            }}
           />
         </a>
       )}
