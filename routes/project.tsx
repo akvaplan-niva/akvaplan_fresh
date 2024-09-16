@@ -25,10 +25,30 @@ import { PeopleCard as PersonCard } from "akvaplan_fresh/components/mod.ts";
 import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
+import { Results } from "@orama/orama";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(project|prosjekt){/:date}?/:slug",
 };
+
+// export const oramaParamsForRelatedContent = ({ header }) => {
+//   const term = name
+//     ? name
+//     : `${family} ${!/\s/.test(given) ? given : given.split(/\s/).at(0)}`.trim();
+
+//   return {
+//     term,
+//     limit: 5,
+//     sortBy: oramaSortPublishedReverse,
+//     threshold: 0,
+//     exact: true,
+//     facets: { collection: {} },
+//     groupBy: {
+//       properties: ["collection"],
+//       maxResult: 5,
+//     },
+//   };
+// };
 
 export const handler: Handlers = {
   async GET(req, ctx) {
@@ -44,12 +64,12 @@ export const handler: Handlers = {
     if (!item) {
       return ctx.renderNotFound();
     }
-
     // if (["project", "prosjekt"].includes(type) && "no" === lang) {
     //   item.header = t(`project.${slug}.title`);
     // }
     const contacts = await fetchContacts(item);
     const [image] = await fetchImages(item);
+
     item.image_caption = item.image_caption ?? image.header;
 
     let { searchwords, logo, exclude } = projectMap.get(slug) ?? {};

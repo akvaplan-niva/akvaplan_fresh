@@ -92,7 +92,7 @@ export const findVariantWithInitials = ({ family, given }: Person) => {
 };
 
 export const findCanonicalName = async (
-  { id, family, given }: Person,
+  { id, family, given, name }: Person,
 ) => {
   if (id) {
     if (spellingsById.has(id)) {
@@ -104,7 +104,7 @@ export const findCanonicalName = async (
     return variant;
   }
 
-  const orama = await findAkvaplanistViaOrama({ id, family, given });
+  const orama = await findAkvaplanistViaOrama({ id, family, given, name });
   if (orama) {
     if (id && orama?.id === id) {
       return orama;

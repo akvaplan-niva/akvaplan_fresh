@@ -26,6 +26,7 @@ const No1 = new Map([
   ["image", "bilde"],
   ["document", "dokument"],
   ["pubs", "doi"],
+  ["pub", "publikasjon"],
   ["project", "prosjekt"],
   ["news", "nyhet"],
   ["pressrelease", "pressemelding"],
@@ -45,10 +46,18 @@ const localizedRouteForSearchAtom = (
   atom: OramaAtom & { hreflang?: "string" },
   lang: string,
 ): string => {
-  const { collection, slug } = atom;
+  let { collection, slug, id } = atom;
   if (collection === "person" && slug.startsWith("id/")) {
     const { title: name, id: email } = atom;
     return akvaplanistUrl({ email, name, slug } as any, lang);
+  } else if (collection === "pubs") {
+    if (String(id).startsWith("https://hdl.handle.net")) {
+      collection = "pub";
+    } else if (String(id).startsWith("https://doi.org")) {
+      collection = "doi";
+    } else if (slug?.startsWith("nva/")) {
+      collection = "pub";
+    }
   }
 
   const intl_route = lang === "no"

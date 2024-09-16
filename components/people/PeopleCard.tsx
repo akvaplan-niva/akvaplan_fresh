@@ -3,7 +3,7 @@
 import { buildAkvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
 import { priorAkvaplanistID } from "akvaplan_fresh/services/prior_akvaplanists.ts";
 import { personURL } from "akvaplan_fresh/services/nav.ts";
-
+import { longDate } from "akvaplan_fresh/time/mod.ts";
 import { Card, UseApnSym } from "akvaplan_fresh/components/mod.ts";
 
 import {
@@ -67,6 +67,9 @@ export function PeopleCard(
     responsibility,
     prior,
     expired,
+    published,
+    created,
+    from,
   } = person ?? {};
 
   return (
@@ -104,7 +107,7 @@ export function PeopleCard(
         </span>
       )}
 
-      <div>
+      <div title={longDate(expired ?? from ?? created, lang)}>
         {avatar
           ? (
             <img

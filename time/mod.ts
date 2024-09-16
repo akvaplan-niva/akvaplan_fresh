@@ -16,5 +16,5 @@ export const longDate = (dt: Date | string, lang: string) => {
     dateStyle: "long",
     timeZone: "Europe/Oslo",
   });
-  return idt.format(dt instanceof Date ? dt : new Date(dt));
+  return dt ? idt.format(dt instanceof Date ? dt : new Date(dt)) : "";
 };

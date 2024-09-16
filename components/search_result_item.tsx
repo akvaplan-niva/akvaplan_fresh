@@ -41,6 +41,7 @@ export const SearchResultItem = (
     img512,
     thumb,
     intl,
+    type,
   } = document;
   const lang = langSignal.value;
   const hreflang = document?.lang ?? lang;
@@ -155,13 +156,14 @@ export const SearchResultItem = (
 
               {container ? container + " " : null}
             </em>
+
             {published && !["person"].includes(collection) &&
               `${published.substring(0, 10)}`}
 
             {!["image", "person"].includes(collection) && hreflang &&
                 hreflang !== lang
               ? ` (${t(`lang.${hreflang}`)}) `
-              : null}
+              : null} {/**[{t(`type.${type}`)}] */}
           </p>
         </MiniCard>
       </div>
