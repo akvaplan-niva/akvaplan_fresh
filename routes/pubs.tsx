@@ -3,7 +3,7 @@
 // Pubs: FIXME Real filters (not just links)
 import { t } from "akvaplan_fresh/text/mod.ts";
 import {
-  latestPubsNotInTheFuture,
+  latestNotInTheFuture,
   oramaSortPublishedReverse,
   search,
   yearFacet,

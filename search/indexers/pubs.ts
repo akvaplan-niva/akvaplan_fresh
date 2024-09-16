@@ -2,11 +2,8 @@ import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
-import {
-  extractInitials,
-  findCanonicalName,
-  toName,
-} from "akvaplan_fresh/services/person.ts";
+import { findCanonicalName, toName } from "akvaplan_fresh/services/person.ts";
+import { t } from "akvaplan_fresh/text/mod.ts";
 
 export const foundNames = new Set<string>();
 export const notFoundNames = new Set<string>();
@@ -15,12 +12,12 @@ const findPerson = async (author: Akvaplanist) => {
   const { family, given, name } = author;
 
   if (family && !given) {
-    //console.warn("Bailing no given", author);
+    console.warn("Bailing no given", author);
     return;
   }
 
   if (name && !family) {
-    //console.warn("Bailing: name only", author);
+    console.warn("Bailing: name only", author);
     return;
   }
 
@@ -42,6 +39,7 @@ const findCanonicalPersonName = async (
 ) => {
   const found = await findPerson(author);
   if (found) {
+    console.warn({ author, found });
     const name = toName(found);
     foundNames.add(name);
     return name;
@@ -51,25 +49,48 @@ const findCanonicalPersonName = async (
   //const given = extractInitials(author.given, 1).join("");
   const name = toName({ family, given });
   notFoundNames.add(name);
+
   return name;
 };
 
+const buildSlug = ({ id, doi }: Partial<SlimPublication>) => {
+  if (id.startsWith("https://doi.org/10.") && doi?.startsWith("10.")) {
+    return doi;
+  }
+  if (id.startsWith("https://hdl.handle.net/")) {
+    return "hdl" + new URL(id).pathname;
+  }
+  if (id.startsWith("https://api.test.nva.aws.unit.no/publication/")) {
+    return "nva/" + new URL(id).pathname.split("/publication/").at(1);
+  }
+
+  return id;
+};
+
 export const atomizeSlimPublication = async (pub: SlimPublication) => {
-  const { title, published, doi, type, container } = pub;
-  const authors: string[] = pub.authors?.map((
+  const { id, title, published, doi, type, container } = pub;
+  const authors: string[] = (pub?.authors ?? []).map((
     { family, given, name },
-  ) => name ?? `${given} ${family}`) ?? [];
+  ) => name ? name : `${given} ${family}`);
 
-  const asit = await pub?.authors?.map(async (p) =>
-    await findCanonicalPersonName(p)
-  );
+  // authors.map((name) =>
+  //   namesCount.add(name.replace(/[.]/g, " ").replace(/[\s]{2,}/g, " ").trim())
+  // );
+  //console.warn(JSON.stringify(namesCount.sortmax().slice(0, 100)));
+  // const asit = await authors?.map(async (p) =>
+  //   await findCanonicalPersonName(p)
+  // );
 
-  const people = asit ? await Array.fromAsync(asit) : [];
+  const people = authors.map((a) => a);
+
   const year = new Date(published).getFullYear();
 
+  //console.warn(pub);
+
+  const slug = buildSlug(pub);
   const atom: OramaAtom = {
-    id: `https://doi.org/${doi}`,
-    slug: `${doi}`,
+    id,
+    slug,
     collection: "pubs",
     type,
     container,
@@ -78,7 +99,7 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
     title: title ?? `[${container} (${year}): ${doi}]`,
     published: String(published),
     year,
-    text: "",
+    text: [container, t(`type.${type}`)].join(" "),
   };
   return atom;
 };

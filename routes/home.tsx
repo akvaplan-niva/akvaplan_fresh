@@ -1,5 +1,5 @@
 import { latestNewsFromMynewsdeskService } from "akvaplan_fresh/services/news.ts";
-import { latestPubsNotInTheFuture } from "akvaplan_fresh/search/search.ts";
+import { latestNotInTheFuture } from "akvaplan_fresh/search/search.ts";
 
 import { extractLangFromUrl, lang, t } from "akvaplan_fresh/text/mod.ts";
 
@@ -40,9 +40,9 @@ export default defineRoute(async (req, ctx) => {
 
   const news = _news?.filter((n) => sitelang === n.hreflang);
 
-  const pubs = await latestPubsNotInTheFuture();
+  const latestNonNews = await latestNotInTheFuture(["person", "pubs"]);
 
-  const results = [..._news, ...pubs]
+  const latest = [..._news, ...latestNonNews]
     .sort((a, b) => +new Date(b.published) - +new Date(a.published));
 
   const _newsInAltLang = _news?.filter((n) => sitelang !== n.hreflang);
@@ -62,9 +62,9 @@ export default defineRoute(async (req, ctx) => {
 
   return (
     <Page>
-      <Section class="hide-s">
-        <NewsFilmStrip news={results} lang={sitelang} />
-      </Section>
+      <div class="hide-s">
+        <NewsFilmStrip news={latest} lang={sitelang} />
+      </div>
 
       {
         /* <Section style={{ display: "grid", placeItems: "center" }}>

@@ -18,7 +18,7 @@ export type StdProps =
     base?: string | StringSignal;
     lang?: string | StringSignal;
     Header?: FunctionComponent;
-    breadcrumbs: Breadcrumb[];
+    breadcrumbs?: Breadcrumb[];
   };
 
 const slagord = "Fra forskning til verdiskapning";

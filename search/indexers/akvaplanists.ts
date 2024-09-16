@@ -13,7 +13,7 @@ import {
 // FIXME   slug: "id/skd/synn%C3%B8ve-killie-dinnesen",
 
 export const atomizeAkvaplanist = (a: Akvaplanist): OramaAtom => {
-  const { id, family, given, created, updated, email, ...more } = a;
+  const { id, family, given, from, created, updated, email, ...more } = a;
   const name = `${given} ${family}`;
   const slug = `id/${id as string}/${
     encodeURIComponent(name.toLocaleLowerCase("no").replace(/\s/g, "+"))
@@ -34,6 +34,6 @@ export const atomizeAkvaplanist = (a: Akvaplanist): OramaAtom => {
     id: email,
     text,
     people: [],
-    published: (created ?? updated) as string,
+    published: (from ?? created ?? updated) as string,
   };
 };

@@ -2,7 +2,11 @@ import markdownDocuments from "akvaplan_fresh/services/documents.json" with {
   type: "json",
 };
 
-import { getDoisFromAkvaplanPubService } from "akvaplan_fresh/services/dois.ts";
+//cat ../pubs/data/nva.ndjson | sort | uniq | nd-group 1 | nd-map d[1] > data/nva.json
+// import nva from "akvaplan_fresh/data/nva.json" with {
+//   type: "json",
+// };
+import { getDoiMetadataFromAkvaplanPubService } from "akvaplan_fresh/services/dois.ts";
 
 import {
   atomizeAkvaplanist,
@@ -35,11 +39,12 @@ export const createOramaIndex = async () => {
   console.warn(`Indexing ${markdownDocuments.length} markdown documents`);
   await insertMultiple(orama, markdownDocuments);
 
-  const { data } = await getDoisFromAkvaplanPubService();
-  console.warn(`Indexing ${data.length} pubs`);
+  const { data } = await getDoiMetadataFromAkvaplanPubService();
+  const pubs = data;
+  console.warn(`Indexing ${pubs.length} pubs`);
   await insertMultiple(
     orama,
-    await Array.fromAsync(data?.map(atomizeSlimPublication)),
+    await Array.fromAsync(pubs?.map(atomizeSlimPublication)),
   );
 
   console.warn(`Indexing Mynewsdesk`);

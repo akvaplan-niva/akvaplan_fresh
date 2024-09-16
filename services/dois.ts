@@ -1,17 +1,7 @@
 import { buildContainsFilter } from "akvaplan_fresh/search/filter.ts";
 import { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 
-export const DOIS_BASE = globalThis?.Deno?.env?.get("dois_base") ??
-  "https://pubs.deno.dev";
-
-const defaults = {
-  //q: "",
-  //sort: "-published",
-  limit: "-1",
-};
-
-const { entries } = Object;
-
+export const PUBS_BASE = "https://pubs.deno.dev";
 export const slimFromCrossref = (xr) => {
   const { message, ...rest } = xr;
   console.warn(rest);
@@ -22,20 +12,21 @@ export const extractNakedDoi = (s: string) =>
   URL.canParse(s) ? new URL(s?.toLowerCase()).pathname.slice(1) : null;
 //  /10./.test(s) ? "10." + s.split("10.").at(1) : undefined;
 
-export const getDoisFromAkvaplanPubService = async () => {
-  const url = new URL(`/pub?limit=-1`, DOIS_BASE);
+export const getDoiMetadataFromAkvaplanPubService = async () => {
+  const url = new URL(`/pub?limit=-1&format=ndjson`, PUBS_BASE);
   const response = await fetch(url);
 
   if (response.ok) {
-    const data = (await response.text())
-      .trim().split("\n").map((txt) => JSON.parse(txt));
+    const text = (await response.text())
+      .trim().split("\n");
+    const data = text.map(JSON.parse).filter((p) => p.doi);
     return { data };
   }
 };
 
 export const search = async (params: Record<string, string> = {}) => {
   return [];
-  // const base = DOIS_BASE;
+  // const base = PUBS_BASE;
   // const url = new URL("/pub", base);
   // const { searchParams } = url;
 
@@ -91,7 +82,7 @@ export const getSlimPublication = async (
   // if (value) {
   //   return value;
   // }
-  const base = Deno?.env?.get("dois_base") ?? DOIS_BASE;
+  const base = PUBS_BASE;
   const url = new URL(`/doi/${doi}`, base);
   const response = await fetch(url.href).catch(() => {});
   if (response?.ok) {
@@ -104,7 +95,7 @@ export const putSlimPublication = async (
   slim: SlimPublication,
   authorization: string,
 ) => {
-  const base = Deno?.env?.get("dois_base") ?? DOIS_BASE;
+  const base = PUBS_BASE;
   const { doi } = slim;
   const url = new URL(`/doi/${doi}`, base);
   return await fetch(url.href, {

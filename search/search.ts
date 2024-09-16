@@ -82,10 +82,10 @@ export const removePublished = (hits) =>
     return h;
   });
 
-export const oramaSearchParamsForAuthoredPubs = ({ family, given }) => {
-  const term = `${family} ${
-    !/\s/.test(given) ? given : given.split(/\s/).at(0)
-  }`.trim();
+export const oramaSearchParamsForAuthoredPubs = ({ name, family, given }) => {
+  const term = name
+    ? name
+    : `${family} ${!/\s/.test(given) ? given : given.split(/\s/).at(0)}`.trim();
 
   return {
     term,
@@ -106,11 +106,11 @@ export const exportDocuments = async () => {
   return hits.map(({ document }) => document);
 };
 
-export const latestPubsNotInTheFuture = async () => {
+export const latestNotInTheFuture = async (collection: string[]) => {
   const params = {
     term: "",
     limit: 10,
-    where: { collection: "pubs" },
+    where: { collection },
     sortBy: oramaSortPublishedReverse,
   };
 
@@ -124,7 +124,9 @@ export const latestPubsNotInTheFuture = async () => {
         case 7:
           p.dt = p.published + "-01T12:00:00Z";
           break;
+        default:
         case 10:
+        case 24:
           p.dt = p.published;
           break;
       }
