@@ -1,41 +1,54 @@
-import { getOramaDocument } from "akvaplan_fresh/search/orama.ts";
-import { Card, Page } from "akvaplan_fresh/components/mod.ts";
+import { ApnSym, Card, Page } from "akvaplan_fresh/components/mod.ts";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
-
+import { getPub } from "akvaplan_fresh/services/pub.ts";
+import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
+import { personURL } from "akvaplan_fresh/services/mod.ts";
 export const config: RouteConfig = {
   routeOverride:
-    "{/:lang(en|no)}?/(publikasjon|publication|pub)/:idtype(hdl|nva|hdl.handle.net)/:id*",
+    "{/:lang(en|no)}?/(publikasjon|publication|pub)/:kind(doi|hdl|nva|hdl.handle.net)/:idx*",
 };
 
-const oramaDocumenmtId = (id: string, idtype: string) => {
-  switch (idtype) {
+const getUri = (kind: string, id: string) => {
+  switch (kind) {
+    case "doi":
+      return new URL(id, "https://doi.org").href;
     case "hdl":
       return new URL(id, "https://hdl.handle.net").href;
     case "nva":
       return new URL(
         id,
-        "https://api.test.nva.aws.unit.no/publication/01907a6d1b48-247e3e2c-d315-4236-b358-e74db3248f6f",
+        "https://api.test.nva.aws.unit.no/publication/",
       ).href;
+    default:
+      throw "Unsupported id scheme";
   }
 };
 
 export default defineRoute(async (req, ctx) => {
   const { params } = ctx;
-  const { id, lang, idtype } = params;
+  const { idx, lang, kind } = params;
 
-  const oramaId = oramaDocumenmtId(id, idtype);
-  const pub = await getOramaDocument(oramaId);
-  if (!pub) {
+  const uri = getUri(kind, idx);
+  const r = await getPub(uri);
+
+  if (r?.status === 404) {
     return ctx.renderNotFound();
   }
+  const pub = await r.json();
+
+  // const oramaId = oramaDocumenmtId(id, idtype);
+  // const pub = await getOramaDocument(oramaId);
+  // if (!pub) {
+  //   return ctx.renderNotFound();
+  // }
 
   const hreflang = pub?.lang ?? lang;
   const doi = "";
   const oa = true;
 
-  const { container, title, printed, published, image } = pub;
+  const { container, title, published, image, authors } = pub;
 
   return (
     <Page title="" lang={lang}>
@@ -44,16 +57,21 @@ export default defineRoute(async (req, ctx) => {
           lang={hreflang}
           dangerouslySetInnerHTML={{ __html: title }}
         />
-        <p>
-          <em dangerouslySetInnerHTML={{ __html: container || "?" }} />{" "}
-          (<time>{printed ?? published}</time>)
-        </p>
+        <Pill>
+          {pub.type}
+        </Pill>
+        {container && (
+          <p>
+            <em dangerouslySetInnerHTML={{ __html: container }} />{" "}
+            (<time>{published}</time>)
+          </p>
+        )}
         <p>
           <a
             target="_blank"
-            href={`https://doi.org/${doi}`}
+            href={pub.id}
           >
-            https://doi.org/{doi}
+            {pub.id}
           </a>
         </p>
         {oa === true ? t("pubs.oa") : null}
@@ -69,17 +87,54 @@ export default defineRoute(async (req, ctx) => {
         </p>
       </Card>
 
-      <Section style={{ paddingTop: ".75rem", fontSize: ".75rem" }}>
+      <Section
+        style={{
+          paddingTop: ".75rem",
+          paddingBottom: ".75rem",
+          fontSize: ".75rem",
+        }}
+      >
         <Card>
-          <pre>{JSON.stringify(pub, null, "  ")}</pre>
+          <dl style={{ fontSize: "1rem" }}>
+            {authors?.map((
+              { name, given, family, identity },
+              n,
+            ) => (
+              <>
+                <dt>
+                  {identity
+                    ? (
+                      <span>
+                        <a
+                          href={personURL(
+                            { id: identity.id, given, family },
+                            lang,
+                          )}
+                        >
+                          {name}
+                        </a>{" "}
+                        <ApnSym
+                          width="1rem"
+                          height="1rem"
+                          style={identity.prior
+                            ? { filter: "grayscale(1)" }
+                            : {}}
+                        />
+                      </span>
+                    )
+                    : <span>{name}</span>}
+                </dt>
+              </>
+            ))}
+          </dl>
         </Card>
       </Section>
-      <Section>
-        <dl>
-          <dt></dt>
-          <dd></dd>
-        </dl>
-      </Section>
+
+      {
+        /* <Card>
+        <pre>{JSON.stringify(pub, null, "  ")}</pre>
+      </Card> */
+      }
     </Page>
   );
 });

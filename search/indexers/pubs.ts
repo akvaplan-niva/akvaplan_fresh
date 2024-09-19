@@ -67,11 +67,12 @@ const buildSlug = ({ id, doi }: Partial<SlimPublication>) => {
   return id;
 };
 
+const nameFromAuthor = ({ family, given, name }: Partial<Akvaplanist>) =>
+  name ? name : `${given} ${family}`;
+
 export const atomizeSlimPublication = async (pub: SlimPublication) => {
   const { id, title, published, doi, type, container } = pub;
-  const authors: string[] = (pub?.authors ?? []).map((
-    { family, given, name },
-  ) => name ? name : `${given} ${family}`);
+  const authors: string[] = (pub?.authors ?? []).map(nameFromAuthor);
 
   // authors.map((name) =>
   //   namesCount.add(name.replace(/[.]/g, " ").replace(/[\s]{2,}/g, " ").trim())
@@ -81,8 +82,9 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
   //   await findCanonicalPersonName(p)
   // );
 
-  const people = authors.map((a) => a);
-
+  const people = (pub?.authors ?? []).map((a) =>
+    a?.identity ? nameFromAuthor(a.identity) : nameFromAuthor(a)
+  );
   const year = new Date(published).getFullYear();
 
   //console.warn(pub);

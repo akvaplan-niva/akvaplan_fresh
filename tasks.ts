@@ -7,7 +7,7 @@ import {
 import { getLatestAkvaplanWorks } from "akvaplan_fresh/services/cristin.ts";
 import {
   extractNakedDoi,
-  getDoiMetadataFromAkvaplanPubService,
+  getPubsFromDenoDeployService,
 } from "akvaplan_fresh/services/dois.ts";
 import { ndjson } from "akvaplan_fresh/cli/ndjson.ts";
 
@@ -29,7 +29,7 @@ const cristinTask = async () => {
   const NO_DOI = "NO_DOI_IN_CRISTIN";
 
   const works = await getLatestAkvaplanWorks({ per_page: 9999 });
-  const { data } = await getDoiMetadataFromAkvaplanPubService();
+  const { data } = await getPubsFromDenoDeployService();
   const cristinWorksWithDoi = works?.map((w) => {
     const url = w?.links?.find(({ url }) =>
       url && url?.startsWith("https://doi.org/10.")
