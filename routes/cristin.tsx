@@ -9,7 +9,7 @@ import {
 } from "akvaplan_fresh/components/cristin_works_grouped.tsx";
 import {
   extractNakedDoi,
-  getDoiMetadataFromAkvaplanPubService,
+  getPubsFromDenoDeployService,
 } from "akvaplan_fresh/services/dois.ts";
 import { CristinListItem } from "akvaplan_fresh/components/cristin_list.tsx";
 import { countAkvaplanistAuthors } from "akvaplan_fresh/services/mod.ts";
@@ -29,7 +29,7 @@ export default defineRoute(async (_r, ctx) => {
     params.category = category.toUpperCase();
   }
   const works = await getLatestAkvaplanWorks(params);
-  const { data } = await getDoiMetadataFromAkvaplanPubService();
+  const { data } = await getPubsFromDenoDeployService();
   const cristinWorksWithDoi = works?.map((w) => {
     const url = w?.links?.find(({ url }) =>
       url && url?.startsWith("https://doi.org/10.")

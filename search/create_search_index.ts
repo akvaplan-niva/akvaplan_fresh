@@ -6,7 +6,7 @@ import markdownDocuments from "akvaplan_fresh/services/documents.json" with {
 // import nva from "akvaplan_fresh/data/nva.json" with {
 //   type: "json",
 // };
-import { getDoiMetadataFromAkvaplanPubService } from "akvaplan_fresh/services/dois.ts";
+import { getPubsFromDenoDeployService } from "akvaplan_fresh/services/dois.ts";
 
 import {
   atomizeAkvaplanist,
@@ -39,21 +39,22 @@ export const createOramaIndex = async () => {
   console.warn(`Indexing ${markdownDocuments.length} markdown documents`);
   await insertMultiple(orama, markdownDocuments);
 
-  const { data } = await getDoiMetadataFromAkvaplanPubService();
-  const pubs = data;
-  console.warn(`Indexing ${pubs.length} pubs`);
-  await insertMultiple(
-    orama,
-    await Array.fromAsync(pubs?.map(atomizeSlimPublication)),
-  );
+  const pubs = await getPubsFromDenoDeployService();
+  if (pubs) {
+    console.warn(`Indexing ${pubs.length} pubs`);
+    await insertMultiple(
+      orama,
+      await Array.fromAsync(pubs?.map(atomizeSlimPublication)),
+    );
+  }
 
   console.warn(`Indexing Mynewsdesk`);
-  const mynewsdesk_manifest = [];
+  //const mynewsdesk_manifest = [];
   for await (const manifest of insertMynewsdesk(orama)) {
     console.warn(manifest);
-    if (manifest?.count > 0) {
-      mynewsdesk_manifest.push(manifest);
-    }
+    // if (manifest?.count > 0) {
+    //   mynewsdesk_manifest.push(manifest);
+    // }
   }
   // await Deno.writeTextFile(
   //   "./_fresh/mynewsdesk_manifest.json",

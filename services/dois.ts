@@ -1,6 +1,5 @@
-import { buildContainsFilter } from "akvaplan_fresh/search/filter.ts";
 import { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
-
+// FIXME Remove this file and consolidate with pub.ts
 export const PUBS_BASE = "https://pubs.deno.dev";
 export const slimFromCrossref = (xr) => {
   const { message, ...rest } = xr;
@@ -12,15 +11,19 @@ export const extractNakedDoi = (s: string) =>
   URL.canParse(s) ? new URL(s?.toLowerCase()).pathname.slice(1) : null;
 //  /10./.test(s) ? "10." + s.split("10.").at(1) : undefined;
 
-export const getDoiMetadataFromAkvaplanPubService = async () => {
+export const getPubsFromDenoDeployService = async () => {
   const url = new URL(`/pub?limit=-1&format=ndjson`, PUBS_BASE);
   const response = await fetch(url);
 
   if (response.ok) {
     const text = (await response.text())
       .trim().split("\n");
-    const data = text.map(JSON.parse).filter((p) => p.doi);
-    return { data };
+    const pubs: SlimPublication[] = text.map(JSON.parse).map(({ value }) =>
+      value
+    ).filter((
+      p,
+    ) => true);
+    return pubs;
   }
 };
 
