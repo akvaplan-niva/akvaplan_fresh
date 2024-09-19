@@ -60,6 +60,9 @@ const buildSlug = ({ id, doi }: Partial<SlimPublication>) => {
   if (id.startsWith("https://hdl.handle.net/")) {
     return "hdl" + new URL(id).pathname;
   }
+  if (id.startsWith("https://api.nva.unit.no/publication/")) {
+    return "nva/" + new URL(id).pathname.split("/publication/").at(1);
+  }
   if (id.startsWith("https://api.test.nva.aws.unit.no/publication/")) {
     return "nva/" + new URL(id).pathname.split("/publication/").at(1);
   }
@@ -87,9 +90,8 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
   );
   const year = new Date(published).getFullYear();
 
-  //console.warn(pub);
-
   const slug = buildSlug(pub);
+
   const atom: OramaAtom = {
     id,
     slug,
