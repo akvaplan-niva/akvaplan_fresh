@@ -56,6 +56,7 @@ const localizedRouteForSearchAtom = (
     } else if (String(id).startsWith("https://doi.org")) {
       collection = "doi";
     } else if (slug?.startsWith("nva/")) {
+      console.warn({ atom });
       collection = "pub";
     }
   }

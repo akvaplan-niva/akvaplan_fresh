@@ -7,11 +7,13 @@ import { Padding } from "https://esm.sh/v135/maplibre-gl@4.4.1/dist/maplibre-gl.
 const newsItemStyle = ({ type }) => ({
   display: "grid",
   fontSize: "0.75rem",
-  //padding: "var(--size-1)",
-  gap: "var(--size-2)",
+  gap: "var(--size-1)",
+  margin: ".125vw",
+  padding: ".05vw",
+  background: "var(--surface0)",
   alignItems: "center", // vertical
-  minWidth: "340px",
-  maxWidth: "70ch",
+  minWidth: "36ch",
+  maxWidth: "108ch",
   gridTemplateColumns: `${
     ["news", "pressrelease"].includes(type) ? "auto" : "110px"
   } 1fr`,
@@ -39,7 +41,7 @@ export const MiniNewsCard = (
     {type === "person" || !img
       ? (
         <span>
-          <ApnSym style={{ maxHeight: "110px", padding: ".5rem" }} />
+          <ApnSym style={{ maxHeight: "108px", padding: ".5rem" }} />
         </span>
       )
       : (

@@ -43,9 +43,9 @@ export function NewsFilmStrip(
   const href = lang === "en" ? "news" : "nyheter";
 
   return (
-    <>
-      <link rel="stylesheet" href={asset("/css/mini-news.css")} />
-      <HScroll maxVisibleChildren={3} style={{ background: "var(--surface2)" }}>
+    <div>
+      {/* <link rel="stylesheet" href={asset("/css/mini-news.css")} /> */}
+      <HScroll>
         {BeforeAfter && <BeforeAfter href={href} title={more} />}
         {news.map((
           { title, href, caption, published, thumb, type, hreflang },
@@ -63,6 +63,6 @@ export function NewsFilmStrip(
         ))}
         {BeforeAfter && <BeforeAfter href={href} title={more} />}
       </HScroll>
-    </>
+    </div>
   );
 }

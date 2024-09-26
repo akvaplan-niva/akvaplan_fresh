@@ -1,6 +1,8 @@
 import { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
+0;
+import { PUBS_BASE } from "./pub.ts";
 // FIXME Remove this file and consolidate with pub.ts
-export const PUBS_BASE = "https://pubs.deno.dev";
+
 export const slimFromCrossref = (xr) => {
   const { message, ...rest } = xr;
   console.warn(rest);
@@ -17,12 +19,10 @@ export const getPubsFromDenoDeployService = async () => {
 
   if (response.ok) {
     const text = (await response.text())
-      .trim().split("\n");
-    const pubs: SlimPublication[] = text.map(JSON.parse).map(({ value }) =>
-      value
-    ).filter((
-      p,
-    ) => true);
+      .trim();
+    const pubs: SlimPublication[] = text?.split("\n")?.map(JSON.parse).map((
+      { value },
+    ) => value);
     return pubs;
   }
 };

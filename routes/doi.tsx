@@ -1,10 +1,10 @@
 // FIXME Orama search  "A Sen" => "Maj Arneberg" http://localhost:7777/no/doi/10.3354/meps13101
 // FIXME "Espen O. Henriksen" => "Eirik Haugstvedt Henriksen" http://localhost:7777/no/doi/10.1046/j.1365-2664.2000.00521.x
-export {
-  handler as _handler,
-  type InternationalProps,
-  style,
-} from "akvaplan_fresh/utils/page/international_page.ts";
+// export {
+//   handler as _handler,
+//   type InternationalProps,
+//   style,
+// } from "akvaplan_fresh/utils/page/international_page.ts";
 
 import {
   //buildoiNewsMap,
@@ -380,3 +380,16 @@ export default function DoiPublication(
 }
 
 // FIXME: DOI from hell: /no/doi/10.1577/1548-8659(1994)123%3C0385:spbpac%3E2.3.co;2
+// import { defineRoute, RouteConfig } from "$fresh/server.ts";
+// export const config: RouteConfig = {
+//   routeOverride: "{/:lang(en|no)}?/doi/:prefix/:suffix0/:extra*",
+// };
+// export default defineRoute((_req, ctx) => {
+//   return new Response("", {
+//     status: 307,
+//     headers: {
+//       location: ctx.url.pathname.replace("/doi/", "/pub/"),
+//       //"x-robots-tag": "noindex, nofollow, noarchive, nosnippet",
+//     },
+//   });
+// });

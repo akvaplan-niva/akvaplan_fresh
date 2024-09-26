@@ -42,28 +42,17 @@ export const createOramaIndex = async () => {
   const _pubs = await getPubsFromDenoDeployService();
   if (_pubs) {
     const types = new Set();
+    const kinds = new Set();
     const pubs = _pubs.filter(({ id, type }) => {
       const { hostname } = new URL(id);
-      if (hostname === "api.nva.unit.no") {
-        const rejectTypes = new Set([
-          "event",
-          "journal",
-          "mediacontribution",
-          "mediacontributionperiodical",
-        ]);
-        if (rejectTypes.has(type)) {
-          return false;
-        } else {
-          //types.add(type);
-          return false;
-        }
-      }
+      kinds.add(hostname);
+      types.add("nva." + type);
       return true;
     });
     console.warn(
       `Indexing ${pubs.length} of ${_pubs.length} pubs of types [${[
         ...types,
-      ]}]`,
+      ]}] from [${[...kinds]}]`,
     );
     await insertMultiple(
       orama,
