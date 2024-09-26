@@ -96,8 +96,7 @@ export function Page(
         <main
           style={{
             minHeight: "100vh",
-
-            padding: "0 2vw",
+            padding: "0 .5vw",
             _padding: "0 var(--size-3)",
           }}
         >

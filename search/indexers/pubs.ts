@@ -56,17 +56,13 @@ const findCanonicalPersonName = async (
 const buildSlug = ({ id, doi }: Partial<SlimPublication>) => {
   if (id.startsWith("https://doi.org/10.") && doi?.startsWith("10.")) {
     return doi;
-  }
-  if (id.startsWith("https://hdl.handle.net/")) {
+  } else if (id.startsWith("https://hdl.handle.net/")) {
     return "hdl" + new URL(id).pathname;
-  }
-  if (id.startsWith("https://api.nva.unit.no/publication/")) {
+  } else if (id.startsWith("https://api.nva.unit.no/publication/")) {
+    return "nva/" + new URL(id).pathname.split("/publication/").at(1);
+  } else if (id.startsWith("https://api.test.nva.aws.unit.no/publication/")) {
     return "nva/" + new URL(id).pathname.split("/publication/").at(1);
   }
-  if (id.startsWith("https://api.test.nva.aws.unit.no/publication/")) {
-    return "nva/" + new URL(id).pathname.split("/publication/").at(1);
-  }
-
   return id;
 };
 
@@ -74,7 +70,7 @@ const nameFromAuthor = ({ family, given, name }: Partial<Akvaplanist>) =>
   name ? name : `${given} ${family}`;
 
 export const atomizeSlimPublication = async (pub: SlimPublication) => {
-  const { id, title, published, doi, type, container } = pub;
+  const { id, nva, title, published, doi, type, container } = pub;
   const authors: string[] = (pub?.authors ?? []).map(nameFromAuthor);
 
   // authors.map((name) =>
@@ -103,7 +99,8 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
     title: title ?? `[${container} (${year}): ${doi}]`,
     published: String(published),
     year,
-    text: [container, t(`type.${type}`)].join(" "),
+    text: [container, type, published, id, t(`type.${type}`), t(`nva.${type}`)]
+      .join(" "),
   };
   return atom;
 };

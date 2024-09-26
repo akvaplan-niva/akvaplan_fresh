@@ -27,7 +27,7 @@ export function CleanHeader(
         display: "grid",
         gridTemplateColumns: "auto 1fr auto auto",
         color: "var(--text1)",
-        padding: "var(--size-3) 0",
+        paddingTop: "var(--size-3)",
       }}
     >
       <span

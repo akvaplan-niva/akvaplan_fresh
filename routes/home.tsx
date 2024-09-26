@@ -79,7 +79,9 @@ export default defineRoute(async (req, ctx) => {
       ))} */
       }
 
-      <div style={{ display: "grid", placeItems: "center" }}>
+      <div
+        style={{ display: "grid", placeItems: "center", paddingTop: "1vw" }}
+      >
         <ImagePanel
           {...hero}
           lang={lang}

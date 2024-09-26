@@ -9,7 +9,10 @@ import _cristin_ids from "akvaplan_fresh/data/cristin_ids.json" with {
 
 const crid = new Map<string, number>(_cristin_ids as [[string, number]]);
 
-import { buildAkvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
+import {
+  buildAkvaplanistMap,
+  getAkvaplanist,
+} from "akvaplan_fresh/services/akvaplanist.ts";
 import { priorAkvaplanistID as priors } from "akvaplan_fresh/services/prior_akvaplanists.ts";
 
 import {
@@ -79,10 +82,20 @@ interface AtHome {
 export const config: RouteConfig = {
   //@... => "en" ("at")
   //~... => "no" ("hjem")
-  routeOverride: "/:at(@|~|en/user/|no/bruker/):id([a-zA-Z]{3}){/:name}*",
+  routeOverride: "/:at(@|~|en/user/|no/bruker/):id([a-z0-9]{3,}){/:name}*",
 };
 
 const ids = await buildAkvaplanistMap();
+
+const getPriorAkvaplanist = async (id: string) => {
+  const r = await fetch(
+    new URL(`/kv/expired/${id}`, "https://akvaplanists.deno.dev"),
+  );
+  if (r?.ok) {
+    return (await r.json()).value;
+  }
+};
+
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
     const { at, id, name } = ctx.params;
@@ -91,7 +104,10 @@ export const handler: Handlers = {
     const lang = at === "~" ? "no" : "en";
     //langSignal.value = lang;
 
-    const akvaplanist = ids.get(id) ?? priors.get(id);
+    const cand = await getAkvaplanist(id);
+
+    const akvaplanist = cand ?? await getPriorAkvaplanist(id);
+    console.warn(akvaplanist);
     // @todop Consider falling back to orama ?
     if (!akvaplanist) {
       return ctx.renderNotFound();
