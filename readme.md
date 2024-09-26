@@ -12,7 +12,6 @@
 - [Deno](https://deno.land/)
 - [KV](https://deno.com/kv/)
 - [Fresh](https://fresh.deno.dev/)
-- [Preact](https://preactjs.com/)
 - [Orama](https://oramasearch.com/)
 - [TypeScript](https://www.typescriptlang.org/)
 
