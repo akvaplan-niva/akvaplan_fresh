@@ -114,7 +114,7 @@ export default defineRoute(async (req, ctx) => {
   const resNva = nva
     ? await fetchNvaMetadataFromAkvaplanService(nva)
     : undefined;
-  const nvaMetadata = resNva ? await resNva.json() : undefined;
+  const nvaMetadata = resNva?.ok ? await resNva.json() : undefined;
 
   const abstract = nvaMetadata && nvaMetadata.entityDescription.abstract;
   const description = nvaMetadata && nvaMetadata.entityDescription.description;
