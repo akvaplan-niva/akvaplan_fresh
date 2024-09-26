@@ -36,6 +36,7 @@ import { AkvaplanistCounts, Contributors } from "../components/contribs.tsx";
 import { getOramaDocument } from "akvaplan_fresh/search/orama.ts";
 import { SlimPublication } from "akvaplan_fresh/@interfaces/mod.ts";
 import { OramaAtom } from "akvaplan_fresh/search/types.ts";
+import { pubsURL } from "akvaplan_fresh/services/nav.ts";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -133,7 +134,7 @@ export default defineRoute(async (req, ctx) => {
         }}
       >
         <p style={{ fontSize: ".75rem" }}>
-          <a href={`?type=${type}`}>{t(typecode)}</a>
+          <a href={pubsURL({ lang }) + `?type=${type}`}>{t(typecode)}</a>
         </p>
         <Card>
           <h1
@@ -154,8 +155,8 @@ export default defineRoute(async (req, ctx) => {
                 </a>
               )
               : (
-                <a target="_blank" href={url ?? id}>
-                  {url ?? id}
+                <a target="_blank" href={url}>
+                  {url}
                 </a>
               )}
           </p>
@@ -163,7 +164,6 @@ export default defineRoute(async (req, ctx) => {
         <p style={{ fontSize: ".75rem" }}>
           <a href={`?type=${type}`}>{license}</a>
         </p>
-        {oa === true ? t("pubs.oa") : null}
 
         <div
           style={{
