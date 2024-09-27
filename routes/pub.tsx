@@ -71,7 +71,7 @@ const searchNva = async ({ id }: Pub) => {
   }
 };
 
-if both fullfils, we should choose the data from service…
+//if both fullfils, we should choose the data from service…
 const preferService = <T,>(
   arr: PromiseSettledResult<T>[],
 ) => {
