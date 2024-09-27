@@ -71,27 +71,27 @@ const searchNva = async ({ id }: Pub) => {
   }
 };
 
-// if both fullfils, we should choose the data from service…
-// const preferService = <T,>(
-//   arr: PromiseSettledResult<T>[],
-// ) => {
-//   const fulf = arr?.filter((r) => "fulfilled" === r.status);
-//   const svc = fulf?.find((p) =>
-//     p && p?.value && !Object.hasOwn(p.value, "year")
-//   );
-//   if (svc) {
-//     return svc.value;
-//   }
-//   return fulf ? fulf.at(0)?.value : undefined;
-// };
+if both fullfils, we should choose the data from service…
+const preferService = <T,>(
+  arr: PromiseSettledResult<T>[],
+) => {
+  const fulf = arr?.filter((r) => "fulfilled" === r.status);
+  const svc = fulf?.find((p) =>
+    p && p?.value && !Object.hasOwn(p.value, "year")
+  );
+  if (svc) {
+    return svc.value;
+  }
+  return fulf ? fulf.at(0)?.value : undefined;
+};
 
-// const getPubFromServiceOrOrama = async (id: string) =>
-//   preferService(
-//     await Promise.allSettled([
-//       getPubFromAkvaplanService(id),
-//       getOramaDocument(id),
-//     ]),
-//   );
+const getPubFromServiceOrOrama = async (id: string) =>
+  preferService(
+    await Promise.allSettled([
+      getPubFromAkvaplanService(id),
+      getOramaDocument(id),
+    ]),
+  );
 
 export default defineRoute(async (req, ctx) => {
   const { params } = ctx;
@@ -101,10 +101,10 @@ export default defineRoute(async (req, ctx) => {
   const id = getUri(scheme, idx);
 
   const perfkey = "getPubFromAkvaplanService";
-  const t0 = performance.now(); //performance.timeOrigin +
+  const t0 = performance.now(); //performance.timeOrigin
 
   performance.mark(perfkey);
-  const pub = await getPubFromAkvaplanService(id);
+  const pub = await getPubFromServiceOrOrama(id);
   const measure = performance.measure(perfkey);
   console.warn(perfkey, measure.duration, "duration");
   console.warn("ðT", performance.now() - t0);
