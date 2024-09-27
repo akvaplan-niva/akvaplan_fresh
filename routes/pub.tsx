@@ -65,49 +65,46 @@ const isHandleUrl = (id: string) => "hdl.handle.net" === new URL(id).hostname;
 
 const isDoiOrHandleUrl = (id: string) => isDoiUrl(id) || isHandleUrl(id);
 
-const searchNva = async ({ id }: Pub) => {
-  if (isDoiOrHandleUrl(id)) {
-    return await searchNvaForId(id);
-  }
-};
+// const searchNva = async ({ id }: Pub) => {
+//   if (isDoiOrHandleUrl(id)) {
+//     return await searchNvaForId(id);
+//   }
+// };
 
-//if both fullfils, we should choose the data from service…
-const preferService = <T,>(
-  arr: PromiseSettledResult<T>[],
-) => {
-  const fulf = arr?.filter((r) => "fulfilled" === r.status);
-  const svc = fulf?.find((p) =>
-    p && p?.value && !Object.hasOwn(p.value, "year")
-  );
-  if (svc) {
-    return svc.value;
-  }
-  return fulf ? fulf.at(0)?.value : undefined;
-};
+// //if both fullfils, we should choose the data from service…
+// const preferService = <T,>(
+//   arr: PromiseSettledResult<T>[],
+// ) => {
+//   const fulf = arr?.filter((r) => "fulfilled" === r.status);
+//   const svc = fulf?.find((p) =>
+//     p && p?.value && !Object.hasOwn(p.value, "year")
+//   );
+//   if (svc) {
+//     return svc.value;
+//   }
+//   return fulf ? fulf.at(0)?.value : undefined;
+// };
 
-const getPubFromServiceOrOrama = async (id: string) =>
-  preferService(
-    await Promise.allSettled([
-      getPubFromAkvaplanService(id),
-      getOramaDocument(id),
-    ]),
-  );
+// const getPubFromServiceOrOrama = async (id: string) =>
+//   preferService(
+//     await Promise.allSettled([
+//       getPubFromAkvaplanService(id),
+//       getOramaDocument(id),
+//     ]),
+//   );
 
-export default defineRoute(async (req, ctx) => {
+export default defineRoute(async (_req, ctx) => {
   const { params } = ctx;
   const { collection, lang, kind, idx } = params;
   const scheme = idx?.startsWith("10.") ? "doi" : kind;
 
   const id = getUri(scheme, idx);
 
-  const perfkey = "getPubFromAkvaplanService";
-  const t0 = performance.now(); //performance.timeOrigin
-
-  performance.mark(perfkey);
-  const pub = await getPubFromServiceOrOrama(id);
+  const perfkey = "getOramaDocument";
+  const t0 = performance.now();
+  const pub = await getOramaDocument(id);
   const measure = performance.measure(perfkey);
-  console.warn(perfkey, measure.duration, "duration");
-  console.warn("ðT", performance.now() - t0);
+  console.warn("δt", performance.now() - t0);
   if (!pub) {
     return ctx.renderNotFound();
   }
