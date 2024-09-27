@@ -61,37 +61,9 @@ const getUri = (kind: string, id: string) => {
 
 const isDoiUrl = (id: string) => "doi.org" === new URL(id).hostname;
 const isHandleUrl = (id: string) => "hdl.handle.net" === new URL(id).hostname;
-///^[0-9]+\/[0-9]+$/.test(id);
+// and /^[0-9]+\/[0-9]+$/.test(id);
 
 const isDoiOrHandleUrl = (id: string) => isDoiUrl(id) || isHandleUrl(id);
-
-// const searchNva = async ({ id }: Pub) => {
-//   if (isDoiOrHandleUrl(id)) {
-//     return await searchNvaForId(id);
-//   }
-// };
-
-// //if both fullfils, we should choose the data from service…
-// const preferService = <T,>(
-//   arr: PromiseSettledResult<T>[],
-// ) => {
-//   const fulf = arr?.filter((r) => "fulfilled" === r.status);
-//   const svc = fulf?.find((p) =>
-//     p && p?.value && !Object.hasOwn(p.value, "year")
-//   );
-//   if (svc) {
-//     return svc.value;
-//   }
-//   return fulf ? fulf.at(0)?.value : undefined;
-// };
-
-// const getPubFromServiceOrOrama = async (id: string) =>
-//   preferService(
-//     await Promise.allSettled([
-//       getPubFromAkvaplanService(id),
-//       getOramaDocument(id),
-//     ]),
-//   );
 
 export default defineRoute(async (_req, ctx) => {
   const { params } = ctx;
@@ -100,11 +72,11 @@ export default defineRoute(async (_req, ctx) => {
 
   const id = getUri(scheme, idx);
 
-  const perfkey = "getOramaDocument";
   const t0 = performance.now();
-  const pub = await getOramaDocument(id);
-  const measure = performance.measure(perfkey);
-  console.warn("δt", performance.now() - t0);
+  const pub = await getOramaDocument(id).catch((res) => {
+    console.warn("WARN getPubFromAkvaplanService", res);
+  });
+
   if (!pub) {
     return ctx.renderNotFound();
   }
@@ -117,7 +89,8 @@ export default defineRoute(async (_req, ctx) => {
     nva,
     title,
     published,
-    authors,
+    //authors,
+    _authors,
     contributors,
     license,
     akvaplanists,
@@ -129,6 +102,7 @@ export default defineRoute(async (_req, ctx) => {
     ? await fetchNvaMetadataFromAkvaplanService(nva)
     : undefined;
   const nvaMetadata = resNva?.ok ? await resNva.json() : undefined;
+  console.warn("δt", performance.now() - t0);
 
   const abstract = nvaMetadata && nvaMetadata.entityDescription.abstract;
   const description = nvaMetadata && nvaMetadata.entityDescription.description;
@@ -196,15 +170,15 @@ export default defineRoute(async (_req, ctx) => {
                 paddingBottom: ".25rem",
               }}
             >
-              {authors?.length > 0 && (
+              {_authors?.length > 0 && (
                 <Card>
                   <h2 style={{ fontSize: "1rem" }}>
-                    {authors?.length > 1 ? t("pubs.Authors") : t("pubs.Author")}
-                    {" "}
-                    ({authors.length})
+                    {_authors?.length > 1
+                      ? t("pubs.Authors")
+                      : t("pubs.Author")} ({_authors.length})
                   </h2>
                   <Contributors
-                    contributors={authors}
+                    contributors={_authors}
                     akvaplanists={akvaplanists}
                     lang={lang}
                   />

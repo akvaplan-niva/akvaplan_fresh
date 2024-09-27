@@ -71,7 +71,7 @@ const nameFromAuthor = ({ family, given, name }: Partial<Akvaplanist>) =>
 
 export const atomizeSlimPublication = async (pub: SlimPublication) => {
   const { id, nva, title, published, doi, type, container } = pub;
-  const authors: string[] = (pub?.authors ?? []).map(nameFromAuthor);
+  const authorsStringArray: string[] = (pub?.authors ?? []).map(nameFromAuthor);
 
   // authors.map((name) =>
   //   namesCount.add(name.replace(/[.]/g, " ").replace(/[\s]{2,}/g, " ").trim())
@@ -89,12 +89,15 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
   const slug = buildSlug(pub);
 
   const atom: OramaAtom = {
+    ...pub,
     id,
     slug,
     collection: "pubs",
     type,
     container,
-    authors,
+    authors: authorsStringArray,
+    // FIXME Remove hack to store authors as objects; the search result items rely on getting the authors member as string[]
+    _authors: pub.authors,
     people,
     title: title ?? `[${container} (${year}): ${doi}]`,
     published: String(published),
