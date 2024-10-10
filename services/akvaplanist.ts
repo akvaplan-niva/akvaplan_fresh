@@ -7,7 +7,9 @@ import { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts"
 
 const akvaplanistsJsonPath = "./_fresh/akvaplanists.json";
 
-const base = "https://akvaplanists.deno.dev";
+const base = globalThis?.Deno && Deno.env.has("AKVAPLANISTS")
+  ? Deno.env.get("AKVAPLANISTS")
+  : "https://akvaplanists.deno.dev";
 
 export let _all: Akvaplanist[];
 

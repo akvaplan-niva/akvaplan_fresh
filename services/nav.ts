@@ -173,8 +173,7 @@ export const akvaplanistUrl = (
     // Links from /en/doi to detected person contains variant name spellings /en/doi/10.3997/2214-4609.201902760
     //return anybodyUrl({ id, given, family, name, email, slug });
   }
-
-  console.warn(name, given, family, name, email, slug);
+  //console.warn(name, given, family, name, email, slug);
 
   const _name = given && family ? `${given} ${family}` : name ?? "";
   const suf = _name ? `/${_name}` : "";
