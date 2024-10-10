@@ -9,7 +9,7 @@
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
   "imports": {
-    "$fresh/": "https://deno.land/x/fresh@1.7.1/",
+    "$fresh/": "https://deno.land/x/fresh@1.7.2/",
     "@deno/kv-oauth": "jsr:@deno/kv-oauth@0.11.0",
     "@hyperjump/json-pointer": "npm:@hyperjump/json-pointer@1.1.0",
     "@orama/orama": "npm:@orama/orama@2.0.16",
@@ -26,10 +26,10 @@
     "akvaplan_fresh/": "./",
     "open-props": "https://esm.sh/v115/open-props@1.5.9",
     "open-props/": "https://esm.sh/v115/open-props@1.5.9/",
-    "preact": "https://esm.sh/preact@10.19.6",
+    "preact": "https://esm.sh/preact@10.22.0",
     "preact-render-to-string": "https://esm.sh/*preact-render-to-string@6.2.2",
     "preact-render-to-string/": "https://esm.sh/v115/*preact-render-to-string@6.2.2/",
-    "preact/": "https://esm.sh/preact@10.19.6/",
+    "preact/": "https://esm.sh/preact@10.22.0/",
     "slug": "https://deno.land/x/slug@v1.1.0/mod.ts"
   },
   "scopes": {},
