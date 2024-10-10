@@ -1,11 +1,13 @@
 import { Icon } from "akvaplan_fresh/components/icon.tsx";
 import type { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
+import { nvaApiBase, nvaHome } from "akvaplan_fresh/services/nva.ts";
 
 interface Social {
   icon: string;
   name: string;
   href: string;
   width?: number;
+  title?: string;
 }
 const mail = {
   icon: "mail",
@@ -57,15 +59,15 @@ export const SocialMediaIcons = (
   },
 ) => (
   <>
-    {list?.map(({ name, icon, href, width, height = width }) => (
+    {list?.map(({ name, title = name, icon, href, width, height = width }) => (
       <a
         href={href}
         rel="noreferrer noopener"
         target="_blank"
-        title={`${name}`}
+        title={title}
         class="icon footer__some"
       >
-        {icon.startsWith("/")
+        {icon?.startsWith("/")
           ? (
             <img
               src={icon}
@@ -81,23 +83,34 @@ export const SocialMediaIcons = (
               }}
             />
           )
-          : (
+          : icon
+          ? (
             <Icon
               name={icon}
               aria-disabled
               width={width ? String(width) : "24"}
               height={height ? String(height) : "24"}
             />
-          )}
+          )
+          : <span style={{ fontSize: ".75rem" }} title={title}>{name}</span>}
       </a>
     ))}
   </>
 );
 
 export const buildPersonalSocialMediaLinks = (akvaplanist: Akvaplanist) => {
-  const { given, family, openalex, orcid } = akvaplanist;
+  const { given, family, openalex, orcid, cristin } = akvaplanist;
   const name = `${given} ${family}`;
   return [
+    cristin &&
+    {
+      name: `NVA`,
+      title: `NVA (${name})`,
+      href: new URL(
+        `/research-profile?id=${nvaApiBase}/cristin/person/${cristin}`,
+        nvaHome,
+      ),
+    },
     orcid &&
     {
       name: `ORCID (${name})`,
