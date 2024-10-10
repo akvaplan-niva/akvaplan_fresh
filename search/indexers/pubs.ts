@@ -102,7 +102,15 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
     title: title ?? `[${container} (${year}): ${doi}]`,
     published: String(published),
     year,
-    text: [container, type, published, id, t(`type.${type}`), t(`nva.${type}`)]
+    text: [
+      container,
+      type,
+      published,
+      id,
+      nva,
+      t(`type.${type}`),
+      t(`nva.${type}`),
+    ]
       .join(" "),
   };
   return atom;
