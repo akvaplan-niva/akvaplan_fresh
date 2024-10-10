@@ -52,7 +52,6 @@ import {
   SocialMediaIcons,
 } from "akvaplan_fresh/components/social_media_icons.tsx";
 import { mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
-import { LinkButton } from "akvaplan_fresh/components/button/button.tsx";
 import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
 
 const defaultAtConfig = {
@@ -107,7 +106,7 @@ export const handler: Handlers = {
     const cand = await getAkvaplanist(id);
 
     const akvaplanist = cand ?? await getPriorAkvaplanist(id);
-    console.warn(akvaplanist);
+
     // @todop Consider falling back to orama ?
     if (!akvaplanist) {
       return ctx.renderNotFound();
