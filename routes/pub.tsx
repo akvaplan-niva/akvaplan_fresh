@@ -2,10 +2,17 @@ import { Card, Page } from "akvaplan_fresh/components/mod.ts";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
+import { longDate } from "akvaplan_fresh/time/mod.ts";
 import {
-  fetchNvaMetadataFromAkvaplanService,
+  getNvaMetadata,
   getPubFromAkvaplanService,
 } from "akvaplan_fresh/services/pub.ts";
+
+import { AkvaplanistCounts, Contributors } from "../components/contribs.tsx";
+import { getOramaDocument } from "akvaplan_fresh/search/orama.ts";
+import { pubsURL } from "akvaplan_fresh/services/nav.ts";
+import { PubNvaPdfAugment } from "../islands/pub_nva_pdf_augment.tsx";
+import Button from "akvaplan_fresh/components/button/button.tsx";
 
 const NVA_API_PROD = "https://api.nva.unit.no";
 
@@ -28,15 +35,6 @@ const searchNvaForId = async (id: string) => {
     return r.json();
   }
 };
-
-const nvaLanding = (id: string, lang?: string) =>
-  `https://test.nva.sikt.no/registration/${id}`;
-
-import { AkvaplanistCounts, Contributors } from "../components/contribs.tsx";
-import { getOramaDocument } from "akvaplan_fresh/search/orama.ts";
-import { SlimPublication } from "akvaplan_fresh/@interfaces/mod.ts";
-import { OramaAtom } from "akvaplan_fresh/search/types.ts";
-import { pubsURL } from "akvaplan_fresh/services/nav.ts";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -95,23 +93,23 @@ export default defineRoute(async (_req, ctx) => {
     license,
     akvaplanists,
     url,
+    pdf,
+    created,
+    modified,
   } = pub;
   const typecode = nva ? `nva.${type}` : `type.${type}`;
 
-  const resNva = nva
-    ? await fetchNvaMetadataFromAkvaplanService(nva)
-    : undefined;
-  const nvaMetadata = resNva?.ok ? await resNva.json() : undefined;
-  console.warn("δt", performance.now() - t0);
-
-  const abstract = nvaMetadata && nvaMetadata.entityDescription.abstract;
-  const description = nvaMetadata && nvaMetadata.entityDescription.description;
-
   //const hreflang = pub?.lang ?? lang;
   const base = `/${lang}/${collection}/`;
+
+  // Server-fetch NVA from Akvaplan-service
+  // This delays rendering, but is needed since neither Akvaplan nor NVA service supports CORS.
+  // FIXME Move NVA fetch to browser island (requires adding CORS to Akvaplan pubs service, or using a CORS proxy)
+  const nvaPublication = nva ? await getNvaMetadata(nva) : undefined;
+
   return (
     <Page
-      title=""
+      title={title ?? ""}
       lang={lang}
       base={base}
     >
@@ -148,6 +146,7 @@ export default defineRoute(async (_req, ctx) => {
               )}
           </p>
         </Card>
+
         <p style={{ fontSize: ".75rem" }}>
           <a href={`?type=${type}`}>{license}</a>
         </p>
@@ -202,32 +201,30 @@ export default defineRoute(async (_req, ctx) => {
               )}
             </Section>
 
-            {description && (
-              <Section>
-                <h2>{t("Description")}</h2>
-                <p
-                  dangerouslySetInnerHTML={{ __html: description }}
-                  style={{ maxWidth: "120ch", fontSize: "1rem" }}
-                />
-              </Section>
-            )}
-
-            {abstract && (
-              <Section>
-                <h2>{t("Abstract")}</h2>
-                <p
-                  dangerouslySetInnerHTML={{ __html: abstract }}
-                  style={{ maxWidth: "120ch", fontSize: "1rem" }}
-                />
-              </Section>
+            {pdf ||
+                url?.endsWith(".pdf")
+              ? (
+                <a download href={pdf ?? url} target="_blank">
+                  <Button
+                    style={{
+                      backgroundColor: "transparent",
+                      fontSize: "0.75rem",
+                    }}
+                  >
+                    {t("pubs.Download_pdf")}
+                  </Button>
+                </a>
+              )
+              : null}
+            {nva && (
+              <PubNvaPdfAugment publication={nvaPublication} lang={lang} />
             )}
           </div>
         </div>
-        {nva && <a href={nvaLanding(nva, lang)}>View in NVA</a>}
-        {
-          /* <pre>
-        {JSON.stringify(nvaMetadata, null, "\n").replace(/[\s]{2,}/g, "\n  ")}</pre> */
-        }
+        <p style={{ fontSize: ".75rem" }}>
+          {t("time.Created")} <time>{longDate(created, lang)}</time>
+          , {t("time.modified")} <time>{longDate(modified, lang)}</time>
+        </p>
       </article>
     </Page>
   );
