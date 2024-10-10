@@ -1,3 +1,7 @@
+import {
+  nvaApiBase,
+  nvaPublicationLanding,
+} from "akvaplan_fresh/services/nva.ts";
 import { Signal, useSignal } from "@preact/signals";
 import { Head, IS_BROWSER } from "$fresh/runtime.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
@@ -16,10 +20,7 @@ interface NvaArtifactLike {
 // let signedPdfUrl;
 
 //const NVA_API = "https://api.nva.unit.no";
-const NVA_API = "https://api.test.nva.aws.unit.no";
-
-const nvaLanding = (id: string, lang?: string) =>
-  `https://test.nva.sikt.no/registration/${id}`;
+const NVA_API = nvaApiBase;
 
 const fetchNvaPublication = async (identifier: string) => {
   const url = new URL(`/publication/${identifier}`, NVA_API);
@@ -55,7 +56,7 @@ export const PubNvaPdfAugment = (
     parent: Element,
     src: string,
     style =
-      "height:600px;width:100%;padding-bottom:1.5rem;background:var(--surface0);",
+      "height:600px;width:100%;padding-bottom:1.5rem;background:var(--surface1);",
   ) => {
     const embedPdf = document.createElement("embed-pdf");
     embedPdf.setAttribute("src", src);
@@ -107,16 +108,18 @@ export const PubNvaPdfAugment = (
         >
         </script>
       </Head>
-      <div
-        id={id}
-        style="height:600px;width:100%;padding-bottom:1.5rem;background:var(--surface0);"
-      />
+
       {identifier && (
         <p>
           {t("pubs.View_in")}{" "}
-          <a href={nvaLanding(identifier)} target="_blank">{t("NVA")}</a>
+          <a href={nvaPublicationLanding(identifier)} target="_blank">
+            {t("NVA")}
+          </a>
         </p>
       )}
+      <div
+        id={id}
+      />
     </>
   );
 };
