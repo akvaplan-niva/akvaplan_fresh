@@ -97,7 +97,7 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
     container,
     authors: authorsStringArray,
     // FIXME Remove hack to store authors as objects; the search result items rely on getting the authors member as string[]
-    _authors: pub.authors,
+    _authors: pub.authors ?? [],
     people,
     title: title ?? `[${container} (${year}): ${doi}]`,
     published: String(published),

@@ -3,7 +3,7 @@ import { schema } from "./schema.ts";
 
 import { count, create as _create, getByID, load } from "@orama/orama";
 import { language, stemmer } from "@orama/stemmers/norwegian";
-import { indexPanels } from "akvaplan_fresh/search/indexers/panel.ts";
+import { persist } from "@orama/plugin-data-persistence";
 
 let _orama: OramaAtomSchema;
 
@@ -75,7 +75,7 @@ export const restoreOramaJson = async (path: string) => {
       return db;
     }
   } catch (e) {
-    //console.error(`Could not restore Orama index ${path}`);
+    console.error(`Could not restore Orama index ${path}`, e);
     throw "Search is currently unavailable";
   }
 };
@@ -84,35 +84,12 @@ export const persistOramaJson = async (
   orama: OramaAtomSchema,
   path: string,
 ) => {
-  const { persist } = await import(
-    "https://esm.sh/@orama/plugin-data-persistence"
-  );
-
   const json = await persist(orama, "json");
   await Deno.writeTextFile(path, json as string);
   console.warn(
     `Orama index (${await count(orama)} documents) persisted at ${path}`,
   );
 };
-
-/* Above dynamic import is to avoid:
-
-Error: Build failed with 2 errors:
-../../.cache/deno/deno_esbuild/dpack@0.6.22/node_modules/dpack/lib/parse-stream.js:2:24: ERROR: [plugin: deno-loader] NPM package not found.
-../../.cache/deno/deno_esbuild/dpack@0.6.22/node_modules/dpack/lib/serialize-stream.js:2:30: ERROR: [plugin: deno-loader] NPM package not found.
-    at failureErrorWithLog (https://deno.land/x/esbuild@v0.19.11/mod.js:1626:15)
-    at https://deno.land/x/esbuild@v0.19.11/mod.js:1034:25
-    at runOnEndCallbacks (https://deno.land/x/esbuild@v0.19.11/mod.js:1461:45)
-    at buildResponseToResult (https://deno.land/x/esbuild@v0.19.11/mod.js:1032:7)
-    at https://deno.land/x/esbuild@v0.19.11/mod.js:1061:16
-    at responseCallbacks.<computed> (https://deno.land/x/esbuild@v0.19.11/mod.js:679:9)
-    at handleIncomingPacket (https://deno.land/x/esbuild@v0.19.11/mod.js:739:9)
-    at readFromStdout (https://deno.land/x/esbuild@v0.19.11/mod.js:655:7)
-    at https://deno.land/x/esbuild@v0.19.11/mod.js:1933:11
-    at eventLoopTick (ext:core/01_core.js:64:7) {
-  errors: [Getter/Setter],
-  warnings: [Getter/Setter]
-}*/
 
 export const getOramaDocument = async (id: string) =>
   await getByID(await getOramaInstance(), id);
