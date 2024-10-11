@@ -8,13 +8,13 @@ import {
 import {
   fetchAndSaveAkvaplanistsJson,
 } from "akvaplan_fresh/services/akvaplanist.ts";
-import { createOramaIndex } from "akvaplan_fresh/search/create_search_index.ts";
+import { buildOramaIndex } from "akvaplan_fresh/search/create_search_index.ts";
 
 await dev(import.meta.url, "./main.ts");
 
 if (Deno.args.includes("build")) {
   await fetchAndSaveAkvaplanistsJson();
-  const orama = await createOramaIndex();
+  const orama = await buildOramaIndex();
   await persistOramaJson(orama, oramaJsonPath);
 }
 
