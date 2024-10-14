@@ -1,13 +1,17 @@
-import {
-  nvaApiBase,
-  nvaPublicationLanding,
-} from "akvaplan_fresh/services/nva.ts";
+import { NVA_API, nvaPublicationLanding } from "akvaplan_fresh/services/nva.ts";
 import { Signal, useSignal } from "@preact/signals";
 import { Head, IS_BROWSER } from "$fresh/runtime.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
+import pub from "akvaplan_fresh/routes/pub.tsx";
+import { Section } from "akvaplan_fresh/components/section.tsx";
+import { boolean } from "@valibot/valibot";
 
 interface NvaPublicationLike {
   identifier: string;
+  entityDescription: {
+    abstract?: string;
+    description?: string;
+  };
   associatedArtifacts: NvaArtifactLike[];
 }
 interface NvaArtifactLike {
@@ -15,12 +19,6 @@ interface NvaArtifactLike {
   type: string;
   mimeType: string;
 }
-// const abstract = nvaMetadata && nvaMetadata.entityDescription.abstract;
-// const description = nvaMetadata && nvaMetadata.entityDescription.description;
-// let signedPdfUrl;
-
-//const NVA_API = "https://api.nva.unit.no";
-const NVA_API = nvaApiBase;
 
 const fetchNvaPublication = async (identifier: string) => {
   const url = new URL(`/publication/${identifier}`, NVA_API);
@@ -49,7 +47,13 @@ export const PubNvaPdfAugment = (
   },
 ) => {
   const id = "pub-nva-pdf-" + crypto.randomUUID();
-  const state = useSignal({ ready: false, querySelector: "#" + id });
+  const state = useSignal({ ready: false, querySelector: "#" + id } as {
+    ready: boolean;
+    querySelector: string;
+    abstract?: string;
+    description?: string;
+  });
+
   langSignal.value = lang;
 
   const createPdfAug = (
@@ -65,6 +69,11 @@ export const PubNvaPdfAugment = (
   };
 
   const embedPdfs = (publication: NvaPublicationLike, state: Signal) => {
+    const { entityDescription: { abstract, description } } = publication;
+    if (abstract) {
+      state.value.abstract = abstract;
+    }
+
     publication?.associatedArtifacts?.filter(pdfFilter).map(
       async (file) => {
         const pdfUrl = await getPresignedPdfUrl(
@@ -120,26 +129,27 @@ export const PubNvaPdfAugment = (
       <div
         id={id}
       />
+
+      {state.value?.abstract && (
+        <Section>
+          <h2>{t("Abstract")}</h2>
+          <p
+            dangerouslySetInnerHTML={{ __html: state.value?.abstract }}
+            style={{ maxWidth: "120ch", fontSize: "1rem" }}
+          />
+        </Section>
+      )}
+
+      {state.value?.description &&
+        (
+          <Section>
+            <h2>{t("Description")}</h2>
+            <p
+              dangerouslySetInnerHTML={{ __html: state.value?.description }}
+              style={{ maxWidth: "120ch", fontSize: "1rem" }}
+            />
+          </Section>
+        )}
     </>
   );
 };
-
-// {description && (
-//   <Section>
-//     <h2>{t("Description")}</h2>
-//     <p
-//       dangerouslySetInnerHTML={{ __html: description }}
-//       style={{ maxWidth: "120ch", fontSize: "1rem" }}
-//     />
-//   </Section>
-// )}
-
-// {abstract && (
-//   <Section>
-//     <h2>{t("Abstract")}</h2>
-//     <p
-//       dangerouslySetInnerHTML={{ __html: abstract }}
-//       style={{ maxWidth: "120ch", fontSize: "1rem" }}
-//     />
-//   </Section>
-// )}
