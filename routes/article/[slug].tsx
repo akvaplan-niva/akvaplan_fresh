@@ -1,6 +1,9 @@
 import {
   defaultImage,
   documentFilter,
+  getCanonical,
+  hrefForMynewsdeskItem,
+  imageURL,
   intlRouteMap,
   newsFromMynewsdesk,
   projectFilter,
@@ -131,14 +134,19 @@ export const handler: Handlers = {
     //   newsFromMynewsdesk({ lang })(myn)
     // );
 
-    const images = _related.filter(imageFilter).map((myn) =>
-      newsFromMynewsdesk({ lang })(myn)
-    ).map(({ title, published, ...img }) => ({
-      title: undefined,
-      published: "",
-      ...img,
-    }));
-
+    const images = _related.filter(imageFilter)
+      .map((myn) => {
+        const url = new URL(myn?.url, req.url);
+        const { pathname } = url;
+        const slug = pathname.split("/").at(-1);
+        const href = imageURL({ lang, title: myn?.header, slug });
+        const imageAsNews = newsFromMynewsdesk({ lang })(myn);
+        return {
+          ...imageAsNews,
+          href,
+          type: "image",
+        };
+      });
     const documents = _related.filter(documentFilter);
 
     const videos = await Array.fromAsync(

@@ -3,65 +3,20 @@ import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { longDate } from "akvaplan_fresh/time/mod.ts";
-import {
-  getNvaMetadata,
-  getPubFromAkvaplanService,
-} from "akvaplan_fresh/services/pub.ts";
+
+import { getNvaMetadata } from "akvaplan_fresh/services/nva.ts";
 
 import { AkvaplanistCounts, Contributors } from "../components/contribs.tsx";
 import { getOramaDocument } from "akvaplan_fresh/search/orama.ts";
 import { pubsURL } from "akvaplan_fresh/services/nav.ts";
 import { PubNvaPdfAugment } from "../islands/pub_nva_pdf_augment.tsx";
 import Button from "akvaplan_fresh/components/button/button.tsx";
-
-const NVA_API_PROD = "https://api.nva.unit.no";
-
-const NVA_API = globalThis?.Deno && Deno.env.has("NVA_API")
-  ? Deno.env.get("NVA_API")
-  : NVA_API_PROD;
-
-const searchNvaForId = async (id: string) => {
-  const url = new URL(`/search/resources`, NVA_API);
-  if (isHandleUrl(id)) {
-    url.searchParams.set("handle", id);
-  } else if (isDoiUrl(id)) {
-    url.searchParams.set("doi", id);
-  } else {
-    throw new RangeError();
-  }
-
-  const r = await fetch(url);
-  if (r?.ok) {
-    return r.json();
-  }
-};
+import { getUri, isDoiOrHandleUrl } from "akvaplan_fresh/services/pub.ts";
 
 export const config: RouteConfig = {
   routeOverride:
     "{/:lang(en|no)}?/:collection(publikasjon|publication|pub){/:kind(doi|hdl|nva|hdl.handle.net)}?/:idx*",
 };
-
-const getUri = (kind: string, id: string) => {
-  switch (kind) {
-    case "doi":
-      return new URL(id, "https://doi.org").href;
-    case "hdl":
-      return new URL(id, "https://hdl.handle.net").href;
-    case "nva":
-      return new URL(
-        `/publication/${id}`,
-        NVA_API,
-      ).href;
-    default:
-      throw "Unsupported id scheme";
-  }
-};
-
-const isDoiUrl = (id: string) => "doi.org" === new URL(id).hostname;
-const isHandleUrl = (id: string) => "hdl.handle.net" === new URL(id).hostname;
-// and /^[0-9]+\/[0-9]+$/.test(id);
-
-const isDoiOrHandleUrl = (id: string) => isDoiUrl(id) || isHandleUrl(id);
 
 export default defineRoute(async (_req, ctx) => {
   const { params } = ctx;
@@ -69,8 +24,6 @@ export default defineRoute(async (_req, ctx) => {
   const scheme = idx?.startsWith("10.") ? "doi" : kind;
 
   const id = getUri(scheme, idx);
-
-  const t0 = performance.now();
   const pub = await getOramaDocument(id).catch((res) => {
     console.warn("WARN getPubFromAkvaplanService", res);
   });
@@ -87,6 +40,7 @@ export default defineRoute(async (_req, ctx) => {
     nva,
     title,
     published,
+    // FIXME _authors vs authors, switch: use _authors for string[] for orama indexing and authors for {family,given}[]
     //authors,
     _authors,
     contributors,
@@ -97,15 +51,20 @@ export default defineRoute(async (_req, ctx) => {
     created,
     modified,
   } = pub;
+
   const typecode = nva ? `nva.${type}` : `type.${type}`;
 
   //const hreflang = pub?.lang ?? lang;
   const base = `/${lang}/${collection}/`;
 
   // Server-fetch NVA from Akvaplan-service
+  //const t0 = performance.now();
   // This delays rendering, but is needed since neither Akvaplan nor NVA service supports CORS.
   // FIXME Move NVA fetch to browser island (requires adding CORS to Akvaplan pubs service, or using a CORS proxy)
   const nvaPublication = nva ? await getNvaMetadata(nva) : undefined;
+
+  //const deltaT = performance.now() - t0;
+  //console.warn(deltaT);
 
   return (
     <Page
@@ -171,32 +130,36 @@ export default defineRoute(async (_req, ctx) => {
             >
               {_authors?.length > 0 && (
                 <Card>
-                  <h2 style={{ fontSize: "1rem" }}>
-                    {_authors?.length > 1
-                      ? t("pubs.Authors")
-                      : t("pubs.Author")} ({_authors.length})
-                  </h2>
-                  <Contributors
-                    contributors={_authors}
-                    akvaplanists={akvaplanists}
-                    lang={lang}
-                  />
+                  <details open>
+                    <summary style={{ paddingBottom: "1rem" }}>
+                      {_authors?.length > 1
+                        ? t("pubs.Authors")
+                        : t("pubs.Author")} ({_authors.length})
+                    </summary>
+                    <Contributors
+                      contributors={_authors}
+                      akvaplanists={akvaplanists}
+                      lang={lang}
+                    />
+                  </details>
                 </Card>
               )}
 
               {contributors?.length > 0 && (
                 <Card>
-                  <h2 style={{ fontSize: "1rem" }}>
-                    {contributors?.length > 1
-                      ? t("pubs.Contributors")
-                      : t("pubs.Contributor")} ({contributors.length})
-                  </h2>
+                  <details open>
+                    <summary style={{ paddingBottom: "1rem" }}>
+                      {contributors?.length > 1
+                        ? t("pubs.Contributors")
+                        : t("pubs.Contributor")} ({contributors.length})
+                    </summary>
 
-                  <Contributors
-                    contributors={contributors}
-                    akvaplanists={akvaplanists}
-                    lang={lang}
-                  />
+                    <Contributors
+                      contributors={contributors}
+                      akvaplanists={akvaplanists}
+                      lang={lang}
+                    />
+                  </details>
                 </Card>
               )}
             </Section>

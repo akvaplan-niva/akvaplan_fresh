@@ -264,7 +264,6 @@ export const getItem = async <T = MynewsdeskArticle>(
   if (who === "KV") {
     controller.abort();
   }
-  //console.warn(winner);
   return (winner ?? _api) as T;
 };
 
@@ -411,7 +410,7 @@ export const canonicalRoute = (
 //
 // Similar functionality found in localizedRouteForSearchAtom (search/href.ts)
 export const hrefForMynewsdeskItem = (
-  { header, type_of_media, language, published_at: { datetime } }:
+  { id, header, type_of_media, language, published_at: { datetime } }:
     AbstractMynewsdeskItem, // language -> article language
   lang = language, // lang -> site language
 ) => {
@@ -422,7 +421,9 @@ export const hrefForMynewsdeskItem = (
   } else if ("blog_post" === type_of_media) {
     page = "blog";
   }
-  return `/${lang}/${page}/${isodate}/${slugify({ header })}`;
+  return `/${lang}/${page}/${isodate}/${slugify({ header })}${
+    id ? "-" + id : ""
+  }`;
 };
 
 export const defaultThumbnail =

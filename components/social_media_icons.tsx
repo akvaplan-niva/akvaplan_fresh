@@ -1,6 +1,6 @@
 import { Icon } from "akvaplan_fresh/components/icon.tsx";
 import type { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
-import { nvaApiBase, nvaHome } from "akvaplan_fresh/services/nva.ts";
+import { NVA_API, NVA_HOME } from "akvaplan_fresh/services/nva.ts";
 
 interface Social {
   icon: string;
@@ -107,8 +107,8 @@ export const buildPersonalSocialMediaLinks = (akvaplanist: Akvaplanist) => {
       name: `NVA`,
       title: `NVA (${name})`,
       href: new URL(
-        `/research-profile?id=${nvaApiBase}/cristin/person/${cristin}`,
-        nvaHome,
+        `/research-profile?id=${NVA_API}/cristin/person/${cristin}`,
+        NVA_HOME,
       ),
     },
     orcid &&
