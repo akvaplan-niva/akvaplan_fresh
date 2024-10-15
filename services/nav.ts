@@ -6,6 +6,9 @@ import { computed } from "@preact/signals-core";
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
 import { Person } from "akvaplan_fresh/services/person.ts";
 import { getAkvaplanist } from "akvaplan_fresh/services/mod.ts";
+import { isDoiUrl } from "akvaplan_fresh/services/pub.ts";
+import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
+import { isNvaUrl } from "akvaplan_fresh/services/nva.ts";
 export const siteNav: SignalLike<Array> = computed(() =>
   buildNav(langSignal.value)
 );
@@ -34,6 +37,7 @@ const En = new Map([
   ["project", "/en/project"],
   ["projects", "/en/projects"],
   ["pubs", "/en/publications"],
+  ["pub", "/en/pub"],
   ["research", "/en/research"],
   ["search", "/en/_"],
   ["service", "/en/services"],
@@ -66,6 +70,7 @@ const No = new Map([
   ["project", "/no/prosjekt"],
   ["projects", "/no/prosjekter"],
   ["pubs", "/no/publikasjoner"],
+  ["pub", "/no/pub"],
   ["research", "/no/forskning"],
   ["search", "/no/_"],
   ["service", "/no/tjenester"],
@@ -218,6 +223,20 @@ export const pubsURL = ({ lang } = {}) =>
 
 export const doiPublicationUrl = ({ doi, lang }) =>
   `${intlRouteMap(lang).get("doi")}/${doi.replace("https://doi.org/", "")}`;
+
+export const pubUrl = (pub, lang) => {
+  const basepath = intlRouteMap(lang).get("pub");
+  const { pathname } = new URL(pub.id);
+  if (isDoiUrl(pub.id)) {
+    return basepath + pathname;
+  } else if (isHandleUrl(pub.id)) {
+    return basepath + "/hdl" + pathname;
+  } else if (isNvaUrl(pub.id)) {
+    return basepath + "/nva/" + pathname.split("/").at(-1);
+  }
+  console.warn(pub);
+  throw new RangeError("Unspported pub id: ", pub.id);
+};
 
 // const projectURL = (title) =>
 //   title.toLowerCase().replaceAll(/\s/g, "-").split("-").at(0);
