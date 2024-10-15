@@ -1,4 +1,6 @@
 import { SlimPublication } from "akvaplan_fresh/@interfaces/mod.ts";
+import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
+
 export const PUBS_BASE = globalThis.Deno && Deno.env.has("AKVAPLAN_PUBS")
   ? Deno.env.get("AKVAPLAN_PUBS")
   : "https://pubs.deno.dev";
@@ -33,13 +35,9 @@ export const getUri = (kind: string, id: string) => {
         NVA_API,
       ).href;
     default:
-      throw "Unsupported id scheme";
+      throw "Unsupported id scheme ";
   }
 };
-
-export const isHandleUrl = (id: string) =>
-  "hdl.handle.net" === new URL(id).hostname;
-// and /^[0-9]+\/[0-9]+$/.test(id);
 
 export const isDoiOrHandleUrl = (id: string) => isDoiUrl(id) || isHandleUrl(id);
 
@@ -61,4 +59,25 @@ export const fetchNvaMetadataFromAkvaplanService = async (id: string) => {
   const url = new URL(`/nva/${id}`, PUBS_BASE);
   console.warn(url.href);
   return await fetch(url);
+};
+
+interface Published {
+  published: string | Date;
+  [key: string]: any;
+}
+
+const reversePublished = (a: Published, b: Published) =>
+  String(b.published).localeCompare(String(a.published));
+
+export const getWorksBy = async (id: string) => {
+  const url = new URL(`/by/${id}`, PUBS_BASE);
+  url.searchParams.set("limit", "-1");
+  const r = await fetch(url);
+  if (r?.ok) {
+    const text = await r.text();
+    return text.trim().split("\n").map((t) => {
+      const { value } = JSON.parse(t) as { value: SlimPublication };
+      return value;
+    }).sort(reversePublished);
+  }
 };
