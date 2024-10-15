@@ -1,9 +1,20 @@
 import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
 import { isDoiUrl } from "akvaplan_fresh/services/pub.ts";
 
-//const NVA_API_PROD = "https://api.nva.unit.no";
-export const NVA_API = "https://api.test.nva.aws.unit.no";
+const NVA_API_PROD = "https://api.nva.unit.no";
+const NVA_API_TEST = "https://api.test.nva.aws.unit.no";
+export const NVA_API = NVA_API_TEST;
 export const NVA_HOME = "https://test.nva.sikt.no";
+
+export const isNvaUrl = (id: string | URL) => {
+  if (URL.canParse(id)) {
+    const hostnames = [NVA_API_PROD, NVA_API_TEST].map((url) =>
+      new URL(url).hostname
+    );
+    return hostnames.includes(new URL(id).hostname);
+  }
+  return false;
+};
 
 export const nvaPublicationLanding = (id: string) =>
   new URL(`/registration/${id}`, NVA_HOME);
