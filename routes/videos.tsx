@@ -36,7 +36,7 @@ export const handler: Handlers<VideosProps> = {
         prefix: ["mynewsdesk_id", "video"],
       })
     ) {
-      const slug = value.url.replace("https://akvaplan.no/videos/", "");
+      const slug = value.url.split("/").at(-1) as string;
       const href = videoURL({ lang: params.lang, slug });
       value.href = href;
       _vid.push(value);

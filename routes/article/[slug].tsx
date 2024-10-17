@@ -34,7 +34,7 @@ import {
   HScroll,
   Icon,
   Page,
-  PeopleCard as PersonCard,
+  PersonCard as PersonCard,
 } from "akvaplan_fresh/components/mod.ts";
 
 import {
@@ -143,6 +143,7 @@ export const handler: Handlers = {
         const imageAsNews = newsFromMynewsdesk({ lang })(myn);
         return {
           ...imageAsNews,
+          title: "",
           href,
           type: "image",
         };
