@@ -20,7 +20,7 @@ import {
   Page,
 } from "akvaplan_fresh/components/mod.ts";
 
-import { PeopleCard as PersonCard } from "akvaplan_fresh/components/mod.ts";
+import { PersonCard as PersonCard } from "akvaplan_fresh/components/mod.ts";
 
 import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";

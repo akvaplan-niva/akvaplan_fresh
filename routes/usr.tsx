@@ -19,7 +19,7 @@ import {
   Card,
   Icon,
   Page,
-  PeopleCard as PersonCard,
+  PersonCard as PersonCard,
 } from "akvaplan_fresh/components/mod.ts";
 
 import { extractLangFromUrl, t } from "akvaplan_fresh/text/mod.ts";
@@ -53,6 +53,9 @@ import {
 } from "akvaplan_fresh/components/social_media_icons.tsx";
 import { mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
 import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
+import { getWorksBy } from "akvaplan_fresh/services/pub.ts";
+import { GroupedWorks } from "akvaplan_fresh/islands/works.tsx";
+import { personURL, worksByUrl } from "akvaplan_fresh/services/nav.ts";
 
 const defaultAtConfig = {
   search: {
@@ -98,16 +101,14 @@ const getPriorAkvaplanist = async (id: string) => {
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
     const { at, id, name } = ctx.params;
-    const { searchParams } = new URL(req.url);
     const { url } = ctx;
     const lang = at === "~" ? "no" : "en";
     //langSignal.value = lang;
 
     const cand = await getAkvaplanist(id);
-
     const akvaplanist = cand ?? await getPriorAkvaplanist(id);
 
-    // @todop Consider falling back to orama ?
+    // @todo Consider falling back to orama ?
     if (!akvaplanist) {
       return ctx.renderNotFound();
     }
@@ -124,9 +125,7 @@ export const handler: Handlers = {
     const user = session ? await getSession(session) : null;
     const avatar = user?.email ? await getAvatarImageBytes(user?.email) : null;
 
-    const config =
-      await getValue<typeof defaultAtConfig>(["@", "config", id]) ??
-        defaultAtConfig;
+    const config = defaultAtConfig;
 
     const params = oramaSearchParamsForAuthoredPubs(akvaplanist);
 
@@ -136,44 +135,37 @@ export const handler: Handlers = {
 
     const orama = { results, params };
 
-    const cristin: { works?: any[]; id?: number } = {
-      id: crid.has(id) ? crid.get(id) as number : undefined,
-    };
-
-    if (config.cristin.enabled || searchParams.has("cristin")) {
-      const _works = await getWorks(cristin.id);
-      const { rejectCategories } = {
-        ...defaultAtConfig.cristin,
-        ...config.cristin,
-      };
-      const works = _works
-        ?.filter(({ category: { code } }) =>
-          false === rejectCategories.includes(code)
-        );
-      if (works?.length > 0) {
-        cristin.works = works;
-      }
-    }
-
     const editor = await mayEditKvPanel(req);
+
+    const works = akvaplanist?.id ? await getWorksBy(akvaplanist.id) : [];
 
     return ctx.render({
       akvaplanist,
       at,
       url,
       config,
-      cristin,
       orama,
       user,
       avatar,
       editor,
+      works,
     });
   },
 };
 
 export default function UsrPage({ data }: PageProps<AtHome>) {
-  const { akvaplanist, at, url, config, cristin, orama, user, avatar, editor } =
-    data;
+  const {
+    akvaplanist,
+    at,
+    url,
+    config,
+    orama,
+    user,
+    avatar,
+    editor,
+    grouped,
+    works,
+  } = data;
   const { given, family, prior, expired, openalex, orcid } = akvaplanist;
   const name = `${given} ${family}`;
   const bio = akvaplanist?.bio;
@@ -183,6 +175,9 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
   return (
     <Page base={`/${at}${akvaplanist.id}`} title={name}>
       <PersonCard
+        href={works?.length > 0
+          ? worksByUrl(akvaplanist.id, lang)
+          : personURL(akvaplanist, lang)}
         person={akvaplanist}
         lang={lang}
         avatar={avatar && user && user.email.startsWith(akvaplanist.id)
@@ -229,26 +224,16 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
         </Card>
       )}
 
-      {config.search.enabled !== false && (
-        <GroupedSearch
-          term={orama.params.term}
-          results={orama.results}
-          exclude={config.search.exclude ?? ["person"]}
-          sort={"-published"}
-          origin={url}
-          noInput
-        />
-      )}
+      <GroupedSearch
+        term={orama.params.term}
+        results={orama.results}
+        exclude={config.search.exclude ?? ["person"]}
+        sort={"-published"}
+        origin={url}
+        noInput
+      />
 
-      {cristin.id && !cristin.works && (
-        <p style={{ fontSize: "0.8rem" }}>
-          <a href={`?cristin`}>
-            {t("cristin.Show_works_from_Cristin")}
-          </a>
-        </p>
-      )}
-
-      {cristin.id && cristin.works && (
+      {false && (
         <>
           <header
             style={{ paddingBlockStart: "1rem", paddingBlockEnd: "0.5rem" }}
@@ -263,7 +248,7 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
                     sessionId
                     href={`https://app.cristin.no/search.jsf?t=${""}&type=result&filter=person_idfacet~${cristin.id}`}
                   >
-                    Cristin
+                    {t("NVA")}
                   </a>
                 </cite>
               </summary>
@@ -275,12 +260,6 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
               )}
             </details>
           </header>
-          <aside id="cristin">
-            <CristinWorksGrouped
-              grouped={Map.groupBy(cristin.works, groupByCategory)}
-              lang={lang}
-            />
-          </aside>
         </>
       )}
     </Page>

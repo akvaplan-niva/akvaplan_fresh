@@ -25,7 +25,8 @@ import { getEmployedAkvaplanists } from "akvaplan_fresh/services/akvaplanist.ts"
 //
 // Data held in KV may not so easily be pre-indexed, since the GitHub build server has no contact with the KV in production,
 // although this could be achieved by injecting a KV secret to https://github.com/akvaplan-niva/akvaplan_fresh/blob/main/.github/workflows/deploy.yml)
-// At the moment, data from KV is indexed by the site menu dialog component.
+//
+// Note: KV is indexed on the fly, from the site menu dialog component (site_menu_dialog.tsx)
 
 export const buildOramaIndex = async () => {
   const orama = await createOramaInstance();

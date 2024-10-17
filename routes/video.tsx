@@ -15,7 +15,7 @@ export const config: RouteConfig = {
 import { isAuthenticated } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
 import { editHref, fetchContacts } from "akvaplan_fresh/services/mynewsdesk.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
-import { PeopleCard as PersonCard } from "akvaplan_fresh/components/mod.ts";
+import { PersonCard as PersonCard } from "akvaplan_fresh/components/mod.ts";
 import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
 

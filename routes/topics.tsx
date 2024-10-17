@@ -16,7 +16,7 @@ import {
   CollectionHeader,
   HScroll,
   Page,
-  PeopleCard as PersonCard,
+  PersonCard as PersonCard,
 } from "akvaplan_fresh/components/mod.ts";
 
 import { intlRouteMap, researchTopicURL } from "akvaplan_fresh/services/nav.ts";

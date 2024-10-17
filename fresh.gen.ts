@@ -23,6 +23,7 @@ import * as $article_slug_ from "./routes/article/[slug].tsx";
 import * as $auth_action_ from "./routes/auth/[action].tsx";
 import * as $bento from "./routes/bento.tsx";
 import * as $bento_slug_ from "./routes/bento/[slug].tsx";
+import * as $by from "./routes/by.tsx";
 import * as $careers from "./routes/careers.tsx";
 import * as $company_topic from "./routes/company_topic.tsx";
 import * as $contact from "./routes/contact.tsx";
@@ -55,14 +56,11 @@ import * as $projects from "./routes/projects.tsx";
 import * as $pub from "./routes/pub.tsx";
 import * as $pubs from "./routes/pubs.tsx";
 import * as $research from "./routes/research.tsx";
-import * as $research2 from "./routes/research2.tsx";
 import * as $research_topics from "./routes/research_topics.tsx";
 import * as $search from "./routes/search.tsx";
 import * as $service_edit from "./routes/service_edit.tsx";
 import * as $service_topics from "./routes/service_topics.tsx";
 import * as $services from "./routes/services.tsx";
-import * as $services2 from "./routes/services2.tsx";
-import * as $services_vt from "./routes/services_vt.tsx";
 import * as $sitemap_txt from "./routes/sitemap.txt.ts";
 import * as $topics from "./routes/topics.tsx";
 import * as $usr from "./routes/usr.tsx";
@@ -85,6 +83,7 @@ import * as $pub_nva_pdf_augment from "./islands/pub_nva_pdf_augment.tsx";
 import * as $text from "./islands/text.tsx";
 import * as $theme_switcher from "./islands/theme_switcher.tsx";
 import * as $username_or_signin from "./islands/username_or_signin.tsx";
+import * as $works from "./islands/works.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -110,6 +109,7 @@ const manifest = {
     "./routes/auth/[action].tsx": $auth_action_,
     "./routes/bento.tsx": $bento,
     "./routes/bento/[slug].tsx": $bento_slug_,
+    "./routes/by.tsx": $by,
     "./routes/careers.tsx": $careers,
     "./routes/company_topic.tsx": $company_topic,
     "./routes/contact.tsx": $contact,
@@ -142,14 +142,11 @@ const manifest = {
     "./routes/pub.tsx": $pub,
     "./routes/pubs.tsx": $pubs,
     "./routes/research.tsx": $research,
-    "./routes/research2.tsx": $research2,
     "./routes/research_topics.tsx": $research_topics,
     "./routes/search.tsx": $search,
     "./routes/service_edit.tsx": $service_edit,
     "./routes/service_topics.tsx": $service_topics,
     "./routes/services.tsx": $services,
-    "./routes/services2.tsx": $services2,
-    "./routes/services_vt.tsx": $services_vt,
     "./routes/sitemap.txt.ts": $sitemap_txt,
     "./routes/topics.tsx": $topics,
     "./routes/usr.tsx": $usr,
@@ -175,6 +172,7 @@ const manifest = {
     "./islands/text.tsx": $text,
     "./islands/theme_switcher.tsx": $theme_switcher,
     "./islands/username_or_signin.tsx": $username_or_signin,
+    "./islands/works.tsx": $works,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

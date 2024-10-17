@@ -41,9 +41,10 @@ const isPrior = ({ expired, prior } = {}) => {
   return isExpired({ expired });
 };
 
-export function PeopleCard(
+export function PersonCard(
   {
     person,
+    href,
     lang = langSignal.value,
     id,
     icons = true,
@@ -80,7 +81,7 @@ export function PeopleCard(
         {name?.length > 1
           ? <span>{name}</span>
           : (
-            <a href={personURL(person, lang)}>
+            <a href={href ?? personURL(person, lang)}>
               <span style={{ color: "var(--text1)" }}>{given}</span>
               &nbsp;
               <span style={{ color: "var(--text2)" }}>{family}</span>

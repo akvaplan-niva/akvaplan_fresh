@@ -11,11 +11,16 @@ import { getOramaDocument } from "akvaplan_fresh/search/orama.ts";
 import { pubsURL } from "akvaplan_fresh/services/nav.ts";
 import { PubNvaPdfAugment } from "../islands/pub_nva_pdf_augment.tsx";
 import Button from "akvaplan_fresh/components/button/button.tsx";
-import { getUri, isDoiOrHandleUrl } from "akvaplan_fresh/services/pub.ts";
+import {
+  getPubFromAkvaplanService,
+  getUri,
+  isDoiOrHandleUrl,
+} from "akvaplan_fresh/services/pub.ts";
+import { nameFromAuthor } from "akvaplan_fresh/search/indexers/pubs.ts";
 
 export const config: RouteConfig = {
   routeOverride:
-    "{/:lang(en|no)}?/:collection(publikasjon|publication|pub){/:kind(doi|hdl|nva|hdl.handle.net)}?/:idx*",
+    "{/:lang(en|no)}?/:collection(publikasjon|publication|pub){/:kind(doi|hdl|nva|hdl\.handle\.net)}?/:idx*",
 };
 
 export default defineRoute(async (_req, ctx) => {
@@ -24,15 +29,16 @@ export default defineRoute(async (_req, ctx) => {
   const scheme = idx?.startsWith("10.") ? "doi" : kind;
 
   const id = getUri(scheme, idx);
-  const pub = await getOramaDocument(id).catch((res) => {
-    console.warn("WARN getPubFromAkvaplanService", res);
-  });
-
+  let pub = await getOramaDocument(id);
+  if (!pub) {
+    // In case orama index is out-dated, or in rare cases like /no/doi/10.1577/1548-8659(1994)123%3C0385:spbpac%3E2.3.co;2
+    // FIXME _authors
+    pub = await getPubFromAkvaplanService(id);
+    pub._authors = pub.authors;
+  }
   if (!pub) {
     return ctx.renderNotFound();
   }
-
-  const oa = false;
 
   const {
     container,
@@ -53,18 +59,12 @@ export default defineRoute(async (_req, ctx) => {
   } = pub;
 
   const typecode = nva ? `nva.${type}` : `type.${type}`;
-
-  //const hreflang = pub?.lang ?? lang;
   const base = `/${lang}/${collection}/`;
 
   // Server-fetch NVA from Akvaplan-service
-  //const t0 = performance.now();
   // This delays rendering, but is needed since neither Akvaplan nor NVA service supports CORS.
   // FIXME Move NVA fetch to browser island (requires adding CORS to Akvaplan pubs service, or using a CORS proxy)
   const nvaPublication = nva ? await getNvaMetadata(nva) : undefined;
-
-  //const deltaT = performance.now() - t0;
-  //console.warn(deltaT);
 
   return (
     <Page
@@ -192,23 +192,3 @@ export default defineRoute(async (_req, ctx) => {
     </Page>
   );
 });
-
-/**
-Year: 2014
-Type: article
-Source: Environmental Research Letters
-Authors Brage Bremset Hansen, Ketil Isaksen, Rasmus Benestad, Jack Kohler, Åshild Ønvik Pedersen +4 more
-Institutions Norwegian University of Science and Technology, Norwegian Meteorological Institute, Norwegian Polar Institute, Norwegian University of Life Sciences, Akvaplan-niva
-Cites: 47
-Cited by: 216
-Related to: 10
-Topic: Arctic Permafrost Dynamics and Climate Change
-Subfield: Atmospheric Science
-Field: Earth and Planetary Sciences
-Domain: Physical Sciences
-Sustainable Development Goal No poverty
-Open Access status: gold
-APC paid (est): $1 901
-Funder Norges Forskningsråd
-Grant ID POLARPROG Grant Number 216051
- */
