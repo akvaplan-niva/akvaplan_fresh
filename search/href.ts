@@ -10,7 +10,7 @@ const En = new Map([
 ]);
 
 const En1 = new Map([
-  ["pubs", "doi"],
+  ["pub", "pub"],
 ]);
 
 const No = new Map([
@@ -25,8 +25,8 @@ const No = new Map([
 const No1 = new Map([
   ["image", "bilde"],
   ["document", "dokument"],
-  ["pubs", "doi"],
-  ["pub", "publikasjon"],
+  ["pubs", "pub"],
+  ["pub", "pub"],
   ["project", "prosjekt"],
   ["news", "nyhet"],
   ["pressrelease", "pressemelding"],
@@ -51,12 +51,15 @@ const localizedRouteForSearchAtom = (
     const { title: name, id: email } = atom;
     return akvaplanistUrl({ email, name, slug } as any, lang);
   } else if (collection === "pubs") {
-    if (String(id).startsWith("https://hdl.handle.net")) {
+    if (String(id).startsWith("https://doi.org")) {
       collection = "pub";
-    } else if (String(id).startsWith("https://doi.org")) {
-      collection = "doi";
+      slug = new URL(id).pathname.slice(1);
+    } else if (String(id).startsWith("https://hdl.handle.net")) {
+      collection = "pub";
+      slug = "hdl/" + new URL(id).pathname.slice(1);
     } else if (slug?.startsWith("nva/")) {
       collection = "pub";
+      slug = "nva/" + new URL(id).pathname.split("/").at(-1);
     }
   }
 

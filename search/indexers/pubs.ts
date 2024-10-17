@@ -66,7 +66,7 @@ const buildSlug = ({ id, doi }: Partial<SlimPublication>) => {
   return id;
 };
 
-const nameFromAuthor = ({ family, given, name }: Partial<Akvaplanist>) =>
+export const nameFromAuthor = ({ family, given, name }: Partial<Akvaplanist>) =>
   name ? name : `${given} ${family}`;
 
 export const atomizeSlimPublication = async (pub: SlimPublication) => {

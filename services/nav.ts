@@ -19,6 +19,7 @@ export const moreNav: SignalLike<Array> = computed(() =>
 const En = new Map([
   ["about", "/en/about"],
   ["akvaplanists", "/en/people"],
+  ["by", "/en/by"],
   ["contact", "/en/contact"],
   ["dcat", "/en/dcat"],
   ["document", "/en/document"],
@@ -49,6 +50,7 @@ const En = new Map([
 const No = new Map([
   ["about", "/no/om"],
   ["akvaplanists", "/no/folk"],
+  ["by", "/no/av"],
   ["contact", "/no/kontakt"],
   ["person", "/no/folk"],
   ["blog", "/no/blog"],
@@ -220,6 +222,9 @@ export const servicePath = ({ lang, name, topic, uuid }) =>
 
 export const pubsURL = ({ lang } = {}) =>
   `${intlRouteMap(lang || langSignal.value).get("pubs")}`;
+
+export const worksByUrl = (id, lang = langSignal.value) =>
+  `${intlRouteMap(lang || langSignal.value).get("by")}/${id}`;
 
 export const doiPublicationUrl = ({ doi, lang }) =>
   `${intlRouteMap(lang).get("doi")}/${doi.replace("https://doi.org/", "")}`;

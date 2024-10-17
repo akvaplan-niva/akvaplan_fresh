@@ -73,11 +73,14 @@ export const getWorksBy = async (id: string) => {
   const url = new URL(`/by/${id}`, PUBS_BASE);
   url.searchParams.set("limit", "-1");
   const r = await fetch(url);
+
   if (r?.ok) {
     const text = await r.text();
-    return text.trim().split("\n").map((t) => {
-      const { value } = JSON.parse(t) as { value: SlimPublication };
-      return value;
-    }).sort(reversePublished);
+    return text?.length > 0
+      ? text.trim().split("\n")?.map((t) => {
+        const { value } = JSON.parse(t) as { value: SlimPublication };
+        return value;
+      }).sort(reversePublished)
+      : [];
   }
 };
