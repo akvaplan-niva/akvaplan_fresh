@@ -3,7 +3,7 @@ import {
   Card,
   HScroll,
   Page,
-  PeopleCard as PersonCard,
+  PersonCard as PersonCard,
 } from "akvaplan_fresh/components/mod.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { Markdown } from "akvaplan_fresh/components/markdown.tsx";

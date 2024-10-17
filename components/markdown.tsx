@@ -5,7 +5,7 @@ import type { IOptions as SanitizeOptions } from "npm:@types/sanitize-html";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { WideImage } from "akvaplan_fresh/components/wide_image.tsx";
-import { PeopleCard } from "akvaplan_fresh/components/mod.ts";
+import { PersonCard } from "akvaplan_fresh/components/mod.ts";
 
 const allowedTags = [
   ...sanitize.defaults.allowedTags,
@@ -96,7 +96,7 @@ export const MarkdownPanel = (
         </Card>
       </Section>
 
-      {people_ids.map((id) => <PeopleCard id={id} />)}
+      {people_ids.map((id) => <PersonCard id={id} />)}
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
 import HScroll from "../hscroll/HScroll.tsx";
-import { PeopleCard } from "akvaplan_fresh/components/mod.ts";
+import { PersonCard } from "akvaplan_fresh/components/mod.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 type Props = {
   people: Akvaplanist[];
@@ -10,7 +10,7 @@ type Props = {
 export function PeopleScroll({ people }: Props) {
   return (
     <HScroll>
-      {people.map((person) => <PeopleCard person={person} key={person.id} />)}
+      {people.map((person) => <PersonCard person={person} key={person.id} />)}
     </HScroll>
   );
 }
@@ -27,7 +27,7 @@ export const OnePersonGroup = (
     {members.map((person: Akvaplanist) => (
       <li style={inline}>
         <span>
-          <PeopleCard person={person} id={person.id} key={person.id} />
+          <PersonCard person={person} id={person.id} key={person.id} />
         </span>
       </li>
     ))}
@@ -83,7 +83,7 @@ export const GroupedPeople = (
         </span>
         <HScroll>
           {members.map((person) => (
-            <PeopleCard
+            <PersonCard
               id={person.id}
               person={person}
               key={person.id}
