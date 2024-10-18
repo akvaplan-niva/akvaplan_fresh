@@ -39,6 +39,13 @@ export const getAkvaplanistsFromDenoService = async (): Promise<
   return [];
 };
 
+export const getPriorAkvaplanistFromDenoService = async (id: string) => {
+  const r = await fetch(new URL(`/kv/expired/${id}`, base));
+  if (r?.ok) {
+    return (await r.json()).value;
+  }
+};
+
 export const fetchAndSaveAkvaplanistsJson = async () => {
   const akvaplanists = await getAkvaplanistsFromDenoService();
   setAkvaplanists(akvaplanists);

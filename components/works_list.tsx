@@ -5,9 +5,12 @@ import {
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
-
+import { t } from "akvaplan_fresh/text/mod.ts";
 export const WorksList = (
-  { group, open, works, lang }: { works: SlimPublication[]; lang: string },
+  { group, summary, open, works, lang }: {
+    works: SlimPublication[];
+    lang: string;
+  },
 ) => {
   const worksWithAuthorNames = works.map((w) => {
     // console.warn({ atom });
@@ -27,7 +30,7 @@ export const WorksList = (
       style={{ paddingBlockStart: "0.5rem" }}
     >
       <summary>
-        {group}
+        {summary ? summary : t(`nva.${group}`)}
 
         <Pill>
           {works.length}

@@ -51,9 +51,8 @@ export const search = async (
   params.term = params.exact !== true ? normalize(params.term) : params.term;
   params.threshold = params.threshold ?? 0;
 
-  //console.debug("orama params", params);
-
   const res = await _search(orama, params) as Results<OramaAtom>;
+
   return res;
 };
 export const paramsLatestGroupedByCollection = ({ term }) => {

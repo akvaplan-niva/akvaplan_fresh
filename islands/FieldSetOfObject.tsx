@@ -10,7 +10,6 @@ export const FieldSetOfObject = (
     areas: string[];
   },
 ) => {
-  console.warn(areas);
   return (
     <fieldset style={{ border: 0 }}>
       <legend>{legend}</legend>

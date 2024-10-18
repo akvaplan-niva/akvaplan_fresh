@@ -11,6 +11,8 @@ import {
 
 import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 import { isDoiOrHandleUrl } from "akvaplan_fresh/services/pub.ts";
+import { isNvaUrl } from "akvaplan_fresh/services/nva.ts";
+import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
 
 // FIXME _authors vs authors, switch: use _authors for string[] for orama indexing and authors for {family,given}[]
 //authors,
@@ -39,9 +41,9 @@ export const PubArticle = ({
     }}
   >
     <p style={{ fontSize: ".75rem" }}>
-      <a href={pubsURL({ lang }) + `?type=${type}`}>
+      <a href={pubsURL({ lang }) + `?q=${type}&filter-type=${type}`}>
         {t(
-          nva ? `nva.${type}` : `type.${type}`,
+          isHandleUrl(id) || isNvaUrl(id) ? `nva.${type}` : `type.${type}`,
         )}
       </a>
     </p>

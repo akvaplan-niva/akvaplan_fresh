@@ -38,7 +38,7 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
     year: yearFacet,
     people: {},
     collection: {},
-    type: {},
+    type: { limit: 100 },
     //authors: {}
   };
   const hero = await getPanelInLang<Panel>({ id: ID_PUBLICATIONS, lang });
