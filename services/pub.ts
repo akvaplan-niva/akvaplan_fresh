@@ -23,7 +23,7 @@ export const isDoiUrl = (url: URL | string) => {
   return false;
 };
 
-export const getUri = (kind: string, id: string) => {
+export const buildCanonicalUri = (kind: string, id: string) => {
   switch (kind) {
     case "doi":
       return new URL(id, "https://doi.org").href;
@@ -35,7 +35,7 @@ export const getUri = (kind: string, id: string) => {
         NVA_API,
       ).href;
     default:
-      throw "Unsupported id scheme ";
+      throw "Unsupported id scheme";
   }
 };
 
