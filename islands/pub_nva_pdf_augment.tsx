@@ -2,9 +2,8 @@ import { NVA_API, nvaPublicationLanding } from "akvaplan_fresh/services/nva.ts";
 import { Signal, useSignal } from "@preact/signals";
 import { Head, IS_BROWSER } from "$fresh/runtime.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
-import pub from "akvaplan_fresh/routes/pub.tsx";
+
 import { Section } from "akvaplan_fresh/components/section.tsx";
-import { boolean } from "@valibot/valibot";
 
 interface NvaPublicationLike {
   identifier: string;
@@ -46,13 +45,15 @@ export const PubNvaPdfAugment = (
     lang: string;
   },
 ) => {
-  const id = "pub-nva-pdf-" + crypto.randomUUID();
-  const state = useSignal({ ready: false, querySelector: "#" + id } as {
-    ready: boolean;
-    querySelector: string;
-    abstract?: string;
-    description?: string;
-  });
+  const nvaPdfWrapperHtmlId = "pub-nva-pdf-" + crypto.randomUUID();
+  const state = useSignal(
+    { ready: false, querySelector: "#" + nvaPdfWrapperHtmlId } as {
+      ready: boolean;
+      querySelector: string;
+      abstract?: string;
+      description?: string;
+    },
+  );
 
   langSignal.value = lang;
 
@@ -118,17 +119,7 @@ export const PubNvaPdfAugment = (
         </script>
       </Head>
 
-      {identifier && (
-        <p>
-          {t("pubs.View_in")}{" "}
-          <a href={nvaPublicationLanding(identifier)} target="_blank">
-            {t("NVA")}
-          </a>
-        </p>
-      )}
-      <div
-        id={id}
-      />
+      <div id={nvaPdfWrapperHtmlId} />
 
       {state.value?.abstract && (
         <Section>
@@ -150,6 +141,19 @@ export const PubNvaPdfAugment = (
             />
           </Section>
         )}
+      {identifier && (
+        <p
+          style={{
+            backgroundColor: "transparent",
+            fontSize: "0.75rem",
+          }}
+        >
+          {t("pubs.View_in")}{" "}
+          <a href={nvaPublicationLanding(identifier)} target="_blank">
+            {t("NVA")}
+          </a>
+        </p>
+      )}
     </>
   );
 };
