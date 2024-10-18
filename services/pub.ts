@@ -49,10 +49,9 @@ export const fetchPubFromAkvaplanService = async (uri: string) => {
 
 export const getPubFromAkvaplanService = async (id: string) => {
   const r = await fetchPubFromAkvaplanService(id);
-  if (r && r.status !== 200) {
-    return Promise.reject({ status: r.status });
+  if (r?.ok) {
+    return await r.json() as SlimPublication;
   }
-  return Promise.resolve(await r.json() as SlimPublication);
 };
 
 export const fetchNvaMetadataFromAkvaplanService = async (id: string) => {

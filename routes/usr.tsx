@@ -12,6 +12,7 @@ const crid = new Map<string, number>(_cristin_ids as [[string, number]]);
 import {
   buildAkvaplanistMap,
   getAkvaplanist,
+  getPriorAkvaplanistFromDenoService,
 } from "akvaplan_fresh/services/akvaplanist.ts";
 import { priorAkvaplanistID as priors } from "akvaplan_fresh/services/prior_akvaplanists.ts";
 
@@ -54,8 +55,7 @@ import {
 import { mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
 import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
 import { getWorksBy } from "akvaplan_fresh/services/pub.ts";
-import { GroupedWorks } from "akvaplan_fresh/islands/works.tsx";
-import { personURL, worksByUrl } from "akvaplan_fresh/services/nav.ts";
+import { worksByUrl } from "akvaplan_fresh/services/nav.ts";
 
 const defaultAtConfig = {
   search: {
@@ -89,15 +89,6 @@ export const config: RouteConfig = {
 
 const ids = await buildAkvaplanistMap();
 
-const getPriorAkvaplanist = async (id: string) => {
-  const r = await fetch(
-    new URL(`/kv/expired/${id}`, "https://akvaplanists.deno.dev"),
-  );
-  if (r?.ok) {
-    return (await r.json()).value;
-  }
-};
-
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
     const { at, id, name } = ctx.params;
@@ -106,7 +97,7 @@ export const handler: Handlers = {
     //langSignal.value = lang;
 
     const cand = await getAkvaplanist(id);
-    const akvaplanist = cand ?? await getPriorAkvaplanist(id);
+    const akvaplanist = cand ?? await getPriorAkvaplanistFromDenoService(id);
 
     // @todo Consider falling back to orama ?
     if (!akvaplanist) {
@@ -129,9 +120,7 @@ export const handler: Handlers = {
 
     const params = oramaSearchParamsForAuthoredPubs(akvaplanist);
 
-    const results = config.search.enabled === false
-      ? undefined
-      : await search(params);
+    const results = await search(params);
 
     const orama = { results, params };
 
@@ -175,9 +164,7 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
   return (
     <Page base={`/${at}${akvaplanist.id}`} title={name}>
       <PersonCard
-        href={works?.length > 0
-          ? worksByUrl(akvaplanist.id, lang)
-          : personURL(akvaplanist, lang)}
+        href={works?.length > 0 ? worksByUrl(akvaplanist.id, lang) : "#"}
         person={akvaplanist}
         lang={lang}
         avatar={avatar && user && user.email.startsWith(akvaplanist.id)
@@ -227,7 +214,7 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
       <GroupedSearch
         term={orama.params.term}
         results={orama.results}
-        exclude={config.search.exclude ?? ["person"]}
+        exclude={["person", works?.length === 0 ? "pubs" : undefined]}
         sort={"-published"}
         origin={url}
         noInput

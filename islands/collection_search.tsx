@@ -57,6 +57,7 @@ export default function CollectionSearch(
     results,
     list,
     noInput = false,
+    hero = null,
   }: {
     q?: string;
     people?: string;
@@ -105,8 +106,6 @@ export default function CollectionSearch(
       hits.value = results.hits;
       count.value = results.count;
       facet.value = facetMapper(results?.facets);
-
-      console.warn(results?.facets);
     }
   };
 
