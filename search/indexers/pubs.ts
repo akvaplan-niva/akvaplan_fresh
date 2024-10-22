@@ -70,7 +70,7 @@ export const nameFromAuthor = ({ family, given, name }: Partial<Akvaplanist>) =>
   name ? name : `${given} ${family}`;
 
 export const atomizeSlimPublication = async (pub: SlimPublication) => {
-  const { id, nva, title, published, doi, type, container } = pub;
+  const { id, nva, reg, title, published, doi, type, container } = pub;
   const authorsStringArray: string[] = (pub?.authors ?? []).map(nameFromAuthor);
 
   // authors.map((name) =>
@@ -88,6 +88,18 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
 
   const slug = buildSlug(pub);
 
+  const debug = nva ? ["nva_true"] : ["nva_false"];
+  if (/Crossref/i.test(reg)) {
+    debug.push("crossref_true");
+  } else {
+    debug.push("crossref_false");
+  }
+  const author_debug_name = pub.authors?.some((a) =>
+    !("family" in a) || !("given" in a)
+  );
+  if (author_debug_name) {
+    debug.push("family_or_given_false");
+  }
   const atom: OramaAtom = {
     ...pub,
     id,
@@ -102,6 +114,7 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
     title: title ?? `[${container} (${year}): ${doi}]`,
     published: String(published),
     year,
+    debug,
     text: [
       container,
       type,

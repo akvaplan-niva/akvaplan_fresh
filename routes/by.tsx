@@ -51,12 +51,33 @@ export default defineRoute(async (req, ctx) => {
     : "type";
   const _person = await getAkvaplanist(id);
   const person = _person ?? await getPriorAkvaplanistFromDenoService(id);
-
-  //const name = [person.given, person.family].join(" ");
   const works = await getWorksBy(id);
-  const coop = works ? getCoops(id, works) : undefined;
-  const coopTop = coop ? [...coop].sort((a, b) => b[1] - a[1]) : undefined;
-  const coopGrouped = Map.groupBy(coopTop, ([, count]) => count);
+  // const coop = works ? getCoops(id, works) : undefined;
+  // const coopTop = coop ? [...coop].sort((a, b) => b[1] - a[1]) : undefined;
+  // const coopGrouped = Map.groupBy(coopTop, ([, count]) => count);
+  // <Section style={{ fontSize: ".75rem" }}>
+  //       <h2>Co-authors ({coop.size})</h2>
+
+  //       {[...coopGrouped].map(([k, v]) => (
+  //         <ol>
+  //           <h3>
+  //             {k} works (with: {v.length} others)
+  //           </h3>
+
+  //           {v?.map(([who, count]) => (
+  //             <li>
+  //               {ids.has(who)
+  //                 ? (
+  //                   <a href={worksByUrl(who, lang)}>
+  //                     {nameFromAuthor(ids.get(who))}
+  //                   </a>
+  //                 )
+  //                 : <span>{who}</span>}
+  //             </li>
+  //           ))}
+  //         </ol>
+  //       ))}
+  //     </Section>
   const withYear = works?.map((w) => {
     w.year = +w.published.substring(0, 4);
     // if (isDoiUrl(w.id)) {
@@ -79,30 +100,7 @@ export default defineRoute(async (req, ctx) => {
       <Section>
         <h2>{t("pubs.Pubs")} ({works?.length})</h2>
         {/* <a href="?group-by=year">year</a> */}
-        <GroupedWorks grouped={grouped} lang={lang} />
-      </Section>
-      <Section style={{ fontSize: ".75rem" }}>
-        <h2>Co-authors ({coop.size})</h2>
-
-        {[...coopGrouped].map(([k, v]) => (
-          <ol>
-            <h3>
-              {k} works (with: {v.length} others)
-            </h3>
-
-            {v?.map(([who, count]) => (
-              <li>
-                {ids.has(who)
-                  ? (
-                    <a href={worksByUrl(who, lang)}>
-                      {nameFromAuthor(ids.get(who))}
-                    </a>
-                  )
-                  : <span>{who}</span>}
-              </li>
-            ))}
-          </ol>
-        ))}
+        <GroupedWorks grouped={grouped} groupedBy={groupBy} lang={lang} />
       </Section>
     </Page>
   );

@@ -6,6 +6,7 @@ export const schema = {
   people: "string[]", // normalized names
   //authors: "string[]", // verbatim names
   searchwords: "string[]",
+  debug: "string[]",
   text: "string",
   published: "string",
   year: "number",

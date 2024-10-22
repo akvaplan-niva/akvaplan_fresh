@@ -7,7 +7,7 @@ import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 export const WorksList = (
-  { group, summary, open, works, lang }: {
+  { group, groupedBy, summary, open, works, lang }: {
     works: SlimPublication[];
     lang: string;
   },
@@ -30,7 +30,7 @@ export const WorksList = (
       style={{ paddingBlockStart: "0.5rem" }}
     >
       <summary>
-        {summary ? summary : t(`nva.${group}`)}
+        {summary ? summary : t(`${groupedBy}.${group}`)}
 
         <Pill>
           {works.length}
