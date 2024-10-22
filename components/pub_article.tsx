@@ -98,7 +98,7 @@ export const PubArticle = ({
           {_authors?.length > 0 && (
             <Card>
               <details open>
-                <summary style={{ paddingBottom: "1rem" }}>
+                <summary style={{ paddingBottom: ".5rem" }}>
                   {_authors?.length > 1 ? t("pubs.Authors") : t("pubs.Author")}
                   {" "}
                   ({_authors.length})

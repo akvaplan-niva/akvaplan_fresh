@@ -28,6 +28,7 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
   const { searchParams } = new URL(req.url);
 
   const q = searchParams.get("q");
+  const debug = searchParams.has("debug");
   const people = searchParams.get("people");
   const collection = "pubs";
   const title = t("nav.Pubs").value;
@@ -41,6 +42,9 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
     type: { limit: 100 },
     //authors: {}
   };
+  if (debug) {
+    facets.debug = {};
+  }
   const hero = await getPanelInLang<Panel>({ id: ID_PUBLICATIONS, lang });
   hero.cta = "";
   const results = await search({

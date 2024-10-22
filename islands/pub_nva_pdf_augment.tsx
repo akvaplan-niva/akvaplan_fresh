@@ -34,9 +34,12 @@ const getPresignedPdfUrl = async (id: string, file: string) => {
   }
 };
 
-const pdfFilter = (
+export const pdfFilter = (
   { type, mimeType }: NvaArtifactLike,
 ) => mimeType === "application/pdf" && type === "PublishedFile";
+
+export const hasPdf = (publication: NvaPublicationLike) =>
+  publication?.associatedArtifacts?.find(pdfFilter) !== undefined;
 
 export const PubNvaPdfAugment = (
   { publication, identifier = publication?.identifier, lang }: {
@@ -61,7 +64,7 @@ export const PubNvaPdfAugment = (
     parent: Element,
     src: string,
     style =
-      "height:600px;width:100%;padding-bottom:1.5rem;background:var(--surface1);",
+      "height:600px;width:100%;padding-bottom:0.25rem;background:var(--surface1);",
   ) => {
     const embedPdf = document.createElement("embed-pdf");
     embedPdf.setAttribute("src", src);
@@ -141,19 +144,6 @@ export const PubNvaPdfAugment = (
             />
           </Section>
         )}
-      {identifier && (
-        <p
-          style={{
-            backgroundColor: "transparent",
-            fontSize: "0.75rem",
-          }}
-        >
-          {t("pubs.View_in")}{" "}
-          <a href={nvaPublicationLanding(identifier)} target="_blank">
-            {t("NVA")}
-          </a>
-        </p>
-      )}
     </>
   );
 };

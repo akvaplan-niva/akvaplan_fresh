@@ -87,8 +87,6 @@ export const config: RouteConfig = {
   routeOverride: "/:at(@|~|en/user/|no/bruker/):id([a-z0-9]{3,}){/:name}*",
 };
 
-const ids = await buildAkvaplanistMap();
-
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
     const { at, id, name } = ctx.params;
