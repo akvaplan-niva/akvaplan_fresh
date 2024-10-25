@@ -1,6 +1,7 @@
 import { longDate } from "akvaplan_fresh/time/mod.ts";
 import {
   getNvaMetadata,
+  isNvaUrl,
   nvaPublicationLanding,
 } from "akvaplan_fresh/services/nva.ts";
 
@@ -16,7 +17,7 @@ import {
   hasPdf,
   PubNvaPdfAugment,
 } from "akvaplan_fresh/islands/pub_nva_pdf_augment.tsx";
-import { Card, Page } from "akvaplan_fresh/components/mod.ts";
+import { Breadcrumbs, Card, Page } from "akvaplan_fresh/components/mod.ts";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import {
@@ -24,6 +25,8 @@ import {
   ProjectsAsImageLinks,
 } from "akvaplan_fresh/components/project_link.tsx";
 import { mergeNvaAndCristinProjectsWithAkvaplanProjects } from "akvaplan_fresh/services/projects.ts";
+import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
+import { pubsURL } from "akvaplan_fresh/services/nav.ts";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -68,7 +71,7 @@ export default defineRoute(async (_req, ctx) => {
     return ctx.renderNotFound();
   }
 
-  const { nva, title, created, modified } = pub;
+  const { nva, title, created, modified, type } = pub;
   const base = `/${lang}/${collection}/`;
 
   // Server-fetch NVA from Akvaplan-service
@@ -80,6 +83,19 @@ export default defineRoute(async (_req, ctx) => {
     nvaPublication?.projects,
   );
 
+  const typeText = t(
+    isHandleUrl(id) || isNvaUrl(id) ? `nva.${type}` : `type.${type}`,
+  );
+  const typeHref = pubsURL({ lang }) + `?q=${type}&filter-type=${type}`;
+
+  const breadcrumbs = [{
+    href: pubsURL({ lang }),
+    text: t("nav.Pubs"),
+  }, {
+    href: typeHref,
+    text: typeText,
+  }];
+
   return (
     <Page
       title={title ?? ""}
@@ -89,6 +105,25 @@ export default defineRoute(async (_req, ctx) => {
         fontSize: "1rem",
       }}
     >
+      <p>
+        {
+          /* <a href={pubsURL({ lang }) + `?q=${type}&filter-type=${type}`}>
+          {typeText}
+        </a> */
+        }
+        <span
+          style={{
+            fontSize: "var(--font-size-1)",
+            display: "grid",
+            gap: "1rem",
+            placeItems: "center",
+            gridTemplateColumns: "1fr",
+            color: "var(--text1)",
+          }}
+        >
+          <Breadcrumbs list={breadcrumbs} />
+        </span>
+      </p>
       <PubArticle pub={pub} lang={lang} />
 
       {hasPdf(nvaPublication)

@@ -41,6 +41,47 @@ const isPrior = ({ expired, prior } = {}) => {
   return isExpired({ expired });
 };
 
+export const AkvaplanistCardBasic = (
+  { id, name, family, given, expired, prior, lang }:
+    & Pick<
+      Akvaplanist,
+      | "id"
+      | "name"
+      | "family"
+      | "given"
+      | "prior"
+      | "expired"
+    >
+    & { lang: string },
+) => (
+  <a href={personURL({ id, name, given, family }, lang)}>
+    <Card>
+      <h1
+        style={{ fontSize: "var(--font-size-fluid-1)", color: "var(--text1)" }}
+      >
+        {name ? name : (
+          <>
+            <span>{given}</span>{" "}
+            <span style={{ color: "var(--text2)" }}>{family}</span>
+          </>
+        )}
+      </h1>
+      {isPrior({ expired, prior }) &&
+        (
+          <p style={{ fontSize: ".8rem" }}>
+            {t("people.akvaplanist(prior)")}
+          </p>
+        )}
+
+      <UseApnSym
+        width="2rem"
+        height="2rem"
+        style={isPrior({ expired, prior }) ? { filter: "grayscale(1)" } : {}}
+      />
+    </Card>
+  </a>
+);
+
 export function PersonCard(
   {
     person,

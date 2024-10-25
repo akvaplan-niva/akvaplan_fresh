@@ -1,6 +1,7 @@
 import { Icon } from "akvaplan_fresh/components/icon.tsx";
 import type { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
 import { NVA_API, NVA_HOME } from "akvaplan_fresh/services/nva.ts";
+import { filter } from "../../../.cache/deno/npm/registry.npmjs.org/domutils/3.1.0/lib/esm/querying.d.ts";
 
 interface Social {
   icon: string;
@@ -9,16 +10,16 @@ interface Social {
   width?: number;
   title?: string;
 }
-const mail = {
-  icon: "mail",
-  name: "E-mail",
-  href: "mailto:info@akvaplan.niva.no",
-};
-const phone = {
-  icon: "phone_in_talk",
-  name: "Ring (8–16)",
-  href: "tel:+47 77 75 03 00",
-};
+// const mail = {
+//   icon: "mail",
+//   name: "E-mail",
+//   href: "mailto:info@akvaplan.niva.no",
+// };
+// const phone = {
+//   icon: "phone_in_talk",
+//   name: "Ring (8–16)",
+//   href: "tel:+47 77 75 03 00",
+// };
 const x = {
   icon: "/icon/logo/x.svg",
   name: "X",
@@ -41,7 +42,13 @@ const github = {
 };
 //snap?
 //insta?
-
+// const mnd = {
+//   name: "Mynewsdesk",
+//   icon:
+//     "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_250,q_auto:good,w_250/kfp8aemln03dgurkwdoz",
+//   href: "https://www.mynewsdesk.com/no/stories/organisations?q=akvaplan-niva",
+//   filter: "none",
+// };
 const akvaplanSocial: Social[] = [
   // phone,
   // mail,
@@ -49,6 +56,7 @@ const akvaplanSocial: Social[] = [
   face,
   linked,
   github,
+  //mnd,
 ] as const;
 
 export const SocialMediaIcons = (
@@ -67,7 +75,7 @@ export const SocialMediaIcons = (
         title={title}
         class="icon footer__some"
       >
-        {icon?.startsWith("/")
+        {icon?.startsWith("/") || icon?.startsWith("https://")
           ? (
             <img
               src={icon}

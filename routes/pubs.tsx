@@ -3,7 +3,6 @@
 // Pubs: FIXME Real filters (not just links)
 import { t } from "akvaplan_fresh/text/mod.ts";
 import {
-  latestNotInTheFuture,
   oramaSortPublishedReverse,
   search,
   yearFacet,
@@ -13,7 +12,6 @@ import { Page } from "akvaplan_fresh/components/page.tsx";
 import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
 
 import { RouteConfig, RouteContext } from "$fresh/server.ts";
-import { NewsFilmStrip } from "akvaplan_fresh/components/mod.ts";
 import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
 import { ID_PUBLICATIONS } from "akvaplan_fresh/kv/id.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
@@ -39,8 +37,9 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
     year: yearFacet,
     people: {},
     collection: {},
-    type: { limit: 100 },
-    //authors: {}
+    type: { limit: 50 },
+    projects: {},
+    license: {},
   };
   if (debug) {
     facets.debug = {};

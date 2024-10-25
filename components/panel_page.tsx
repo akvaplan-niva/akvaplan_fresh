@@ -12,10 +12,19 @@ import { ImagePanel, WideCard } from "akvaplan_fresh/components/panel.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import { panelHref } from "akvaplan_fresh/services/panelHref.tsx";
+import { Breadcrumbs } from "akvaplan_fresh/components/site_nav.tsx";
+import { t } from "akvaplan_fresh/text/mod.ts";
+import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
 export const PanelPage = (
   { base, collection, panel, lang, editor, contacts, url, more, search },
 ) => (
   <Page base={base} title={panel.title} collection={collection}>
+    <Breadcrumbs
+      list={[{
+        href: intlRouteMap(lang).get("about")!,
+        text: t("nav.About") + " Akvaplan-niva",
+      }]}
+    />
     <Section style={{ display: "grid", placeItems: "center" }}>
       {panel?.image?.cloudinary?.length > 0
         ? (

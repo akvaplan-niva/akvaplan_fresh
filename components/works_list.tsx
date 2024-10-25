@@ -7,7 +7,7 @@ import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 export const WorksList = (
-  { group, groupedBy, summary, open, works, lang }: {
+  { group, groupedBy, summary, open, works, limit, lang }: {
     works: SlimPublication[];
     lang: string;
   },
@@ -22,8 +22,11 @@ export const WorksList = (
     w.collection = "pubs";
     return w;
   });
-  const hits = worksWithAuthorNames.map((document) => ({ document }));
-  const N = 3;
+  const hits = worksWithAuthorNames.map((document) => ({ document })).slice(
+    0,
+    limit,
+  );
+
   return (
     <details
       open={open}
@@ -35,14 +38,9 @@ export const WorksList = (
         <Pill>
           {works.length}
         </Pill>
-
-        <SearchResults
-          hits={hits.slice(0, N)}
-          lang={lang}
-        />
       </summary>
 
-      <SearchResults hits={hits.slice(N)} lang={lang} />
+      <SearchResults hits={hits} lang={lang} />
     </details>
   );
 };

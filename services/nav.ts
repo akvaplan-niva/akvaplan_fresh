@@ -243,8 +243,9 @@ export const pubUrl = (pub, lang) => {
   throw new RangeError("Unspported pub id: ", pub.id);
 };
 
-// const projectURL = (title) =>
-//   title.toLowerCase().replaceAll(/\s/g, "-").split("-").at(0);
+export const projectsURL = ({ lang }: SlugLike) =>
+  intlRouteMap(lang).get("projects");
+
 export const projectURL = ({ lang, title }: SlugLike) =>
   `${intlRouteMap(lang).get("project")}/${_slug(title)}`;
 
@@ -276,3 +277,9 @@ export const collectionBreadcrumbs = (c: string) => [{
 // <h1>
 //   {title}
 // </h1>;
+export const breadcrumb = (route: string, lang: string) => ({
+  href: intlRouteMap(lang).get(route),
+  text: t(
+    `nav.${[...route].map((c, i) => i == 0 ? c.toUpperCase() : c).join("")}`,
+  ),
+});

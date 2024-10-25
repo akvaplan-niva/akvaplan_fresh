@@ -44,8 +44,8 @@ export function Breadcrumbs(
   return (
     <nav>
       <ol>
-        {list.map(({ href, text }, n) => (
-          <li style={{ display: "inline" }}>
+        {list.map(({ href, text }) => (
+          <li style={{ display: "inline", fontSize: ".9rem" }}>
             <LinkIcon
               icon="arrow_back_ios_new"
               href={href}
