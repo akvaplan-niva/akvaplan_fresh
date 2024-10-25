@@ -24,9 +24,13 @@ SOFTWARE.
 
 */
 :where(html) {
-  --font-sans: Roboto Flex,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
+  --font-sans:
+    Roboto Flex,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto
+    Sans,sans-serif,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
   --font-serif: ui-serif,serif;
-  --font-mono: Dank Mono,Operator Mono,Inconsolata,Fira Mono,ui-monospace,SF Mono,Monaco,Droid Sans Mono,Source Code Pro,monospace;
+  --font-mono:
+    Dank Mono,Operator Mono,Inconsolata,Fira Mono,ui-monospace,SF
+    Mono,Monaco,Droid Sans Mono,Source Code Pro,monospace;
   --font-weight-1: 100;
   --font-weight-2: 200;
   --font-weight-3: 300;
@@ -36,23 +40,23 @@ SOFTWARE.
   --font-weight-7: 700;
   --font-weight-8: 800;
   --font-weight-9: 900;
-  --font-lineheight-00: .95;
+  --font-lineheight-00: 0.95;
   --font-lineheight-0: 1.1;
   --font-lineheight-1: 1.25;
   --font-lineheight-2: 1.375;
   --font-lineheight-3: 1.5;
   --font-lineheight-4: 1.75;
   --font-lineheight-5: 2;
-  --font-letterspacing-0: -.05em;
-  --font-letterspacing-1: .025em;
-  --font-letterspacing-2: .050em;
-  --font-letterspacing-3: .075em;
-  --font-letterspacing-4: .150em;
-  --font-letterspacing-5: .500em;
-  --font-letterspacing-6: .750em;
+  --font-letterspacing-0: -0.05em;
+  --font-letterspacing-1: 0.025em;
+  --font-letterspacing-2: 0.050em;
+  --font-letterspacing-3: 0.075em;
+  --font-letterspacing-4: 0.150em;
+  --font-letterspacing-5: 0.500em;
+  --font-letterspacing-6: 0.750em;
   --font-letterspacing-7: 1em;
-  --font-size-00: .5rem;
-  --font-size-0: .75rem;
+  --font-size-00: 0.5rem;
+  --font-size-0: 0.75rem;
   --font-size-1: 1rem;
   --font-size-2: 1.1rem;
   --font-size-3: 1.25rem;
@@ -61,14 +65,14 @@ SOFTWARE.
   --font-size-6: 2.5rem;
   --font-size-7: 3rem;
   --font-size-8: 3.5rem;
-  --font-size-fluid-0: clamp(.75rem,2vw,1rem);
-  --font-size-fluid-1: clamp(1rem,4vw,1.35rem);
-  --font-size-fluid-2: clamp(1.5rem,6vw,2.5rem);
-  --font-size-fluid-3: clamp(2rem,9vw,3.5rem);
-  --size-000: -.5rem;
-  --size-00: -.25rem;
-  --size-1: .25rem;
-  --size-2: .5rem;
+  --font-size-fluid-0: clamp(0.75rem, 2vw, 1rem);
+  --font-size-fluid-1: clamp(1rem, 4vw, 1.35rem);
+  --font-size-fluid-2: clamp(1.5rem, 6vw, 2.5rem);
+  --font-size-fluid-3: clamp(2rem, 9vw, 3.5rem);
+  --size-000: -0.5rem;
+  --size-00: -0.25rem;
+  --size-1: 0.25rem;
+  --size-2: 0.5rem;
   --size-3: 1rem;
   --size-4: 1.25rem;
   --size-5: 1.5rem;
@@ -82,16 +86,16 @@ SOFTWARE.
   --size-13: 15rem;
   --size-14: 20rem;
   --size-15: 30rem;
-  --size-fluid-1: clamp(.5rem,1vw,1rem);
-  --size-fluid-2: clamp(1rem,2vw,1.5rem);
-  --size-fluid-3: clamp(1.5rem,3vw,2rem);
-  --size-fluid-4: clamp(2rem,4vw,3rem);
-  --size-fluid-5: clamp(4rem,5vw,5rem);
-  --size-fluid-6: clamp(5rem,7vw,7.5rem);
-  --size-fluid-7: clamp(7.5rem,10vw,10rem);
-  --size-fluid-8: clamp(10rem,20vw,15rem);
-  --size-fluid-9: clamp(15rem,30vw,20rem);
-  --size-fluid-10: clamp(20rem,40vw,30rem);
+  --size-fluid-1: clamp(0.5rem, 1vw, 1rem);
+  --size-fluid-2: clamp(1rem, 2vw, 1.5rem);
+  --size-fluid-3: clamp(1.5rem, 3vw, 2rem);
+  --size-fluid-4: clamp(2rem, 4vw, 3rem);
+  --size-fluid-5: clamp(4rem, 5vw, 5rem);
+  --size-fluid-6: clamp(5rem, 7vw, 7.5rem);
+  --size-fluid-7: clamp(7.5rem, 10vw, 10rem);
+  --size-fluid-8: clamp(10rem, 20vw, 15rem);
+  --size-fluid-9: clamp(15rem, 30vw, 20rem);
+  --size-fluid-10: clamp(20rem, 40vw, 30rem);
   --size-content-1: 20ch;
   --size-content-2: 45ch;
   --size-content-3: 60ch;
@@ -105,36 +109,36 @@ SOFTWARE.
   --size-lg: 1024px;
   --size-xl: 1440px;
   --size-xxl: 1920px;
-  --ease-1: cubic-bezier(.25,0,.5,1);
-  --ease-2: cubic-bezier(.25,0,.4,1);
-  --ease-3: cubic-bezier(.25,0,.3,1);
-  --ease-4: cubic-bezier(.25,0,.2,1);
-  --ease-5: cubic-bezier(.25,0,.1,1);
-  --ease-in-1: cubic-bezier(.25,0,1,1);
-  --ease-in-2: cubic-bezier(.50,0,1,1);
-  --ease-in-3: cubic-bezier(.70,0,1,1);
-  --ease-in-4: cubic-bezier(.90,0,1,1);
-  --ease-in-5: cubic-bezier(1,0,1,1);
-  --ease-out-1: cubic-bezier(0,0,.75,1);
-  --ease-out-2: cubic-bezier(0,0,.50,1);
-  --ease-out-3: cubic-bezier(0,0,.3,1);
-  --ease-out-4: cubic-bezier(0,0,.1,1);
-  --ease-out-5: cubic-bezier(0,0,0,1);
-  --ease-in-out-1: cubic-bezier(.1,0,.9,1);
-  --ease-in-out-2: cubic-bezier(.3,0,.7,1);
-  --ease-in-out-3: cubic-bezier(.5,0,.5,1);
-  --ease-in-out-4: cubic-bezier(.7,0,.3,1);
-  --ease-in-out-5: cubic-bezier(.9,0,.1,1);
-  --ease-elastic-1: cubic-bezier(.5,.75,.75,1.25);
-  --ease-elastic-2: cubic-bezier(.5,1,.75,1.25);
-  --ease-elastic-3: cubic-bezier(.5,1.25,.75,1.25);
-  --ease-elastic-4: cubic-bezier(.5,1.5,.75,1.25);
-  --ease-elastic-5: cubic-bezier(.5,1.75,.75,1.25);
-  --ease-squish-1: cubic-bezier(.5,-.1,.1,1.5);
-  --ease-squish-2: cubic-bezier(.5,-.3,.1,1.5);
-  --ease-squish-3: cubic-bezier(.5,-.5,.1,1.5);
-  --ease-squish-4: cubic-bezier(.5,-.7,.1,1.5);
-  --ease-squish-5: cubic-bezier(.5,-.9,.1,1.5);
+  --ease-1: cubic-bezier(0.25, 0, 0.5, 1);
+  --ease-2: cubic-bezier(0.25, 0, 0.4, 1);
+  --ease-3: cubic-bezier(0.25, 0, 0.3, 1);
+  --ease-4: cubic-bezier(0.25, 0, 0.2, 1);
+  --ease-5: cubic-bezier(0.25, 0, 0.1, 1);
+  --ease-in-1: cubic-bezier(0.25, 0, 1, 1);
+  --ease-in-2: cubic-bezier(0.50, 0, 1, 1);
+  --ease-in-3: cubic-bezier(0.70, 0, 1, 1);
+  --ease-in-4: cubic-bezier(0.90, 0, 1, 1);
+  --ease-in-5: cubic-bezier(1, 0, 1, 1);
+  --ease-out-1: cubic-bezier(0, 0, 0.75, 1);
+  --ease-out-2: cubic-bezier(0, 0, 0.50, 1);
+  --ease-out-3: cubic-bezier(0, 0, 0.3, 1);
+  --ease-out-4: cubic-bezier(0, 0, 0.1, 1);
+  --ease-out-5: cubic-bezier(0, 0, 0, 1);
+  --ease-in-out-1: cubic-bezier(0.1, 0, 0.9, 1);
+  --ease-in-out-2: cubic-bezier(0.3, 0, 0.7, 1);
+  --ease-in-out-3: cubic-bezier(0.5, 0, 0.5, 1);
+  --ease-in-out-4: cubic-bezier(0.7, 0, 0.3, 1);
+  --ease-in-out-5: cubic-bezier(0.9, 0, 0.1, 1);
+  --ease-elastic-1: cubic-bezier(0.5, 0.75, 0.75, 1.25);
+  --ease-elastic-2: cubic-bezier(0.5, 1, 0.75, 1.25);
+  --ease-elastic-3: cubic-bezier(0.5, 1.25, 0.75, 1.25);
+  --ease-elastic-4: cubic-bezier(0.5, 1.5, 0.75, 1.25);
+  --ease-elastic-5: cubic-bezier(0.5, 1.75, 0.75, 1.25);
+  --ease-squish-1: cubic-bezier(0.5, -0.1, 0.1, 1.5);
+  --ease-squish-2: cubic-bezier(0.5, -0.3, 0.1, 1.5);
+  --ease-squish-3: cubic-bezier(0.5, -0.5, 0.1, 1.5);
+  --ease-squish-4: cubic-bezier(0.5, -0.7, 0.1, 1.5);
+  --ease-squish-5: cubic-bezier(0.5, -0.9, 0.1, 1.5);
   --ease-step-1: steps(2);
   --ease-step-2: steps(3);
   --ease-step-3: steps(4);
@@ -148,17 +152,97 @@ SOFTWARE.
   --layer-important: 2147483647;
   --shadow-color: 220 3% 15%;
   --shadow-strength: 1%;
-  --shadow-1: 0 1px 2px -1px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 9%));
-  --shadow-2: 0 3px 5px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 3%)),0 7px 14px -5px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 5%));
-  --shadow-3: 0 -1px 3px 0 hsl(var(--shadow-color)/calc(var(--shadow-strength) + 2%)),0 1px 2px -5px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 2%)),0 2px 5px -5px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 4%)),0 4px 12px -5px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 5%)),0 12px 15px -5px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 7%));
-  --shadow-4: 0 -2px 5px 0 hsl(var(--shadow-color)/calc(var(--shadow-strength) + 2%)),0 1px 1px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 3%)),0 2px 2px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 3%)),0 5px 5px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 4%)),0 9px 9px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 5%)),0 16px 16px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 6%));
-  --shadow-5: 0 -1px 2px 0 hsl(var(--shadow-color)/calc(var(--shadow-strength) + 2%)),0 2px 1px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 3%)),0 5px 5px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 3%)),0 10px 10px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 4%)),0 20px 20px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 5%)),0 40px 40px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 7%));
-  --shadow-6: 0 -1px 2px 0 hsl(var(--shadow-color)/calc(var(--shadow-strength) + 2%)),0 3px 2px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 3%)),0 7px 5px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 3%)),0 12px 10px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 4%)),0 22px 18px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 5%)),0 41px 33px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 6%)),0 100px 80px -2px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 7%));
-  --inner-shadow-0: inset 0 0 0 1px hsl(var(--shadow-color)/calc(var(--shadow-strength) + 9%));
-  --inner-shadow-1: inset 0 1px 2px 0 hsl(var(--shadow-color)/calc(var(--shadow-strength) + 9%));
-  --inner-shadow-2: inset 0 1px 4px 0 hsl(var(--shadow-color)/calc(var(--shadow-strength) + 9%));
-  --inner-shadow-3: inset 0 2px 8px 0 hsl(var(--shadow-color)/calc(var(--shadow-strength) + 9%));
-  --inner-shadow-4: inset 0 2px 14px 0 hsl(var(--shadow-color)/calc(var(--shadow-strength) + 9%));
+  --shadow-1: 0 1px 2px -1px hsl(
+    var(--shadow-color)
+    /
+    calc(var(--shadow-strength) + 9%)
+  );
+  --shadow-2:
+    0 3px 5px -2px hsl(
+    var(--shadow-color)
+    /
+    calc(var(--shadow-strength) + 3%)
+  ),0 7px 14px -5px hsl(
+    var(--shadow-color)
+    /
+    calc(var(--shadow-strength) + 5%)
+  );
+  --shadow-3:
+    0 -1px 3px 0 hsl(var(--shadow-color) / calc(var(--shadow-strength) + 2%)),0
+    1px 2px -5px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 2%)),0
+    2px 5px -5px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 4%)),0
+    4px 12px -5px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 5%)),0
+    12px 15px -5px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 7%));
+  --shadow-4:
+    0 -2px 5px 0 hsl(var(--shadow-color) / calc(var(--shadow-strength) + 2%)),0
+    1px 1px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 3%)),0
+    2px 2px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 3%)),0
+    5px 5px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 4%)),0
+    9px 9px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 5%)),0
+    16px 16px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 6%));
+  --shadow-5:
+    0 -1px 2px 0 hsl(var(--shadow-color) / calc(var(--shadow-strength) + 2%)),0
+    2px 1px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 3%)),0
+    5px 5px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 3%)),0
+    10px 10px -2px hsl(
+    var(--shadow-color)
+    /
+    calc(var(--shadow-strength) + 4%)
+  ),0 20px 20px -2px hsl(
+    var(--shadow-color)
+    /
+    calc(var(--shadow-strength) + 5%)
+  ),0 40px 40px -2px hsl(
+    var(--shadow-color)
+    /
+    calc(var(--shadow-strength) + 7%)
+  );
+  --shadow-6:
+    0 -1px 2px 0 hsl(var(--shadow-color) / calc(var(--shadow-strength) + 2%)),0
+    3px 2px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 3%)),0
+    7px 5px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 3%)),0
+    12px 10px -2px hsl(
+    var(--shadow-color)
+    /
+    calc(var(--shadow-strength) + 4%)
+  ),0 22px 18px -2px hsl(
+    var(--shadow-color)
+    /
+    calc(var(--shadow-strength) + 5%)
+  ),0 41px 33px -2px hsl(
+    var(--shadow-color)
+    /
+    calc(var(--shadow-strength) + 6%)
+  ),0 100px 80px -2px hsl(
+    var(--shadow-color)
+    /
+    calc(var(--shadow-strength) + 7%)
+  );
+  --inner-shadow-0: inset 0 0 0 1px hsl(
+    var(--shadow-color)
+    /
+    calc(var(--shadow-strength) + 9%)
+  );
+  --inner-shadow-1: inset 0 1px 2px 0 hsl(
+    var(--shadow-color)
+    /
+    calc(var(--shadow-strength) + 9%)
+  );
+  --inner-shadow-2: inset 0 1px 4px 0 hsl(
+    var(--shadow-color)
+    /
+    calc(var(--shadow-strength) + 9%)
+  );
+  --inner-shadow-3: inset 0 2px 8px 0 hsl(
+    var(--shadow-color)
+    /
+    calc(var(--shadow-strength) + 9%)
+  );
+  --inner-shadow-4: inset 0 2px 14px 0 hsl(
+    var(--shadow-color)
+    /
+    calc(var(--shadow-strength) + 9%)
+  );
   --ratio-square: 1;
   --ratio-landscape: 4/3;
   --ratio-portrait: 3/4;
@@ -175,22 +259,22 @@ SOFTWARE.
   --noise-filter-3: contrast(200%) brightness(250%);
   --noise-filter-4: contrast(200%) brightness(500%);
   --noise-filter-5: contrast(200%) brightness(1000%);
-  --animation-fade-in: fade-in .5s var(--ease-3);
+  --animation-fade-in: fade-in 0.5s var(--ease-3);
   --animation-fade-in-bloom: fade-in-bloom 2s var(--ease-3);
-  --animation-fade-out: fade-out .5s var(--ease-3);
+  --animation-fade-out: fade-out 0.5s var(--ease-3);
   --animation-fade-out-bloom: fade-out-bloom 2s var(--ease-3);
-  --animation-scale-up: scale-up .5s var(--ease-3);
-  --animation-scale-down: scale-down .5s var(--ease-3);
-  --animation-slide-out-up: slide-out-up .5s var(--ease-3);
-  --animation-slide-out-down: slide-out-down .5s var(--ease-3);
-  --animation-slide-out-right: slide-out-right .5s var(--ease-3);
-  --animation-slide-out-left: slide-out-left .5s var(--ease-3);
-  --animation-slide-in-up: slide-in-up .5s var(--ease-3);
-  --animation-slide-in-down: slide-in-down .5s var(--ease-3);
-  --animation-slide-in-right: slide-in-right .5s var(--ease-3);
-  --animation-slide-in-left: slide-in-left .5s var(--ease-3);
-  --animation-shake-x: shake-x .75s var(--ease-out-5);
-  --animation-shake-y: shake-y .75s var(--ease-out-5);
+  --animation-scale-up: scale-up 0.5s var(--ease-3);
+  --animation-scale-down: scale-down 0.5s var(--ease-3);
+  --animation-slide-out-up: slide-out-up 0.5s var(--ease-3);
+  --animation-slide-out-down: slide-out-down 0.5s var(--ease-3);
+  --animation-slide-out-right: slide-out-right 0.5s var(--ease-3);
+  --animation-slide-out-left: slide-out-left 0.5s var(--ease-3);
+  --animation-slide-in-up: slide-in-up 0.5s var(--ease-3);
+  --animation-slide-in-down: slide-in-down 0.5s var(--ease-3);
+  --animation-slide-in-right: slide-in-right 0.5s var(--ease-3);
+  --animation-slide-in-left: slide-in-left 0.5s var(--ease-3);
+  --animation-shake-x: shake-x 0.75s var(--ease-out-5);
+  --animation-shake-y: shake-y 0.75s var(--ease-out-5);
   --animation-spin: spin 2s linear infinite;
   --animation-ping: ping 5s var(--ease-out-3) infinite;
   --animation-blink: blink 1s var(--ease-out-3) infinite;
@@ -214,218 +298,218 @@ SOFTWARE.
   --radius-blob-3: 37% 63% 56% 44%/49% 56% 44% 51%;
   --radius-blob-4: 63% 37% 37% 63%/43% 37% 63% 57%;
   --radius-blob-5: 49% 51% 48% 52%/57% 44% 56% 43%;
-  --radius-conditional-1: clamp(0px,calc(100vw - 100%) * 1e5,var(--radius-1));
-  --radius-conditional-2: clamp(0px,calc(100vw - 100%) * 1e5,var(--radius-2));
-  --radius-conditional-3: clamp(0px,calc(100vw - 100%) * 1e5,var(--radius-3));
-  --radius-conditional-4: clamp(0px,calc(100vw - 100%) * 1e5,var(--radius-4));
-  --radius-conditional-5: clamp(0px,calc(100vw - 100%) * 1e5,var(--radius-5));
-  --radius-conditional-6: clamp(0px,calc(100vw - 100%) * 1e5,var(--radius-6))
+  --radius-conditional-1: clamp(0px, calc(100vw - 100%) * 1e5, var(--radius-1));
+  --radius-conditional-2: clamp(0px, calc(100vw - 100%) * 1e5, var(--radius-2));
+  --radius-conditional-3: clamp(0px, calc(100vw - 100%) * 1e5, var(--radius-3));
+  --radius-conditional-4: clamp(0px, calc(100vw - 100%) * 1e5, var(--radius-4));
+  --radius-conditional-5: clamp(0px, calc(100vw - 100%) * 1e5, var(--radius-5));
+  --radius-conditional-6: clamp(0px, calc(100vw - 100%) * 1e5, var(--radius-6));
 }
 
 @media (prefers-color-scheme: dark) {
   :where(html) {
-      --shadow-color:220 40% 2%;
-      --shadow-strength: 25%
+    --shadow-color: 220 40% 2%;
+    --shadow-strength: 25%;
   }
 }
 
 @keyframes fade-in {
   to {
-      opacity: 1
+    opacity: 1;
   }
 }
 
 @keyframes fade-in-bloom {
   0% {
-      filter: brightness(1) blur(20px);
-      opacity: 0
+    filter: brightness(1) blur(20px);
+    opacity: 0;
   }
 
   10% {
-      filter: brightness(2) blur(10px);
-      filter: brightness(.5) blur(10px);
-      opacity: 1
+    filter: brightness(2) blur(10px);
+    filter: brightness(0.5) blur(10px);
+    opacity: 1;
   }
 
   to {
-      filter: brightness(1) blur(0);
-      opacity: 1
+    filter: brightness(1) blur(0);
+    opacity: 1;
   }
 }
 
 @keyframes fade-out {
   to {
-      opacity: 0
+    opacity: 0;
   }
 }
 
 @keyframes fade-out-bloom {
   to {
-      filter: brightness(1) blur(20px);
-      opacity: 0
+    filter: brightness(1) blur(20px);
+    opacity: 0;
   }
 
   10% {
-      filter: brightness(2) blur(10px);
-      filter: brightness(.5) blur(10px);
-      opacity: 1
+    filter: brightness(2) blur(10px);
+    filter: brightness(0.5) blur(10px);
+    opacity: 1;
   }
 
   0% {
-      filter: brightness(1) blur(0);
-      opacity: 1
+    filter: brightness(1) blur(0);
+    opacity: 1;
   }
 }
 
 @keyframes scale-up {
   to {
-      transform: scale(1.25)
+    transform: scale(1.25);
   }
 }
 
 @keyframes scale-down {
   to {
-      transform: scale(.75)
+    transform: scale(0.75);
   }
 }
 
 @keyframes slide-out-up {
   to {
-      transform: translateY(-100%)
+    transform: translateY(-100%);
   }
 }
 
 @keyframes slide-out-down {
   to {
-      transform: translateY(100%)
+    transform: translateY(100%);
   }
 }
 
 @keyframes slide-out-right {
   to {
-      transform: translateX(100%)
+    transform: translateX(100%);
   }
 }
 
 @keyframes slide-out-left {
   to {
-      transform: translateX(-100%)
+    transform: translateX(-100%);
   }
 }
 
 @keyframes slide-in-up {
   0% {
-      transform: translateY(100%)
+    transform: translateY(100%);
   }
 }
 
 @keyframes slide-in-down {
   0% {
-      transform: translateY(-100%)
+    transform: translateY(-100%);
   }
 }
 
 @keyframes slide-in-right {
   0% {
-      transform: translateX(-100%)
+    transform: translateX(-100%);
   }
 }
 
 @keyframes slide-in-left {
   0% {
-      transform: translateX(100%)
+    transform: translateX(100%);
   }
 }
 
 @keyframes shake-x {
-  0%,to {
-      transform: translateX(0)
+  0%, to {
+    transform: translateX(0);
   }
 
   20% {
-      transform: translateX(-5%)
+    transform: translateX(-5%);
   }
 
   40% {
-      transform: translateX(5%)
+    transform: translateX(5%);
   }
 
   60% {
-      transform: translateX(-5%)
+    transform: translateX(-5%);
   }
 
   80% {
-      transform: translateX(5%)
+    transform: translateX(5%);
   }
 }
 
 @keyframes shake-y {
-  0%,to {
-      transform: translateY(0)
+  0%, to {
+    transform: translateY(0);
   }
 
   20% {
-      transform: translateY(-5%)
+    transform: translateY(-5%);
   }
 
   40% {
-      transform: translateY(5%)
+    transform: translateY(5%);
   }
 
   60% {
-      transform: translateY(-5%)
+    transform: translateY(-5%);
   }
 
   80% {
-      transform: translateY(5%)
+    transform: translateY(5%);
   }
 }
 
 @keyframes spin {
   to {
-      transform: rotate(1turn)
+    transform: rotate(1turn);
   }
 }
 
 @keyframes ping {
-  90%,to {
-      opacity: 0;
-      transform: scale(2)
+  90%, to {
+    opacity: 0;
+    transform: scale(2);
   }
 }
 
 @keyframes blink {
-  0%,to {
-      opacity: 1
+  0%, to {
+    opacity: 1;
   }
 
   50% {
-      opacity: .5
+    opacity: 0.5;
   }
 }
 
 @keyframes float {
   50% {
-      transform: translateY(-25%)
+    transform: translateY(-25%);
   }
 }
 
 @keyframes bounce {
   25% {
-      transform: translateY(-20%)
+    transform: translateY(-20%);
   }
 
   40% {
-      transform: translateY(-3%)
+    transform: translateY(-3%);
   }
 
-  0%,60%,to {
-      transform: translateY(0)
+  0%, 60%, to {
+    transform: translateY(0);
   }
 }
 
 @keyframes pulse {
   50% {
-      transform: scale(.9)
+    transform: scale(0.9);
   }
 }

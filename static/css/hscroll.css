@@ -9,15 +9,12 @@
 
 .scroll-container:hover .scroller-button {
   opacity: 1;
-
 }
 
 /* .scroll-container:hover .scroller-button {
   color: var(--text1);
   background: var(--accent);
 } */
-
-
 
 .hscroll {
   display: flex;

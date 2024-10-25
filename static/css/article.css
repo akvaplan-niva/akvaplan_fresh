@@ -1,5 +1,5 @@
 .article * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .article {
@@ -7,7 +7,6 @@
   max-width: 1440px;
   margin: 0 auto;
 }
-
 
 .article-title-mobile {
   display: none;
@@ -45,12 +44,12 @@
 .backdrop-hard {
   color: var(--text1);
   background-color: var(--surface0_backdrop);
-} 
+}
 
 .backdrop-blur {
   color: var(--text1);
   backdrop-filter: blur(12px);
-} 
+}
 
 .article-header img {
   width: 100%;
@@ -62,7 +61,7 @@
 .article-title-mobile {
   margin-top: 1rem;
   border-radius: var(--radius-2);
-  background: var(--surface2); 
+  background: var(--surface2);
 }
 
 .article-content {
@@ -163,11 +162,10 @@
 }
 
 .article h3 {
-  font-style: italic;  
+  font-style: italic;
   padding-top: 1rem;
   padding-bottom: 0.125rem;
 }
-
 
 .mega-header {
   position: relative;
@@ -183,7 +181,6 @@
   max-width: 95%;
   padding: var(--size-2);
 }
-
 
 .mega-card .mega-upper {
   position: absolute;
@@ -206,13 +203,11 @@
   padding: var(--size-2);
 }
 
-
 .mega-mobile-upper {
   display: none;
 }
 .mega-upper {
   display: inline;
-
 }
 .mega-mobile-button {
   display: none;
@@ -293,7 +288,6 @@
     background-color: var(--surface0);
     color: var(--text2);
   }
-
 
   .wide-image-card-upper {
     display: none;
