@@ -1,9 +1,8 @@
 export interface Akvaplanist {
-  id: string;
+  id?: string;
   given: string;
   family: string;
   name?: string;
-
   position?: IntlString;
   tel?: string;
   section?: string;
@@ -18,6 +17,7 @@ export interface Akvaplanist {
   openalex?: string;
   github?: string;
   orcid?: string;
+  prior?: boolean;
 }
 export interface IntlString {
   [lang: string]: string;

@@ -59,7 +59,6 @@ export function CleanHeader(
               color: "var(--text1)",
             }}
           >
-            <Breadcrumbs list={breadcrumbs} />
           </span>
         </div>
       </span>

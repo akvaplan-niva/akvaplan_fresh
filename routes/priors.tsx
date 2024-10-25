@@ -9,6 +9,7 @@ import type { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
 import { asset, Head } from "$fresh/runtime.ts";
 import type { RouteConfig, RouteContext } from "$fresh/server.ts";
 import { personURL } from "akvaplan_fresh/services/mod.ts";
+import { AkvaplanistCardBasic } from "akvaplan_fresh/components/mod.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/akvaplanist{/:which(prior|expired)}?",
@@ -45,41 +46,33 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
 
   return (
     <Page title={which} collection={collection}>
-      <ol>
-        {priors.map((p) => (
-          <li>
-            <a href={p.href}>{p.name}</a>
-          </li>
-        ))}
-      </ol>
-      <section class="Section">
-        <main
-          style={{
-            display: "grid",
-            gap: "1rem",
-            marginBlockStart: "1rem",
-            gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
-          }}
-        >
-          {priors.map((
-            { id, homepage, family, given, from, created, expired },
-          ) => (
-            <a href={homepage} class={`Card gap-1`}>
-              <div class="">
-                <div class="Content block-center-start gap-1">
-                  <h3 style={{ color: "var(--link)" }}>{given} {family}</h3>
-                  {!expired
-                    ? <small>{longDate(from ?? created)}</small>
-                    : <small>{longDate(expired, lang)}</small>}
-                </div>
-              </div>
-            </a>
-          ))}
-        </main>
-      </section>
-      <Head>
-        <link rel="stylesheet" href={asset("/css/bento.css")} />
-      </Head>
+      {priors.map((p) => <AkvaplanistCardBasic {...p} />)}
     </Page>
   );
 }
+
+// <section class="Section">
+//         <main
+//           style={{
+//             display: "grid",
+//             gap: "1rem",
+//             marginBlockStart: "1rem",
+//             gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
+//           }}
+//         >
+//           {priors.map((
+//             { id, homepage, family, given, from, created, expired },
+//           ) => (
+//             <a href={homepage} class={`Card gap-1`}>
+//               <div class="">
+//                 <div class="Content block-center-start gap-1">
+//                   <h3 style={{ color: "var(--link)" }}>{given} {family}</h3>
+//                   {!expired
+//                     ? <small>{longDate(from ?? created)}</small>
+//                     : <small>{longDate(expired, lang)}</small>}
+//                 </div>
+//               </div>
+//             </a>
+//           ))}
+//         </main>
+//       </section>

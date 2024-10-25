@@ -1,4 +1,7 @@
 // FIXME (project.tsx) https://github.com/akvaplan-niva/akvaplan_fresh/issues/232
+// @todo Show project results from NVA
+// PolarFront:
+// http://localhost:7777/no/publikasjoner?q=cristin_2056945&filter-projects=cristin_2056945
 import {
   editHref,
   fetchContacts,
@@ -16,6 +19,7 @@ import {
   AltLangInfo,
   Article,
   ArticleHeader,
+  Breadcrumbs,
   Card,
   Page,
 } from "akvaplan_fresh/components/mod.ts";
@@ -25,7 +29,7 @@ import { PersonCard as PersonCard } from "akvaplan_fresh/components/mod.ts";
 import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
-import { Results } from "@orama/orama";
+import { projectsURL } from "akvaplan_fresh/services/nav.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(project|prosjekt){/:date}?/:slug",
@@ -156,8 +160,14 @@ export default function ProjectHome(
     fontSize: "0.75rem",
   };
 
+  const breadcrumbs = [{
+    href: projectsURL({ lang }),
+    text: t("nav.Projects"),
+  }];
+
   return (
     <Page title={header} collection="projects">
+      <Breadcrumbs list={breadcrumbs} />
       <Article language={language}>
         <AltLangInfo lang={lang} language={language} alternate={alternate} />
         <ArticleHeader

@@ -8,7 +8,7 @@ import _cristin_ids from "akvaplan_fresh/data/cristin_ids.json" with {
 };
 
 const crid = new Map<string, number>(_cristin_ids as [[string, number]]);
-
+import { withYearAndLinkableSlug } from "./by.tsx";
 import {
   buildAkvaplanistMap,
   getAkvaplanist,
@@ -17,6 +17,7 @@ import {
 import { priorAkvaplanistID as priors } from "akvaplan_fresh/services/prior_akvaplanists.ts";
 
 import {
+  Breadcrumbs,
   Card,
   Icon,
   Page,
@@ -56,6 +57,9 @@ import { mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
 import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
 import { getWorksBy } from "akvaplan_fresh/services/pub.ts";
 import { worksByUrl } from "akvaplan_fresh/services/nav.ts";
+import { peopleURL } from "akvaplan_fresh/services/mod.ts";
+import { GroupedWorks } from "akvaplan_fresh/islands/works.tsx";
+import { Section } from "akvaplan_fresh/components/section.tsx";
 
 const defaultAtConfig = {
   search: {
@@ -126,6 +130,11 @@ export const handler: Handlers = {
 
     const works = akvaplanist?.id ? await getWorksBy(akvaplanist.id) : [];
 
+    const grouped = Map.groupBy(
+      works ? withYearAndLinkableSlug(works) : [],
+      (w) => w?.type,
+    );
+
     return ctx.render({
       akvaplanist,
       at,
@@ -136,6 +145,7 @@ export const handler: Handlers = {
       avatar,
       editor,
       works,
+      grouped,
     });
   },
 };
@@ -158,9 +168,14 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
   const bio = akvaplanist?.bio;
   const lang = extractLangFromUrl(url);
   const externalIdentities = buildPersonalSocialMediaLinks(akvaplanist);
+  const breadcrumbs = [{
+    href: peopleURL({ lang }),
+    text: t(`nav.People`),
+  }];
 
   return (
     <Page base={`/${at}${akvaplanist.id}`} title={name}>
+      <Breadcrumbs list={breadcrumbs} />
       <PersonCard
         href={works?.length > 0 ? worksByUrl(akvaplanist.id, lang) : "#"}
         person={akvaplanist}
@@ -212,11 +227,22 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
       <GroupedSearch
         term={orama.params.term}
         results={orama.results}
-        exclude={["person", works?.length === 0 ? "pubs" : undefined]}
+        exclude={["person", true || works?.length === 0 ? "pubs" : undefined]}
         sort={"-published"}
         origin={url}
         noInput
       />
+
+      <Section>
+        {/* <h2>{t("nav.Pubs")} ({works?.length})</h2> */}
+        {/* <a href="?group-by=year">year</a> */}
+        <GroupedWorks
+          grouped={grouped}
+          groupedBy={"type"}
+          //limit={3}
+          lang={lang}
+        />
+      </Section>
 
       {false && (
         <>

@@ -10,7 +10,10 @@ import {
   type RouteConfig,
 } from "$fresh/server.ts";
 import { searchMynewsdesk } from "akvaplan_fresh/services/mynewsdesk.ts";
-import { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import type {
+  MynewsdeskArticle,
+  MynewsdeskImage,
+} from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(policies)",
@@ -36,7 +39,7 @@ export const handler: Handlers<InternationalProps> = {
 
     const _docs = q?.length > 1
       ? items
-      : items.filter(({ summary, document_format }: MynewsdeskItem) =>
+      : items.filter(({ summary, document_format }: MynewsdeskArticle) =>
         summary?.length > 0 && /pdf/.test(document_format)
       );
     const docs = _docs?.map((d) => {

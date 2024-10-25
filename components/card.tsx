@@ -9,6 +9,7 @@ interface Props {
 export function Card({
   img,
   customClass,
+  style = {},
   children,
 }: Props) {
   const fullClass = `card ${customClass ?? ""}`;
@@ -20,6 +21,7 @@ export function Card({
         padding: "var(--size-2)",
         borderRadius: "var(--radius-2)",
         boxShadow: "var(--shadow-4)",
+        ...style,
         //margin: "0.25rem",
       }}
     >

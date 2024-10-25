@@ -1,5 +1,6 @@
 :root {
-  --font-sans: "Roboto Flex", Roboto, ui-sans-serif, system-ui, -apple-system,
+  --font-sans:
+    "Roboto Flex", Roboto, ui-sans-serif, system-ui, -apple-system,
     BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans",
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
@@ -15,8 +16,12 @@
     var(--brand-saturation)
   );
   --blue: hsl(200, 66%, 17%);
-  --gray: hsl(200, calc(66%/1.25), 14%);
-  --light: hsl(var(--brand-hue) calc(var(--brand-saturation)*0.9) calc(var(--brand-lightness)*5.7));
+  --gray: hsl(200, calc(66% / 1.25), 14%);
+  --light: hsl(
+    var(--brand-hue)
+    calc(var(--brand-saturation) * 0.9)
+    calc(var(--brand-lightness) * 5.7)
+  );
   --dark: hsl(
     var(--brand-hue)
     calc(var(--brand-saturation) / 2)
@@ -65,7 +70,7 @@ footer {
 }
 
 p {
-  line-height: 1.35; 
+  line-height: 1.35;
 }
 
 h1 {
@@ -91,9 +96,9 @@ option {
   background: none;
   border: none;
   padding: 0;
-/*   
-  inline-size: var(--size);
-  block-size: var(--size); */
+  /*   
+    inline-size: var(--size);
+    block-size: var(--size); */
   aspect-ratio: 1 / 1;
   /* border-radius: 50%; */
 
@@ -103,9 +108,9 @@ option {
 
   vertical-align: middle;
   display: inline-block;
-  
+
   /*color: var(--text2);
-  fill: var(--text2);*/ 
+  fill: var(--text2);*/
 }
 
 .icon:hover {
@@ -119,7 +124,7 @@ option {
   display: inline-flex;
   white-space: nowrap;
   font-size: var(--font-size-fluid-2);
-  
+
   /* padding-left: var(--size-6);
   padding-right: var(--size-6);
   padding-top: var(--size-2);
@@ -151,13 +156,13 @@ option {
   display: -webkit-box;
   line-clamp: 3;
   -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical; 
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 dialog {
   border-radius: var(--radius-2);
-  box-shadow: var(--shadow-6); 
+  box-shadow: var(--shadow-6);
 }
 
 dialog[color-scheme] {
@@ -195,7 +200,6 @@ html:has(dialog[open]) {
   }
 }
 
-
 .mini-news-3col {
   display: grid;
   grid-template-columns: 1fr;
@@ -206,8 +210,6 @@ html:has(dialog[open]) {
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
-
-
 
 .mini-news-4col {
   display: grid;
@@ -226,18 +228,18 @@ html:has(dialog[open]) {
   }
 }
 
- .footer {
+.footer {
   align-items: center;
   background: var(--surfce0);
   display: flex;
   flex-direction: column;
   min-height: 27rem;
   padding: 4.5rem 0;
-  width: 100%
+  width: 100%;
 }
 
-.footer>:not(:last-child) {
-  margin-bottom: 2rem
+.footer > :not(:last-child) {
+  margin-bottom: 2rem;
 }
 
 /* .footer__to-top {
@@ -259,7 +261,7 @@ html:has(dialog[open]) {
 
 .footer__logo img {
   -o-object-fit: contain;
-  object-fit: contain
+  object-fit: contain;
 }
 
 .footer__list {
@@ -268,12 +270,12 @@ html:has(dialog[open]) {
   flex-wrap: wrap;
   list-style: none;
   margin: 0;
-  padding: 0
+  padding: 0;
 }
 
 @media (max-width: 479px) {
   .footer__list {
-    flex-direction:column
+    flex-direction: column;
   }
 }
 
@@ -284,7 +286,7 @@ html:has(dialog[open]) {
 }
 
 .footer__item {
-  margin: .75rem
+  margin: 0.75rem;
 }
 
 .footer__some {
@@ -293,24 +295,22 @@ html:has(dialog[open]) {
   justify-content: center;
   margin: 0 1rem;
   min-height: 2rem;
-  min-width: 2rem
+  min-width: 2rem;
 }
 
 .footer__some img {
-  transition: all .4s
+  transition: all 0.4s;
 }
 
 .footer__some:hover img {
-  transform: scale(1.5)
+  transform: scale(1.5);
 }
-
 
 label, textarea {
   font-size: 0.8rem;
   font-family: inherit;
   letter-spacing: 1px;
 }
-
 
 textarea.textarea {
   box-sizing: border-box;
