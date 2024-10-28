@@ -1,7 +1,10 @@
 // FIXME (project.tsx) https://github.com/akvaplan-niva/akvaplan_fresh/issues/232
-// @todo Show project results from NVA
-// PolarFront:
-// http://localhost:7777/no/publikasjoner?q=cristin_2056945&filter-projects=cristin_2056945
+
+const cristinMap = new Map([
+  ["polarfront", 2524794],
+  ["dokumentar", 2703197],
+]);
+
 import {
   editHref,
   fetchContacts,
@@ -30,6 +33,13 @@ import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
 import { projectsURL } from "akvaplan_fresh/services/nav.ts";
+import { Section } from "akvaplan_fresh/components/section.tsx";
+import {
+  oramaSearchParamsForAuthoredPubs,
+  oramaSortPublishedReverse,
+  search,
+} from "akvaplan_fresh/search/search.ts";
+import akvaplanist from "akvaplan_fresh/routes/akvaplanist.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(project|prosjekt){/:date}?/:slug",
@@ -68,6 +78,8 @@ export const handler: Handlers = {
     if (!item) {
       return ctx.renderNotFound();
     }
+    const id = slug.split("-").at(0);
+    const cristin = id && cristinMap.has(id) ? cristinMap.get(id) : undefined;
     // if (["project", "prosjekt"].includes(type) && "no" === lang) {
     //   item.header = t(`project.${slug}.title`);
     // }
@@ -101,8 +113,25 @@ export const handler: Handlers = {
     //   news.push(relLocalized);
     // }
 
+    const term = cristin ? `cristin_${cristin}` : undefined;
+    const query = {
+      term,
+      properties: ["projects"],
+      sortBy: oramaSortPublishedReverse,
+      threshold: 0,
+      exact: true,
+      facets: { type: {} },
+      groupBy: {
+        properties: ["type"],
+        maxResult: 5,
+      },
+    };
+    const results = term ? await search(query) : undefined;
+
     return ctx.render({
       item,
+      cristin,
+      results,
       lang,
       logo,
       contacts,
@@ -118,7 +147,19 @@ interface ArticleProps {
 }
 
 export default function ProjectHome(
-  { data: { item, lang, news, contacts, logo, alternate, origin } }: PageProps<
+  {
+    data: {
+      item,
+      lang,
+      news,
+      contacts,
+      logo,
+      alternate,
+      origin,
+      cristin,
+      results,
+    },
+  }: PageProps<
     ArticleProps
   >,
 ) {
@@ -168,6 +209,7 @@ export default function ProjectHome(
   return (
     <Page title={header} collection="projects">
       <Breadcrumbs list={breadcrumbs} />
+
       <Article language={language}>
         <AltLangInfo lang={lang} language={language} alternate={alternate} />
         <ArticleHeader
@@ -175,6 +217,26 @@ export default function ProjectHome(
           image={img}
           imageCaption={image_caption}
         />
+
+        {cristin
+          ? (
+            <>
+              {
+                /*
+              FIXME Use GroupedWorks to show project outcome
+              <GroupedWorks grouped={grouped} groupedBy={"type"} lang={lang} /> */
+              }
+
+              <GroupedSearch
+                results={results}
+                collection={"type"}
+                by={"type"}
+                noInput
+                display={"block"}
+              />
+            </>
+          )
+          : null}
 
         <section
           class="article-content"
@@ -209,7 +271,7 @@ export default function ProjectHome(
       <GroupedSearch
         term={`${header}`}
         exact={true}
-        exclude={["project", "image"]}
+        exclude={["project", "image", "pubs"]}
         origin={origin}
         noInput
         sort="-published"
