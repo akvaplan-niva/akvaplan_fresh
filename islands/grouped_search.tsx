@@ -47,6 +47,7 @@ export default function GroupedSearch(
     term,
     lang,
     collection,
+    by,
     origin,
     limit = 5,
     threshold,
@@ -80,17 +81,25 @@ export default function GroupedSearch(
   display = useSignal(display);
   const remoteStatus = useSignal({ status: 0 });
 
-  if (results?.facets?.collection) {
-    for (
-      const [collection, count] of Object.entries(
-        results?.facets?.collection?.values,
-      )
-    ) {
-      facets.value.set(collection, count);
-    }
-  }
-
+  const key = by ? by : "collection";
   const first = useSignal(true); // first
+
+  const setFacetCounts = (results) => {
+    if (results?.facets?.[key]) {
+      for (
+        const [facet, count] of Object.entries(
+          results?.facets?.[key]?.values,
+        )
+      ) {
+        facets.value.set(facet, count);
+      }
+      first.value = false;
+    }
+  };
+
+  if (results) {
+    setFacetCounts(results);
+  }
 
   const performSearch = async (
     { q, ...params }: { q: string },
@@ -115,13 +124,7 @@ export default function GroupedSearch(
         remoteStatus.value = { status: 200 };
         groups.value = results.groups;
 
-        for (
-          const [collection, count] of Object.entries(
-            results?.facets?.collection?.values,
-          )
-        ) {
-          facets.value.set(collection, count);
-        }
+        setFacetCounts(results);
       }
     }
   };
@@ -154,7 +157,7 @@ export default function GroupedSearch(
   };
 
   // Handle client side search via URL (on first load)
-  if (!results && first.value === true && query?.value?.length > 0) {
+  if (first.value === true && query?.value?.length > 0) {
     first.value = false;
     const q = query.value;
     performSearch({ q, base: origin, where: { collection } });
@@ -250,6 +253,7 @@ export default function GroupedSearch(
                 count={facetCountCollection(values?.[0])}
                 display={display}
                 open={isOpen(values?.[0])}
+                by={by}
               >
                 <SearchControls
                   query={query}

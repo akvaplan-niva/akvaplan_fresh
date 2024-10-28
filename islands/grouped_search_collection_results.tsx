@@ -20,7 +20,7 @@ const collectionHref = ({ collection, lang }) => {
 };
 
 const CollectionSummary = (
-  { q, collection, length, count, lang, handlePressed }: {
+  { q, collection, length, count, lang, handlePressed, by }: {
     q: string;
     collection: string;
     length: number;
@@ -36,7 +36,7 @@ const CollectionSummary = (
 
   return (
     <summary>
-      {t(`collection.${collection}`)}
+      {t(`${by ?? "collection"}.${collection}`)}
 
       <Pill
         data-collection={collection}
@@ -61,6 +61,7 @@ export const GroupedSearchCollectionResults = ({
   lang,
   display,
   children,
+  by,
 }) => (
   <details
     open={open}
@@ -72,6 +73,7 @@ export const GroupedSearchCollectionResults = ({
       length={hits?.length}
       lang={lang}
       count={count}
+      by={by}
     />
 
     <SearchResults
