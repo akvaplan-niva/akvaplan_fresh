@@ -1,8 +1,9 @@
-// Pubs: FIXME Add lastest & "greatest" (most cited)
-// Pubs: FIXME Change sort (eg. from latest to relevance)
+// Pubs: FIXME Add latest & "greatest" (most cited)
+// Pubs: FIXME Add UI Change sort (eg. from latest to relevance)
 // Pubs: FIXME Real filters (not just links)
 import { t } from "akvaplan_fresh/text/mod.ts";
 import {
+  decadesFacet,
   oramaSortPublishedReverse,
   search,
   yearFacet,
@@ -16,6 +17,7 @@ import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
 import { ID_PUBLICATIONS } from "akvaplan_fresh/kv/id.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/(pubs|publications|publikasjoner)",
@@ -35,6 +37,7 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
 
   const facets = {
     year: yearFacet,
+    //decade: decadesFacet,
     people: {},
     collection: {},
     type: { limit: 50 },

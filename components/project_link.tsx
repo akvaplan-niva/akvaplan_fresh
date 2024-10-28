@@ -1,7 +1,10 @@
-import { projectURL } from "akvaplan_fresh/services/nav.ts";
+import { projectURL, pubsURL } from "akvaplan_fresh/services/nav.ts";
 import { ArticleSquare } from "akvaplan_fresh/components/news/article_square.tsx";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
+
+const publicationsUrlForCristinProject = (cristin, lang) =>
+  pubsURL({ lang }) + `?q=cristin_${cristin}`;
 
 export const ProjectLink = (multiple) => {
   const { akvaplan, cristin, lang } = multiple;
@@ -20,10 +23,16 @@ export const ProjectLink = (multiple) => {
     return <ArticleSquare name={name_t} href={href_t} thumb={thumb} />;
   }
   if (cristin) {
+    const href = publicationsUrlForCristinProject(
+      cristin.id.split("/").at(-1),
+      lang,
+    );
     return (
-      <div>
-        <p>{cristin.title}</p>
-      </div>
+      <li>
+        <a href={href}>
+          {cristin.title}
+        </a>
+      </li>
     );
   }
   return <span>{JSON.stringify(multiple)}</span>;
