@@ -12,10 +12,11 @@ import { breadcrumb, pubsURL } from "akvaplan_fresh/services/mod.ts";
 import cristin from "akvaplan_fresh/routes/cristin.tsx";
 
 export const config: RouteConfig = {
-  routeOverride: "/:lang(en|no)/:parent(projects|prosjekter)/nva",
+  routeOverride:
+    "/:lang(en|no)/:parent(publications|publikasjoner)/(project|prosjekt)/nva",
 };
 
-const getProjects = async () => {
+export const getProjects = async () => {
   return projectsInNva
     .map(([cristin, project]) => {
       const startYear = +project.startDate.substring(0, 4);
@@ -25,7 +26,7 @@ const getProjects = async () => {
     .sort((a, b) => b.startDate.localeCompare(a.startDate));
 };
 
-const pubUrl = (cristin, lang, base) => {
+const publicationsUrlForCristinProject = (cristin, lang, base) => {
   const url = new URL(pubsURL({ lang }), base);
   url.searchParams.set("q", `cristin_${cristin}`);
   return url;
@@ -34,14 +35,13 @@ export default defineRoute(async (req, ctx) => {
   const { lang, page, id } = ctx.params;
 
   const projects = await getProjects();
-  const breadcrumbs = [breadcrumb("projects", lang)];
 
   return (
     <Page title={""} _base={""} lang={lang}>
-      <Breadcrumbs list={breadcrumbs} />
+      <Breadcrumbs list={[breadcrumb("pubs", lang)]} />
       <Section>
         <Card style={{ background: "var(--surface0)" }}>
-          <h1>Prosjekter i NVA</h1>
+          <h1>NVA-prosjekter i Akvaplan-niva publikasjoner</h1>
         </Card>
         <p style={{ fontSize: ".66rem" }}>
           Sortert etter oppstart, siste først
@@ -53,7 +53,15 @@ export default defineRoute(async (req, ctx) => {
           <Section>
             <Card>
               <h2>
-                <a href={pubUrl(cristin, lang, req.url)}>{title}</a>
+                <a
+                  href={publicationsUrlForCristinProject(
+                    cristin,
+                    lang,
+                    req.url,
+                  )}
+                >
+                  {title}
+                </a>
               </h2>
               <p>{startYear}–{endYear}</p>
             </Card>
