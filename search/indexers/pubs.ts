@@ -117,6 +117,9 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
     ) ??
       [];
 
+  const project_ids = pub?.projects?.map((p) => "id" in p ? p.id : undefined) ??
+    [];
+
   const atom: OramaAtom = {
     ...pub,
     id,
@@ -141,6 +144,7 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
       published,
       id,
       nva,
+      ...project_ids,
       t(`type.${type}`),
       t(`nva.${type}`),
     ]
