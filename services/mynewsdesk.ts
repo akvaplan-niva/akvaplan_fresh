@@ -213,13 +213,13 @@ export const getItemBySlug = async (
   slug: string,
   type_of_media = "news",
 ) => {
-  const kv = await openKv();
-  const key = [slug0, type_of_media, slug];
-  const { value, versionstamp } = await kv.get(key);
-  if (versionstamp) {
-    console.debug("getItemBySlug [KV]", key);
-    return value;
-  }
+  // const kv = await openKv();
+  // const key = [slug0, type_of_media, slug];
+  // const { value, versionstamp } = await kv.get(key);
+  // if (versionstamp) {
+  //   console.debug("getItemBySlug [KV]", key);
+  //   return value;
+  // }
 
   const url = searchURL(slug, type_of_media);
   console.debug("getItemBySlug (API)", url.href);
