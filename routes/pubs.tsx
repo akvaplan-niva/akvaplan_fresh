@@ -37,15 +37,14 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
 
   const facets = {
     year: yearFacet,
-    //decade: decadesFacet,
     people: {},
     collection: {},
     type: { limit: 50 },
-    projects: {},
-    license: {},
   };
   if (debug) {
     facets.debug = {};
+    facets.license = {};
+    facets.projects = {};
   }
   const hero = await getPanelInLang<Panel>({ id: ID_PUBLICATIONS, lang });
   hero.cta = "";
