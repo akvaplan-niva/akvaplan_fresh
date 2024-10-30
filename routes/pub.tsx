@@ -21,7 +21,6 @@ import { Breadcrumbs, Card, Page } from "akvaplan_fresh/components/mod.ts";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import {
-  ProjectLink,
   ProjectsAsImageLinks,
 } from "akvaplan_fresh/components/project_link.tsx";
 import { mergeNvaAndCristinProjectsWithAkvaplanProjects } from "akvaplan_fresh/services/projects.ts";
@@ -33,23 +32,23 @@ export const config: RouteConfig = {
     "{/:lang(en|no)}?/:collection(publikasjon|publication|pub){/:kind(doi|hdl|nva|hdl\.handle\.net)}?/:idx*",
 };
 
-const NvaFunding = (funding) => (
-  <p>
-    {decodeURIComponent(funding.source?.split("/")?.at(-1))}
-  </p>
-);
+// const NvaFunding = (funding) => (
+//   <p>
+//     {decodeURIComponent(funding.source?.split("/")?.at(-1))}
+//   </p>
+// );
 
-const NvaFundings = ({ fundings }) => (
-  <Card>
-    <details open>
-      <summary>
-        {t(fundings.length === 1 ? "pubs.Funding" : "pubs.Funding")}
-      </summary>
+// const NvaFundings = ({ fundings }) => (
+//   <Card>
+//     <details open>
+//       <summary>
+//         {t(fundings.length === 1 ? "pubs.Funding" : "pubs.Funding")}
+//       </summary>
 
-      {fundings?.map(NvaFunding)}
-    </details>
-  </Card>
-);
+//       {fundings?.map(NvaFunding)}
+//     </details>
+//   </Card>
+// );
 
 export default defineRoute(async (_req, ctx) => {
   const { params } = ctx;
@@ -145,7 +144,8 @@ export default defineRoute(async (_req, ctx) => {
         )
         : null}
 
-      {nvaPublication?.fundings?.length > 0
+      {
+        /* {nvaPublication?.fundings?.length > 0
         ? (
           <section
             style={{
@@ -157,7 +157,8 @@ export default defineRoute(async (_req, ctx) => {
             />
           </section>
         )
-        : null}
+        : null} */
+      }
 
       <p style={{ fontSize: ".75rem" }}>
         {t("time.Created")} <time>{longDate(created, lang)}</time>

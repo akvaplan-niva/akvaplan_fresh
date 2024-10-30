@@ -1,4 +1,4 @@
-import { NVA_API, nvaPublicationLanding } from "akvaplan_fresh/services/nva.ts";
+import { NVA_API } from "akvaplan_fresh/services/nva.ts";
 import { Signal, useSignal } from "@preact/signals";
 import { Head, IS_BROWSER } from "$fresh/runtime.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
@@ -77,7 +77,9 @@ export const PubNvaPdfAugment = (
     if (abstract) {
       state.value.abstract = abstract;
     }
-
+    if (abstract) {
+      state.value.description = description;
+    }
     publication?.associatedArtifacts?.filter(pdfFilter).map(
       async (file) => {
         const pdfUrl = await getPresignedPdfUrl(
@@ -128,8 +130,12 @@ export const PubNvaPdfAugment = (
         <Section>
           <h2>{t("Abstract")}</h2>
           <p
-            dangerouslySetInnerHTML={{ __html: state.value?.abstract }}
-            style={{ maxWidth: "120ch", fontSize: "1rem" }}
+            dangerouslySetInnerHTML={{ __html: state.value.abstract }}
+            style={{
+              maxWidth: "120ch",
+              fontSize: "1rem",
+              whiteSpace: "pre-wrap",
+            }}
           />
         </Section>
       )}
@@ -139,8 +145,12 @@ export const PubNvaPdfAugment = (
           <Section>
             <h2>{t("Description")}</h2>
             <p
-              dangerouslySetInnerHTML={{ __html: state.value?.description }}
-              style={{ maxWidth: "120ch", fontSize: "1rem" }}
+              dangerouslySetInnerHTML={{ __html: state.value.description }}
+              style={{
+                maxWidth: "120ch",
+                fontSize: "1rem",
+                whiteSpace: "pre-wrap",
+              }}
             />
           </Section>
         )}
