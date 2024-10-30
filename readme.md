@@ -5,13 +5,13 @@
 - HTML-first multi-page web app
 - Server-side rendered in Deno [Deploy](https://deno.com/deploy/) – fully
   functional without JavaScript
-- Bilingual, including translated/SEO URLs
+- Bilingual, featuring translated and search-engine friendly URLs
 
 ## Tech stack
 
 - [Deno](https://deno.land/)
-- [KV](https://deno.com/kv/)
 - [Fresh](https://fresh.deno.dev/)
+- [KV](https://deno.com/kv/)
 - [Orama](https://oramasearch.com/)
 - [TypeScript](https://www.typescriptlang.org/)
 
@@ -34,15 +34,15 @@ locale (see [_middleware.tsx](routes/_middleware.tsx)).
 
 Users are then redirected to either `/en` or `/no` and served the `Home` route.
 
+Most routes start with a language segment, used to set the app's `lang` signal
+for use in translation.
+
 ```ts
 // routes/home.tsx
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
 };
 ```
-
-All regular HTML-routes starts with a language segment, which is used to set the
-app's `lang` signal for use in translation.
 
 ### Translations
 
@@ -81,19 +81,4 @@ Rights are set using a system, resource, email list, with permitted actions
 
 ```sh
 $ ./bin/kv_set '["rights","kv","panel","xyz@akvaplan.niva.no"]' '{"actions":"cru"}'
-```
-
-### Panels
-
-Export/seed
-
-```sh
-./bin/kv_list '["panel"]' |  nd-map d.value > data/seed/panels.ndjson
-deno task kv-seed
-```
-
-### User preferences
-
-```sh
-deno task kv_set '["@", "config", "nmi"]' '{"search":{"enabled":true,"exclude":["person","pubs"]},"cristin":{"enabled":true}}'
 ```
