@@ -10,7 +10,6 @@ import _cristin_ids from "akvaplan_fresh/data/cristin_ids.json" with {
 const crid = new Map<string, number>(_cristin_ids as [[string, number]]);
 import { withYearAndLinkableSlug } from "./by.tsx";
 import {
-  buildAkvaplanistMap,
   getAkvaplanist,
   getPriorAkvaplanistFromDenoService,
 } from "akvaplan_fresh/services/akvaplanist.ts";
