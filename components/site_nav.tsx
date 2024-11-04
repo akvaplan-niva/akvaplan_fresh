@@ -11,6 +11,14 @@ export function SiteNavVerticalLarge() {
           gridTemplateColumns: "1fr",
         }}
       >
+        <li>
+          <span
+            class="target"
+            style={{ color: "var(--text2)", fontSize: "var(--font-size-2)" }}
+          >
+            <SiteLangLinks />
+          </span>
+        </li>
         {siteNav.value.map(({ href, text }) => (
           <li>
             <a
@@ -22,12 +30,6 @@ export function SiteNavVerticalLarge() {
             </a>
           </li>
         ))}
-        <li
-          class="target"
-          style={{ color: "var(--text2)", fontSize: "var(--font-size-4)" }}
-        >
-          <SiteLangLinks />
-        </li>
       </ol>
     </nav>
   );
@@ -39,7 +41,7 @@ export interface Breadcrumb {
 }
 
 export function Breadcrumbs(
-  { list }: { list: Breadcrumb[] },
+  { list, icon = "arrow_back_ios_new" }: { list: Breadcrumb[] },
 ) {
   return (
     <nav>
@@ -47,7 +49,7 @@ export function Breadcrumbs(
         {list.map(({ href, text }) => (
           <li style={{ display: "inline", fontSize: ".9rem" }}>
             <LinkIcon
-              icon="arrow_back_ios_new"
+              icon={icon}
               href={href}
               children={text}
             />
