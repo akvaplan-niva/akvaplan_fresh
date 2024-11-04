@@ -225,7 +225,7 @@ export default function GroupedSearch(
             autofocus={autofocus}
             name="q"
             placeholder={t("ui.search.site.Search")}
-            label="Søk i Akvaplan-niva (folk, tjenester, forskningstema, prosjekter, nyheter, publikasjoner, dokumenter, media)"
+            label="Søk i Akvaplan-niva (folk, tjenester, forskning, prosjekter, nyheter, publikasjoner, dokumenter, media)"
             value={query}
             autocomplete="off"
             onInput={handleUserSearchInput}
