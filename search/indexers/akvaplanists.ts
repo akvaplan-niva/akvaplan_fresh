@@ -14,26 +14,26 @@ import {
 
 export const atomizeAkvaplanist = (a: Akvaplanist): OramaAtom => {
   const { id, family, given, from, created, updated, email, ...more } = a;
-  const name = `${given} ${family}`;
-  const slug = `id/${id as string}/${
-    encodeURIComponent(name.toLocaleLowerCase("no").replace(/\s/g, "+"))
-  }`;
+  if (id && family && given) {
+    const name = `${given} ${family}`;
+    const slug = id;
 
-  const aliases = [
-    spellingsById.get(id),
-    givenAliasMap.get(id),
-    familyAliasMap.get(id),
-  ];
-  const text = stringifyAndNormalize([more, aliases, id]);
+    const aliases = [
+      spellingsById.get(id),
+      givenAliasMap.get(id),
+      familyAliasMap.get(id),
+    ];
+    const text = stringifyAndNormalize([more, aliases, id]);
 
-  return {
-    ...a,
-    title: name,
-    slug,
-    collection: "person",
-    id: email,
-    text,
-    people: [],
-    published: (from ?? created ?? updated) as string,
-  };
+    return {
+      ...a,
+      title: name,
+      slug,
+      collection: "person",
+      id: `https://id.akvaplan.no/person/${id}`,
+      text,
+      people: [],
+      published: (from ?? created ?? updated) as string,
+    };
+  }
 };

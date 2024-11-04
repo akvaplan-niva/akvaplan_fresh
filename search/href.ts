@@ -47,9 +47,10 @@ const localizedRouteForSearchAtom = (
   lang: string,
 ): string => {
   let { collection, slug, id } = atom;
-  if (collection === "person" && slug.startsWith("id/")) {
-    const { title: name, id: email } = atom;
-    return akvaplanistUrl({ email, name, slug } as any, lang);
+  if (collection === "person") {
+    const { title: name, slug } = atom;
+
+    return akvaplanistUrl({ id: slug, name } as any, lang);
   } else if (collection === "pubs") {
     if (String(id).startsWith("https://doi.org")) {
       collection = "pub";
@@ -88,5 +89,6 @@ export const href = (
   // if (slug?.startsWith(`/${lang}/`) && slug?.length > 4) {
   //   return slug;
   // }
+
   return localizedRouteForSearchAtom(atom, lang);
 };

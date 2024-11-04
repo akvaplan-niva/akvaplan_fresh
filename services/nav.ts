@@ -172,12 +172,12 @@ export const akvaplanistUrl = (
   a: Akvaplanist,
   lang: string,
 ) => {
-  const { given, family, name, email, slug } = a ?? {};
-  let { id } = a ?? {};
+  const { given, family, name, id, email, slug } = a ?? {};
+
   const at = lang === "en" ? "@" : "~";
-  if (!id && email?.includes("@akvaplan")) {
-    id = email.split("@").at(0) as string;
-  }
+  // if (!id && email?.includes("@akvaplan")) {
+  //   id = email.split("@").at(0) as string;
+  // }
 
   if (!id) {
     //FIXME
