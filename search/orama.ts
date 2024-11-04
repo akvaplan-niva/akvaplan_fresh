@@ -38,6 +38,7 @@ export const createOramaInstance = async (): Promise<OramaAtomSchema> =>
         language,
         stemmer,
         tokenize: normalizedWordTokenizer,
+        //stemmerSkipProperties: ["people", "identities"],
       },
     },
   });

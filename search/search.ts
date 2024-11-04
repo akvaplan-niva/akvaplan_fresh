@@ -35,6 +35,7 @@ export const yearFacet = {
 
 export const decadesFacet = {
   ranges: [
+    { from: 2030, to: 2039 },
     { from: 2020, to: 2029 },
     { from: 2010, to: 2019 },
     { from: 2000, to: 2009 },

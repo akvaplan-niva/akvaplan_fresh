@@ -7,8 +7,6 @@ import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { CustomerService } from "akvaplan_fresh/@interfaces/customer_service.ts";
 import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
 
-//const akvaplanist = await buildAkvaplanistMap();
-
 export const atomizeCustomerService = async (value) => {
   const {
     uuid,
