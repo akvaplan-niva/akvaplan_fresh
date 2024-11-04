@@ -1,3 +1,4 @@
+// Nice PDF preview layout: https://pubs.acs.org/doi/epdf/10.1021/acs.est.4c04495?ref=article_openPDF
 import { longDate } from "akvaplan_fresh/time/mod.ts";
 import {
   getNvaMetadata,
@@ -85,7 +86,7 @@ export default defineRoute(async (_req, ctx) => {
   const typeText = t(
     isHandleUrl(id) || isNvaUrl(id) ? `nva.${type}` : `type.${type}`,
   );
-  const typeHref = pubsURL({ lang }) + `?q=${type}&filter-type=${type}`;
+  const typeHref = pubsURL({ lang }) + `?filter-type=${type}`;
 
   const breadcrumbs = [{
     href: pubsURL({ lang }),

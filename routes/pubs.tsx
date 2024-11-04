@@ -17,7 +17,6 @@ import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
 import { ID_PUBLICATIONS } from "akvaplan_fresh/kv/id.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/(pubs|publications|publikasjoner)",
@@ -29,22 +28,42 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
 
   const q = searchParams.get("q");
   const debug = searchParams.has("debug");
-  const people = searchParams.get("people");
   const collection = "pubs";
   const title = t("nav.Pubs").value;
 
-  const where = people ? { collection, people } : { collection };
+  const where = { collection };
+  const { count } = await search({
+    term: "",
+    limit: 0,
+    where,
+  });
+
+  const filters = new Map(
+    [...searchParams].filter(([k]) => /^filter-/.test(k)).map((
+      [k, v],
+    ) => [k?.replace("filter-", ""), v]),
+  );
+
+  for (const [k, v] of filters) {
+    if (k === "year") {
+      const [from, to] = v.split(/[–:_]{1}/).map(Number);
+      if (from >= 1970 && from < 2100) {
+        where[k] = !to ? { eq: from } : { between: [from, to] };
+      }
+    } else {
+      where[k] = v;
+    }
+  }
 
   const facets = {
-    year: yearFacet,
-    people: {},
-    collection: {},
     type: { limit: 50 },
   };
   if (debug) {
     facets.debug = {};
     facets.license = {};
     facets.projects = {};
+    facets.year = decadesFacet;
+    facets.identities = {};
   }
   const hero = await getPanelInLang<Panel>({ id: ID_PUBLICATIONS, lang });
   hero.cta = "";
@@ -65,18 +84,18 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
       </Section>
       {/* <NewsFilmStrip news={news} lang={lang} /> */}
 
-      <Section>
-        <CollectionSearch
-          placeholder={title}
-          collection={collection}
-          q={q}
-          people={people}
-          lang={lang}
-          results={results}
-          facets={facets}
-          list="list"
-        />
-      </Section>
+      <CollectionSearch
+        placeholder={title}
+        collection={collection}
+        q={q}
+        lang={lang}
+        results={results}
+        filters={[...filters]}
+        facets={facets}
+        facetsBefore={["type"]}
+        total={count}
+        list="list"
+      />
     </Page>
   );
 }

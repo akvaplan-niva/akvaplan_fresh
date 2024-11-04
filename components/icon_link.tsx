@@ -64,13 +64,17 @@ export const LinkIcon = (
     }}
     {...props}
   >
-    {right !== true && <Icon2 name={icon} style={{ color: "var(--accent)" }} />}
+    {icon && right !== true && (
+      <Icon2 name={icon} style={{ color: "var(--accent)" }} />
+    )}
     {children && (
       <span style={{ color: "var(--text1)" }}>
         {children}
       </span>
     )}
-    {right === true && <Icon2 name={icon} style={{ color: "var(--accent)" }} />}
+    {icon && right === true && (
+      <Icon2 name={icon} style={{ color: "var(--accent)" }} />
+    )}
   </a>
 );
 

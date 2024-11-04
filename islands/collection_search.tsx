@@ -1,20 +1,20 @@
 import { searchViaApi } from "../search/search_via_api.ts";
-
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
-
-import { InputSearch } from "../components/search/InputSearch.tsx";
+import { href } from "akvaplan_fresh/search/href.ts";
+import { t } from "akvaplan_fresh/text/mod.ts";
+import { decadesFacet } from "akvaplan_fresh/search/search.ts";
+import { cachedNameOf } from "akvaplan_fresh/services/akvaplanist.ts";
 
 import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { Result, Results } from "@orama/orama";
 
-import { computed, useSignal } from "@preact/signals";
+import { InputSearch } from "../components/search/InputSearch.tsx";
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 import Button from "akvaplan_fresh/components/button/button.tsx";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
-import { href } from "akvaplan_fresh/search/href.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
-// import { yearFacet } from "akvaplan_fresh/search/search.ts";
-// import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
+
+import { computed, useSignal } from "@preact/signals";
+import { Facets } from "./facets.tsx";
 
 const detailsOpen = (collection: string) =>
   ["image", "document", "video", "blog", "pubs"].includes(collection)
@@ -46,6 +46,14 @@ const facetMapper = (facets, { limit = -1, sort = highestCountFirst } = {}) =>
       })),
   }));
 
+export const facetHref = ({ q, facet, label, base }) =>
+  base +
+  `?q=${
+    encodeURIComponent(
+      q,
+    )
+  }&filter-${facet.facet}=${encodeURIComponent(label)}`;
+
 export default function CollectionSearch(
   {
     q,
@@ -56,6 +64,8 @@ export default function CollectionSearch(
     facets,
     results,
     list,
+    total,
+    filters = [],
     noInput = false,
     hero = null,
   }: {
@@ -75,14 +85,30 @@ export default function CollectionSearch(
   const count = useSignal(results?.count ?? 0);
   const facet = useSignal(facetMapper(results?.facets));
   const display = useSignal("block");
+
   //const groupBy = "year";
   const peopleFilter = useSignal(people);
   const maxfacets = 50;
 
-  const where = computed(() => ({
-    collection,
-    people: peopleFilter.value ? peopleFilter.value : undefined,
-  }));
+  //facets.year = decadesFacet;
+
+  const where = computed(() => {
+    const where = {
+      collection,
+      people: peopleFilter.value ? peopleFilter.value : undefined,
+    };
+    for (const [k, v] of filters) {
+      if (k === "year") {
+        const [from, to] = v.split(/[–:_]{1}/).map(Number);
+        if (from >= 1970 && from < 2100) {
+          where[k] = !to ? { eq: from } : { between: [from, to] };
+        }
+      } else {
+        where[k] = v;
+      }
+    }
+    return where;
+  });
 
   const performSearch = async (
     _params: { q?: string } = {},
@@ -111,7 +137,9 @@ export default function CollectionSearch(
 
   const handleSearchInput = async (e: Event) => {
     const { target: { value, ownerDocument } } = e;
-    const { origin } = new URL(ownerDocument?.URL ?? document?.URL);
+    const { origin, searchParams } = new URL(
+      ownerDocument?.URL ?? document?.URL,
+    );
     performSearch({ q: value, base: origin, limit: limit.value });
     e.preventDefault();
   };
@@ -128,6 +156,8 @@ export default function CollectionSearch(
     e.preventDefault();
   };
 
+  const base = href({ collection, lang });
+
   return (
     <main>
       {noInput !== true && (
@@ -141,6 +171,20 @@ export default function CollectionSearch(
             // marginTop: "0.25rem",
           }}
         >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr auto",
+              gap: "1rem",
+              padding: ".5rem",
+              justifyContent: "end",
+            }}
+          >
+            <span></span>
+            <label style={{ justifySelf: "end" }}>
+              {count.value < total ? `${count} / ${total}` : total}
+            </label>
+          </div>
           <InputSearch
             autofocus
             name="q"
@@ -149,15 +193,52 @@ export default function CollectionSearch(
             value={query}
             autocomplete="off"
             onInput={handleSearchInput}
+            type="search"
           />
 
-          <label style={{ fontSize: "1rem", display: "none" }}></label>
+          {/* <label style={{ fontSize: "1rem", display: "" }}>{total}</label> */}
         </form>
       )}
-      <output>
+
+      <output style={{ fontSize: "1rem" }}>
         <div
           style={{
-            paddingBlockStart: "1rem",
+            display: "grid",
+            gridTemplateColumns: "1fr auto",
+            gap: "0rem",
+            justifyContent: "end",
+          }}
+        >
+          <span style={{ fontSize: ".9rem" }}>
+            {facet.value.filter((f) => f.facet === "type").map((facet) => (
+              <Facets
+                facet={facet}
+                collection={collection}
+                q={query.value}
+                lang={lang}
+                base={base}
+                filter={new Map([...filters])}
+              />
+            ))}
+          </span>
+        </div>
+
+        {facet.value.filter((f) => f.facet !== "type").map((facet) => (
+          <div>
+            <Facets
+              facet={facet}
+              collection={collection}
+              q={query.value}
+              lang={lang}
+              base={base}
+              filter={new Map([...filters])}
+            />
+          </div>
+        ))}
+
+        <div
+          style={{
+            paddingBlockStart: "0rem",
             display: "grid",
             //gridTemplateColumns: "1fr minmax(150px, 25%)",
           }}
@@ -197,7 +278,12 @@ export default function CollectionSearch(
                 Bytt mellom liste og kompakt visning
               </Button>
             )}
-            {facet.value.filter((f) => f.facet !== "collection").map((f) => (
+
+            {facet.value.filter((f) =>
+              !["collection", "type"].includes(f.facet)
+            ).map((
+              f,
+            ) => (
               f && f.groups.length > 0 && (
                 <details
                   open={f.facet !== "type"}
@@ -216,7 +302,9 @@ export default function CollectionSearch(
                   </summary>
 
                   <dd style={{ marginInlineStart: 0 }}>
-                    {f.groups.slice(0, maxfacets).map(({ label, count }) =>
+                    {f.groups.slice(0, maxfacets).filter(({ label }) =>
+                      !["", "*"].includes(label)
+                    ).map(({ label, count }) =>
                       count > 0 && (
                         <span>
                           <a
@@ -224,16 +312,11 @@ export default function CollectionSearch(
                               collection,
                               lang,
                             }) +
-                              `?q=${
-                                encodeURIComponent(
-                                  f.facet === "year"
-                                    ? label.substring(0, 4)
-                                    : label,
-                                  //query.value?.length > 0 ? query.value : label,
-                                )
-                              }&filter-${f.facet}=${encodeURIComponent(label)}`}
+                              `?filter-${f.facet}=${encodeURIComponent(label)}`}
                           >
-                            {f.facet === "year" ? label.substring(0, 4) : label}
+                            {f.facet === "identities"
+                              ? cachedNameOf(label)
+                              : label}
                           </a>
                           <Pill disabled>{count}</Pill>
                         </span>

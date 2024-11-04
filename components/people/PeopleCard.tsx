@@ -1,23 +1,15 @@
-// FIXME PeopleCard: Priors with ID should use gray symbol
-// https://akvaplan.no/no/folk/name/Biuw/Martin
-import { buildAkvaplanistMap } from "akvaplan_fresh/services/akvaplanist.ts";
-import { priorAkvaplanistID } from "akvaplan_fresh/services/prior_akvaplanists.ts";
+import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
 import { personURL } from "akvaplan_fresh/services/nav.ts";
 import { longDate } from "akvaplan_fresh/time/mod.ts";
-import { Card, UseApnSym } from "akvaplan_fresh/components/mod.ts";
 
-import {
-  Icon2 as Icon,
-  LinkIcon,
-  TextIcon,
-} from "akvaplan_fresh/components/icon_link.tsx";
+import { LinkIcon, TextIcon } from "akvaplan_fresh/components/icon_link.tsx";
 
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 
 import { type Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
-
-import { Head } from "$fresh/runtime.ts";
 import { peopleURL } from "akvaplan_fresh/services/nav.ts";
+import { Card } from "akvaplan_fresh/components/card.tsx";
+import { UseApnSym } from "akvaplan_fresh/components/akvaplan/symbol.tsx";
 
 interface PeopleProps {
   id?: string;
@@ -25,7 +17,6 @@ interface PeopleProps {
   lang?: string;
   icons: boolean;
 }
-const people = globalThis?.Deno ? await buildAkvaplanistMap() : [];
 
 const isExpired = ({ expired } = {}) => {
   if (!expired) {
@@ -82,6 +73,11 @@ export const AkvaplanistCardBasic = (
   </a>
 );
 
+// FIXME PeopleCard: Priors with ID should use gray symbol
+// https://akvaplan.no/no/folk/name/Biuw/Martin
+// The above URL is no longer used, but may be in the wild, new URL:
+// https://akvaplan.no/~01hs99np0hmbybezqs5jy5w5m3/martin+biuw
+
 export function PersonCard(
   {
     person,
@@ -92,8 +88,8 @@ export function PersonCard(
     avatar,
   }: PeopleProps,
 ) {
-  if (id) {
-    person = people.get(id) ?? priorAkvaplanistID.get(id) ?? person;
+  if (id && !person) {
+    person = getAkvaplanist(id);
   }
 
   const {

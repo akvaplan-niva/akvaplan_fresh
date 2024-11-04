@@ -6,27 +6,46 @@ import {
   persistOramaJson,
 } from "akvaplan_fresh/search/orama.ts";
 import {
-  fetchAndSaveAkvaplanistsJson,
+  _akvaplanists,
+  _priors,
+  getAkvaplanistsFromDenoService,
 } from "akvaplan_fresh/services/akvaplanist.ts";
 import { buildOramaIndex } from "akvaplan_fresh/search/create_search_index.ts";
+
+// const writeJsonFile = async (path: string, object: unknown) =>
+//   await Deno.writeTextFile(path, JSON.stringify(object));
+
+// const ensureExistsBeforeReadingJsonFile = async (
+//   path: string,
+//   object: unknown,
+// ) => {
+//   let text;
+//   try {
+//     await Deno.stat(path);
+//   } catch (_e) {
+//     await writeJsonFile(path, object);
+//   } finally {
+//     text = await Deno.readTextFile(path);
+//   }
+//   return JSON.parse(text);
+// };
+
+const createIdentitiesJsonFiles = async () => {
+  try {
+    const akvaplanists = await getAkvaplanistsFromDenoService("person");
+    const priors = await getAkvaplanistsFromDenoService("expired");
+    await Deno.writeTextFile(_akvaplanists, JSON.stringify(akvaplanists));
+    await Deno.writeTextFile(_priors, JSON.stringify(priors));
+  } catch (e) {
+    console.error(e);
+  }
+};
 
 await dev(import.meta.url, "./main.ts");
 
 if (Deno.args.includes("build")) {
-  await fetchAndSaveAkvaplanistsJson();
+  await createIdentitiesJsonFiles();
+
   const orama = await buildOramaIndex();
   await persistOramaJson(orama, oramaJsonPath);
 }
-
-// if (globalThis.Deno) {
-//   try {
-//     const path = "./_fresh/mynewsdesk_manifest.json";
-//     await Deno.stat(path);
-//     const m = JSON.parse(await Deno.readTextFile(path));
-//     for (const { type_of_media, last } of m) {
-//       console.warn(m);
-//       mynewsdeskLast.set(type_of_media, last);
-//     }
-//   } catch (_) {
-//   }
-// }

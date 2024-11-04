@@ -74,6 +74,7 @@ import * as $button_open_dialog from "./islands/button_open_dialog.tsx";
 import * as $collection_search from "./islands/collection_search.tsx";
 import * as $doi_search from "./islands/doi_search.tsx";
 import * as $editable from "./islands/editable.tsx";
+import * as $facets from "./islands/facets.tsx";
 import * as $grouped_search from "./islands/grouped_search.tsx";
 import * as $grouped_search_collection_results from "./islands/grouped_search_collection_results.tsx";
 import * as $lang_switcher from "./islands/lang_switcher.tsx";
@@ -163,6 +164,7 @@ const manifest = {
     "./islands/collection_search.tsx": $collection_search,
     "./islands/doi_search.tsx": $doi_search,
     "./islands/editable.tsx": $editable,
+    "./islands/facets.tsx": $facets,
     "./islands/grouped_search.tsx": $grouped_search,
     "./islands/grouped_search_collection_results.tsx":
       $grouped_search_collection_results,

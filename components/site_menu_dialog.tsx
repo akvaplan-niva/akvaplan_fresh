@@ -7,6 +7,7 @@ import { ApnLogo } from "akvaplan_fresh/components/akvaplan/logo.tsx";
 import { indexPanels } from "akvaplan_fresh/search/indexers/panel.ts";
 import { getOramaInstance } from "akvaplan_fresh/search/orama.ts";
 import { UserNameOrSignInIcon } from "akvaplan_fresh/islands/username_or_signin.tsx";
+import { SiteLangLinks } from "akvaplan_fresh/components/site_lang_links.tsx";
 
 // Add panels to search index on each boot
 const _orama = await getOramaInstance();
@@ -31,6 +32,17 @@ export default ({ lang }) => (
       <a href="/" aria-label={t("nav.go_home")} style={{ marginTop: "1rem" }}>
         <ApnLogo width="192" />
       </a>
+      <div
+        style={{
+          margin: 0,
+          marginBlockStart: "1rem",
+          marginBlockEnd: "1rem",
+          display: "grid",
+          placeItems: "center",
+          color: "var(--text1)",
+        }}
+      >
+      </div>{" "}
       <form method="dialog">
         <IconButton
           style={{
@@ -80,6 +92,16 @@ export default ({ lang }) => (
         }}
       >
         <UserNameOrSignInIcon />
+      </div>
+      <div
+        style={{
+          fontSize: ".9rem",
+          background: "transparent",
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+        }}
+      >
       </div>
 
       <ThemeSwitcher mini />

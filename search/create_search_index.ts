@@ -17,7 +17,9 @@ import { atomizeSlimPublication } from "akvaplan_fresh/search/indexers/pubs.ts";
 import { createOramaInstance } from "akvaplan_fresh/search/orama.ts";
 
 import { insertMultiple } from "@orama/orama";
-import { getEmployedAkvaplanists } from "akvaplan_fresh/services/akvaplanist.ts";
+import {
+  getEmployedAkvaplanists,
+} from "akvaplan_fresh/services/akvaplanist.ts";
 
 // Create orama index
 // Persists index as JSON on disk during `deno task build` (in production, this runs on GitHub prior to deploy).

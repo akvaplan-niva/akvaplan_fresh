@@ -5,7 +5,34 @@ import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 import { search } from "akvaplan_fresh/search/search.ts";
 import { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 
-const akvaplanistsJsonPath = "./_fresh/akvaplanists.json";
+//FIXME, remove: import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
+export const _priors = "data/priors.json";
+export const _akvaplanists = "data/akvaplanists.json";
+
+import priors from "akvaplan_fresh/data/priors.json" with { type: "json" };
+import akvaplanists from "akvaplan_fresh/data/akvaplanists.json" with {
+  type: "json",
+};
+
+const allKnownIdentities = [
+  ...priors,
+  ...akvaplanists,
+] as Akvaplanist[];
+
+export const idMap = (p: Partial<Akvaplanist>) => [p.id, p];
+
+export const identities = new Map<string, Akvaplanist>(
+  //@ts-ignore bc
+  allKnownIdentities.map(idMap),
+);
+
+export const setIdentities = (arr: Akvaplanist[]) => {
+  for (const p of arr) {
+    if ("id" in p) {
+      identities.set(p.id!, p);
+    }
+  }
+};
 
 const base = globalThis?.Deno && Deno.env.has("AKVAPLANISTS")
   ? Deno.env.get("AKVAPLANISTS")
@@ -13,28 +40,41 @@ const base = globalThis?.Deno && Deno.env.has("AKVAPLANISTS")
 
 export let _all: Akvaplanist[];
 
-export const getAkvaplanistsFromDenoService = async (): Promise<
+const _name = (cand: Akvaplanist | null) =>
+  cand &&
+    cand.family && cand.given
+    ? [cand.given, cand.family].join(" ")
+    : cand?.name ?? "?";
+export const cachedNameOf = (id: string) => {
+  return identities.has(id) ? _name(identities.get(id)!) : id;
+};
+export const getAkvaplanistsFromDenoService = async (
+  collection = "person",
+): Promise<
   Akvaplanist[]
 > => {
-  //console.warn("FETCH", base+"/kv/person");
-  const r = await fetch(new URL("/kv/person", base)).catch((e) =>
+  if (!["person", "expired"].includes(collection)) {
+    throw new RangeError(`Invalid collection: ${collection}`);
+  }
+  const r = await fetch(new URL(`/kv/${collection}`, base)).catch((e) =>
     console.error(e)
   );
   if (r?.ok) {
     const entries = await r.json();
-    const empl = entries.map(({ value }) => value);
-    return empl.map((p: Akvaplanist) => {
-      if (!p.email) {
-        p.email = p.id + "@akvaplan.niva.no";
-      }
-      // FIXME Refactor prior akvaplanists; remove static list and rely on service
-      // Below is a hack, useful for e.g. http://localhost:7777/no/doi/10.1016/s0044-8486(03)00475-7
-      if (p.expired) {
-        priorAkvaplanistID.set(p.id, p);
-      }
-      priorAkvaplanists.push(p);
-      return p;
-    });
+    return entries.map(({ value }) => value);
+    //return empl
+    // .map((p: Akvaplanist) => {
+    //   if (!p.email) {
+    //     p.email = p.id + "@akvaplan.niva.no";
+    //   }
+    //   // FIXME Refactor prior akvaplanists; remove static list and rely on service
+    //   // Below is a hack, useful for e.g. http://localhost:7777/no/doi/10.1016/s0044-8486(03)00475-7
+    //   if (p.expired) {
+    //     priorAkvaplanistID.set(p.id, p);
+    //   }
+    //   priorAkvaplanists.push(p);
+    //   return p;
+    // });
   }
   return [];
 };
@@ -46,15 +86,6 @@ export const getPriorAkvaplanistFromDenoService = async (id: string) => {
   }
 };
 
-export const fetchAndSaveAkvaplanistsJson = async () => {
-  const akvaplanists = await getAkvaplanistsFromDenoService();
-  setAkvaplanists(akvaplanists);
-  await Deno.writeTextFile(
-    akvaplanistsJsonPath,
-    JSON.stringify(akvaplanists),
-  );
-  return akvaplanists;
-};
 export const getAkvaplanists = async (): Promise<
   Akvaplanist[]
 > => {
@@ -74,7 +105,7 @@ export const getEmployedAkvaplanists = async () => {
 
 export const setAkvaplanists = (all) => _all = all;
 
-export const buildAkvaplanistMap = async () =>
+const buildAkvaplanistMap = async () =>
   (await getAkvaplanists())?.reduce((p, c) => {
     p.set(c.id, c);
     return p;
@@ -91,8 +122,7 @@ export const mynewsdeskPeople = async () => {
   );
 };
 
-export const getAkvaplanist = async (id: string) =>
-  (await buildAkvaplanistMap()).get(id);
+export const getAkvaplanist = (id: string) => identities.get(id);
 
 export const nameOfId = async (id: string) => {
   const { given, family } = await getAkvaplanist(id);
