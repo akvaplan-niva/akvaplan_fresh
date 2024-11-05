@@ -1,14 +1,10 @@
-import {
-  getPanelInLang,
-  getPanelsInLang,
-  mayEditKvPanel,
-} from "akvaplan_fresh/kv/panel.ts";
+import { getPanelsInLang } from "akvaplan_fresh/kv/panel.ts";
 import { ID_INFRASTRUCTURE } from "akvaplan_fresh/kv/id.ts";
 
 import { Section } from "akvaplan_fresh/components/section.tsx";
 
 import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
-import { BentoPanels } from "../components/bento_panel.tsx";
+import { BentoPanels } from "akvaplan_fresh/components/bento_panel.tsx";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 import { Page } from "akvaplan_fresh/components/page.tsx";
@@ -16,33 +12,32 @@ import { Page } from "akvaplan_fresh/components/page.tsx";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
 import { OpenGraphRequired } from "akvaplan_fresh/components/open_graph.tsx";
+import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 
 const getInfrastructurePanels = async (lang: string) =>
   (await getPanelsInLang({
     lang,
     filter: (p: Panel) =>
       "infrastructure" ===
-        p.collection &&
-      ![ID_INFRASTRUCTURE].includes(
-        p.id,
-      ), /* && ![true, "true"].includes(p?.draft)*/
+        p.collection,
   })).sort((a, b) => a.title.localeCompare(b.title));
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(infrastructure|infra|infrastruktur)",
 };
-const panelHashId = (id: string) => `panel-${id}`;
 
 export default defineRoute(async (req, ctx) => {
-  const { lang, page } = ctx.params;
+  const { lang } = ctx.params;
 
-  const hero = await getPanelInLang({ id: ID_INFRASTRUCTURE, lang });
+  const _panels = await getInfrastructurePanels(lang) as Panel[];
+  const hero = _panels.find(({ id }) => id === ID_INFRASTRUCTURE);
+  const panels = _panels.filter(({ id }) => id !== ID_INFRASTRUCTURE);
+  if (!hero || panels?.length < 1) {
+    throw Error("Failed retrieving infrastructure data");
+  }
 
   const { title, image } = hero;
   const { cloudinary } = image;
-
-  const panels = await getInfrastructurePanels(lang);
-
   const og = {
     title,
     url: req.url,
@@ -51,32 +46,27 @@ export default defineRoute(async (req, ctx) => {
   };
 
   return (
-    <Page title={title} collection="about">
-      <h1>{title}</h1>
-      <div style={{ display: "grid", placeItems: "center" }}>
-        {
-          /* <ImagePanel
-          {...{ id, title, image, backdrop, theme }}
-          lang={lang}
-          editor={editor}
-          maxHeight={"50dvh"}
-        /> */
-        }
-      </div>
-
-      {hero?.intro && (
-        <Card>
-          <Markdown text={hero.intro} />
-        </Card>
-      )}
-
-      <Section />
-      <BentoPanels panels={panels} lang={lang} />
-
+    <Page title={title}>
       <Head>
         <OpenGraphRequired {...og} />
         <link rel="stylesheet" href={asset("/css/bento.css")} />
       </Head>
+      <Section>
+        <Card>
+          <h1>{title}</h1>
+          {hero?.intro && <Markdown text={hero.intro} />}
+        </Card>
+      </Section>
+
+      <BentoPanels panels={panels} lang={lang} />
+      <Section />
+      <Section>
+        {hero?.desc && (
+          <Card>
+            <Markdown text={hero.desc} />
+          </Card>
+        )}
+      </Section>
     </Page>
   );
 });
