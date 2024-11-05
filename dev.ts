@@ -34,8 +34,15 @@ const createIdentitiesJsonFiles = async () => {
   try {
     const akvaplanists = await getAkvaplanistsFromDenoService("person");
     const priors = await getAkvaplanistsFromDenoService("expired");
-    await Deno.writeTextFile(_akvaplanists, JSON.stringify(akvaplanists));
-    await Deno.writeTextFile(_priors, JSON.stringify(priors));
+    const _removeUpdated = ({ updated, ...rest }) => rest;
+    await Deno.writeTextFile(
+      _akvaplanists,
+      JSON.stringify(akvaplanists.map(_removeUpdated)),
+    );
+    await Deno.writeTextFile(
+      _priors,
+      JSON.stringify(priors.map(_removeUpdated)),
+    );
   } catch (e) {
     console.error(e);
   }
