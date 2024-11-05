@@ -10,6 +10,7 @@ import { asset, Head } from "$fresh/runtime.ts";
 import type { RouteConfig, RouteContext } from "$fresh/server.ts";
 import { personURL } from "akvaplan_fresh/services/mod.ts";
 import { AkvaplanistCardBasic } from "akvaplan_fresh/components/mod.ts";
+import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/akvaplanist{/:which(prior|expired)}?",
@@ -29,9 +30,31 @@ const getAkvaplanistsInExternalKvService = async (kind: string) => {
   return arr;
 };
 
+// Hmm should hava separate index for people, to allow faceting on workplace etc....
+// Hmm2 CollectionSearch should allow custom index? But would also need custom results then (possibly)
+const PersonSearchPage = ({ lang }) => (
+  <Page>
+    <CollectionSearch
+      //placeholder={title}
+      collection={"person"}
+      //q={q}
+      lang={lang}
+      limit={100}
+      //results={results}
+      //filters={[...filters]}
+      //facets={facets}
+      //total={count}
+    />
+  </Page>
+);
+
 export default async function PriorsPage(req: Request, ctx: RouteContext) {
   const { lang, which } = ctx.params;
   const kind = ["expired", "prior"].includes(which) ? "expired" : "person";
+
+  if ("person" === kind) {
+    return <PersonSearchPage lang={lang} />;
+  }
 
   const priors = (await getAkvaplanistsInExternalKvService(kind)).map((p) => {
     const { id, family, given, expired } = p;

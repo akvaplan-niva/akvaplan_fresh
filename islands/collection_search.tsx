@@ -68,6 +68,7 @@ export default function CollectionSearch(
     filters = [],
     noInput = false,
     hero = null,
+    limit = 10,
   }: {
     q?: string;
     people?: string;
@@ -78,11 +79,11 @@ export default function CollectionSearch(
   },
 ) {
   const query = useSignal(q ?? "");
-  const limit = useSignal(10);
-  const nextLimit = useSignal(100);
+  limit = useSignal(limit);
   const etal = useSignal(true);
   const hits = useSignal((results?.hits ?? []) as Result<OramaAtom>[]);
   const count = useSignal(results?.count ?? 0);
+  const nextLimit = useSignal(limit + 100);
   const facet = useSignal(facetMapper(results?.facets));
   const display = useSignal("block");
 
