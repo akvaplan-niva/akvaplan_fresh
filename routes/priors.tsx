@@ -11,6 +11,7 @@ import type { RouteConfig, RouteContext } from "$fresh/server.ts";
 import { personURL } from "akvaplan_fresh/services/mod.ts";
 import { AkvaplanistCardBasic } from "akvaplan_fresh/components/mod.ts";
 import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
+import { Section } from "akvaplan_fresh/components/section.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/akvaplanist{/:which(prior|expired)}?",
@@ -66,10 +67,19 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
 
   const title = which === "prior" ? t("ui.PriorAkvaplanist") : "Akvaplanister";
   const collection = which === "prior" ? "person" : undefined;
+  const groupedByYear = [...Map.groupBy(
+    priors,
+    ({ expired }) => expired ? expired.substring(0, 4) : "????",
+  )].sort((a, b) => b[0].localeCompare(a[0]));
 
   return (
     <Page title={which} collection={collection}>
-      {priors.map((p) => <AkvaplanistCardBasic {...p} />)}
+      {[...groupedByYear].map(([k, values]) => (
+        <Section>
+          <h2>{k}</h2>
+          {values.map((person) => <AkvaplanistCardBasic {...person} />)}
+        </Section>
+      ))}
     </Page>
   );
 }
