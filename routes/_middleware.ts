@@ -74,10 +74,13 @@ export function handler(req: Request, ctx: FreshContext) {
         for (const [name, session] of Object.entries(getCookies(req.headers))) {
           if (/site-session/.test(name)) {
             ctx.state.session = session;
-            getSessionUser(req).then(({ name, email }) => {
-              const user = { name, email };
-              ctx.state.user = user;
-              userSignal.value = user;
+            getSessionUser(req).then((u) => {
+              if (u) {
+                const { name, email } = u;
+                const user = { name, email };
+                ctx.state.user = user;
+                userSignal.value = user;
+              }
             });
           }
         }
