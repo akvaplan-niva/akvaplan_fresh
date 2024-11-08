@@ -14,7 +14,7 @@ import { intlRouteMap } from "akvaplan_fresh/services/mod.ts";
 import { MainOffice } from "akvaplan_fresh/components/offices.tsx";
 import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
-import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
+import CollectionSearch from "../islands/collection_search.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(contact|kontakt)",

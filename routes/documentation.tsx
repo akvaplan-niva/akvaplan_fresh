@@ -4,7 +4,7 @@ import { Page } from "akvaplan_fresh/components/page.tsx";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 // deno-lint-ignore no-unused-vars
-import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
+import CollectionSearch from "../islands/collection_search.tsx";
 
 import { defineRoute, RouteConfig } from "$fresh/server.ts";
 import { getPanelsInLangByIds } from "akvaplan_fresh/kv/panel.ts";

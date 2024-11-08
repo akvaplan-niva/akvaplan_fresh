@@ -1,31 +1,30 @@
 import { searchViaApi } from "../search/search_via_api.ts";
-import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
+import { oramaSortPublishedReverse } from "akvaplan_fresh/search/search.ts";
 import { href } from "akvaplan_fresh/search/href.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
-import { decadesFacet } from "akvaplan_fresh/search/search.ts";
+import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 import { cachedNameOf } from "akvaplan_fresh/services/akvaplanist.ts";
 
-import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
-import type { Result, Results } from "@orama/orama";
+import { Facets } from "./facets.tsx";
 
 import { InputSearch } from "../components/search/InputSearch.tsx";
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 import Button from "akvaplan_fresh/components/button/button.tsx";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 
-import { computed, useSignal } from "@preact/signals";
-import { Facets } from "./facets.tsx";
+import { computed, Signal, useSignal } from "@preact/signals";
+import type { JSX } from "preact";
+import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
+import type { Result, Results } from "@orama/orama";
+import { SelectSort } from "akvaplan_fresh/components/select_sort.tsx";
 
-const detailsOpen = (collection: string) =>
-  ["image", "document", "video", "blog", "pubs"].includes(collection)
-    ? false
-    : true;
-
-const collectionHref = ({ collection, lang }) => {
-  if (!intlRouteMap(lang).has(collection)) {
-    console.error("Missing collectionHref", collection, lang);
+export const buildSortBy = (sort: string) => {
+  if (sort) {
+    const sb = structuredClone(oramaSortPublishedReverse);
+    sb.order = sort.startsWith("-") ? "DESC" : "ASC";
+    sb.property = sort.replace("-", "");
+    return sb;
   }
-  return intlRouteMap(lang).get(collection);
+  return undefined;
 };
 
 const highestCountFirst = (a, b) => b[1] - a[1];
@@ -68,7 +67,9 @@ export default function CollectionSearch(
     filters = [],
     noInput = false,
     hero = null,
+
     limit = 10,
+    url,
   }: {
     q?: string;
     people?: string;
@@ -78,6 +79,9 @@ export default function CollectionSearch(
     results: Results<OramaAtom>;
   },
 ) {
+  if (lang) {
+    langSignal.value = lang;
+  }
   const query = useSignal(q ?? "");
   limit = useSignal(limit);
   const etal = useSignal(true);
@@ -91,12 +95,26 @@ export default function CollectionSearch(
   const peopleFilter = useSignal(people);
   const maxfacets = 50;
 
+  url = new URL(url);
+  const _sort = url.searchParams.has("sort")
+    ? url.searchParams.get("sort")
+    : "-published";
+  const sortSignal: Signal<string | undefined> = useSignal(_sort);
+  const urlSignal = useSignal(url.href);
+
+  const sort = computed(() =>
+    sortSignal.value?.length && sortSignal.value.length > 0
+      ? sortSignal.value
+      : undefined
+  );
+
   //facets.year = decadesFacet;
 
   const where = computed(() => {
     const where = {
       collection,
       people: peopleFilter.value ? peopleFilter.value : undefined,
+      year: undefined,
     };
     for (const [k, v] of filters) {
       if (k === "year") {
@@ -107,6 +125,9 @@ export default function CollectionSearch(
       } else {
         where[k] = v;
       }
+    }
+    if (query.value?.length === 4 && !("year" in where)) {
+      where.year = { elangSignalq: Number(query.value) };
     }
     return where;
   });
@@ -123,8 +144,7 @@ export default function CollectionSearch(
       ..._params,
       where,
       limit: limit.value,
-      //sort: "SORT",
-      //groupBy,
+      sort: sort.value,
     };
 
     const results = await searchViaApi(params);
@@ -136,13 +156,16 @@ export default function CollectionSearch(
     }
   };
 
-  const handleSearchInput = async (e: Event) => {
-    const { target: { value, ownerDocument } } = e;
-    const { origin, searchParams } = new URL(
-      ownerDocument?.URL ?? document?.URL,
-    );
-    performSearch({ q: value, base: origin, limit: limit.value });
-    e.preventDefault();
+  const handleSearchInput = (e: JSX.TargetedEvent<HTMLInputElement, Event>) => {
+    const { currentTarget } = e;
+    if (currentTarget) {
+      const { value, ownerDocument } = currentTarget;
+      const { origin, searchParams } = new URL(
+        ownerDocument?.URL ?? document?.URL,
+      );
+      performSearch({ q: value, base: origin, limit: limit.value });
+      e.preventDefault();
+    }
   };
 
   const toggleList = (e: Event) => {
@@ -152,9 +175,30 @@ export default function CollectionSearch(
 
   const increaseLimit = (e: Event) => {
     limit.value = nextLimit.value;
-    nextLimit.value += 100;
+    nextLimit.value *= 2;
     performSearch();
     e.preventDefault();
+  };
+
+  const setSort = (e: JSX.TargetedEvent<HTMLSelectElement, Event>) => {
+    e.preventDefault();
+    const [option0] = e.currentTarget.selectedOptions;
+    const url = urlSignal.value
+      ? new URL(urlSignal.value)
+      : new URL(e.currentTarget.ownerDocument.URL);
+
+    const sort = option0.value?.length > 0 ? option0.value : undefined;
+    if (sort) {
+      url.searchParams.set("sort", sort);
+    } else {
+      url.searchParams.set("sort", "");
+    }
+    console.warn(url);
+    history.replaceState(null, "", url.href);
+    sortSignal.value = sort;
+    urlSignal.value = url.href;
+
+    performSearch();
   };
 
   const base = href({ collection, lang });
@@ -162,29 +206,39 @@ export default function CollectionSearch(
   return (
     <main>
       {noInput !== true && (
-        <form
-          action={``}
-          autocomplete="off"
-          style={list === "list" ? {} : {
-            // display: "grid",
-            // gridTemplateColumns: "1fr",
-            // gap: "1rem",
-            // marginTop: "0.25rem",
-          }}
-        >
+        <form autocomplete="off" method="get" action={urlSignal.value}>
           <div
             style={{
               display: "grid",
               gridTemplateColumns: "1fr auto",
-              gap: "1rem",
+              //gap: "1rem",
               padding: ".5rem",
               justifyContent: "end",
             }}
           >
-            <span></span>
-            <label style={{ justifySelf: "end" }}>
-              {count.value < total ? `${count} / ${total}` : total}
+            <label>
+              {count.value < total
+                ? `${count} treff`
+                : `${total} ${t(`collection.${collection}`)}`}
             </label>
+            <span
+              style={{
+                display: "grid",
+                alignItems: "center",
+                gridTemplateColumns: "1fr auto",
+                justifyContent: "end",
+                gap: ".25rem",
+              }}
+            >
+              <label>
+              </label>
+
+              <SelectSort
+                sort={sortSignal.value}
+                onChange={setSort}
+                lang={lang}
+              />
+            </span>
           </div>
           <InputSearch
             autofocus

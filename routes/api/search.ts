@@ -15,7 +15,7 @@ const { compare } = Intl.Collator("no", {
   sensitivity: "case",
 });
 
-const getSortBy = (s) => {
+const getSortBy = (s: string) => {
   if (s?.length > 0) {
     const order = s.startsWith("-") ? "DESC" : "ASC";
     const property = s.replace("-", "");

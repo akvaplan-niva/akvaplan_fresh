@@ -10,7 +10,7 @@ import type {
 
 import { FieldSetOfObject } from "akvaplan_fresh/islands/FieldSetOfObject.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
-import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
+import CollectionSearch from "./collection_search.tsx";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 
 const core: (keyof Panel)[] = [

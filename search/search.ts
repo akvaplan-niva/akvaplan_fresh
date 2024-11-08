@@ -51,7 +51,6 @@ export const search = async (
 
   params.term = params.exact !== true ? normalize(params.term) : params.term;
   params.threshold = params.threshold ?? 0;
-
   const res = await _search(orama, params) as Results<OramaAtom>;
 
   return res;

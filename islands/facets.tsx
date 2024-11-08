@@ -1,7 +1,7 @@
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
-import { facetHref } from "akvaplan_fresh/islands/collection_search.tsx";
+import { facetHref } from "./collection_search.tsx";
 import {
   cachedNameOf,
   identities,

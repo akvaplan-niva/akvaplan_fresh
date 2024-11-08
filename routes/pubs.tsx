@@ -1,16 +1,17 @@
 // Pubs: FIXME Add latest & "greatest" (most cited)
 // Pubs: FIXME Add UI Change sort (eg. from latest to relevance)
 // Pubs: FIXME Real filters (not just links)
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 import {
   decadesFacet,
   oramaSortPublishedReverse,
   search,
-  yearFacet,
 } from "akvaplan_fresh/search/search.ts";
 
 import { Page } from "akvaplan_fresh/components/page.tsx";
-import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
+import CollectionSearch, {
+  buildSortBy,
+} from "../islands/collection_search.tsx";
 
 import { RouteConfig, RouteContext } from "$fresh/server.ts";
 import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
@@ -19,17 +20,25 @@ import { Section } from "akvaplan_fresh/components/section.tsx";
 import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 
 export const config: RouteConfig = {
-  routeOverride: "/:lang(en|no)/(pubs|publications|publikasjoner)",
+  routeOverride: "/:lang(en|no)/:page(pubs|publications|publikasjoner)",
 };
 
 export default async function PubsPage(req: Request, ctx: RouteContext) {
-  const { lang } = ctx.params;
+  const { lang, page } = ctx.params;
+
+  langSignal.value = lang;
+  const base = `/${lang}/${page}/`;
+
   const { searchParams } = new URL(req.url);
 
   const q = searchParams.get("q");
   const debug = searchParams.has("debug");
+
   const collection = "pubs";
   const title = t("nav.Pubs").value;
+  const sortBy = searchParams.has("sort")
+    ? buildSortBy(searchParams.get("sort") ?? "")
+    : oramaSortPublishedReverse;
 
   const where = { collection };
   const { count } = await search({
@@ -72,15 +81,20 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
     limit: 10,
     where,
     facets,
-    sortBy: oramaSortPublishedReverse,
+    sortBy,
     threshold: 0.5,
   });
 
   // const news = await latestPubsNotInTheFuture();
   return (
-    <Page title={title} collection="home">
-      <Section style={{ display: "grid", placeItems: "center" }}>
-        <ImagePanel {...hero} lang={lang} />
+    <Page title={title} base={base}>
+      <Section
+        style={{ display: "grid", placeItems: "center" }}
+      >
+        <ImagePanel
+          {...hero}
+          lang={lang}
+        />
       </Section>
       {/* <NewsFilmStrip news={news} lang={lang} /> */}
 
@@ -95,6 +109,7 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
         facetsBefore={["type"]}
         total={count}
         list="list"
+        url={req.url}
       />
     </Page>
   );
