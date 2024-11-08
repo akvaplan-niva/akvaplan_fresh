@@ -70,8 +70,19 @@ export const nameFromAuthor = ({ family, given, name }: Partial<Akvaplanist>) =>
   name ? name : `${given} ${family}`;
 
 export const atomizeSlimPublication = async (pub: SlimPublication) => {
-  const { id, nva, reg, title, published, doi, type, container, license, pdf } =
-    pub;
+  const {
+    id,
+    nva,
+    reg,
+    title,
+    published,
+    doi,
+    type,
+    container,
+    license,
+    pdf,
+    akvaplanists,
+  } = pub;
   const authorsStringArray: string[] = (pub?.authors ?? []).map(nameFromAuthor);
 
   // authors.map((name) =>
@@ -93,13 +104,24 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
   const slug = buildSlug(pub);
 
   const debug = nva ? ["nva_true"] : ["nva_false"];
+  if (akvaplanists) {
+    const { total } = akvaplanists;
+    if (0 === total) {
+      debug.push("akvaplanists_0");
+      debug.push("akvaplanists_false");
+    }
+  }
   if (pdf) {
-    debug.push("pdf");
+    debug.push("pdf_true");
+  } else {
+    debug.push("pdf_false");
   }
 
   if (license) {
-    debug.push("license");
+    debug.push("license_true");
     debug.push(license);
+  } else {
+    debug.push("license_false");
   }
 
   if (/Crossref/i.test(reg)) {

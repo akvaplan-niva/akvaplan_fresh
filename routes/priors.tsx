@@ -10,7 +10,7 @@ import { asset, Head } from "$fresh/runtime.ts";
 import type { RouteConfig, RouteContext } from "$fresh/server.ts";
 import { personURL } from "akvaplan_fresh/services/mod.ts";
 import { AkvaplanistCardBasic } from "akvaplan_fresh/components/mod.ts";
-import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
+import CollectionSearch from "../islands/collection_search.tsx";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 
 export const config: RouteConfig = {
