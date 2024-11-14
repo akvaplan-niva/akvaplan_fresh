@@ -80,7 +80,6 @@ const trondheim: Office = {
   country: "NO",
   tel: "+47 99 58 54 68",
   email: "trondheim@akvaplan.niva.no",
-  links: {},
 };
 
 export const tromsø: Office = {
@@ -113,6 +112,7 @@ interface Office {
   addr: Addr;
   name: string;
   tel: string;
+  tel2?: string;
   email: string;
   country?: string;
   hq?: true | undefined;
@@ -125,8 +125,8 @@ export const offices = new Map<string, Office>([
   ["Oslo", oslo],
   ["Reykjavík", reykjavík],
   ["Ski", ski],
-  //["Stord", stord],
   ["Sortland", sortland],
+  ["Stord", stord],
   ["Tromsø", tromsø],
   ["Trondheim", trondheim],
 ]);

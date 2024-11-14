@@ -13,7 +13,19 @@ import {
 // FIXME   slug: "id/skd/synn%C3%B8ve-killie-dinnesen",
 
 export const atomizeAkvaplanist = (a: Akvaplanist): OramaAtom => {
-  const { id, family, given, from, created, updated, email, ...more } = a;
+  const {
+    id,
+    family,
+    given,
+    from,
+    created,
+    updated,
+    section,
+    position,
+    workplace,
+    cristin,
+    ...more
+  } = a;
   if (id && family && given) {
     const name = `${given} ${family}`;
     const slug = id;
@@ -25,14 +37,26 @@ export const atomizeAkvaplanist = (a: Akvaplanist): OramaAtom => {
     ];
     const text = stringifyAndNormalize([more, aliases, id]);
 
+    const cristin_debug = cristin && Number.isInteger(cristin)
+      ? "cristin_true"
+      : "cristin_false";
+    const debug = [cristin_debug];
+
     return {
       ...a,
+      debug,
+      location: workplace ?? "",
+      searchwords: [],
       title: name,
       slug,
       collection: "person",
       id: `https://id.akvaplan.no/person/${id}`,
       text,
-      people: [],
+      section: section ?? "?",
+      function: {
+        no: position?.no ?? "?",
+        en: position?.en ?? "?",
+      },
       published: (from ?? created ?? updated) as string,
     };
   }

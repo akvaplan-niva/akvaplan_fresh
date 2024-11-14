@@ -47,7 +47,9 @@ export default defineRoute(async (req, ctx) => {
     ? panel?.people_ids?.trim().split(",")
     : [];
 
-  console.warn(panel.collection);
+  const search = undefined;
+  // @todo company_topic.tsx / PanelPage: make search configurable
+  // const search = groupedSearchParams(panel);
 
   return (
     <>
@@ -60,7 +62,7 @@ export default defineRoute(async (req, ctx) => {
         contacts={contacts}
         url={url}
         more={more}
-        search={groupedSearchParams(panel)}
+        search={search}
       />
     </>
   );

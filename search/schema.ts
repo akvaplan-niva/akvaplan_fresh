@@ -3,11 +3,17 @@ import { string } from "@valibot/valibot";
 export const schema = {
   collection: "string",
   type: "string",
+  location: "string",
+  function: {
+    no: "string",
+    en: "string",
+  },
+  section: "string",
   title: "string",
   slug: "string",
-  people: "string[]", // normalized names
-  identities: "string[]", // identities, ie akvaplanist ids
-  //authors: "string[]", // verbatim names
+  //people: "string[]", // normalized names
+  identities: "string[]", // identities, ie. akvaplanist ids
+  authors: "string[]", // verbatim names
   license: "string",
   searchwords: "string[]",
   debug: "string[]",

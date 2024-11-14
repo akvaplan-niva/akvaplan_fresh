@@ -1,6 +1,6 @@
 import { JSX } from "preact";
 import { t } from "akvaplan_fresh/text/mod.ts";
-export const SelectSort = ({ sort, lang, ...props }) => (
+export const SelectSortDefault = ({ sort, lang, ...props }) => (
   <label lang={lang}>
     {t("sort.label")}:{" "}
     <select style={{ fontSize: ".9rem" }} {...props}>

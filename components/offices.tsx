@@ -19,7 +19,7 @@ export const MainOffice = ({ lang }) => (
         title={t("ui.Google_maps")}
       >
         Framsenteret
-      </a>) og 8 andre{" "}
+      </a>) og {offices.size - 1} andre{" "}
       <a
         href={`${intlRouteMap(lang).get("offices")}`}
       >

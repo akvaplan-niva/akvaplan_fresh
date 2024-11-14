@@ -124,12 +124,18 @@ export const setLang = (
   }
 };
 
+const removePrefix = (key: string) => key.split(".").at(-1);
+
 export const t = (key: string) => {
   const k = key?.value ?? key;
-  // if (k && !dict?.value?.has(k)) {
-  //   console.warn(`${lang} translation missing "${k}": "${k}",`);
-  // }
-  return signal<string>(dict?.value?.get(k) ?? k);
+  if (k && !dict?.value?.has(k)) {
+    // if (!/\.?(en|no|location)\./.test(key)) {
+    //   console.warn(`${lang} translation missing "${k}": "${k}",`);
+    // }
+    return removePrefix(k);
+  }
+  return dict.value?.get(k);
+  //return signal<string>(dict?.value?.get(k) ?? k);
 };
 
 export const buildIndexLangRedirect = () =>

@@ -13,7 +13,6 @@ const officesMapConfig = {
   zoom: getZoom(),
   dragPan: false,
 };
-console.warn();
 // Locations from https://nominatim.openstreetmap.org/ui/search.html?street=&city=&country=Norway&postalcode=&accept-language=no
 const Alta = ["Alta", [23.27543, 69.96680]];
 const Bergen = ["Bergen", [5.323333, 60.3925]];
@@ -35,7 +34,7 @@ const toFeature = ([name, coordinates]) => ({
 });
 
 const hq = [Tromsø].map(toFeature);
-const nonHq = [Alta, Bergen, Bodø, Oslo, Trondheim, Reykjavík, Ski, Sortland]
+const nonHq = [Alta, Bergen, Bodø, Oslo, Reykjavík, Ski, Sortland, Trondheim]
   .map(
     toFeature,
   );
@@ -63,7 +62,7 @@ const popupHtml = (f, lang) =>
 const createOfficesMap = async (config) => {
   const map = new maplibregl.Map(config);
 
-  map.scrollZoom.disable();
+  //map.scrollZoom.disable();
 
   const popup = new maplibregl.Popup({
     closeButton: false,

@@ -15,7 +15,7 @@ import { computed, Signal, useSignal } from "@preact/signals";
 import type { JSX } from "preact";
 import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { Result, Results } from "@orama/orama";
-import { SelectSort } from "akvaplan_fresh/components/select_sort.tsx";
+import { SelectSortDefault } from "akvaplan_fresh/components/select_sort.tsx";
 
 export const buildSortBy = (sort: string) => {
   if (sort) {
@@ -70,6 +70,7 @@ export default function CollectionSearch(
 
     limit = 10,
     url,
+    sort,
   }: {
     q?: string;
     people?: string;
@@ -98,18 +99,9 @@ export default function CollectionSearch(
   url = new URL(url);
   const _sort = url.searchParams.has("sort")
     ? url.searchParams.get("sort")
-    : "-published";
+    : sort ?? "-published";
   const sortSignal: Signal<string | undefined> = useSignal(_sort);
   const urlSignal = useSignal(url.href);
-
-  const sort = computed(() =>
-    sortSignal.value?.length && sortSignal.value.length > 0
-      ? sortSignal.value
-      : undefined
-  );
-
-  //facets.year = decadesFacet;
-
   const where = computed(() => {
     const where = {
       collection,
@@ -126,9 +118,10 @@ export default function CollectionSearch(
         where[k] = v;
       }
     }
-    if (query.value?.length === 4 && !("year" in where)) {
-      where.year = { elangSignalq: Number(query.value) };
+    if (query.value?.length === 4 && undefined === where.year) {
+      where.year = { eq: Number(query.value) };
     }
+    console.warn(where);
     return where;
   });
 
@@ -144,9 +137,9 @@ export default function CollectionSearch(
       ..._params,
       where,
       limit: limit.value,
-      sort: sort.value,
+      sort: sortSignal.value,
     };
-
+    console.warn({ params });
     const results = await searchViaApi(params);
 
     if (results) {
@@ -233,7 +226,7 @@ export default function CollectionSearch(
               <label>
               </label>
 
-              <SelectSort
+              <SelectSortDefault
                 sort={sortSignal.value}
                 onChange={setSort}
                 lang={lang}
@@ -357,26 +350,27 @@ export default function CollectionSearch(
                   </summary>
 
                   <dd style={{ marginInlineStart: 0 }}>
-                    {f.groups.slice(0, maxfacets).filter(({ label }) =>
-                      !["", "*"].includes(label)
-                    ).map(({ label, count }) =>
-                      count > 0 && (
-                        <span>
-                          <a
-                            href={href({
-                              collection,
-                              lang,
-                            }) +
-                              `?filter-${f.facet}=${encodeURIComponent(label)}`}
-                          >
-                            {f.facet === "identities"
-                              ? cachedNameOf(label)
-                              : label}
-                          </a>
-                          <Pill disabled>{count}</Pill>
-                        </span>
-                      )
-                    )}
+                    {f.groups.filter(({ label }) => !["", "*"].includes(label))
+                      .map(({ label, count }) =>
+                        count > 0 && (
+                          <span>
+                            <a
+                              href={href({
+                                collection,
+                                lang,
+                              }) +
+                                `?filter-${f.facet}=${
+                                  encodeURIComponent(label)
+                                }`}
+                            >
+                              {f.facet === "identities"
+                                ? cachedNameOf(label)
+                                : label}
+                            </a>
+                            <Pill disabled>{count}</Pill>
+                          </span>
+                        )
+                      )}
                   </dd>
                 </details>
               )

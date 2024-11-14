@@ -4,6 +4,7 @@ const cristinMap = new Map([
   ["polarfront", 2524794],
   ["dokumentar", 2703197],
   ["slice", 2694515],
+  ["mxr", 2663173],
 ]);
 
 import {

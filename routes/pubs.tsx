@@ -11,13 +11,14 @@ import {
 import { Page } from "akvaplan_fresh/components/page.tsx";
 import CollectionSearch, {
   buildSortBy,
-} from "../islands/collection_search.tsx";
+} from "akvaplan_fresh/islands/collection_search.tsx";
 
 import { RouteConfig, RouteContext } from "$fresh/server.ts";
 import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
 import { ID_PUBLICATIONS } from "akvaplan_fresh/kv/id.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
+import { SelectSortDefault } from "akvaplan_fresh/components/select_sort.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(pubs|publications|publikasjoner)",
