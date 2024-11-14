@@ -50,6 +50,8 @@ export const atomizeAkvaplanist = (a: Akvaplanist): OramaAtom => {
       title: name,
       slug,
       collection: "person",
+      family,
+      given,
       id: `https://id.akvaplan.no/person/${id}`,
       text,
       section: section ?? "?",
