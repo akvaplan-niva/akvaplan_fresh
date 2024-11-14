@@ -68,6 +68,8 @@ const buildSlug = ({ id, doi }: Partial<SlimPublication>) => {
 
 export const nameFromAuthor = ({ family, given, name }: Partial<Akvaplanist>) =>
   name ? name : `${given} ${family}`;
+export const familyFromAuthor = ({ family }: Partial<Akvaplanist>) =>
+  family ? family : ``;
 
 export const atomizeSlimPublication = async (pub: SlimPublication) => {
   const {
@@ -82,6 +84,8 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
     license,
     pdf,
     akvaplanists,
+    created,
+    modified,
   } = pub;
   const authorsStringArray: string[] = (pub?.authors ?? []).map(nameFromAuthor);
 
@@ -99,6 +103,8 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
   const identities = (pub?.authors ?? []).map((a) =>
     a?.identity ? a.identity.id : ""
   );
+
+  const family: string[] = (pub?.authors ?? []).map((a) => a?.family ?? "");
   const year = new Date(published).getFullYear();
 
   const slug = buildSlug(pub);
@@ -144,7 +150,7 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
 
   const project_ids = pub?.projects?.map((p) => "id" in p ? p.id : undefined) ??
     [];
-
+  console.warn({ family });
   const atom: OramaAtom = {
     ...pub,
     id,
@@ -155,11 +161,14 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
     authors: authorsStringArray,
     // FIXME Remove hack to store authors as objects; the search result items rely on getting the authors member as string[]
     _authors: pub.authors ?? [],
+    //family: ["a"],
     identities,
     people,
     projects,
     title: title ?? `[${container} (${year}): ${doi}]`,
     published: String(published),
+    created,
+    modified,
     year,
     license: license ? license : "license_none",
     debug,

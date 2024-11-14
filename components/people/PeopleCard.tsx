@@ -94,7 +94,6 @@ export function PersonCard(
 
   const {
     tel,
-    email,
     name,
     given,
     family,
@@ -109,6 +108,12 @@ export function PersonCard(
     created,
     from,
   } = person ?? {};
+
+  const email =
+    [false, null, undefined].includes(prior) && person &&
+      person?.id?.length === 3
+      ? person.id + "@akvaplan.niva.no"
+      : person?.email;
 
   return (
     <Card>

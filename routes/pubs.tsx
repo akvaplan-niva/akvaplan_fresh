@@ -18,7 +18,7 @@ import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
 import { ID_PUBLICATIONS } from "akvaplan_fresh/kv/id.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
-import { SelectSortDefault } from "akvaplan_fresh/components/select_sort.tsx";
+import { SelectSort } from "akvaplan_fresh/components/select_sort.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(pubs|publications|publikasjoner)",

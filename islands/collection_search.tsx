@@ -15,7 +15,7 @@ import { computed, Signal, useSignal } from "@preact/signals";
 import type { JSX } from "preact";
 import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { Result, Results } from "@orama/orama";
-import { SelectSortDefault } from "akvaplan_fresh/components/select_sort.tsx";
+import { SelectSort } from "akvaplan_fresh/components/select_sort.tsx";
 
 export const buildSortBy = (sort: string) => {
   if (sort) {
@@ -53,7 +53,7 @@ export const facetHref = ({ q, facet, label, base }) =>
     )
   }&filter-${facet.facet}=${encodeURIComponent(label)}`;
 
-export default function CollectionSearch(
+export function CollectionSearch(
   {
     q,
     lang,
@@ -62,12 +62,12 @@ export default function CollectionSearch(
     placeholder,
     facets,
     results,
-    list,
+    list = "block",
     total,
     filters = [],
     noInput = false,
     hero = null,
-
+    sortOptions,
     limit = 10,
     url,
     sort,
@@ -90,7 +90,7 @@ export default function CollectionSearch(
   const count = useSignal(results?.count ?? 0);
   const nextLimit = useSignal(limit + 100);
   const facet = useSignal(facetMapper(results?.facets));
-  const display = useSignal("block");
+  const display = useSignal(list);
 
   //const groupBy = "year";
   const peopleFilter = useSignal(people);
@@ -118,10 +118,12 @@ export default function CollectionSearch(
         where[k] = v;
       }
     }
-    if (query.value?.length === 4 && undefined === where.year) {
+    if (
+      undefined === where.year && query.value?.length === 4 &&
+      Number(query.value) > 1900
+    ) {
       where.year = { eq: Number(query.value) };
     }
-    console.warn(where);
     return where;
   });
 
@@ -139,7 +141,6 @@ export default function CollectionSearch(
       limit: limit.value,
       sort: sortSignal.value,
     };
-    console.warn({ params });
     const results = await searchViaApi(params);
 
     if (results) {
@@ -226,8 +227,9 @@ export default function CollectionSearch(
               <label>
               </label>
 
-              <SelectSortDefault
+              <SelectSort
                 sort={sortSignal.value}
+                options={sortOptions}
                 onChange={setSort}
                 lang={lang}
               />
@@ -249,27 +251,31 @@ export default function CollectionSearch(
       )}
 
       <output style={{ fontSize: "1rem" }}>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr auto",
-            gap: "0rem",
-            justifyContent: "end",
-          }}
-        >
-          <span style={{ fontSize: ".9rem" }}>
-            {facet.value.filter((f) => f.facet === "type").map((facet) => (
-              <Facets
-                facet={facet}
-                collection={collection}
-                q={query.value}
-                lang={lang}
-                base={base}
-                filter={new Map([...filters])}
-              />
-            ))}
-          </span>
-        </div>
+        {Object.keys(facets).length > 0
+          ? (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr auto",
+                gap: "0rem",
+                justifyContent: "end",
+              }}
+            >
+              <span style={{ fontSize: ".9rem" }}>
+                {facet.value.filter((f) => f.facet === "type").map((facet) => (
+                  <Facets
+                    facet={facet}
+                    collection={collection}
+                    q={query.value}
+                    lang={lang}
+                    base={base}
+                    filter={new Map([...filters])}
+                  />
+                ))}
+              </span>
+            </div>
+          )
+          : null}
 
         {facet.value.filter((f) => f.facet !== "type").map((facet) => (
           <div>
@@ -381,3 +387,5 @@ export default function CollectionSearch(
     </main>
   );
 }
+
+export default CollectionSearch;

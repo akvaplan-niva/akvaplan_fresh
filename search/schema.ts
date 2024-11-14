@@ -1,5 +1,3 @@
-import { string } from "@valibot/valibot";
-
 export const schema = {
   collection: "string",
   type: "string",
@@ -14,12 +12,16 @@ export const schema = {
   //people: "string[]", // normalized names
   identities: "string[]", // identities, ie. akvaplanist ids
   authors: "string[]", // verbatim names
+  family: "string",
+  given: "string",
   license: "string",
   searchwords: "string[]",
   debug: "string[]",
   projects: "string[]",
   text: "string",
+  created: "string",
   published: "string",
+  modified: "string",
   year: "number",
   intl: {
     name: {
