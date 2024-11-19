@@ -16,8 +16,6 @@ import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
 import { CCIcons } from "akvaplan_fresh/components/cc-icons.tsx";
 import { Breadcrumbs } from "akvaplan_fresh/components/site_nav.tsx";
 
-// FIXME _authors vs authors, switch: use _authors for string[] for orama indexing and authors for {family,given}[]
-//authors,
 export const PubArticle = ({
   pub: {
     id,
@@ -26,7 +24,7 @@ export const PubArticle = ({
     nva,
     title,
     published,
-    _authors,
+    authors,
     contributors,
     license,
     akvaplanists,
@@ -100,16 +98,16 @@ export const PubArticle = ({
               paddingBottom: ".25rem",
             }}
           >
-            {_authors?.length > 0 && (
+            {authors?.length > 0 && (
               <Card>
                 <details open>
                   <summary style={{ paddingBottom: ".5rem" }}>
-                    {_authors?.length > 1
-                      ? t("pubs.Authors")
-                      : t("pubs.Author")} ({_authors.length})
+                    {authors?.length > 1 ? t("pubs.Authors") : t("pubs.Author")}
+                    {" "}
+                    ({authors.length})
                   </summary>
                   <Contributors
-                    contributors={_authors}
+                    contributors={authors}
                     akvaplanists={akvaplanists}
                     lang={lang}
                   />
