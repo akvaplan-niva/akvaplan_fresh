@@ -18,7 +18,6 @@ export const WorksList = (
     // w.slug = "avc/def";
     w.name = new URL(w.id).pathname.slice(1);
     w.intl = { href: { en: "EN", no: "NO" } };
-    w.authors = (w?.authors ?? []).map(nameFromAuthor);
     w.collection = "pubs";
     return w;
   });

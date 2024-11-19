@@ -4,6 +4,7 @@ import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publicatio
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 import { findCanonicalName, toName } from "akvaplan_fresh/services/person.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
+import { Contributors } from "akvaplan_fresh/components/contribs.tsx";
 
 export const foundNames = new Set<string>();
 export const notFoundNames = new Set<string>();
@@ -87,29 +88,35 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
     created,
     modified,
   } = pub;
-  const authorsStringArray: string[] = (pub?.authors ?? []).map(nameFromAuthor);
+  const authorsOrContribs: typeof pub.authors = [
+    ...(pub?.authors ?? []),
+    ...(pub?.contributors ?? []),
+  ];
 
-  // authors.map((name) =>
-  //   namesCount.add(name.replace(/[.]/g, " ").replace(/[\s]{2,}/g, " ").trim())
-  // );
-  //console.warn(JSON.stringify(namesCount.sortmax().slice(0, 100)));
-  // const asit = await authors?.map(async (p) =>
-  //   await findCanonicalPersonName(p)
-  // );
-
-  const people = (pub?.authors ?? []).map((a) =>
+  const people = authorsOrContribs.map((a) =>
     a?.identity ? nameFromAuthor(a.identity) : nameFromAuthor(a)
   );
-  const identities = (pub?.authors ?? []).map((a) =>
+  const identities = authorsOrContribs.map((a) =>
     a?.identity ? a.identity.id : ""
   );
 
-  const family: string[] = (pub?.authors ?? []).map((a) => a?.family ?? "");
+  const family = authorsOrContribs.map((a) =>
+    a?.family ?? a?.name?.split(" ").at(-1) ?? ""
+  ).join(",");
+
+  const given = authorsOrContribs.map((a) =>
+    a?.given ?? a?.name?.split(" ").slice(0, -1).join(" ") ?? ""
+  ).join(",");
+
   const year = new Date(published).getFullYear();
 
   const slug = buildSlug(pub);
 
   const debug = nva ? ["nva_true"] : ["nva_false"];
+  if ("" === family && "" === given) {
+    debug.push("name_0");
+    debug.push("name_false");
+  }
   if (akvaplanists) {
     const { total } = akvaplanists;
     if (0 === total) {
@@ -150,7 +157,7 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
 
   const project_ids = pub?.projects?.map((p) => "id" in p ? p.id : undefined) ??
     [];
-  console.warn({ family });
+
   const atom: OramaAtom = {
     ...pub,
     id,
@@ -158,10 +165,9 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
     collection: "pubs",
     type,
     container,
-    authors: authorsStringArray,
-    // FIXME Remove hack to store authors as objects; the search result items rely on getting the authors member as string[]
-    _authors: pub.authors ?? [],
-    //family: ["a"],
+    authors: pub.authors ?? [],
+    family,
+    given,
     identities,
     people,
     projects,

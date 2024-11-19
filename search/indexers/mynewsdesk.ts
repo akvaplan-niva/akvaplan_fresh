@@ -1,4 +1,4 @@
-import { isodate } from "akvaplan_fresh/time/mod.ts";
+import { isodate } from "../../time/intl.ts";
 
 import type {
   AbstractMynewsdeskItem,

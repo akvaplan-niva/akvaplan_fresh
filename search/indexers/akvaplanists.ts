@@ -55,10 +55,10 @@ export const atomizeAkvaplanist = (a: Akvaplanist): OramaAtom => {
       id: `https://id.akvaplan.no/person/${id}`,
       text,
       section: section ?? "?",
-      function: {
-        no: position?.no ?? "?",
-        en: position?.en ?? "?",
-      },
+      // position: {
+      //   no: position?.no ?? "?",
+      //   en: position?.en ?? "?",
+      // },
       published: (from ?? created ?? updated) as string,
     };
   }

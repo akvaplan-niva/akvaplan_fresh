@@ -2,16 +2,12 @@ export const schema = {
   collection: "string",
   type: "string",
   location: "string",
-  function: {
-    no: "string",
-    en: "string",
-  },
   section: "string",
   title: "string",
   slug: "string",
   //people: "string[]", // normalized names
   identities: "string[]", // identities, ie. akvaplanist ids
-  authors: "string[]", // verbatim names
+  //authors: "string[]", // verbatim names
   family: "string",
   given: "string",
   license: "string",
