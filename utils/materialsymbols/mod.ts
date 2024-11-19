@@ -10,6 +10,7 @@ export const icons = new Set([
   "contact_mail",
   "edit",
   "exit_to_app",
+  "history",
   "language",
   "mail",
   "phone_in_talk",
