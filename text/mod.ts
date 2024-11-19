@@ -20,7 +20,7 @@ export const stringifyAndNormalize = (
   o: unknown,
 ) =>
   normalize(
-    JSON.stringify(o).replace(/["{}:,\[\]]/g, " ").replace(
+    JSON.stringify(Object.values(o)).replace(/["{}:,\[\]]/g, " ").replace(
       /\s{2,}/g,
       " ",
     ).trim(),

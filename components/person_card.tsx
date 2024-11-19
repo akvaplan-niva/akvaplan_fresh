@@ -1,6 +1,6 @@
 import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
 import { personURL } from "akvaplan_fresh/services/nav.ts";
-import { longDate } from "akvaplan_fresh/time/mod.ts";
+import { longDate } from "../time/intl.ts";
 
 import { LinkIcon, TextIcon } from "akvaplan_fresh/components/icon_link.tsx";
 
@@ -33,7 +33,7 @@ const isPrior = ({ expired, prior } = {}) => {
 };
 
 export const AkvaplanistCardBasic = (
-  { id, name, family, given, expired, prior, lang }:
+  { id, name, family, given, from, expired, prior, lang }:
     & Pick<
       Akvaplanist,
       | "id"
@@ -109,11 +109,10 @@ export function PersonCard(
     from,
   } = person ?? {};
 
-  const email =
-    [false, null, undefined].includes(prior) && person &&
+  const email = [false, null, undefined].includes(prior) && person &&
       person?.id?.length === 3
-      ? person.id + "@akvaplan.niva.no"
-      : person?.email;
+    ? person.id + "@akvaplan.niva.no"
+    : person?.email;
 
   return (
     <Card>
@@ -129,14 +128,15 @@ export function PersonCard(
               <span style={{ color: "var(--text2)" }}>{family}</span>
             </a>
           )}
+        {isPrior(person) &&
+          (
+            <p>
+              <em style="font-size: .9rem;">
+                {t("people.akvaplanist(prior)")}
+              </em>
+            </p>
+          )}
       </div>
-
-      {isPrior(person) &&
-        (
-          <span style={{ fontSize: ".8rem" }}>
-            {t("people.akvaplanist(prior)")}
-          </span>
-        )}
 
       <span style="font-size: .9rem;
   font-weight: 500;
@@ -150,7 +150,7 @@ export function PersonCard(
         </span>
       )}
 
-      <div title={longDate(expired ?? from ?? created, lang)}>
+      <div>
         {avatar
           ? (
             <img
@@ -175,6 +175,21 @@ export function PersonCard(
           fontSize: ".9rem",
         }}
       >
+        {icons && email && (
+          <div>
+            <LinkIcon href={`mailto:${email}`} icon="contact_mail">
+              {email}
+            </LinkIcon>
+          </div>
+        )}
+        {icons && tel &&
+          (
+            <p>
+              <LinkIcon href={`tel:${tel}`} icon="phone_in_talk">
+                {[...tel].map((c, i) => i % 2 ? c : `${c} `)}
+              </LinkIcon>
+            </p>
+          )}
         {management === true && (
           <TextIcon icon="communities">{t("people.Management")}</TextIcon>
         )}
@@ -182,7 +197,7 @@ export function PersonCard(
         {section && section !== "LEDELS" && (
           <div>
             <TextIcon icon="communities">
-              <span style={{ color: "var(--text2)" }}>
+              <span style={{ cexpiredolor: "var(--text2)" }}>
                 {t(`section.${section}`)}
               </span>
             </TextIcon>
@@ -200,21 +215,23 @@ export function PersonCard(
             </a>
           </p>
         )}
-        {icons && tel &&
+        {icons && from &&
           (
-            <p>
-              <LinkIcon href={`tel:${tel}`} icon="phone_in_talk">
-                {[...tel].map((c, i) => i % 2 ? c : `${c} `)}
-              </LinkIcon>
-            </p>
+            <time title={t("From") + " " + longDate(from, lang)}>
+              <TextIcon icon="update">
+                {longDate(from, lang)}
+              </TextIcon>
+            </time>
           )}
-        {icons && email && (
-          <div>
-            <LinkIcon href={`mailto:${email}`} icon="contact_mail">
-              {email}
-            </LinkIcon>
-          </div>
-        )}
+
+        {icons && expired &&
+          (
+            <time title={t("Until") + " " + longDate(expired, lang)}>
+              <TextIcon icon="history">
+                {longDate(expired, lang)}
+              </TextIcon>
+            </time>
+          )}
       </div>
     </Card>
   );

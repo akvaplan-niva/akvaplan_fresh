@@ -1,5 +1,5 @@
 // Nice PDF preview layout: https://pubs.acs.org/doi/epdf/10.1021/acs.est.4c04495?ref=article_openPDF
-import { longDate } from "akvaplan_fresh/time/mod.ts";
+import { longDate } from "../time/intl.ts";
 import {
   getNvaMetadata,
   isNvaUrl,
@@ -61,11 +61,7 @@ export default defineRoute(async (_req, ctx) => {
   if (!pub) {
     // In case orama index is out-dated, or in rare cases where orama returns nothing,
     // like for 10.1577/1548-8659(1994)123%3C0385:spbpac%3E2.3.co;2
-    // FIXME _authors
     pub = await getPubFromAkvaplanService(id);
-    if (pub) {
-      pub._authors = pub.authors;
-    }
   }
   if (!pub) {
     return ctx.renderNotFound();
