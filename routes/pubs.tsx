@@ -89,14 +89,12 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
 
   return (
     <Page title={title} base={base}>
-      <Section>
-        <SearchHeader
-          lang={lang}
-          title={hero?.title}
-          cloudinary={hero?.image.cloudinary}
-          href={hero?.href}
-        />
-      </Section>
+      <SearchHeader
+        lang={lang}
+        title={hero?.title}
+        cloudinary={hero?.image.cloudinary}
+        href={hero?.href}
+      />
 
       <CollectionSearch
         placeholder={title}
