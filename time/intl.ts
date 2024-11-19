@@ -1,7 +1,7 @@
 const locale = (lang: string) => /^en/i.test(lang) ? "en-GB" : "no-NO";
 export const isodate = (dt: string | Date): string =>
   new Date(dt)?.toJSON()?.substring(0, 10);
-export const monthname = (date, locale) => {
+export const monthname = (date: Date, locale: string | string[]) => {
   const { format } = new Intl.DateTimeFormat(locale, {
     month: "long",
     year: "numeric",
