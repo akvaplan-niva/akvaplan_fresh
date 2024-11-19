@@ -1,11 +1,13 @@
 import { href as _href } from "akvaplan_fresh/search/href.ts";
 import { lang as langSignal } from "akvaplan_fresh/text/mod.ts";
 import { MiniCard } from "akvaplan_fresh/components/card.tsx";
-import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
 import { t } from "../text/mod.ts";
 import { slug as slugify } from "slug";
+import { nameFromAuthor } from "akvaplan_fresh/search/indexers/pubs.ts";
+import { Author } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 
-export const names = (people: string[], max?: number) => {
+export const names = (of: Author[], max?: number) => {
+  const people: string[] = of.map(nameFromAuthor);
   if (people.length === 0) {
     return "";
   }
