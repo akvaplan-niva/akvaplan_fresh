@@ -17,6 +17,7 @@ export const icons = new Set([
   "place",
   "search",
   "sms_failed",
+  "update",
   "verified",
   "west",
 ]);
