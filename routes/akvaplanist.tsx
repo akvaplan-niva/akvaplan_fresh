@@ -33,15 +33,13 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
   const { count } = results;
   return (
     <Page>
-      <Section>
-        <SearchHeader
-          lang={lang}
-          title={t("our.people")}
-          subtitle={"workplace" === groupname ? where.location : null}
-          cloudinary={"uhoylo8khenaqk6bvpkq"}
-          href={peopleHref(lang)}
-        />
-      </Section>
+      <SearchHeader
+        lang={lang}
+        title={t("our.people")}
+        subtitle={"workplace" === groupname ? where.location : null}
+        cloudinary={"uhoylo8khenaqk6bvpkq"}
+        href={peopleHref(lang)}
+      />
       <CollectionSearch
         results={results}
         collection={collection}
@@ -52,7 +50,14 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
         total={count}
         url={req.url}
         sort={""}
-        sortOptions={["", "given", "family", "-published", "published"]}
+        sortOptions={[
+          "",
+          "given",
+          "family",
+          "-published",
+          "published",
+          "location",
+        ]}
       />
     </Page>
   );
