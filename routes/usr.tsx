@@ -13,12 +13,10 @@ import {
   getAkvaplanist,
   getPriorAkvaplanistFromDenoService,
 } from "akvaplan_fresh/services/akvaplanist.ts";
-import { priorAkvaplanistID as priors } from "akvaplan_fresh/services/prior_akvaplanists.ts";
 
 import {
   Breadcrumbs,
   Card,
-  Icon,
   Page,
   PersonCard as PersonCard,
 } from "akvaplan_fresh/components/mod.ts";
@@ -26,13 +24,6 @@ import {
 import { extractLangFromUrl, t } from "akvaplan_fresh/text/mod.ts";
 
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-
-import { getValue } from "akvaplan_fresh/kv/mod.ts";
-import { getWorks } from "akvaplan_fresh/services/cristin.ts";
-import {
-  CristinWorksGrouped,
-  groupByCategory,
-} from "../components/cristin_works_grouped.tsx";
 
 import type { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
