@@ -10,7 +10,7 @@ import { isNvaUrl } from "akvaplan_fresh/services/nva.ts";
 import { GroupedWorks } from "akvaplan_fresh/islands/works.tsx";
 import { Page } from "akvaplan_fresh/components/page.tsx";
 
-import { AkvaplanistCardBasic } from "akvaplan_fresh/components/people/PeopleCard.tsx";
+import { AkvaplanistCardBasic } from "../components/person_card.tsx";
 import {
   peopleURL,
   personURL,

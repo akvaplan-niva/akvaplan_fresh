@@ -1,15 +1,9 @@
 import { searchNewsArticles } from "akvaplan_fresh/services/news.ts";
-import { hrefForMynewsdeskItem } from "akvaplan_fresh/services/mynewsdesk.ts";
 
-import {
-  ArticleSquare,
-  CollectionHeader,
-  HScroll,
-  Page,
-} from "akvaplan_fresh/components/mod.ts";
+import { ArticleSquare, HScroll, Page } from "akvaplan_fresh/components/mod.ts";
 
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
-import { monthname } from "akvaplan_fresh/time/mod.ts";
+import { monthname } from "../time/intl.ts";
 
 import {
   type FreshContext,
@@ -22,9 +16,7 @@ export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(news|nyheter)",
 };
 
-import { MynewsdeskArticle } from "../@interfaces/mynewsdesk.ts";
 import { asset, Head } from "$fresh/runtime.ts";
-import { url } from "@valibot/valibot";
 import { Section } from "../components/section.tsx";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 type Props = {};

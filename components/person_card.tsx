@@ -1,6 +1,6 @@
 import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
 import { personURL } from "akvaplan_fresh/services/nav.ts";
-import { longDate } from "akvaplan_fresh/time/mod.ts";
+import { longDate } from "../time/intl.ts";
 
 import { LinkIcon, TextIcon } from "akvaplan_fresh/components/icon_link.tsx";
 
@@ -109,11 +109,10 @@ export function PersonCard(
     from,
   } = person ?? {};
 
-  const email =
-    [false, null, undefined].includes(prior) && person &&
+  const email = [false, null, undefined].includes(prior) && person &&
       person?.id?.length === 3
-      ? person.id + "@akvaplan.niva.no"
-      : person?.email;
+    ? person.id + "@akvaplan.niva.no"
+    : person?.email;
 
   return (
     <Card>

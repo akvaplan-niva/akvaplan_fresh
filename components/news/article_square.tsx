@@ -1,6 +1,6 @@
 import { SquareImage } from "akvaplan_fresh/components/square_image.tsx";
 import { lang, t } from "../../text/mod.ts";
-import { isodate } from "../../time/mod.ts";
+import { isodate } from "../../time/intl.ts";
 const _caption = {
   fontSize: "0.75rem",
   color: "var(--text2)",

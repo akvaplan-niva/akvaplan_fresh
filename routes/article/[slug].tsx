@@ -21,7 +21,7 @@ import {
   searchMynewsdesk,
 } from "akvaplan_fresh/services/mynewsdesk.ts";
 import { href } from "akvaplan_fresh/search/href.ts";
-import { longDate } from "akvaplan_fresh/time/mod.ts";
+import { longDate } from "../../time/intl.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 
 import {

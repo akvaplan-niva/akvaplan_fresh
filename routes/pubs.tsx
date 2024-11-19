@@ -19,6 +19,7 @@ import { ID_PUBLICATIONS } from "akvaplan_fresh/kv/id.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 import { SelectSort } from "akvaplan_fresh/components/select_sort.tsx";
+import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(pubs|publications|publikasjoner)",
@@ -86,18 +87,16 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
     threshold: 0.5,
   });
 
-  // const news = await latestPubsNotInTheFuture();
   return (
     <Page title={title} base={base}>
-      <Section
-        style={{ display: "grid", placeItems: "center" }}
-      >
-        <ImagePanel
-          {...hero}
+      <Section>
+        <SearchHeader
           lang={lang}
+          title={hero?.title}
+          cloudinary={hero?.image.cloudinary}
+          href={hero?.href}
         />
       </Section>
-      {/* <NewsFilmStrip news={news} lang={lang} /> */}
 
       <CollectionSearch
         placeholder={title}

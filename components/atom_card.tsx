@@ -1,6 +1,6 @@
 import { href } from "akvaplan_fresh/search/href.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
-import { isodate } from "akvaplan_fresh/time/mod.ts";
+import { isodate } from "../time/intl.ts";
 import { cloudinary0 } from "akvaplan_fresh/services/mod.ts";
 
 const img = (cloudinary: string, w = 512, h) =>

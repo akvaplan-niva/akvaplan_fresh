@@ -1,6 +1,6 @@
 import { href } from "akvaplan_fresh/search/href.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
-import { longDate } from "akvaplan_fresh/time/mod.ts";
+import { longDate } from "../time/intl.ts";
 
 import { Page } from "akvaplan_fresh/components/page.tsx";
 
