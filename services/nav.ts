@@ -265,8 +265,7 @@ const navTransKeyForCollection = (c: string) => {
   return ["nav.", first.toLocaleUpperCase(), ...rest].join("");
 };
 
-export const collectionName = (c: string) =>
-  t(navTransKeyForCollection(c)).value;
+export const collectionName = (c: string) => t(navTransKeyForCollection(c));
 
 export const collectionHref = (c: string) =>
   intlRouteMap(langSignal.value).get(c);
@@ -276,15 +275,6 @@ export const collectionBreadcrumbs = (c: string) => [{
   href: collectionHref(c) ?? "/",
 }];
 
-// const title = (
-//   <span>
-//     <a href={intlRouteMap(lang).get("projects")}>{t(`nav.Projects`)}</a>:{" "}
-//     {header} ({projectYears(start_at, end_at)})
-//   </span>
-// );
-// <h1>
-//   {title}
-// </h1>;
 export const breadcrumb = (route: string, lang: string) => ({
   href: intlRouteMap(lang).get(route),
   text: t(

@@ -337,19 +337,8 @@ export const groupByChar0 = (key: string) => (a: Akvaplanist) =>
 //   { kid = boardKid, spraak = lang === "en" ? "en" : "nb" } = {},
 // ) =>
 //   `https://w2.brreg.no/kunngjoring/hent_en.jsp?kid=${kid}&sokeverdi=937375158&spraak=${spraak}`;
-
-export const akvaplan = {
-  name: "Akvaplan-niva",
-  tel: "+47 77 75 03 00",
-  email: "info@akvaplan.niva.no",
-  addr: {
-    hq: {
-      visit: "Framsenteret, Tromsø",
-      post: "Postboks 6606 Stakkevollan, 9296 Tromsø, Norway",
-      map: "https://goo.gl/maps/P73K9hcVKeKd7jkz5",
-    },
-  },
-};
+import { tromsø } from "akvaplan_fresh/services/offices.ts";
+export const akvaplan = tromsø;
 
 export const countAkvaplanistAuthors = async (slim: SlimPublication) => {
   let current = 0;

@@ -11,7 +11,7 @@ import { HeroPanel, ImagePanel } from "akvaplan_fresh/components/panel.tsx";
 import { defineRoute, RouteConfig } from "$fresh/server.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { intlRouteMap } from "akvaplan_fresh/services/mod.ts";
-import { MainOffice } from "akvaplan_fresh/components/offices.tsx";
+import { OfficeContactDetails } from "akvaplan_fresh/components/offices.tsx";
 import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 import CollectionSearch from "../islands/collection_search.tsx";
@@ -44,7 +44,7 @@ export default defineRoute(async (req, ctx) => {
     <Page title={""} lang={"no"} base="/">
       <h1>Kontakt oss</h1>
       <Section>
-        <MainOffice />
+        <OfficeContactDetails />
       </Section>
 
       <Section>

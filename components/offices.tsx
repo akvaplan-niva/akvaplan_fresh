@@ -1,42 +1,41 @@
 import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
-import { offices } from "akvaplan_fresh/services/offices.ts";
+import { offices, tromsø } from "akvaplan_fresh/services/offices.ts";
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
-import { akvaplan } from "akvaplan_fresh/services/akvaplanist.ts";
+import {} from "akvaplan_fresh/services/akvaplanist.ts";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { Icon2 as Icon } from "akvaplan_fresh/components/icon_link.tsx";
 import { Section } from "akvaplan_fresh/components/section.tsx";
+import { peopleHref } from "akvaplan_fresh/services/mod.ts";
 
-export const MainOffice = ({ lang }) => (
-  <dl style="display: grid; grid-template-columns: max-content auto;">
+export const OfficeContactDetails = (
+  {
+    name = "Tromsø",
+    post = name === "Tromsø" ? tromsø.post : undefined,
+    visit = name === "Tromsø" ? tromsø.visit : undefined,
+    email = tromsø.email,
+    tel = tromsø.tel,
+    lang,
+  },
+) => (
+  <dl style="display: grid; grid-template-columns: auto 1fr;">
     <dt>
       <Icon name="place" />
     </dt>
-    <dd>
-      Tromsø (
-      <a
-        href={akvaplan.addr.hq.map}
-        target="_blank"
-        title={t("ui.Google_maps")}
+    <dd style={{ color: "var(--text1)" }}>
+      Akvaplan-niva{" "}
+      <span
+        href={peopleHref(lang, `workplace/${name}`)}
+        style={{ color: "var(--accent)" }}
       >
-        Framsenteret
-      </a>) og {offices.size - 1} andre{" "}
-      <a
-        href={`${intlRouteMap(lang).get("offices")}`}
-      >
-        steder
-      </a>{" "}
-      i Norge og på Island
+        {name}
+      </span>
+      {visit ? ` (${visit})` : null}
     </dd>
-
-    <dt aria-label="ring">
-      <Icon name="phone_in_talk" />
+    <dt>
+      <Icon name="mail" />
     </dt>
     <dd>
-      <a
-        href={`tel:${akvaplan.tel}`}
-      >
-        {akvaplan.tel}
-      </a>
+      {post}
     </dd>
 
     <dt aria-label="mail">
@@ -45,12 +44,21 @@ export const MainOffice = ({ lang }) => (
 
     <dd>
       <a
-        href={`mailto:${akvaplan.email}`}
+        href={`mailto:${email}`}
       >
-        {akvaplan.email}
+        {email}
       </a>
-      <br />
-      {akvaplan.addr.hq.post}
+    </dd>
+
+    <dt aria-label="ring">
+      <Icon name="phone_in_talk" />
+    </dt>
+    <dd>
+      <a
+        href={`tel:${tel}`}
+      >
+        {tel}
+      </a>
     </dd>
   </dl>
 );
