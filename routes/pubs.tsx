@@ -3,15 +3,14 @@
 // Pubs: FIXME Real filters (not just links)
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 import {
+  buildSortBy,
   decadesFacet,
   oramaSortPublishedReverse,
   search,
 } from "akvaplan_fresh/search/search.ts";
 
 import { Page } from "akvaplan_fresh/components/page.tsx";
-import CollectionSearch, {
-  buildSortBy,
-} from "akvaplan_fresh/islands/collection_search.tsx";
+import CollectionSearch, {} from "akvaplan_fresh/islands/collection_search.tsx";
 
 import { RouteConfig, RouteContext } from "$fresh/server.ts";
 import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";

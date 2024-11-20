@@ -60,7 +60,7 @@ export const AkvaplanistCardBasic = (
       {isPrior({ expired, prior }) &&
         (
           <p style={{ fontSize: ".8rem" }}>
-            {t("people.akvaplanist(prior)")}
+            <em>{t("people.akvaplanist(prior)")}</em>
           </p>
         )}
 

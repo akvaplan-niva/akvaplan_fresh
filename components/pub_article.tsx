@@ -66,8 +66,8 @@ export const PubArticle = ({
             )}
         </p>
       </Card>
-      {license &&
-        (
+      {license && license?.length > 0
+        ? (
           <section
             style={{
               paddingTop: ".25rem",
@@ -75,10 +75,12 @@ export const PubArticle = ({
             }}
           >
             <Card>
+              {license}
               <CCIcons code={license} lang={lang} />
             </Card>
           </section>
-        )}
+        )
+        : null}
 
       <div
         style={{

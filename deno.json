@@ -21,7 +21,7 @@
     "@orama/orama": "npm:@orama/orama@2.1.1",
     "@orama/plugin-data-persistence": "npm:@orama/plugin-data-persistence@2.1.1",
     "@orama/stemmers": "npm:@orama/stemmers@2",
-    "@std/async": "jsr:@std/async@^1.0.8",
+    "@std/async": "jsr:@std/async@1.0.8",
     "@std/encoding": "jsr:@std/encoding@1.0.5",
     "@std/http": "jsr:@std/http@1.0.10",
     "@std/ulid": "jsr:@std/ulid@1.0.0",
