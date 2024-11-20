@@ -46,6 +46,7 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
         href={peopleHref(lang)}
       />
       <CollectionSearch
+        q={term}
         results={results}
         collection={collection}
         facets={facets}
