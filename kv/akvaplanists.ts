@@ -3,8 +3,6 @@
 
 import { getSessionUser } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
 import { hasRights } from "akvaplan_fresh/kv/rights.ts";
-import { akvaplan } from "akvaplan_fresh/services/akvaplanist.ts";
-import { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
 
 // const _map = new Map<string, Akvaplanist>();
 

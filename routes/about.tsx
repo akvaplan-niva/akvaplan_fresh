@@ -21,10 +21,12 @@ import { Card } from "akvaplan_fresh/components/card.tsx";
 import { Page } from "akvaplan_fresh/components/page.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import { MainOffice } from "akvaplan_fresh/components/offices.tsx";
+import { OfficeContactDetails } from "akvaplan_fresh/components/offices.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
 import { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
+import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
+import Button from "akvaplan_fresh/components/button/button.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -39,10 +41,10 @@ const getAboutPanels = async (lang: string) =>
     lang,
     filter: (
       { collection, id }: Panel,
-    ) => ([ID_PEOPLE, ID_INFRASTRUCTURE].includes(id) ||
+    ) => ([ID_INFRASTRUCTURE].includes(id) ||
       "company" === collection && id !== ID_ABOUT),
   }))
-    .sort((a, b) => a.title.localeCompare(b.title));
+    .sort((a, b) => a.title.localeCompare(b.title, "no"));
 
 export default defineRoute(async (req, ctx) => {
   const { params, url } = ctx;
@@ -61,24 +63,32 @@ export default defineRoute(async (req, ctx) => {
 
   return (
     <Page title={title} base={base} lang={lang}>
-      <div style={{ display: "grid", placeItems: "center", width: "100%" }}>
-        <ImagePanel {...{ ...hero, intro: "" }} lang={lang} editor={editor} />
-      </div>
+      <SearchHeader
+        lang={lang}
+        title={hero?.title}
+        subtitle={hero?.intro}
+        cloudinary={hero?.image.cloudinary}
+        cta={hero?.cta}
+        href={hero.href}
+      />
 
-      <Section>
-        <div style={{ padding: ".5rem" }}>
-          <Markdown text={hero.intro} />
-          <MainOffice lang={lang} />
-        </div>
-
+      <Section style={{ display: "grid", placeItems: "center" }}>
+        <h1>{t("about.HQ")}</h1>
         <Card>
-          <Markdown text={hero.desc} style={{ fontSize: "1rem" }} />
+          <OfficeContactDetails lang={lang} />
         </Card>
+        <Section />
+        <p>
+          <Markdown
+            text={hero.desc}
+            style={{ whiteSpace: "pre-wrap", fontSize: "1rem" }}
+          />
+        </p>
       </Section>
 
       <section class="Section block-center-center">
         <div class="Container content-3">
-          <div class="BentoGrid block gap-3">
+          <div class="BentoGrid block gap-1">
             {panels?.map((p) => (
               <BentoPanel
                 panel={p}
@@ -94,10 +104,10 @@ export default defineRoute(async (req, ctx) => {
       </section>
 
       <Section />
-
       <Section>
         <div id="map" style={{ height: "600px" }}></div>
       </Section>
+
       <script type="module" src="/maplibre-gl/offices.js" />
       <link
         rel="stylesheet"
@@ -110,21 +120,3 @@ export default defineRoute(async (req, ctx) => {
     </Page>
   );
 });
-
-{
-  /* <Section>
-<h2>{t("about.HQ")}</h2>
-<MainOffice />
-
-<h2>{t("about.Office_locations")}</h2>
-<Offices />
-{
-  /* <h2 style={{ fontWeight: "900" }}>
-  Hvor er vi?
-</h2>
-<img src={globus.url} lang={lang} width="100%" />
-Vi har hovedkontor i Tromsø og flere kontor langs kysten av Norge og på
-Island. Figuren viser hvor vi har utført hydrografimålinger.
-
-</Section> */
-}

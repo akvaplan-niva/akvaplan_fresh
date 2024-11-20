@@ -1,6 +1,9 @@
 import { Page } from "akvaplan_fresh/components/page.tsx";
 import type { RouteConfig, RouteContext } from "$fresh/src/server/types.ts";
-import { MainOffice, Offices } from "akvaplan_fresh/components/offices.tsx";
+import {
+  OfficeContactDetails,
+  Offices,
+} from "akvaplan_fresh/components/offices.tsx";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
 
@@ -22,7 +25,7 @@ export default function OfficesPage(_req: Request, _ctx: RouteContext) {
     <Page title={t("company.Offices")} collection="home">
       <Section>
         <h1>{t("our.offices")}</h1>
-        <MainOffice />
+        <Offices />
       </Section>
       <div id="map" style={{ height: "600px" }}></div>
 
@@ -33,9 +36,8 @@ export default function OfficesPage(_req: Request, _ctx: RouteContext) {
           backdropFilter: "blur(2rem)",
         }}
       >
+        <div id="map" style={{ height: "600px" }}></div>
       </div>
-
-      <Offices />
 
       <script type="module" src="/maplibre-gl/offices.js" />
       <link

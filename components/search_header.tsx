@@ -1,8 +1,10 @@
+import Button from "akvaplan_fresh/components/button/button.tsx";
+
 const squareImage = (id: string, px = 256) =>
   `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_${px},h_${px},q_auto:good/${id}`;
 
 export const SearchHeader = (
-  { title = "", subtitle = "", cloudinary, href },
+  { title = "", subtitle = "", cloudinary, href, cta },
 ) => (
   <div style="font-size: 0.75rem; margin: 1px; background: var(--surface0);">
     <a href={href}>
@@ -21,6 +23,13 @@ export const SearchHeader = (
           <h2>
             {subtitle}
           </h2>
+          {cta
+            ? (
+              <Button filled>
+                {cta}
+              </Button>
+            )
+            : null}
         </div>
       </div>
     </a>

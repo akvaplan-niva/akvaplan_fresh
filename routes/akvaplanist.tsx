@@ -8,6 +8,9 @@ import { SearchHeader } from "../components/search_header.tsx";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 
 import type { RouteConfig, RouteContext } from "$fresh/server.ts";
+import { Card } from "akvaplan_fresh/components/card.tsx";
+import { OfficeContactDetails } from "akvaplan_fresh/components/offices.tsx";
+import { offices } from "akvaplan_fresh/services/offices.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:page(folk|people){/:groupname}?{/:filter}?",
@@ -41,10 +44,11 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
       <SearchHeader
         lang={lang}
         title={t("our.people")}
-        subtitle={"workplace" === groupname ? where.location : null}
+        subtitle={where.location}
         cloudinary={"uhoylo8khenaqk6bvpkq"}
         href={peopleHref(lang)}
       />
+
       <CollectionSearch
         q={term}
         results={results}
@@ -65,6 +69,31 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
           "location",
         ]}
       />
+
+      {filters.has("location")
+        ? (
+          <Section>
+            <Card>
+              <OfficeContactDetails
+                lang={lang}
+                {...offices.get(filters.get("location"))}
+              />
+            </Card>
+
+            <div
+              id="map"
+              style={{ height: "600px" }}
+              data-office={where.location}
+            >
+            </div>
+            <script type="module" src="/maplibre-gl/office.js" />
+            <link
+              rel="stylesheet"
+              href="https://esm.sh/maplibre-gl@4.4.1/dist/maplibre-gl.css"
+            />
+          </Section>
+        )
+        : null}
     </Page>
   );
 }
