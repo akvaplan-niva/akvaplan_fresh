@@ -1,4 +1,4 @@
-import { search } from "akvaplan_fresh/search/search.ts";
+import { buildSortBy, search } from "akvaplan_fresh/search/search.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 import { peopleHref } from "akvaplan_fresh/services/nav.ts";
 
@@ -17,18 +17,23 @@ const upcase0 = (s) => {
   return [f.toUpperCase(), ...r].join("");
 };
 export default async function PriorsPage(req: Request, ctx: RouteContext) {
-  const { lang, groupname, filter } = ctx.params;
+  const { lang, groupname, filter, url } = ctx.params;
+  const { searchParams } = ctx.url;
   const limit = 50;
   const collection = "person";
   const where = { collection };
-  const facets = {}; //{ location: {} };
+  const facets = {};
+  const term = searchParams.get("q") ?? "";
+  const sort = searchParams.get("sort") ?? "";
   const filters = new Map();
-
   if ("workplace" === groupname && filter) {
     where.location = upcase0(decodeURIComponent(filter));
     filters.set("location", where.location);
   }
-  const results = await search({ term: "", facets, where, limit });
+  const sortBy = searchParams.has("sort")
+    ? buildSortBy(searchParams.get("sort") ?? "")
+    : undefined;
+  const results = await search({ term, facets, where, sortBy, limit });
 
   const { count } = results;
   return (
@@ -49,7 +54,7 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
         limit={limit}
         total={count}
         url={req.url}
-        sort={""}
+        sort={sort}
         sortOptions={[
           "",
           "given",

@@ -68,7 +68,7 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
   const kind = ["expired", "prior"].includes(which) ? "expired" : "person";
 
   if ("person" === kind) {
-    return <PersonSearchPage lang={lang} url={req.url} />;
+    return ctx.renderNotFound();
   }
 
   const priors = (await getAkvaplanistsInExternalKvService(kind)).map((p) => {
@@ -91,35 +91,13 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
       {[...groupedByYear].map(([k, values]) => (
         <Section>
           <h2>{k}</h2>
-          {values.map((person) => <AkvaplanistCardBasic {...person} />)}
+          {values.map((person) => (
+            <Section>
+              <AkvaplanistCardBasic {...person} />
+            </Section>
+          ))}
         </Section>
       ))}
     </Page>
   );
 }
-
-// <section class="Section">
-//         <main
-//           style={{
-//             display: "grid",
-//             gap: "1rem",
-//             marginBlockStart: "1rem",
-//             gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
-//           }}
-//         >
-//           {priors.map((
-//             { id, homepage, family, given, from, created, expired },
-//           ) => (
-//             <a href={homepage} class={`Card gap-1`}>
-//               <div class="">
-//                 <div class="Content block-center-start gap-1">
-//                   <h3 style={{ color: "var(--link)" }}>{given} {family}</h3>
-//                   {!expired
-//                     ? <small>{longDate(from ?? created)}</small>
-//                     : <small>{longDate(expired, lang)}</small>}
-//                 </div>
-//               </div>
-//             </a>
-//           ))}
-//         </main>
-//       </section>

@@ -1,5 +1,5 @@
 import { searchViaApi } from "../search/search_via_api.ts";
-import { oramaSortPublishedReverse } from "akvaplan_fresh/search/search.ts";
+
 import { href } from "akvaplan_fresh/search/href.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 import { cachedNameOf } from "akvaplan_fresh/services/akvaplanist.ts";
@@ -16,16 +16,6 @@ import type { JSX } from "preact";
 import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { Result, Results } from "@orama/orama";
 import { SelectSort } from "akvaplan_fresh/components/select_sort.tsx";
-
-export const buildSortBy = (sort: string) => {
-  if (sort) {
-    const sb = structuredClone(oramaSortPublishedReverse);
-    sb.order = sort.startsWith("-") ? "DESC" : "ASC";
-    sb.property = sort.replace("-", "");
-    return sb;
-  }
-  return undefined;
-};
 
 const highestCountFirst = (a, b) => b[1] - a[1];
 

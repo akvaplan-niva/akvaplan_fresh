@@ -176,7 +176,7 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
     created,
     modified,
     year,
-    license: license ? license : "license_none",
+    license,
     debug,
     text: [
       String(year),

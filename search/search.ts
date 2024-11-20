@@ -8,6 +8,16 @@ import type {
 import { normalize } from "akvaplan_fresh/text/mod.ts";
 import { href } from "akvaplan_fresh/search/href.ts";
 
+export const buildSortBy = (sort: string) => {
+  if (sort) {
+    const sb = structuredClone(oramaSortPublishedReverse);
+    sb.order = sort.startsWith("-") ? "DESC" : "ASC";
+    sb.property = sort.replace("-", "");
+    return sb;
+  }
+  return undefined;
+};
+
 export const oramaSortPublishedReverse: SorterParams<OramaAtomSchema> = {
   property: "published",
   order: "DESC",
