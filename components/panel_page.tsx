@@ -44,9 +44,7 @@ export const PanelPage = (
       )}
     </Section>
 
-    <h1>CHILDREN</h1>
-    <pre>{JSON.stringify({more}, null, "  ")}</pre>
-
+    {/* FIXME add children */}
     <Head>
       <link rel="stylesheet" href={asset("/css/bento.css")} />
     </Head>
