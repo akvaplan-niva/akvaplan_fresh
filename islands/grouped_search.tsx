@@ -247,7 +247,7 @@ export default function GroupedSearch(
                 <span>
                   {count} {t("search.hits")}{" "}
                   {Number(count) === 0 ? null : (
-                    <span>
+                    <span class="hide-s">
                       ({t("search.viewing_up_to")} {limit})
                     </span>
                   )}
@@ -268,9 +268,7 @@ export default function GroupedSearch(
               </span>
 
               <span style={{ textAlign: "center" }}>
-                <label>
-                </label>
-                <label>
+                <label class="hide-s">
                   {t("sort.label")}:
                   <SelectSort
                     sort={sort}
