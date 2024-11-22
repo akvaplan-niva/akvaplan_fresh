@@ -1,5 +1,6 @@
 export const icons = new Set([
   "add",
+  "alternate_email",
   "android",
   "arrow_back_ios_new",
   "arrow_forward_ios",
@@ -15,9 +16,12 @@ export const icons = new Set([
   "mail",
   "phone_in_talk",
   "place",
+  "remove",
   "search",
   "sms_failed",
   "update",
+  "view_compact_alt",
+  "view_stream",
   "verified",
   "west",
 ]);

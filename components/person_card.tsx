@@ -177,7 +177,7 @@ export function PersonCard(
       >
         {icons && email && (
           <div>
-            <LinkIcon href={`mailto:${email}`} icon="contact_mail">
+            <LinkIcon href={`mailto:${email}`} icon="alternate_email">
               {email}
             </LinkIcon>
           </div>
@@ -196,17 +196,22 @@ export function PersonCard(
 
         {section && section !== "LEDELS" && (
           <div>
-            <TextIcon icon="communities">
-              <span style={{ cexpiredolor: "var(--text2)" }}>
-                {t(`section.${section}`)}
-              </span>
-            </TextIcon>
+            <LinkIcon
+              icon="communities"
+              href={`${peopleURL({ lang })}/?q=${
+                section?.toLocaleLowerCase("no")
+              }`}
+            >
+              {t(`section.${section}`)}
+            </LinkIcon>
           </div>
         )}
         {workplace?.length > 0 && (
           <p>
             <a
-              href={`${peopleURL({ lang })}/workplace/${workplace}`}
+              href={`${peopleURL({ lang })}/workplace/${
+                workplace?.toLocaleLowerCase("no")
+              }`}
               style={{ color: "var(--text2)" }}
             >
               <TextIcon icon="place">

@@ -82,6 +82,7 @@ import * as $list_selector from "./islands/list_selector.tsx";
 import * as $our_x from "./islands/our_x.tsx";
 import * as $panel_edit_1 from "./islands/panel_edit.tsx";
 import * as $pub_nva_pdf_augment from "./islands/pub_nva_pdf_augment.tsx";
+import * as $search_view_buttons from "./islands/search_view_buttons.tsx";
 import * as $text from "./islands/text.tsx";
 import * as $theme_switcher from "./islands/theme_switcher.tsx";
 import * as $username_or_signin from "./islands/username_or_signin.tsx";
@@ -173,6 +174,7 @@ const manifest = {
     "./islands/our_x.tsx": $our_x,
     "./islands/panel_edit.tsx": $panel_edit_1,
     "./islands/pub_nva_pdf_augment.tsx": $pub_nva_pdf_augment,
+    "./islands/search_view_buttons.tsx": $search_view_buttons,
     "./islands/text.tsx": $text,
     "./islands/theme_switcher.tsx": $theme_switcher,
     "./islands/username_or_signin.tsx": $username_or_signin,

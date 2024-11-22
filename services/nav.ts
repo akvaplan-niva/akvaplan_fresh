@@ -64,10 +64,13 @@ const No = new Map([
   ["images", "/no/bilder"],
   ["image", "/no/bilde"],
   ["infrastructure", "/no/infrastruktur"],
+  ["infrastruktur", "/no/infrastruktur"],
+
   ["invoicing", "/no/faktura"],
   ["more", "/no/mer"],
   ["om", "/no/om"],
   ["offices", "/no/kontor"],
+  ["office", "/no/folk/workplace"],
   ["news-article", "/no/nyhet"],
   ["news", "/no/nyheter"],
   ["people", "/no/folk"],
@@ -112,11 +115,12 @@ export const buildNav = (lang: string | StringSignal) => [
   //{ href: _tr(lang).get("news"), text: t("nav.News") },
   { href: intlRouteMap(lang).get("akvaplanists"), text: t("nav.People") },
   { href: intlRouteMap(lang).get("services"), text: t("nav.Services") },
-  { href: intlRouteMap(lang).get("research"), text: t("nav.Research") },
   {
     href: intlRouteMap(lang).get("infrastructure"),
     text: t("nav.Infrastructure"),
   },
+  { href: intlRouteMap(lang).get("research"), text: t("nav.Research") },
+
   { href: intlRouteMap(lang).get("projects"), text: t("nav.Projects") },
   { href: intlRouteMap(lang).get("pubs"), text: t("nav.Publications") },
   { href: intlRouteMap(lang).get("about"), text: t("nav.About") },
@@ -281,3 +285,6 @@ export const breadcrumb = (route: string, lang: string) => ({
     `nav.${[...route].map((c, i) => i == 0 ? c.toUpperCase() : c).join("")}`,
   ),
 });
+
+export const canonicalResourceUrl = ({ lang, collection, page, id, base }) =>
+  new URL(intlRouteMap(lang).get(collection)! + `/${page}/${id}`, base);

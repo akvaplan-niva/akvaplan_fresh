@@ -2,7 +2,7 @@ import {
   getPanelInLang,
   getPanelsInLangByIds,
 } from "akvaplan_fresh/kv/panel.ts";
-import { ID_PEOPLE } from "../kv/id.ts";
+import { ID_MANAGEMENT, ID_OFFICES, ID_PEOPLE } from "../kv/id.ts";
 
 import { Page } from "akvaplan_fresh/components/page.tsx";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
@@ -15,6 +15,10 @@ import { OfficeContactDetails } from "akvaplan_fresh/components/offices.tsx";
 import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 import CollectionSearch from "../islands/collection_search.tsx";
+import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
+import { t } from "akvaplan_fresh/text/mod.ts";
+import { Card } from "akvaplan_fresh/components/card.tsx";
+import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(contact|kontakt)",
@@ -28,11 +32,7 @@ const getPeopleHero = async (lang: string) =>
 const getContactPanels = async (lang: string) =>
   await getPanelsInLangByIds({
     lang,
-    ids: [
-      ID_PEOPLE,
-      "01j0n61jx4kx3xqwxz01yved5b",
-      "01j1a0ch6560nkkc7nb97adsb6",
-    ],
+    ids: [ID_PEOPLE, ID_MANAGEMENT, ID_OFFICES],
   });
 
 export default defineRoute(async (req, ctx) => {
@@ -42,9 +42,17 @@ export default defineRoute(async (req, ctx) => {
 
   return (
     <Page title={""} lang={"no"} base="/">
-      <h1>Kontakt oss</h1>
+      <SearchHeader
+        lang={lang}
+        title={t("about.Contact")}
+      />
+
       <Section>
-        <OfficeContactDetails />
+        <h2>{t("about.HQ")}</h2>
+        <Card>
+          <OfficeContactDetails lang={lang} />
+        </Card>
+        <Section />
       </Section>
 
       <Section>

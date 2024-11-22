@@ -12,7 +12,7 @@ const SortOption = (
   <option
     value={value}
     selected={selected}
-    style={{ fontSize: ".9rem" }}
+    style={{ fontSize: "1rem" }}
   >
     {children}
   </option>
@@ -29,12 +29,9 @@ const sortOptions = [
   //"modified",
 ];
 export const SelectSort = (
-  { sort, lang, options = sortOptions, ...props },
+  { sort, options = sortOptions, ...props },
 ) => (
-  <label lang={lang}>
-    {t("sort.label")}:{"  "}
-    <select style={{ fontSize: ".9rem" }} {...props}>
-      {options.map((value) => <SortOption value={value} sort={sort} />)}
-    </select>
-  </label>
+  <select {...props}>
+    {options.map((value) => <SortOption value={value} sort={sort} />)}
+  </select>
 );

@@ -6,6 +6,8 @@ import {
 } from "akvaplan_fresh/components/offices.tsx";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
+import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
+import { peopleHref } from "akvaplan_fresh/services/nav.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:page(addresses|offices|adresser|kontor)",
@@ -21,11 +23,18 @@ export const addressesBase = (lang: string) => {
 };
 
 export default function OfficesPage(_req: Request, _ctx: RouteContext) {
+  const base = peopleHref("lang", "/workplace/");
   return (
-    <Page title={t("company.Offices")} collection="home">
+    <Page
+      title={t("company.Offices")}
+      base={base}
+    >
+      <SearchHeader
+        title={t("our.offices")}
+        cloudinary="gbdyl68eea1e9xzmivpi"
+      />
       <Section>
-        <h1>{t("our.offices")}</h1>
-        <Offices />
+        <Offices base={base} />
       </Section>
       <div id="map" style={{ height: "600px" }}></div>
 

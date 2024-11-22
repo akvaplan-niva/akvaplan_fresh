@@ -68,7 +68,7 @@ export const LinkIcon = (
       <Icon2 name={icon} style={{ color: "var(--accent)" }} />
     )}
     {children && (
-      <span style={{ color: "var(--text1)" }}>
+      <span style="color: var(--text1);">
         {children}
       </span>
     )}

@@ -5,7 +5,14 @@ import type { IOptions as SanitizeOptions } from "npm:@types/sanitize-html";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { WideImage } from "akvaplan_fresh/components/wide_image.tsx";
-import { PersonCard } from "akvaplan_fresh/components/mod.ts";
+import {
+  AkvaplanistCardBasic,
+} from "akvaplan_fresh/components/person_card.tsx";
+import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
+import { getAkvaplanist } from "akvaplan_fresh/services/mod.ts";
+import { SearchResultItem } from "akvaplan_fresh/components/search_result_item.tsx";
+import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
+import { atomizeAkvaplanist } from "akvaplan_fresh/search/indexers/akvaplanists.ts";
 
 const allowedTags = [
   ...sanitize.defaults.allowedTags,
@@ -57,31 +64,27 @@ export const Markdown = (
   );
 };
 
+const peopleIdsAsHits = (ids, lang) =>
+  ids.map((id) => {
+    const person = getAkvaplanist(id);
+    if (person) {
+      return { document: atomizeAkvaplanist(person), score: 0 };
+    }
+  });
+
 export const MarkdownPanel = (
   { panel, editor = false, lang, ...props },
 ) => {
   const people_ids = panel?.people_ids?.trim()?.split(",") ?? [];
+
   return (
     <>
-      {panel?.intro && (
-        <Section>
-          <Card>
-            <p id="intro">
-              <Markdown
-                text={panel.intro}
-                style={{ whiteSpace: "pre-wrap" }}
-              />
-            </p>
-
-            <WideImage
-              style={{ background: "var(--light)", maxWidth: "10vh" }}
-              {...panel?.image}
-              lang={lang}
-              editor={editor}
-            />
-          </Card>
-        </Section>
-      )}
+      <SearchHeader
+        lang={lang}
+        title={panel.title}
+        subtitle={panel.intro}
+        cloudinary={panel?.image?.cloudinary}
+      />
 
       <Section>
         <Card>
@@ -96,7 +99,7 @@ export const MarkdownPanel = (
         </Card>
       </Section>
 
-      {people_ids.map((id) => <PersonCard id={id} />)}
+      <SearchResults hits={peopleIdsAsHits(people_ids, lang)} display="grid" />
     </>
   );
 };

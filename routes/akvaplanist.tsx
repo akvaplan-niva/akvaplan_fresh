@@ -22,7 +22,7 @@ const upcase0 = (s) => {
 export default async function PriorsPage(req: Request, ctx: RouteContext) {
   const { lang, groupname, filter, url } = ctx.params;
   const { searchParams } = ctx.url;
-  const limit = 50;
+  const limit = 25;
   const collection = "person";
   const where = { collection };
   const facets = {};
@@ -30,15 +30,19 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
   const sort = searchParams.get("sort") ?? "";
   const filters = new Map();
   if ("workplace" === groupname && filter) {
-    where.location = upcase0(decodeURIComponent(filter));
-    filters.set("location", where.location);
+    const location = upcase0(decodeURIComponent(filter));
+    if (offices.has(location)) {
+      where.location = location;
+      filters.set("location", where.location);
+    } else {
+      return ctx.renderNotFound();
+    }
   }
   const sortBy = searchParams.has("sort")
     ? buildSortBy(searchParams.get("sort") ?? "")
     : undefined;
   const results = await search({ term, facets, where, sortBy, limit });
-
-  const { count } = results;
+  //const { count } = results;
   return (
     <Page>
       <SearchHeader
@@ -46,7 +50,6 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
         title={t("our.people")}
         subtitle={where.location}
         cloudinary={"uhoylo8khenaqk6bvpkq"}
-        href={peopleHref(lang)}
       />
 
       <CollectionSearch
@@ -57,8 +60,9 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
         filters={[...filters]}
         lang={lang}
         limit={limit}
-        total={count}
+        //total={count}
         url={req.url}
+        list={where.location ? "grid" : "block"}
         sort={sort}
         sortOptions={[
           "",

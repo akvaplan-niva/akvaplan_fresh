@@ -47,7 +47,7 @@ const getAboutPanels = async (lang: string) =>
     .sort((a, b) => a.title.localeCompare(b.title, "no"));
 
 export default defineRoute(async (req, ctx) => {
-  const { params, url } = ctx;
+  const { params } = ctx;
   const { lang } = params;
   //langSignal.value = lang;
 
@@ -69,11 +69,11 @@ export default defineRoute(async (req, ctx) => {
         subtitle={hero?.intro}
         cloudinary={hero?.image.cloudinary}
         cta={hero?.cta}
-        href={hero.href}
+        href={hero?.href}
       />
 
-      <Section style={{ display: "grid", placeItems: "center" }}>
-        <h1>{t("about.HQ")}</h1>
+      <Section>
+        {/* <h1>{t("about.HQ")}</h1> */}
         <Card>
           <OfficeContactDetails lang={lang} />
         </Card>

@@ -13,6 +13,7 @@ import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
 import { OpenGraphRequired } from "akvaplan_fresh/components/open_graph.tsx";
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
+import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
 
 const getInfrastructurePanels = async (lang: string) =>
   (await getPanelsInLang({
@@ -51,15 +52,22 @@ export default defineRoute(async (req, ctx) => {
         <OpenGraphRequired {...og} />
         <link rel="stylesheet" href={asset("/css/bento.css")} />
       </Head>
+      <SearchHeader
+        lang={lang}
+        title={title}
+      />
       <Section>
-        <Card>
-          <h1>{title}</h1>
-          {hero?.intro && <Markdown text={hero.intro} />}
-        </Card>
+        {hero?.intro && (
+          <Card>
+            <Markdown text={hero.intro} />
+          </Card>
+        )}
       </Section>
 
       <BentoPanels panels={panels} lang={lang} />
+
       <Section />
+
       <Section>
         {hero?.desc && (
           <Card>

@@ -49,7 +49,9 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
   });
 
   const filters = new Map(
-    [...searchParams].filter(([k]) => /^filter-/.test(k)).map((
+    [...searchParams].filter(([k]) =>
+      /^filter-/.test(k) && !/filter-people/.test(k)
+    ).map((
       [k, v],
     ) => [k?.replace("filter-", ""), v]),
   );
@@ -79,7 +81,7 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
   hero.cta = "";
   const results = await search({
     term: q ?? "",
-    limit: 10,
+    limit: 25,
     where,
     facets,
     sortBy,

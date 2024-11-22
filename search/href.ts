@@ -24,6 +24,7 @@ const No = new Map([
 
 const No1 = new Map([
   ["image", "bilde"],
+  ["office", "folk/workplace"],
   ["document", "dokument"],
   ["pubs", "pub"],
   ["pub", "pub"],

@@ -6,6 +6,7 @@ import { ApnLogo } from "akvaplan_fresh/components/mod.ts";
 import { EditIconButton } from "akvaplan_fresh/components/edit_icon_button.tsx";
 import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
 import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
+import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
 
 // FIXME Panel: refactor markup/css
 // FIXME Panel: support left-right-cemter text/cta, center eg: https://codepen.io/sflinz/pen/dvEbwz
@@ -76,6 +77,7 @@ export const ImagePanel = (
     <Head>
       <link rel="stylesheet" href={asset("/css/article.css")} />
     </Head>
+
     <PictureOverlay
       upper={upper ?? intro}
       cta={cta
@@ -111,10 +113,6 @@ export const ImagePanel = (
         {upper}
       </p>
     </div>
-    <EditIconButton
-      authorized={editor === true}
-      href={`/${lang}/panel/${id}/edit`}
-    />
   </a>
 );
 
