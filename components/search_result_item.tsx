@@ -103,6 +103,7 @@ export const SearchResultItem = (
               <img
                 style={{
                   // maxHeight: "1fr",
+                  borderRadius: ".125rem",
                 }}
                 width="148"
                 height="148"

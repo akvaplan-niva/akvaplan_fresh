@@ -22,6 +22,7 @@ export default defineRoute(async (req, ctx) => {
     ? searchParams.get("collection")
     : undefined;
   const { origin } = new URL(req.url);
+
   // FIXME GroupedSearch with server-set results renders blank
   //const results = await search({ term: q });
 

@@ -46,11 +46,12 @@ export function Breadcrumbs(
   return (
     <nav>
       <ol>
-        {list.map(({ href, text }) => (
+        {list.map(({ href, img, text }) => (
           <li style={{ display: "inline", fontSize: ".9rem" }}>
             <LinkIcon
               icon={icon}
               href={href}
+              img={img}
               children={text}
             />
           </li>

@@ -75,7 +75,6 @@ export const PubArticle = ({
             }}
           >
             <Card>
-              {license}
               <CCIcons code={license} lang={lang} />
             </Card>
           </section>

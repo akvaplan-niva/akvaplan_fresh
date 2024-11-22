@@ -8,7 +8,6 @@ import { Facets } from "./facets.tsx";
 
 import { InputSearch } from "../components/search/InputSearch.tsx";
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
-import Button from "akvaplan_fresh/components/button/button.tsx";
 import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 
 import { computed, Signal, useSignal } from "@preact/signals";
@@ -16,6 +15,8 @@ import type { JSX } from "preact";
 import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import type { Result, Results } from "@orama/orama";
 import { SelectSort } from "akvaplan_fresh/components/select_sort.tsx";
+import IconButton from "akvaplan_fresh/components/button/icon_button.tsx";
+import { SearchViewButtons } from "./search_view_buttons.tsx";
 
 const highestCountFirst = (a, b) => b[1] - a[1];
 
@@ -43,6 +44,21 @@ export const facetHref = ({ q, facet, label, base }) =>
     )
   }&filter-${facet.facet}=${encodeURIComponent(label)}`;
 
+const setSearchParamOrDeleteOnBlank = (
+  param: string,
+  value: string,
+  url: URL,
+) => {
+  switch (value) {
+    case undefined:
+    case null:
+    case "":
+      return url.searchParams.delete(param);
+    default:
+      return url.searchParams.set(param, value);
+  }
+};
+
 export function CollectionSearch(
   {
     q,
@@ -58,7 +74,7 @@ export function CollectionSearch(
     noInput = false,
     hero = null,
     sortOptions,
-    limit = 10,
+    limit = 25,
     url,
     sort,
   }: {
@@ -78,24 +94,19 @@ export function CollectionSearch(
   const etal = useSignal(true);
   const hits = useSignal((results?.hits ?? []) as Result<OramaAtom>[]);
   const count = useSignal(results?.count ?? 0);
-  const nextLimit = useSignal(limit + 100);
   const facet = useSignal(facetMapper(results?.facets));
   const display = useSignal(list);
-
-  //const groupBy = "year";
-  const peopleFilter = useSignal(people);
-  const maxfacets = 50;
 
   url = new URL(url);
   const _sort = url.searchParams.has("sort")
     ? url.searchParams.get("sort")
     : sort ?? "-published";
+
   const sortSignal: Signal<string | undefined> = useSignal(_sort);
   const urlSignal = useSignal(url.href);
   const where = computed(() => {
     const where = {
       collection,
-      people: peopleFilter.value ? peopleFilter.value : undefined,
       year: undefined,
     };
     for (const [k, v] of filters) {
@@ -129,8 +140,17 @@ export function CollectionSearch(
       ..._params,
       where,
       limit: limit.value,
-      sort: sortSignal.value,
+      sort: sortSignal.value ?? "",
     };
+
+    const url = urlSignal.value ? new URL(urlSignal.value) : undefined;
+    if (url) {
+      setSearchParamOrDeleteOnBlank("q", params.q, url);
+      setSearchParamOrDeleteOnBlank("sort", params.sort, url);
+      history.replaceState(null, "", url);
+      urlSignal.value = url.href;
+    }
+
     const results = await searchViaApi(params);
 
     if (results) {
@@ -141,47 +161,47 @@ export function CollectionSearch(
   };
 
   const handleSearchInput = (e: JSX.TargetedEvent<HTMLInputElement, Event>) => {
+    e.preventDefault();
     const { currentTarget } = e;
     if (currentTarget) {
       const { value, ownerDocument } = currentTarget;
-      const { origin, searchParams } = new URL(
-        ownerDocument?.URL ?? document?.URL,
+      const { origin } = new URL(
+        ownerDocument?.URL ?? globalThis?.document?.URL,
       );
       performSearch({ q: value, base: origin, limit: limit.value });
-      e.preventDefault();
     }
   };
 
-  const toggleList = (e: Event) => {
-    display.value = display.value === "grid" ? "block" : "grid";
+  const toggleListDisplay = (e: Event) => {
     e.preventDefault();
+    display.value = display.value === "grid" ? "block" : "grid";
+  };
+
+  const decreaseLimit = (e: Event) => {
+    e.preventDefault();
+    const min = 25;
+    const next = limit.value / 2;
+    if (limit.value > min) {
+      limit.value = next < min ? min : next;
+      performSearch();
+    }
   };
 
   const increaseLimit = (e: Event) => {
-    limit.value = nextLimit.value;
-    nextLimit.value *= 2;
-    performSearch();
     e.preventDefault();
+    const max = 1000;
+    const next = limit.value * 2;
+    if (limit.value < max) {
+      limit.value = next > max ? max : next;
+      performSearch();
+    }
   };
 
   const setSort = (e: JSX.TargetedEvent<HTMLSelectElement, Event>) => {
     e.preventDefault();
     const [option0] = e.currentTarget.selectedOptions;
-    const url = urlSignal.value
-      ? new URL(urlSignal.value)
-      : new URL(e.currentTarget.ownerDocument.URL);
-
     const sort = option0.value?.length > 0 ? option0.value : undefined;
-    if (sort) {
-      url.searchParams.set("sort", sort);
-    } else {
-      url.searchParams.set("sort", "");
-    }
-    console.warn(url);
-    history.replaceState(null, "", url.href);
     sortSignal.value = sort;
-    urlSignal.value = url.href;
-
     performSearch();
   };
 
@@ -190,41 +210,55 @@ export function CollectionSearch(
   return (
     <main>
       {noInput !== true && (
-        <form autocomplete="off" method="get" action={urlSignal.value}>
+        <form autocomplete="off" method="get" action={urlSignal}>
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "1fr auto",
-              //gap: "1rem",
-              padding: ".5rem",
+              alignItems: "center",
+              gridTemplateColumns: "1fr 1fr auto",
               justifyContent: "end",
+              gap: ".25rem",
             }}
           >
             <label>
-              {count.value < total
-                ? `${count} treff`
-                : `${total} ${t(`collection.${collection}`)}`}
+              {count} {t("search.hits")} {Number(count) > 0
+                ? (
+                  <span>
+                    ({t("search.viewing")} {hits.value.length === Number(count)
+                      ? t("search.all")
+                      : hits.value.length})
+                  </span>
+                )
+                : <a href="">{t("search.restart")}</a>}
             </label>
-            <span
-              style={{
-                display: "grid",
-                alignItems: "center",
-                gridTemplateColumns: "1fr auto",
-                justifyContent: "end",
-                gap: ".25rem",
-              }}
-            >
-              <label>
-              </label>
-
-              <SelectSort
-                sort={sortSignal.value}
-                options={sortOptions}
-                onChange={setSort}
-                lang={lang}
+            <span>
+              <SearchViewButtons
+                {...{
+                  limit,
+                  display,
+                  toggleListDisplay,
+                  increaseLimit,
+                  decreaseLimit,
+                }}
               />
             </span>
+
+            <span style={{ textAlign: "center" }}>
+              <label>
+              </label>
+              <label>
+                {t("sort.label")}:
+                <SelectSort
+                  sort={sortSignal.value}
+                  options={sortOptions}
+                  onChange={setSort}
+                  lang={lang}
+                  style={{ fontSize: ".8rem", display: "inline-flex" }}
+                />
+              </label>
+            </span>
           </div>
+
           <InputSearch
             autofocus
             name="q"
@@ -241,7 +275,7 @@ export function CollectionSearch(
       )}
 
       <output style={{ fontSize: "1rem" }}>
-        {Object.keys(facets).length > 0
+        {Object.keys(facets ?? {}).length > 0
           ? (
             <div
               style={{
@@ -297,32 +331,6 @@ export function CollectionSearch(
           />
 
           <div style={{ fontSize: "1rem", paddingBlockStart: "0.5rem" }}>
-            {hits.value.length < count.value &&
-              (
-                <Button
-                  disabled={hits.value.length === count.value}
-                  style={{
-                    backgroundColor: "transparent",
-                    fontSize: "1rem",
-                  }}
-                  onClick={increaseLimit}
-                >
-                  Vis flere treff
-                </Button>
-              )}
-
-            {hits.value.length && (
-              <Button
-                style={{
-                  backgroundColor: "transparent",
-                  fontSize: "1rem",
-                }}
-                onClick={toggleList}
-              >
-                Bytt mellom liste og kompakt visning
-              </Button>
-            )}
-
             {facet.value.filter((f) =>
               !["collection", "type"].includes(f.facet)
             ).map((

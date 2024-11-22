@@ -3,3 +3,5 @@ Allow: /
 Disallow: /en/_
 Disallow: /no/_
 Disallow: /api/*
+Disallow: /en/publications
+Disallow: /no/publikasjoner

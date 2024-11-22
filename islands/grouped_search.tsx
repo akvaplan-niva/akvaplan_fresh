@@ -9,6 +9,11 @@ import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
 
 import { useSignal } from "@preact/signals";
 import { GroupedSearchCollectionResults } from "akvaplan_fresh/islands/grouped_search_collection_results.tsx";
+import { SelectSort } from "akvaplan_fresh/components/select_sort.tsx";
+import { JSX } from "preact/jsx-runtime";
+import { Result } from "https://esm.sh/v135/maplibre-gl@4.4.1/dist/maplibre-gl.js";
+import { OramaAtom } from "akvaplan_fresh/search/types.ts";
+import { SearchViewButtons } from "akvaplan_fresh/islands/search_view_buttons.tsx";
 
 const collectionHref = ({ collection, lang }) => {
   if (!intlRouteMap(lang).has(collection)) {
@@ -60,6 +65,7 @@ export default function GroupedSearch(
     exact = false,
     action = `/${lang}/search`,
     autofocus = true,
+    //url,
   }: {
     term?: string;
     lang?: string;
@@ -76,13 +82,16 @@ export default function GroupedSearch(
   limit = useSignal(limit);
   const groups = useSignal(results ? results.groups : []);
   const facets = useSignal(new Map());
-  sort = useSignal(sort);
 
   display = useSignal(display);
   const remoteStatus = useSignal({ status: 0 });
 
   const key = by ? by : "collection";
   const first = useSignal(true); // first
+
+  const hits = useSignal((results?.hits ?? []) as Result<OramaAtom>[]);
+  const count = useSignal(results?.count ?? 0);
+  sort = useSignal(sort);
 
   const setFacetCounts = (results) => {
     if (results?.facets?.[key]) {
@@ -120,13 +129,21 @@ export default function GroupedSearch(
       const { error } = results;
       if (error?.status > 299) {
         remoteStatus.value = { status: error.status };
-      } else {
+      } else if (results) {
         remoteStatus.value = { status: 200 };
         groups.value = results.groups;
-
+        count.value = results.count;
+        hits.value = results.hits;
         setFacetCounts(results);
       }
     }
+  };
+  const setSort = (e: JSX.TargetedEvent<HTMLSelectElement, Event>) => {
+    e.preventDefault();
+    const [option0] = e.currentTarget.selectedOptions;
+    const sorton = option0.value?.length > 0 ? option0.value : "";
+    sort.value = sorton;
+    performSearch({ q: query.value ?? "" });
   };
 
   const handleUserSearchInput = async (e: Event) => {
@@ -141,19 +158,29 @@ export default function GroupedSearch(
     e?.preventDefault();
   };
 
-  const handleMoreButtonPressed = async (e: Event) => {
-    const {
-      target,
-    } = e;
+  const increaseLimit = (e: Event) => {
     e.preventDefault();
-    const { selected, value, ownerDocument, dataset: { collection, action } } =
-      target;
-    const { origin } = new URL(ownerDocument.URL);
-    limit.value += 10;
-    const q = query.value;
-    const where = { collection };
+    const max = 100;
+    const next = limit.value * 2;
+    if (limit.value < max) {
+      limit.value = next > max ? max : next;
+      performSearch({ q: query.value });
+    }
+  };
 
-    performSearch({ q, base: origin, limit: limit.value, where });
+  const toggleListDisplay = (e: Event) => {
+    e.preventDefault();
+    display.value = display.value === "grid" ? "block" : "grid";
+  };
+
+  const decreaseLimit = (e: Event) => {
+    e.preventDefault();
+    const min = 5;
+    const next = limit.value / 2;
+    if (limit.value > min) {
+      limit.value = next < min ? min : next;
+      performSearch({ q: query.value });
+    }
   };
 
   // Handle client side search via URL (on first load)
@@ -166,7 +193,7 @@ export default function GroupedSearch(
   const facetCountCollection = (collection: string) =>
     facets.value.get(collection) ?? "?";
 
-  const SearchControls = ({ collection, query, count, length }) => (
+  const LoadMoreButton = ({ collection, query, count, length }) => (
     <aside
       style={{
         display: "grid",
@@ -183,27 +210,13 @@ export default function GroupedSearch(
                 backgroundColor: "transparent",
                 fontSize: "0.75rem",
               }}
-              onClick={handleMoreButtonPressed}
+              onClick={increaseLimit}
               href={`/${lang}/_?q=${query}&collection=${collection}`}
             >
               {t("ui.Load_more")} {t(`collection.${collection}`)}
             </Button>
           </p>
         )}
-
-      {false
-        ? (
-          <Button
-            style={{
-              backgroundColor: "transparent",
-              fontSize: "1rem",
-            }}
-            _onClick={"changeSort"}
-          >
-            relevans-score
-          </Button>
-        )
-        : null}
     </aside>
   );
 
@@ -217,10 +230,60 @@ export default function GroupedSearch(
           style={{
             display: "grid",
             gridTemplateColumns: "1fr",
-            gap: "1rem",
             marginTop: "0.25rem",
           }}
         >
+          {String(query) === "" ? null : (
+            <div
+              style={{
+                display: "grid",
+                alignItems: "center",
+                gridTemplateColumns: "1fr 1fr auto",
+                justifyContent: "end",
+                gap: ".25rem",
+              }}
+            >
+              <label>
+                <span>
+                  {count} {t("search.hits")}{" "}
+                  {Number(count) === 0 ? null : (
+                    <span>
+                      ({t("search.viewing_up_to")} {limit})
+                    </span>
+                  )}
+                </span>
+              </label>
+              <span>
+                <SearchViewButtons
+                  {...{
+                    display,
+                    toggleListDisplay,
+                    increaseLimit,
+                    decreaseLimit,
+                    min: 5,
+                    max: 100,
+                    limit,
+                  }}
+                />
+              </span>
+
+              <span style={{ textAlign: "center" }}>
+                <label>
+                </label>
+                <label>
+                  {t("sort.label")}:
+                  <SelectSort
+                    sort={sort}
+                    options={["", "-published", "published"]}
+                    onChange={setSort}
+                    lang={lang}
+                    style={{ fontSize: ".8rem", display: "inline-flex" }}
+                  />
+                </label>
+              </span>
+            </div>
+          )}
+
           <InputSearch
             autofocus={autofocus}
             name="q"
@@ -255,7 +318,7 @@ export default function GroupedSearch(
                 open={isOpen(values?.[0])}
                 by={by}
               >
-                <SearchControls
+                <LoadMoreButton
                   query={query}
                   length={result.length}
                   collection={values?.[0]}

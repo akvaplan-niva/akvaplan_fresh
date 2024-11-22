@@ -87,6 +87,10 @@ export default defineRoute(async (_req, ctx) => {
   const breadcrumbs = [{
     href: pubsURL({ lang }),
     text: t("nav.Pubs"),
+    img: {
+      src:
+        "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_16,h_16,q_auto:good/kwy8kuceecjpjoh3yyy5",
+    },
   }, {
     href: typeHref,
     text: typeText,
