@@ -24,7 +24,7 @@ export const SearchViewButtons = (
   },
 ) => (
   <>
-    <label>
+    <label class="hide-s">
       <Button
         style={{
           margin: "0.125rem",
