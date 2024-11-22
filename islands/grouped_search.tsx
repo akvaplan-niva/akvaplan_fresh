@@ -268,8 +268,8 @@ export default function GroupedSearch(
               </span>
 
               <span style={{ textAlign: "center" }}>
-                <label class="hide-s">
-                  {t("sort.label")}:
+                <label>
+                  <span class="hide-s">{t("sort.label")}:</span>
                   <SelectSort
                     sort={sort}
                     options={["", "-published", "published"]}
