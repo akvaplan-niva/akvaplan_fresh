@@ -64,7 +64,6 @@ export function CollectionSearch(
     q,
     lang,
     collection,
-    people,
     placeholder,
     facets,
     results,
@@ -72,7 +71,6 @@ export function CollectionSearch(
     total,
     filters = [],
     noInput = false,
-    hero = null,
     sortOptions,
     limit = 25,
     url,
@@ -221,12 +219,12 @@ export function CollectionSearch(
             }}
           >
             <label>
-              {count} {t("search.hits")} {Number(count) > 0
+              {hits.value.length === Number(count)
+                ? t("search.all")
+                : hits.value.length}/{count}
+              {Number(count) > 0
                 ? (
-                  <span>
-                    ({t("search.viewing")} {hits.value.length === Number(count)
-                      ? t("search.all")
-                      : hits.value.length})
+                  <span class="hide-s">
                   </span>
                 )
                 : <a href="">{t("search.restart")}</a>}
@@ -245,9 +243,7 @@ export function CollectionSearch(
 
             <span style={{ textAlign: "center" }}>
               <label>
-              </label>
-              <label>
-                {t("sort.label")}:
+                <span class="hide-s">{t("sort.label")}:</span>
                 <SelectSort
                   sort={sortSignal.value}
                   options={sortOptions}
