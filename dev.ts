@@ -3,6 +3,8 @@ import dev from "$fresh/dev.ts";
 
 import {
   oramaJsonPath,
+  oramaMessagePackPath,
+  persistIndexAsMessagePack,
   persistOramaJson,
 } from "akvaplan_fresh/search/orama.ts";
 import {
@@ -55,4 +57,5 @@ if (Deno.args.includes("build")) {
 
   const orama = await buildOramaIndex();
   await persistOramaJson(orama, oramaJsonPath);
+  await persistIndexAsMessagePack(orama, oramaMessagePackPath);
 }
