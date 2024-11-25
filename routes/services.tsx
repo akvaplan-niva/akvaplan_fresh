@@ -41,7 +41,7 @@ export default defineRoute(async (req, ctx) => {
   const editor = await mayEditKvPanel(req);
 
   return (
-    <Naked title={title} collection="home">
+    <Naked title={title}>
       <HeroPanel {...hero} lang={lang} editor={editor} />
       {
         /* <div style={{ display: "grid", placeItems: "center" }}>

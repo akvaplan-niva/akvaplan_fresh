@@ -35,6 +35,7 @@ export const buildCanonicalUri = (kind: string, id: string) => {
         NVA_API,
       ).href;
     default:
+      console.error({ kind, id });
       throw "Unsupported id scheme";
   }
 };

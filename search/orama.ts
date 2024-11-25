@@ -1,15 +1,17 @@
 import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
 import { schema } from "./schema.ts";
 
-import { count, create as _create, getByID, load } from "@orama/orama";
+import { count, create as _create, getByID, load, save } from "@orama/orama";
 import { language, stemmer } from "@orama/stemmers/norwegian";
 import { persist } from "@orama/plugin-data-persistence";
+import { pack, unpack } from "npm:msgpackr";
 
 let _orama: OramaAtomSchema;
 
 export const latest = new Map<string, OramaAtomSchema[]>();
 
 export const oramaJsonPath = "./_fresh/orama.json";
+export const oramaMessagePackPath = "./_fresh/orama.mp";
 
 const normalize = (s: string, locales?: string[]) =>
   s?.normalize("NFD")
@@ -46,7 +48,9 @@ export const createOramaInstance = async (): Promise<OramaAtomSchema> =>
 export const getOramaInstance = async (): Promise<OramaAtomSchema> => {
   if (!_orama) {
     try {
-      const orama = await restoreOramaJson(oramaJsonPath);
+      //const orama = await restoreOramaJson(oramaJsonPath);
+      const orama = await restoreOramaMessagePack(oramaMessagePackPath);
+
       if (orama) {
         setOramaInstance(orama);
       }
@@ -81,6 +85,29 @@ export const restoreOramaJson = async (path: string) => {
   }
 };
 
+export const restoreOramaMessagePack = async (
+  path: string = oramaMessagePackPath,
+) => {
+  try {
+    const stat = await Deno.stat(path);
+    if (stat.isFile) {
+      const timer = "Orama restore MessagePack";
+      console.time(timer);
+
+      const unpacked = unpack(await Deno.readFile(path));
+      const db = await createOramaInstance();
+
+      await load(db, unpacked);
+      console.warn("Restored", await count(db), "Orama documents from", path);
+      console.timeEnd(timer);
+      return db;
+    }
+  } catch (e) {
+    console.error(`Could not restore Orama index ${path}`, e);
+    throw "Search is currently unavailable";
+  }
+};
+
 export const persistOramaJson = async (
   orama: OramaAtomSchema,
   path: string,
@@ -91,6 +118,23 @@ export const persistOramaJson = async (
     `Orama index (${await count(orama)} documents) persisted at ${path}`,
   );
 };
+
+export const persistIndexAsMessagePack = async (
+  orama: OramaAtomSchema,
+  path = oramaMessagePackPath,
+) => {
+  const saved = await save(orama);
+  const msgpack = pack(saved);
+  console.warn(
+    `Persisting Orama index (${await count(
+      orama,
+    )} documents) as MessagePack in ${path}`,
+  );
+  await Deno.writeFile(path, msgpack);
+};
+
+// import { restoreFromFile } from "@orama/plugin-data-persistence/server";
+// const db = await restoreFromFile("binary", filePath);
 
 export const getOramaDocument = async (id: string) =>
   await getByID(await getOramaInstance(), id);
