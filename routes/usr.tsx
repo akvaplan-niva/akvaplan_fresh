@@ -2,12 +2,11 @@ import {
   oramaSearchParamsForAuthoredPubs,
   search,
 } from "akvaplan_fresh/search/search.ts";
+import { getWorksBy } from "akvaplan_fresh/services/pub.ts";
+import { worksByUrl } from "akvaplan_fresh/services/nav.ts";
+import { peopleURL } from "akvaplan_fresh/services/mod.ts";
+import { getAvatarImageBytes, getSession } from "akvaplan_fresh/kv/session.ts";
 
-import _cristin_ids from "akvaplan_fresh/data/cristin_ids.json" with {
-  type: "json",
-};
-
-const crid = new Map<string, number>(_cristin_ids as [[string, number]]);
 import { withYearAndLinkableSlug } from "./by.tsx";
 import {
   getAkvaplanist,
@@ -15,61 +14,41 @@ import {
 } from "akvaplan_fresh/services/akvaplanist.ts";
 
 import {
-  Breadcrumbs,
-  Card,
-  Page,
-  PersonCard as PersonCard,
-} from "akvaplan_fresh/components/mod.ts";
-
-import { extractLangFromUrl, t } from "akvaplan_fresh/text/mod.ts";
+  extractLangFromUrl,
+  lang as langSignal,
+  t,
+} from "akvaplan_fresh/text/mod.ts";
 
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-
-import type { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 
 import {
   buildMicrosoftOauthHelpers,
 } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
 import { base64DataUri } from "akvaplan_fresh/img/data_uri.ts";
 
+import type { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 import type {
   FreshContext,
   Handlers,
   PageProps,
   RouteConfig,
 } from "$fresh/server.ts";
-import { getAvatarImageBytes, getSession } from "akvaplan_fresh/kv/session.ts";
+
 import {
   buildPersonalSocialMediaLinks,
   SocialMediaIcons,
 } from "akvaplan_fresh/components/social_media_icons.tsx";
 import { mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
 import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
-import { getWorksBy } from "akvaplan_fresh/services/pub.ts";
-import { worksByUrl } from "akvaplan_fresh/services/nav.ts";
-import { peopleURL } from "akvaplan_fresh/services/mod.ts";
+
 import { GroupedWorks } from "akvaplan_fresh/islands/works.tsx";
 import { Section } from "akvaplan_fresh/components/section.tsx";
-
-const defaultAtConfig = {
-  search: {
-    enabled: true,
-  },
-  cristin: {
-    id: -Infinity,
-    enabled: false,
-    rejectCategories: [
-      "ACADEMICLECTURE",
-      "ARTICLEPOPULAR",
-      "DOCUMENTARY",
-      "LECTURE",
-      "LECTUREPOPULAR",
-      "MEDIAINTERVIEW",
-      "POPULARARTICLE",
-      "POSTER",
-    ],
-  },
-};
+import {
+  Breadcrumbs,
+  Card,
+  Page,
+  PersonCard as PersonCard,
+} from "akvaplan_fresh/components/mod.ts";
 
 interface AtHome {
   akvaplanist: Akvaplanist;
@@ -86,7 +65,7 @@ export const handler: Handlers = {
     const { at, id, name } = ctx.params;
     const { url } = ctx;
     const lang = at === "~" ? "no" : "en";
-    //langSignal.value = lang;
+    langSignal.value = lang; //Sometimes needed
 
     const cand = await getAkvaplanist(id);
     const akvaplanist = cand ?? await getPriorAkvaplanistFromDenoService(id);
@@ -108,8 +87,6 @@ export const handler: Handlers = {
     const user = session ? await getSession(session) : null;
     const avatar = user?.email ? await getAvatarImageBytes(user?.email) : null;
 
-    const config = defaultAtConfig;
-
     const params = oramaSearchParamsForAuthoredPubs(akvaplanist);
 
     const results = await search(params);
@@ -129,7 +106,6 @@ export const handler: Handlers = {
       akvaplanist,
       at,
       url,
-      config,
       orama,
       user,
       avatar,
@@ -145,7 +121,7 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
     akvaplanist,
     at,
     url,
-    config,
+
     orama,
     user,
     avatar,
@@ -233,36 +209,6 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
           lang={lang}
         />
       </Section>
-
-      {false && (
-        <>
-          <header
-            style={{ paddingBlockStart: "1rem", paddingBlockEnd: "0.5rem" }}
-          >
-            <h2>{t("cristin.Works")}</h2>
-            <details style={{ fontSize: "0.75rem" }}>
-              <summary>
-                <cite>
-                  {t("ui.Data_from")}{" "}
-                  <a
-                    target="_blank"
-                    sessionId
-                    href={`https://app.cristin.no/search.jsf?t=${""}&type=result&filter=person_idfacet~${cristin.id}`}
-                  >
-                    {t("NVA")}
-                  </a>
-                </cite>
-              </summary>
-
-              {config.cristin.enabled !== true && (
-                <span>
-                  <a href="">{t("ui.Hide")}</a>
-                </span>
-              )}
-            </details>
-          </header>
-        </>
-      )}
     </Page>
   );
 }

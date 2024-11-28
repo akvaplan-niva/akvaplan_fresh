@@ -19,16 +19,16 @@ export const schema = {
   published: "string",
   modified: "string",
   year: "number",
-  intl: {
-    name: {
-      no: "string",
-      en: "string",
-    },
-    desc: {
-      no: "string",
-      en: "string",
-    },
-  },
+  // intl: {
+  //   name: {
+  //     no: "string",
+  //     en: "string",
+  //   },
+  //   desc: {
+  //     no: "string",
+  //     en: "string",
+  //   },
+  // },
 } as const;
 
 export const collectionStrings = [
