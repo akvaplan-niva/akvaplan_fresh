@@ -13,6 +13,7 @@ import { AkvaplanistCardBasic } from "akvaplan_fresh/components/mod.ts";
 import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { search } from "@orama/orama";
+import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/akvaplanist{/:which(prior|expired)}?",
@@ -20,7 +21,6 @@ export const config: RouteConfig = {
 
 const getAkvaplanistsInExternalKvService = async (kind: string) => {
   const r = await fetch(`https://akvaplanists.deno.dev/kv/${kind}`);
-  const sortkey = "name"; //["expired", "prior"].includes(kind) ? "expired" : "from";
   const arr: Akvaplanist[] = (await Array.fromAsync(await r.json())).map((
     { value }: { value: Akvaplanist },
   ) => value)
@@ -30,37 +30,6 @@ const getAkvaplanistsInExternalKvService = async (kind: string) => {
       return a;
     }).sort((a, b) => a.name?.localeCompare(b.name));
   return arr;
-};
-
-// Hmm should hava separate index for people, to allow faceting on workplace etc....
-// Hmm2 CollectionSearch should allow custom index? But would also need custom results then (possibly)
-const PersonSearchPage = ({ lang, url }) => {
-  const facets = {
-    location: { limit: 20 },
-    searchwords: {},
-    section: {},
-    [`function.${lang}`]: {},
-    debug: {},
-  };
-
-  return (
-    <Page>
-      <CollectionSearch
-        //placeholder={title}
-        collection={"person"}
-        debug={true}
-        //q={q}
-        lang={lang}
-        limit={100}
-        //results={results}
-        //filters={[...filters]}
-        facets={facets}
-        //total={count}
-        url={url}
-        sort={""}
-      />
-    </Page>
-  );
 };
 
 export default async function PriorsPage(req: Request, ctx: RouteContext) {
@@ -79,23 +48,27 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
     return p;
   });
 
-  const title = which === "prior" ? t("ui.PriorAkvaplanist") : "Akvaplanister";
-  const collection = which === "prior" ? "person" : undefined;
   const groupedByYear = [...Map.groupBy(
     priors,
     ({ expired }) => expired ? expired.substring(0, 4) : "????",
   )].sort((a, b) => b[0].localeCompare(a[0]));
 
   return (
-    <Page title={which} collection={collection}>
+    <Page title={which}>
+      <SearchHeader
+        title={t("people.Akvaplanists")}
+        subtitle={t("people.priors")}
+      />
       {[...groupedByYear].map(([k, values]) => (
         <Section>
-          <h2>{k}</h2>
-          {values.map((person) => (
-            <Section>
-              <AkvaplanistCardBasic {...person} />
-            </Section>
-          ))}
+          <details>
+            <summary>{t("people.Left_in")} {k} ({values.length})</summary>
+            {values.map((person) => (
+              <Section>
+                <AkvaplanistCardBasic {...person} />
+              </Section>
+            ))}
+          </details>
         </Section>
       ))}
     </Page>
