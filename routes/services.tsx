@@ -12,14 +12,13 @@ import {
 import { ID_SERVICES } from "akvaplan_fresh/kv/id.ts";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import { HeroPanel, ImagePanel } from "akvaplan_fresh/components/panel.tsx";
+import { HeroPanel } from "akvaplan_fresh/components/panel.tsx";
 import { Naked } from "akvaplan_fresh/components/naked.tsx";
 import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
 import { BentoPanel } from "../components/bento_panel.tsx";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 import { WideImage } from "akvaplan_fresh/components/wide_image.tsx";
-import { Page } from "akvaplan_fresh/components/page.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(services|tjenester)",
@@ -29,14 +28,28 @@ const panelHashId = (id: string) => `panel-${id}`;
 export default defineRoute(async (req, ctx) => {
   const { lang, page } = ctx.params;
 
-  const hero = await getPanelInLang({ id: ID_SERVICES, lang });
-
-  const { title, image, backdrop, theme } = hero;
-
   const panels = (await getPanelsInLang({
     lang,
     filter: (p: Panel) => "service" === p.collection && p?.draft !== true,
   })).sort((a, b) => a.title.localeCompare(b.title));
+
+  // if (panels.length === 0) {
+  //   return (
+  //     <Page>
+  //       <SearchHeader
+  //         title="No services"
+  //         subtitle={
+  //           <a href={intlRouteMap(lang).get("panel")}>
+  //             <Button>Create service</Button>
+  //           </a>
+  //         }
+  //       />
+  //     </Page>
+  //   );
+  // }
+  const hero = await getPanelInLang({ id: ID_SERVICES, lang }) ?? panels.at(0);
+
+  const { title, image, backdrop, theme } = hero;
 
   const editor = await mayEditKvPanel(req);
 

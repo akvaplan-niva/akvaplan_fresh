@@ -36,7 +36,7 @@ export const handler: Handlers<ImagesProps> = {
     const base = `/${params.lang}/${params.page}/`;
     const title = t("nav.Images");
 
-    const images = (await searchImageAtoms({ q: "" }))
+    const images = (await searchImageAtoms({ q: "", limit: 10000 }))
       .map(buildImageMapper({ lang: params.lang }));
 
     return ctx.render({

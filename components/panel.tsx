@@ -7,6 +7,8 @@ import { EditIconButton } from "akvaplan_fresh/components/edit_icon_button.tsx";
 import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
 import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
 import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
+import { longDate } from "akvaplan_fresh/time/intl.ts";
+import { t } from "akvaplan_fresh/text/mod.ts";
 
 // FIXME Panel: refactor markup/css
 // FIXME Panel: support left-right-cemter text/cta, center eg: https://codepen.io/sflinz/pen/dvEbwz
@@ -145,7 +147,22 @@ function WidePictureOverlay({
         </p>
 
         <h3 class="wide-image-card-lower wide-image-card-title">
-          {backdrop ? <span class="backdrop-blur">{title}</span> : title}
+          {backdrop
+            ? (
+              <span>
+                <span
+                  class="backdrop-hard"
+                  style={{
+                    padding: ".25rem",
+                    fontSize: "1.5rem",
+                    lineHeight: 1,
+                  }}
+                >
+                  {title}
+                </span>
+              </span>
+            )
+            : title}
         </h3>
       </header>
     </div>
@@ -153,35 +170,52 @@ function WidePictureOverlay({
 }
 
 export const ArticlePanelTitleLow = (
-  { title, href, upper, image, theme, backdrop },
+  {
+    title,
+    href,
+    upper,
+    image,
+    theme,
+    published,
+    backdrop,
+    type,
+    hreflang,
+    lang,
+  },
 ) => (
-  <a href={href} class="mega-card">
-    <Head>
-      <link rel="stylesheet" href={asset("/css/article.css")} />
-    </Head>
-    <WidePictureOverlay
-      image={image}
-      title={title}
-      upper={upper}
-      theme={theme}
-      backdrop={backdrop}
-    />
-    <div
-      class="wide-image-card-lower-mobile"
-      style={{ marginBottom: "0.25rem", padding: "0.25rem" }}
+  <div>
+    <p
+      style={{
+        color: "var(--text2)",
+        fontSize: ".9rem",
+      }}
     >
-      <h3
-        style={{
-          fontSize: "var(--font-size-4)",
-          color: "var(--text1)",
-          fontWeight: 900,
-        }}
+      <span style={{ color: "var(--accent)" }}>{t(`type.${type}`)}</span>{"  "}
+      {longDate(published, lang)}{" "}
+      {String(lang) === String(hreflang) ? null : `(${t(`lang.${hreflang}`)})`}
+    </p>
+    <a href={href} class="mega-card">
+      <WidePictureOverlay
+        image={image}
+        title={title}
+        upper={upper}
+        theme={theme}
+        backdrop={backdrop}
+      />
+      <div
+        class="wide-image-card-lower-mobile"
+        style={{}}
       >
-        {title}
-      </h3>
-      <p>{upper}</p>
-    </div>
-  </a>
+        <h3
+          style={{
+            fontSize: "var(--font-size-2)",
+          }}
+        >
+          <span>{title}</span>
+        </h3>
+      </div>
+    </a>
+  </div>
 );
 
 export const WideCard = (
@@ -191,6 +225,7 @@ export const WideCard = (
     <Head>
       <link rel="stylesheet" href={asset("/css/article.css")} />
     </Head>
+    <Section />
     <WidePictureOverlay
       image={image}
       title=""

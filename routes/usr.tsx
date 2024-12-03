@@ -139,6 +139,8 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
     text: t(`nav.People`),
   }];
 
+  const years = [null, ...new Set(works?.map((p) => +p.year))].sort().reverse();
+
   return (
     <Page base={`/${at}${akvaplanist.id}`} title={name}>
       <Breadcrumbs list={breadcrumbs} />
@@ -203,8 +205,9 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
         {/* <h2>{t("nav.Pubs")} ({works?.length})</h2> */}
         {/* <a href="?group-by=year">year</a> */}
         <GroupedWorks
-          grouped={grouped}
+          works={works}
           groupedBy={"type"}
+          years={years}
           //limit={3}
           lang={lang}
         />

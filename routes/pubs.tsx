@@ -7,6 +7,7 @@ import {
   decadesFacet,
   oramaSortPublishedReverse,
   search,
+  yearFacet,
 } from "akvaplan_fresh/search/search.ts";
 
 import { Page } from "akvaplan_fresh/components/page.tsx";
@@ -68,14 +69,15 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
   }
 
   const facets = {
-    type: { limit: 50 },
+    type: {},
+    //year: decadesFacet,
   };
   if (debug) {
     facets.debug = {};
     facets.license = {};
     facets.projects = {};
-    facets.year = decadesFacet;
     facets.identities = {};
+    facets.year = yearFacet;
   }
   const hero = await getPanelInLang<Panel>({ id: ID_PUBLICATIONS, lang });
   hero.cta = "";

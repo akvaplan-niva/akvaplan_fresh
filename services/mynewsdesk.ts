@@ -107,7 +107,7 @@ export const getCanonical = (
   }
 };
 
-export const searchImageAtoms = async ({ q = "", limit = 25 }) => {
+export const searchImageAtoms = async ({ q = "", limit = 2500 }) => {
   const { items } = await searchMynewsdesk({
     q,
     type_of_media: "image",
