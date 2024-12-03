@@ -15,7 +15,6 @@ import { Page } from "akvaplan_fresh/components/page.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { MarkdownPanel } from "akvaplan_fresh/components/markdown.tsx";
-import { heroes } from "akvaplan_fresh/data/hero.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(work-with-us|career|jobb|karriere)",
