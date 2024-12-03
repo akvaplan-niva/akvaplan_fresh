@@ -35,6 +35,7 @@ const En = new Map([
   ["news-article", "/en/news"],
   ["news", "/en/news"],
   ["offices", "/en/offices"],
+  ["panel", "/en/panel"],
   ["people", "/en/people"],
   ["project", "/en/project"],
   ["projects", "/en/projects"],
@@ -65,7 +66,6 @@ const No = new Map([
   ["image", "/no/bilde"],
   ["infrastructure", "/no/infrastruktur"],
   ["infrastruktur", "/no/infrastruktur"],
-
   ["invoicing", "/no/faktura"],
   ["more", "/no/mer"],
   ["om", "/no/om"],
@@ -73,6 +73,7 @@ const No = new Map([
   ["office", "/no/folk/workplace"],
   ["news-article", "/no/nyhet"],
   ["news", "/no/nyheter"],
+  ["panel", "/no/panel"],
   ["people", "/no/folk"],
   ["pressrelease", "/no/nyheter"],
   ["project", "/no/prosjekt"],

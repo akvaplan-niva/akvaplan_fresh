@@ -3,7 +3,7 @@ import {
   getAkvaplanist,
   getPriorAkvaplanistFromDenoService,
 } from "akvaplan_fresh/services/akvaplanist.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
 import { isNvaUrl } from "akvaplan_fresh/services/nva.ts";
 
@@ -22,9 +22,6 @@ import { Breadcrumbs } from "akvaplan_fresh/components/site_nav.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
-import { Icon } from "akvaplan_fresh/components/icon.tsx";
-import { UseApnSym } from "akvaplan_fresh/components/akvaplan/symbol.tsx";
-import { Card } from "akvaplan_fresh/components/card.tsx";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(by|av)/:id([a-z0-9]{3,}){/:name}*",
 };
@@ -43,9 +40,10 @@ export const withYearAndLinkableSlug = (
   });
 
 export default defineRoute(async (req, ctx) => {
-  const { lang, page, id } = ctx.params;
+  const { lang, id } = ctx.params;
   const { searchParams } = new URL(req.url);
 
+  //langSignal.value = lang;
   const _person = await getAkvaplanist(id);
   const person = _person ?? await getPriorAkvaplanistFromDenoService(id);
   if (!person) {
@@ -55,13 +53,15 @@ export default defineRoute(async (req, ctx) => {
   const groupBy: string = searchParams.has("group-by")
     ? searchParams.get("group-by")!
     : "type";
-  const grouped = Map.groupBy(
+  const _grouped = Map.groupBy(
     works ? withYearAndLinkableSlug(works) : [],
     (w) => w?.[groupBy] ?? "?",
   );
+  const grouped = [..._grouped];
   const { family, given } = person;
   const name = [given, family].join(" ");
   const title = `${name} – ${t("nav.Pubs")}`;
+  const years = [null, ...new Set(works?.map((p) => +p.year))].sort().reverse();
 
   const breadcrumbs = [{
     href: peopleURL({ lang }),
@@ -73,14 +73,18 @@ export default defineRoute(async (req, ctx) => {
 
   return (
     <Page title={title} base={worksByUrl(person?.id, lang) + "/"} lang={lang}>
-      <Breadcrumbs list={breadcrumbs} />
+      <Breadcrumbs list={breadcrumbs} lang={lang} />
 
       <AkvaplanistCardBasic {...person} lang={lang} />
 
       <Section>
-        <h2>{t("nav.Pubs")} ({works?.length})</h2>
-        {/* <a href="?group-by=year">year</a> */}
-        <GroupedWorks grouped={grouped} groupedBy={groupBy} lang={lang} />
+        <GroupedWorks
+          works={works}
+          grouped={[...grouped]}
+          groupedBy={groupBy}
+          lang={lang}
+          years={years}
+        />
       </Section>
     </Page>
   );

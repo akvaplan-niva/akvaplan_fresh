@@ -1,3 +1,13 @@
+/* <Section style={{ display: "grid", placeItems: "center" }}>
+  {[].map((b) => <LinkBanner text={b.text} href={b.href} />)}
+</Section> */
+
+/* {sticky?.map((props) => (
+  <Section style={{ display: "grid", placeItems: "center" }}>
+    <ArticlePanelTitleLow {...props} />
+  </Section>
+))} */
+
 import { latestNewsFromMynewsdeskService } from "akvaplan_fresh/services/news.ts";
 import { latestNotInTheFuture } from "akvaplan_fresh/search/search.ts";
 
@@ -19,10 +29,36 @@ import {
   Page,
 } from "akvaplan_fresh/components/mod.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
-import { ImagePanel, WideCard } from "akvaplan_fresh/components/panel.tsx";
+import {
+  ArticlePanelTitleLow,
+  ImagePanel,
+  WideCard,
+} from "akvaplan_fresh/components/panel.tsx";
+
+import type { News } from "akvaplan_fresh/@interfaces/news.ts";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 
+const panelFromNews = (
+  { title, href, img, published, type, hreflang }: News,
+  lang: string,
+) => {
+  const cloudinary = img.split("/").at(-1);
+  const url =
+    `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1782,ar_3:1/${cloudinary}`;
+
+  return {
+    href,
+    title,
+    image: { cloudinary, url },
+    published,
+    backdrop: true,
+    type,
+    hreflang,
+  };
+};
+
+const newsAsPanels = (news, lang) => news.map((n) => panelFromNews(n, lang));
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
 };
@@ -32,23 +68,23 @@ export default defineRoute(async (req, ctx) => {
   const sitelang = extractLangFromUrl(req.url);
   lang.value = sitelang;
 
-  const _news = await latestNewsFromMynewsdeskService({
+  const news = await latestNewsFromMynewsdeskService({
     q: "",
     lang: sitelang,
-    limit: 25,
+    limit: 12,
   }).catch((e) => console.error(e));
 
-  const news = _news?.filter((n) => sitelang === n.hreflang);
+  //const newsInSiteLang = news?.filter((n) => sitelang === n.hreflang);
 
   const latestNonNews = await latestNotInTheFuture(["person", "pubs"]);
 
-  const latest = [..._news, ...latestNonNews]
+  const latest = [...news, ...latestNonNews]
     .sort((a, b) => +new Date(b.published) - +new Date(a.published));
 
-  const _newsInAltLang = _news?.filter((n) => sitelang !== n.hreflang);
+  // const _newsInAltLang = _news?.filter((n) => sitelang !== n.hreflang);
 
-  const newsInAltLang = _newsInAltLang
-    ?.map(imageCardFromPanel());
+  // const newsInAltLang = _newsInAltLang
+  //   ?.map(imageCardFromPanel());
 
   const hero = await getPanelInLang({ id: ID_HOME_HERO, lang });
 
@@ -66,21 +102,12 @@ export default defineRoute(async (req, ctx) => {
         <NewsFilmStrip news={latest} lang={sitelang} />
       </div>
 
-      {
-        /* <Section style={{ display: "grid", placeItems: "center" }}>
-        {[].map((b) => <LinkBanner text={b.text} href={b.href} />)}
-      </Section> */
-      }
-      {
-        /* {sticky?.map((props) => (
-        <Section style={{ display: "grid", placeItems: "center" }}>
-          <ArticlePanelTitleLow {...props} />
-        </Section>
-      ))} */
-      }
-
       <div
-        style={{ display: "grid", placeItems: "center", paddingTop: "1vw" }}
+        style={{
+          display: "grid",
+          placeItems: "center",
+          paddingTop: "1vw",
+        }}
       >
         <ImagePanel
           {...hero}
@@ -89,31 +116,28 @@ export default defineRoute(async (req, ctx) => {
           maxHeight={"80vh"}
         />
       </div>
-      <Section />
 
+      <CollectionHeader collection="news" />
       <Section>
-        <CollectionHeader collection="news" />
+        {newsAsPanels(news?.slice(0, 6))?.map((panel) => (
+          <Section
+            style={{ display: "grid", placeItems: "center" }}
+          >
+            <ArticlePanelTitleLow
+              {...panel}
+              lang={lang}
+              _theme={"dark"}
+            />
+          </Section>
+        ))}
 
-        <HScroll
+        {
+          /* <HScroll
           maxVisibleChildren={maxVisNews}
         >
           {news?.map(ArticleSquare)}
-        </HScroll>
-
-        <p style={{ fontSize: ".75rem" }}>
-          <em>{t(`lang.In_altlang_native`)}</em>
-        </p>
-
-        <div style={{ marginBottom: "2rem" }}>
-          <HScroll maxVisibleChildren={3}>
-            {newsInAltLang?.map((props) => (
-              <WideCard
-                {...props}
-                sizes="30vw"
-              />
-            ))}
-          </HScroll>
-        </div>
+        </HScroll> */
+        }
       </Section>
 
       {panels?.map((panel) => (

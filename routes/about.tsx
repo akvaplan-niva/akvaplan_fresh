@@ -80,7 +80,7 @@ export default defineRoute(async (req, ctx) => {
         <Section />
         <p>
           <Markdown
-            text={hero.desc}
+            text={hero?.desc}
             style={{ whiteSpace: "pre-wrap", fontSize: "1rem" }}
           />
         </p>
