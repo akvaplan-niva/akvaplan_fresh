@@ -49,40 +49,19 @@ export const cachedNameOf = (id: string) => {
   return identities.has(id) ? _name(identities.get(id)!) : id;
 };
 export const getAkvaplanistsFromDenoService = async (
-  collection = "person",
+  type = "",
 ): Promise<
-  Akvaplanist[]
+  Akvaplanist[] | undefined
 > => {
-  if (!["person", "expired"].includes(collection)) {
-    throw new RangeError(`Invalid collection: ${collection}`);
+  if (!["", "all", "prior", "fresh"].includes(type)) {
+    throw new RangeError(`Invalid Akvaplanist type: ${type}`);
   }
-  const r = await fetch(new URL(`/kv/${collection}`, base)).catch((e) =>
+  const r = await fetch(new URL(`/${type}`, base)).catch((e) =>
     console.error(e)
   );
   if (r?.ok) {
     const entries = await r.json();
     return entries.map(({ value }) => value);
-    //return empl
-    // .map((p: Akvaplanist) => {
-    //   if (!p.email) {
-    //     p.email = p.id + "@akvaplan.niva.no";
-    //   }
-    //   // FIXME Refactor prior akvaplanists; remove static list and rely on service
-    //   // Below is a hack, useful for e.g. http://localhost:7777/no/doi/10.1016/s0044-8486(03)00475-7
-    //   if (p.expired) {
-    //     priorAkvaplanistID.set(p.id, p);
-    //   }
-    //   priorAkvaplanists.push(p);
-    //   return p;
-    // });
-  }
-  return [];
-};
-
-export const getPriorAkvaplanistFromDenoService = async (id: string) => {
-  const r = await fetch(new URL(`/kv/expired/${id}`, base));
-  if (r?.ok) {
-    return (await r.json()).value;
   }
 };
 
@@ -90,7 +69,7 @@ export const getAkvaplanists = async (): Promise<
   Akvaplanist[]
 > => {
   if (undefined === _all && globalThis.Deno) {
-    _all = await getAkvaplanistsFromDenoService() as Akvaplanist[];
+    _all = await getAkvaplanistsFromDenoService("all") as Akvaplanist[];
   }
   return _all;
 };
@@ -100,7 +79,7 @@ export const getEmployedAkvaplanists = async () => {
     .filter(({ from }) => !from ? true : new Date() >= new Date(from))
     .filter(({ expired }) =>
       !expired ? true : new Date(expired) < new Date() ? false : true
-    );
+    ).filter(({ prior }) => !prior ? true : prior === true ? false : true);
 };
 
 export const setAkvaplanists = (all) => _all = all;
@@ -357,4 +336,49 @@ export const countAkvaplanistAuthors = async (slim: SlimPublication) => {
     }
   }
   return [current, priors];
+};
+
+const withNameAndFrom = (a: Akvaplanist) => {
+  a.name = [a.given, a.family].join(" ");
+  a.from = a.from ?? a.created;
+  return a;
+};
+
+const sortByName = (a: Akvaplanist, b: Akvaplanist) =>
+  a.name?.localeCompare(b?.name ?? "") ?? 0;
+
+const buildSortReversed = (key: string) => (a: Akvaplanist, b: Akvaplanist) =>
+  new Date(b?.[key]).getTime() - new Date(a?.[key]).getTime();
+
+const buildGrouper = (type: string) =>
+  type === ""
+    ? ({ from }: Akvaplanist) =>
+      from ? new Date(from).toJSON().substring(0, 4) : "????"
+    : ({ expired }: Akvaplanist) =>
+      expired ? new Date(expired).toJSON().substring(0, 4) : "????";
+
+const groupBy = (akva, grouper) =>
+  [...Map.groupBy(
+    akva,
+    grouper,
+  )].sort((a, b) => b[0].localeCompare(a[0]));
+
+export const getAkvaplanistsGroupedByYearStartedOrLeft = async () => {
+  const all = (await getAkvaplanistsFromDenoService("all") ?? [])
+    .map(withNameAndFrom)
+    .sort(sortByName);
+
+  const _current = all.filter(({ prior }) => prior !== true).sort(
+    buildSortReversed("from"),
+  );
+
+  const currentGroupedByFromYear = groupBy(
+    _current,
+    buildGrouper(""),
+  );
+  const priorGroupedByExpiredYear = groupBy(
+    all.filter(({ prior }) => prior === true),
+    buildGrouper("prior"),
+  );
+  return [currentGroupedByFromYear, priorGroupedByExpiredYear];
 };

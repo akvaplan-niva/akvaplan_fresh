@@ -1,8 +1,5 @@
 import { getWorksBy } from "akvaplan_fresh/services/pub.ts";
-import {
-  getAkvaplanist,
-  getPriorAkvaplanistFromDenoService,
-} from "akvaplan_fresh/services/akvaplanist.ts";
+import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
 import { isNvaUrl } from "akvaplan_fresh/services/nva.ts";
@@ -10,12 +7,12 @@ import { isNvaUrl } from "akvaplan_fresh/services/nva.ts";
 import { GroupedWorks } from "akvaplan_fresh/islands/works.tsx";
 import { Page } from "akvaplan_fresh/components/page.tsx";
 
-import { AkvaplanistCardBasic } from "../components/person_card.tsx";
+import { PersonCard } from "akvaplan_fresh/components/person_card.tsx";
 import {
   peopleURL,
   personURL,
   worksByUrl,
-} from "akvaplan_fresh/services/mod.ts";
+} from "akvaplan_fresh/services/nav.ts";
 
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { Breadcrumbs } from "akvaplan_fresh/components/site_nav.tsx";
@@ -43,9 +40,9 @@ export default defineRoute(async (req, ctx) => {
   const { lang, id } = ctx.params;
   const { searchParams } = new URL(req.url);
 
-  //langSignal.value = lang;
-  const _person = await getAkvaplanist(id);
-  const person = _person ?? await getPriorAkvaplanistFromDenoService(id);
+  langSignal.value = lang;
+  const person = await getAkvaplanist(id);
+
   if (!person) {
     return ctx.renderNotFound();
   }
@@ -75,7 +72,11 @@ export default defineRoute(async (req, ctx) => {
     <Page title={title} base={worksByUrl(person?.id, lang) + "/"} lang={lang}>
       <Breadcrumbs list={breadcrumbs} lang={lang} />
 
-      <AkvaplanistCardBasic {...person} lang={lang} />
+      <PersonCard
+        href={personURL(person, lang)}
+        person={person}
+        lang={lang}
+      />
 
       <Section>
         <GroupedWorks

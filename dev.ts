@@ -2,10 +2,8 @@
 import dev from "$fresh/dev.ts";
 
 import {
-  oramaJsonPath,
   oramaMessagePackPath,
   persistIndexAsMessagePack,
-  persistOramaJson,
 } from "akvaplan_fresh/search/orama.ts";
 import {
   _akvaplanists,
@@ -14,28 +12,10 @@ import {
 } from "akvaplan_fresh/services/akvaplanist.ts";
 import { buildOramaIndex } from "akvaplan_fresh/search/create_search_index.ts";
 
-// const writeJsonFile = async (path: string, object: unknown) =>
-//   await Deno.writeTextFile(path, JSON.stringify(object));
-
-// const ensureExistsBeforeReadingJsonFile = async (
-//   path: string,
-//   object: unknown,
-// ) => {
-//   let text;
-//   try {
-//     await Deno.stat(path);
-//   } catch (_e) {
-//     await writeJsonFile(path, object);
-//   } finally {
-//     text = await Deno.readTextFile(path);
-//   }
-//   return JSON.parse(text);
-// };
-
 const createIdentitiesJsonFiles = async () => {
   try {
-    const akvaplanists = await getAkvaplanistsFromDenoService("person");
-    const priors = await getAkvaplanistsFromDenoService("expired");
+    const akvaplanists = await getAkvaplanistsFromDenoService("");
+    const priors = await getAkvaplanistsFromDenoService("prior");
     const _removeUpdated = ({ updated, ...rest }) => rest;
     await Deno.writeTextFile(
       _akvaplanists,
@@ -56,6 +36,6 @@ if (Deno.args.includes("build")) {
   await createIdentitiesJsonFiles();
 
   const orama = await buildOramaIndex();
-  await persistOramaJson(orama, oramaJsonPath);
+  //await persistOramaJson(orama, oramaJsonPath);
   await persistIndexAsMessagePack(orama, oramaMessagePackPath);
 }
