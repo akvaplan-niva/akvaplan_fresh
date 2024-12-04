@@ -8,10 +8,7 @@ import { peopleURL } from "akvaplan_fresh/services/mod.ts";
 import { getAvatarImageBytes, getSession } from "akvaplan_fresh/kv/session.ts";
 
 import { withYearAndLinkableSlug } from "./by.tsx";
-import {
-  getAkvaplanist,
-  getPriorAkvaplanistFromDenoService,
-} from "akvaplan_fresh/services/akvaplanist.ts";
+import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
 
 import {
   extractLangFromUrl,
@@ -67,17 +64,11 @@ export const handler: Handlers = {
     const lang = at === "~" ? "no" : "en";
     langSignal.value = lang; //Sometimes needed
 
-    const cand = await getAkvaplanist(id);
-    const akvaplanist = cand ?? await getPriorAkvaplanistFromDenoService(id);
-
-    // @todo Consider falling back to orama ?
+    const akvaplanist = await getAkvaplanist(id);
     if (!akvaplanist) {
       return ctx.renderNotFound();
     }
-    if (!name) {
-      // const headers = { location: akvaplanistUrl(akvaplanist, lang) };
-      // return new Response("", { status: 301, headers });
-    }
+
     akvaplanist.bio = ``;
     //const { given, family } = akvaplanist;
 
