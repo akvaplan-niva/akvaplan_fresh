@@ -2,7 +2,23 @@
   {
     "id": "polarfront",
     "cristin": 2524794,
-    "name": { "en": "Polar Front", "no": "Polar Front" },
+    "label": { "en": "Polar Front", "no": "Polar Front" },
     "cloudinary": "f1p8gecba7nuxbduxcou"
+  },
+  {
+    "id": "slice",
+    "cristin": 2694515,
+    "label": { "en": "SLICE", "no": "SLICE" },
+    "cloudinary": "kwy8kuceecjpjoh3yyy5"
+  },
+  {
+    "id": "dokumentar",
+    "cristin": 2703197,
+    "label": { "en": "DOKUMENTAR", "no": "DOKUMENTAR" }
+  },
+  {
+    "id": "mxr",
+    "cristin": 2663173,
+    "label": { "en": "MxR", "no": "MxR" }
   }
 ]

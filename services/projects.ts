@@ -2,7 +2,7 @@ import { searchMynewsdesk } from "./mynewsdesk.ts";
 import { projectURL } from "./nav.ts";
 import { AbstractMynewsdeskItem, News } from "../@interfaces/mod.ts";
 import _projects from "akvaplan_fresh/data/projects.json" with { type: "json" };
-import { extractId } from "akvaplan_fresh/services/extract_id.ts";
+import { extractNumericId } from "akvaplan_fresh/services/id.ts";
 
 // https://akvaplan.no/en/news/2016-01-26/the-norwegian-ministry-of-foreign-affair-supports-akvaplan-niva-project-by-nok-14.3-million",
 // VEIEN http://localhost:7777/en/news/2023-01-30/hvordan-kan-rognkjeks-bli-en-robust-og-effektiv-rensefisk-i-lakseoppdrett
@@ -114,9 +114,6 @@ const cristinProjectMap = new Map(
   _projects.map((p) => [p.cristin, p]),
 );
 
-const extractNumericId = (id: string | number) =>
-  Number(String(id).split("/").at(-1));
-
 const getAkvaplanProjectByCristinProjectId = async (id: string) =>
   await Promise.resolve(
     cristinProjectMap.get(extractNumericId(id)),
@@ -125,16 +122,19 @@ const getAkvaplanProjectByCristinProjectId = async (id: string) =>
 export const fetchCristinProject = (id: number | string) =>
   fetch(`https://api.nva.unit.no/cristin/project/${extractNumericId(id)}`);
 
-export const mergeNvaAndCristinProjectsWithAkvaplanProjects = async (
-  projects,
-) =>
-  projects?.length > 0
-    ? await Array.fromAsync(
-      projects.map(async (nva) => {
-        const akvaplan = await getAkvaplanProjectByCristinProjectId(nva.id);
-        const r = await fetchCristinProject(nva.id);
-        const cristin = r?.ok ? await r.json() : undefined;
-        return { akvaplan, nva, cristin };
-      }),
-    )
-    : undefined;
+const cristinProjectAkvaplanId = new Map(
+  _projects.map((akvaplan) => [akvaplan.cristin, akvaplan]),
+);
+
+export const akvaplanProjectsFromNvaProjects = async (nvaProjects) =>
+  await Array.fromAsync(
+    nvaProjects?.map(async (nva, i) => {
+      await async function () {}();
+      const { cristin, id } = nva;
+      const pid = cristin ? cristin : extractNumericId(id);
+      const akvaplan = cristinProjectAkvaplanId.has(pid)
+        ? cristinProjectAkvaplanId.get(pid)
+        : undefined;
+      return { nva, akvaplan };
+    }),
+  );

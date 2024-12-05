@@ -1,11 +1,6 @@
 // FIXME (project.tsx) https://github.com/akvaplan-niva/akvaplan_fresh/issues/232
-
-const cristinMap = new Map([
-  ["polarfront", 2524794],
-  ["dokumentar", 2703197],
-  ["slice", 2694515],
-  ["mxr", 2663173],
-]);
+import _projects from "akvaplan_fresh/data/projects.json" with { type: "json" };
+const cristinMap = new Map(_projects.map(({ id, cristin }) => [id, cristin]));
 
 import {
   editHref,

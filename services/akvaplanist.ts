@@ -347,8 +347,12 @@ const withNameAndFrom = (a: Akvaplanist) => {
 const sortByName = (a: Akvaplanist, b: Akvaplanist) =>
   a.name?.localeCompare(b?.name ?? "") ?? 0;
 
-const buildSortReversed = (key: string) => (a: Akvaplanist, b: Akvaplanist) =>
-  new Date(b?.[key]).getTime() - new Date(a?.[key]).getTime();
+const buildSortReversed = (key: string) => (a: Akvaplanist, b: Akvaplanist) => {
+  const _b = b?.[key] ?? "";
+  const _a = a?.[key] ?? "";
+  const { compare } = Intl.Collator("no");
+  return compare(_b, _a);
+};
 
 const buildGrouper = (type: string) =>
   type === ""
@@ -361,15 +365,18 @@ const groupBy = (akva, grouper) =>
   [...Map.groupBy(
     akva,
     grouper,
-  )].sort((a, b) => b[0].localeCompare(a[0]));
+  )].sort((a, b) => b[0]?.localeCompare(a[0], "no"));
 
 export const getAkvaplanistsGroupedByYearStartedOrLeft = async () => {
-  const all = (await getAkvaplanistsFromDenoService("all") ?? [])
-    .map(withNameAndFrom)
-    .sort(sortByName);
+  const _all = (await getAkvaplanistsFromDenoService("all") ?? [])
+    .map(withNameAndFrom);
 
   const _current = all.filter(({ prior }) => prior !== true).sort(
     buildSortReversed("from"),
+  );
+
+  const _prior = all.filter(({ prior }) => prior === true).sort(
+    buildSortReversed("expired"),
   );
 
   const currentGroupedByFromYear = groupBy(
@@ -377,7 +384,7 @@ export const getAkvaplanistsGroupedByYearStartedOrLeft = async () => {
     buildGrouper(""),
   );
   const priorGroupedByExpiredYear = groupBy(
-    all.filter(({ prior }) => prior === true),
+    _prior,
     buildGrouper("prior"),
   );
   return [currentGroupedByFromYear, priorGroupedByExpiredYear];

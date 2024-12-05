@@ -1,4 +1,5 @@
 // Nice PDF preview layout: https://pubs.acs.org/doi/epdf/10.1021/acs.est.4c04495?ref=article_openPDF
+
 import { longDate } from "../time/intl.ts";
 import {
   getNvaMetadata,
@@ -24,9 +25,16 @@ import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import {
   ProjectsAsImageLinks,
 } from "akvaplan_fresh/components/project_link.tsx";
-import { mergeNvaAndCristinProjectsWithAkvaplanProjects } from "akvaplan_fresh/services/projects.ts";
+
+// import {
+//   getAkvaplanProjectsFromNvaCristinIds,
+//   mergeNvaAndCristinProjectsWithAkvaplanProjects,
+// } from "akvaplan_fresh/services/projects.ts";
+
 import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
 import { pubsURL } from "akvaplan_fresh/services/nav.ts";
+import { extractNumericId } from "akvaplan_fresh/services/id.ts";
+import { akvaplanProjectsFromNvaProjects } from "akvaplan_fresh/services/projects.ts";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -75,9 +83,11 @@ export default defineRoute(async (_req, ctx) => {
   // FIXME? Move NVA fetch to browser island (requires adding CORS to Akvaplan pubs service, or using a CORS proxy)
   const nvaPublication = nva ? await getNvaMetadata(nva) : undefined;
 
-  const projects = await mergeNvaAndCristinProjectsWithAkvaplanProjects(
-    nvaPublication?.projects,
-  );
+  const nvaProjects = nvaPublication ? nvaPublication?.projects : undefined;
+
+  const nvaProjectsWithAkvaplanIds = nvaProjects
+    ? await akvaplanProjectsFromNvaProjects(nvaProjects)
+    : undefined;
 
   const typeText = t(
     isHandleUrl(id) || isNvaUrl(id) ? `nva.${type}` : `type.${type}`,
@@ -130,7 +140,7 @@ export default defineRoute(async (_req, ctx) => {
         ? <PubNvaPdfAugment publication={nvaPublication} lang={lang} />
         : null}
 
-      {projects?.length > 0
+      {nvaProjectsWithAkvaplanIds?.length > 0
         ? (
           <section
             style={{
@@ -138,13 +148,12 @@ export default defineRoute(async (_req, ctx) => {
             }}
           >
             <ProjectsAsImageLinks
-              projects={projects}
+              projects={nvaProjectsWithAkvaplanIds}
               lang={lang}
             />
           </section>
         )
         : null}
-
       {
         /* {nvaPublication?.fundings?.length > 0
         ? (
