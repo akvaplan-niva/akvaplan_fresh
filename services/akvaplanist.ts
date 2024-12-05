@@ -371,11 +371,11 @@ export const getAkvaplanistsGroupedByYearStartedOrLeft = async () => {
   const _all = (await getAkvaplanistsFromDenoService("all") ?? [])
     .map(withNameAndFrom);
 
-  const _current = all.filter(({ prior }) => prior !== true).sort(
+  const _current = _all.filter(({ prior }) => prior !== true).sort(
     buildSortReversed("from"),
   );
 
-  const _prior = all.filter(({ prior }) => prior === true).sort(
+  const _prior = _all.filter(({ prior }) => prior === true).sort(
     buildSortReversed("expired"),
   );
 
