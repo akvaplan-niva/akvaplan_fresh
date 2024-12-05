@@ -222,7 +222,7 @@ export function PersonCard(
         )}
         {icons && from &&
           (
-            <time title={t("From") + " " + longDate(from, lang)}>
+            <time>
               <TextIcon icon="update">
                 {longDate(from, lang)}
               </TextIcon>
@@ -231,7 +231,7 @@ export function PersonCard(
 
         {icons && expired &&
           (
-            <time title={t("Until") + " " + longDate(expired, lang)}>
+            <time>
               <TextIcon icon="history">
                 {longDate(expired, lang)}
               </TextIcon>

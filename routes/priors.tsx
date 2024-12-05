@@ -1,17 +1,16 @@
-import { t } from "akvaplan_fresh/text/mod.ts";
-
-import { Page } from "akvaplan_fresh/components/page.tsx";
-
-import type { RouteConfig, RouteContext } from "$fresh/server.ts";
 import {
   getAkvaplanistsGroupedByYearStartedOrLeft,
 } from "akvaplan_fresh/services/akvaplanist.ts";
-import { PersonCard } from "akvaplan_fresh/components/mod.ts";
-import { Section } from "akvaplan_fresh/components/section.tsx";
-import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
 
-import { personURL } from "akvaplan_fresh/services/mod.ts";
-import { AkvaplanistCardBasic } from "akvaplan_fresh/components/person_card.tsx";
+import { t } from "akvaplan_fresh/text/mod.ts";
+
+import { personURL } from "akvaplan_fresh/services/nav.ts";
+
+import type { RouteConfig, RouteContext } from "$fresh/server.ts";
+
+import { Page } from "akvaplan_fresh/components/page.tsx";
+import { PersonCard } from "akvaplan_fresh/components/mod.ts";
+import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/akvaplanist{/:which}?",
@@ -24,11 +23,16 @@ const summaryText = (
     t(type === "" ? "people.Started_in" : "people.Left_in")
   } ${year} (${count})`;
 
-export default async function PriorsPage(_req: Request, ctx: RouteContext) {
+const defaultDays = 360;
+
+export default async function PriorsPage(req: Request, ctx: RouteContext) {
   const { lang } = ctx.params;
+  const days = defaultDays;
 
   const [currentGroupedByFromYear, priorGroupedByExpiredYear] =
-    await getAkvaplanistsGroupedByYearStartedOrLeft();
+    await getAkvaplanistsGroupedByYearStartedOrLeft({
+      filter: (({ days }) => !days ? true : days > 360),
+    });
 
   const title = [t("people.Akvaplanists")].join("");
 
@@ -36,6 +40,7 @@ export default async function PriorsPage(_req: Request, ctx: RouteContext) {
     <Page title={title}>
       <SearchHeader
         title={t("people.Akvaplanists")}
+        subtitle={``}
       />
 
       <div

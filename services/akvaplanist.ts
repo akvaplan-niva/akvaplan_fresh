@@ -367,9 +367,11 @@ const groupBy = (akva, grouper) =>
     grouper,
   )].sort((a, b) => b[0]?.localeCompare(a[0], "no"));
 
-export const getAkvaplanistsGroupedByYearStartedOrLeft = async () => {
+export const getAkvaplanistsGroupedByYearStartedOrLeft = async (
+  { filter = () => true } = {},
+) => {
   const _all = (await getAkvaplanistsFromDenoService("all") ?? [])
-    .map(withNameAndFrom);
+    .map(withNameAndFrom).filter(filter);
 
   const _current = _all.filter(({ prior }) => prior !== true).sort(
     buildSortReversed("from"),
