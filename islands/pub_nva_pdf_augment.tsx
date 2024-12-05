@@ -73,13 +73,13 @@ export const PubNvaPdfAugment = (
   };
 
   const embedPdfs = (publication: NvaPublicationLike, state: Signal) => {
-    const { entityDescription: { abstract, description } } = publication;
-    if (abstract) {
-      state.value.abstract = abstract;
-    }
-    if (abstract) {
-      state.value.description = description;
-    }
+    // const { entityDescription: { abstract, description } } = publication;
+    // if (abstract) {
+    //   state.value.abstract = abstract;
+    // }
+    // if (description) {
+    //   state.value.description = description;
+    // }
     publication?.associatedArtifacts?.filter(pdfFilter).map(
       async (file) => {
         const pdfUrl = await getPresignedPdfUrl(
@@ -126,7 +126,8 @@ export const PubNvaPdfAugment = (
 
       <div id={nvaPdfWrapperHtmlId} />
 
-      {state.value?.abstract && (
+      {
+        /* {state.value?.abstract && (
         <Section>
           <h2>{t("Abstract")}</h2>
           <p
@@ -138,7 +139,8 @@ export const PubNvaPdfAugment = (
             }}
           />
         </Section>
-      )}
+      )} */
+      }
 
       {state.value?.description &&
         (

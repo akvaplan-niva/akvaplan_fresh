@@ -15,6 +15,8 @@ import { isNvaUrl } from "akvaplan_fresh/services/nva.ts";
 import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
 import { CCIcons } from "akvaplan_fresh/components/cc-icons.tsx";
 import { Breadcrumbs } from "akvaplan_fresh/components/site_nav.tsx";
+import pub from "akvaplan_fresh/routes/pub.tsx";
+import { Section } from "akvaplan_fresh/components/section.tsx";
 
 export const PubArticle = ({
   pub: {
@@ -32,6 +34,7 @@ export const PubArticle = ({
     pdf,
     created,
     modified,
+    abstract,
   },
   lang,
 }: { pub: SlimPublication; lang: string }) => {
@@ -134,6 +137,22 @@ export const PubArticle = ({
               </Card>
             )}
           </section>
+
+          {abstract
+            ? (
+              <Section>
+                <h2>{t("Abstract")}</h2>
+                <p
+                  dangerouslySetInnerHTML={{ __html: abstract }}
+                  style={{
+                    maxWidth: "120ch",
+                    fontSize: "1rem",
+                    whiteSpace: "pre-wrap",
+                  }}
+                />
+              </Section>
+            )
+            : null}
 
           {pdf ||
               url?.endsWith(".pdf")

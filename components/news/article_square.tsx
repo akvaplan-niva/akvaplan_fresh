@@ -19,7 +19,7 @@ export const ArticleSquare = (
     href,
     hreflang,
     keywords,
-    width,
+    width = 512,
     height,
     maxWidth,
     type,
@@ -40,7 +40,7 @@ export const ArticleSquare = (
       target={target}
       title={desc}
     >
-      <SquareImage w={512} url={img512 ?? img ?? thumb} />
+      <SquareImage w={width} url={img512 ?? img ?? thumb} />
 
       <p
         dangerouslySetInnerHTML={{ __html: title ?? name ?? "" }}
