@@ -1,9 +1,12 @@
-import { NVA_API } from "akvaplan_fresh/services/nva.ts";
 import { Signal, useSignal } from "@preact/signals";
 import { Head, IS_BROWSER } from "$fresh/runtime.ts";
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 
 import { Section } from "akvaplan_fresh/components/section.tsx";
+import {
+  fetchNvaPublication,
+  getPresignedFileUrl,
+} from "akvaplan_fresh/services/nva.ts";
 
 interface NvaPublicationLike {
   identifier: string;
@@ -19,36 +22,25 @@ interface NvaArtifactLike {
   mimeType: string;
 }
 
-const fetchNvaPublication = async (identifier: string) => {
-  const url = new URL(`/publication/${identifier}`, NVA_API);
-  console.warn(url.href);
-  return await fetch(url, { headers: { accept: "application/json" } });
-};
-
-const getPresignedPdfUrl = async (id: string, file: string) => {
-  const url = new URL(`/download/public/${id}/files/${file}`, NVA_API);
-  const res = await fetch(url);
-  if (res?.ok) {
-    const { presignedDownloadUrl } = await res.json();
-    return presignedDownloadUrl;
-  }
-};
-
 export const pdfFilter = (
   { type, mimeType }: NvaArtifactLike,
-) => mimeType === "application/pdf" && type === "PublishedFile";
+) =>
+  mimeType === "application/pdf" &&
+  ["PublishedFile", "OpenFile"].includes(type);
 
 export const hasPdf = (publication: NvaPublicationLike) =>
   publication?.associatedArtifacts?.find(pdfFilter) !== undefined;
 
 export const PubNvaPdfAugment = (
-  { publication, identifier = publication?.identifier, lang }: {
+  { publication, identifier = publication?.identifier, lang, url }: {
     publication?: NvaPublicationLike;
     identifier?: string;
     lang: string;
+    url: string;
   },
 ) => {
   const nvaPdfWrapperHtmlId = "pub-nva-pdf-" + crypto.randomUUID();
+
   const state = useSignal(
     { ready: false, querySelector: "#" + nvaPdfWrapperHtmlId } as {
       ready: boolean;
@@ -82,10 +74,12 @@ export const PubNvaPdfAugment = (
     // }
     publication?.associatedArtifacts?.filter(pdfFilter).map(
       async (file) => {
-        const pdfUrl = await getPresignedPdfUrl(
+        const pdfUrl = await getPresignedFileUrl(
           publication.identifier,
           file.identifier,
+          url,
         );
+
         const embed = document.querySelector(state.value.querySelector);
         if (embed && pdfUrl) {
           createPdfAug(embed, pdfUrl);
@@ -123,7 +117,6 @@ export const PubNvaPdfAugment = (
         >
         </script>
       </Head>
-
       <div id={nvaPdfWrapperHtmlId} />
 
       {
