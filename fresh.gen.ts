@@ -16,6 +16,7 @@ import * as $api_kv_list_key_ from "./routes/api/kv/list/[...key].ts";
 import * as $api_mynewsdesk_index from "./routes/api/mynewsdesk/index.ts";
 import * as $api_mynewsdesk_type_path_ from "./routes/api/mynewsdesk/type/[...path].ts";
 import * as $api_mynewsdesk_year_path_ from "./routes/api/mynewsdesk/year/[...path].ts";
+import * as $api_nva_publication_id_filelink_file_ from "./routes/api/nva/publication/[...id]/filelink/[file].ts";
 import * as $api_projects from "./routes/api/projects.ts";
 import * as $api_search from "./routes/api/search.ts";
 import * as $api_slug_type_ from "./routes/api/slug/[type].ts";
@@ -105,6 +106,8 @@ const manifest = {
     "./routes/api/mynewsdesk/index.ts": $api_mynewsdesk_index,
     "./routes/api/mynewsdesk/type/[...path].ts": $api_mynewsdesk_type_path_,
     "./routes/api/mynewsdesk/year/[...path].ts": $api_mynewsdesk_year_path_,
+    "./routes/api/nva/publication/[...id]/filelink/[file].ts":
+      $api_nva_publication_id_filelink_file_,
     "./routes/api/projects.ts": $api_projects,
     "./routes/api/search.ts": $api_search,
     "./routes/api/slug/[type].ts": $api_slug_type_,

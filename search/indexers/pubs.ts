@@ -87,6 +87,8 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
     akvaplanists,
     created,
     modified,
+    open_access,
+    open_access_status,
   } = pub;
   const authorsOrContribs: typeof pub.authors = [
     ...(pub?.authors ?? []),
@@ -177,6 +179,10 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
     modified,
     year,
     license,
+    open_access_status: open_access_status?.length > 0
+      ? open_access_status
+      : "unknown",
+    open_access,
     debug,
     text: [
       String(year),

@@ -4,7 +4,7 @@
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
 import {
   buildSortBy,
-  decadesFacet,
+  //decadesFacet,
   oramaSortPublishedReverse,
   search,
   yearFacet,
@@ -16,9 +16,6 @@ import CollectionSearch, {} from "akvaplan_fresh/islands/collection_search.tsx";
 import { RouteConfig, RouteContext } from "$fresh/server.ts";
 import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
 import { ID_PUBLICATIONS } from "akvaplan_fresh/kv/id.ts";
-import { Section } from "akvaplan_fresh/components/section.tsx";
-import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
-import { SelectSort } from "akvaplan_fresh/components/select_sort.tsx";
 import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
 
 export const config: RouteConfig = {
@@ -70,6 +67,8 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
 
   const facets = {
     type: {},
+    // open_access: {},
+    // open_access_status: {},
     //year: decadesFacet,
   };
   if (debug) {

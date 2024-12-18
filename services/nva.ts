@@ -23,6 +23,26 @@ export const fetchNvaMetadata = async (id: string) => {
   const url = new URL(`/publication/${id}`, NVA_API);
   return await fetch(url, { headers: { accept: "application/json" } });
 };
+
+export const fetchNvaPublication = fetchNvaMetadata;
+export const getPresignedFileUrl = async (
+  id: string,
+  file: string,
+  base: string,
+) => {
+  const path = `/api/nva/publication/${id}/filelink/${file}`;
+  const url = new URL(path, base);
+  const headers = { accept: "application/json" };
+  const res = await fetch(url, { headers }).catch((e) => {
+    console.error(e);
+  });
+
+  if (res?.ok) {
+    const { id } = await res.json();
+    return id;
+  }
+};
+
 export const getNvaMetadata = async (identifier: string) => {
   const r = await fetchNvaMetadata(identifier);
   if (r?.ok) {

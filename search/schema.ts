@@ -19,6 +19,8 @@ export const schema = {
   published: "string",
   modified: "string",
   year: "number",
+  open_access: "boolean",
+  open_access_status: "string",
   // intl: {
   //   name: {
   //     no: "string",

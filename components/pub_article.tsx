@@ -19,7 +19,10 @@ import pub from "akvaplan_fresh/routes/pub.tsx";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 
 export const PubArticle = ({
-  pub: {
+  pub,
+  lang,
+}: { pub: SlimPublication; lang: string }) => {
+  const {
     id,
     container,
     type,
@@ -35,9 +38,10 @@ export const PubArticle = ({
     created,
     modified,
     abstract,
-  },
-  lang,
-}: { pub: SlimPublication; lang: string }) => {
+    open_access,
+    open_access_status,
+  } = pub;
+
   return (
     <article
       style={{
@@ -69,7 +73,9 @@ export const PubArticle = ({
             )}
         </p>
       </Card>
-      {license && license?.length > 0
+
+      {(license && license?.length > 0) ||
+          [true, false].includes(open_access) || open_access_status
         ? (
           <section
             style={{
@@ -77,8 +83,35 @@ export const PubArticle = ({
               paddingBottom: ".25rem",
             }}
           >
+            {license && license?.length > 0
+              ? (
+                <Card>
+                  <CCIcons code={license} lang={lang} />
+                </Card>
+              )
+              : null}
             <Card>
-              <CCIcons code={license} lang={lang} />
+              {[true, false].includes(open_access)
+                ? (
+                  <p>
+                    {true === open_access
+                      ? (
+                        <>
+                          {t("pubs.Open_access")} (<abbr
+                            title={t(
+                              `pubs.oa.abbr.${open_access_status}`,
+                            )}
+                          >
+                            {t(
+                              `pubs.oa.${open_access_status}`,
+                            )}
+                          </abbr>)
+                        </>
+                      )
+                      : t("pubs.Closed_access")}
+                  </p>
+                )
+                : <p>{t(`pubs.open_access_status.${open_access_status}`)}</p>}
             </Card>
           </section>
         )

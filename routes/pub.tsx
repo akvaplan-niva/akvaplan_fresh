@@ -3,6 +3,7 @@
 import { longDate } from "../time/intl.ts";
 import {
   getNvaMetadata,
+  getPresignedFileUrl,
   isNvaUrl,
   nvaPublicationLanding,
 } from "akvaplan_fresh/services/nva.ts";
@@ -19,7 +20,7 @@ import {
   hasPdf,
   PubNvaPdfAugment,
 } from "akvaplan_fresh/islands/pub_nva_pdf_augment.tsx";
-import { Breadcrumbs, Card, Page } from "akvaplan_fresh/components/mod.ts";
+import { Breadcrumbs, Page } from "akvaplan_fresh/components/mod.ts";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import {
@@ -33,7 +34,6 @@ import {
 
 import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
 import { pubsURL } from "akvaplan_fresh/services/nav.ts";
-import { extractNumericId } from "akvaplan_fresh/services/id.ts";
 import { akvaplanProjectsFromNvaProjects } from "akvaplan_fresh/services/projects.ts";
 
 export const config: RouteConfig = {
@@ -59,7 +59,7 @@ export const config: RouteConfig = {
 //   </Card>
 // );
 
-export default defineRoute(async (_req, ctx) => {
+export default defineRoute(async (req, ctx) => {
   const { params } = ctx;
   const { collection, lang, kind, idx } = params;
   const scheme = idx?.startsWith("10.") ? "doi" : kind;
@@ -77,11 +77,31 @@ export default defineRoute(async (_req, ctx) => {
 
   const { nva, title, created, modified, type } = pub;
   const base = `/${lang}/${collection}/`;
-
   // Server-fetch NVA from Akvaplan-service
   // This delays rendering, but is needed since neither Akvaplan nor NVA service supports CORS.
   // FIXME? Move NVA fetch to browser island (requires adding CORS to Akvaplan pubs service, or using a CORS proxy)
   const nvaPublication = nva ? await getNvaMetadata(nva) : undefined;
+
+  const associatedArtifactsWithPresignedFileUrls =
+    nvaPublication && nvaPublication.associatedArtifacts?.length > 0
+      ? await Array.fromAsync(
+        nvaPublication.associatedArtifacts?.map(async (file) => {
+          if (file) {
+            file.presigned = await getPresignedFileUrl(
+              nvaPublication.identifier,
+              file.identifier,
+              req.url,
+            );
+          }
+          return file;
+        }),
+      )
+      : undefined;
+
+  if (associatedArtifactsWithPresignedFileUrls) {
+    nvaPublication.associatedArtifacts =
+      associatedArtifactsWithPresignedFileUrls;
+  }
 
   const nvaProjects = nvaPublication ? nvaPublication?.projects : undefined;
 
@@ -137,7 +157,13 @@ export default defineRoute(async (_req, ctx) => {
       <PubArticle pub={pub} lang={lang} />
 
       {hasPdf(nvaPublication)
-        ? <PubNvaPdfAugment publication={nvaPublication} lang={lang} />
+        ? (
+          <PubNvaPdfAugment
+            publication={nvaPublication}
+            url={req.url}
+            lang={lang}
+          />
+        )
         : null}
 
       {nvaProjectsWithAkvaplanIds?.length > 0
