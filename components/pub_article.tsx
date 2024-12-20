@@ -83,13 +83,6 @@ export const PubArticle = ({
               paddingBottom: ".25rem",
             }}
           >
-            {license && license?.length > 0
-              ? (
-                <Card>
-                  <CCIcons code={license} lang={lang} />
-                </Card>
-              )
-              : null}
             <Card>
               {[true, false].includes(open_access)
                 ? (
@@ -111,8 +104,15 @@ export const PubArticle = ({
                       : t("pubs.Closed_access")}
                   </p>
                 )
-                : <p>{t(`pubs.open_access_status.${open_access_status}`)}</p>}
+                : <p>{t(`pubs.oa.${open_access_status}`)}</p>}
             </Card>
+            {license && license?.length > 0
+              ? (
+                <Card>
+                  <CCIcons code={license} lang={lang} />
+                </Card>
+              )
+              : null}
           </section>
         )
         : null}

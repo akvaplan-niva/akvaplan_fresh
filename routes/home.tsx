@@ -16,15 +16,12 @@ import { extractLangFromUrl, lang, t } from "akvaplan_fresh/text/mod.ts";
 import {
   getCollectionPanels,
   getPanelInLang,
-  imageCardFromPanel,
   mayEditKvPanel,
 } from "akvaplan_fresh/kv/panel.ts";
 import { ID_HOME_HERO } from "akvaplan_fresh/kv/id.ts";
 
 import {
-  ArticleSquare,
   CollectionHeader,
-  HScroll,
   NewsFilmStrip,
   Page,
 } from "akvaplan_fresh/components/mod.ts";
@@ -32,7 +29,6 @@ import { Section } from "akvaplan_fresh/components/section.tsx";
 import {
   ArticlePanelTitleLow,
   ImagePanel,
-  WideCard,
 } from "akvaplan_fresh/components/panel.tsx";
 
 import type { News } from "akvaplan_fresh/@interfaces/news.ts";
@@ -41,9 +37,9 @@ import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 
 const panelFromNews = (
   { title, href, img, published, type, hreflang }: News,
-  lang: string,
+  _lang: string,
 ) => {
-  const cloudinary = img.split("/").at(-1);
+  const cloudinary = img?.split("/").at(-1);
   const url =
     `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1782,ar_3:1/${cloudinary}`;
 

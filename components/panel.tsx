@@ -190,9 +190,6 @@ export const ArticlePanelTitleLow = (
         fontSize: ".9rem",
       }}
     >
-      <span style={{ color: "var(--accent)" }}>{t(`type.${type}`)}</span>{"  "}
-      {longDate(published, lang)}{" "}
-      {String(lang) === String(hreflang) ? null : `(${t(`lang.${hreflang}`)})`}
     </p>
     <a href={href} class="mega-card">
       <WidePictureOverlay
@@ -215,6 +212,16 @@ export const ArticlePanelTitleLow = (
         </h3>
       </div>
     </a>
+    <p
+      style={{
+        color: "var(--text2)",
+        fontSize: ".9rem",
+      }}
+    >
+      {longDate(published, lang)}{" "}
+      <span style={{ color: "var(--accent)" }}>{t(`type.${type}`)}</span>{"  "}
+      {String(lang) === String(hreflang) ? null : `(${t(`lang.${hreflang}`)})`}
+    </p>
   </div>
 );
 

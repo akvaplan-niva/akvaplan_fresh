@@ -51,7 +51,7 @@ export const CCIcons = ({ code, lang = "en" }) => {
           {criteria2 && <CCImg license={criteria2} />}
         </a>
         <span>
-          {t("pubs.Open_access")}, {license === "ZERO"
+          {license === "ZERO"
             ? t("pubs.marked_public_domain")
             : t("pubs.licensed_under")}{" "}
           <a
