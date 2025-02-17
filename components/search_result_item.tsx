@@ -132,13 +132,18 @@ export const SearchResultItem = (
 
           {"person" === collection && (
             <p>
-              <span style={{ color: "var(--accent)" }}>
-                {document.position[lang]}
-              </span>
+              {true === document.prior
+                ? <em>{t("people.akvaplanist(prior)")}</em>
+                : (
+                  <>
+                    <span style={{ color: "var(--accent)" }}>
+                      {document?.position?.[lang]}
+                    </span>
 
-              <br />
-              {document.workplace}
-              <br />
+                    <br />
+                    {document.workplace}
+                  </>
+                )}
             </p>
           )}
 
