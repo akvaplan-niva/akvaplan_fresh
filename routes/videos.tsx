@@ -52,6 +52,8 @@ export const handler: Handlers<VideosProps> = {
   },
 };
 
+// @todo /routes/videos.tsx: add link to YouTube channel? https://www.youtube.com/channel/UCD-AkBT1riN6TeNDzBP7g8g/videos?view=0&sort=dd&shelf_id=0
+
 export default function Videos(
   { data: { title, lang, base, videos } }: PageProps<VideosProps>,
 ) {

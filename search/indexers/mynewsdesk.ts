@@ -248,8 +248,9 @@ export async function* insertMynewsdesk(orama: AnyOrama) {
         atoms.push(await atomizeMynewsdeskItem(item));
       }
       try {
+        //console.warn({ type_of_media }, atoms.length);
         await insertMultiple(orama, atoms);
-      } catch (e) {
+      } catch (_e) {
         //
       } finally {
         offset += limit;
