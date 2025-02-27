@@ -51,7 +51,7 @@ const github = {
 const akvaplanSocial: Social[] = [
   // phone,
   // mail,
-  x,
+  //x,
   face,
   linked,
   github,

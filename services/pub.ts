@@ -1,11 +1,17 @@
 import { SlimPublication } from "akvaplan_fresh/@interfaces/mod.ts";
 import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
+import { fetchAndStreamNdjson } from "akvaplan_fresh/streams/ndjson_stream.ts";
 
-export const PUBS_BASE = globalThis.Deno && Deno.env.has("AKVAPLAN_PUBS")
+export const PUBS_BASE = globalThis?.Deno && Deno.env.has("AKVAPLAN_PUBS")
   ? Deno.env.get("AKVAPLAN_PUBS")
   : "https://pubs.deno.dev";
 
 const NVA_API_PROD = "https://api.nva.unit.no";
+
+export const pubs = (limit = -1) =>
+  fetchAndStreamNdjson<{ value: SlimPublication }>(
+    new URL(`/pub?limit=${Number(limit)}`, PUBS_BASE),
+  );
 
 export const NVA_API = globalThis?.Deno && Deno.env.has("NVA_API")
   ? Deno.env.get("NVA_API")

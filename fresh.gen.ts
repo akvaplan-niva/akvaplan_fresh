@@ -56,6 +56,7 @@ import * as $project from "./routes/project.tsx";
 import * as $projects from "./routes/projects.tsx";
 import * as $projects_nva from "./routes/projects_nva.tsx";
 import * as $pub from "./routes/pub.tsx";
+import * as $pub_multiplicates from "./routes/pub_multiplicates.tsx";
 import * as $pubs from "./routes/pubs.tsx";
 import * as $research from "./routes/research.tsx";
 import * as $research_topics from "./routes/research_topics.tsx";
@@ -147,6 +148,7 @@ const manifest = {
     "./routes/projects.tsx": $projects,
     "./routes/projects_nva.tsx": $projects_nva,
     "./routes/pub.tsx": $pub,
+    "./routes/pub_multiplicates.tsx": $pub_multiplicates,
     "./routes/pubs.tsx": $pubs,
     "./routes/research.tsx": $research,
     "./routes/research_topics.tsx": $research_topics,
