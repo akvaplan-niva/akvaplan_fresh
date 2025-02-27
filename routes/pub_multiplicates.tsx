@@ -1,7 +1,6 @@
 import { pubs } from "akvaplan_fresh/services/pub.ts";
-import { Card, Page } from "akvaplan_fresh/components/mod.ts";
+import { Page } from "akvaplan_fresh/components/mod.ts";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import { pubsURL } from "akvaplan_fresh/services/nav.ts";
 import { SearchResultItem } from "akvaplan_fresh/components/search_result_item.tsx";
 import { atomizeSlimPublication } from "akvaplan_fresh/search/indexers/pubs.ts";
 
@@ -19,17 +18,17 @@ const getMultiplicates = async () => {
     .groupBy(atoms, (pub) => pub.title);
 
   return [...grouped]
-    .filter(([title, list]) => list.length > 1)
+    .filter(([_title, list]) => list.length > 1)
     .sort((a, b) => b[1].length - a[1].length);
 };
 
-export default defineRoute(async (req, ctx) => {
+export default defineRoute(async (_req, ctx) => {
   const { lang } = ctx.params;
   const multi = await getMultiplicates();
 
   return (
     <Page
-      title={""}
+      title={"Multi"}
       lang={lang}
       style={{
         fontSize: "1rem",
