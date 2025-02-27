@@ -9,21 +9,21 @@ interface Social {
   width?: number;
   title?: string;
 }
-// const mail = {
-//   icon: "mail",
-//   name: "E-mail",
-//   href: "mailto:info@akvaplan.niva.no",
-// };
+const mail = {
+  icon: "mail",
+  name: "E-mail",
+  href: "mailto:info@akvaplan.niva.no",
+};
 // const phone = {
 //   icon: "phone_in_talk",
 //   name: "Ring (8–16)",
 //   href: "tel:+47 77 75 03 00",
 // };
-const x = {
-  icon: "/icon/logo/x.svg",
-  name: "X",
-  href: "https://x.com/AkvaplanNiva",
-};
+// const x = {
+//   icon: "/icon/logo/x.svg",
+//   name: "X",
+//   href: "https://x.com/AkvaplanNiva",
+// };
 const face = {
   name: "Facebook",
   icon: "/icon/logo/facebook.svg",
@@ -49,8 +49,8 @@ const github = {
 //   filter: "none",
 // };
 const akvaplanSocial: Social[] = [
-  // phone,
-  // mail,
+  //phone,
+  mail,
   //x,
   face,
   linked,
