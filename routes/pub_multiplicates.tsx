@@ -8,23 +8,36 @@ export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(pubs|publications|publikasjoner)/multi",
 };
 
-const getMultiplicates = async () => {
+const getMultiplicates = async (params = {}) => {
   const all = await Array.fromAsync(await pubs());
   const atoms = await Array.fromAsync(all.map(async (
     { value },
-  ) => await atomizeSlimPublication(await value)));
+  ) => await atomizeSlimPublication(value)));
+
+  const filter = params?.year
+    ? ([, list]) => {
+      return list.filter(({ year }) => year >= params.year).length > 0;
+    }
+    : () => true;
 
   const grouped = Map
-    .groupBy(atoms, (pub) => pub.title);
+    .groupBy(atoms, (pub) => [pub.title, pub.container].join("|"));
 
   return [...grouped]
     .filter(([_title, list]) => list.length > 1)
+    .filter(filter)
     .sort((a, b) => b[1].length - a[1].length);
 };
 
 export default defineRoute(async (_req, ctx) => {
   const { lang } = ctx.params;
-  const multi = await getMultiplicates();
+  const { searchParams } = ctx.url;
+  const year =
+    searchParams.has("year") && Number(searchParams.get("year")) > 1980
+      ? Number(searchParams.get("year"))
+      : undefined;
+  const params = { year };
+  const multi = await getMultiplicates(params);
 
   return (
     <Page
@@ -38,13 +51,16 @@ export default defineRoute(async (_req, ctx) => {
         <>
           <details>
             <summary>
-              {title}
+              {list[0]?.title}
               <span>{" "}[{list.length}]</span>
             </summary>
             <ol>
               {list.map(({ title, ...rest }) => (
                 <SearchResultItem
-                  document={{ title, ...rest }}
+                  document={{
+                    title: `${rest.container} [${rest.type}]`,
+                    ...rest,
+                  }}
                   score={1}
                   lang={lang}
                   collection={"pub"}
