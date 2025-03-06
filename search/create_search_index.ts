@@ -42,20 +42,14 @@ export const buildOramaIndex = async () => {
   console.warn(`Indexing ${markdownDocuments.length} markdown documents`);
   await insertMultiple(orama, markdownDocuments);
 
-  const _pubs = await getPubsFromDenoDeployService();
-  if (_pubs) {
-    const types = new Set();
-    const kinds = new Set();
-    const pubs = _pubs.filter(({ id, type }) => {
-      const { hostname } = new URL(id);
-      kinds.add(hostname);
-      types.add("nva." + type);
-      return true;
-    });
+  const pubs = await getPubsFromDenoDeployService();
+  if (pubs) {
+    const types = new Set(pubs.map(({ type }) => type));
+
     console.warn(
-      `Indexing ${pubs.length} of ${_pubs.length} pubs of types [${[
+      `Indexing ${pubs.length} of ${pubs.length} pubs of types [${[
         ...types,
-      ]}] from [${[...kinds]}]`,
+      ]}]`,
     );
     await insertMultiple(
       orama,

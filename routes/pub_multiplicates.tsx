@@ -1,5 +1,5 @@
 import { pubs } from "akvaplan_fresh/services/pub.ts";
-import { Page } from "akvaplan_fresh/components/mod.ts";
+import { Card, Page } from "akvaplan_fresh/components/mod.ts";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { SearchResultItem } from "akvaplan_fresh/components/search_result_item.tsx";
 import { atomizeSlimPublication } from "akvaplan_fresh/search/indexers/pubs.ts";
@@ -21,7 +21,7 @@ const getMultiplicates = async (params = {}) => {
     : () => true;
 
   const grouped = Map
-    .groupBy(atoms, (pub) => [pub.title, pub.container].join("|"));
+    .groupBy(atoms, (pub) => [pub.title].join("|"));
 
   return [...grouped]
     .filter(([_title, list]) => list.length > 1)
@@ -39,6 +39,22 @@ export default defineRoute(async (_req, ctx) => {
   const params = { year };
   const multi = await getMultiplicates(params);
 
+  const format = searchParams.get("format");
+  if (format === "json") {
+    const m2 = multi.map(
+      ([title, list]) => ({
+        title,
+        meta: list.map(({ id, type, container, published, identities }) => ({
+          id,
+          type,
+          published,
+          ids: identities.join("/"),
+        })),
+      }),
+    );
+    return Response.json(m2);
+  }
+
   return (
     <Page
       title={"Multi"}
@@ -47,9 +63,12 @@ export default defineRoute(async (_req, ctx) => {
         fontSize: "1rem",
       }}
     >
-      {[...multi].map(([title, list]) => (
+      <Card>
+        <h1>Multi: {multi.length}</h1>
+      </Card>
+      {multi.map(([title, list]) => (
         <>
-          <details>
+          <details open>
             <summary>
               {list[0]?.title}
               <span>{" "}[{list.length}]</span>

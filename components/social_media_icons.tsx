@@ -114,7 +114,7 @@ export const buildPersonalSocialMediaLinks = (akvaplanist: Akvaplanist) => {
       name: `NVA`,
       title: `NVA (${name})`,
       href: new URL(
-        `/research-profile?id=${NVA_API}/cristin/person/${cristin}`,
+        `/research-profile/${cristin}`,
         NVA_HOME,
       ),
     },

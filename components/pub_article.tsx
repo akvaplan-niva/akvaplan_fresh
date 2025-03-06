@@ -38,9 +38,15 @@ export const PubArticle = ({
     created,
     modified,
     abstract,
-    open_access,
+    // open_access,
     open_access_status,
   } = pub;
+
+  const open_access = license ? true : pub?.open_access;
+
+  // const open_access_status = license && "unknown"
+  //   ? undefined
+  //   : pub.open_access_status;
 
   return (
     <article
