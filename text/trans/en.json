@@ -207,7 +207,7 @@
   "pubs.oa.hybrid": "hybrid",
   "pubs.oa.bronze": "bronze",
   "pubs.oa.closed": "closed",
-  "pubs.oa.unknown": "Unknown status: open access or closed access?",
+  "pubs.oa.unknown": "unknown",
   "pubs.oa.abbr.gold": "Gold: published in a fully open access journal",
   "pubs.oa.abbr.bronze": "Bronze: Free to read on the publisher landing page, but without any identifiable license",
   "pubs.licensed_under": "licensed under",

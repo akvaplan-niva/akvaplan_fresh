@@ -172,7 +172,7 @@
   "pubs.oa.hybrid": "hybrid",
   "pubs.oa.bronze": "bronse",
   "pubs.oa.closed": "lukket",
-  "pubs.oa.unknown": "Ukjent status: åpen tilgang eller lukket tilgang?",
+  "pubs.oa.unknown": "ukjent",
   "pubs.oa.abbr.bronze": "Bronse: Åpen tilgang på nettsidene til utgiveren, men mangler lisensinformasjon",
   "pubs.oa.abbr.diamond": "Diamant: Åpen tilgang og publisering uten kostnader – altså gratis for både lesere og forfattere",
   "pubs.oa.abbr.gold": "Gull: Åpen tilgang til utgivers offisielle versjon, under en eksplisitt lisens",
