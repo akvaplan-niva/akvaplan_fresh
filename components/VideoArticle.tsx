@@ -10,6 +10,9 @@ import { Section } from "akvaplan_fresh/components/section.tsx";
 export function VideoArticle(
   { item, editor }: { item: MynewsdeskVideo },
 ) {
+  if (!item.embed_code) {
+    console.warn(item);
+  }
   return (
     <>
       <Section>
@@ -17,19 +20,31 @@ export function VideoArticle(
           <h1>{item.header}</h1>
         </Card>
       </Section>
-      <div style="position:relative;width:100%;padding-bottom:56.25%;">
-        {item?.embed && (
-          <iframe
-            allow="autoplay; fullscreen"
-            allowfullscreen
-            referrerpolicy="no-referrer-when-downgrade"
-            src={`https://api.screen9.com/embed/${item.embed}?starttime=0`}
-            style="border:0;width:100%;height:100%;position:absolute"
-            title=""
+
+      {item.embed_code
+        // deno-lint-ignore react-no-danger
+        ? (
+          <div
+            dangerouslySetInnerHTML={{ __html: item.embed_code }}
+            style=""
           >
-          </iframe>
+          </div>
+        )
+        : (
+          <div style="position:relative;width:100%;padding-bottom:56.25%;">
+            {item?.embed && (
+              <iframe
+                allow="autoplay; fullscreen"
+                allowfullscreen
+                referrerpolicy="no-referrer-when-downgrade"
+                src={`https://api.screen9.com/embed/${item.embed}?starttime=0`}
+                style="border:0;width:100%;height:100%;position:absolute"
+                title=""
+              >
+              </iframe>
+            )}
+          </div>
         )}
-      </div>
 
       <p>{item.summary}</p>
 

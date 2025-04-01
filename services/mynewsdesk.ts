@@ -330,8 +330,10 @@ export const fetchVideoEmbedCode = async (slug: string) => {
     "https://akvaplan-niva.mynewsdesk.com",
   );
   const r = await fetch(url);
+
   if (r.ok) {
     const html = await r.text();
+
     const embed = html.split("https://api.screen9.com/embed/").at(1)
       ?.split('\\"').at(0);
     return embed;
