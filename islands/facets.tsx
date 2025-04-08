@@ -16,7 +16,7 @@ const buildIntlFacetLabel = (label, facet) => {
   }
 };
 
-export const Facets = ({ q, facet, max = 6, lang, base, filter }) => (
+export const Facets = ({ q, facet, max, lang, base, filter }) => (
   <>
     {facet.groups.slice(0, max).map(({ label, count }) => (
       <>

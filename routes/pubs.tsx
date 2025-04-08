@@ -22,30 +22,13 @@ export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(pubs|publications|publikasjoner)",
 };
 
-export default async function PubsPage(req: Request, ctx: RouteContext) {
-  const { lang, page } = ctx.params;
+const addUrlParam = ([key, value]: string[], url: URL) => {
+  const { searchParams } = url;
+  searchParams.set(key, value);
+  return url.href;
+};
 
-  langSignal.value = lang;
-  const base = `/${lang}/${page}/`;
-
-  const { searchParams } = new URL(req.url);
-
-  const q = searchParams.get("q");
-  const debug = searchParams.has("debug");
-
-  const collection = "pubs";
-  const title = t("nav.Pubs").value;
-  const sortBy = searchParams.has("sort")
-    ? buildSortBy(searchParams.get("sort") ?? "")
-    : oramaSortPublishedReverse;
-
-  const where = { collection };
-  const { count } = await search({
-    term: "",
-    limit: 0,
-    where,
-  });
-
+const buildF = ({ searchParams, where }) => {
   const filters = new Map(
     [...searchParams].filter(([k]) =>
       /^filter-/.test(k) && !/filter-people/.test(k)
@@ -64,30 +47,70 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
       where[k] = v;
     }
   }
+  return filters;
+};
+
+export const buildOramaParams = ({ searchParams }) => {
+  const q = searchParams.get("q");
+  const debug = searchParams.has("debug");
+
+  const collection = "pubs";
+
+  const sortBy = searchParams.has("sort")
+    ? buildSortBy(searchParams.get("sort") ?? "")
+    : oramaSortPublishedReverse;
+
+  const where = { collection };
 
   const facets = {
     type: {},
-    // open_access: {},
-    // open_access_status: {},
-    //year: decadesFacet,
   };
-  if (debug) {
-    facets.debug = {};
-    facets.license = {};
-    facets.projects = {};
-    facets.identities = {};
-    facets.year = yearFacet;
+  if (searchParams.has("facet")) {
+    for (const facetWithLimit of searchParams.getAll("facet")) {
+      const [facet, _limit] = facetWithLimit.split(":");
+      facets[facet] = {
+        limit: _limit?.length > 0 ? Number(_limit) : 10,
+      };
+    }
   }
-  const hero = await getPanelInLang<Panel>({ id: ID_PUBLICATIONS, lang });
-  hero.cta = "";
-  const results = await search({
+  // if (debug) {
+  //   facets.debug = {};
+  //   facets.license = {};
+  //   facets.projects = {};
+  // }
+
+  return {
     term: q ?? "",
     limit: 25,
     where,
     facets,
     sortBy,
     threshold: 0.5,
+  };
+};
+
+export default async function PubsPage(req: Request, ctx: RouteContext) {
+  const { lang, page } = ctx.params;
+
+  langSignal.value = lang;
+  const base = `/${lang}/${page}/`;
+  const title = t("nav.Pubs").value;
+  const { searchParams } = new URL(req.url);
+
+  const oramaParams = buildOramaParams({ searchParams });
+  const { where, term, facets } = oramaParams;
+
+  const { count } = await search({
+    term: "",
+    limit: 0,
+    where,
   });
+  const filters = buildF({ searchParams, where });
+  const results = await search(oramaParams);
+  const collection = "pubs";
+
+  const hero = await getPanelInLang<Panel>({ id: ID_PUBLICATIONS, lang });
+  hero.cta = "";
 
   return (
     <Page title={title} base={base}>
@@ -97,11 +120,16 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
         cloudinary={hero?.image.cloudinary}
         href={hero?.href}
       />
+      {
+        /* <p>
+        <a href={addUrlParam(["facet", "identities"], ctx.url)}>Forfattere</a>
+      </p> */
+      }
 
       <CollectionSearch
         placeholder={title}
         collection={collection}
-        q={q}
+        q={term}
         lang={lang}
         results={results}
         filters={[...filters]}

@@ -63,6 +63,7 @@ export function CollectionSearch(
   {
     q,
     lang,
+    base,
     collection,
     placeholder,
     facets,
@@ -203,7 +204,7 @@ export function CollectionSearch(
     performSearch();
   };
 
-  const base = href({ collection, lang });
+  base = base ?? href({ collection, lang });
 
   return (
     <main>
@@ -289,6 +290,7 @@ export function CollectionSearch(
                     q={query.value}
                     lang={lang}
                     base={base}
+                    max={20}
                     filter={new Map([...filters])}
                   />
                 ))}
@@ -325,8 +327,17 @@ export function CollectionSearch(
             // group={groupBy}
             etal={etal}
           />
+        </div>
+      </output>
+    </main>
+  );
+}
 
-          <div style={{ fontSize: "1rem", paddingBlockStart: "0.5rem" }}>
+/**
+ *
+ *
+ *
+ * <div style={{ fontSize: "1rem", paddingBlockStart: "0.5rem" }}>
             {facet.value.filter((f) =>
               !["collection", "type"].includes(f.facet)
             ).map((
@@ -342,7 +353,7 @@ export function CollectionSearch(
                       ? (
                         <span>
                           {"type"}
-                          {/* {t(`${collection}.type`)} */}
+                          {t(`${collection}.type`)}
                           <Pill>{count.value}</Pill>
                         </span>
                       )
@@ -376,10 +387,6 @@ export function CollectionSearch(
               )
             ))}
           </div>
-        </div>
-      </output>
-    </main>
-  );
-}
+ */
 
 export default CollectionSearch;
