@@ -1,3 +1,6 @@
+// Useful:
+// $ cat <(./kv/_list.ts pub | nd-filter '/unit.no/.test(d.key[1])' | nd-map d.value | grep AcademicArticle | nd-map --select title)
+
 import { pubs } from "akvaplan_fresh/services/pub.ts";
 import { Card, Page } from "akvaplan_fresh/components/mod.ts";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
