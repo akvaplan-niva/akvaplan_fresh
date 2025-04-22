@@ -72,7 +72,7 @@ const trondheim: Office = {
   country: "NO",
   post: "Postboks 1268, Sluppen, 7462 Trondheim",
   visit: "Pirsenteret, Havnegata 9, 7010 Trondheim",
-  tel: "+47 99 58 54 68",
+  //tel: "",
   email: "trondheim@akvaplan.niva.no",
 };
 
