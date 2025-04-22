@@ -27,7 +27,9 @@ const style = `@layer markdown {
 
   .markdown p { padding: 0.5 1rem; }
 
-  .markdown h2 { font-weight: 800; margin: 1rem 0; }
+  .markdown h2 { font-weight: 800; margin: .75rem 0; }
+
+  .markdown h3 { font-weight: 800; margin: .75rem 0; }
   
   .markdown li { margin-left: 1.5rem; list-style-type: square; }
 }`;
@@ -65,7 +67,7 @@ export const Markdown = (
 };
 
 const peopleIdsAsHits = (ids, lang) =>
-  ids.map((id) => {
+  ids.filter((id) => id?.length === 3).map((id) => {
     const person = getAkvaplanist(id);
     if (person) {
       return { document: atomizeAkvaplanist(person), score: 0 };
@@ -99,7 +101,13 @@ export const MarkdownPanel = (
         </Card>
       </Section>
 
-      <SearchResults hits={peopleIdsAsHits(people_ids, lang)} display="grid" />
+      {people_ids?.length > 0 &&
+        (
+          <SearchResults
+            hits={peopleIdsAsHits(people_ids, lang)}
+            display="grid"
+          />
+        )}
     </>
   );
 };
