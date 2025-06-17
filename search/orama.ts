@@ -48,8 +48,8 @@ export const createOramaInstance = async (): Promise<OramaAtomSchema> =>
 export const getOramaInstance = async (): Promise<OramaAtomSchema> => {
   if (!_orama) {
     try {
-      //const orama = await restoreOramaJson(oramaJsonPath);
-      const orama = await restoreOramaMessagePack(oramaMessagePackPath);
+      const orama = await restoreOramaJson(oramaJsonPath);
+      //const orama = await restoreOramaMessagePack(oramaMessagePackPath);
 
       if (orama) {
         setOramaInstance(orama);
@@ -124,7 +124,8 @@ export const persistIndexAsMessagePack = async (
   path = oramaMessagePackPath,
 ) => {
   const saved = await save(orama);
-  const msgpack = pack(saved);
+  //error: Uncaught (in promise) Error: Object is too large to serialize with fast 16-bit map size, use the "variableMapSize" option to serialize this object
+  const msgpack = pack(saved, { variableMapSize: true });
   console.warn(
     `Persisting Orama index (${await count(
       orama,

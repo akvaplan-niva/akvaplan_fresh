@@ -2,8 +2,10 @@
 import dev from "$fresh/dev.ts";
 
 import {
+  oramaJsonPath,
   oramaMessagePackPath,
   persistIndexAsMessagePack,
+  persistOramaJson,
 } from "akvaplan_fresh/search/orama.ts";
 import {
   _akvaplanists,
@@ -36,6 +38,6 @@ if (Deno.args.includes("build")) {
   await createIdentitiesJsonFiles();
 
   const orama = await buildOramaIndex();
-  //await persistOramaJson(orama, oramaJsonPath);
-  await persistIndexAsMessagePack(orama, oramaMessagePackPath);
+  await persistOramaJson(orama, oramaJsonPath);
+  //await persistIndexAsMessagePack(orama, oramaMessagePackPath);
 }
