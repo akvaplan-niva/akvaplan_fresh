@@ -105,7 +105,7 @@ export default defineRoute(async (req, ctx) => {
         <script type="module" src="/maplibre-gl/offices.js" />
         <link
           rel="stylesheet"
-          href="https://esm.sh/maplibre-gl@4.4.1/dist/maplibre-gl.css"
+          href="https://esm.sh/maplibre-gl@5.6.0/dist/maplibre-gl.css"
         />
       </Head>
     </Page>

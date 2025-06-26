@@ -93,7 +93,7 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
             <script type="module" src="/maplibre-gl/office.js" />
             <link
               rel="stylesheet"
-              href="https://esm.sh/maplibre-gl@4.4.1/dist/maplibre-gl.css"
+              href="https://esm.sh/maplibre-gl@5.6.0/dist/maplibre-gl.css"
             />
           </Section>
         )
