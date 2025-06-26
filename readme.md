@@ -3,8 +3,7 @@
 [Akvaplan-niva](https://akvaplan.no/) company website
 
 - HTML-first multi-page web app
-- Server-side rendered in Deno [Deploy](https://deno.com/deploy/) – fully
-  functional without JavaScript
+- Server-side rendered in Deno [Deploy](https://deno.com/deploy/)
 - Bilingual, featuring translated and search-engine friendly URLs
 
 ## Tech stack
