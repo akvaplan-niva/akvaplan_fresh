@@ -22,9 +22,11 @@ export const PanelPage = (
   { base, collection, panel, lang, editor, contacts, url, more, search },
 ) => (
   <Page base={base} title={panel.title} collection={collection}>
-    <Breadcrumbs
+    {
+      /* <Breadcrumbs
       list={[breadcrumb(collection, lang)]}
-    />
+    /> */
+    }
     <MarkdownPanel panel={panel} lang={lang} />
 
     <Section>

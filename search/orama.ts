@@ -11,6 +11,7 @@ let _orama: OramaAtomSchema;
 export const latest = new Map<string, OramaAtomSchema[]>();
 
 export const oramaJsonPath = "./_fresh/orama.json";
+export const oramaJsonUrl = "https://dev0.akvaplan.app/_fresh/orama.json";
 export const oramaMessagePackPath = "./_fresh/orama.mp";
 
 const normalize = (s: string, locales?: string[]) =>
@@ -48,7 +49,8 @@ export const createOramaInstance = async (): Promise<OramaAtomSchema> =>
 export const getOramaInstance = async (): Promise<OramaAtomSchema> => {
   if (!_orama) {
     try {
-      const orama = await restoreOramaJson(oramaJsonPath);
+      const orama = await restoreOramaJsonFromUrl(oramaJsonUrl);
+      //const orama = await restoreOramaJson(oramaJsonPath);
       //const orama = await restoreOramaMessagePack(oramaMessagePackPath);
 
       if (orama) {
@@ -64,6 +66,34 @@ export const getOramaInstance = async (): Promise<OramaAtomSchema> => {
   return _orama;
 };
 export const setOramaInstance = (orama: OramaAtomSchema) => _orama = orama;
+
+const fetchJSON = async (url) => {
+  const r = await fetch(url).catch(() => {});
+  if (r?.ok) {
+    const l = new Date(r.headers.get("last-modified"));
+    console.warn(l);
+    return r.json();
+  } else {
+    console.warn(`GET ${url} failed (${r?.status})`);
+  }
+};
+
+export const restoreOramaJsonFromUrl = async (
+  url: string,
+) => {
+  try {
+    console.time("Orama url restore");
+    const deserialized = await fetchJSON(url);
+    const db = await createOramaInstance();
+    load(db, deserialized);
+    console.warn("Restored", await count(db), "Orama documents from", url);
+    console.timeEnd("Orama url restore");
+    return db;
+  } catch (e) {
+    console.error(`Could not restore Orama index ${url}`, e);
+    throw "Search is currently unavailable";
+  }
+};
 
 export const restoreOramaJson = async (path: string) => {
   try {
