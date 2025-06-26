@@ -13,32 +13,23 @@ import { mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
 import { defineRoute } from "$fresh/src/server/defines.ts";
 import type { RouteConfig } from "$fresh/server.ts";
 
-// export const config: RouteConfig = {
-//   routeOverride: "/:lang(no|en)/panel/:id",
-// };
-
 export const config: RouteConfig = {
-  routeOverride: "/:lang(no|en)/:collection{/:slug}?/:id/:action(edit|new)",
+  routeOverride: "/:lang(no|en)/:collection/:id",
 };
 
 export default defineRoute(async (req, ctx) => {
   const { params, url } = ctx;
-  const { lang, id, slug, collection } = params;
-
+  const { lang, collection } = params;
+  const [slug, id] = params.id.includes("-")
+    ? params.id.split("-")
+    : ["", params.id];
   const panel = await getPanelInLang({ id, lang });
 
   if (!panel) {
     return ctx.renderNotFound();
   }
-  //const editor = await mayEditKvPanel(req);
-  //const kv = await openKv();
-  // const edits = await Array.fromAsync(
-  //   await kv.list({ prefix: ["patch", "panel", panel.id] }, { reverse: true }),
-  // );
 
-  //const id = params?.id !== "" ? params.id : slugIds.get(slug) ?? "";
-
-  const base = `/${params.lang}/${params.collection}/${params.id}`;
+  const base = `/${lang}/${collection}/${slug ? `${slug}-${id}` : id}`;
 
   const contacts = panel?.people_ids?.trim
     ? panel?.people_ids?.trim().split(",")
@@ -47,27 +38,8 @@ export default defineRoute(async (req, ctx) => {
   const search = undefined;
 
   return (
-    <Page base={base} title={t("ui.Edit_panel")} lang={lang}>
+    <Page base={base} title={panel?.title} lang={lang}>
       <MarkdownPanel panel={panel} lang={lang} />
-      {/* <Breadcrumbs list={[{ text: "panels", href: base }]} /> */}
-      {
-        /* <Section>
-        <details>
-          <summary>Edits</summary>
-          <pre style={{ fontSize: "0.8rem" }}>
-            <dl>
-              {edits.map(({ key, value }) => (
-                <>
-                  <dt>{value.modified} {value.modified_by} </dt>
-
-                  <dd>{value.patches.map( ({path,value}) => <p>[{path}]: "{value}"</p>)}</dd>
-                </>
-              ))}
-            </dl>
-          </pre>
-        </details>
-      </Section> */
-      }
     </Page>
   );
 });

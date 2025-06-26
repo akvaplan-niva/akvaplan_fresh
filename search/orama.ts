@@ -49,8 +49,8 @@ export const createOramaInstance = async (): Promise<OramaAtomSchema> =>
 export const getOramaInstance = async (): Promise<OramaAtomSchema> => {
   if (!_orama) {
     try {
-      const orama = await restoreOramaJsonFromUrl(oramaJsonUrl);
-      //const orama = await restoreOramaJson(oramaJsonPath);
+      //const orama = await restoreOramaJsonFromUrl(oramaJsonUrl);
+      const orama = await restoreOramaJson(oramaJsonPath);
       //const orama = await restoreOramaMessagePack(oramaMessagePackPath);
 
       if (orama) {

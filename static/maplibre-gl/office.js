@@ -1,6 +1,6 @@
 // Adapted from
 // https://maplibre.org/maplibre-gl-js/docs/examples/geojson-markers/
-import maplibregl from "https://esm.sh/maplibre-gl@@5.6.0/dist/maplibre-gl.js";
+import maplibregl from "https://esm.sh/maplibre-gl@5.6.0/dist/maplibre-gl.js";
 
 import { nameToCoord, toFeature } from "./office_coordinates.js";
 
