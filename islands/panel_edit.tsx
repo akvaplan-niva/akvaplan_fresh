@@ -148,7 +148,9 @@ export const PanelEditIsland = (
       {/* {false && <Button name="_btn" value="publish">Publish</Button>} */}
 
       <Button onClick={() => history.back()}>Cancel</Button>
-      <Button name="_btn" type="submit" value="duplicate">Duplicate</Button>
+
+      {/* <Button name="_btn" type="submit" value="duplicate">Duplicate</Button> */}
+
       {panel.id === null
         ? <Button name="_btn" type="submit" value="new" filled>Create</Button>
         : <Button name="_btn" type="submit" value="save" filled>Save</Button>}
