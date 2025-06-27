@@ -24,6 +24,11 @@ export default defineRoute(async (req, ctx) => {
     ? params.id.split("-")
     : ["", params.id];
   const panel = await getPanelInLang({ id, lang });
+  if (!panel.desc) {
+    panel.desc = lang === "en"
+      ? panel?.intl["no"].desc
+      : panel?.intl["en"].desc;
+  }
 
   if (!panel) {
     return ctx.renderNotFound();
