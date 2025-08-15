@@ -53,7 +53,8 @@ export default function ThemeSwitcher({ mini = false, auto = !mini } = {}) {
           {mini ? <span>&nbsp;</span> : t("theme.dark")}
         </Button>
 
-        <Button
+        {
+          /* <Button
           color-scheme="blue"
           data-theme="auto"
           aria-label={t("theme.set.blue")}
@@ -61,7 +62,8 @@ export default function ThemeSwitcher({ mini = false, auto = !mini } = {}) {
           style={style}
         >
           {mini ? <span>&nbsp;</span> : t("theme.blue")}
-        </Button>
+        </Button> */
+        }
 
         <Button
           color-scheme="light"

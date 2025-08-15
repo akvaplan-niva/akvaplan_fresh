@@ -1,4 +1,4 @@
-[color-scheme="dark"] {
+[color-scheme="dark"], :root:not([color-scheme]) {
   color-scheme: dark;
 
   --brand: var(--dark);
