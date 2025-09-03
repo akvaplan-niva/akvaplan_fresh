@@ -3,8 +3,8 @@ import { isDoiUrl } from "akvaplan_fresh/services/pub.ts";
 
 const NVA_API_PROD = "https://api.nva.unit.no";
 const NVA_API_TEST = "https://api.test.nva.aws.unit.no";
-export const NVA_API = NVA_API_TEST;
-export const NVA_HOME = "https://test.nva.sikt.no";
+export const NVA_API = NVA_API_PROD;
+export const NVA_HOME = "https://nva.sikt.no";
 
 export const isNvaUrl = (id: string | URL) => {
   if (URL.canParse(id)) {
