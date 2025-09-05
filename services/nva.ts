@@ -19,12 +19,20 @@ export const isNvaUrl = (id: string | URL) => {
 export const nvaPublicationLanding = (id: string) =>
   new URL(`/registration/${id}`, NVA_HOME);
 
+export const nvaProjectLandingUrl = (id: string | number) =>
+  new URL(`/projects/${id}`, NVA_HOME);
+
 export const fetchNvaMetadata = async (id: string) => {
   const url = new URL(`/publication/${id}`, NVA_API);
   return await fetch(url, { headers: { accept: "application/json" } });
 };
-
 export const fetchNvaPublication = fetchNvaMetadata;
+
+export const fetchNvaProject = async (id: string) => {
+  const url = new URL(`/cristin/project/${id}`, NVA_API);
+  return await fetch(url, { headers: { accept: "application/json" } });
+};
+
 export const getPresignedFileUrl = async (
   id: string,
   file: string,

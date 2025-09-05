@@ -1,6 +1,6 @@
 import { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 0;
-import { PUBS_BASE } from "./pub.ts";
+import { ignorePubTypes, isDoiOrHandleUrl, PUBS_BASE } from "./pub.ts";
 // FIXME Remove this file and consolidate with pub.ts
 
 export const slimFromCrossref = (xr) => {
@@ -22,7 +22,13 @@ export const getPubsFromDenoDeployService = async () => {
       .trim();
     const pubs: SlimPublication[] = text?.split("\n")?.map(JSON.parse).map((
       { value },
-    ) => value);
+    ) => value).filter(({ id, type }) => {
+      if (isDoiOrHandleUrl(id)) {
+        return true;
+      }
+      return false === ignorePubTypes.has(type);
+    });
+    // Ignoring pub types without DOI/handle added 2025-09-05, number of pubs reduced to 2276 (-655)
     return pubs;
   }
 };

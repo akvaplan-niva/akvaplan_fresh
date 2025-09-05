@@ -202,7 +202,7 @@ export const atomizeSlimPublication = async (pub: SlimPublication) => {
 // FIXME https://github.com/akvaplan-niva/akvaplan_fresh/issues/339
 //
 
-// Not about family name collisions (2024-04-04)
+// Note about family name collisions (2024-04-04)
 // The family names under collides with known Akvaplanists, but are correctly not identified as Akvaplanists on the DOI page
 // Example: "Kai Christensen" in https://akvaplan.no/en/doi/10.3390/s21206752
 //
