@@ -8,6 +8,15 @@ export const PUBS_BASE = globalThis?.Deno && Deno.env.has("AKVAPLAN_PUBS")
 
 const NVA_API_PROD = "https://api.nva.unit.no";
 
+export const ignorePubTypes = new Set([
+  "Lecture",
+  "ConferenceLecture",
+  "ConferencePoster",
+  "PopularScienceArticle",
+  "MediaInterview",
+  "MediaFeatureArticle",
+]);
+
 export const pubs = (limit = -1) =>
   fetchAndStreamNdjson<{ value: SlimPublication }>(
     new URL(`/pub?limit=${Number(limit)}`, PUBS_BASE),

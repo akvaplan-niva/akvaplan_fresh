@@ -1,7 +1,7 @@
 // Useful:
 // $ cat <(./kv/_list.ts pub | nd-filter '/unit.no/.test(d.key[1])' | nd-map d.value | grep AcademicArticle | nd-map --select title)
 
-import { pubs } from "akvaplan_fresh/services/pub.ts";
+import { ignorePubTypes, pubs } from "akvaplan_fresh/services/pub.ts";
 import { Card, Page } from "akvaplan_fresh/components/mod.ts";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { SearchResultItem } from "akvaplan_fresh/components/search_result_item.tsx";
@@ -11,13 +11,23 @@ export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(pubs|publications|publikasjoner)/multi",
 };
 
+const notMultiTitle = new Set([
+  "The effect of temperature and fish size on growth of juvenile lumpfish (Cyclopterus lumpus L.)",
+  "Soft-bottom macro invertebrate fauna of North Norwegian coastal waters with particular reference to sill-basins. Part one: Bottom topography and species diversity",
+]);
+
 const getMultiplicates = async (params = {}) => {
   const all = await Array.fromAsync(await pubs());
-  const atoms = await Array.fromAsync(all.map(async (
+  const _atoms = await Array.fromAsync(all.map(async (
     { value },
   ) => await atomizeSlimPublication(value)));
 
-  const filter = params?.year
+  const filterPubTypes = ({ type }) => !ignorePubTypes.has(type);
+  const filterNotMulti = ({ title }) => !notMultiTitle.has(title);
+
+  const atoms = _atoms.filter(filterPubTypes).filter(filterNotMulti);
+
+  const filterParamsOrNone = params?.year
     ? ([, list]) => {
       return list.filter(({ year }) => year >= params.year).length > 0;
     }
@@ -28,7 +38,7 @@ const getMultiplicates = async (params = {}) => {
 
   return [...grouped]
     .filter(([_title, list]) => list.length > 1)
-    .filter(filter)
+    .filter(filterParamsOrNone)
     .sort((a, b) => b[1].length - a[1].length);
 };
 
