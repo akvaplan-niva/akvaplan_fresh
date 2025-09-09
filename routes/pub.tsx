@@ -109,8 +109,6 @@ export default defineRoute(async (req, ctx) => {
     ? await akvaplanProjectsFromNvaProjects(nvaProjects)
     : undefined;
 
-  console.warn({ nvaProjects, nvaProjectsWithAkvaplanIds });
-
   const typeText = t(
     isHandleUrl(id) || isNvaUrl(id) ? `nva.${type}` : `type.${type}`,
   );
