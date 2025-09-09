@@ -75,7 +75,8 @@ export const handler: Handlers = {
     if (!item) {
       return ctx.renderNotFound();
     }
-    const id = slug.split("-").at(0);
+    const id = slug; // FIXME Now the slug cannot contain a trailing (mynewsdesk) number .split("-").at(0);
+
     const cristin = id && cristinMap.has(id) ? cristinMap.get(id) : undefined;
     // if (["project", "prosjekt"].includes(type) && "no" === lang) {
     //   item.header = t(`project.${slug}.title`);
