@@ -99,3 +99,19 @@ export const getWorksBy = async (id: string) => {
       : [];
   }
 };
+
+const getPubsForCristinProject = async (cristin: number) => {
+  const url = new URL(`/cristinproject_pub/${cristin}`, PUBS_BASE);
+  url.searchParams.set("limit", "-1");
+  const r = await fetch(url);
+
+  if (r?.ok) {
+    const text = await r.text();
+    return text?.length > 0
+      ? text.trim().split("\n")?.map((t) => {
+        const { value } = JSON.parse(t) as { value: SlimPublication };
+        return value;
+      }).sort(reversePublished)
+      : [];
+  }
+};
