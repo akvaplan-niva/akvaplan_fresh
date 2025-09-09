@@ -37,12 +37,17 @@ export const searchNews = async (
   { q = "", limit = 10, lang, sort = sortLatest } = {},
 ): Promise<News[]> => {
   const _news = await searchMynewsdesk({ q, limit, type_of_media: "news" });
-  const pr = "pressrelease";
-  const _pr = await searchMynewsdesk({ q, limit, type_of_media: pr });
+  const _pr = await searchMynewsdesk({
+    q,
+    limit,
+    type_of_media: "pressrelease",
+  });
+  const _bl = await searchMynewsdesk({ q, limit, type_of_media: "blog_post" });
 
   const newsItems = _news?.items ?? [];
   const prItems = _pr?.items ?? [];
-  const articles = [...newsItems, ...prItems].map(
+  const blogItems = _bl?.items ?? [];
+  const articles = [...newsItems, ...prItems, ...blogItems].map(
     newsFromMynewsdesk({ lang }),
   );
   // const news = newsArticlesWithDOI(articles);

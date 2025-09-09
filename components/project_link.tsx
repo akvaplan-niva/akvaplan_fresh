@@ -16,7 +16,11 @@ export const AkvaplanProjectLink = ({ id, label, cloudinary, lang }) => {
 
   return thumb
     ? <ArticleSquare name={name_t} href={href_t} width={128} thumb={thumb} />
-    : <li href={href_t}>{name_t ?? id}</li>;
+    : (
+      <li>
+        <a href={href_t}>{name_t ?? id}</a>
+      </li>
+    );
 };
 
 //const href = publicationsUrlForCristinProject(cristin.id.split("/").at(-1),lang)
