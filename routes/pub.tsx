@@ -109,6 +109,8 @@ export default defineRoute(async (req, ctx) => {
     ? await akvaplanProjectsFromNvaProjects(nvaProjects)
     : undefined;
 
+  console.warn({ nvaProjects, nvaProjectsWithAkvaplanIds });
+
   const typeText = t(
     isHandleUrl(id) || isNvaUrl(id) ? `nva.${type}` : `type.${type}`,
   );
@@ -156,16 +158,6 @@ export default defineRoute(async (req, ctx) => {
       </p>
       <PubArticle pub={pub} lang={lang} />
 
-      {hasPdf(nvaPublication)
-        ? (
-          <PubNvaPdfAugment
-            publication={nvaPublication}
-            url={req.url}
-            lang={lang}
-          />
-        )
-        : null}
-
       {nvaProjectsWithAkvaplanIds?.length > 0
         ? (
           <section
@@ -180,6 +172,17 @@ export default defineRoute(async (req, ctx) => {
           </section>
         )
         : null}
+
+      {hasPdf(nvaPublication)
+        ? (
+          <PubNvaPdfAugment
+            publication={nvaPublication}
+            url={req.url}
+            lang={lang}
+          />
+        )
+        : null}
+
       {
         /* {nvaPublication?.fundings?.length > 0
         ? (
