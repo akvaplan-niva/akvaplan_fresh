@@ -2,7 +2,7 @@ import { projectURL, pubsURL } from "akvaplan_fresh/services/nav.ts";
 import { ArticleSquare } from "akvaplan_fresh/components/news/article_square.tsx";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
-import { SquareImage } from "akvaplan_fresh/components/square_image.tsx";
+import { nvaProjectLandingUrl } from "../services/nva.ts";
 
 const publicationsUrlForCristinProject = (cristin, lang) =>
   pubsURL({ lang }) + `?q=cristin_${cristin}`;
@@ -24,8 +24,13 @@ export const AkvaplanProjectLink = ({ id, label, cloudinary, lang }) => {
 };
 
 //const href = publicationsUrlForCristinProject(cristin.id.split("/").at(-1),lang)
-const NvaProject = ({ name, title, id, lang }) => <li>{name ?? title ?? id}
-</li>;
+const NvaProject = ({ name, title, id, lang }) => (
+  <li>
+    {!(name || title)
+      ? <a href={nvaProjectLandingUrl(id)}>{id}</a>
+      : name ?? title}
+  </li>
+);
 
 export const ProjectsAsImageLinks = ({ projects, lang }) => (
   projects?.length > 0

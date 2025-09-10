@@ -21,6 +21,7 @@ import {
   ArticleHeader,
   Breadcrumbs,
   Card,
+  CollectionHeader,
   Page,
 } from "akvaplan_fresh/components/mod.ts";
 
@@ -37,6 +38,8 @@ import {
   search,
 } from "akvaplan_fresh/search/search.ts";
 import akvaplanist from "akvaplan_fresh/routes/akvaplanist.tsx";
+import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
+import { extractId } from "../services/extract_id.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(project|prosjekt){/:date}?/:slug",
@@ -75,12 +78,12 @@ export const handler: Handlers = {
     if (!item) {
       return ctx.renderNotFound();
     }
-    const id = slug; // FIXME Now the slug cannot contain a trailing (mynewsdesk) number .split("-").at(0);
+    const id = /-[0-9]+$/.test(slug)
+      ? slug.split("-").slice(0, -1).join("-")
+      : slug;
 
     const cristin = id && cristinMap.has(id) ? cristinMap.get(id) : undefined;
-    // if (["project", "prosjekt"].includes(type) && "no" === lang) {
-    //   item.header = t(`project.${slug}.title`);
-    // }
+
     const contacts = await fetchContacts(item);
     const [image] = await fetchImages(item);
 
@@ -94,25 +97,8 @@ export const handler: Handlers = {
 
     const alternate = null;
 
-    // const kv = await openKv();
-    // const news = [];
-    // for await (
-    //   const { value } of kv.list({ prefix: ["rel", "project", item.id] }, {
-    //     reverse: true,
-    //   })
-    // ) {
-    //   const href = getCanonical({
-    //     lang,
-    //     title: value.title,
-    //     type_of_media: value.collection,
-    //     url: req.url,
-    //   });
-    //   const relLocalized = { ...value, href };
-    //   news.push(relLocalized);
-    // }
-
     const term = cristin ? `cristin_${cristin}` : undefined;
-    const query = {
+    const orameQueryForNvaCristinProjectPubs = {
       term,
       properties: ["projects"],
       sortBy: oramaSortPublishedReverse,
@@ -124,7 +110,9 @@ export const handler: Handlers = {
         maxResult: 5,
       },
     };
-    const results = term ? await search(query) : undefined;
+    const results = term
+      ? await search(orameQueryForNvaCristinProjectPubs)
+      : undefined;
 
     return ctx.render({
       item,
@@ -207,64 +195,59 @@ export default function ProjectHome(
   return (
     <Page title={header} collection="projects">
       <Breadcrumbs list={breadcrumbs} />
+      <SearchHeader
+        lang={lang}
+        title={`${header} (${projectYears(start_at, end_at)})`}
+        cloudinary={extractId(image)}
+      />
 
-      <Article language={language}>
-        <AltLangInfo lang={lang} language={language} alternate={alternate} />
-        <ArticleHeader
+      {
+        /*<ArticleHeader
           header={`${header} (${projectYears(start_at, end_at)})`}
           image={img}
           imageCaption={image_caption}
-        />
+        />*/
+      }
 
-        {cristin
-          ? (
-            <>
-              {
-                /*
+      {cristin
+        ? (
+          <>
+            {
+              /*
               FIXME Use GroupedWorks to show project outcome
               <GroupedWorks grouped={grouped} groupedBy={"type"} lang={lang} /> */
-              }
+            }
 
-              <GroupedSearch
-                results={results}
-                collection={"type"}
-                by={"type"}
-                noInput
-                display={"block"}
-              />
-            </>
-          )
-          : null}
-
-        <section
-          class="article-content"
-          dangerouslySetInnerHTML={{ __html }}
-        >
-        </section>
-
-        {(links && links?.length > 0) &&
-          (
+            <GroupedSearch
+              results={results}
+              collection={"type"}
+              by={"type"}
+              noInput
+              display={"block"}
+            />
+          </>
+        )
+        : null}
+      <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:1rem;">
+        {contacts && contacts.map(
+          (contact) => (
             <section class="article-content">
-              {links?.map(({ url }) => (
-                <Card>
-                  <a href={url} class="ellipsis">{url}</a>
-                </Card>
-              ))}
+              <PersonCard id={contact} icons={false} />
             </section>
-          )}
+          ),
+        )}
+      </li>
 
-        <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:1rem;">
-          {contacts && contacts.map(
-            (contact) => (
-              <section class="article-content">
-                <PersonCard id={contact} icons={false} />
-              </section>
-            ),
-          )}
-        </li>
-      </Article>
-
-      {/* <h2>{t("project.Outreach")}</h2> */}
+      {(links && links?.length > 0) &&
+        (
+          <section class="article-content">
+            {links?.map(({ url }) => (
+              <Card>
+                <a href={url} class="ellipsis">{url}</a>
+              </Card>
+            ))}
+          </section>
+        )}
 
       <GroupedSearch
         term={`${header}`}
@@ -272,6 +255,7 @@ export default function ProjectHome(
         exclude={["project", "image", "pubs"]}
         origin={origin}
         noInput
+        display="list"
         sort="-published"
       />
 
@@ -282,6 +266,15 @@ export default function ProjectHome(
           children={t("ui.Edit")}
         />
       )}
+      <Article
+        language={language}
+      >
+        <AltLangInfo lang={lang} language={language} alternate={alternate} />
+        <div
+          class="article-content"
+          dangerouslySetInnerHTML={{ __html }}
+        />
+      </Article>
     </Page>
   );
 }

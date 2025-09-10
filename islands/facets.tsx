@@ -12,7 +12,8 @@ const buildIntlFacetLabel = (label, facet) => {
   if ("identities" === facet.facet) {
     return identities.has(label) ? cachedNameOf(label) : label;
   } else {
-    return t(facet.facet + "." + label);
+    const key = facet.facet + "." + label;
+    return t(key);
   }
 };
 

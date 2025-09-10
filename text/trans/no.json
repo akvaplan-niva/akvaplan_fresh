@@ -29,6 +29,8 @@
   "facet.identities": "forfatter",
   "facet.people": "folk",
   "facet.year": "år",
+  "lifecycle.past": "ferdig",
+  "lifecycle.ongoing": "pågår",
   "search.Year": "År",
   "search.all": "alle",
   "search.hits": "treff",

@@ -1,5 +1,6 @@
 import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
 import { isDoiUrl } from "akvaplan_fresh/services/pub.ts";
+import { extractId } from "./extract_id.ts";
 
 const NVA_API_PROD = "https://api.nva.unit.no";
 const NVA_API_TEST = "https://api.test.nva.aws.unit.no";
@@ -20,7 +21,7 @@ export const nvaPublicationLanding = (id: string) =>
   new URL(`/registration/${id}`, NVA_HOME);
 
 export const nvaProjectLandingUrl = (id: string | number) =>
-  new URL(`/projects/${id}`, NVA_HOME);
+  new URL(`/projects/${extractId(id)}`, NVA_HOME);
 
 export const fetchNvaMetadata = async (id: string) => {
   const url = new URL(`/publication/${id}`, NVA_API);

@@ -9,7 +9,6 @@ import { defineRoute } from "$fresh/server.ts";
 import type { RouteConfig } from "$fresh/server.ts";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { breadcrumb, pubsURL } from "akvaplan_fresh/services/mod.ts";
-import cristin from "akvaplan_fresh/routes/cristin.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -49,7 +48,9 @@ export default defineRoute(async (req, ctx) => {
       </Section>
 
       <Section>
-        {projects.map(({ cristin, title, startYear, endYear }) => (
+        {projects.map((
+          { cristin, title, startYear, endYear, coordinatingInstitution },
+        ) => (
           <Section>
             <Card>
               <h2>
@@ -63,7 +64,10 @@ export default defineRoute(async (req, ctx) => {
                   {title}
                 </a>
               </h2>
-              <p>{startYear}–{endYear}</p>
+              <p>
+                {startYear}–{endYear} (coordinated by{" "}
+                {coordinatingInstitution.labels.en})
+              </p>
             </Card>
           </Section>
         ))}
