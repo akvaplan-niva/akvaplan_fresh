@@ -50,6 +50,7 @@ const contacts = new Map(JSON.parse(myn_id_text));
 
 import { AnyOrama, insert, insertMultiple } from "@orama/orama";
 import { getAkvaplanist } from "akvaplan_fresh/services/mod.ts";
+import { projectLifecycle } from "./project.ts";
 
 const itemCollection = ({ type_of_media }: AbstractMynewsdeskItem) => {
   switch (type_of_media) {
@@ -245,7 +246,16 @@ export async function* insertMynewsdesk(orama: AnyOrama) {
         if (+updated > last.get(type_of_media)) {
           last.set(type_of_media, updated);
         }
-        atoms.push(await atomizeMynewsdeskItem(item));
+        const atom = await atomizeMynewsdeskItem(item);
+        if (["event"].includes(item.type_of_media)) {
+          const start = item.start_at.datetime;
+          const end = item.end_at.datetime;
+          atom.lifecycle = projectLifecycle({ start, end });
+          atom.published = start;
+          atom.start = start;
+          atom.end = end;
+        }
+        atoms.push(atom);
       }
       try {
         //console.warn({ type_of_media }, atoms.length);

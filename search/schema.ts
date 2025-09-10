@@ -21,6 +21,7 @@ export const schema = {
   year: "number",
   open_access: "boolean",
   open_access_status: "string",
+  lifecycle: "string",
   // intl: {
   //   name: {
   //     no: "string",

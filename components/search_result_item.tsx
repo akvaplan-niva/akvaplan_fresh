@@ -6,6 +6,7 @@ import { slug as slugify } from "slug";
 import { nameFromAuthor } from "akvaplan_fresh/search/indexers/pubs.ts";
 import { Author } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 
+const extractYear = (d) => new Date(d).getFullYear();
 export const names = (of: Author[], max?: number) => {
   const people: string[] = of.map(nameFromAuthor);
   if (people.length === 0) {
@@ -73,6 +74,7 @@ export const SearchResultItem = (
       authors,
       etal,
     });
+  document;
 
   return (
     <li
@@ -165,8 +167,12 @@ export const SearchResultItem = (
               {container ? container + " " : null}
             </em>
 
-            {published && !["person"].includes(collection) &&
+            {published && !["person", "project"].includes(collection) &&
               `${published.substring(0, 10)}`}
+
+            {"start" in document && "end" in document
+              ? `${extractYear(document.start)} – ${extractYear(document.end)}`
+              : null}
 
             {!["image", "person"].includes(collection) && hreflang &&
                 hreflang !== lang

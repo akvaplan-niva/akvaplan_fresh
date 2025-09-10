@@ -4,7 +4,6 @@ import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publicatio
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 import { findCanonicalName, toName } from "akvaplan_fresh/services/person.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
-import { Contributors } from "akvaplan_fresh/components/contribs.tsx";
 
 export const foundNames = new Set<string>();
 export const notFoundNames = new Set<string>();
