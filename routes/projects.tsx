@@ -95,7 +95,7 @@ export default defineRoute(async (req, ctx) => {
       />
 
       {
-        /* {[FRESH, ENDING, ONGOING, PAST].map((key) => (
+        /* {["ongoing", "past"].map((key) => (
         <Section>
           <CollectionHeader text={t(`project.Lifecycle.${key}`)} />
           <HScroll>
