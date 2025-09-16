@@ -173,7 +173,7 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
         <SocialMediaIcons
           lang={lang.value}
           list={externalIdentities}
-          filter={""}
+          //filter={""}
         />
       </div>
 
