@@ -59,7 +59,6 @@ export const isDoiOrHandleUrl = (id: string) => isDoiUrl(id) || isHandleUrl(id);
 
 export const fetchPubFromAkvaplanService = async (uri: string) => {
   const url = new URL(`/pub/${uri}`, PUBS_BASE);
-  //console.warn(url.href);
   return await fetch(url);
 };
 

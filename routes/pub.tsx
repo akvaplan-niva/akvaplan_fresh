@@ -65,12 +65,15 @@ export default defineRoute(async (req, ctx) => {
   const scheme = idx?.startsWith("10.") ? "doi" : kind;
 
   const id = buildCanonicalUri(scheme, idx);
+
   let pub = await getOramaDocument(id);
+
   if (!pub) {
     // In case orama index is out-dated, or in rare cases where orama returns nothing,
     // like for 10.1577/1548-8659(1994)123%3C0385:spbpac%3E2.3.co;2
     pub = await getPubFromAkvaplanService(id);
-  }
+  }  
+  
   if (!pub) {
     return ctx.renderNotFound();
   }
