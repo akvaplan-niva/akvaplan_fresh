@@ -1,13 +1,10 @@
-import sd from "npm:showdown";
-import sanitize from "npm:sanitize-html";
+import sd from "showdown";
+import sanitize from "sanitize-html";
 import type { Converter, ConverterOptions } from "npm:@types/showdown";
 import type { IOptions as SanitizeOptions } from "npm:@types/sanitize-html";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { WideImage } from "akvaplan_fresh/components/wide_image.tsx";
-import {
-  AkvaplanistCardBasic,
-} from "akvaplan_fresh/components/person_card.tsx";
 import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
 import { getAkvaplanist } from "akvaplan_fresh/services/mod.ts";
 import { SearchResultItem } from "akvaplan_fresh/components/search_result_item.tsx";
@@ -30,7 +27,7 @@ const style = `@layer markdown {
   .markdown h2 { font-weight: 800; margin: .75rem 0; }
 
   .markdown h3 { font-weight: 800; margin: .75rem 0; }
-  
+
   .markdown li { margin-left: 1.5rem; list-style-type: square; }
 }`;
 

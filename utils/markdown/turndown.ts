@@ -1,4 +1,4 @@
-import Turndown from "npm:turndown@7.1.2";
+import Turndown from "turndown";
 
 export const markdownFromHtml = (
   body: string,
