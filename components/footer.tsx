@@ -41,7 +41,7 @@ export function Footer({ lang }) {
         }
       </ul>
       <ul class="footer__links">
-        <SocialMediaIcons lang={lang.value} />
+        <SocialMediaIcons lang={lang.value} filter="invert(.5)" />
       </ul>
     </footer>
   );

@@ -59,7 +59,8 @@ const akvaplanSocial: Social[] = [
 ] as const;
 
 export const SocialMediaIcons = (
-  { list = akvaplanSocial, filter = "invert(.5)" }: {
+  // filter="invert(.25)"
+  { list = akvaplanSocial, filter = undefined }: {
     lang?: string;
     list?: Social[];
     filter?: string;
@@ -83,10 +84,11 @@ export const SocialMediaIcons = (
               width={width ? String(width) : "24"}
               height={height ? String(height) : "24"}
               style={{
-                // invert colors
-                // => trick to enable visibility on dark backgrounds
-                // => nice side-effect is diffusing on light
-                filter: filter ? filter : undefined,
+                filter: icon.endsWith(".png")
+                  ? "invert(.25);" //trick for OpenAlex png to show on dark/light
+                  : filter
+                  ? filter
+                  : undefined,
               }}
             />
           )
@@ -111,7 +113,8 @@ export const buildPersonalSocialMediaLinks = (akvaplanist: Akvaplanist) => {
   return [
     cristin &&
     {
-      name: `NVA`,
+      name: `${name} @ NVA`,
+      "icon": "/icon/logo/nva.svg",
       title: `NVA (${name})`,
       href: new URL(
         `/research-profile/${cristin}`,
@@ -120,13 +123,13 @@ export const buildPersonalSocialMediaLinks = (akvaplanist: Akvaplanist) => {
     },
     orcid &&
     {
-      name: `ORCID (${name})`,
+      name: `${name} @ ORCID`,
       href: `https://orcid.org/${orcid}`,
       "icon": "/icon/logo/orcid.svg",
     },
     openalex &&
     {
-      name: `OpenAlex (${name})`,
+      name: `${name} @ OpenAlex`,
       href: `https://openalex.org/authors/${openalex}`,
       "icon": "/icon/logo/openalex.png",
     },
