@@ -255,7 +255,7 @@ export default function NewsArticle(
         >
         </section>
 
-        <p style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:1rem;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:1rem;">
           {contacts && contacts.map(
             (contact) => (
               <section class="article-content">
@@ -263,7 +263,7 @@ export default function NewsArticle(
               </section>
             ),
           )}
-        </p>
+        </div>
 
         {related.videos?.map((video) => (
           <div
