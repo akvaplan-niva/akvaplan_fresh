@@ -1,5 +1,3 @@
-// Nice PDF preview layout: https://pubs.acs.org/doi/epdf/10.1021/acs.est.4c04495?ref=article_openPDF
-
 import { longDate } from "../time/intl.ts";
 import {
   getNvaMetadata,
@@ -72,8 +70,8 @@ export default defineRoute(async (req, ctx) => {
     // In case orama index is out-dated, or in rare cases where orama returns nothing,
     // like for 10.1577/1548-8659(1994)123%3C0385:spbpac%3E2.3.co;2
     pub = await getPubFromAkvaplanService(id);
-  }  
-  
+  }
+
   if (!pub) {
     return ctx.renderNotFound();
   }
@@ -157,32 +155,43 @@ export default defineRoute(async (req, ctx) => {
           <Breadcrumbs list={breadcrumbs} />
         </span>
       </p>
-      <PubArticle pub={pub} lang={lang} />
 
-      {nvaProjectsWithAkvaplanIds?.length > 0
-        ? (
-          <section
-            style={{
-              paddingBottom: ".5rem",
-            }}
-          >
-            <ProjectsAsImageLinks
-              projects={nvaProjectsWithAkvaplanIds}
-              lang={lang}
-            />
-          </section>
-        )
-        : null}
+      <div
+        style={{ containerType: hasPdf(nvaPublication) ? "inline-size" : null }}
+      >
+        <div class="two-columns">
+          <div class="one">
+            <PubArticle pub={pub} lang={lang} />
 
-      {hasPdf(nvaPublication)
-        ? (
-          <PubNvaPdfAugment
-            publication={nvaPublication}
-            url={req.url}
-            lang={lang}
-          />
-        )
-        : null}
+            {nvaProjectsWithAkvaplanIds?.length > 0
+              ? (
+                <section
+                  style={{
+                    paddingBottom: ".5rem",
+                  }}
+                >
+                  <ProjectsAsImageLinks
+                    projects={nvaProjectsWithAkvaplanIds}
+                    lang={lang}
+                  />
+                </section>
+              )
+              : null}
+          </div>
+
+          {hasPdf(nvaPublication)
+            ? (
+              <div class="two">
+                <PubNvaPdfAugment
+                  publication={nvaPublication}
+                  url={req.url}
+                  lang={lang}
+                />
+              </div>
+            )
+            : null}
+        </div>
+      </div>
 
       {
         /* {nvaPublication?.fundings?.length > 0

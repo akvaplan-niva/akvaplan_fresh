@@ -56,7 +56,7 @@ export const PubNvaPdfAugment = (
     parent: Element,
     src: string,
     style =
-      "height:600px;width:100%;padding-bottom:0.25rem;background:var(--surface1);",
+      "height:100vh;width:100%;padding-bottom:0.25rem;background:var(--surface1);",
   ) => {
     const embedPdf = document.createElement("embed-pdf");
     embedPdf.setAttribute("src", src);
