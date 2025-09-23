@@ -20,5 +20,13 @@
     "id": "migratory-crossroads",
     "cristin": 2663173,
     "label": { "en": "Migratory Crossroads", "no": "Migratory Crossroads" }
+  },
+  {
+    "id": "sognefjorden-ku-marint-vern",
+    "cristin": 2748201,
+    "label": {
+      "en": "Impact assessment of Sognefjorden as marine protected area",
+      "no": "Konsekvensutgreiing for Sognefjorden som marint verneområde"
+    }
   }
 ]
