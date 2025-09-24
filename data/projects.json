@@ -329,7 +329,7 @@
     "title": { "en": "SLICE", "no": "SLICE" }
   },
   {
-    "id": "sognefjorden",
+    "id": "sognefjorden-marint-vern",
     "start": "2023-11-30T23:00:43Z",
     "end": "2025-05-13T22:00:43Z",
     "cloudinary": "9fisugacyt3gea4e7dem54",
@@ -345,7 +345,7 @@
     }
   },
   {
-    "id": "svalbard",
+    "id": "svalbard-invasive-species",
     "start": "2024-04-30T22:00:00Z",
     "end": "2026-04-30T22:00:00Z",
     "cloudinary": "gbtfgqhdv42rmq31vp1mq4",
