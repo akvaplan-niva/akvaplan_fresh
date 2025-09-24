@@ -74,7 +74,6 @@ export const SearchResultItem = (
       authors,
       etal,
     });
-  document;
 
   return (
     <li
