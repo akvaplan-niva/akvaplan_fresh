@@ -26,6 +26,19 @@
     "title": { "en": "ARKELP", "no": "ARKELP" }
   },
   {
+    "id": "arsak",
+    "start": "2024-11-30T23:00:22Z",
+    "end": "2026-03-30T22:00:22Z",
+    "cloudinary": "8uqliruh4gtz7fvte9mrjc",
+    "mynewsdesk": 107644,
+    "cristin": 0,
+    "lifecycle": "ongoing",
+    "published": "2024-11-30T23:00:22Z",
+    "updated": "2024-12-16T10:24:09Z",
+    "people": ["Linda Simensen"],
+    "title": { "en": "ÅRSAK", "no": "ÅRSAK" }
+  },
+  {
     "id": "bluerewilding",
     "start": "2025-09-21T22:00:00Z",
     "end": "2026-09-21T22:00:00Z",
@@ -39,7 +52,7 @@
     "title": { "en": "BlueRewilding", "no": "BlueRewilding" }
   },
   {
-    "id": "clin",
+    "id": "clin-blufeed",
     "start": "2024-01-31T23:00:00Z",
     "end": "2027-12-30T23:00:00Z",
     "cloudinary": "wqmx0ewkzoskbcbgtogv",
@@ -388,19 +401,6 @@
     "updated": "2024-03-26T18:02:19Z",
     "people": ["Atle Foss"],
     "title": { "en": "WOLFHUNGER", "no": "WOLFHUNGER" }
-  },
-  {
-    "id": "aarsak",
-    "start": "2024-11-30T23:00:22Z",
-    "end": "2026-03-30T22:00:22Z",
-    "cloudinary": "8uqliruh4gtz7fvte9mrjc",
-    "mynewsdesk": 107644,
-    "cristin": 0,
-    "lifecycle": "ongoing",
-    "published": "2024-11-30T23:00:22Z",
-    "updated": "2024-12-16T10:24:09Z",
-    "people": ["Linda Simensen"],
-    "title": { "en": "ÅRSAK", "no": "ÅRSAK" }
   },
   {
     "id": "e-lice",
