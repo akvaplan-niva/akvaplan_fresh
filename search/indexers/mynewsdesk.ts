@@ -15,7 +15,10 @@ import { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { MynewsdeskVideo } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 import { markdownFromHtml } from "akvaplan_fresh/utils/markdown/turndown.ts";
+import _projects from "akvaplan_fresh/data/projects.json" with { type: "json" };
 
+const projectByMynewsdesk = new Map(_projects.map((p) => [p?.mynewsdesk, p]));
+projectByMynewsdesk.delete(undefined);
 // import peopleWithMyn from "akvaplan_fresh/data/akvaplanists.json" with {
 //   type: "json",
 // };
@@ -97,6 +100,29 @@ const extractCloudinary = (
       return image && extractId(image);
   }
 };
+
+const getEventSlug = async (item) => {
+  if (projectByMynewsdesk.has(item.id)) {
+    const p = projectByMynewsdesk.get(item.id);
+    return p.id;
+  }
+  const { pathname } = new URL(item.url);
+  const _slug = pathname.split("/").at(-1)!;
+  return _slug.split("-").at(0);
+};
+
+const getSlug = async (item) => {
+  const { pathname } = new URL(item.url);
+  const _slug = pathname.split("/").at(-1)!;
+  const published = item.published_at?.datetime ?? new Date().toJSON();
+  switch (item.type_of_media) {
+    case "event":
+      return await getEventSlug(item);
+    default:
+      return [isodate(published), _slug].join("/");
+  }
+};
+
 export const atomizeMynewsdeskItem = async (
   item: MynewsdeskArticle | MynewsdeskDocument | MynewsdeskVideo,
 ): Promise<OramaAtom> => {
@@ -136,8 +162,7 @@ export const atomizeMynewsdeskItem = async (
   const lang = ["no", "en"].includes(language!) ? language as string : "no";
   const { pathname } = new URL(url);
 
-  const _slug = pathname.split("/").at(-1)!;
-  const slug = [isodate(published), _slug].join("/");
+  const slug = await getSlug(item);
 
   const collection = itemCollection(item);
   const people = await peopleNamesFromMynewskItemContacts(item);

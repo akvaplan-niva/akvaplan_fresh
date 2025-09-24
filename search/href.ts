@@ -4,6 +4,7 @@ import {
 } from "akvaplan_fresh/text/mod.ts";
 import { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import { akvaplanistUrl } from "akvaplan_fresh/services/nav.ts";
+import { projectURL } from "../services/mod.ts";
 
 const En = new Map([
   ["pubs", "publications"],
