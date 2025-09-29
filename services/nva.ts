@@ -29,7 +29,7 @@ export const fetchNvaMetadata = async (id: string) => {
 };
 export const fetchNvaPublication = fetchNvaMetadata;
 
-export const fetchNvaProject = async (id: string) => {
+export const fetchNvaCristinProject = async (id: number) => {
   const url = new URL(`/cristin/project/${id}`, NVA_API);
   return await fetch(url, { headers: { accept: "application/json" } });
 };
@@ -54,6 +54,13 @@ export const getPresignedFileUrl = async (
 
 export const getNvaMetadata = async (identifier: string) => {
   const r = await fetchNvaMetadata(identifier);
+  if (r?.ok) {
+    return await r.json();
+  }
+};
+
+export const getNvaProject = async (identifier: number) => {
+  const r = await fetchNvaCristinProject(identifier);
   if (r?.ok) {
     return await r.json();
   }

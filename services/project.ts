@@ -60,6 +60,11 @@ export const projectsIdMap = new Map(
 export const projectsByNvaId = new Map(
   _projects.map((p) => [p.cristin, p]),
 );
+
+export const projectsByMynewsdeskId = new Map(
+  _projects.map((p) => [p.mynewsdesk, p]),
+);
+
 export const projectsMapIdNva = new Map(
   _projects.map(({ id, cristin }) => [id, cristin]),
 );
