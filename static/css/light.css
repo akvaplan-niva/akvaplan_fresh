@@ -2,7 +2,7 @@
   color-scheme: light;
 
   --text1: hsl(var(--brand-hue) var(--brand-saturation) 10%);
-  --text2: hsl(var(--brand-hue) var(--brand-saturation) 1%);
+  --text2: hsl(var(--brand-hue), 30%, 10%); /* */
 
   --surface0: hsl(
     var(--brand-hue)
