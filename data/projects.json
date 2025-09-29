@@ -57,7 +57,7 @@
     "end": "2027-12-30T23:00:00Z",
     "cloudinary": "wqmx0ewkzoskbcbgtogv",
     "mynewsdesk": 106076,
-    "cristin": 0,
+    "cristin": 2748769,
     "lifecycle": "ongoing",
     "published": "2024-01-31T23:00:00Z",
     "updated": "2024-08-23T10:12:35Z",
@@ -266,7 +266,7 @@
     "end": "2024-12-31T12:00:00Z",
     "cloudinary": "f1p8gecba7nuxbduxcou",
     "mynewsdesk": 104226,
-    "cristin": 0,
+    "cristin": 2524794,
     "lifecycle": "past",
     "published": "2021-11-01T11:00:00Z",
     "updated": "2024-10-29T08:36:06Z",
@@ -308,7 +308,7 @@
     "end": "2028-12-30T23:00:00Z",
     "cloudinary": "3zp6d8p093rnttwn3jfkqf",
     "mynewsdesk": 107627,
-    "cristin": 0,
+    "cristin": 2748518,
     "lifecycle": "ongoing",
     "published": "2024-12-31T23:00:00Z",
     "updated": "2025-03-26T08:28:37Z",
@@ -321,7 +321,7 @@
     "end": "2026-12-30T23:00:00Z",
     "cloudinary": "kwy8kuceecjpjoh3yyy5",
     "mynewsdesk": 105174,
-    "cristin": 0,
+    "cristin": 2694515,
     "lifecycle": "ongoing",
     "published": "2023-09-30T22:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
@@ -334,14 +334,14 @@
     "end": "2025-05-13T22:00:43Z",
     "cloudinary": "9fisugacyt3gea4e7dem54",
     "mynewsdesk": 108501,
-    "cristin": 0,
+    "cristin": 2748201,
     "lifecycle": "past",
     "published": "2023-11-30T23:00:43Z",
     "updated": "2025-05-14T12:43:45Z",
     "people": ["Nina Mikkelsen"],
     "title": {
-      "en": "Sognefjorden KU Marint vern",
-      "no": "Sognefjorden KU Marint vern"
+      "en": "Impact assessment of Sognefjorden as marine protected area",
+      "no": "Konsekvensutgreiing for Sognefjorden som marint verneområde"
     }
   },
   {
@@ -366,7 +366,7 @@
     "end": "2027-12-30T23:00:00Z",
     "cloudinary": "17izpokpbk624m75kiono8",
     "mynewsdesk": 107816,
-    "cristin": 0,
+    "cristin": 2748528,
     "lifecycle": "ongoing",
     "published": "2024-12-31T23:00:00Z",
     "updated": "2025-01-31T14:00:51Z",
@@ -401,35 +401,5 @@
     "updated": "2024-03-26T18:02:19Z",
     "people": ["Atle Foss"],
     "title": { "en": "WOLFHUNGER", "no": "WOLFHUNGER" }
-  },
-  {
-    "id": "e-lice",
-    "cristin": 0,
-    "mynewsdesk": 105101,
-    "label": { "en": "e-Lice", "no": "e-Lice" },
-    "cloudinary": "gipcbipfqmj8tz00cuij"
-  },
-  {
-    "id": "polarfront",
-    "cristin": 2524794,
-    "mynewsdesk": 104226,
-    "label": { "en": "Polar Front", "no": "Polar Front" },
-    "cloudinary": "f1p8gecba7nuxbduxcou"
-  },
-  {
-    "id": "slice",
-    "cristin": 2694515,
-    "mynewsdesk": 0,
-    "label": { "en": "SLICE", "no": "SLICE" },
-    "cloudinary": "kwy8kuceecjpjoh3yyy5"
-  },
-  {
-    "id": "sognefjorden-marint-vern",
-    "cristin": 2748201,
-    "mynewsdesk": 63132,
-    "label": {
-      "en": "Impact assessment of Sognefjorden as marine protected area",
-      "no": "Konsekvensutgreiing for Sognefjorden som marint verneområde"
-    }
   }
 ]
