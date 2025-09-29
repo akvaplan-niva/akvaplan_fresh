@@ -52,7 +52,7 @@ const used = new Set();
 const contacts = new Map(JSON.parse(myn_id_text));
 
 import { AnyOrama, insert, insertMultiple } from "@orama/orama";
-import { getAkvaplanist } from "akvaplan_fresh/services/mod.ts";
+import { getAkvaplanist, projectFilter } from "akvaplan_fresh/services/mod.ts";
 import { projectLifecycle } from "./project.ts";
 
 const itemCollection = ({ type_of_media }: AbstractMynewsdeskItem) => {
@@ -146,6 +146,7 @@ export const atomizeMynewsdeskItem = async (
     photographer,
     caption,
     type_of_media,
+    related_items,
     ...rest
   } = item;
 
@@ -175,6 +176,8 @@ export const atomizeMynewsdeskItem = async (
   //   }
   // ],
 
+  const knownProjects = related_items.filter(projectFilter);
+
   const md = markdownFromHtml(body ?? "");
 
   const text = [
@@ -188,6 +191,13 @@ export const atomizeMynewsdeskItem = async (
     image_caption,
     photographer,
     _tags,
+    JSON.stringify(
+      related_items.map(({ item_id, type_of_media }) => ({
+        item_id,
+        type_of_media,
+      })),
+    ),
+    JSON.stringify({ knownProjects }),
     String(id),
   ].filter((s) => s?.length > 0)
     .join(" ");

@@ -44,6 +44,7 @@ export default defineRoute(async (req, ctx) => {
     ? await searchOramaForProjectPublicationsInNva(project.cristin)
     : undefined;
 
+  // @todo FIXME, remove mynewsdesk dependency
   const mynewsdesk = project.mynewsdesk
     ? await getItem(project.mynewsdesk, "event")
     : undefined;
@@ -76,6 +77,8 @@ export default defineRoute(async (req, ctx) => {
 
   const links = [];
   const alternate = lang === "en" ? "no" : "en";
+
+  const term = mynewsdesk ? `${mynewsdesk.id}` : `${title}`.toLowerCase();
 
   return (
     <Page title={title} collection="projects">
@@ -136,7 +139,7 @@ export default defineRoute(async (req, ctx) => {
         )}
 
       <GroupedSearch
-        term={`${title}`}
+        term={term}
         exact={true}
         exclude={["project", "image", "pubs"]}
         origin={url}

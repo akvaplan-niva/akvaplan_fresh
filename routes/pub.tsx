@@ -1,6 +1,8 @@
 import { longDate } from "../time/intl.ts";
 import {
+  fetchNvaCristinProject,
   getNvaMetadata,
+  getNvaProject,
   getPresignedFileUrl,
   isNvaUrl,
   nvaPublicationLanding,
@@ -33,6 +35,8 @@ import {
 import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
 import { pubsURL } from "akvaplan_fresh/services/nav.ts";
 import { akvaplanProjectsFromNvaProjects } from "akvaplan_fresh/services/projects.ts";
+import { getProjects } from "./projects_nva.tsx";
+import { projectsByNvaId } from "../services/project.ts";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -78,6 +82,7 @@ export default defineRoute(async (req, ctx) => {
 
   const { nva, title, created, modified, type } = pub;
   const base = `/${lang}/${collection}/`;
+
   // Server-fetch NVA from Akvaplan-service
   // This delays rendering, but is needed since neither Akvaplan nor NVA service supports CORS.
   // FIXME? Move NVA fetch to browser island (requires adding CORS to Akvaplan pubs service, or using a CORS proxy)
@@ -104,11 +109,20 @@ export default defineRoute(async (req, ctx) => {
       associatedArtifactsWithPresignedFileUrls;
   }
 
-  const nvaProjects = nvaPublication ? nvaPublication?.projects : undefined;
+  const pubProjectsInNva = (pub?.projects ?? []).filter((p) =>
+    /cristin_/.test(p)
+  ).map((s) => Number(s.split("cristin_")?.at(-1))).filter((n) => n > 0);
+  const projects = await Array.fromAsync(
+    pubProjectsInNva.map(async (cristin) =>
+      projectsByNvaId.has(cristin)
+        ? projectsByNvaId.get(cristin)
+        : await getNvaProject(cristin)
+    ),
+  );
 
-  const nvaProjectsWithAkvaplanIds = nvaProjects
-    ? await akvaplanProjectsFromNvaProjects(nvaProjects)
-    : undefined;
+  // const nvaProjectsWithAkvaplanIds = nvaProjects
+  //   ? await akvaplanProjectsFromNvaProjects(nvaProjects)
+  //   : undefined;
 
   const typeText = t(
     isHandleUrl(id) || isNvaUrl(id) ? `nva.${type}` : `type.${type}`,
@@ -163,7 +177,7 @@ export default defineRoute(async (req, ctx) => {
           <div class="one">
             <PubArticle pub={pub} lang={lang} />
 
-            {nvaProjectsWithAkvaplanIds?.length > 0
+            {projects?.length > 0
               ? (
                 <section
                   style={{
@@ -171,7 +185,7 @@ export default defineRoute(async (req, ctx) => {
                   }}
                 >
                   <ProjectsAsImageLinks
-                    projects={nvaProjectsWithAkvaplanIds}
+                    projects={projects}
                     lang={lang}
                   />
                 </section>
