@@ -160,6 +160,17 @@ export default defineRoute(async (req, ctx) => {
           class="article-content"
           dangerouslySetInnerHTML={{ __html }}
         />
+
+        {"cristin" in project && project.cristin > 0
+          ? (
+            <p style={{ fontSize: ".75rem" }}>
+              {t("pubs.Registered_in")}{" "}
+              <a href={`https://nva.sikt.no/projects/${project.cristin}`}>
+                {t("NVA")}
+              </a>
+            </p>
+          )
+          : null}
       </Article>
     </Page>
   );
