@@ -1,13 +1,10 @@
 import {
   defaultImage,
   documentFilter,
-  getCanonical,
-  hrefForMynewsdeskItem,
   imageURL,
   intlRouteMap,
   newsFromMynewsdesk,
   projectFilter,
-  projectFromMynewsdesk,
   videoFilter,
 } from "akvaplan_fresh/services/mod.ts";
 
@@ -32,23 +29,23 @@ import {
   Card,
   CollectionHeader,
   HScroll,
-  Icon,
   Page,
   PersonCard as PersonCard,
 } from "akvaplan_fresh/components/mod.ts";
 
 import {
   AbstractMynewsdeskItem,
-  MynewsdeskArticle,
 } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
-import { asset, Head } from "$fresh/runtime.ts";
+import { Head } from "$fresh/runtime.ts";
 
 import { getVideo } from "akvaplan_fresh/kv/video.ts";
 import { VideoArticle } from "akvaplan_fresh/components/VideoArticle.tsx";
 import { OpenGraphRequired } from "akvaplan_fresh/components/open_graph.tsx";
 import { mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
 import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
+import { projectsByMynewsdeskId } from "../../services/project.ts";
+import { ProjectsAsImageLinks } from "../../components/project_link.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -127,9 +124,23 @@ export const handler: Handlers = {
 
     // Related
     const _related = await fetchRelated(item);
-    const projects = _related.filter(projectFilter).map((myn) =>
-      projectFromMynewsdesk({ lang })(myn)
+    // const projects = _related.filter(projectFilter).map((myn) =>
+    //   projectFromMynewsdesk({ lang })(myn)
+    // );
+    const knownProjects = _related.filter(projectFilter).map((myn) =>
+      projectsByMynewsdeskId.get(myn.id)
     );
+    const projects = [...knownProjects];
+    // const pubProjectsInNva = (pub?.projects ?? []).filter((p) =>
+    //   /cristin_/.test(p)
+    // ).map((s) => Number(s.split("cristin_")?.at(-1))).filter((n) => n > 0);
+    // const projects = await Array.fromAsync(
+    //   pubProjectsInNva.map(async (cristin) =>
+    //     projectsByNvaId.has(cristin)
+    //       ? projectsByNvaId.get(cristin)
+    //       : await getNvaProject(cristin)
+    //   ),
+    // );
     // const news = related.filter(newsFilter).map((myn) =>
     //   newsFromMynewsdesk({ lang })(myn)
     // );
@@ -310,12 +321,10 @@ export default function NewsArticle(
 
         {projects?.length > 0 && (
           <section style={_section}>
-            <CollectionHeader
-              text={t("ui.Read_more")}
+            <ProjectsAsImageLinks
+              projects={projects}
+              lang={lang}
             />
-            <HScroll maxVisibleChildren={5.5}>
-              {projects.map(ArticleSquare)}
-            </HScroll>
           </section>
         )}
 
