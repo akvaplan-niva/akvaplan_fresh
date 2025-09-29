@@ -27,7 +27,7 @@ const Grid = ({ cloudinary, title, subtitle, cta }) => (
     <div style="place-content: center;">
       <h1 style={{ color: "var(--text1)" }}>{title}</h1>
 
-      <h2>
+      <h2 style={{ color: "var(--text2)" }}>
         {subtitle}
       </h2>
 

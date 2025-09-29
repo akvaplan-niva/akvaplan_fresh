@@ -1,4 +1,5 @@
 export interface AbstractMynewsdeskItem {
+  body: string;
   header: string;
   summary?: string;
   caption?: string;
@@ -29,7 +30,6 @@ export interface AbstractMynewsdeskItem {
 }
 
 export interface MynewsdeskArticle extends AbstractMynewsdeskItem {
-  body: string;
 }
 
 interface RelatedItem {

@@ -1,7 +1,7 @@
 import { searchMynewsdesk } from "./mynewsdesk.ts";
 import { projectURL } from "./nav.ts";
 import { AbstractMynewsdeskItem, News } from "../@interfaces/mod.ts";
-import _projects from "akvaplan_fresh/data/projects.json" with { type: "json" };
+
 import { extractNumericId } from "akvaplan_fresh/services/id.ts";
 
 // https://akvaplan.no/en/news/2016-01-26/the-norwegian-ministry-of-foreign-affair-supports-akvaplan-niva-project-by-nok-14.3-million",
@@ -30,7 +30,7 @@ export const projectMap = new Map([
   ["criptic", criptic],
   ["slice", slice],
 ]);
-const year = ({ datetime } = {}) =>
+const year = (datetime: string | Date) =>
   datetime ? new Date(datetime).getFullYear() : "????";
 export const projectYears = (start_at, end_at) =>
   `${year(start_at)} – ${year(end_at)}`;
@@ -109,22 +109,6 @@ export const latestProjects = async (): Promise<AbstractMynewsdeskItem[]> => {
   const projects = items?.filter(projectFilter);
   return projects;
 };
-
-const cristinProjectMap = new Map(
-  _projects.map((p) => [p.cristin, p]),
-);
-
-const getAkvaplanProjectByCristinProjectId = async (id: string) =>
-  await Promise.resolve(
-    cristinProjectMap.get(extractNumericId(id)),
-  );
-
-export const fetchCristinProject = (id: number | string) =>
-  fetch(`https://api.nva.unit.no/cristin/project/${extractNumericId(id)}`);
-
-const cristinProjectAkvaplanId = new Map(
-  _projects.map((akvaplan) => [akvaplan.cristin, akvaplan]),
-);
 
 export const akvaplanProjectsFromNvaProjects = async (nvaProjects) =>
   await Array.fromAsync(

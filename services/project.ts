@@ -32,34 +32,65 @@
 // "@context": "https://bibsysdev.github.io/src/project-context.json"
 // }
 
+export interface Project {
+  id: string;
+  start: string;
+  end: string;
+  cloudinary: string;
+  mynewsdesk: number;
+  cristin: number;
+  lifecycle: string;
+  published: string;
+  updated: string;
+  people: string[];
+  title: {
+    en: string;
+    no: string;
+  };
+}
+
 //che@:~/akvaplan-niva/akvaplan_fresh$ curl -s "http://localhost:7777/api/search?q=&limit=100&group-by=collection&where=%7B%22collection%22%3A%22project%22%7D&sort=slug" | nd-map 'ndjson=(o)=>log(stringify(o)), d.hits.map( ({document}) => document).map(ndjson), undefined' | nd-map 'd.id=d.id.split("/").at(-1), d' | nd-map '[id,mynewsdesk]=[d.slug,+d.id], {type, cloudinary, lifecycle, start, end, published, people, title, lang, updated, ...p }=d,{id, type, start, end, cloudinary, mynewsdesk, cristin:0, lifecycle, published, updated, people, title: { en: title, no: title} }'
-// {"id":"aculice","start":"2019-01-03T23:00:00Z","end":"2025-06-10T22:00:00Z","cloudinary":"b81psozxregpdmph3d47o5","mynewsdesk":105376,"cristin":0,"lifecycle":"past","published":"2019-01-03T23:00:00Z","updated":"2025-09-15T12:58:53Z","people":["Albert K. D. Imsland"],"title":{"en":"AcuLice I & II","no":"AcuLice I & II"}}
-// {"id":"arkelp","start":"2023-08-14T22:00:00Z","end":"2026-08-14T22:00:00Z","cloudinary":"wwq6mcgcl7ymfzgwllxg","mynewsdesk":105095,"cristin":0,"lifecycle":"ongoing","published":"2023-08-14T22:00:00Z","updated":"2024-03-26T18:02:19Z","people":["Marianne Frantzen"],"title":{"en":"ARKELP","no":"ARKELP"}}
-// {"id":"bluerewilding","start":"2025-09-21T22:00:00Z","end":"2026-09-21T22:00:00Z","cloudinary":"5dd9zd69inh1fmf3kfexxs","mynewsdesk":109036,"cristin":0,"lifecycle":"ongoing","published":"2025-09-21T22:00:00Z","updated":"2025-09-24T12:09:19Z","people":["Marianne Frantzen"],"title":{"en":"BlueRewilding","no":"BlueRewilding"}}
-// {"id":"clin","start":"2024-01-31T23:00:00Z","end":"2027-12-30T23:00:00Z","cloudinary":"wqmx0ewkzoskbcbgtogv","mynewsdesk":106076,"cristin":0,"lifecycle":"ongoing","published":"2024-01-31T23:00:00Z","updated":"2024-08-23T10:12:35Z","people":["Lionel Camus"],"title":{"en":"CliN-BluFeed","no":"CliN-BluFeed"}}
-// {"id":"criptic","start":"2020-01-01T11:00:00Z","end":"2022-12-31T11:00:00Z","cloudinary":"hjcypilwrvdzyi2jxq1y","mynewsdesk":104167,"cristin":0,"lifecycle":"past","published":"2020-01-01T11:00:00Z","updated":"2024-03-26T18:02:19Z","people":["Peygham Ghaffari"],"title":{"en":"CRIPTIC","no":"CRIPTIC"}}
-// {"id":"dokumentar","start":"2020-12-31T23:00:00Z","end":"2022-12-30T23:00:00Z","cloudinary":"v5mcna107houeqzox9na","mynewsdesk":105375,"cristin":0,"lifecycle":"past","published":"2020-12-31T23:00:00Z","updated":"2024-03-26T18:02:19Z","people":["Albert K. D. Imsland"],"title":{"en":"DOKUMENTAR","no":"DOKUMENTAR"}}
-// {"id":"e-lice","start":"2023-09-04T22:00:00Z","end":"2024-12-30T23:00:00Z","cloudinary":"gipcbipfqmj8tz00cuij","mynewsdesk":105101,"cristin":0,"lifecycle":"past","published":"2023-09-04T22:00:00Z","updated":"2024-04-04T07:55:12Z","people":["Lionel Camus"],"title":{"en":"e-Lice","no":"e-Lice"}}
-// {"id":"effektiv","start":"2019-12-31T23:00:00Z","end":"2022-12-30T23:00:00Z","cloudinary":"pm9hyu50xn8gjsnkoiyk","mynewsdesk":105374,"cristin":0,"lifecycle":"past","published":"2019-12-31T23:00:00Z","updated":"2024-03-26T18:02:19Z","people":["Albert K. D. Imsland"],"title":{"en":"EFFEKTIV","no":"EFFEKTIV"}}
-// {"id":"eminent","start":"2023-01-01T23:00:00Z","end":"2025-12-30T23:00:00Z","cloudinary":"bueowivpcd8ys7avwyds","mynewsdesk":105701,"cristin":0,"lifecycle":"ongoing","published":"2023-01-01T23:00:00Z","updated":"2024-03-26T18:02:19Z","people":["Peygham Ghaffari","Lionel Camus"],"title":{"en":"EMINENT","no":"EMINENT"}}
-// {"id":"europam","start":"2023-03-31T22:00:00Z","end":"2026-03-30T22:00:00Z","cloudinary":"fug18ot6dehimv1vxz99","mynewsdesk":105103,"cristin":0,"lifecycle":"ongoing","published":"2023-03-31T22:00:00Z","updated":"2024-03-26T18:02:19Z","people":["Lionel Camus"],"title":{"en":"EUROPAM","no":"EUROPAM"}}
-// {"id":"forcod","start":"2022-08-30T22:00:00Z","end":"2026-12-30T23:00:00Z","cloudinary":"jmn1of8bqclyfibwmj0e","mynewsdesk":105242,"cristin":0,"lifecycle":"ongoing","published":"2022-08-30T22:00:00Z","updated":"2024-03-26T18:02:19Z","people":["Thor Magne Jonassen"],"title":{"en":"FORCOD","no":"FORCOD"}}
-// {"id":"glider","start":"2016-01-01T11:00:00Z","end":"2023-12-31T11:00:00Z","cloudinary":"teeuh8l6dzyordvwudtj","mynewsdesk":105106,"cristin":0,"lifecycle":"past","published":"2016-01-01T11:00:00Z","updated":"2024-03-26T18:02:19Z","people":["Lionel Camus"],"title":{"en":"GLIDER","no":"GLIDER"}}
-// {"id":"keks","start":"2018-12-31T23:00:00Z","end":"2019-12-30T23:00:00Z","cloudinary":"tzbydyr8rabzn8zuctxz","mynewsdesk":105373,"cristin":0,"lifecycle":"past","published":"2018-12-31T23:00:00Z","updated":"2024-03-26T18:02:19Z","people":["Albert K. D. Imsland"],"title":{"en":"KEKS","no":"KEKS"}}
-// {"id":"krabbesatelitt","start":"2023-08-31T22:00:00Z","end":"2026-08-30T22:00:00Z","cloudinary":"qrppbqkncztuxssfyerl","mynewsdesk":105097,"cristin":0,"lifecycle":"ongoing","published":"2023-08-31T22:00:00Z","updated":"2024-04-17T07:48:58Z","people":["Jenny Jensen"],"title":{"en":"KRABBESATELITT","no":"KRABBESATELITT"}}
-// {"id":"marbefes","start":"2022-08-31T22:00:00Z","end":"2026-08-30T22:00:00Z","cloudinary":"8ehxyo7eoz3yxz224v1jac","mynewsdesk":106633,"cristin":0,"lifecycle":"ongoing","published":"2022-08-31T22:00:00Z","updated":"2024-05-21T12:29:38Z","people":["Sabine Cochrane","Charlotte Teresa Weber"],"title":{"en":"MARBEFES","no":"MARBEFES"}}
-// {"id":"matnoc","start":"2019-12-31T23:00:00Z","end":"2023-12-30T23:00:00Z","cloudinary":"gdz6eqlebpffk8u22xxr","mynewsdesk":105098,"cristin":0,"lifecycle":"past","published":"2019-12-31T23:00:00Z","updated":"2024-03-26T18:02:19Z","people":["Magnus Drivdal"],"title":{"en":"MATNOC","no":"MATNOC"}}
-// {"id":"metomilo","start":"2024-01-31T23:00:00Z","end":"2025-12-30T23:00:00Z","cloudinary":"nbf4o0btx5vlpef79dif","mynewsdesk":106179,"cristin":0,"lifecycle":"ongoing","published":"2024-01-31T23:00:00Z","updated":"2024-04-04T07:56:15Z","people":[],"title":{"en":"MetoMilo","no":"MetoMilo"}}
-// {"id":"migratory","start":"2024-01-01T11:00:00Z","end":"2027-12-30T23:00:00Z","cloudinary":"rfbm4q9gdmh8ea7dn0st","mynewsdesk":105563,"cristin":0,"lifecycle":"ongoing","published":"2024-01-01T11:00:00Z","updated":"2025-09-10T06:26:44Z","people":["Kanchana Bandara"],"title":{"en":"Migratory Crossroads","no":"Migratory Crossroads"}}
-// {"id":"miljoereg","start":"2022-01-19T23:00:00Z","end":"2023-05-14T22:00:00Z","cloudinary":"puvcwpt2gqrvcxtbiyqj","mynewsdesk":105108,"cristin":0,"lifecycle":"past","published":"2022-01-19T23:00:00Z","updated":"2024-03-26T18:02:19Z","people":["Anita Evenset"],"title":{"en":"MiljøREG","no":"MiljøREG"}}
-// {"id":"polarfront","start":"2021-11-01T11:00:00Z","end":"2024-12-31T10:00:59Z","cloudinary":"f1p8gecba7nuxbduxcou","mynewsdesk":104226,"cristin":0,"lifecycle":"past","published":"2021-11-01T11:00:00Z","updated":"2024-10-29T08:36:06Z","people":["Paul E. Renaud"],"title":{"en":"PolarFront","no":"PolarFront"}}
-// {"id":"pomp","start":"2024-01-31T23:00:00Z","end":"2028-01-31T23:00:00Z","cloudinary":"kulxhjmtjl25tv01y2wvf6","mynewsdesk":106775,"cristin":0,"lifecycle":"ongoing","published":"2024-01-31T23:00:00Z","updated":"2025-07-07T11:45:56Z","people":["Paul E. Renaud"],"title":{"en":"POMP","no":"POMP"}}
-// {"id":"prolaks","start":"2022-09-30T22:00:00Z","end":"2028-09-29T22:00:00Z","cloudinary":"hbyiqpfgvq2wovmp0nsv","mynewsdesk":106017,"cristin":0,"lifecycle":"ongoing","published":"2022-09-30T22:00:00Z","updated":"2025-04-03T13:11:31Z","people":["Albert K. D. Imsland"],"title":{"en":"PROLAKS - FoU tillatelse akvakultur","no":"PROLAKS - FoU tillatelse akvakultur"}}
-// {"id":"sea4health","start":"2024-12-31T23:00:00Z","end":"2028-12-30T23:00:00Z","cloudinary":"3zp6d8p093rnttwn3jfkqf","mynewsdesk":107627,"cristin":0,"lifecycle":"ongoing","published":"2024-12-31T23:00:00Z","updated":"2025-03-26T08:28:37Z","people":[],"title":{"en":"Sea4Health","no":"Sea4Health"}}
-// {"id":"slice","start":"2023-09-30T22:00:00Z","end":"2026-12-30T23:00:00Z","cloudinary":"kwy8kuceecjpjoh3yyy5","mynewsdesk":105174,"cristin":0,"lifecycle":"ongoing","published":"2023-09-30T22:00:00Z","updated":"2024-03-26T18:02:19Z","people":["Pierre Blévin"],"title":{"en":"SLICE","no":"SLICE"}}
-// {"id":"sognefjorden","start":"2023-11-30T23:00:43Z","end":"2025-05-13T22:00:43Z","cloudinary":"9fisugacyt3gea4e7dem54","mynewsdesk":108501,"cristin":0,"lifecycle":"past","published":"2023-11-30T23:00:43Z","updated":"2025-05-14T12:43:45Z","people":["Nina Mikkelsen"],"title":{"en":"Sognefjorden KU Marint vern","no":"Sognefjorden KU Marint vern"}}
-// {"id":"svalbard","start":"2024-04-30T22:00:00Z","end":"2026-04-30T22:00:00Z","cloudinary":"gbtfgqhdv42rmq31vp1mq4","mynewsdesk":106767,"cristin":0,"lifecycle":"ongoing","published":"2024-04-30T22:00:00Z","updated":"2024-09-13T08:30:16Z","people":[],"title":{"en":"Svalbard Invasive Species","no":"Svalbard Invasive Species"}}
-// {"id":"turbot","start":"2024-12-31T23:00:00Z","end":"2027-12-30T23:00:00Z","cloudinary":"17izpokpbk624m75kiono8","mynewsdesk":107816,"cristin":0,"lifecycle":"ongoing","published":"2024-12-31T23:00:00Z","updated":"2025-01-31T14:00:51Z","people":["Achim Randelhoff"],"title":{"en":"TURBOT","no":"TURBOT"}}
-// {"id":"vaare","start":"2023-07-31T22:00:00Z","end":"2026-07-30T22:00:00Z","cloudinary":"fmffkdys6154r74u9zhmev","mynewsdesk":107109,"cristin":0,"lifecycle":"ongoing","published":"2023-07-31T22:00:00Z","updated":"2024-09-09T08:15:52Z","people":["Guttorm Christensen"],"title":{"en":"Våre verdifulle grensevassdrag","no":"Våre verdifulle grensevassdrag"}}
-// {"id":"wolfhunger","start":"2023-07-31T22:00:00Z","end":"2025-12-30T23:00:00Z","cloudinary":"zjgajucmlmfm0bpzbpy8","mynewsdesk":105094,"cristin":0,"lifecycle":"ongoing","published":"2023-07-31T22:00:00Z","updated":"2024-03-26T18:02:19Z","people":["Atle Foss"],"title":{"en":"WOLFHUNGER","no":"WOLFHUNGER"}}
-// {"id":"aarsak","start":"2024-11-30T23:00:22Z","end":"2026-03-30T22:00:22Z","cloudinary":"8uqliruh4gtz7fvte9mrjc","mynewsdesk":107644,"cristin":0,"lifecycle":"ongoing","published":"2024-11-30T23:00:22Z","updated":"2024-12-16T10:24:09Z","people":["Linda Simensen"],"title":{"en":"ÅRSAK ","no":"ÅRSAK "}}
+import _projects from "akvaplan_fresh/data/projects.json" with { type: "json" };
+import { extractNumericId } from "akvaplan_fresh/services/id.ts";
+import { oramaSortPublishedReverse, search } from "../search/search.ts";
+export const projectsIdMap = new Map(
+  _projects.map((p) => [p.id, p as Project]),
+);
+
+export const projectsByNvaId = new Map(
+  _projects.map((p) => [p.cristin, p]),
+);
+export const projectsMapIdNva = new Map(
+  _projects.map(({ id, cristin }) => [id, cristin]),
+);
+
+// const getAkvaplanProjectByCristinProjectId = async (id: string) =>
+//   await Promise.resolve(
+//     cristinProjectMap.get(extractNumericId(id)),
+//   );
+
+export const fetchNvaCristinProject = (id: number | string) =>
+  fetch(`https://api.nva.unit.no/cristin/project/${extractNumericId(id)}`);
+
+const cristinProjectAkvaplanId = new Map(
+  _projects.map((akvaplan) => [akvaplan.cristin, akvaplan]),
+);
+
+export const searchOramaForProjectPublicationsInNva = async (
+  cristin: number,
+) => {
+  const term = cristin ? `cristin_${cristin}` : undefined;
+  const oramaQueryForNvaCristinProjectPubs = {
+    term,
+    properties: ["projects"],
+    sortBy: oramaSortPublishedReverse,
+    threshold: 0,
+    exact: true,
+    facets: { type: {} },
+    groupBy: {
+      properties: ["type"],
+      maxResult: 5,
+    },
+  };
+  return await search(oramaQueryForNvaCristinProjectPubs);
+};
