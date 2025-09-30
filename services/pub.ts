@@ -15,6 +15,7 @@ export const ignorePubTypes = new Set([
   "PopularScienceArticle",
   "MediaInterview",
   "MediaFeatureArticle",
+  "MediaBlogPost",
   "ExhibitionProduction",
   "OtherPresentation",
 ]);
