@@ -48,7 +48,7 @@ export const ProjectsAsImageLinks = ({ projects, lang }) => (
             {t(projects.length === 1 ? "nav.Project" : "nav.Projects")}
           </summary>
           {projects?.map((p) =>
-            p.id.startsWith("https://api.nva.unit.no/cristin/project/")
+            p?.id?.startsWith("https://api.nva.unit.no/cristin/project/")
               ? NvaProject({ ...p, lang })
               : AkvaplanProjectLink({ ...p, lang })
           )}
