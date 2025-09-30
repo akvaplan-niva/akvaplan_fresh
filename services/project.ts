@@ -58,7 +58,11 @@ export const projectsIdMap = new Map(
 );
 
 export const projectsByNvaId = new Map(
-  _projects.map((p) => [p.cristin, p]),
+  _projects.filter((p) => Number(p?.cristin) > 0).map((p) => [p.cristin, p]),
+);
+
+export const projectsWithoutNvaId = _projects.filter((p) =>
+  Number(p?.cristin) < 1
 );
 
 export const projectsByMynewsdeskId = new Map(
