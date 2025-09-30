@@ -11,7 +11,10 @@ import {
 
 import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 import { isDoiOrHandleUrl } from "akvaplan_fresh/services/pub.ts";
-import { isNvaUrl } from "akvaplan_fresh/services/nva.ts";
+import {
+  isNvaUrl,
+  nvaPublicationLanding,
+} from "akvaplan_fresh/services/nva.ts";
 import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
 import { CCIcons } from "akvaplan_fresh/components/cc-icons.tsx";
 import { Breadcrumbs } from "akvaplan_fresh/components/site_nav.tsx";
@@ -33,7 +36,6 @@ export const PubArticle = ({
     contributors,
     license,
     akvaplanists,
-    url,
     pdf,
     created,
     modified,
@@ -43,10 +45,11 @@ export const PubArticle = ({
   } = pub;
 
   const open_access = license ? true : pub?.open_access;
-
-  // const open_access_status = license && "unknown"
-  //   ? undefined
-  //   : pub.open_access_status;
+  const url = pub?.url?.startsWith("http")
+    ? pub.url
+    : nva
+    ? nvaPublicationLanding(nva).href
+    : "";
 
   return (
     <article
@@ -81,7 +84,8 @@ export const PubArticle = ({
       </Card>
 
       {(license && license?.length > 0) ||
-          [true, false].includes(open_access) || open_access_status
+          [true, false].includes(open_access) ||
+          open_access_status !== "unknown"
         ? (
           <section
             style={{
