@@ -35,7 +35,6 @@ const NvaProject = ({ name, title, id, lang }) => (
     {!(name || title)
       ? <a href={nvaProjectLandingUrl(id)}>{id}</a>
       : name ?? title}
-    {JSON.stringify({ title })}
   </li>
 );
 
