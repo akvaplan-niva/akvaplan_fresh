@@ -260,6 +260,19 @@
     "people": ["Anita Evenset"],
     "title": { "en": "MiljøREG", "no": "MiljøREG" }
   },
+   {
+    "id": "optiflekk",
+    "start": "2025-09-01T12:00:00Z",
+    "end": "2028-08-01T12:00:00Z",
+    "cloudinary": "rd3dcl4pggxi46isa5cm08",
+    "mynewsdesk": 109146,
+    "cristin": 0,
+    "lifecycle": "ongoing",
+    "published": "2025-10-15T12:00:00Z",
+    "updated": "2025-10-15T12:00:00Z",
+    "people": ["Attle Foss"],
+    "title": { "en": "OPTIFLEKK", "no": "OPTIFLEKK" }
+  },
   {
     "id": "polarfront",
     "start": "2021-11-01T12:00:00Z",
