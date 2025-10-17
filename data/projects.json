@@ -169,6 +169,19 @@
     "title": { "en": "GLIDER", "no": "GLIDER" }
   },
   {
+    "id": "hypers",
+    "start": "2026-01-01T12:00:00Z",
+    "end": "2028-12-31T12:00:00Z",
+    "cloudinary": "wubiyvrfgf7b0854nswv1z",
+    "mynewsdesk": 109071,
+    "cristin": 0,
+    "lifecycle": "ongoing",
+    "published": "2025-10-16T13:07:46Z",
+    "updated": "2025-10-16T13:07:46Z",
+    "people": ["Sanna Majaneva"],
+    "title": { "en": "HYPERS", "no": "HYPERS" }
+  },
+  {
     "id": "keks",
     "start": "2018-12-31T23:00:00Z",
     "end": "2019-12-30T23:00:00Z",
@@ -260,7 +273,7 @@
     "people": ["Anita Evenset"],
     "title": { "en": "MiljøREG", "no": "MiljøREG" }
   },
-   {
+  {
     "id": "optiflekk",
     "start": "2025-09-01T12:00:00Z",
     "end": "2028-08-01T12:00:00Z",
