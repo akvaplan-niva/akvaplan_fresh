@@ -58,6 +58,7 @@
     "cloudinary": "wqmx0ewkzoskbcbgtogv",
     "mynewsdesk": 106076,
     "cristin": 2748769,
+    "rcn": 0,
     "lifecycle": "ongoing",
     "published": "2024-01-31T23:00:00Z",
     "updated": "2024-08-23T10:12:35Z",
@@ -149,6 +150,7 @@
     "cloudinary": "jmn1of8bqclyfibwmj0e",
     "mynewsdesk": 105242,
     "cristin": 2650643,
+    "rcn": 0,
     "lifecycle": "ongoing",
     "published": "2022-08-30T22:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
@@ -162,6 +164,7 @@
     "cloudinary": "teeuh8l6dzyordvwudtj",
     "mynewsdesk": 105106,
     "cristin": 0,
+    "rcn": 269188,
     "lifecycle": "past",
     "published": "2016-01-01T11:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
@@ -188,11 +191,19 @@
     "cloudinary": "tzbydyr8rabzn8zuctxz",
     "mynewsdesk": 105373,
     "cristin": 0,
+    "fhf": 901539,
     "lifecycle": "past",
     "published": "2018-12-31T23:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
     "people": ["Albert K. D. Imsland"],
-    "title": { "en": "KEKS", "no": "KEKS" }
+    "title": { "en": "KEKS", "no": "KEKS" },
+    "fulltitle": {
+      "no": "Kunnskaps- og erfaringskartlegging om skottelus (Caligus elongatus)"
+    },
+    "pubs": [
+      "https://doi.org/10.1016/j.aquaculture.2020.735160",
+      "https://doi.org/10.1007/s11802-020-4466-5"
+    ]
   },
   {
     "id": "krabbesatelitt",
@@ -293,6 +304,7 @@
     "cloudinary": "f1p8gecba7nuxbduxcou",
     "mynewsdesk": 104226,
     "cristin": 2524794,
+    "rcn": 326635,
     "lifecycle": "past",
     "published": "2021-11-01T11:00:00Z",
     "updated": "2024-10-29T08:36:06Z",
@@ -382,9 +394,15 @@
     "updated": "2024-09-13T08:30:16Z",
     "people": [],
     "title": {
-      "en": "Svalbard Invasive Species",
-      "no": "Svalbard Invasive Species"
-    }
+      "en": "Svalbard citizen science monitoring of invasive species",
+      "no": "Overvåking av fremmedartert på Svalbard gjennom folkeforskning"
+    },
+    "fulltitle": {
+      "en": "Citizen science monitoring of existing and potential marine invasive species around Svalbard"
+    },
+    "links": [
+      "https://www.researchinsvalbard.no/project/08dc0de2-ac40-540c-2af2-a021a2720000/project-info"
+    ]
   },
   {
     "id": "turbot",
@@ -393,6 +411,7 @@
     "cloudinary": "17izpokpbk624m75kiono8",
     "mynewsdesk": 107816,
     "cristin": 2748528,
+    "rcn": 352188,
     "lifecycle": "ongoing",
     "published": "2024-12-31T23:00:00Z",
     "updated": "2025-01-31T14:00:51Z",

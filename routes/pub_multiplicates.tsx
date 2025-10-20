@@ -11,9 +11,10 @@ export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(pubs|publications|publikasjoner)/multi",
 };
 
-const notMultiTitle = new Set([
+const titlesThatAreNotMulti = new Set([
   "The effect of temperature and fish size on growth of juvenile lumpfish (Cyclopterus lumpus L.)",
   "Soft-bottom macro invertebrate fauna of North Norwegian coastal waters with particular reference to sill-basins. Part one: Bottom topography and species diversity",
+  "Seasonal variability and fluxes of nitrate in the surface waters over the Arctic shelf slope",
 ]);
 
 const getMultiplicates = async (params = {}) => {
@@ -23,7 +24,7 @@ const getMultiplicates = async (params = {}) => {
   ) => await atomizeSlimPublication(value)));
 
   const filterPubTypes = ({ type }) => !ignorePubTypes.has(type);
-  const filterNotMulti = ({ title }) => !notMultiTitle.has(title);
+  const filterNotMulti = ({ title }) => !titlesThatAreNotMulti.has(title);
 
   const atoms = _atoms.filter(filterPubTypes).filter(filterNotMulti);
 
