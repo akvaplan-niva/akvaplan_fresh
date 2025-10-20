@@ -15,6 +15,8 @@ const titlesThatAreNotMulti = new Set([
   "The effect of temperature and fish size on growth of juvenile lumpfish (Cyclopterus lumpus L.)",
   "Soft-bottom macro invertebrate fauna of North Norwegian coastal waters with particular reference to sill-basins. Part one: Bottom topography and species diversity",
   "Seasonal variability and fluxes of nitrate in the surface waters over the Arctic shelf slope",
+  "Sensitivity to stress in the bivalve Macoma balthica from the most northern (Arctic) to the most southern (French) populations: low sensitivity in Arctic populations because of genetic adaptations?",
+  "The lipid biochemistry of calanoid copepods",
 ]);
 
 const getMultiplicates = async (params = {}) => {
