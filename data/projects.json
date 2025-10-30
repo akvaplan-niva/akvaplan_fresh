@@ -9,7 +9,7 @@
     "lifecycle": "past",
     "published": "2019-01-03T23:00:00Z",
     "updated": "2025-09-15T12:58:53Z",
-    "people": ["Albert K. D. Imsland"],
+    "akvaplanists": ["aki"],
     "title": { "en": "AcuLice I & II", "no": "AcuLice I & II" }
   },
   {
@@ -22,7 +22,7 @@
     "lifecycle": "ongoing",
     "published": "2023-08-14T22:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
-    "people": ["Marianne Frantzen"],
+    "akvaplanists": ["mfr"],
     "title": { "en": "ARKELP", "no": "ARKELP" }
   },
   {
@@ -35,7 +35,7 @@
     "lifecycle": "ongoing",
     "published": "2024-11-30T23:00:22Z",
     "updated": "2024-12-16T10:24:09Z",
-    "people": ["Linda Simensen"],
+    "akvaplanists": ["lsi"],
     "title": { "en": "ÅRSAK", "no": "ÅRSAK" }
   },
   {
@@ -48,7 +48,7 @@
     "lifecycle": "ongoing",
     "published": "2025-09-21T22:00:00Z",
     "updated": "2025-09-24T12:09:19Z",
-    "people": ["Marianne Frantzen"],
+    "akvaplanists": ["mfr"],
     "title": { "en": "BlueRewilding", "no": "BlueRewilding" }
   },
   {
@@ -62,7 +62,7 @@
     "lifecycle": "ongoing",
     "published": "2024-01-31T23:00:00Z",
     "updated": "2024-08-23T10:12:35Z",
-    "people": ["Lionel Camus"],
+    "akvaplanists": ["lca"],
     "title": { "en": "CliN-BluFeed", "no": "CliN-BluFeed" }
   },
   {
@@ -75,7 +75,7 @@
     "lifecycle": "past",
     "published": "2020-01-01T11:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
-    "people": ["Peygham Ghaffari"],
+    "akvaplanists": ["pgh"],
     "title": { "en": "CRIPTIC", "no": "CRIPTIC" }
   },
   {
@@ -88,7 +88,7 @@
     "lifecycle": "past",
     "published": "2020-12-31T23:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
-    "people": ["Albert K. D. Imsland"],
+    "akvaplanists": ["aki"],
     "title": { "en": "DOKUMENTAR", "no": "DOKUMENTAR" }
   },
   {
@@ -101,7 +101,7 @@
     "lifecycle": "past",
     "published": "2023-09-04T22:00:00Z",
     "updated": "2024-04-04T07:55:12Z",
-    "people": ["Lionel Camus"],
+    "akvaplanists": ["lca"],
     "title": { "en": "e-Lice", "no": "e-Lice" }
   },
   {
@@ -114,7 +114,7 @@
     "lifecycle": "past",
     "published": "2019-12-31T23:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
-    "people": ["Albert K. D. Imsland"],
+    "akvaplanists": ["aki"],
     "title": { "en": "EFFEKTIV", "no": "EFFEKTIV" }
   },
   {
@@ -127,7 +127,7 @@
     "lifecycle": "ongoing",
     "published": "2023-01-01T23:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
-    "people": ["Peygham Ghaffari", "Lionel Camus"],
+    "akvaplanists": ["pgh", "lca"],
     "title": { "en": "EMINENT", "no": "EMINENT" }
   },
   {
@@ -137,11 +137,29 @@
     "cloudinary": "fug18ot6dehimv1vxz99",
     "mynewsdesk": 105103,
     "cristin": 2663184,
+    "rcn": 342742,
     "lifecycle": "ongoing",
     "published": "2023-03-31T22:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
-    "people": ["Lionel Camus"],
+    "akvaplanists": ["lca"],
     "title": { "en": "EUROPAM", "no": "EUROPAM" }
+  },
+  {
+    "id": "flowe",
+    "start": "2025-09-22T12:00:00Z",
+    "end": "2028-12-31T12:00:00Z",
+    "cloudinary": "mokbmrmx47zhgbu42xhnee",
+    "mynewsdesk": 108930,
+    "cristin": 0,
+    "rcn": 358086,
+    "lifecycle": "ongoing",
+    "published": "2023-03-31T22:00:00Z",
+    "updated": "2024-03-26T18:02:19Z",
+    "akvaplanists": ["vra"],
+    "title": {
+      "en": "FLOWE: FLoating Offshore Wind Effect on the pelagic system",
+      "no": "FLOWE: Effekten av flytende havvind på det pelagiske systemet"
+    }
   },
   {
     "id": "forcod",
@@ -154,7 +172,7 @@
     "lifecycle": "ongoing",
     "published": "2022-08-30T22:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
-    "people": ["Thor Magne Jonassen"],
+    "akvaplanists": ["tmj"],
     "title": { "en": "FORCOD", "no": "FORCOD" }
   },
   {
@@ -168,7 +186,7 @@
     "lifecycle": "past",
     "published": "2016-01-01T11:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
-    "people": ["Lionel Camus"],
+    "akvaplanists": ["lca"],
     "title": { "en": "GLIDER", "no": "GLIDER" }
   },
   {
@@ -181,7 +199,7 @@
     "lifecycle": "ongoing",
     "published": "2025-10-16T13:07:46Z",
     "updated": "2025-10-16T13:07:46Z",
-    "people": ["Sanna Majaneva"],
+    "akvaplanists": ["sam"],
     "title": { "en": "HYPERS", "no": "HYPERS" }
   },
   {
@@ -195,7 +213,7 @@
     "lifecycle": "past",
     "published": "2018-12-31T23:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
-    "people": ["Albert K. D. Imsland"],
+    "akvaplanists": ["aki"],
     "title": { "en": "KEKS", "no": "KEKS" },
     "fulltitle": {
       "no": "Kunnskaps- og erfaringskartlegging om skottelus (Caligus elongatus)"
@@ -215,7 +233,7 @@
     "lifecycle": "ongoing",
     "published": "2023-08-31T22:00:00Z",
     "updated": "2024-04-17T07:48:58Z",
-    "people": ["Jenny Jensen"],
+    "akvaplanists": ["jen"],
     "title": { "en": "KRABBESATELITT", "no": "KRABBESATELITT" }
   },
   {
@@ -228,7 +246,7 @@
     "lifecycle": "ongoing",
     "published": "2022-08-31T22:00:00Z",
     "updated": "2024-05-21T12:29:38Z",
-    "people": ["Sabine Cochrane", "Charlotte Teresa Weber"],
+    "akvaplanists": ["skc", "ctw"],
     "title": { "en": "MARBEFES", "no": "MARBEFES" }
   },
   {
@@ -241,7 +259,7 @@
     "lifecycle": "past",
     "published": "2019-12-31T23:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
-    "people": ["Magnus Drivdal"],
+    "akvaplanists": ["mad"],
     "title": { "en": "MATNOC", "no": "MATNOC" }
   },
   {
@@ -254,7 +272,7 @@
     "lifecycle": "ongoing",
     "published": "2024-01-31T23:00:00Z",
     "updated": "2024-04-04T07:56:15Z",
-    "people": [],
+    "akvaplanists": [],
     "title": { "en": "MetoMilo", "no": "MetoMilo" }
   },
   {
@@ -267,9 +285,9 @@
     "lifecycle": "ongoing",
     "published": "2024-01-01T11:00:00Z",
     "updated": "2025-09-10T06:26:44Z",
-    "people": ["Kanchana Bandara"],
+    "akvaplanists": ["kba"],
     "title": { "en": "Migratory Crossroads", "no": "Migratory Crossroads" },
-    "code": "MxR"
+    "abbr": "MxR"
   },
   {
     "id": "miljoreg",
@@ -281,7 +299,7 @@
     "lifecycle": "past",
     "published": "2022-01-19T23:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
-    "people": ["Anita Evenset"],
+    "akvaplanists": ["aev"],
     "title": { "en": "MiljøREG", "no": "MiljøREG" }
   },
   {
@@ -294,7 +312,7 @@
     "lifecycle": "ongoing",
     "published": "2025-10-15T12:00:00Z",
     "updated": "2025-10-15T12:00:00Z",
-    "people": ["Attle Foss"],
+    "akvaplanists": ["atf"],
     "title": { "en": "OPTIFLEKK", "no": "OPTIFLEKK" }
   },
   {
@@ -308,7 +326,7 @@
     "lifecycle": "past",
     "published": "2021-11-01T11:00:00Z",
     "updated": "2024-10-29T08:36:06Z",
-    "people": ["Paul E. Renaud"],
+    "akvaplanists": ["per"],
     "title": { "en": "PolarFront", "no": "PolarFront" }
   },
   {
@@ -321,7 +339,7 @@
     "lifecycle": "ongoing",
     "published": "2024-01-31T23:00:00Z",
     "updated": "2025-07-07T11:45:56Z",
-    "people": ["Paul E. Renaud"],
+    "akvaplanists": ["per"],
     "title": { "en": "POMP", "no": "POMP" }
   },
   {
@@ -334,7 +352,7 @@
     "lifecycle": "ongoing",
     "published": "2022-09-30T22:00:00Z",
     "updated": "2025-04-03T13:11:31Z",
-    "people": ["Albert K. D. Imsland"],
+    "akvaplanists": ["aki"],
     "title": {
       "en": "PROLAKS - FoU tillatelse akvakultur",
       "no": "PROLAKS - FoU tillatelse akvakultur"
@@ -350,7 +368,7 @@
     "lifecycle": "ongoing",
     "published": "2024-12-31T23:00:00Z",
     "updated": "2025-03-26T08:28:37Z",
-    "people": [],
+    "akvaplanists": [],
     "title": { "en": "Sea4Health", "no": "Sea4Health" }
   },
   {
@@ -363,7 +381,7 @@
     "lifecycle": "ongoing",
     "published": "2023-09-30T22:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
-    "people": ["Pierre Blévin"],
+    "akvaplanists": ["pbl"],
     "title": { "en": "SLICE", "no": "SLICE" }
   },
   {
@@ -376,7 +394,7 @@
     "lifecycle": "past",
     "published": "2023-11-30T23:00:43Z",
     "updated": "2025-05-14T12:43:45Z",
-    "people": ["Nina Mikkelsen"],
+    "akvaplanists": ["nmi"],
     "title": {
       "en": "Impact assessment of Sognefjorden as marine protected area",
       "no": "Konsekvensutgreiing for Sognefjorden som marint verneområde"
@@ -392,7 +410,7 @@
     "lifecycle": "ongoing",
     "published": "2024-04-30T22:00:00Z",
     "updated": "2024-09-13T08:30:16Z",
-    "people": [],
+    "akvaplanists": ["azi"],
     "title": {
       "en": "Svalbard citizen science monitoring of invasive species",
       "no": "Overvåking av fremmedarter på Svalbard gjennom folkeforskning"
@@ -415,7 +433,7 @@
     "lifecycle": "ongoing",
     "published": "2024-12-31T23:00:00Z",
     "updated": "2025-01-31T14:00:51Z",
-    "people": ["Achim Randelhoff"],
+    "akvaplanists": ["ara"],
     "title": { "en": "TURBOT", "no": "TURBOT" }
   },
   {
@@ -428,7 +446,7 @@
     "lifecycle": "ongoing",
     "published": "2023-07-31T22:00:00Z",
     "updated": "2024-09-09T08:15:52Z",
-    "people": ["Guttorm Christensen"],
+    "akvaplanists": ["gnc"],
     "title": {
       "en": "Våre verdifulle grensevassdrag",
       "no": "Våre verdifulle grensevassdrag"
@@ -444,7 +462,7 @@
     "lifecycle": "ongoing",
     "published": "2023-07-31T22:00:00Z",
     "updated": "2024-03-26T18:02:19Z",
-    "people": ["Atle Foss"],
+    "akvaplanists": ["atf"],
     "title": { "en": "WOLFHUNGER", "no": "WOLFHUNGER" }
   }
 ]

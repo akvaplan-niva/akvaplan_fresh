@@ -1,10 +1,4 @@
 import { openKv } from "akvaplan_fresh/kv/mod.ts";
-import { seedDois } from "./seed/seed_dois.ts";
-import { seedAkvaplanists } from "./seed/seed_akvaplanists.ts";
-import { seedCustomerServices } from "./seed/seed_customer_services.ts";
-import { seedMynewsdesk } from "./seed/seed_mynewsdesk.ts";
-
-//Beware run with --env or else prod
 const kv = await openKv();
 
 // FIXME, Move search atomization, ie homogenize all content *not* while running, but at build time (or via cron)
@@ -53,6 +47,96 @@ export const seedPanels = async () => {
   const response = await atomic.commit();
   console.warn(response);
 };
+import _projects from "akvaplan_fresh/data/projects.json" with { type: "json" };
+import {
+  getItemFromMynewsdeskApi,
+  intlRouteMap,
+} from "akvaplan_fresh/services/mod.ts";
+import { isodate } from "akvaplan_fresh/time/intl.ts";
+import { MynewsdeskEvent } from "../../@interfaces/mynewsdesk.ts";
+import { slug } from "slug";
+import { projectLifecycle } from "../../search/indexers/project.ts";
+import { update } from "@orama/orama";
+import { Project } from "../../@interfaces/project.ts";
+
+export const seedProjects = async () => {
+  const atomic = kv.atomic();
+  const people = new Set();
+  const projects = _projects as Project[];
+
+  for await (
+    const {
+      abbr,
+      links,
+      published,
+      updated,
+      ...project
+    } of projects
+  ) {
+    //const ignore = { lifecycle, published, created, updated, links };
+    project.published = new Date(published);
+    project.updated = new Date(updated);
+    const mynewsdesk = project.mynewsdesk
+      ? await getItemFromMynewsdeskApi<MynewsdeskEvent>(
+        project.mynewsdesk,
+        "event",
+      )
+      : undefined;
+    if (!mynewsdesk) {
+      console.error(`Failed getting mynewsdesk event ${project.id}`);
+    } else {
+      const lang = new Set(["no", "en"]).has(mynewsdesk.language)
+        ? mynewsdesk.language
+        : "no";
+
+      project.start = isodate(mynewsdesk.start_at.text);
+      project.end = isodate(mynewsdesk.end_at.text);
+      console.warn("seed start end", project.start, project.end);
+      project.lifecycle = projectLifecycle(project);
+      project.published = new Date(mynewsdesk?.published_at?.datetime!);
+      project.updated = new Date(mynewsdesk?.updated_at?.datetime!);
+      project.links = [...mynewsdesk?.links, ...links ?? []];
+
+      project.abbr = abbr ? abbr : project.title.en;
+
+      const summary = mynewsdesk.summary?.replaceAll(
+        "https://www.mynewsdesk.com/no/akvaplan-niva/documents/",
+        `${intlRouteMap(lang).get("document")}/`,
+      ).replaceAll(
+        ">https://www.mynewsdesk.com/no/...<",
+        `>https://akvaplan.no/${lang}/…<`,
+      ).replaceAll(
+        `target="_blank"`,
+        ` `,
+      ).replaceAll(
+        `rel="noopener"`,
+        ` `,
+      );
+
+      // if ("no" in project.summary) {
+      //   project.summary.no = markdownFromHtml(project.summary.no);
+      // }
+
+      project.summary = {
+        [lang]: summary,
+      };
+    }
+    project.slug = {
+      en: slug(project.title.en, { locale: "en" }),
+      no: slug(project.title.no, { locale: "no" }),
+    };
+    delete project.created;
+    delete project.modified;
+    const key = ["project", project.id];
+
+    atomic
+      //.check({ key, versionstamp: null })
+      .set(key, project);
+  }
+
+  const response = await atomic.commit();
+  console.warn("seedProjects", response);
+};
 
 export const seedKv = async () => {
   //await seedHomeBanner();
@@ -64,6 +148,7 @@ export const seedKv = async () => {
   // seedDois();
   //await seedPanels(kv);
   //await seedPanels();
+  await seedProjects();
 };
 
 if (import.meta.main) {

@@ -9,7 +9,7 @@ import {
 } from "akvaplan_fresh/services/mod.ts";
 
 import {
-  editHref,
+  editOnMynewsdeskHref,
   fetchContacts,
   fetchRelated,
   getItem,
@@ -354,7 +354,7 @@ export default function NewsArticle(
         {editor && (
           <LinkIcon
             icon="edit"
-            href={editHref(item)}
+            href={editOnMynewsdeskHref(item)}
             target="_blank"
             children={t("ui.Edit")}
           />

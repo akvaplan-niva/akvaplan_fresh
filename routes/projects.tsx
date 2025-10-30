@@ -1,44 +1,41 @@
-import {
-  projectFromMynewsdesk,
-  searchURL,
-} from "akvaplan_fresh/services/mod.ts";
+import { genid, ID_PROJECTS } from "../kv/id.ts";
+import { getSessionUser } from "../oauth/microsoft_helpers.ts";
+import { getPanelInLang, mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
 
 import { search } from "akvaplan_fresh/search/search.ts";
 
-import { t } from "akvaplan_fresh/text/mod.ts";
-import {
-  ArticleSquare,
-  CollectionHeader,
-  HScroll,
-  Page,
-} from "akvaplan_fresh/components/mod.ts";
+import { Page } from "akvaplan_fresh/components/mod.ts";
 
-import { Section } from "akvaplan_fresh/components/section.tsx";
-import { MynewsdeskEvent } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 
-import { getPanelInLang, getPanelsInLang } from "akvaplan_fresh/kv/panel.ts";
 import { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
 import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
+
+import { Button } from "../components/button/button.tsx";
+import { Handlers } from "$fresh/server.ts";
+import { Forbidden } from "../components/forbidden.tsx";
+
+import { defineRoute, type RouteConfig } from "$fresh/server.ts";
+import { projectHref } from "../services/mod.ts";
+import { saveProject } from "../kv/project.ts";
+
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(projects|project|prosjekter|prosjekt)",
 };
-
-const sortStartReverse = (a: MynewsdeskEvent, b: MynewsdeskEvent) =>
-  b.start.localeCompare(a.start);
 
 const facets = {
   lifecycle: {},
 };
 
-const buildOramaParams = ({ searchParams }) => {
+const buildOramaParams = (
+  { searchParams }: { searchParams: URLSearchParams },
+) => {
   const where: { collection: string[]; lifecycle?: string } = {
     collection: ["project"],
   };
   if (searchParams.has("filter-lifecycle")) {
-    where.lifecycle = searchParams.get("filter-lifecycle");
+    where.lifecycle = searchParams.get("filter-lifecycle") ?? undefined;
   }
   const term = searchParams.get("q") ?? "";
   return {
@@ -51,11 +48,41 @@ const buildOramaParams = ({ searchParams }) => {
   };
 };
 
+export const handler: Handlers = {
+  async POST(req, ctx) {
+    if (await mayEditKvPanel(req) === true) {
+      const { lang } = ctx.params;
+      const user = await getSessionUser(req);
+
+      const formData = await req.formData();
+      const id = formData.get("id") as string;
+      const emptyIntl = { en: "", no: "" };
+      const project = {
+        id,
+        abbr: id,
+        created: new Date(),
+        created_by: user.email,
+        title: emptyIntl,
+        summary: emptyIntl,
+      };
+      const res = await saveProject(project, user);
+      if (res && res.ok) {
+        return new Response("", {
+          status: 303,
+          headers: { Location: projectHref({ id, lang }) + "/w" },
+        });
+      }
+      return new Response("Failed creating project", { status: 500 });
+    }
+    return Forbidden();
+  },
+};
+
 export default defineRoute(async (req, ctx) => {
   const { lang } = ctx.params;
 
   const { image, title } = await getPanelInLang({
-    id: "01hyd6qeqv71dyhcd3356q31sy",
+    id: ID_PROJECTS,
     lang,
   }) as Panel;
 
@@ -66,12 +93,22 @@ export default defineRoute(async (req, ctx) => {
   const collection = "project";
   const filters = Object.entries(oramaParams.where);
   const q = searchParams.get("q") ?? "";
+  const mayCreateProject = await mayEditKvPanel(req);
 
   return (
     <Page title={title} _base={""} collection="home">
       <SearchHeader
         lang={lang}
         title={title}
+        subtitle={mayCreateProject
+          ? (
+            <form method="POST">
+              <a href={`/${lang}/${collection}/new`}>
+                New project
+              </a>
+            </form>
+          )
+          : null}
         cloudinary={image?.cloudinary ?? extractId(image.url)}
       />
 
