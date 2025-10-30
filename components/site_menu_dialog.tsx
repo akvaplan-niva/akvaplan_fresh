@@ -5,13 +5,21 @@ import IconButton from "./button/icon_button.tsx";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import { ApnLogo } from "akvaplan_fresh/components/akvaplan/logo.tsx";
 import { indexPanels } from "akvaplan_fresh/search/indexers/panel.ts";
+
 import { getOramaInstance } from "akvaplan_fresh/search/orama.ts";
 import { UserNameOrSignInIcon } from "akvaplan_fresh/islands/username_or_signin.tsx";
+import { indexProjectsFromKv } from "../search/indexers/project.ts";
 
-// Add panels to search index on each boot
 (async () => {
   const _orama = await getOramaInstance();
+
+  console.time("Orama indexing projects");
+  await indexProjectsFromKv(_orama);
+  console.timeEnd("Orama indexing projects");
+
+  console.time("Orama indexing panels");
   await indexPanels(_orama);
+  console.timeEnd("Orama indexing panels");
 })();
 
 export default ({ lang }) => (

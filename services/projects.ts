@@ -3,6 +3,7 @@ import { projectURL } from "./nav.ts";
 import { AbstractMynewsdeskItem, News } from "../@interfaces/mod.ts";
 
 import { extractNumericId } from "akvaplan_fresh/services/id.ts";
+import { monthname } from "akvaplan_fresh/time/intl.ts";
 
 // https://akvaplan.no/en/news/2016-01-26/the-norwegian-ministry-of-foreign-affair-supports-akvaplan-niva-project-by-nok-14.3-million",
 // VEIEN http://localhost:7777/en/news/2023-01-30/hvordan-kan-rognkjeks-bli-en-robust-og-effektiv-rensefisk-i-lakseoppdrett
@@ -31,9 +32,13 @@ export const projectMap = new Map([
   ["slice", slice],
 ]);
 const year = (datetime: string | Date) =>
-  datetime ? new Date(datetime).getFullYear() : "????";
-export const projectYears = (start_at, end_at) =>
-  `${year(start_at)} – ${year(end_at)}`;
+  datetime
+    ? new Date(new Date(datetime).setUTCHours(0)).getUTCFullYear()
+    : "????";
+export const projectPeriod = (start, end, lang = "no") =>
+  start && end
+    ? `${monthname(new Date(start), lang)} – ${monthname(new Date(end), lang)}`
+    : "";
 
 export const projectFilter = (item: AbstractMynewsdeskItem) =>
   [type_of_media].includes(item?.type_of_media) &&
@@ -60,7 +65,7 @@ export const projectFromMynewsdesk = ({ lang }: NewsMapper) =>
   id,
   title: header,
   published: published_at.datetime,
-  duration: projectYears(start_at, end_at),
+  duration: projectPeriod(start_at, end_at),
   start: start_at?.datetime,
   end: end_at?.datetime,
   href: projectURL({ lang, title: header }),

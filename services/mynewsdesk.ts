@@ -66,7 +66,7 @@ const editType = (type_of_media: string) => {
   }
 };
 
-export const editHref = (item: MynewsdeskArticle) =>
+export const editOnMynewsdeskHref = (item: MynewsdeskArticle) =>
   `https://publish.mynewsdesk.com/69134/publish/${
     editType(item.type_of_media)
   }/edit/${item.id}`;
@@ -283,20 +283,22 @@ export const getItemFromKv = async <T>(
   }
 };
 
-export const getItemFromMynewsdeskApi = async (
+export const getItemFromMynewsdeskApi = async <
+  T extends AbstractMynewsdeskItem,
+>(
   id: number,
   type_of_media: string,
-  signal,
-): Promise<AbstractMynewsdeskItem | undefined> => {
+  signal = new AbortController().signal,
+) => {
   const url = itemURL(id, type_of_media);
 
-  //console.debug("getItem [API]", url);
+  //console.debug("getItemFromMynewsdeskApi [API]", url);
 
   const r = await fetch(url, { signal });
   if (r.ok) {
     const { item: [item] } = await r.json();
     item[whoWon] = "API";
-    return item;
+    return item as T;
   }
 };
 

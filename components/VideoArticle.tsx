@@ -1,6 +1,6 @@
 import { Article } from "akvaplan_fresh/components/article/Article.tsx";
 import type { MynewsdeskVideo } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import { editHref } from "akvaplan_fresh/services/mynewsdesk.ts";
+import { editOnMynewsdeskHref } from "akvaplan_fresh/services/mynewsdesk.ts";
 import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
 import { t } from "akvaplan_fresh/text/mod.ts";
 import { isodate } from "../time/intl.ts";

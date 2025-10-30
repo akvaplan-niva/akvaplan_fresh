@@ -1,3 +1,5 @@
+const defaults = {};
+export const newProject = (props: Project) => ({ ...props, ...defaults });
 // {
 // "id": "https://api.nva.unit.no/cristin/project/2572443",
 // "type": "Project",
@@ -32,27 +34,11 @@
 // "@context": "https://bibsysdev.github.io/src/project-context.json"
 // }
 
-export interface Project {
-  id: string;
-  start: string;
-  end: string;
-  cloudinary: string;
-  mynewsdesk: number;
-  cristin: number;
-  lifecycle: string;
-  published: string;
-  updated: string;
-  people: string[];
-  title: {
-    en: string;
-    no: string;
-  };
-}
-
 //che@:~/akvaplan-niva/akvaplan_fresh$ curl -s "http://localhost:7777/api/search?q=&limit=100&group-by=collection&where=%7B%22collection%22%3A%22project%22%7D&sort=slug" | nd-map 'ndjson=(o)=>log(stringify(o)), d.hits.map( ({document}) => document).map(ndjson), undefined' | nd-map 'd.id=d.id.split("/").at(-1), d' | nd-map '[id,mynewsdesk]=[d.slug,+d.id], {type, cloudinary, lifecycle, start, end, published, people, title, lang, updated, ...p }=d,{id, type, start, end, cloudinary, mynewsdesk, cristin:0, lifecycle, published, updated, people, title: { en: title, no: title} }'
 import _projects from "akvaplan_fresh/data/projects.json" with { type: "json" };
 import { extractNumericId } from "akvaplan_fresh/services/id.ts";
 import { oramaSortPublishedReverse, search } from "../search/search.ts";
+import { Project } from "../@interfaces/project.ts";
 export const projectsIdMap = new Map(
   _projects.map((p) => [p.id, p as Project]),
 );

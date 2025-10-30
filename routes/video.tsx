@@ -13,7 +13,10 @@ export const config: RouteConfig = {
 };
 
 import { isAuthenticated } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
-import { editHref, fetchContacts } from "akvaplan_fresh/services/mynewsdesk.ts";
+import {
+  editOnMynewsdeskHref,
+  fetchContacts,
+} from "akvaplan_fresh/services/mynewsdesk.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
 import { PersonCard as PersonCard } from "akvaplan_fresh/components/mod.ts";
 import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
@@ -67,7 +70,7 @@ export default async function VideoPage(req: Request, ctx: RouteContext) {
       {editor && (
         <LinkIcon
           icon="edit"
-          href={editHref(video)}
+          href={editOnMynewsdeskHref(video)}
           target="_blank"
           children={t("ui.Edit")}
         />

@@ -53,6 +53,7 @@ import * as $policies from "./routes/policies.tsx";
 import * as $pref from "./routes/pref.tsx";
 import * as $priors from "./routes/priors.tsx";
 import * as $project from "./routes/project.tsx";
+import * as $project_edit_page from "./routes/project_edit_page.tsx";
 import * as $projects from "./routes/projects.tsx";
 import * as $projects_nva from "./routes/projects_nva.tsx";
 import * as $pub from "./routes/pub.tsx";
@@ -83,6 +84,8 @@ import * as $lang_switcher from "./islands/lang_switcher.tsx";
 import * as $list_selector from "./islands/list_selector.tsx";
 import * as $our_x from "./islands/our_x.tsx";
 import * as $panel_edit_1 from "./islands/panel_edit.tsx";
+import * as $project_project_edit from "./islands/project/project_edit.tsx";
+import * as $project_project_new from "./islands/project/project_new.tsx";
 import * as $pub_nva_pdf_augment from "./islands/pub_nva_pdf_augment.tsx";
 import * as $search_view_buttons from "./islands/search_view_buttons.tsx";
 import * as $text from "./islands/text.tsx";
@@ -145,6 +148,7 @@ const manifest = {
     "./routes/pref.tsx": $pref,
     "./routes/priors.tsx": $priors,
     "./routes/project.tsx": $project,
+    "./routes/project_edit_page.tsx": $project_edit_page,
     "./routes/projects.tsx": $projects,
     "./routes/projects_nva.tsx": $projects_nva,
     "./routes/pub.tsx": $pub,
@@ -178,6 +182,8 @@ const manifest = {
     "./islands/list_selector.tsx": $list_selector,
     "./islands/our_x.tsx": $our_x,
     "./islands/panel_edit.tsx": $panel_edit_1,
+    "./islands/project/project_edit.tsx": $project_project_edit,
+    "./islands/project/project_new.tsx": $project_project_new,
     "./islands/pub_nva_pdf_augment.tsx": $pub_nva_pdf_augment,
     "./islands/search_view_buttons.tsx": $search_view_buttons,
     "./islands/text.tsx": $text,

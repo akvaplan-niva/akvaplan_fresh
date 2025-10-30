@@ -1,102 +1,204 @@
+// Data
+import { getProject } from "akvaplan_fresh/kv/project.ts";
 import {
-  editHref,
-  fetchContacts,
-  getItem,
-  projectYears,
-} from "akvaplan_fresh/services/mod.ts";
+  searchOramaForProjectPublicationsInNva,
+} from "akvaplan_fresh/services/project.ts";
 
+// Helpers
+import { projectHref, projectPeriod } from "akvaplan_fresh/services/mod.ts";
+import { isodate } from "../time/intl.ts";
+import { projectsURL } from "akvaplan_fresh/services/nav.ts";
+
+// Internals
 import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
+import { getSessionUser } from "../oauth/microsoft_helpers.ts";
+import type { MicrosoftUserinfo } from "../oauth/microsoft_userinfo.ts";
+import { defineRoute, Handlers, RouteConfig } from "$fresh/server.ts";
 
+// Islands
+import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+import { ProjectNew } from "../islands/project/project_new.tsx";
+
+// Components
 import {
   AltLangInfo,
   Article,
   Breadcrumbs,
   Card,
+  Icon,
   Page,
 } from "akvaplan_fresh/components/mod.ts";
 
-import { PersonCard as PersonCard } from "akvaplan_fresh/components/mod.ts";
-
-import { defineRoute, RouteConfig } from "$fresh/server.ts";
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+import { PersonCard } from "akvaplan_fresh/components/mod.ts";
 import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
-import { projectsURL } from "akvaplan_fresh/services/nav.ts";
 import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
-import {
-  projectsIdMap,
-  searchOramaForProjectPublicationsInNva,
-} from "akvaplan_fresh/services/project.ts";
+import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
+import { Forbidden } from "../components/forbidden.tsx";
+import { mayEditKvPanel } from "../kv/panel.ts";
+import { createProjectFromNvaId } from "../services/nva_project.ts";
 
 export const config: RouteConfig = {
-  routeOverride: "/:lang(no|en)/:type(project|prosjekt){/:date}?/:slug",
+  routeOverride: "/:lang(no|en)/:type(project|prosjekt)/:id{/:slug}?",
+};
+
+export const handler: Handlers = {
+  async POST(req, _ctx) {
+    const editor = await mayEditKvPanel(req);
+    if (!editor) {
+      return Forbidden();
+    } else {
+      const form = await req.formData();
+      const nva_project_id = Number(form.get("nva_project_id"));
+      if (nva_project_id > 0) {
+        const project = await createProjectFromNvaId(nva_project_id);
+        return project && project.id
+          ? Response.json(project)
+          // ? new Response(null, {
+          //   status: 303,
+          //   headers: { location: `/${id}` },
+          // })
+          : new Response("Invalid project", { status: 400 });
+      }
+      return new Response("Invalid project", { status: 400 });
+    }
+  },
 };
 
 export default defineRoute(async (req, ctx) => {
   const { url, params } = ctx;
-  const { lang, slug } = params;
+  const { lang, type, id, slug } = params;
   langSignal.value = lang;
 
-  if (!projectsIdMap.has(slug)) {
+  if ("new" === id) {
+    return (
+      <Page>
+        <ProjectNew />
+      </Page>
+    );
+  }
+
+  const project = await getProject(id);
+  if (!project) {
     return ctx.renderNotFound();
   }
-  const project = projectsIdMap.get(slug)!;
-  const pubs = project.cristin > 0
+
+  const pubs = project?.cristin > 0
     ? await searchOramaForProjectPublicationsInNva(project.cristin)
     : undefined;
 
-  // @todo FIXME, remove mynewsdesk dependency
-  const mynewsdesk = project.mynewsdesk
-    ? await getItem(project.mynewsdesk, "event")
-    : undefined;
+  const {
+    abbr,
+    cloudinary,
+    cristin,
+    start,
+    end,
+    links,
+    akvaplanists,
+    published,
+    updated,
+  } = project;
 
-  const contacts = mynewsdesk ? await fetchContacts(mynewsdesk) : undefined;
+  const summary = project.summary?.[lang]?.length > 0
+    ? project.summary?.[lang] ??
+      Object.values(project?.summary).at(0)
+    : "";
 
-  const { cloudinary, cristin, start, end, published } = project; // id && cristinMap.has(id) ? cristinMap.get(id) : undefined;
+  const title = project?.title?.[lang]?.length > 0
+    ? project.title[lang] ?? Object.values(project.title)[0]
+    : abbr;
 
-  // const contacts = await fetchContacts(item);
-  // const [image] = await fetchImages(item);
-
-  // item.image_caption = item.image_caption ?? image.header;
-
-  // let { searchwords, logo, exclude } = projectMap.get(slug) ?? {};
-
-  // searchwords = [...new Set([...searchwords ?? [], slug].map(normalize))];
-  // const regex = searchwords.join("|");
-  // const needle = new RegExp(normalize(regex), "ui");
-  const { body, summary } = mynewsdesk;
-  const __html = body ?? summary;
-  const title = project.title[lang];
-  const _caption = {
-    fontSize: "0.75rem",
-  };
+  const text = summary?.replaceAll(
+    /\<a href=\"\/(no|en)\//g,
+    `<a href="/${lang}/`,
+  );
 
   const breadcrumbs = [{
     href: projectsURL({ lang }),
     text: t("nav.Projects"),
   }];
 
-  const links = [];
   const alternate = lang === "en" ? "no" : "en";
 
-  const term = mynewsdesk ? `${mynewsdesk.id}` : `${title}`.toLowerCase();
+  const term = project.mynewsdesk
+    ? `${project.mynewsdesk}`
+    : abbr
+    ? abbr
+    : `${title}`.toLowerCase();
+
+  const user = await getSessionUser(req) as MicrosoftUserinfo;
+  const rcnLink = project?.rcn > 0
+    ? (
+      <ol
+        style="grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));"
+        color-scheme="dark"
+      >
+        <li style="font-size: 0.75rem; margin: 1px; background: var(--surface4);">
+          <div style="display: grid; gap: 0.5rem; padding: 0.5rem; grid-template-columns: 2fr 4fr;">
+            <a
+              href={`https://prosjektbanken.forskningsradet.no/project/FORISS/${project.rcn}`}
+              style="place-content: center;"
+            >
+              <img
+                width="143"
+                height="26"
+                alt="Forskningsrådet logo"
+                src="/rcn.svg"
+                style="border-radius: 0.125rem;"
+              />
+            </a>
+          </div>
+        </li>
+      </ol>
+    )
+    : null;
 
   return (
     <Page title={title} collection="projects">
-      <Breadcrumbs list={breadcrumbs} />
       <SearchHeader
         lang={lang}
-        title={title}
-        subtitle={projectYears(start, end)}
+        title={
+          <>
+            <Breadcrumbs list={breadcrumbs} />
+            {abbr}
+            {user
+              ? (
+                <LinkIcon
+                  icon="edit"
+                  href={projectHref(project) + "/w"}
+                  children={""}
+                />
+              )
+              : null}
+          </>
+        }
+        subtitle={
+          <p style="font-size: 0.9rem">{projectPeriod(start, end, lang)}</p>
+        }
         cloudinary={cloudinary}
       />
 
-      {
-        /*<ArticleHeader
-          header={`${header} (${projectYears(start_at, end_at)})`}
-          image={img}
-          imageCaption={image_caption}
-        />*/
-      }
+      <Article
+        language={String(lang)}
+      >
+        <AltLangInfo lang={lang} language={lang} alternate={alternate} />
+
+        <Markdown
+          text={title !== abbr ? `#${title}\n\n` : ""}
+        />
+        {rcnLink}
+        <Markdown
+          text={text}
+        />
+        <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:1rem;">
+          {akvaplanists && akvaplanists.map && akvaplanists?.map(
+            (id) => (
+              <section class="article-content">
+                <PersonCard id={id} icons={false} />
+              </section>
+            ),
+          )}
+        </li>
+      </Article>
 
       {cristin
         ? (
@@ -117,15 +219,6 @@ export default defineRoute(async (req, ctx) => {
           </>
         )
         : null}
-      <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:1rem;">
-        {contacts && contacts.map(
-          (contact) => (
-            <section class="article-content">
-              <PersonCard id={contact} icons={false} />
-            </section>
-          ),
-        )}
-      </li>
 
       {(links && links?.length > 0) &&
         (
@@ -148,33 +241,20 @@ export default defineRoute(async (req, ctx) => {
         sort="-published"
       />
 
-      {false && (
-        <LinkIcon
-          icon="edit"
-          href={editHref(item)}
-          children={t("ui.Edit")}
-        />
-      )}
-      <Article
-        language={String(lang)}
-      >
-        <AltLangInfo lang={lang} language={lang} alternate={alternate} />
-        <div
-          class="article-content"
-          dangerouslySetInnerHTML={{ __html }}
-        />
-
+      <p style={{ fontSize: ".75rem" }}>
+        Publisert {isodate(published)}, oppdatert {isodate(updated)}.
         {"cristin" in project && project.cristin > 0
           ? (
-            <p style={{ fontSize: ".75rem" }}>
+            <>
+              {" "}
               {t("pubs.Registered_in")}{" "}
               <a href={`https://nva.sikt.no/projects/${project.cristin}`}>
                 {t("NVA")}
-              </a>
-            </p>
+              </a>.
+            </>
           )
           : null}
-      </Article>
+      </p>
     </Page>
   );
 });

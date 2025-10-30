@@ -5,7 +5,7 @@ export interface AbstractMynewsdeskItem {
   caption?: string;
   newsdeskML?: string;
   type_of_media: string;
-  language?: string;
+  language: string;
   source_id?: number;
   source_name?: string;
   pressroom_name?: string;
@@ -53,8 +53,8 @@ export interface MynewsdeskVideo extends MynewsdeskDocument {
 }
 
 export interface MynewsdeskEvent extends AbstractMynewsdeskItem {
-  end: Date;
-  start: Date | string;
+  end_at: At;
+  start_at: At;
 }
 
 export interface MynewsdeskImage extends AbstractMynewsdeskItem {
@@ -77,6 +77,6 @@ export interface Tag {
 }
 
 export interface At {
-  text?: string;
+  text: string;
   datetime: Date;
 }

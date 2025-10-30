@@ -259,8 +259,10 @@ export const pubUrl = (pub, lang) => {
 export const projectsURL = ({ lang }: SlugLike) =>
   intlRouteMap(lang).get("projects");
 
-export const projectHref = ({ id, lang }: string) =>
-  `${intlRouteMap(lang).get("project")}/${id}`;
+export const projectHref = ({ id, title, slug, lang }: string) =>
+  `${intlRouteMap(lang).get("project")}/${id}/${
+    slug && slug[lang] ? slug[lang] : "_"
+  }`;
 
 export const projectURL = ({ lang, title }: SlugLike) =>
   `${intlRouteMap(lang).get("project")}/${_slug(title)}`;

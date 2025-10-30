@@ -12,7 +12,7 @@ import {
   _priors,
   getAkvaplanistsFromDenoService,
 } from "akvaplan_fresh/services/akvaplanist.ts";
-import { buildOramaIndex } from "akvaplan_fresh/search/create_search_index.ts";
+import { buildOramaIndexFromProductionApi } from "akvaplan_fresh/search/create_search_index.ts";
 
 const createIdentitiesJsonFiles = async () => {
   try {
@@ -37,7 +37,7 @@ await dev(import.meta.url, "./main.ts");
 if (Deno.args.includes("build")) {
   await createIdentitiesJsonFiles();
 
-  const orama = await buildOramaIndex();
+  const orama = await buildOramaIndexFromProductionApi();
   await persistOramaJson(orama, oramaJsonPath);
   //await persistIndexAsMessagePack(orama, oramaMessagePackPath);
 }

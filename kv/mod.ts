@@ -5,6 +5,21 @@ export const db = globalThis?.Deno && Deno.env.has("deno_kv_database")
 
 let _kv: undefined | Deno.Kv;
 
+// $ ./bin/kv_list '[]' | nd-uniq 'd.key.at(0)'
+// "@"
+// "avatar"
+// "mynewsdesk_cloudinary"
+// "mynewsdesk_id"
+// "mynewsdesk_slug"
+// "mynewsdesk_total"
+// "mynewsdesk_video_embed"
+// "mynewsdesk_video_id"
+// "oauth_sessions"
+// "panel"
+// "rights"
+// "session_user"
+// "site_sessions"
+
 export const openKv = async (path = db) => {
   if (!_kv) {
     if (path) {

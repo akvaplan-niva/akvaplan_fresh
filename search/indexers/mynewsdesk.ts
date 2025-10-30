@@ -54,6 +54,7 @@ const contacts = new Map(JSON.parse(myn_id_text));
 import { AnyOrama, insert, insertMultiple } from "@orama/orama";
 import { getAkvaplanist, projectFilter } from "akvaplan_fresh/services/mod.ts";
 import { projectLifecycle } from "./project.ts";
+import { openKv } from "akvaplan_fresh/kv/mod.ts";
 
 const itemCollection = ({ type_of_media }: AbstractMynewsdeskItem) => {
   switch (type_of_media) {
@@ -253,6 +254,7 @@ export async function* insertMynewsdesk(orama: AnyOrama) {
   const total = new Map(typeOfMediaCountMap);
   const last = new Map(typeOfMediaCountMap);
   const limit = 100;
+  const kv = await openKv();
 
   for await (const type_of_media of [...actual.keys()]) {
     let offset = 0;
@@ -268,7 +270,7 @@ export async function* insertMynewsdesk(orama: AnyOrama) {
       });
       const { items, total_count } = res;
       total.set(type_of_media, total_count);
-      if (["contact_person"].includes(type_of_media)) {
+      if (["contact_person", "event"].includes(type_of_media)) {
         break;
       }
       actual.set(
@@ -302,11 +304,20 @@ export async function* insertMynewsdesk(orama: AnyOrama) {
         page += 1;
       }
     }
-    yield ({
+
+    // Store last indexing in KV, exposed as:
+    // https://akvaplan.no/api/kv/list/last
+    // @todo Remove https://akvaplan.no/api/mynewsdesk
+    const key = ["last", "mynewsdesk", type_of_media];
+    const value = {
       type_of_media,
-      count: actual.get(type_of_media),
-      total: total.get(type_of_media),
-      last: last.get(type_of_media),
-    });
+      indexed: actual.get(type_of_media)!,
+      upstream: total.get(type_of_media)!,
+      last: last.get(type_of_media)!,
+    };
+    value.last = (value.indexed === 0) ? undefined : new Date(value.last);
+    await kv.set(key, value);
+
+    yield value;
   }
 }

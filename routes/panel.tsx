@@ -8,7 +8,7 @@ import type { RouteConfig } from "$fresh/server.ts";
 
 // A very/too greedy route…
 export const config: RouteConfig = {
-    routeOverride: "/:lang(no|en)/:collection{/:slug}?/:id/:action(edit|new)",
+  routeOverride: "/:lang(no|en)/:collection{/:slug}?/:id/:action(edit|new)",
   //routeOverride: "/:lang(no|en)/:collection/:id",
 };
 
@@ -18,7 +18,7 @@ export default defineRoute(async (req, ctx) => {
   const [slug, id] = params.id.includes("-")
     ? params.id.split("-")
     : ["", params.id];
-
+  console.warn(url, collection, slug, id);
   const panel = await getPanelInLang({ id, lang });
 
   if (!panel) {

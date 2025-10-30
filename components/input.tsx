@@ -16,3 +16,17 @@ export function Input({ ...props }: InputSearchProps) {
     </div>
   );
 }
+
+export default function InputWithLabel(props) {
+  return (
+    <div style="padding: 0.25rem 0.5rem 0.25rem 2.5rem;">
+      <label>
+        {props.label ?? props.name}
+        <Input
+          type={props.type ?? "text"}
+          {...props}
+        />
+      </label>
+    </div>
+  );
+}
