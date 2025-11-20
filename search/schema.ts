@@ -18,6 +18,7 @@ export const schema = {
   created: "string",
   published: "string",
   modified: "string",
+  updated: "string",
   year: "number",
   open_access: "boolean",
   open_access_status: "string",

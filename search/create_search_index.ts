@@ -14,23 +14,33 @@ import {
 import { insertMynewsdesk } from "akvaplan_fresh/search/indexers/mynewsdesk.ts";
 import { atomizeSlimPublication } from "akvaplan_fresh/search/indexers/pubs.ts";
 
-import { createOramaInstance } from "akvaplan_fresh/search/orama.ts";
+import {
+  createOramaInstance,
+  getOramaInstance,
+} from "akvaplan_fresh/search/orama.ts";
 
 import { insertMultiple } from "@orama/orama";
 import {
   getEmployedAkvaplanists,
 } from "akvaplan_fresh/services/akvaplanist.ts";
+import {
+  indexProjects,
+  indexProjectsFromKv,
+} from "akvaplan_fresh/search/indexers/project.ts";
 
 // Create orama index
 // Persists index as JSON on disk during `deno task build` (in production, this runs on GitHub prior to deploy).
 // The search index is automatically revived by the getOramaInstance function.
 //
-// Data held in KV may not so easily be pre-indexed, since the GitHub build server has no contact with the KV in production,
-// although this could be achieved by injecting a KV secret to https://github.com/akvaplan-niva/akvaplan_fresh/blob/main/.github/workflows/deploy.yml)
-//
-// Note: KV is indexed on the fly, from the site menu dialog component (site_menu_dialog.tsx)
 
-export const buildOramaIndex = async () => {
+//
+// Note: KV ["panel"] & ["project"] are indexed on the fly
+// @todo On the fly indexing can with i18n in titles and links
+
+// Data held in KV may not so easily be pre-indexed, since the GitHub build server has easy contact with the KV in production.
+// KV contact may be achieved by injecting a KV secret to https://github.com/akvaplan-niva/akvaplan_fresh/blob/main/.github/workflows/deploy.yml)
+// or by reading from the KV list API endpoint like here
+export const buildOramaIndexFromProductionApi = async () => {
   const orama = await createOramaInstance();
 
   console.time("Orama indexing");
@@ -38,6 +48,22 @@ export const buildOramaIndex = async () => {
 
   console.warn(`Indexing ${akvaplanists.length} akvaplanists`);
   await insertMultiple(orama, akvaplanists.map(atomizeAkvaplanist));
+
+  const projectsUrl = "https://akvaplan.no/api/kv/list/project?format=json";
+  const r = await fetch(projectsUrl);
+  if (r?.ok) {
+    const _projects = (await r.json()).map(({ value }) => value).map((p) => {
+      p.published = new Date(p.published);
+      p.updated = new Date(p.updated);
+      return p;
+    });
+    // FIXME FIXME @todo Hide draft projects
+    const projects = _projects.filter(({ id }) =>
+      !["01k894aagv93y00s7tjz0wadjr", "flowe"].includes(id)
+    );
+    console.warn(`Indexing ${projects.length} projects`);
+    await indexProjects(orama, projects);
+  }
 
   console.warn(`Indexing ${markdownDocuments.length} markdown documents`);
   await insertMultiple(orama, markdownDocuments);

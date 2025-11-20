@@ -3,7 +3,7 @@ import { searchNewsArticles } from "akvaplan_fresh/services/news.ts";
 import { ArticleSquare, HScroll, Page } from "akvaplan_fresh/components/mod.ts";
 
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
-import { monthname } from "../time/intl.ts";
+import { monthname } from "akvaplan_fresh/time/intl.ts";
 
 import {
   type FreshContext,

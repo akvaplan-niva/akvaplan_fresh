@@ -104,7 +104,7 @@ export const mynewsdeskPeople = async () => {
 export const getAkvaplanist = (id: string) => identities.get(id);
 
 export const nameOfId = async (id: string) => {
-  const { given, family } = await getAkvaplanist(id);
+  const { given, family } = getAkvaplanist(id);
   return `${given} ${family}`;
 };
 export const initial0 = (given: string) => {
