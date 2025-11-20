@@ -1,6 +1,7 @@
 // Data
-import { getProject } from "akvaplan_fresh/kv/project.ts";
+import { getProject, saveProject } from "akvaplan_fresh/kv/project.ts";
 import {
+  projectFromMynewsdeskId,
   searchOramaForProjectPublicationsInNva,
 } from "akvaplan_fresh/services/project.ts";
 
@@ -35,10 +36,37 @@ import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
 import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
 import { Forbidden } from "../components/forbidden.tsx";
 import { mayEditKvPanel } from "../kv/panel.ts";
-import { createProjectFromNvaId } from "../services/nva_project.ts";
+import { newProjectFromNvaId } from "../services/nva_project.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(project|prosjekt)/:id{/:slug}?",
+};
+
+const newMynewsdeskProjectResponse = async (mynewsdesk: number, user) => {
+  if (mynewsdesk > 0) {
+    const project = await projectFromMynewsdeskId(mynewsdesk);
+    const result = await saveProject(project, user);
+    return result && result.ok
+      ? Response.json({ project, result })
+      : new Response("Invalid project", { status: 400 });
+    // ? new Response(null, {
+    //   status: 303,
+    //   headers: { location: `/${id}` },
+    // })
+  }
+};
+
+const newNvaProjectResponse = async (nva_project_id: number) => {
+  if (nva_project_id > 0) {
+    const project = await newProjectFromNvaId(nva_project_id);
+    return project
+      ? Response.json(project)
+      // ? new Response(null, {
+      //   status: 303,
+      //   headers: { location: `/${id}` },
+      // })
+      : new Response("Invalid project", { status: 400 });
+  }
 };
 
 export const handler: Handlers = {
@@ -48,16 +76,14 @@ export const handler: Handlers = {
       return Forbidden();
     } else {
       const form = await req.formData();
-      const nva_project_id = Number(form.get("nva_project_id"));
-      if (nva_project_id > 0) {
-        const project = await createProjectFromNvaId(nva_project_id);
-        return project && project.id
-          ? Response.json(project)
-          // ? new Response(null, {
-          //   status: 303,
-          //   headers: { location: `/${id}` },
-          // })
-          : new Response("Invalid project", { status: 400 });
+      const user = await getSessionUser(req) as MicrosoftUserinfo;
+
+      if (form.has("mynewsdesk_id")) {
+        const mynewsdesk = Number(form.get("mynewsdesk_id"));
+        return newMynewsdeskProjectResponse(mynewsdesk, user);
+      } else if (form.has("nva_project_id")) {
+        const nva_project_id = Number(form.get("nva_project_id"));
+        return newNvaProjectResponse(nva_project_id, user);
       }
       return new Response("Invalid project", { status: 400 });
     }

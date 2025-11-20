@@ -62,7 +62,7 @@ const projectFromNva = (nva, rcn: number) => {
   };
 };
 
-export const createProjectFromNvaId = async (nva_project_id: number) => {
+export const newProjectFromNvaId = async (nva_project_id: number) => {
   const url = `https://api.nva.unit.no/cristin/project/${nva_project_id}`;
   console.warn(url);
   const r = await fetch(url);

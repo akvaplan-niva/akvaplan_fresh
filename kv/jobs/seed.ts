@@ -91,7 +91,7 @@ export const seedProjects = async () => {
 
       project.start = isodate(mynewsdesk.start_at.text);
       project.end = isodate(mynewsdesk.end_at.text);
-      console.warn("seed start end", project.start, project.end);
+
       project.lifecycle = projectLifecycle(project);
       project.published = new Date(mynewsdesk?.published_at?.datetime!);
       project.updated = new Date(mynewsdesk?.updated_at?.datetime!);
@@ -128,10 +128,14 @@ export const seedProjects = async () => {
     delete project.created;
     delete project.modified;
     const key = ["project", project.id];
-
-    atomic
+    const maybe = await kv.get(key);
+    if (!maybe.value) {
+      console.warn("seed project start end", project.start, project.end);
+      console.warn({ key, value: project });
+      //atomic
       //.check({ key, versionstamp: null })
-      .set(key, project);
+      //.set(key, project);
+    }
   }
 
   const response = await atomic.commit();

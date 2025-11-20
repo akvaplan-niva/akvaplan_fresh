@@ -9,6 +9,16 @@ export const ProjectNew = () => (
     </Card>
     <div>
       <details>
+        <summary>Import from Mynewsdesk</summary>
+        <form method="post">
+          <InputWithLabel
+            label={"Mynewsdesk event id"}
+            name={"mynewsdesk_id"}
+          />
+          <Button>Create</Button>
+        </form>
+      </details>
+      <details>
         <summary>Import from NVA</summary>
         <form method="post">
           <InputWithLabel

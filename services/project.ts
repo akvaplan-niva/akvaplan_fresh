@@ -1,5 +1,8 @@
 const defaults = {};
 export const newProject = (props: Project) => ({ ...props, ...defaults });
+
+import { slug } from "slug";
+
 // {
 // "id": "https://api.nva.unit.no/cristin/project/2572443",
 // "type": "Project",
@@ -39,6 +42,14 @@ import _projects from "akvaplan_fresh/data/projects.json" with { type: "json" };
 import { extractNumericId } from "akvaplan_fresh/services/id.ts";
 import { oramaSortPublishedReverse, search } from "../search/search.ts";
 import { Project } from "../@interfaces/project.ts";
+import { getItemFromMynewsdeskApi } from "./mynewsdesk.ts";
+import { MynewsdeskEvent } from "../@interfaces/mynewsdesk.ts";
+import { projectLifecycle } from "../search/indexers/project.ts";
+import { isodate } from "../time/intl.ts";
+import { intlRouteMap } from "./mod.ts";
+import { extractId } from "./extract_id.ts";
+import Turndown from "turndown";
+
 export const projectsIdMap = new Map(
   _projects.map((p) => [p.id, p as Project]),
 );
@@ -88,4 +99,63 @@ export const searchOramaForProjectPublicationsInNva = async (
     },
   };
   return await search(oramaQueryForNvaCristinProjectPubs);
+};
+
+const markdown = (text) => {
+  const td = new Turndown();
+  return td.turndown(text, { linkStyle: "referenced" });
+};
+
+export const projectFromMynewsdeskId = async (mynewsdesk_event_id: number) => {
+  const mynewsdesk = await getItemFromMynewsdeskApi<MynewsdeskEvent>(
+    mynewsdesk_event_id,
+    "event",
+  );
+  if (!mynewsdesk) {
+    throw (`Failed getting mynewsdesk event: ${mynewsdesk_event_id}`);
+  }
+
+  const { header } = mynewsdesk;
+
+  const project = newProject({ mynewsdesk: mynewsdesk_event_id });
+
+  project.title = {
+    "en": header,
+    "no": header,
+  };
+
+  project.start = isodate(mynewsdesk.start_at.text);
+  project.end = isodate(mynewsdesk.end_at.text);
+  const lang = new Set(["no", "en"]).has(mynewsdesk.language)
+    ? mynewsdesk.language
+    : "no";
+
+  project.lifecycle = projectLifecycle(project);
+  project.published = new Date(mynewsdesk?.published_at?.datetime!);
+  project.updated = new Date(mynewsdesk?.updated_at?.datetime!);
+  //project.links = [...mynewsdesk?.links, ...links ?? []];
+
+  //project.abbr = project.title.en;
+
+  const summary = mynewsdesk.summary?.replaceAll(
+    "https://www.mynewsdesk.com/no/akvaplan-niva/documents/",
+    `${intlRouteMap(lang).get("document")}/`,
+  ).replaceAll(
+    ">https://www.mynewsdesk.com/no/...<",
+    `>https://akvaplan.no/${lang}/…<`,
+  ).replaceAll(
+    `target="_blank"`,
+    ` `,
+  ).replaceAll(
+    `rel="noopener"`,
+    ` `,
+  );
+
+  project.summary = {
+    en: markdown(summary),
+    no: markdown(summary),
+  };
+  project.cloudinary = extractId(mynewsdesk.image);
+
+  return project;
 };
