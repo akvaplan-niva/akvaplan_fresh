@@ -168,7 +168,7 @@ export default defineRoute(async (req, ctx) => {
                 width="143"
                 height="26"
                 alt="Forskningsrådet logo"
-                src="/rcn.svg"
+                src="/icon/logo/forskningsradet.svg"
                 style="border-radius: 0.125rem;"
               />
             </a>
