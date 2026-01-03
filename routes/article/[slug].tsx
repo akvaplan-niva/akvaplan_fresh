@@ -10,6 +10,7 @@ import {
 
 import {
   editOnMynewsdeskHref,
+  eventFilter,
   fetchContacts,
   fetchRelated,
   getItem,
@@ -124,13 +125,10 @@ export const handler: Handlers = {
 
     // Related
     const _related = await fetchRelated(item);
-    // const projects = _related.filter(projectFilter).map((myn) =>
-    //   projectFromMynewsdesk({ lang })(myn)
-    // );
-    const knownProjects = _related.filter(projectFilter).map((myn) =>
+
+    const projects = _related.filter(eventFilter).map((myn) =>
       projectsByMynewsdeskId.get(myn.id)
     );
-    const projects = [...knownProjects];
     // const pubProjectsInNva = (pub?.projects ?? []).filter((p) =>
     //   /cristin_/.test(p)
     // ).map((s) => Number(s.split("cristin_")?.at(-1))).filter((n) => n > 0);

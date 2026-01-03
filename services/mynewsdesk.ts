@@ -127,6 +127,9 @@ export const newsFilter = (item: AbstractMynewsdeskItem) =>
 export const documentFilter = (item: AbstractMynewsdeskItem) =>
   ["document"].includes(item?.type_of_media);
 
+export const eventFilter = (item: AbstractMynewsdeskItem) =>
+  ["event"].includes(item?.type_of_media);
+
 export const imageFilter = (item: AbstractMynewsdeskItem) =>
   ["image"].includes(item?.type_of_media);
 
