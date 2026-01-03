@@ -1,8 +1,6 @@
 const defaults = {};
 export const newProject = (props: Project) => ({ ...props, ...defaults });
 
-import { slug } from "slug";
-
 // {
 // "id": "https://api.nva.unit.no/cristin/project/2572443",
 // "type": "Project",
@@ -37,8 +35,15 @@ import { slug } from "slug";
 // "@context": "https://bibsysdev.github.io/src/project-context.json"
 // }
 
-//che@:~/akvaplan-niva/akvaplan_fresh$ curl -s "http://localhost:7777/api/search?q=&limit=100&group-by=collection&where=%7B%22collection%22%3A%22project%22%7D&sort=slug" | nd-map 'ndjson=(o)=>log(stringify(o)), d.hits.map( ({document}) => document).map(ndjson), undefined' | nd-map 'd.id=d.id.split("/").at(-1), d' | nd-map '[id,mynewsdesk]=[d.slug,+d.id], {type, cloudinary, lifecycle, start, end, published, people, title, lang, updated, ...p }=d,{id, type, start, end, cloudinary, mynewsdesk, cristin:0, lifecycle, published, updated, people, title: { en: title, no: title} }'
-import _projects from "akvaplan_fresh/data/projects.json" with { type: "json" };
+const kv = await openKv();
+const _projects_kv = await Array.fromAsync(kv.list({ prefix: ["project"] }));
+// console.warn({ _projects_kv2 });
+
+// import _projects_kv from "https://akvaplan.no/api/kv/list/project?format=json" with {
+//   type: "json",
+// };
+const _projects = _projects_kv.map(({ value }) => value);
+
 import { extractNumericId } from "akvaplan_fresh/services/id.ts";
 import { oramaSortPublishedReverse, search } from "../search/search.ts";
 import { Project } from "../@interfaces/project.ts";
@@ -49,6 +54,7 @@ import { isodate } from "../time/intl.ts";
 import { intlRouteMap } from "./mod.ts";
 import { extractId } from "./extract_id.ts";
 import Turndown from "turndown";
+import { openKv } from "../kv/mod.ts";
 
 export const projectsIdMap = new Map(
   _projects.map((p) => [p.id, p as Project]),
