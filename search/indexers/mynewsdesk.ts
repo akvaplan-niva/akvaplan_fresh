@@ -15,10 +15,6 @@ import { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { MynewsdeskVideo } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 import { markdownFromHtml } from "akvaplan_fresh/utils/markdown/turndown.ts";
-import _projects from "akvaplan_fresh/data/projects.json" with { type: "json" };
-
-const projectByMynewsdesk = new Map(_projects.map((p) => [p?.mynewsdesk, p]));
-projectByMynewsdesk.delete(undefined);
 // import peopleWithMyn from "akvaplan_fresh/data/akvaplanists.json" with {
 //   type: "json",
 // };
