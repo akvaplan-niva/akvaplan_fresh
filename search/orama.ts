@@ -4,7 +4,6 @@ import { schema } from "./schema.ts";
 import { count, create as _create, getByID, load, save } from "@orama/orama";
 import { language, stemmer } from "@orama/stemmers/norwegian";
 import { persist } from "@orama/plugin-data-persistence";
-//import { pack, unpack } from "msgpackr";
 
 let _orama: OramaAtomSchema;
 
@@ -115,29 +114,6 @@ export const restoreOramaJson = async (path: string) => {
   }
 };
 
-// export const restoreOramaMessagePack = async (
-//   path: string = oramaMessagePackPath,
-// ) => {
-//   try {
-//     const stat = await Deno.stat(path);
-//     if (stat.isFile) {
-//       const timer = "Orama restore MessagePack";
-//       console.time(timer);
-
-//       const unpacked = unpack(await Deno.readFile(path));
-//       const db = await createOramaInstance();
-
-//       await load(db, unpacked);
-//       console.warn("Restored", await count(db), "Orama documents from", path);
-//       console.timeEnd(timer);
-//       return db;
-//     }
-//   } catch (e) {
-//     console.error(`Could not restore Orama index ${path}`, e);
-//     throw "Search is currently unavailable";
-//   }
-// };
-
 export const persistOramaJson = async (
   orama: OramaAtomSchema,
   path: string,
@@ -147,21 +123,6 @@ export const persistOramaJson = async (
   console.warn(
     `Orama index (${await count(orama)} documents) persisted at ${path}`,
   );
-};
-
-export const persistIndexAsMessagePack = async (
-  orama: OramaAtomSchema,
-  path = oramaMessagePackPath,
-) => {
-  const saved = await save(orama);
-  //error: Uncaught (in promise) Error: Object is too large to serialize with fast 16-bit map size, use the "variableMapSize" option to serialize this object
-  const msgpack = pack(saved, { variableMapSize: true });
-  console.warn(
-    `Persisting Orama index (${await count(
-      orama,
-    )} documents) as MessagePack in ${path}`,
-  );
-  await Deno.writeFile(path, msgpack);
 };
 
 // import { restoreFromFile } from "@orama/plugin-data-persistence/server";

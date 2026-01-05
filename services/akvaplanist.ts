@@ -9,10 +9,16 @@ import { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts"
 export const _priors = "data/priors.json";
 export const _akvaplanists = "data/akvaplanists.json";
 
-import priors from "akvaplan_fresh/data/priors.json" with { type: "json" };
-import akvaplanists from "akvaplan_fresh/data/akvaplanists.json" with {
+// import priors from "akvaplan_fresh/data/priors.json" with { type: "json" };
+import _akvaplanists_kv from "https://akvaplanists.deno.dev/" with {
   type: "json",
 };
+
+import _priors_kv from "https://akvaplanists.deno.dev/prior" with {
+  type: "json",
+};
+const priors = _priors_kv.map(({ value }) => value);
+const akvaplanists = _akvaplanists_kv.map(({ value }) => value);
 
 const allKnownIdentities = [
   ...priors,
