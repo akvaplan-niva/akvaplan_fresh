@@ -56,26 +56,50 @@ export const LinkIcon = (
     children?: ComponentChildren;
   },
 ) => (
-  <a
-    href={href}
-    style={{
-      ...wrapperStyle,
-      ...style,
-    }}
-    {...props}
-  >
-    {icon && right !== true && (
-      <Icon2 name={icon} style={{ color: "var(--accent)" }} />
-    )}
-    {children && (
-      <span style="color: var(--text1);">
-        {children}
+  href
+    ? (
+      <a
+        href={href}
+        style={{
+          ...wrapperStyle,
+          ...style,
+        }}
+        {...props}
+      >
+        {icon && right !== true && (
+          <Icon2 name={icon} style={{ color: "var(--accent)" }} />
+        )}
+        {children && (
+          <span style="color: var(--text1);">
+            {children}
+          </span>
+        )}
+        {icon && right === true && (
+          <Icon2 name={icon} style={{ color: "var(--accent)" }} />
+        )}
+      </a>
+    )
+    : (
+      <span
+        style={{
+          ...wrapperStyle,
+          ...style,
+        }}
+        {...props}
+      >
+        {icon && right !== true && (
+          <Icon2 name={icon} style={{ color: "var(--accent)" }} />
+        )}
+        {children && (
+          <span style="color: var(--text1);">
+            {children}
+          </span>
+        )}
+        {icon && right === true && (
+          <Icon2 name={icon} style={{ color: "var(--accent)" }} />
+        )}
       </span>
-    )}
-    {icon && right === true && (
-      <Icon2 name={icon} style={{ color: "var(--accent)" }} />
-    )}
-  </a>
+    )
 );
 
 export const TextIcon = (
