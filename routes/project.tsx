@@ -56,25 +56,17 @@ const newMynewsdeskProjectResponse = async (mynewsdesk: number, user) => {
   }
 };
 
-const newNvaProjectResponse = async (nva_project_id: number) => {
-  if (nva_project_id > 0) {
-    const project = await newProjectFromNvaId(nva_project_id);
-    return project
-      ? Response.json(project)
-      // ? new Response(null, {
-      //   status: 303,
-      //   headers: { location: `/${id}` },
-      // })
-      : new Response("Invalid project", { status: 400 });
-  }
-};
-
 export const handler: Handlers = {
-  async POST(req, _ctx) {
+  async POST(req, ctx) {
     const editor = await mayEditKvPanel(req);
     if (!editor) {
       return Forbidden();
     } else {
+      const { url, params } = ctx;
+      const { lang, type, id, slug } = params;
+      langSignal.value = lang;
+      console.warn({ lang, type, id, slug });
+
       const form = await req.formData();
       const user = await getSessionUser(req) as MicrosoftUserinfo;
 
@@ -83,9 +75,10 @@ export const handler: Handlers = {
         return newMynewsdeskProjectResponse(mynewsdesk, user);
       } else if (form.has("nva_project_id")) {
         const nva_project_id = Number(form.get("nva_project_id"));
-        return newNvaProjectResponse(nva_project_id, user);
+        const project = await newProjectFromNvaId(nva_project_id);
+        //return <ProjectNew project={project} />;
+        return ctx.render({ project });
       }
-      return new Response("Invalid project", { status: 400 });
     }
   },
 };

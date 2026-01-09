@@ -9,7 +9,7 @@ export const ProjectNew = () => (
     </Card>
     <div>
       <details>
-        <summary>Import from Mynewsdesk</summary>
+        <summary>From Mynewsdesk</summary>
         <form method="post">
           <InputWithLabel
             label={"Mynewsdesk event id"}
@@ -19,7 +19,7 @@ export const ProjectNew = () => (
         </form>
       </details>
       <details>
-        <summary>Import from NVA</summary>
+        <summary>From NVA</summary>
         <form method="post">
           <InputWithLabel
             label={"NVA project id"}

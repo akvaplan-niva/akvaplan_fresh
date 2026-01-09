@@ -28,6 +28,7 @@ export const PubArticle = ({
   const {
     id,
     container,
+    code,
     type,
     nva,
     title,
@@ -64,7 +65,9 @@ export const PubArticle = ({
         />
 
         <p>
-          <em dangerouslySetInnerHTML={{ __html: container ?? "" }} />{" "}
+          <em dangerouslySetInnerHTML={{ __html: container ?? "" }} />
+
+          {code ? ` ${code} ` : " "}
           (<time>{published}</time>)
         </p>
 
