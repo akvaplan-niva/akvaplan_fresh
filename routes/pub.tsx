@@ -124,10 +124,10 @@ export default defineRoute(async (req, ctx) => {
   //   ? await akvaplanProjectsFromNvaProjects(nvaProjects)
   //   : undefined;
 
-  const typeText = t(
-    isHandleUrl(id) || isNvaUrl(id) ? `nva.${type}` : `type.${type}`,
-  );
-  const typeHref = pubsURL({ lang }) + `?filter-type=${type}`;
+  // const typeText = t(
+  //   isHandleUrl(id) || isNvaUrl(id) ? `nva.${type}` : `type.${type}`,
+  // );
+  // const typeHref = pubsURL({ lang }) + `?filter-type=${type}`;
 
   const breadcrumbs = [{
     href: pubsURL({ lang }),
@@ -136,7 +136,7 @@ export default defineRoute(async (req, ctx) => {
       src:
         "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_16,h_16,q_auto:good/kwy8kuceecjpjoh3yyy5",
     },
-  }, { text: typeText }];
+  }];
 
   return (
     <Page

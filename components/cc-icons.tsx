@@ -38,6 +38,7 @@ export const CCIcons = ({ code, lang = "en" }) => {
           alignItems: "center",
           gap: ".25rem",
           gridTemplateColumns: "auto 1fr",
+          fontSize: "0.75rem",
         }}
       >
         <a

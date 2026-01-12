@@ -10,7 +10,7 @@ import {
 //import { Section } from "akvaplan_fresh/components/section.tsx";
 
 import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
-import { isDoiOrHandleUrl } from "akvaplan_fresh/services/pub.ts";
+import { isDoiOrHandleUrl, isDoiUrl } from "akvaplan_fresh/services/pub.ts";
 import {
   isNvaUrl,
   nvaPublicationLanding,
@@ -99,7 +99,7 @@ export const PubArticle = ({
             <Card>
               {[true, false].includes(open_access)
                 ? (
-                  <p>
+                  <p style={{ "font-size": "0.75rem" }}>
                     {true === open_access
                       ? (
                         <>
@@ -117,7 +117,11 @@ export const PubArticle = ({
                       : t("pubs.Closed_access")}
                   </p>
                 )
-                : <p>{t(`pubs.oa.${open_access_status}`)}</p>}
+                : (
+                  <p style={{ "font-size": "0.75rem" }}>
+                    {t(`pubs.oa.${open_access_status}`)}
+                  </p>
+                )}
             </Card>
             {license && license?.length > 0
               ? (
@@ -126,6 +130,18 @@ export const PubArticle = ({
                 </Card>
               )
               : null}
+
+            <p style={"font-size: 0.75rem"}>
+              {t("pubs.Source")}: {isDoiUrl(id)
+                ? (
+                  <a
+                    href={`https://openalex.org/works?page=1&filter=doi:${id}&sort=publication_year:desc}`}
+                  >
+                    OpenAlex
+                  </a>
+                )
+                : <a>OpenAlex</a>}
+            </p>
           </section>
         )
         : null}
