@@ -20,6 +20,7 @@ import { CCIcons } from "akvaplan_fresh/components/cc-icons.tsx";
 import { Breadcrumbs } from "akvaplan_fresh/components/site_nav.tsx";
 import pub from "akvaplan_fresh/routes/pub.tsx";
 import { Section } from "akvaplan_fresh/components/section.tsx";
+import { extractNakedDoi } from "../services/dois.ts";
 
 export const PubArticle = ({
   pub,
@@ -43,7 +44,11 @@ export const PubArticle = ({
     abstract,
     // open_access,
     open_access_status,
+    reg,
   } = pub;
+
+  const [first, ...rest] = t(`nva.${type}`);
+  const typeText = [first.toUpperCase(), ...rest].join("");
 
   const open_access = license ? true : pub?.open_access;
   const url = pub?.url?.startsWith("http")
@@ -51,6 +56,19 @@ export const PubArticle = ({
     : nva
     ? nvaPublicationLanding(nva).href
     : "";
+
+  const sources = [
+    isDoiUrl(id) && reg
+      ? [reg, `https://api.crossref.org/works/${extractNakedDoi(id)}`]
+      : null,
+    isDoiUrl(id)
+      ? [
+        "OpenAlex",
+        `https://openalex.org/works?page=1&filter=doi:${id}&sort=publication_year:desc}`,
+      ]
+      : null,
+    nva && [t("NVA"), nvaPublicationLanding(nva)],
+  ].filter((i) => i !== null);
 
   return (
     <article
@@ -86,15 +104,45 @@ export const PubArticle = ({
         </p>
       </Card>
 
+      <section
+        style={{
+          paddingTop: ".25rem",
+        }}
+      >
+        <Card style={{ fontSize: "1rem" }}>
+          {typeText}
+        </Card>
+      </section>
+
+      <section
+        style={{
+          paddingTop: ".25rem",
+          paddingBottom: ".25rem",
+        }}
+      >
+        <Card>
+          <p style={{ fontSize: ".75rem" }}>
+            {sources.length === 1 ? t("pubs.Source") : t("pubs.Sources")}:
+
+            {sources.map(([text, href], i) => (
+              <span>
+                <a href={href} target="_blank">{text}</a>
+                {sources.length - 1 === i ? "" : ", "}
+              </span>
+            ))}
+          </p>
+        </Card>
+      </section>
+
       {(license && license?.length > 0) ||
           [true, false].includes(open_access) ||
           open_access_status !== "unknown"
         ? (
           <section
-            style={{
-              paddingTop: ".25rem",
-              paddingBottom: ".25rem",
-            }}
+            // style={{
+            //   paddingTop: ".25rem",
+            //   paddingBottom: ".25rem",
+            // }}
           >
             <Card>
               {[true, false].includes(open_access)
@@ -130,18 +178,6 @@ export const PubArticle = ({
                 </Card>
               )
               : null}
-
-            <p style={"font-size: 0.75rem"}>
-              {t("pubs.Source")}: {isDoiUrl(id)
-                ? (
-                  <a
-                    href={`https://openalex.org/works?page=1&filter=doi:${id}&sort=publication_year:desc}`}
-                  >
-                    OpenAlex
-                  </a>
-                )
-                : <a>OpenAlex</a>}
-            </p>
           </section>
         )
         : null}

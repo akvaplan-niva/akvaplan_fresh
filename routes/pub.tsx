@@ -33,6 +33,7 @@ import {
 // } from "akvaplan_fresh/services/projects.ts";
 
 import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
+
 import { pubsURL } from "akvaplan_fresh/services/nav.ts";
 import { akvaplanProjectsFromNvaProjects } from "akvaplan_fresh/services/projects.ts";
 import { getProjects } from "./projects_nva.tsx";
@@ -73,6 +74,7 @@ export default defineRoute(async (req, ctx) => {
   if (!pub) {
     // In case orama index is out-dated, or in rare cases where orama returns nothing,
     // like for 10.1577/1548-8659(1994)123%3C0385:spbpac%3E2.3.co;2
+    console.warn("Not in Orama", { id });
     pub = await getPubFromAkvaplanService(id);
   }
 
@@ -224,19 +226,6 @@ export default defineRoute(async (req, ctx) => {
         {t("time.Created")} <time>{longDate(created, lang)}</time>
         , {t("time.modified")} <time>{longDate(modified, lang)}</time>
       </p>
-      {nva && (
-        <p
-          style={{
-            backgroundColor: "transparent",
-            fontSize: "0.75rem",
-          }}
-        >
-          {t("pubs.Registered_in")}{" "}
-          <a href={nvaPublicationLanding(nva)} target="_blank">
-            {t("NVA")}
-          </a>
-        </p>
-      )}
     </Page>
   );
 });
