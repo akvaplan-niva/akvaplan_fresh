@@ -296,7 +296,6 @@ export const getItemFromMynewsdeskApi = async <
   const url = itemURL(id, type_of_media);
 
   //console.debug("getItemFromMynewsdeskApi [API]", url);
-
   const r = await fetch(url, { signal });
   if (r.ok) {
     const { item: [item] } = await r.json();

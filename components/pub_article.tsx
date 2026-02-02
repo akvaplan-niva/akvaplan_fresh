@@ -39,6 +39,7 @@ export const PubArticle = ({
     license,
     akvaplanists,
     pdf,
+    parent,
     created,
     modified,
     abstract,
@@ -110,7 +111,16 @@ export const PubArticle = ({
         }}
       >
         <Card style={{ fontSize: "1rem" }}>
-          {typeText}
+          <p>{typeText}</p>
+          <p>
+            {parent
+              ? (
+                <span>
+                  {t("pubs.Published_in")}: <a href={parent}>{parent}</a>
+                </span>
+              )
+              : null}
+          </p>
         </Card>
       </section>
 
