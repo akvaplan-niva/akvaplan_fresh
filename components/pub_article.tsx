@@ -67,8 +67,8 @@ export const PubArticle = ({
         "OpenAlex",
         `https://openalex.org/works?page=1&filter=doi:${id}&sort=publication_year:desc}`,
       ]
-      : null,
-    nva && [t("NVA"), nvaPublicationLanding(nva)],
+      : [],
+    nva ? [t("NVA"), nvaPublicationLanding(nva)] : null,
   ].filter((i) => i !== null);
 
   return (
@@ -134,7 +134,7 @@ export const PubArticle = ({
           <p style={{ fontSize: ".75rem" }}>
             {sources.length === 1 ? t("pubs.Source") : t("pubs.Sources")}:
 
-            {sources.map(([text, href], i) => (
+            {sources?.map(([text, href], i) => (
               <span>
                 <a href={href} target="_blank">{text}</a>
                 {sources.length - 1 === i ? "" : ", "}
