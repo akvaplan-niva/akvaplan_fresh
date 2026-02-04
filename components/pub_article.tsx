@@ -1,5 +1,4 @@
 import { t } from "akvaplan_fresh/text/mod.ts";
-import { pubsURL } from "akvaplan_fresh/services/nav.ts";
 
 import { Button } from "akvaplan_fresh/components/button/button.tsx";
 import { Card } from "akvaplan_fresh/components/card.tsx";
@@ -10,17 +9,13 @@ import {
 //import { Section } from "akvaplan_fresh/components/section.tsx";
 
 import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
-import { isDoiOrHandleUrl, isDoiUrl } from "akvaplan_fresh/services/pub.ts";
 import {
-  isNvaUrl,
-  nvaPublicationLanding,
-} from "akvaplan_fresh/services/nva.ts";
-import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
+  extractSources,
+  isDoiOrHandleUrl,
+} from "akvaplan_fresh/services/pub.ts";
+import { nvaPublicationLanding } from "akvaplan_fresh/services/nva.ts";
 import { CCIcons } from "akvaplan_fresh/components/cc-icons.tsx";
-import { Breadcrumbs } from "akvaplan_fresh/components/site_nav.tsx";
-import pub from "akvaplan_fresh/routes/pub.tsx";
 import { Section } from "akvaplan_fresh/components/section.tsx";
-import { extractNakedDoi } from "../services/dois.ts";
 
 export const PubArticle = ({
   pub,
@@ -58,19 +53,7 @@ export const PubArticle = ({
     ? nvaPublicationLanding(nva).href
     : "";
 
-  const sources = [
-    isDoiUrl(id) && reg
-      ? [reg, `https://api.crossref.org/works/${extractNakedDoi(id)}`]
-      : null,
-    isDoiUrl(id)
-      ? [
-        "OpenAlex",
-        `https://openalex.org/works?page=1&filter=doi:${id}&sort=publication_year:desc}`,
-      ]
-      : [],
-    nva ? [t("NVA"), nvaPublicationLanding(nva)] : null,
-  ].filter((i) => i !== null);
-
+  const sources = extractSources(pub);
   return (
     <article
       style={{
@@ -124,35 +107,14 @@ export const PubArticle = ({
         </Card>
       </section>
 
-      <section
-        style={{
-          paddingTop: ".25rem",
-          paddingBottom: ".25rem",
-        }}
-      >
-        <Card>
-          <p style={{ fontSize: ".75rem" }}>
-            {sources.length === 1 ? t("pubs.Source") : t("pubs.Sources")}:
-
-            {sources?.map(([text, href], i) => (
-              <span>
-                <a href={href} target="_blank">{text}</a>
-                {sources.length - 1 === i ? "" : ", "}
-              </span>
-            ))}
-          </p>
-        </Card>
-      </section>
-
       {(license && license?.length > 0) ||
           [true, false].includes(open_access) ||
           open_access_status !== "unknown"
         ? (
           <section
-            // style={{
-            //   paddingTop: ".25rem",
-            //   paddingBottom: ".25rem",
-            // }}
+            style={{
+              paddingTop: ".25rem",
+            }}
           >
             <Card>
               {[true, false].includes(open_access)
@@ -192,6 +154,24 @@ export const PubArticle = ({
         )
         : null}
 
+      <section
+        style={{
+          paddingTop: ".25rem",
+          paddingBottom: ".25rem",
+        }}
+      >
+        <Card>
+          <p style={{ fontSize: ".75rem" }}>
+            {sources.size === 1 ? t("pubs.Source") : t("pubs.Sources")}:
+            {[...sources].map(([text, href], i) => (
+              <span>
+                <a href={href} target="_blank">{text}</a>
+                {sources.size === 1 || sources.size - 1 === i ? " " : ", "}
+              </span>
+            ))}
+          </p>
+        </Card>
+      </section>
       <div
         style={{
           display: "grid",

@@ -1,6 +1,10 @@
 import { SlimPublication } from "akvaplan_fresh/@interfaces/mod.ts";
 import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
 import { fetchAndStreamNdjson } from "akvaplan_fresh/streams/ndjson_stream.ts";
+import pub_multiplicates from "../routes/pub_multiplicates.tsx";
+import { extractNakedDoi } from "./dois.ts";
+import { t } from "../text/mod.ts";
+import { nvaPublicationLanding } from "./nva.ts";
 
 export const PUBS_BASE = globalThis?.Deno && Deno.env.has("AKVAPLAN_PUBS")
   ? Deno.env.get("AKVAPLAN_PUBS")
@@ -56,6 +60,24 @@ export const buildCanonicalUri = (kind: string, id: string) => {
       console.error({ kind, id });
       throw "Unsupported id scheme";
   }
+};
+
+export const extractSources = (pub: SlimPublication) => {
+  const sources = new Map<string, string>();
+  const { id, reg, nva } = pub;
+  if (isDoiUrl(id)) {
+    if (reg === "Crossref") {
+      sources.set(reg, `https://api.crossref.org/works/${extractNakedDoi(id)}`);
+    }
+    sources.set(
+      "OpenAlex",
+      `https://openalex.org/works?page=1&filter=doi:${id}&sort=publication_year:desc}`,
+    );
+  }
+  if (nva) {
+    sources.set(t("NVA") ?? "NVA", nvaPublicationLanding(nva).href);
+  }
+  return sources;
 };
 
 export const isDoiOrHandleUrl = (id: string) => isDoiUrl(id) || isHandleUrl(id);
