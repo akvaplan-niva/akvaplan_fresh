@@ -38,5 +38,12 @@
   "scopes": {},
   "lint": { "rules": { "tags": ["fresh", "recommended"] } },
   "exclude": ["**/_fresh/*"],
-  "unstable": ["kv", "cron"]
+  "unstable": [
+    "kv",
+    "cron"
+  ],
+  "deploy": {
+    "org": "apn",
+    "app": "akvaplan-fresh"
+  }
 }
