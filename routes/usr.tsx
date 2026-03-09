@@ -71,9 +71,11 @@ export const handler: Handlers = {
 
     akvaplanist.bio = ``;
     //const { given, family } = akvaplanist;
-
-    const { getSessionId } = buildMicrosoftOauthHelpers(req);
-    const session = await getSessionId(req);
+    let session = null;
+    if (Deno.env.has("AZURE_AD_CLIENT_ID")) {
+      const { getSessionId } = buildMicrosoftOauthHelpers(req);
+      session = await getSessionId(req);
+    }
 
     const user = session ? await getSession(session) : null;
     const avatar = user?.email ? await getAvatarImageBytes(user?.email) : null;

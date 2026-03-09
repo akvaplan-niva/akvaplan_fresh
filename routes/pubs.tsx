@@ -109,8 +109,8 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
   const results = await search(oramaParams);
   const collection = "pubs";
 
-  const hero = await getPanelInLang<Panel>({ id: ID_PUBLICATIONS, lang });
-  hero.cta = "";
+  const hero = await getPanelInLang<Panel>({ id: ID_PUBLICATIONS, lang }) ??
+    { cta: "", image: { cloudinary: "kwy8kuceecjpjoh3yyy5" } };
 
   return (
     <Page title={title} base={base}>

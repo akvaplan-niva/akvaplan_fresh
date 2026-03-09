@@ -19,6 +19,7 @@ import { Forbidden } from "../components/forbidden.tsx";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { projectHref } from "../services/mod.ts";
 import { saveProject } from "../kv/project.ts";
+import { t } from "../text/mod.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(projects|project|prosjekter|prosjekt)",
@@ -81,10 +82,13 @@ export const handler: Handlers = {
 export default defineRoute(async (req, ctx) => {
   const { lang } = ctx.params;
 
-  const { image, title } = await getPanelInLang({
+  const { image, title } = (await getPanelInLang({
     id: ID_PROJECTS,
     lang,
-  }) as Panel;
+  }) as Panel) ?? {
+    image: { cloudinary: "9a35ivz6qc4sg8vkxx5scl" },
+    title: t("our.projects"),
+  };
 
   const { searchParams } = new URL(req.url);
 
@@ -109,7 +113,7 @@ export default defineRoute(async (req, ctx) => {
             </form>
           )
           : null}
-        cloudinary={image?.cloudinary ?? extractId(image.url)}
+        cloudinary={image?.cloudinary ?? extractId(image?.url)}
       />
 
       <CollectionSearch

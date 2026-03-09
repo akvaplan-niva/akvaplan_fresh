@@ -26,9 +26,11 @@ export const isAuthenticated = async (req: Request) => {
 };
 
 export const getSessionUser = async (req) => {
-  const { getSessionId } = buildMicrosoftOauthHelpers(req);
-  const session = await getSessionId(req);
-  return session ? await getSession(session) : null;
+  if (Deno.env.has("AZURE_AD_CLIENT_ID")) {
+    const { getSessionId } = buildMicrosoftOauthHelpers(req);
+    const session = await getSessionId(req);
+    return session ? await getSession(session) : null;
+  }
 };
 
 export const fetchMicrosoftUserinfo = async (jwt: string) => {

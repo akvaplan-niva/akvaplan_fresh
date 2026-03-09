@@ -22,6 +22,14 @@ Start development server:
 deno task dev
 ```
 
+Set the following in `.env`:
+
+```sh
+mynewsdesk_key=…
+deno_kv_database=…
+DENO_KV_ACCESS_TOKEN=…
+```
+
 ## Intl
 
 The app is server-rendered in one of two locales (`en` or `no`).
@@ -48,6 +56,8 @@ export const config: RouteConfig = {
 In TSX, use the translation function `t` to lookup a text string in the present
 language.
 
+Translations are kept in a simple (key-value) JSON file for each locale.
+
 ```tsx
 import { t } from "akvaplan_fresh/text/mod.ts";
 <p>{
@@ -55,25 +65,7 @@ import { t } from "akvaplan_fresh/text/mod.ts";
 }</p>
 ```
 
-Translations are kept in a simple (key-value) JSON file for each locale.
-
-## KV
-
-Connect to preview or production database, by setting env variables
-`deno_kv_database` and `DENO_KV_ACCESS_TOKEN` in `.env`:
-
-```
-deno_kv_database=https://api.deno.com/databases/$preview/connect
-DENO_KV_ACCESS_TOKEN=
-```
-
-### Export
-
-```sh
-$ ./bin/kv_list '[]' | nd-filter '!/^(avatar|mynewsdesk|session_user|site_sessions)/.test(d.key[0])' > data/kv_export/prod.ndjson
-```
-
-### Permissions
+## Permissions
 
 Rights are set using a system, resource, email list, with permitted actions
 ("crud") like:

@@ -70,7 +70,10 @@ export function handler(req: Request, ctx: FreshContext) {
         setSiteLang(lang);
       }
 
-      if (!Object.hasOwn(ctx.state, "session")) {
+      if (
+        !Object.hasOwn(ctx.state, "session") &&
+        Deno.env.has("AZURE_AD_CLIENT_ID")
+      ) {
         for (const [name, session] of Object.entries(getCookies(req.headers))) {
           if (/site-session/.test(name)) {
             ctx.state.session = session;
