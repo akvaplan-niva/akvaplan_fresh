@@ -1,14 +1,9 @@
-import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
 import { spellings } from "./spellings.ts";
 
 import {
   findAkvaplanistViaOrama,
-  findPriorAkvaplanist,
-  getAkvaplanists,
-  initial0,
   removePuncts,
 } from "akvaplan_fresh/services/akvaplanist.ts";
-import { normalize } from "akvaplan_fresh/text/mod.ts";
 
 export interface Person {
   id?: string;
