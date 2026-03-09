@@ -3,6 +3,10 @@ import type { Project } from "../../@interfaces/project.ts";
 import { nameOfId } from "../../services/mod.ts";
 import { projectLifecycle } from "./project.ts";
 
+const segmenter = new Intl.Segmenter("no", {
+  granularity: "word",
+});
+
 export const atomizeProject = async (
   p: Project,
 ) => {
@@ -24,10 +28,13 @@ export const atomizeProject = async (
       akvaplanists?.map((id: string) => nameOfId(id)) ?? [],
     );
 
-    const text = `${JSON.stringify(Object.values(p))} 
+    const _text = `${JSON.stringify(Object.values(p))} 
     ${rcn > 0 ? ["RCN", "NFR", "Forskningsrådet"].join(" ") : ""}
     ${fhf > 0 ? ["FHF"].join(" ") : ""}
   `;
+    const text = [...segmenter.segment(_text)].filter((
+      { isWordLike },
+    ) => isWordLike).map((s) => s.segment).join(" ");
 
     return ({
       id,
