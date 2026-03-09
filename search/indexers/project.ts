@@ -20,30 +20,22 @@ export const indexProjectsFromKv = async (orama: OramaAtomSchema) => {
   const kv = "Deno" in globalThis ? await openKv() : undefined;
   if (kv) {
     const k0 = "project";
-    const updates = [];
-    const inserts = [];
-    for await (const { value } of kv.list<Project>({ prefix: [k0] })) {
+    const arr = [];
+    for await (const entry of kv.list<Project>({ prefix: [k0] })) {
+      const { value } = entry;
       try {
         const atom = await atomizeProject(value);
-        if (await has(value.id)) {
-          updates.push(atom);
-        } else {
-          inserts.push(atom);
+        if (false === await has(value.id)) {
+          arr.push(atom);
         }
       } catch (e) {
         console.error(e);
       }
     }
-    if (inserts.length > 0) {
-      //await insertMultiple(orama, inserts);
+    if (arr.length > 0) {
+      await insertMultiple(orama, arr);
     }
-    if (updates.length > 0) {
-      // await removeMultiple(orama, updates.map(({ id }) => id));
-      // await insertMultiple(orama, updates);
-    }
-
-    console.warn(`Indexed ${inserts.length} new projects`);
-    console.warn(`Updating ${updates.length} projects`);
+    console.warn(`Indexing ${arr.length} projects`);
   }
 };
 
@@ -59,20 +51,21 @@ export const indexProjects = async (
 
   for await (const value of projects) {
     const atom = await atomizeProject(value);
-    if (await has(value.id)) {
-      updates.push(atom);
-    } else {
-      inserts.push(atom);
-    }
+    inserts.push(atom);
+    // if (await has(value.id)) {
+    //   updates.push(atom);
+    // } else {
+    //   inserts.push(atom);
+    // }
   }
   if (inserts.length > 0) {
     await insertMultiple(orama, inserts);
   }
-  if (updates.length > 0) {
-    await removeMultiple(orama, updates.map(({ id }) => id));
-    await insertMultiple(orama, updates);
-  }
+  // if (updates.length > 0) {
+  //   await removeMultiple(orama, updates.map(({ id }) => id));
+  //   await insertMultiple(orama, updates);
+  // }
 
   console.warn(`Indexed ${inserts.length} new projects`);
-  console.warn(`Updating ${updates.length} projects`);
+  //console.warn(`Updating ${updates.length} projects`);
 };
