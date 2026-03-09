@@ -49,23 +49,24 @@ export const buildOramaIndexFromProductionApi = async () => {
   console.warn(`Indexing ${akvaplanists.length} akvaplanists`);
   await insertMultiple(orama, akvaplanists.map(atomizeAkvaplanist));
 
-  // Projects and panels are indexed in site_menu_dialog.tsx
-
-  // const projectsUrl = "https://akvaplan.no/api/kv/list/project?format=json";
-  // const r = await fetch(projectsUrl);
-  // if (r?.ok) {
-  //   const _projects = (await r.json()).map(({ value }) => value).map((p) => {
-  //     p.published = new Date(p.published);
-  //     p.updated = new Date(p.updated);
-  //     return p;
-  //   });
-  //   // FIXME FIXME @todo Hide draft projects
-  //   const projects = _projects.filter(({ id }) =>
-  //     !["01k894aagv93y00s7tjz0wadjr", "flowe"].includes(id)
-  //   );
-  //   console.warn(`Indexing ${projects.length} projects`);
-  //   await indexProjects(orama, projects);
-  // }
+  // Panels are indexed in site_menu_dialog.tsx
+  // Projects are indexed Münchhausen-style since the KV database is not available when building the index,
+  // FIXME Projects home page is empty unless projects are pre-indexed at build time
+  const projectsUrl = "https://akvaplan.no/api/kv/list/project?format=json";
+  const r = await fetch(projectsUrl);
+  if (r?.ok) {
+    const _projects = (await r.json()).map(({ value }) => value).map((p) => {
+      p.published = new Date(p.published);
+      p.updated = new Date(p.updated);
+      return p;
+    });
+    // FIXME FIXME @todo Hide draft projects
+    const projects = _projects.filter(({ id }) =>
+      !["01k894aagv93y00s7tjz0wadjr", "flowe"].includes(id)
+    );
+    console.warn(`Indexing ${projects.length} projects`);
+    await indexProjects(orama, projects);
+  }
 
   console.warn(`Indexing ${markdownDocuments.length} markdown documents`);
   await insertMultiple(orama, markdownDocuments);
