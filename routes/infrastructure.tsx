@@ -14,6 +14,7 @@ import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
 import { OpenGraphRequired } from "akvaplan_fresh/components/open_graph.tsx";
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
+import { t } from "../text/mod.ts";
 
 const getInfrastructurePanels = async (lang: string) =>
   (await getPanelsInLang({
@@ -31,18 +32,18 @@ export default defineRoute(async (req, ctx) => {
   const { lang } = ctx.params;
 
   const _panels = await getInfrastructurePanels(lang) as Panel[];
-  const hero = _panels.find(({ id }) => id === ID_INFRASTRUCTURE);
-  const panels = _panels.filter(({ id }) => id !== ID_INFRASTRUCTURE);
-  if (!hero || panels?.length < 1) {
-    throw Error("Failed retrieving infrastructure data");
-  }
+  //const hero = _panels.find(({ id }) => id === ID_INFRASTRUCTURE);
+  const hero = {
+    image: {},
+    title: t("nav.Infrastructure"),
+  };
 
-  const { title, image } = hero;
-  const { cloudinary } = image;
+  const panels = _panels.filter(({ id }) => id !== ID_INFRASTRUCTURE);
+
+  const { title } = hero;
   const og = {
     title,
     url: req.url,
-    image: cloudinaryUrl(cloudinary, { w: 1782 }),
     type: "article",
   };
 

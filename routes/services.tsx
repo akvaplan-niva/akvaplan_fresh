@@ -19,6 +19,7 @@ import { BentoPanel } from "../components/bento_panel.tsx";
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 import { WideImage } from "akvaplan_fresh/components/wide_image.tsx";
+import { t } from "../text/mod.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(services|tjenester)",
@@ -47,7 +48,13 @@ export default defineRoute(async (req, ctx) => {
   //     </Page>
   //   );
   // }
-  const hero = await getPanelInLang({ id: ID_SERVICES, lang }) ?? panels.at(0);
+  const hero = (await getPanelInLang({ id: ID_SERVICES, lang })) ?? {
+    image: {
+      url:
+        "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920,ar_3:1/nektj2s3e7hr8kdgu1jj",
+    },
+    title: t("our.services"),
+  };
 
   const { title, image, backdrop, theme } = hero;
 

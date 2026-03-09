@@ -30,6 +30,7 @@ import Button from "akvaplan_fresh/components/button/button.tsx";
 import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
 
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
+import { t } from "../text/mod.ts";
 
 export const atomFromPanel = (p: Panel) => {
   return p;
@@ -39,10 +40,17 @@ export default defineRoute(async (req, ctx) => {
   const props = extractRenderProps(req, ctx);
   const { lang } = props;
 
-  const hero = await getPanelInLang({
+  const hero = (await getPanelInLang({
     id: "01hyd6qeqvy0ghjnk1nwdfwvyq",
     lang,
-  });
+  })) ?? {
+    title: t("our.research"),
+    theme: "light",
+    image: {
+      url:
+        "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920,ar_3:1/tpgqohjxb8noio6fqkxr",
+    },
+  };
 
   const { image, title } = hero;
 
