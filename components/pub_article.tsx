@@ -16,6 +16,7 @@ import {
 import { nvaPublicationLanding } from "akvaplan_fresh/services/nva.ts";
 import { CCIcons } from "akvaplan_fresh/components/cc-icons.tsx";
 import { Section } from "akvaplan_fresh/components/section.tsx";
+import { Markdown } from "./markdown.tsx";
 
 export const PubArticle = ({
   pub,
@@ -229,15 +230,18 @@ export const PubArticle = ({
           {abstract
             ? (
               <Section>
-                <h2>{t("Abstract")}</h2>
-                <p
-                  dangerouslySetInnerHTML={{ __html: abstract }}
-                  style={{
-                    maxWidth: "120ch",
-                    fontSize: "1rem",
-                    whiteSpace: "pre-wrap",
-                  }}
-                />
+                <Card>
+                  <h2>{t("Abstract")}</h2>
+
+                  <Markdown
+                    text={abstract}
+                    style={{
+                      maxWidth: "120ch",
+                      whiteSpace: "pre-wrap",
+                      fontSize: "1rem",
+                    }}
+                  />
+                </Card>
               </Section>
             )
             : null}
