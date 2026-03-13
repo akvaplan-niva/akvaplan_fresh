@@ -2,8 +2,9 @@ import Button from "akvaplan_fresh/components/button/button.tsx";
 import { ApnSym } from "akvaplan_fresh/components/mod.ts";
 
 // ocean: viemsy7cszuo7laedtcd
-const squareImage = (id: string, px = 256) =>
-  `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_${px},h_${px},q_auto:good/${id}`;
+const px = 746;
+const squareImage = (id: string, px = 746) =>
+  `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_${px},q_auto:good/${id}`;
 
 const Grid = ({ cloudinary, title, subtitle, cta }) => (
   <div style="display: grid; gap: 1.5rem; padding: 0.25rem; grid-template-columns: 1fr 4fr;">
@@ -11,10 +12,10 @@ const Grid = ({ cloudinary, title, subtitle, cta }) => (
       {cloudinary
         ? (
           <img
-            width="256"
-            height="256"
+            width={px}
+            height={px}
             alt=""
-            src={squareImage(cloudinary, 256)}
+            src={squareImage(cloudinary, px)}
             style={{ borderRadius: ".125rem" }}
           />
         )
