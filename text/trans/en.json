@@ -324,6 +324,7 @@
   "type.ReportBasic": "Report",
   "type.ReportResearch": "Research report",
   "type.ReportWorkingPaper": "Working paper",
+  "type.TextbookChapter": "Textbook chapter",
   "ui.Data_from": "Data from",
   "ui.Download": "Download",
   "ui.Published": "Published",

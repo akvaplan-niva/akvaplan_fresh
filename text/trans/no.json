@@ -310,6 +310,7 @@
   "type.ReportBasic": "rapport",
   "type.ReportResearch": "forskningsrapport",
   "type.ReportWorkingPaper": "arbeidsnotat",
+  "type.TextbookChapter": "Kapittel i lærebok",
   "research.Intro": "",
   "research.Latest_pubs": "Siste forskningsartikler",
   "project.polarfront.title": "Økosystemstudier av polarfronten med bruk av autonome teknologier (PolarFront)",
