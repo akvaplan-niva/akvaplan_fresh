@@ -43,10 +43,8 @@ const github = {
 //insta?
 const mnd = {
   name: "Mynewsdesk",
-  icon:
-    "https://pbs.twimg.com/profile_images/1375414711768977409/SwX7ETvS_400x400.png",
-  //icon: "/icon/logo/mnd_pink_48.png",
-  // "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_250,q_auto:good,w_250/kfp8aemln03dgurkwdoz",
+  icon: "/icon/logo/mnd_gray_48.png", //"https://pbs.twimg.com/profile_images/1375414711768977409/SwX7ETvS_400x400.png",
+  //icon: "/icon/logo/mnd_pink_48.png", // "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_250,q_auto:good,w_250/kfp8aemln03dgurkwdoz",
   href: "https://www.mynewsdesk.com/no/stories/organisations?q=akvaplan-niva",
 };
 const akvaplanSocial: Social[] = [
