@@ -1,6 +1,7 @@
 import { t } from "akvaplan_fresh/text/mod.ts";
 import { JSX } from "preact";
 import Button from "akvaplan_fresh/components/button/button.tsx";
+import IconButton from "akvaplan_fresh/components/button/icon_button.tsx";
 
 const handleClick = (e: MouseEvent) => {
   const query = e?.target?.dataset?.for ?? "dialog";
@@ -16,20 +17,21 @@ const handleClick = (e: MouseEvent) => {
 };
 
 export default (
-  { lang, children, ...props }: JSX.HTMLAttributes<HTMLButtonElement>,
+  { children, ...props }: JSX.HTMLAttributes<HTMLButtonElement>,
 ) => (
-  <Button
+  <IconButton
     onClick={handleClick}
     icon="search"
     iconHeight="1.5rem"
     iconWidth="1.5rem"
     popovertargetaction="show"
-    aria-label={lang === "en" ? "Open menu" : "Åpne meny"}
     {
+      //aria-label={lang === "en" ? "Open search/menu" : "Åpne søk/meny"}
+
       //popovertarget={popovertarget}
       ...props
     }
   >
-    {lang === "en" ? "Menu" : "Meny"}
-  </Button>
+    {children}
+  </IconButton>
 );
