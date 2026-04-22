@@ -8,7 +8,7 @@ import { nvaPublicationLanding } from "./nva.ts";
 
 export const PUBS_BASE = globalThis?.Deno && Deno.env.has("AKVAPLAN_PUBS")
   ? Deno.env.get("AKVAPLAN_PUBS")
-  : "https://pubs.deno.dev";
+  : "https://pubkv.apn.deno.net/";
 
 const NVA_API_PROD = "https://api.nva.unit.no";
 
