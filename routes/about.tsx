@@ -41,8 +41,7 @@ const getAboutPanels = async (lang: string) =>
     lang,
     filter: (
       { collection, id }: Panel,
-    ) => ([ID_INFRASTRUCTURE].includes(id) ||
-      "company" === collection && id !== ID_ABOUT),
+    ) => "company" === collection && id !== ID_ABOUT,
   }))
     .sort((a, b) => a.title.localeCompare(b.title, "no"));
 
