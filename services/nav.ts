@@ -115,12 +115,11 @@ export const buildNavPrev = (lang: string | StringSignal) => [
 export const buildNav = (lang: string | StringSignal) => [
   { href: intlRouteMap(lang).get("akvaplanists"), text: t("nav.People") },
   { href: intlRouteMap(lang).get("services"), text: t("nav.Services") },
-  {
-    href: intlRouteMap(lang).get("infrastructure"),
-    text: t("nav.Infrastructure"),
-  },
+  // {
+  //   href: intlRouteMap(lang).get("infrastructure"),
+  //   text: t("nav.Infrastructure"),
+  // },
   { href: intlRouteMap(lang).get("research"), text: t("nav.Research") },
-
   { href: intlRouteMap(lang).get("projects"), text: t("nav.Projects") },
   { href: intlRouteMap(lang).get("pubs"), text: t("nav.Publications") },
   { href: intlRouteMap(lang).get("news"), text: t("nav.News") },
@@ -131,11 +130,11 @@ export const buildNav = (lang: string | StringSignal) => [
 ];
 
 export const buildMoreNav = (lang: string | StringSignal) => [
-  { href: intlRouteMap(lang).get("news"), text: t("nav.News") },
+  //{ href: intlRouteMap(lang).get("news"), text: t("nav.News") },
   { href: intlRouteMap(lang).get("documents"), text: t("nav.Documents") },
   { href: intlRouteMap(lang).get("videos"), text: t("nav.Videos") },
   { href: intlRouteMap(lang).get("images"), text: t("nav.Images") },
-  { href: intlRouteMap(lang).get("about"), text: t("nav.About") },
+  //{ href: intlRouteMap(lang).get("about"), text: t("nav.About") },
   //{ href: _tr(lang).get("projects"), text: t("nav.Projects") },
   //{ href: _tr(lang).get("dcat"), text: t("Datasets") },
 

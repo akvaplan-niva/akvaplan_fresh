@@ -4,7 +4,6 @@ import {
 } from "akvaplan_fresh/text/mod.ts";
 import { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import { akvaplanistUrl } from "akvaplan_fresh/services/nav.ts";
-import { projectURL } from "../services/mod.ts";
 
 const En = new Map([
   ["pubs", "publications"],
@@ -49,9 +48,8 @@ const localizedRouteForSearchAtom = (
   lang: string,
 ): string => {
   let { collection, slug, id } = atom;
-  if (collection === "person") {
+  if (collection === "person" && slug) {
     const { title: name, slug } = atom;
-
     return akvaplanistUrl({ id: slug, name } as any, lang);
   } else if (collection === "pubs") {
     if (String(id).startsWith("https://doi.org")) {

@@ -11,6 +11,7 @@ import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 import {
+  ID_FISK,
   ID_PEOPLE,
   ID_PROJECTS,
   ID_PUBLICATIONS,
@@ -25,6 +26,7 @@ const kv = await openKv();
 export const collectionPanelIds = [
   ID_PEOPLE,
   ID_SERVICES,
+  // ID_FISK,
   ID_RESEARCH,
   ID_PROJECTS,
   ID_PUBLICATIONS,

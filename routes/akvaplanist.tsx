@@ -13,7 +13,8 @@ import { OfficeContactDetails } from "akvaplan_fresh/components/offices.tsx";
 import { offices } from "akvaplan_fresh/services/offices.ts";
 
 export const config: RouteConfig = {
-  routeOverride: "/:lang(no|en)/:page(folk|people){/:groupname}?{/:filter}?",
+  routeOverride:
+    "/:lang(no|en)/:page(folk|person|people){/:groupname}?{/:filter}?",
 };
 const upcase0 = (s) => {
   const [f, ...r] = [...s];
@@ -25,9 +26,16 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
   const limit = 25;
   const collection = "person";
   const where = { collection };
-  const facets = {};
+  const facets = { location: {} };
   const term = searchParams.get("q") ?? "";
   const sort = searchParams.get("sort") ?? "";
+  const filterLocation = searchParams.has("filter-location")
+    ? searchParams.get("filter-location")
+    : null;
+
+  if (searchParams.has("filter-location")) {
+    where.location = searchParams.get("filter-location") ?? undefined;
+  }
   const filters = new Map();
   if ("workplace" === groupname && filter) {
     const location = upcase0(decodeURIComponent(filter));
