@@ -5,7 +5,7 @@ export const _no = (c: string) => {
     case "company":
       return "selskapet";
     case "infrastructure":
-      return "infrastruktur";
+      return "tjeneste";
     default:
       return c;
   }

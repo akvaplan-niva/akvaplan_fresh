@@ -1,20 +1,8 @@
 import { getPanelsInLang } from "akvaplan_fresh/kv/panel.ts";
-import { ID_INFRASTRUCTURE } from "akvaplan_fresh/kv/id.ts";
-
-import { Section } from "akvaplan_fresh/components/section.tsx";
-
-import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
-import { BentoPanels } from "akvaplan_fresh/components/bento_panel.tsx";
-import { Card } from "akvaplan_fresh/components/card.tsx";
-import { asset, Head } from "$fresh/runtime.ts";
-import { Page } from "akvaplan_fresh/components/page.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
-import { OpenGraphRequired } from "akvaplan_fresh/components/open_graph.tsx";
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
-import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
-import { t } from "../text/mod.ts";
+import { intlRouteMap } from "../services/mod.ts";
 
 const getInfrastructurePanels = async (lang: string) =>
   (await getPanelsInLang({
@@ -25,57 +13,22 @@ const getInfrastructurePanels = async (lang: string) =>
   })).sort((a, b) => a.title.localeCompare(b.title));
 
 export const config: RouteConfig = {
-  routeOverride: "/:lang(en|no)/:page(infrastructure|infra|infrastruktur)",
+  routeOverride:
+    "/:lang(en|no)/:page(infrastructure|infrastruktur){/:slug}?{/:id}?",
 };
 
-export default defineRoute(async (req, ctx) => {
-  const { lang } = ctx.params;
+export default defineRoute((req, ctx) => {
+  const { lang, slug, id } = ctx.params;
 
-  const _panels = await getInfrastructurePanels(lang) as Panel[];
-  //const hero = _panels.find(({ id }) => id === ID_INFRASTRUCTURE);
-  const hero = {
-    image: {},
-    title: t("nav.Infrastructure"),
-  };
+  const status = 307;
+  const serviceBase = intlRouteMap(lang).get("service") as string;
 
-  const panels = _panels.filter(({ id }) => id !== ID_INFRASTRUCTURE);
+  const location = (id === "" || slug == "")
+    ? serviceBase
+    : serviceBase + `/${slug}/${id}`;
 
-  const { title } = hero;
-  const og = {
-    title,
-    url: req.url,
-    type: "article",
-  };
-
-  return (
-    <Page title={title}>
-      <Head>
-        <OpenGraphRequired {...og} />
-        <link rel="stylesheet" href={asset("/css/bento.css")} />
-      </Head>
-      <SearchHeader
-        lang={lang}
-        title={title}
-      />
-      <Section>
-        {hero?.intro && (
-          <Card>
-            <Markdown text={hero.intro} />
-          </Card>
-        )}
-      </Section>
-
-      <BentoPanels panels={panels} lang={lang} />
-
-      <Section />
-
-      <Section>
-        {hero?.desc && (
-          <Card>
-            <Markdown text={hero.desc} />
-          </Card>
-        )}
-      </Section>
-    </Page>
-  );
+  return new Response("", {
+    status,
+    headers: { location },
+  });
 });

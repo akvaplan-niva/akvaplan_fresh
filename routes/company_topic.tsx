@@ -10,7 +10,7 @@ import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 
 export const config: RouteConfig = {
   routeOverride:
-    "/:lang(en|no){/:collection(company|about|selskapet|om|infrastructure|infra|infrastruktur)}/:slug{/:id}?",
+    "/:lang(en|no){/:collection(company|about|selskapet|om)}/:slug{/:id}?",
 };
 
 const groupedSearchParams = ({ collection }: Panel) => {
@@ -36,7 +36,7 @@ export default defineRoute(async (req, ctx) => {
 
   const more = await getPanelsInLang({
     lang: params.lang,
-    filter: ((p: Panel) => p.parent === id), // && !(p?.draft === true)),
+    filter: (p: Panel) => p.parent === id, // && !(p?.draft === true)),
   });
 
   const editor = await mayEditKvPanel(req);
