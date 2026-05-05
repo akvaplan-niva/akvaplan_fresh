@@ -40,7 +40,7 @@
 // };
 
 const niceUrls = [[
-  "bærekraft",
+  "b%C3%A6rekraft", //b%c3%a6rekraft
   "/no/selskapet/baerekraft-og-samfunnsansvar/01j2c34exdfgyc0j1f4asnzbpn",
 ], [
   "baerekraft",
