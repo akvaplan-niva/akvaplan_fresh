@@ -39,10 +39,24 @@
 //   },
 // };
 
-export const legacyPages = new Map<string, string>([
+const niceUrls = [[
+  "bærekraft",
+  "/no/selskapet/baerekraft-og-samfunnsansvar/01j2c34exdfgyc0j1f4asnzbpn",
+], [
+  "baerekraft",
+  "/no/selskapet/baerekraft-og-samfunnsansvar/01j2c34exdfgyc0j1f4asnzbpn",
+],
+[
+  "sustainability",
+  "/en/company/sustainability-and-responsibility/01j2c34exdfgyc0j1f4asnzbpn",
+],
+] as const;
+
+export const legacyPages =  new Map<string, string>([
   // covered in routes/akvaplanist.tsx: ["/ansatte", "/no/folk"],
   // NO:
   // ["/akkreditering", "/no/"],
+  ...niceUrls,
   [
     "analysetjenester",
     "/no/tjeneste/laboratorietjenester/01hz28ds53dvz93f5e2wpgzh3c",
