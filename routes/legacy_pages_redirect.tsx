@@ -1,62 +1,22 @@
-// Redirect legacy URLs used until 2023-05
+// See also _middleware.tsx (handles legacy domains)
+// See also panel_nice_url.tsx for non-redirecting nice URLs
+const redirectUrls = [
+  ["dokumentasjon", "/no/om"],
+  ["documentation", "/en/about"]
+  
+] as const;
+
+// Legacy URLs (from before 2023-05)
 // * /en/projects-networks/:slug
 // * /en/advisory-services/environmental-monitoring
-//
-// See also _middleware.tsx
-// Redirect legacy content
-// /radgivning/akvakultur
-// adgivning/miljoovervaking
-
-//https://www.akvaplan.niva.no/om-oss
-// import { fetchItemBySlug } from "../../services/mynewsdesk.ts";
-// import { Page } from "../../components/page.tsx";
-// import { Handlers, PageProps } from "$fresh/server.ts";
-
-// export const handler: Handlers = {
-//   async GET(req, ctx) {
-//     const { slug } = ctx.params;
-//     const newsitem = await fetchItemBySlug(slug, "news");
-
-//     let pr;
-//     if (!newsitem) {
-//       pr = await fetchItemBySlug(slug, "pressrelease");
-//     }
-//     const item = newsitem ?? pr;
-//     if (!item) {
-//       return ctx.renderNotFound();
-//     }
-//     const { language, id, type_of_media, published_at: { datetime } } = item;
-
-//     const _type = type_of_media === "news" ? "nyhet" : "press";
-//     const type = _type;
-//     const isodate = new Date(datetime).toJSON().split("T").at(0);
-//     const Location = `/${language}/${type}/${isodate}/${slug}`;
-
-//     return new Response("", {
-//       status: 307,
-//       headers: { Location },
-//     });
-//   },
-// };
-
-const niceUrls = [[
-  "b%C3%A6rekraft", //b%c3%a6rekraft
-  "/no/selskapet/baerekraft-og-samfunnsansvar/01j2c34exdfgyc0j1f4asnzbpn",
-], [
-  "baerekraft",
-  "/no/selskapet/baerekraft-og-samfunnsansvar/01j2c34exdfgyc0j1f4asnzbpn",
-],
-[
-  "sustainability",
-  "/en/company/sustainability-and-responsibility/01j2c34exdfgyc0j1f4asnzbpn",
-],
-] as const;
+// * /radgivning/akvakultur
+// * /radgivning/miljoovervaking
 
 export const legacyPages =  new Map<string, string>([
   // covered in routes/akvaplanist.tsx: ["/ansatte", "/no/folk"],
   // NO:
   // ["/akkreditering", "/no/"],
-  ...niceUrls,
+  ...redirectUrls,
   [
     "analysetjenester",
     "/no/tjeneste/laboratorietjenester/01hz28ds53dvz93f5e2wpgzh3c",
@@ -73,7 +33,7 @@ export const legacyPages =  new Map<string, string>([
   // ["/jobb-hos-oss", "/no/"],
   // ["/kvalitetspolicy-og-etiske-retningslinjer", "/no/"],
   ["nyhetsarkiv", "/no/nyheter"],
-  ["om-oss", "/no/om"],
+  ["om-oss", "/no/om"], // ie. https://www.akvaplan.niva.no/om-oss
   // ["/personvern", "/no/"],
   // ["/plast-publikasjoner", "/no/"],
   ["prosjekter-nettverk", "/no/prosjekter"],

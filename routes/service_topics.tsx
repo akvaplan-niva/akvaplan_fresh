@@ -20,7 +20,7 @@ export default defineRoute(async (req, ctx) => {
 
   const more = await getPanelsInLang({
     lang: params.lang,
-    filter: ((p: Panel) => p.parent === id), // && !(p?.draft === true)),
+    filter: (p: Panel) => p.parent === id, // && !(p?.draft === true)),
   });
 
   if (!panel) {

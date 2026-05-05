@@ -5,13 +5,10 @@
 import * as $_kv_list_kv_list_edit from "./routes/(kv)/list/kv_list_edit.tsx";
 import * as $_404 from "./routes/_404.tsx";
 import * as $_500 from "./routes/_500.tsx";
-import * as $_app from "./routes/_app.tsx";
 import * as $_middleware from "./routes/_middleware.ts";
 import * as $about from "./routes/about.tsx";
 import * as $accreditation from "./routes/accreditation.tsx";
 import * as $akvaplanist from "./routes/akvaplanist.tsx";
-import * as $api_document_slug_ from "./routes/api/_document/[slug].ts";
-import * as $api_kv_get_path_ from "./routes/api/kv/get/[...path].ts";
 import * as $api_kv_list_key_ from "./routes/api/kv/list/[...key].ts";
 import * as $api_mynewsdesk_index from "./routes/api/mynewsdesk/index.ts";
 import * as $api_mynewsdesk_type_path_ from "./routes/api/mynewsdesk/type/[...path].ts";
@@ -32,7 +29,6 @@ import * as $cristin from "./routes/cristin.tsx";
 import * as $dcat from "./routes/dcat.tsx";
 import * as $document_MarkdownArticlePage from "./routes/document/MarkdownArticlePage.tsx";
 import * as $document_slug_ from "./routes/document/[slug].tsx";
-import * as $documentation from "./routes/documentation.tsx";
 import * as $documents from "./routes/documents.tsx";
 import * as $doi from "./routes/doi.tsx";
 import * as $home from "./routes/home.tsx";
@@ -48,6 +44,7 @@ import * as $offices from "./routes/offices.tsx";
 import * as $page_kv_edit from "./routes/page_kv_edit.tsx";
 import * as $panel from "./routes/panel.tsx";
 import * as $panel_edit from "./routes/panel_edit.tsx";
+import * as $panel_nice_url from "./routes/panel_nice_url.tsx";
 import * as $panels from "./routes/panels.tsx";
 import * as $policies from "./routes/policies.tsx";
 import * as $pref from "./routes/pref.tsx";
@@ -99,13 +96,10 @@ const manifest = {
     "./routes/(kv)/list/kv_list_edit.tsx": $_kv_list_kv_list_edit,
     "./routes/_404.tsx": $_404,
     "./routes/_500.tsx": $_500,
-    "./routes/_app.tsx": $_app,
     "./routes/_middleware.ts": $_middleware,
     "./routes/about.tsx": $about,
     "./routes/accreditation.tsx": $accreditation,
     "./routes/akvaplanist.tsx": $akvaplanist,
-    "./routes/api/_document/[slug].ts": $api_document_slug_,
-    "./routes/api/kv/get/[...path].ts": $api_kv_get_path_,
     "./routes/api/kv/list/[...key].ts": $api_kv_list_key_,
     "./routes/api/mynewsdesk/index.ts": $api_mynewsdesk_index,
     "./routes/api/mynewsdesk/type/[...path].ts": $api_mynewsdesk_type_path_,
@@ -127,7 +121,6 @@ const manifest = {
     "./routes/dcat.tsx": $dcat,
     "./routes/document/MarkdownArticlePage.tsx": $document_MarkdownArticlePage,
     "./routes/document/[slug].tsx": $document_slug_,
-    "./routes/documentation.tsx": $documentation,
     "./routes/documents.tsx": $documents,
     "./routes/doi.tsx": $doi,
     "./routes/home.tsx": $home,
@@ -143,6 +136,7 @@ const manifest = {
     "./routes/page_kv_edit.tsx": $page_kv_edit,
     "./routes/panel.tsx": $panel,
     "./routes/panel_edit.tsx": $panel_edit,
+    "./routes/panel_nice_url.tsx": $panel_nice_url,
     "./routes/panels.tsx": $panels,
     "./routes/policies.tsx": $policies,
     "./routes/pref.tsx": $pref,

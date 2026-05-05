@@ -3,7 +3,7 @@ export const genid = () => ulid().toLowerCase();
 export const ID_ABOUT = "01hzfwfctv0h33c494bje9y7r0";
 export const ID_ACCREDITATION = "01j0b947qxcrgvehnpzskttfd2";
 export const ID_CERTIFICATION = "01j17m18wawc1jcw1zh3g47d6h";
-export const ID_DOCUMENTATION = "01j2c34exdfgyc0j1f4asnzbpn";
+export const ID_SUSTAINABILITY = "01j2c34exdfgyc0j1f4asnzbpn";
 export const ID_HOME_HERO = "01hyd6qeqv77bp980k1mw33rt0";
 export const ID_INFRASTRUCTURE = "01hyd6qeqvrzwkbkf4frh6ewhk";
 export const ID_INVOICING = "01j0k42cn0qmmh0knsj3v2wpn2";

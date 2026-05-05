@@ -31,7 +31,7 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
 
   const [currentGroupedByFromYear, priorGroupedByExpiredYear] =
     await getAkvaplanistsGroupedByYearStartedOrLeft({
-      filter: (({ days }) => !days ? true : days > 360),
+      filter: ({ days }) => !days ? true : days > 360,
     });
 
   const title = [t("people.Akvaplanists")].join("");
