@@ -55,6 +55,7 @@ const panelFromNews = (
 };
 
 const newsAsPanels = (news, lang) => news.map((n) => panelFromNews(n, lang));
+
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
 };
@@ -70,6 +71,13 @@ export default defineRoute(async (req, ctx) => {
     limit: 12,
   }).catch((e) => console.error(e));
 
+  // const np = newsAsPanels(news, "no");
+  // const n5 = np.slice(0, 5).map(({ title, href, image: { cloudinary } }) => ({
+  //   title,
+  //   href,
+  //   cloudinary,
+  // }));
+  // console.log(JSON.stringify(n5));
   //const newsInSiteLang = news?.filter((n) => sitelang === n.hreflang);
 
   const latestNonNews = await latestNotInTheFuture(["person", "pubs"]);
