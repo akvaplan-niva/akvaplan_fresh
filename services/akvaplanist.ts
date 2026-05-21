@@ -10,11 +10,11 @@ export const _priors = "data/priors.json";
 export const _akvaplanists = "data/akvaplanists.json";
 
 // import priors from "akvaplan_fresh/data/priors.json" with { type: "json" };
-import _akvaplanists_kv from "https://akvaplanists.deno.dev/" with {
+import _akvaplanists_kv from "https://akvaplanists.apn.deno.net/" with {
   type: "json",
 };
 
-import _priors_kv from "https://akvaplanists.deno.dev/prior" with {
+import _priors_kv from "https://akvaplanists.apn.deno.net/prior" with {
   type: "json",
 };
 const priors = _priors_kv.map(({ value }) => value);
@@ -42,7 +42,7 @@ export const setIdentities = (arr: Akvaplanist[]) => {
 
 const base = globalThis?.Deno && Deno.env.has("AKVAPLANISTS")
   ? Deno.env.get("AKVAPLANISTS")
-  : "https://akvaplanists.deno.dev";
+  : "https://akvaplanists.apn.deno.net";
 
 export let _all: Akvaplanist[];
 
