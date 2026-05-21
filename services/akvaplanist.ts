@@ -1,15 +1,17 @@
 import { alias, familyAliasMap, offices } from "akvaplan_fresh/services/mod.ts";
 import { normalize as n, tr } from "akvaplan_fresh/text/mod.ts";
+//FIXME, remove: import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
 import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
 import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
 import { search } from "akvaplan_fresh/search/search.ts";
 import { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
 
-//FIXME, remove: import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
 export const _priors = "data/priors.json";
-export const _akvaplanists = "data/akvaplanists.json";
 
-// import priors from "akvaplan_fresh/data/priors.json" with { type: "json" };
+const base = globalThis?.Deno && Deno.env.has("AKVAPLANISTS")
+  ? Deno.env.get("AKVAPLANISTS")
+  : "https://akvaplanists.apn.deno.net";
+
 import _akvaplanists_kv from "https://akvaplanists.apn.deno.net/" with {
   type: "json",
 };
@@ -39,10 +41,6 @@ export const setIdentities = (arr: Akvaplanist[]) => {
     }
   }
 };
-
-const base = globalThis?.Deno && Deno.env.has("AKVAPLANISTS")
-  ? Deno.env.get("AKVAPLANISTS")
-  : "https://akvaplanists.apn.deno.net";
 
 export let _all: Akvaplanist[];
 
