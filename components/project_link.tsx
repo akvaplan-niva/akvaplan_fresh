@@ -24,7 +24,6 @@ export const AkvaplanProjectLink = (p) => {
     : (
       <li>
         <a href={href_t}>{name_t ?? id}</a>
-        {JSON.stringify(p)}
       </li>
     );
 };
