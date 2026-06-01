@@ -1,4 +1,9 @@
-import { ApnSym, CleanHeader, Footer as SiteFooter, Styles } from "./mod.ts";
+import {
+  ApnSym,
+  CleanHeader,
+  Footer as SiteFooter,
+  StylesLegacy,
+} from "./mod.ts";
 
 import { type Breadcrumb } from "akvaplan_fresh/components/site_nav.tsx";
 
@@ -70,7 +75,8 @@ export function Page(
         type="image/svg+xml"
       />
 
-      <Styles />
+      <StylesLegacy />
+
       <script defer src={asset("/@nrk/core-scroll.min.js")} />
     </Head>
   );

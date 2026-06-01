@@ -1,60 +1,23 @@
-/* <Section style={{ display: "grid", placeItems: "center" }}>
-  {[].map((b) => <LinkBanner text={b.text} href={b.href} />)}
-</Section> */
+import _services from "@/data/services.json" with { type: "json" };
+import _research from "@/data/research.json" with { type: "json" };
+import { getNews } from "@/services/news.ts";
+import { extractLangFromUrl, lang } from "akvaplan_fresh/text/mod.ts";
 
-/* {sticky?.map((props) => (
-  <Section style={{ display: "grid", placeItems: "center" }}>
-    <ArticlePanelTitleLow {...props} />
-  </Section>
-))} */
+import { NewsLatest5 } from "@/components/news_latest5.tsx";
+import { NavHeader } from "@/components/nav_header.tsx";
+import { StylesLegacy } from "@/components/styles.tsx";
+import { Services5 } from "@/components/services5.tsx";
+import { Research5 } from "@/components/research5.tsx";
 
-import { latestNewsFromMynewsdeskService } from "akvaplan_fresh/services/news.ts";
-import { latestNotInTheFuture } from "akvaplan_fresh/search/search.ts";
-
-import { extractLangFromUrl, lang, t } from "akvaplan_fresh/text/mod.ts";
-
-import {
-  getCollectionPanels,
-  getPanelInLang,
-  mayEditKvPanel,
-} from "akvaplan_fresh/kv/panel.ts";
-import { ID_HOME_HERO } from "akvaplan_fresh/kv/id.ts";
-
-import {
-  CollectionHeader,
-  NewsFilmStrip,
-  Page,
-} from "akvaplan_fresh/components/mod.ts";
-import { Section } from "akvaplan_fresh/components/section.tsx";
-import {
-  ArticlePanelTitleLow,
-  ImagePanel,
-} from "akvaplan_fresh/components/panel.tsx";
-
-import type { News } from "akvaplan_fresh/@interfaces/news.ts";
+import { HomeImageHero, HomeVideoHero } from "@/islands/home_heroes.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 
-const panelFromNews = (
-  { title, href, img, published, type, hreflang }: News,
-  _lang: string,
-) => {
-  const cloudinary = img?.split("/").at(-1);
-  const url =
-    `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1782,ar_3:1/${cloudinary}`;
+const getServices = async ({ lang }) =>
+  await lang !== "no" ? _services["en"] : _services["no"];
 
-  return {
-    href,
-    title,
-    image: { cloudinary, url },
-    published,
-    backdrop: true,
-    type,
-    hreflang,
-  };
-};
-
-const newsAsPanels = (news, lang) => news.map((n) => panelFromNews(n, lang));
+const getResearchTopics = async ({ lang }) =>
+  await lang !== "no" ? _research["en"] : _research["no"];
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -65,90 +28,42 @@ export default defineRoute(async (req, ctx) => {
   const sitelang = extractLangFromUrl(req.url);
   lang.value = sitelang;
 
-  const news = await latestNewsFromMynewsdeskService({
-    q: "",
-    lang: sitelang,
-    limit: 12,
-  }).catch((e) => console.error(e));
-
-  // const np = newsAsPanels(news, "no");
-  // const n5 = np.slice(0, 5).map(({ title, href, image: { cloudinary } }) => ({
-  //   title,
-  //   href,
-  //   cloudinary,
-  // }));
-  // console.log(JSON.stringify(n5));
-  //const newsInSiteLang = news?.filter((n) => sitelang === n.hreflang);
-
-  const latestNonNews = await latestNotInTheFuture(["person", "pubs"]);
-
-  const latest = [...news, ...latestNonNews]
-    .sort((a, b) => +new Date(b.published) - +new Date(a.published));
-
-  // const _newsInAltLang = _news?.filter((n) => sitelang !== n.hreflang);
-
-  // const newsInAltLang = _newsInAltLang
-  //   ?.map(imageCardFromPanel());
-
-  const hero = await getPanelInLang({ id: ID_HOME_HERO, lang });
-
-  const panels = (await getCollectionPanels({ lang })).map((
-    { intro, ...withoutIntro },
-  ) => withoutIntro);
-
-  const authorized = await mayEditKvPanel(req);
-
-  const maxVisNews = 5.5;
+  const [news, services, research] = await Promise.all(
+    [
+      getNews({ lang: sitelang, limit: 5 }),
+      getServices({ lang: sitelang }),
+      getResearchTopics({ lang: sitelang }),
+    ],
+  );
 
   return (
-    <Page>
-      <div class="hide-s">
-        <NewsFilmStrip news={latest} lang={sitelang} />
-      </div>
+    <>
+      <StylesLegacy />
 
-      <div
-        style={{
-          display: "grid",
-          placeItems: "center",
-          paddingTop: "1vw",
-        }}
-      >
-        <ImagePanel
-          {...hero}
-          lang={lang}
-          editor={authorized}
-          maxHeight={"80vh"}
-        />
-      </div>
+      <NavHeader lang={sitelang} />
 
-      <CollectionHeader collection="news" />
-      <Section>
-        {newsAsPanels(news?.slice(0, 6))?.map((panel) => (
-          <Section
-            style={{ display: "grid", placeItems: "center" }}
-          >
-            <ArticlePanelTitleLow
+      <HomeVideoHero lang={sitelang} />
+
+      <NewsLatest5 news={news} lang={sitelang} />
+
+      <Services5 services={services} lang={sitelang} />
+
+      <Research5 research={research} lang={sitelang} />
+
+      <HomeImageHero lang={sitelang} />
+
+      {
+        /* <div class="max-w-[1920px]">
+        {panels?.map((panel) => (
+          <Section style={{ display: "grid", placeItems: "center" }}>
+            <ImagePanel
               {...panel}
-              lang={lang}
-              _theme={"dark"}
+              lang={sitelang}
             />
           </Section>
         ))}
-
-        {
-          /* <HScroll
-          maxVisibleChildren={maxVisNews}
-        >
-          {news?.map(ArticleSquare)}
-        </HScroll> */
-        }
-      </Section>
-
-      {panels?.map((panel) => (
-        <Section style={{ display: "grid", placeItems: "center" }}>
-          <ImagePanel {...panel} lang={lang} editor={authorized === true} />
-        </Section>
-      ))}
-    </Page>
+      </div> */
+      }
+    </>
   );
 });

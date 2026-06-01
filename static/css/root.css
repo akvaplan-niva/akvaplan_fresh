@@ -1,9 +1,22 @@
 :root {
   --font-sans:
-    "Roboto Flex", Roboto, ui-sans-serif, system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans",
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Geist",
+    "Roboto Flex",
+    Roboto,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Helvetica Neue",
+    Arial,
+    "Noto Sans",
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
     "Noto Color Emoji";
+  --font-mono: "Geist Mono";
   --brand-hue: 200;
   --brand-saturation: 66%;
   --brand-lightness: 17%;

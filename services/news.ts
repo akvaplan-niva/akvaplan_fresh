@@ -1,4 +1,3 @@
-// @todo rename service from news.ts to search.ts
 import { searchMynewsdesk } from "./mynewsdesk.ts";
 import { newsFromMynewsdesk } from "./news_mynewsdesk.ts";
 
@@ -89,3 +88,51 @@ export const searchNewsArticles = async (
   );
   return articles.sort(sort);
 };
+
+const toNewsV2 = (
+  { caption, title: headline, href, img, published, type, hreflang: lang }:
+    News,
+) => {
+  const cloudinary = img?.split("/").at(-1);
+  return {
+    href,
+    headline,
+    cloudinary,
+    published,
+    type,
+    lang,
+    caption,
+  };
+};
+
+const getIntro = async (news0) => {
+  try {
+    const id = extractId(news0.href);
+    const mynewsdesk0 = await getItem(id, news0.type);
+    const node = new DOMParser().parseFromString(
+      mynewsdesk0?.body,
+      "text/html",
+    );
+    return node.textContent;
+  } catch (_) {
+  }
+};
+
+export const getNews = async ({ q = "", lang, limit }) => {
+  const _news = await latestNewsFromMynewsdeskService({
+    q,
+    lang,
+    limit,
+  }).catch((e) => console.error(e));
+  const news = _news?.map(toNewsV2) ?? [];
+  if (news.length > 0) {
+    news[0].intro = await getIntro(news.at(0));
+  }
+  return news;
+};
+
+// const panels = (await getCollectionPanels({ lang })).map((
+//   { intro, ...withoutIntro },
+// ) => withoutIntro);
+
+// const latestNonNews = await latestNotInTheFuture(["person", "pubs"]);

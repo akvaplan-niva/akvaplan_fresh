@@ -2,7 +2,6 @@ import { isodate } from "../../time/intl.ts";
 import { ApnSym, Icon, MiniCard } from "akvaplan_fresh/components/mod.ts";
 import { t } from "akvaplan_fresh/text/mod.ts";
 import { type News } from "akvaplan_fresh/@interfaces/mod.ts";
-import { Padding } from "https://esm.sh/v135/maplibre-gl@4.4.1/dist/maplibre-gl.js";
 
 const newsItemStyle = ({ type }) => ({
   display: "grid",

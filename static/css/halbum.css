@@ -8,7 +8,7 @@
 .halbum-image {
   width: clamp(var(--min-halbum-size), 20vw, var(--max-halbum-size));
   min-width: var(--min-halbum-size);
-  font-size: var(--font-size-fluid-1,1rem);
+  font-size: var(--font-size-fluid-1, 1rem);
 }
 
 .halbum-image img {

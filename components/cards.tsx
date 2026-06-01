@@ -1,0 +1,99 @@
+type Theme = "auto" | "light" | "dark";
+
+interface CardProps {
+  image?: string;
+  headline?: string;
+  subtitle?: string;
+  readMoreUrl?: string;
+  readMoreText?: string;
+  theme?: Theme;
+  className?: string;
+}
+
+// ====================== LARGE SQUARE CARD (Always Dark) ======================
+export function SqImgCard({
+  href = "",
+  image = "",
+  headline = "",
+  subtitle = "",
+  readMoreUrl = "#",
+  readMoreText = "",
+  className = "",
+  mega = false,
+}: CardProps) {
+  return (
+    <a
+      href={href}
+      class={`relative w-full aspect-square rounded-sm overflow-hidden shadow-2xl ${className}`}
+    >
+      <img
+        src={image}
+        alt=""
+        class="absolute inset-0 w-full h-full object-cover"
+      />
+
+      <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/65 to-black/85" />
+
+      <div class="relative z-10 h-full grid grid-rows-[1fr_auto_auto] p-8 sm:p-10 text-white">
+        <div />
+
+        <div>
+          <h2 class="text-[clamp(1.25rem,3vw,3rem)] leading-tight font-h tracking-tight mb-4 line-clamp-5">
+            {headline}
+          </h2>
+          <p class="_invisible _md:visible text-[15px] sm:text-[17px] leading-relaxed opacity-95 line-clamp-2">
+            {subtitle}
+          </p>
+        </div>
+
+        {readMoreText
+          ? (
+            <a
+              href={readMoreUrl}
+              class="inline-flex items-center gap-3 px-8 py-4 mt-6 text-sm font-semibold border-2 border-white/90 rounded-full bg-white/10 backdrop-blur-md hover:bg-white hover:text-zinc-900 hover:border-white transition-all w-fit group"
+            >
+              {readMoreText}
+              <span class="text-xl transition-transform group-hover:translate-x-1">
+              </span>
+            </a>
+          )
+          : null}
+      </div>
+    </a>
+  );
+}
+
+export function TightSqImgCard({
+  image = "",
+  headline = "",
+  subtitle = "",
+  href = "#",
+  readMoreText = "READ MORE",
+  className = "",
+}: CardProps) {
+  return (
+    <div
+      class={`relative w-full aspect-square rounded-sm overflow-hidden shadow-2xl ${className}`}
+    >
+      <a href={href}>
+        <img
+          src={image}
+          alt=""
+          class="absolute inset-0 w-full h-full object-cover"
+        />
+
+        <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/65 to-black/90 opacity-80" />
+
+        <div class="relative z-10 h-full grid grid-rows-[1fr_auto_auto] p-4 text-white">
+          <div />
+
+          <div>
+            <h3 class="text-sm/6 lg:text-md/6 tracking-tight leading-relaxed opacity-95 line-clamp-3">
+              {headline}
+            </h3>
+          </div>
+        </div>
+      </a>
+    </div>
+  );
+}
