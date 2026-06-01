@@ -1,0 +1,101 @@
+{
+  "en": [
+    {
+      "headline": "Aquaculture services",
+      "cloudinary": "atvjfmuzt70arajchckb",
+      "intro": "",
+      "href": "/en/service/aquaculture-services/01hyd6qeqv78qzd20nt1c1mp65"
+    },
+    {
+      "headline": "Autonomous & remotely operated vehicles",
+      "cloudinary": "11o3yoqtwbhhg9zfusu56s",
+      "intro": "",
+      "href": "/en/service/autonomous-and-remotely-operated-vehicles/01hwq488c0jwf53d4cev9957ze"
+    },
+    {
+      "headline": "Environmental impact assessments",
+      "cloudinary": "giuubc8hct9z7ahumdrs",
+      "intro": "",
+      "href": "/en/service/environmental-impact-assessments/01hyd6qeqvgr3dwrvkqyeh427t"
+    },
+    {
+      "headline": "Environmental monitoring",
+      "cloudinary": "xvbzid1k9c3xc7cl9yyyad",
+      "intro": "",
+      "href": "/en/service/environmental-monitoring/01hyd6qeqvqah3mjrqckbcgn4f"
+    },
+    {
+      "headline": "Environmental risk and contingency",
+      "cloudinary": "dwkyguxo87cfh8aruhrz3d",
+      "intro": "Sensitive Environments Decision Support (SensE)",
+      "href": "/en/service/environmental-risk-and-contingency/01hz76nm0a16gnpb5t5sczy5ap"
+    },
+    {
+      "headline": "FISK research station",
+      "cloudinary": "wl8oca2qltqsgifi5n6pyp",
+      "href": "/en/service/fisk-research-station/01j1sfawnk7xxfr0kvyezhya9y"
+    },
+    {
+      "headline": "Laboratory services",
+      "cloudinary": "hvn345v5n04vmo56t4it3j",
+      "intro": "Chemical analysis and taxonomy of marine benthos",
+      "href": "/en/service/laboratory-services/01hz28ds53dvz93f5e2wpgzh3c"
+    },
+    {
+      "headline": "Ocean dynamics and dispersion modelling",
+      "cloudinary": "ypnlrnbnhvmebdcvqdac",
+      "intro": "",
+      "href": "/en/service/ocean-dynamics-and-dispersion-modelling/01hz1t2bj8tgmd481q23j701xw"
+    }
+  ],
+  "no": [
+    {
+      "headline": "Akvakultur–tjenester",
+      "cloudinary": "atvjfmuzt70arajchckb",
+      "intro": "Inspeksjon og sertifisering • Miljøundersøkelser • Oseanografisk modellering • Visuell kartlegging",
+      "href": "/no/service/akvakultur-tjenester/01hyd6qeqv78qzd20nt1c1mp65"
+    },
+    {
+      "headline": "Autonome og fjernstyrte fartøy",
+      "cloudinary": "11o3yoqtwbhhg9zfusu56s",
+      "intro": "",
+      "href": "/no/service/autonome-og-fjernstyrte-fartoy/01hwq488c0jwf53d4cev9957ze"
+    },
+    {
+      "headline": "FISK forskningsstasjon",
+      "cloudinary": "wl8oca2qltqsgifi5n6pyp",
+      "intro": "",
+      "href": "/no/service/fisk-forskningsstasjon/01j1sfawnk7xxfr0kvyezhya9y"
+    },
+    {
+      "headline": "Havdynamikk og spredningsmodellering",
+      "cloudinary": "ypnlrnbnhvmebdcvqdac",
+      "intro": "",
+      "href": "/no/service/havdynamikk-og-spredningsmodellering/01hz1t2bj8tgmd481q23j701xw"
+    },
+    {
+      "headline": "Konsekvensutredninger",
+      "cloudinary": "giuubc8hct9z7ahumdrs",
+      "intro": "",
+      "href": "/no/service/konsekvensutredninger/01hyd6qeqvgr3dwrvkqyeh427t"
+    },
+    {
+      "headline": "Laboratorietjenester",
+      "cloudinary": "hvn345v5n04vmo56t4it3j",
+      "intro": "Kjemisk analyse • Analyse av marine bunndyr",
+      "href": "/no/service/laboratorietjenester/01hz28ds53dvz93f5e2wpgzh3c"
+    },
+    {
+      "headline": "Miljøovervåking",
+      "cloudinary": "xvbzid1k9c3xc7cl9yyyad",
+      "intro": "For å studere effekter av klimaendringer og menneskelig aktivitet så gjennomfører Akvaplan-niva miljøkartlegging og overvåking i både marint og ferskvannsmiljø",
+      "href": "/no/service/miljoovervaking/01hyd6qeqvqah3mjrqckbcgn4f"
+    },
+    {
+      "headline": "Miljørisiko og beredskap",
+      "cloudinary": "dwkyguxo87cfh8aruhrz3d",
+      "intro": "",
+      "href": "/no/service/miljorisiko-og-beredskap/01hz76nm0a16gnpb5t5sczy5ap"
+    }
+  ]
+}

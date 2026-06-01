@@ -1,0 +1,67 @@
+{
+  "en": [
+    [
+      {
+        "headline": "Aquaculture R&D",
+        "cloudinary": "nxilnbrqnbsgskw12ast",
+        "href": "/en/research/aquaculture-randd/01hwq488bzsbgf70he01qz825x"
+      },
+      {
+        "headline": "Climate change",
+        "cloudinary": "3nvl4ulk2oue6e0nemgxqx",
+        "intro": "Climate is changing rapidly, especially in the Northern Regions. ",
+        "href": "/en/research/climate-change/01hwq488c0tkhmd9y109hjjhn5"
+      },
+      {
+        "headline": "Ecosystem understanding",
+        "cloudinary": "g1mqg9j8l3zlrv8o61bm9n",
+        "intro": "Our researchers have high competence in biodiversity, ecology, and ecosystem processes in sea ice, pelagic, and benthic habitats",
+        "href": "/en/research/ecosystem-understanding/01hwq488c0ejy4s2kdka4j8xbb"
+      },
+      {
+        "headline": "Environmental impact",
+        "cloudinary": "fz4ilb8tlknebpex55vw12",
+        "intro": "A central research topic for Akvaplan-niva is how different human activities affect organisms and ecosystems",
+        "href": "/en/research/environmental-impact/01hwq488byaejre7jt7fq12c4p"
+      },
+      {
+        "headline": "Ocean dynamics and dispersion modelling",
+        "cloudinary": "cxkieibda6vrgi2gaynk",
+        "intro": "Simulating ocean dynamics and the dispersion of particles and chemicals in water",
+        "href": "/en/research/ocean-dynamics-and-dispersion-modelling/01hwq488bzrdnnc732x2srr5sx"
+      }
+    ]
+  ],
+  "no": [
+    {
+      "headline": "Akvakultur",
+      "cloudinary": "nxilnbrqnbsgskw12ast",
+      "intro": "Forskning på oppdrett",
+      "href": "/no/forskning/akvakultur/01hwq488bzsbgf70he01qz825x"
+    },
+    {
+      "headline": "Havdynamikk og spredningsmodellering",
+      "cloudinary": "cxkieibda6vrgi2gaynk",
+      "intro": "Simulering av havstrømmer og hvordan partikler og utslipp spres i vann",
+      "href": "/no/forskning/havdynamikk-og-spredningsmodellering/01hwq488bzrdnnc732x2srr5sx"
+    },
+    {
+      "headline": "Klimaendringer",
+      "cloudinary": "3nvl4ulk2oue6e0nemgxqx",
+      "intro": "Klimaet er i rask endring, spesielt i nordområdene",
+      "href": "/no/forskning/klimaendringer/01hwq488c0tkhmd9y109hjjhn5"
+    },
+    {
+      "headline": "Miljøpåvirkning",
+      "cloudinary": "fz4ilb8tlknebpex55vw12",
+      "intro": "En sentral problemstilling for Akvaplan-niva er hvordan ulike typer menneskelig aktivitet påvirker organismer og økosystem",
+      "href": "/no/forskning/miljopavirkning/01hwq488byaejre7jt7fq12c4p"
+    },
+    {
+      "headline": "Økosystemforståelse",
+      "cloudinary": "g1mqg9j8l3zlrv8o61bm9n",
+      "intro": "Våre forskere har kompetanse innen biologisk mangfold, økologi og økosystemprosesser, både i sjøis, pelagisk og bentisk miljø",
+      "href": "/no/forskning/okosystemforstaelse/01hwq488c0ejy4s2kdka4j8xbb"
+    }
+  ]
+}
