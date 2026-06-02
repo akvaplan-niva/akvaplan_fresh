@@ -1,36 +1,34 @@
 {
   "en": [
-    [
-      {
-        "headline": "Aquaculture R&D",
-        "cloudinary": "9a35ivz6qc4sg8vkxx5scl",
-        "href": "/en/research/aquaculture-randd/01hwq488bzsbgf70he01qz825x"
-      },
-      {
-        "headline": "Climate change",
-        "cloudinary": "3nvl4ulk2oue6e0nemgxqx",
-        "intro": "Climate is changing rapidly, especially in the Northern Regions. ",
-        "href": "/en/research/climate-change/01hwq488c0tkhmd9y109hjjhn5"
-      },
-      {
-        "headline": "Ecosystem understanding",
-        "cloudinary": "g1mqg9j8l3zlrv8o61bm9n",
-        "intro": "Our researchers have high competence in biodiversity, ecology, and ecosystem processes in sea ice, pelagic, and benthic habitats",
-        "href": "/en/research/ecosystem-understanding/01hwq488c0ejy4s2kdka4j8xbb"
-      },
-      {
-        "headline": "Environmental impact",
-        "cloudinary": "fz4ilb8tlknebpex55vw12",
-        "intro": "A central research topic for Akvaplan-niva is how different human activities affect organisms and ecosystems",
-        "href": "/en/research/environmental-impact/01hwq488byaejre7jt7fq12c4p"
-      },
-      {
-        "headline": "Ocean dynamics and dispersion modelling",
-        "cloudinary": "cxkieibda6vrgi2gaynk",
-        "intro": "Simulating ocean dynamics and the dispersion of particles and chemicals in water",
-        "href": "/en/research/ocean-dynamics-and-dispersion-modelling/01hwq488bzrdnnc732x2srr5sx"
-      }
-    ]
+    {
+      "headline": "Aquaculture R&D",
+      "cloudinary": "9a35ivz6qc4sg8vkxx5scl",
+      "href": "/en/research/aquaculture-randd/01hwq488bzsbgf70he01qz825x"
+    },
+    {
+      "headline": "Climate change",
+      "cloudinary": "3nvl4ulk2oue6e0nemgxqx",
+      "intro": "Climate is changing rapidly, especially in the Northern Regions. ",
+      "href": "/en/research/climate-change/01hwq488c0tkhmd9y109hjjhn5"
+    },
+    {
+      "headline": "Ecosystem understanding",
+      "cloudinary": "g1mqg9j8l3zlrv8o61bm9n",
+      "intro": "Our researchers have high competence in biodiversity, ecology, and ecosystem processes in sea ice, pelagic, and benthic habitats",
+      "href": "/en/research/ecosystem-understanding/01hwq488c0ejy4s2kdka4j8xbb"
+    },
+    {
+      "headline": "Environmental impact",
+      "cloudinary": "fz4ilb8tlknebpex55vw12",
+      "intro": "A central research topic for Akvaplan-niva is how different human activities affect organisms and ecosystems",
+      "href": "/en/research/environmental-impact/01hwq488byaejre7jt7fq12c4p"
+    },
+    {
+      "headline": "Ocean dynamics and dispersion modelling",
+      "cloudinary": "cxkieibda6vrgi2gaynk",
+      "intro": "Simulating ocean dynamics and the dispersion of particles and chemicals in water",
+      "href": "/en/research/ocean-dynamics-and-dispersion-modelling/01hwq488bzrdnnc732x2srr5sx"
+    }
   ],
   "no": [
     {
