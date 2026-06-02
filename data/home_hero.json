@@ -1,0 +1,49 @@
+{
+  "en": {
+    "headline": "Research & consulting",
+    "eyebrow": "Sustainability & scientific integrity",
+    "words": [
+      "ocean",
+      "freshwater",
+      "fjords",
+      "coast",
+      "benthos",
+      "aqua culture",
+      "north",
+      "currents"
+    ],
+    "metrics": [
+      { "value": "120+", "label": "høykompetente ansatte" },
+      { "value": "20+", "label": "nasjonaliteter" },
+      { "value": "1000+", "label": "vitenskapelige artikler" }
+    ],
+    "source": {
+      "src": "https://gliderdata.blob.core.windows.net/akvaplan-open/web/video/zo2.mp4",
+      "type": "video/mp4"
+    },
+    "poster": "/akvaplan_symbol.svg"
+  },
+  "no": {
+    "headline": "Forskning og rådgivning",
+    "eyebrow": "Bærekraft & vitenskapelig integritet",
+    "words": [
+      "havet",
+      "ferskvann",
+      "fjorder",
+      "kystsonen",
+      "oppdrettsanlegg",
+      "nord",
+      "havstrømmer"
+    ],
+    "metrics": [
+      { "value": "120+", "label": "høykompetente ansatte" },
+      { "value": "20+", "label": "nasjonaliteter" },
+      { "value": "1000+", "label": "vitenskapelige artikler" }
+    ],
+    "source": {
+      "src": "https://gliderdata.blob.core.windows.net/akvaplan-open/web/video/zo2.mp4",
+      "type": "video/mp4"
+    },
+    "poster": "/akvaplan_symbol.svg"
+  }
+}
