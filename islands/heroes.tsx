@@ -31,6 +31,9 @@ export function VideoHero(
   const [wordIndex, setWordIndex] = useState(0);
 
   useEffect(() => {
+    localStorage.setItem("theme", "dark");
+  }, []);
+  useEffect(() => {
     const interval = setInterval(() => {
       setWordIndex((prev) => (prev + 1) % (words?.length ?? 0));
     }, 2500);
