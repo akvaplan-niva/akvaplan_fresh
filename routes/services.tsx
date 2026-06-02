@@ -1,6 +1,4 @@
-// import _services from "akvaplan_fresh/data/orama/2024-05-23_customer_services.json" with {
-//   type: "json",
-// };
+import _services from "@/data/services.json" with { type: "json" };
 // FIXME Services page: 301 for /no/tjenester/tema/milj%C3%B8overv%C3%A5king & /no/tjenester/miljoovervaking/0618d159-5a99-4938-ae38-6c083da7da57
 
 import { Section } from "akvaplan_fresh/components/section.tsx";
@@ -20,6 +18,13 @@ import { Card } from "akvaplan_fresh/components/card.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 import { WideImage } from "akvaplan_fresh/components/wide_image.tsx";
 import { t } from "../text/mod.ts";
+import { SqImgCard, TightSqImgCard } from "@/components/cards.tsx";
+import { Panel } from "@/@interfaces/panel.ts";
+import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
+import { ImageHero } from "@/islands/heroes.tsx";
+
+const imgUrl = (id: string) =>
+  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_746,h_746,q_auto:good/${id}`;
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(services|tjenester)",
@@ -58,11 +63,22 @@ export default defineRoute(async (req, ctx) => {
 
   const { title, image, backdrop, theme } = hero;
 
+  const hero2 = {
+    ...hero,
+    headline: t("our.services"),
+    eyebrow: "",
+    source:
+      "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/nektj2s3e7hr8kdgu1jj",
+  };
+
   const editor = await mayEditKvPanel(req);
 
   return (
     <Naked title={title}>
-      <HeroPanel {...hero} lang={lang} editor={editor} />
+      <HeaderLogoStickyNav lang={lang} />
+
+      <ImageHero {...hero2} />
+
       {
         /* <div style={{ display: "grid", placeItems: "center" }}>
         <ImagePanel
@@ -81,59 +97,71 @@ export default defineRoute(async (req, ctx) => {
       </Card>
       <Section>{/* spacer :) */}</Section>
 
-      <section class="Section block-center-center">
-        <div class="Container content-3">
-          <div class="BentoGrid block gap-3">
-            {panels?.map((p) => (
+      <div class="Container content-3">
+        <div class="BentoGrid block gap-3">
+          <div class=" grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-8 h-full">
+            {_services[lang]?.map(({ headline, href, cloudinary }) => (
+              <TightSqImgCard
+                key={href}
+                image={imgUrl(cloudinary)}
+                headline={headline}
+                subtitle=""
+                href={href}
+              />
+            ))}
+          </div>
+
+          {
+            /* {[panels ?? _services]?.map((p) => (
               <BentoPanel
                 panel={p}
                 hero={false}
                 lang={lang}
                 editor={false}
               />
-            ))}
+            ))} */
+          }
 
-            {editor && (
-              <BentoPanel
-                panel={{
-                  title: null,
-                  id: null,
-                  image: { cloudinary: "snlcxc38hperptakjpi5" },
-                }}
-                editor={editor}
-                hero={false}
-                href={`/${lang}/panel/_/new?collection=service`}
-              />
-            )}
-          </div>
-
-          <Section>{/* spacer :) */}</Section>
-
-          <Section>
-            <Card>
-              {/* <h2>{t("services.About")}</h2> */}
-
-              <Section>
-                {hero?.desc && (
-                  <Markdown
-                    text={hero.desc}
-                    style={{ fontSize: "1rem", whiteSpace: "pre-wrap" }}
-                  />
-                )}
-
-                <a href="https://www.akkreditert.no/" target="_blank">
-                  <WideImage
-                    style={{ background: "var(--light)", maxWidth: "10vh" }}
-                    url="/icon/logo/akkreditert.svg"
-                    lang={lang}
-                    editor={editor}
-                  />
-                </a>
-              </Section>
-            </Card>
-          </Section>
+          {editor && (
+            <BentoPanel
+              panel={{
+                title: null,
+                id: null,
+                image: { cloudinary: "snlcxc38hperptakjpi5" },
+              }}
+              editor={editor}
+              hero={false}
+              href={`/${lang}/panel/_/new?collection=service`}
+            />
+          )}
         </div>
-      </section>
+
+        <Section>{/* spacer :) */}</Section>
+
+        <Section>
+          <Card>
+            {/* <h2>{t("services.About")}</h2> */}
+
+            <Section>
+              {hero?.desc && (
+                <Markdown
+                  text={hero.desc}
+                  style={{ fontSize: "1rem", whiteSpace: "pre-wrap" }}
+                />
+              )}
+
+              <a href="https://www.akkreditert.no/" target="_blank">
+                <WideImage
+                  style={{ background: "var(--light)", maxWidth: "10vh" }}
+                  url="/icon/logo/akkreditert.svg"
+                  lang={lang}
+                  editor={editor}
+                />
+              </a>
+            </Section>
+          </Card>
+        </Section>
+      </div>
 
       <Head>
         <link rel="stylesheet" href={asset("/css/bento.css")} />

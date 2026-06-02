@@ -57,12 +57,10 @@ export default defineRoute(async (req, ctx) => {
   const hero2 = {
     ...hero,
     headline: t("our.research"),
-    eyebrow: "ddddd",
+    eyebrow: "",
     source:
       "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/tpgqohjxb8noio6fqkxr",
   };
-
-  console.warn(hero2);
 
   const { image, title } = hero;
 
