@@ -70,10 +70,9 @@ export const buildOramaIndexFromProductionApi = async () => {
     const types = new Set(pubs.map(({ type }) => type));
 
     console.warn(
-      src / kv /
-        mod.t`Indexing ${pubs.length} of ${pubs.length} pubs of types [${[
-          ...types,
-        ]}]`,
+      `Indexing ${pubs.length} of ${pubs.length} pubs of types [${[
+        ...types,
+      ]}]`,
     );
     await insertMultiple(
       orama,
