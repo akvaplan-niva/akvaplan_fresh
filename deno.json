@@ -44,9 +44,5 @@
   "unstable": [
     "kv",
     "cron"
-  ],
-  "deploy": {
-    "org": "apn",
-    "app": "akvaplan-fresh"
-  }
+  ]
 }

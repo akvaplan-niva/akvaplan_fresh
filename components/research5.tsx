@@ -39,7 +39,7 @@ line-height: 67px;">
 
           <a href={intlRouteMap(lang).get("research")}>
             <IconButton icon="arrow_forward_ios" reverse color-scheme={"dark"}>
-              <span class="hide-s">{t("Se våre forskningstema")}</span>
+              <span class="hide-s">{t("Se alle forskningstema")}</span>
             </IconButton>
           </a>
         </div>

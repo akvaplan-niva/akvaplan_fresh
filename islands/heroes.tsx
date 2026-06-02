@@ -1,7 +1,7 @@
 import { useEffect, useState } from "preact/hooks";
 import { BlurWord } from "@/islands/BlurWord.tsx";
 import { Eyebrow } from "@/components/eyebrow.tsx";
-//import type { SourceHTMLAttributes, VideoHTMLAttributes } from "preact";
+import type { SourceHTMLAttributes, VideoHTMLAttributes } from "preact";
 
 interface HeroProps /* extends */ {
   headline: string;
@@ -16,7 +16,7 @@ export function VideoHero(
     eyebrow,
     words,
     source: sourceProps,
-    numbers,
+    metrics,
     ...videoProps
   }:
     & HeroProps
@@ -56,36 +56,6 @@ export function VideoHero(
         <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
       </div>
 
-      {/* Subtle grid lines */}
-      {
-        /* <div class="absolute inset-0 z-[2] overflow-hidden pointer-events-none opacity-20">
-        {[...Array(8)].map((_, i) => (
-          <div
-            key={`h-${i}`}
-            class="absolute h-px bg-white/10"
-            style={{
-              top: `${12.5 * (i + 1)}%`,
-              left: 0,
-              right: 0,
-              //border: "1px blue solid",
-            }}
-          />
-        ))}
-        {[...Array(12)].map((_, i) => (
-          <div
-            key={`v-${i}`}
-            class="absolute w-px bg-white/10"
-            style={{
-              left: `${8.33 * (i + 1)}%`,
-              top: 0,
-              bottom: 0,
-              //border: "1px red solid",
-            }}
-          />
-        ))}
-      </div> */
-      }
-
       <div class="relative z-10 w-full max-w-[1400px] mx-auto px-6 lg:px-12 py-32 lg:py-40">
         <div class="lg:max-w-[55%]">
           {/* Eyebrow */}
@@ -94,21 +64,6 @@ export function VideoHero(
               <>
                 <Eyebrow>{eyebrow}</Eyebrow>
               </>
-              // <div
-              //   class={`mb-8 transition-all duration-700 ${
-              //     isVisible
-              //       ? "opacity-100 translate-y-0"
-              //       : "opacity-0 translate-y-4"
-              //   }`}
-              // >
-              //   <span
-              //     class="inline-flex items-center gap-3 font-mono text-white/60"
-              //     style={{ fontSize: "1 rem" }}
-              //   >
-              //     <span class="w-8 h-px bg-white/30" />
-              //     {eyebrow}
-              //   </span>
-              // </div>
             )
             : null}
 
@@ -144,7 +99,7 @@ export function VideoHero(
         }`}
       >
         <div class="max-w-[1400px] mx-auto flex items-start gap-10 lg:gap-20">
-          {numbers?.map((stat) => (
+          {metrics?.map((stat) => (
             <div key={stat.label} class="flex flex-col gap-2">
               <span class="text-3xl lg:text-4xl font-display text-white">
                 {stat.value}
@@ -156,8 +111,6 @@ export function VideoHero(
           ))}
         </div>
       </div>
-
-      {/* Scroll indicator */}
     </section>
   );
 }
@@ -168,7 +121,6 @@ export function ImageHero(
     eyebrow,
     subtitle,
     source,
-    numbers,
   }: HeroProps & { source: string },
 ) {
   return (
@@ -178,7 +130,7 @@ export function ImageHero(
           class="w-full h-full object-cover object-center opacity-90"
           src={source}
         />
-        {/* Subtle overlay to ensure text readability on the left */}
+        {/* "Subtle" ? overlay to ensure text readability on the left */}
         <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
         <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
       </div>
@@ -196,31 +148,11 @@ export function ImageHero(
               </span>
             </h1>
           </div>
-          <span class="text-[clamp(1.25rem,1.25vw,2rem)] lg:max-w-[55%]">
+          <span class="text-[clamp(1.25rem,1.25vw,2rem)] lg:max-w-[55%] text-white">
             {subtitle}
           </span>
         </div>
       </div>
-
-      {/* Stats — 3 metrics static, no auto-scroll */}
-      <div
-        class={`absolute bottom-12 left-0 right-0 px-6 lg:px-12 transition-all duration-700 delay-500`}
-      >
-        <div class="max-w-[1400px] mx-auto flex items-start gap-10 lg:gap-20">
-          {numbers?.map((stat) => (
-            <div key={stat.label} class="flex flex-col gap-2">
-              <span class="text-3xl lg:text-4xl font-display text-white">
-                {stat.value}
-              </span>
-              <span class="text-xs text-white/50 leading-tight">
-                {stat.label}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Scroll indicator */}
     </section>
   );
 }

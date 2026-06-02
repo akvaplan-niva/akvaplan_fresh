@@ -31,19 +31,17 @@ import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
 
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 import { t } from "../text/mod.ts";
+import { ImageHero } from "@/islands/heroes.tsx";
+import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 
 export const atomFromPanel = (p: Panel) => {
   return p;
 };
 
 export default defineRoute(async (req, ctx) => {
-  const props = extractRenderProps(req, ctx);
-  const { lang } = props;
-
-  const hero = (await getPanelInLang({
-    id: "01hyd6qeqvy0ghjnk1nwdfwvyq",
-    lang,
-  })) ?? {
+  const { params } = ctx;
+  const { lang } = params;
+  const bak = {
     title: t("our.research"),
     theme: "light",
     image: {
@@ -51,6 +49,20 @@ export default defineRoute(async (req, ctx) => {
         "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920,ar_3:1/tpgqohjxb8noio6fqkxr",
     },
   };
+  const hero = (await getPanelInLang({
+    id: "01hyd6qeqvy0ghjnk1nwdfwvyq",
+    lang,
+  })) ?? bak;
+
+  const hero2 = {
+    ...hero,
+    headline: t("our.research"),
+    eyebrow: "ddddd",
+    source:
+      "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/tpgqohjxb8noio6fqkxr",
+  };
+
+  console.warn(hero2);
 
   const { image, title } = hero;
 
@@ -63,7 +75,9 @@ export default defineRoute(async (req, ctx) => {
 
   return (
     <Naked title={title} collection="home">
-      <HeroPanel {...hero} lang={lang} editor={editor} />
+      <HeaderLogoStickyNav lang={lang} />
+
+      <ImageHero {...hero2} />
 
       <Card>
         <p>

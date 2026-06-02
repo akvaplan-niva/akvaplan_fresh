@@ -68,7 +68,7 @@ export function TightSqImgCard({
   headline = "",
   subtitle = "",
   href = "#",
-  readMoreText = "READ MORE",
+  readMoreText = "",
   className = "",
 }: CardProps) {
   return (
@@ -82,7 +82,7 @@ export function TightSqImgCard({
           class="absolute inset-0 w-full h-full object-cover"
         />
 
-        <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/65 to-black/90 opacity-80" />
+        <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/65 to-black/90 opacity-60" />
 
         <div class="relative z-10 h-full grid grid-rows-[1fr_auto_auto] p-4 text-white">
           <div />

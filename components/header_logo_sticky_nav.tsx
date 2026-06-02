@@ -10,7 +10,7 @@ export const buildNav = (lang: string | StringSignal) => [
   { href: intlRouteMap(lang).get("pubs"), text: t("nav.Publications") },
 ];
 
-export function NavHeader({ lang }) {
+export function HeaderLogoStickyNav({ lang }) {
   const navLinks = buildNav(lang);
   const isScrolled = false;
   const isMobileMenuOpen = false;
@@ -39,8 +39,8 @@ export function NavHeader({ lang }) {
               <a
                 key={link.text}
                 href={link.href}
-                style="text-decoration: none;"
-                class={`text-sm transition-colors duration-300 relative group ${
+                style="text-decoration: none; font-family: var(--font-mono);"
+                class={`font-mono uppercase text-sm transition-colors duration-300 relative group ${
                   isScrolled
                     ? "text-foreground/70 hover:text-foreground"
                     : "text-white/70 hover:text-white"
