@@ -10,7 +10,8 @@ let _orama: OramaAtomSchema;
 export const latest = new Map<string, OramaAtomSchema[]>();
 
 export const oramaJsonPath = "./_fresh/orama.json";
-export const oramaJsonUrl = "https://dev0.akvaplan.app/_fresh/orama.json";
+export const oramaJsonUrl =
+  "https://gliderdata.blob.core.windows.net/akvaplan-open/web/search/orama.json";
 export const oramaMessagePackPath = "./_fresh/orama.mp";
 
 const normalize = (s: string, locales?: string[]) =>
@@ -48,8 +49,8 @@ export const createOramaInstance = async (): Promise<OramaAtomSchema> =>
 export const getOramaInstance = async (): Promise<OramaAtomSchema> => {
   if (!_orama) {
     try {
-      //const orama = await restoreOramaJsonFromUrl(oramaJsonUrl);
-      const orama = await restoreOramaJson(oramaJsonPath);
+      const orama = await restoreOramaJsonFromUrl(oramaJsonUrl);
+      //const orama = await restoreOramaJson(oramaJsonPath);
       //const orama = await restoreOramaMessagePack(oramaMessagePackPath);
 
       if (orama) {

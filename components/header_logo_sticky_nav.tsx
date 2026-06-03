@@ -21,7 +21,7 @@ export function HeaderLogoStickyNav({ lang }) {
       }`}
     >
       <nav
-        class={`mx-auto transition-all duration-500 bg-transparent max-w-[1900px]`}
+        class={`mx-auto transition-all duration-500 bg-transparent max-w-[1920px]`}
       >
         <div
           class={`flex items-center justify-between transition-all duration-500 px-6 lg:px-8 ${
@@ -40,7 +40,7 @@ export function HeaderLogoStickyNav({ lang }) {
                 key={link.text}
                 href={link.href}
                 style="text-decoration: none; font-family: var(--font-mono);"
-                class={`font-mono uppercase text-sm transition-colors duration-300 relative group ${
+                class={`font-mono uppercase text-xs transition-colors duration-300 relative group ${
                   isScrolled
                     ? "text-foreground/70 hover:text-foreground"
                     : "text-white/70 hover:text-white"

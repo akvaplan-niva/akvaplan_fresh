@@ -3,6 +3,26 @@ import _aboutHero from "@/data/home_about.json" with { type: "json" };
 import _services from "@/data/services.json" with { type: "json" };
 import _research from "@/data/research.json" with { type: "json" };
 
+// const wordsEn = [
+//   ..._services.en.map((s) => s.headline),
+//   ..._research.en.map((s) => s.headline),
+// ];
+// [
+//   "Aquaculture services",
+//   "Autonomous & remotely operated vehicles",
+//   "Environmental impact assessments",
+//   "Environmental monitoring",
+//   "Environmental risk and contingency",
+//   "FISK research station",
+//   "Laboratory services",
+//   "Ocean dynamics and dispersion modelling",
+//   "Aquaculture R&D",
+//   "Climate change",
+//   "Ecosystem understanding",
+//   "Environmental impact",
+//   "Ocean dynamics and dispersion modelling"
+// ]
+
 export const getResearchTopics = async ({ lang }: { lang: string }) =>
   await lang !== "no" ? _research["en"] : _research["no"];
 

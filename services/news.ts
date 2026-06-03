@@ -1,7 +1,9 @@
-import { searchMynewsdesk } from "./mynewsdesk.ts";
+import { extractId } from "@/services/extract_id.ts";
+import { getItem, searchMynewsdesk } from "./mynewsdesk.ts";
 import { newsFromMynewsdesk } from "./news_mynewsdesk.ts";
 
-import { type News, type Search } from "akvaplan_fresh/@interfaces/mod.ts";
+import { type News, type Search } from "@/@interfaces/mod.ts";
+import { fragments, serializeFragments } from "jsr:@fcrozatier/htmlcrunch";
 
 export const sortLatest = (a: News, b: News) =>
   b.published.localeCompare(a.published);
@@ -107,14 +109,11 @@ const toNewsV2 = (
 
 const getIntro = async (news0) => {
   try {
-    const id = extractId(news0.href);
+    const id = Number(extractId(news0.href));
     const mynewsdesk0 = await getItem(id, news0.type);
-    const node = new DOMParser().parseFromString(
-      mynewsdesk0?.body,
-      "text/html",
-    );
-    return node.textContent;
-  } catch (_) {
+    return mynewsdesk0?.body?.replace(/<[^>]*>/g, "");
+  } catch (e) {
+    console.error(e);
   }
 };
 
@@ -127,8 +126,8 @@ export const getNews = async ({ q = "", lang, limit }) => {
   const news = _news?.map(toNewsV2) ?? [];
   if (news.length > 0) {
     news[0].intro = await getIntro(news.at(0));
+    return news;
   }
-  return news;
 };
 
 // const panels = (await getCollectionPanels({ lang })).map((

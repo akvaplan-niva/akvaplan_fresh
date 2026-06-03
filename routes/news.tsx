@@ -19,6 +19,7 @@ export const config: RouteConfig = {
 import { asset, Head } from "$fresh/runtime.ts";
 import { Section } from "../components/section.tsx";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+import { SqImgCard } from "@/components/cards.tsx";
 type Props = {};
 const _section = {
   marginTop: "4rem",
@@ -72,7 +73,7 @@ export default function News(
           </h2>
 
           <HScroll maxVisibleChildren={grpmembers.length > 5 ? 5.5 : 4.5}>
-            {grpmembers.map(ArticleSquare)}
+            {grpmembers.map(SqImgCard)}
           </HScroll>
         </section>
       ))}

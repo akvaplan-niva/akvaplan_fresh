@@ -1,21 +1,27 @@
 {
   "en": {
-    "headline": "Research & consulting",
+    "headline": "Research and consulting",
     "eyebrow": "Sustainability & scientific integrity",
     "words": [
-      "ocean",
+      "autonomous vehicles",
+      "aquaculture",
+      "arctic challenges",
+      "rivers",
       "freshwater",
+      "pollution",
       "fjords",
-      "coast",
       "benthos",
-      "aqua culture",
-      "north",
-      "currents"
+      "ocean circulation",
+      "ocean dynamics",
+      "coastal zone",
+      "marine biodiversity",
+      "marine ecology",
+      "plastics and microplastics"
     ],
     "metrics": [
-      { "value": "120+", "label": "høykompetente ansatte" },
-      { "value": "20+", "label": "nasjonaliteter" },
-      { "value": "1000+", "label": "vitenskapelige artikler" }
+      { "value": "120+", "label": "highly skilled employees" },
+      { "value": "20+", "label": "nationalities" },
+      { "value": "1000+", "label": "peer-reviewed articles" }
     ],
     "source": {
       "src": "https://gliderdata.blob.core.windows.net/akvaplan-open/web/video/zo2.mp4",
@@ -27,13 +33,21 @@
     "headline": "Forskning og rådgivning",
     "eyebrow": "Bærekraft & vitenskapelig integritet",
     "words": [
-      "havet",
+      "autonome farkoster",
+      "akvakultur",
+      "arktis",
+      "elver",
       "ferskvann",
-      "fjorder",
-      "kystsonen",
-      "oppdrettsanlegg",
-      "nord",
-      "havstrømmer"
+      "forurensing",
+      "fjord",
+      "havet",
+      "havbunn",
+      "havdynamikk",
+      "havstrømmer",
+      "kystsone",
+      "marin biodiversitet",
+      "marin økologi",
+      "plast og mikroplast"
     ],
     "metrics": [
       { "value": "120+", "label": "høykompetente ansatte" },

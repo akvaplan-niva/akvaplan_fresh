@@ -31,9 +31,6 @@ export function VideoHero(
   const [wordIndex, setWordIndex] = useState(0);
 
   useEffect(() => {
-    localStorage.setItem("theme", "dark");
-  }, []);
-  useEffect(() => {
     const interval = setInterval(() => {
       setWordIndex((prev) => (prev + 1) % (words?.length ?? 0));
     }, 2500);
@@ -72,7 +69,7 @@ export function VideoHero(
 
           <div class="mb-12">
             <h1
-              class={`text-left text-[clamp(2rem,6vw,7rem)] font-h font-display leading-[0.92] tracking-tight text-white transition-all duration-1000 ${
+              class={`text-left text-[clamp(2rem,6vw,6rem)] font-h font-display leading-[0.92] tracking-tight text-white transition-all duration-1000 ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"

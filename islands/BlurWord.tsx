@@ -58,19 +58,14 @@ export function BlurWord({ word, trigger }: { word: string; trigger: number }) {
     };
   }, [trigger]);
 
-  // gradient colours cycling across letter positions
-  const gradientColors = [
-    // --surface-shadow: var(--brand-hue) 50% 3%;
-    // --shadow-strength: 0.8;
-    // --link: hsl(182, 49%, 56%);
-    // --logo-wave-1: #005494;
-    // --logo-wave-0: #00a4b3;
-    "#005494",
-    "#00a4b3",
-  ];
+  // --logo-wave-1: #005494; // --logo-wave-0: #00a4b3;
+  const gradientColors = ["#005494", "#00a4b3"];
 
   return (
-    <>
+    <span
+      aria-label={word}
+      style={{ display: "inline" }}
+    >
       {letters.map((char, i) => {
         const colorIndex = (i / Math.max(letters.length - 1, 1)) *
           (gradientColors.length - 1);
@@ -78,13 +73,12 @@ export function BlurWord({ word, trigger }: { word: string; trigger: number }) {
         const upper = Math.min(lower + 1, gradientColors.length - 1);
         const t = colorIndex - lower;
 
-        // lerp hex colours
-        const hex2rgb = (hex: string) => {
-          const r = parseInt(hex.slice(1, 3), 16);
-          const g = parseInt(hex.slice(3, 5), 16);
-          const b = parseInt(hex.slice(5, 7), 16);
-          return [r, g, b];
-        };
+        const hex2rgb = (hex: string) => [
+          parseInt(hex.slice(1, 3), 16),
+          parseInt(hex.slice(3, 5), 16),
+          parseInt(hex.slice(5, 7), 16),
+        ];
+
         const [r1, g1, b1] = hex2rgb(gradientColors[lower]);
         const [r2, g2, b2] = hex2rgb(gradientColors[upper]);
         const r = Math.round(r1 + (r2 - r1) * t);
@@ -100,12 +94,14 @@ export function BlurWord({ word, trigger }: { word: string; trigger: number }) {
               filter: `blur(${letterStates[i]?.blur ?? 20}px)`,
               color: showGradient ? `rgb(${r},${g},${b})` : "white",
               transition: "color 0.4s ease",
+              whiteSpace: "pre",
             }}
+            aria-hidden="true"
           >
             {char}
           </span>
         );
       })}
-    </>
+    </span>
   );
 }

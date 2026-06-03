@@ -13,9 +13,7 @@ export function News5({ news, lang }) {
 
   return sq && n4?.length > 0
     ? (
-      <section
-        class="mx-auto px-8 py-12 xl:px-24 lg:py-32"
-        _style={{ background: "hsla(200, 16%, 96%, 1)" }}
+      <section class="mx-auto px-8 py-12 xl:px-24 lg:py-32" // style={{ background: "hsla(200, 16%, 96%, 1)" }}
       >
         <div class="max-w-[1920px] mx-auto">
           <span

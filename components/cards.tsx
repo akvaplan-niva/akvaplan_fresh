@@ -32,15 +32,15 @@ export function SqImgCard({
         class="absolute inset-0 w-full h-full object-cover"
       />
 
-      <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/65 to-black/85" />
+      <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/45 to-black/65" />
 
       <div class="relative z-10 h-full grid grid-rows-[1fr_auto_auto] p-8 sm:p-10 text-white">
         <div />
 
         <div>
-          <h3 class="text-[clamp(1.25rem,3vw,3rem)] leading-tight font-h tracking-tight mb-4 line-clamp-5">
+          <h2 class="text-[clamp(1.25rem,3vw,3rem)] leading-tight tracking-tight mb-4 line-clamp-5">
             {headline}
-          </h3>
+          </h2>
           <p class="_invisible _md:visible text-[15px] sm:text-[17px] leading-relaxed opacity-95 line-clamp-2">
             {subtitle}
           </p>
@@ -88,9 +88,11 @@ export function TightSqImgCard({
           <div />
 
           <div>
-            <h3 class="text-sm/4 xl:text-xl/7 tracking-tight leading-relaxed opacity-95 line-clamp-4">
+            <span class="text-sm/4 md:text-md/4 3xl:text-lg/5 opacity-95 line-clamp-4">
               {headline}
-            </h3>
+            </span>
+            <span class="text-sm/6 lg:text-lg/6 leading-relaxed opacity-95 line-clamp-3">
+            </span>
           </div>
         </div>
       </a>

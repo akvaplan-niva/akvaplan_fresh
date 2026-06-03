@@ -10,7 +10,6 @@ import {
 import { ID_SERVICES } from "akvaplan_fresh/kv/id.ts";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import { HeroPanel } from "akvaplan_fresh/components/panel.tsx";
 import { Naked } from "akvaplan_fresh/components/naked.tsx";
 import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
 import { BentoPanel } from "../components/bento_panel.tsx";
@@ -18,7 +17,7 @@ import { Card } from "akvaplan_fresh/components/card.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 import { WideImage } from "akvaplan_fresh/components/wide_image.tsx";
 import { t } from "../text/mod.ts";
-import { SqImgCard, TightSqImgCard } from "@/components/cards.tsx";
+import { TightSqImgCard } from "@/components/cards.tsx";
 import { Panel } from "@/@interfaces/panel.ts";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { ImageHero } from "@/islands/heroes.tsx";
@@ -39,20 +38,6 @@ export default defineRoute(async (req, ctx) => {
     filter: (p: Panel) => "service" === p.collection && p?.draft !== true,
   })).sort((a, b) => a.title.localeCompare(b.title));
 
-  // if (panels.length === 0) {
-  //   return (
-  //     <Page>
-  //       <SearchHeader
-  //         title="No services"
-  //         subtitle={
-  //           <a href={intlRouteMap(lang).get("panel")}>
-  //             <Button>Create service</Button>
-  //           </a>
-  //         }
-  //       />
-  //     </Page>
-  //   );
-  // }
   const hero = (await getPanelInLang({ id: ID_SERVICES, lang })) ?? {
     image: {
       url:
@@ -67,6 +52,7 @@ export default defineRoute(async (req, ctx) => {
     ...hero,
     headline: t("our.services"),
     eyebrow: "",
+    subtitle: hero.intro,
     source:
       "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/nektj2s3e7hr8kdgu1jj",
   };
@@ -78,94 +64,47 @@ export default defineRoute(async (req, ctx) => {
       <HeaderLogoStickyNav lang={lang} />
 
       <ImageHero {...hero2} />
-
-      {
-        /* <div style={{ display: "grid", placeItems: "center" }}>
-        <ImagePanel
-          {...{ title, image, backdrop, theme }}
-          lang={lang}
-          editor={editor}
-          maxHeight={"50dvh"}
-        />
-      </div> */
-      }
-
-      <Card>
-        <p>
-          {hero?.intro && <Markdown text={hero.intro} />}
-        </p>
-      </Card>
-      <Section>{/* spacer :) */}</Section>
-
-      <div class="Container content-3">
-        <div class="BentoGrid block gap-3">
-          <div class=" grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-8 h-full">
-            {_services[lang]?.map(({ headline, href, cloudinary }) => (
-              <TightSqImgCard
-                key={href}
-                image={imgUrl(cloudinary)}
-                headline={headline}
-                subtitle=""
-                href={href}
-              />
-            ))}
-          </div>
-
-          {
-            /* {[panels ?? _services]?.map((p) => (
-              <BentoPanel
-                panel={p}
-                hero={false}
-                lang={lang}
-                editor={false}
-              />
-            ))} */
-          }
-
-          {editor && (
-            <BentoPanel
-              panel={{
-                title: null,
-                id: null,
-                image: { cloudinary: "snlcxc38hperptakjpi5" },
-              }}
-              editor={editor}
-              hero={false}
-              href={`/${lang}/panel/_/new?collection=service`}
-            />
-          )}
-        </div>
-
-        <Section>{/* spacer :) */}</Section>
-
-        <Section>
-          <Card>
-            {/* <h2>{t("services.About")}</h2> */}
-
-            <Section>
-              {hero?.desc && (
-                <Markdown
-                  text={hero.desc}
-                  style={{ fontSize: "1rem", whiteSpace: "pre-wrap" }}
-                />
-              )}
-
-              <a href="https://www.akkreditert.no/" target="_blank">
-                <WideImage
-                  style={{ background: "var(--light)", maxWidth: "10vh" }}
-                  url="/icon/logo/akkreditert.svg"
-                  lang={lang}
-                  editor={editor}
-                />
-              </a>
-            </Section>
-          </Card>
-        </Section>
+      <div
+        style={{
+          display: "grid",
+          placeItems: "center",
+          gridTemplateColumns: "1fr 1fr 1fr",
+        }}
+      >
+        {_services[lang]?.map(({ headline, href, cloudinary }) => (
+          <TightSqImgCard
+            key={href}
+            image={imgUrl(cloudinary)}
+            headline={headline}
+            subtitle=""
+            href={href}
+          />
+        ))}
       </div>
 
-      <Head>
-        <link rel="stylesheet" href={asset("/css/bento.css")} />
-      </Head>
+      <Section>
+        <Card>
+          {/* <h2>{t("services.About")}</h2> */}
+
+          <Section>
+            {hero?.desc && (
+              <Markdown
+                text={hero.desc}
+                style={{ fontSize: "1rem", whiteSpace: "pre-wrap" }}
+              />
+            )}
+
+            <a href="https://www.akkreditert.no/" target="_blank">
+              <WideImage
+                style={{ background: "var(--light)", maxWidth: "10vh" }}
+                url="/icon/logo/akkreditert.svg"
+                lang={lang}
+                editor={editor}
+              />
+            </a>
+          </Section>
+        </Card>
+      </Section>
     </Naked>
   );
 });

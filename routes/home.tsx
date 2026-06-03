@@ -18,6 +18,7 @@ import { ImageHero, VideoHero } from "@/islands/heroes.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
+import { Naked } from "@/components/naked.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -37,18 +38,17 @@ export default defineRoute(async (req, _ctx) => {
     );
 
   return (
-    <>
+    <Naked>
       <Head>
         <StylesLegacy />
       </Head>
 
       <HeaderLogoStickyNav lang={lang} />
-
       <VideoHero {...heroProps} />
       <News5 news={news} lang={lang} />
       <Services5 services={services} lang={lang} />
       <Research5 research={research} lang={lang} />
       <ImageHero {...aboutHeroProps} />
-    </>
+    </Naked>
   );
 });

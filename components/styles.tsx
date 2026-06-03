@@ -8,7 +8,6 @@ const cssfiles = [
   "dark",
   "light",
   "button",
-  "halbum",
   "input-search",
 ];
 
