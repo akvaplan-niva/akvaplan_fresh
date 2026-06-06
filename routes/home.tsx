@@ -9,10 +9,10 @@ import { getNews } from "@/services/news.ts";
 import { extractLangFromUrl } from "akvaplan_fresh/text/mod.ts";
 
 import { StylesLegacy } from "@/components/styles.tsx";
-import { News5 } from "@/components/news5.tsx";
+import { News5 } from "@/components/home/news5.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
-import { Services5 } from "@/components/services5.tsx";
-import { Research5 } from "@/components/research5.tsx";
+import { Services5 } from "@/components/home/services5.tsx";
+import { Research5 } from "@/components/home/research5.tsx";
 
 import { ImageHero, VideoHero } from "@/islands/heroes.tsx";
 
@@ -38,17 +38,17 @@ export default defineRoute(async (req, _ctx) => {
     );
 
   return (
-    <Naked>
+    <>
       <Head>
         <StylesLegacy />
       </Head>
 
       <HeaderLogoStickyNav lang={lang} />
       <VideoHero {...heroProps} />
-      <News5 news={news} lang={lang} />
-      <Services5 services={services} lang={lang} />
-      <Research5 research={research} lang={lang} />
+      <News5 cards={news} lang={lang} />
+      <Services5 cards={services} lang={lang} />
+      <Research5 cards={research} lang={lang} />
       <ImageHero {...aboutHeroProps} />
-    </Naked>
+    </>
   );
 });

@@ -128,6 +128,7 @@ export const getNews = async ({ q = "", lang, limit }) => {
     news[0].intro = await getIntro(news.at(0));
     return news;
   }
+  return [];
 };
 
 // const panels = (await getCollectionPanels({ lang })).map((

@@ -1,26 +1,16 @@
-type Theme = "auto" | "light" | "dark";
+//type Theme = "auto" | "light" | "dark";
 
-interface CardProps {
-  image?: string;
-  headline?: string;
-  subtitle?: string;
-  readMoreUrl?: string;
-  readMoreText?: string;
-  theme?: Theme;
-  className?: string;
-}
+import { Card } from "@/data/home.ts";
 
 // ====================== LARGE SQUARE CARD (Always Dark) ======================
 export function SqImgCard({
   href = "",
   image = "",
   headline = "",
-  subtitle = "",
-  readMoreUrl = "#",
+  intro = "",
   readMoreText = "",
   className = "",
-  mega = false,
-}: CardProps) {
+}: Card) {
   return (
     <a
       href={href}
@@ -42,14 +32,14 @@ export function SqImgCard({
             {headline}
           </h2>
           <p class="_invisible _md:visible text-[15px] sm:text-[17px] leading-relaxed opacity-95 line-clamp-2">
-            {subtitle}
+            {intro}
           </p>
         </div>
 
         {readMoreText
           ? (
             <a
-              href={readMoreUrl}
+              href={href}
               class="inline-flex items-center gap-3 px-8 py-4 mt-6 text-sm font-semibold border-2 border-white/90 rounded-full bg-white/10 backdrop-blur-md hover:bg-white hover:text-zinc-900 hover:border-white transition-all w-fit group"
             >
               {readMoreText}
@@ -66,11 +56,9 @@ export function SqImgCard({
 export function TightSqImgCard({
   image = "",
   headline = "",
-  subtitle = "",
   href = "#",
-  readMoreText = "",
   className = "",
-}: CardProps) {
+}: Card) {
   return (
     <div
       class={`relative w-full aspect-square rounded-sm overflow-hidden shadow-2xl ${className}`}

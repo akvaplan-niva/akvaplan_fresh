@@ -134,7 +134,7 @@ export const t = (key: string) => {
     // }
     return removePrefix(k);
   }
-  return dict.value?.get(k);
+  return dict.value?.get(k) ?? k;
   //return signal<string>(dict?.value?.get(k) ?? k);
 };
 

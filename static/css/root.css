@@ -22,7 +22,8 @@
   --brand-lightness: 17%;
   --logo-blue: #fff;
   --logo-green: #fff;
-  --accent: hsl(182, 49%, 56%);
+  /* --accent: hsl(182, 49%, 56%); #58c2c6; */
+  --accent: hsl(185, 100%, 35%); /* #00a4b3 (dark:6.27,light:4.28)*/
   --brand: hsl(
     var(--brand-hue),
     var(--brand-saturation),
@@ -35,12 +36,15 @@
     calc(var(--brand-saturation) * 0.9)
     calc(var(--brand-lightness) * 5.7)
   );
-  --dark: hsl(
+  /* --dark: hsl(
     var(--brand-hue)
     calc(var(--brand-saturation) / 2)
     calc(var(--brand-lightness) / 1.5)
-  );
+  ); */
+  --primary: hsla(185, 99%, 35%, 1); /* brand/teal: #01A3B3 */
+  --dark: hsla(202, 66%, 6%, 1);
   --size: 48px;
+  --muted: hsla(201, 24%, 58%, 1);
 }
 
 a {
@@ -358,6 +362,15 @@ textarea.textarea {
 
 @container (width > 1280px) {
   .two-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.g5 {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1000px) {
+  .g5 {
     grid-template-columns: 1fr 1fr;
   }
 }
