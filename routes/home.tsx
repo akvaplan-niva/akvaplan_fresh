@@ -15,7 +15,7 @@ import { Services5 } from "@/components/home/services5.tsx";
 import { Research5 } from "@/components/home/research5.tsx";
 import { ImageHero } from "@/components/hero/image_hero.tsx";
 
-import { VideoHero } from "@/islands/heroes.tsx";
+import { VideoHero } from "@/components/hero/video_hero.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
