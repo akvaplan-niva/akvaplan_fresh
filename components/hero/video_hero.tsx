@@ -3,6 +3,7 @@ import { BlurWord } from "@/islands/BlurWord.tsx";
 import { Eyebrow } from "@/components/eyebrow.tsx";
 import type { SourceHTMLAttributes, VideoHTMLAttributes } from "preact";
 import { Hero } from "@/components/card/types.ts";
+import { Buzzwords } from "@/islands/buzzwords.tsx";
 
 // Hero H1:
 // font-family: Oceanic Gothic;
@@ -26,19 +27,7 @@ export function VideoHero(
     & { source?: SourceHTMLAttributes<HTMLSourceElement> }
     & VideoHTMLAttributes<HTMLVideoElement>,
 ) {
-  const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
-  const [wordIndex, setWordIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWordIndex((prev) => (prev + 1) % (words?.length ?? 0));
-    }, 2500);
-    return () => clearInterval(interval);
-  }, []);
+  const isVisible = true;
 
   return (
     <section class="dark relative min-h-screen flex flex-col justify-center items-start overflow-hidden bg-black">
@@ -76,15 +65,7 @@ export function VideoHero(
               <span class="block whitespace-nowrap">
                 {headline}
               </span>
-              <span class="block whitespace-nowrap">
-                {words && words.length > 0
-                  ? (
-                    <span class="relative inline-block">
-                      <BlurWord word={words[wordIndex]} trigger={wordIndex} />
-                    </span>
-                  )
-                  : null}
-              </span>
+              <Buzzwords words={words} />
             </h1>
           </div>
         </div>
