@@ -31,8 +31,8 @@ import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
 
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 import { t } from "../text/mod.ts";
-import { ImageHero } from "@/islands/heroes.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
+import { ImageHero } from "@/components/hero/image_hero.tsx";
 
 export const atomFromPanel = (p: Panel) => {
   return p;

@@ -1,6 +1,7 @@
 export type Card = {
   headline: string;
   cloudinary?: string;
+  eyebrow?: string;
   intro?: string;
   href?: string;
   image?: string | URL;

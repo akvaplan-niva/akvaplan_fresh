@@ -20,7 +20,7 @@ import { t } from "../text/mod.ts";
 import { TightSqImgCard } from "@/components/cards.tsx";
 import { Panel } from "@/@interfaces/panel.ts";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
-import { ImageHero } from "@/islands/heroes.tsx";
+import { ImageHero } from "@/components/hero/image_hero.tsx";
 
 const imgUrl = (id: string) =>
   `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_746,h_746,q_auto:good/${id}`;

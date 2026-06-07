@@ -13,12 +13,13 @@ import { News5 } from "@/components/home/news5.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { Services5 } from "@/components/home/services5.tsx";
 import { Research5 } from "@/components/home/research5.tsx";
+import { ImageHero } from "@/components/hero/image_hero.tsx";
 
-import { ImageHero, VideoHero } from "@/islands/heroes.tsx";
+import { VideoHero } from "@/islands/heroes.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
-import { Naked } from "@/components/naked.tsx";
+//import { Naked } from "@/components/naked.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",

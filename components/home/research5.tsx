@@ -10,7 +10,7 @@ export function Research5({ cards, lang }: { cards: Card[]; lang: string }) {
   const cta = t("research.See_all_research");
   const headline = t("our.research");
   return (
-    <section class="mx-auto px-3 py-12 xl:px-24 lg:py-32" // style={{
+    <section class="mx-auto px-3 py-12 lg:px-20 lg:py-32" // style={{
       //   //background: "hsla(200, 16%, 96%, 1)",
       //   display: "grid",
       //   maxWidth: "1920px",
