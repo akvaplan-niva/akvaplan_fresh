@@ -38,8 +38,7 @@ export function SqImgCard({
 
         {readMoreText
           ? (
-            <a
-              href={href}
+            <span
               class="inline-flex items-center gap-3 px-8 py-4 mt-6 text-sm font-semibold border-2 border-white/90 rounded-full bg-white/10 backdrop-blur-md hover:bg-white hover:text-zinc-900 hover:border-white transition-all w-fit group"
             >
               {readMoreText}

@@ -38,7 +38,7 @@ export const Cards1plus4 = ({ cards }: { cards: Card[] }) => {
       style="container-type: inline-size; display: grid; gap: 1.5rem;"
     >
       <div style="aspect-ratio: 1/1;">
-        <TightSqImgCard
+        <SqImgCard
           headline={sq.headline}
           subtitle={sq.intro}
           image={imgUrl(sq.cloudinary)}
