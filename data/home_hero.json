@@ -71,7 +71,7 @@
       { "value": "1000+", "label": "vitenskapelige artikler" }
     ],
     "source": {
-      "src": "https://gliderdata.blob.core.windows.net/akvaplan-open/web/video/zo2.mp4",
+      "src": "https://gliderdata.blob.core.windows.net/akvaplan-open/web/video/zo2_web_small.mp4",
       "type": "video/mp4"
     },
     "poster": "/akvaplan_symbol.svg"
