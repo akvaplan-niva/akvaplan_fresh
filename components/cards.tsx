@@ -1,9 +1,133 @@
-//type Theme = "auto" | "light" | "dark";
+import type { CSSProperties } from "preact";
+import type { Card } from "@/components/card/types.ts";
 
-import { Card } from "@/data/home.ts";
-
-// ====================== LARGE SQUARE CARD (Always Dark) ======================
 export function SqImgCard({
+  href = "",
+  image = "",
+  headline = "",
+  intro = "",
+  readMoreText = "",
+  className = "",
+}: Card) {
+  const cardStyle: CSSProperties = {
+    position: "relative",
+    width: "100%",
+    aspectRatio: "1 / 1",
+    borderRadius: "4px",
+    overflow: "hidden",
+    boxShadow: "0 25px 50px -12px rgb(0 0 0 / 0.4)",
+    display: "block",
+    textDecoration: "none",
+    color: "inherit",
+  };
+
+  const imgStyle: CSSProperties = {
+    position: "absolute",
+    inset: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  };
+
+  const overlayStyle: CSSProperties = {
+    position: "absolute",
+    inset: 0,
+    background:
+      "linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.45), rgba(0,0,0,0.65))",
+    pointerEvents: "none",
+  };
+
+  const contentStyle: CSSProperties = {
+    position: "relative",
+    zIndex: 10,
+    height: "100%",
+    display: "grid",
+    gridTemplateRows: "repeat(4, 1fr)",
+    padding: "2rem",
+    color: "white",
+  };
+
+  const textBlockStyle: CSSProperties = {
+    gridRow: "3 / 5", // rows 3 and 4
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+  };
+
+  const headlineStyle: CSSProperties = {
+    fontSize: "clamp(1.25rem, 3vw, 3rem)",
+    lineHeight: 1.1,
+    fontWeight: 500,
+    marginBottom: "1rem",
+    display: "-webkit-box",
+    WebkitLineClamp: 5,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+  };
+
+  const introStyle: CSSProperties = {
+    fontSize: "15px",
+    lineHeight: 1.5,
+    opacity: 0.95,
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+    marginBottom: readMoreText ? "1.5rem" : 0,
+  };
+
+  const buttonStyle: CSSProperties = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "0.75rem",
+    padding: "1rem 2rem",
+    fontSize: "0.875rem",
+    fontWeight: 600,
+    border: "2px solid rgba(255,255,255,0.9)",
+    borderRadius: "9999px",
+    background: "rgba(255,255,255,0.1)",
+    backdropFilter: "blur(12px)",
+    color: "white",
+    textDecoration: "none",
+    width: "fit-content",
+    transition: "all 0.2s ease",
+  };
+
+  return (
+    <a href={href} style={cardStyle} className={className}>
+      {/* Background Image */}
+      <img src={image} alt={headline || ""} style={imgStyle} />
+
+      {/* Gradient Overlay */}
+      <div style={overlayStyle} />
+
+      {/* Content Grid - 4 rows, text in bottom 2 */}
+      <div style={contentStyle}>
+        <div /> {/* Row 1 - empty */}
+        <div /> {/* Row 2 - empty */}
+
+        {/* Rows 3 + 4: Headline + Intro + Button */}
+        <div style={textBlockStyle}>
+          <h2 style={headlineStyle}>{headline}</h2>
+
+          {intro && <p style={introStyle}>{intro}</p>}
+
+          {readMoreText && (
+            <span style={buttonStyle}>
+              {readMoreText}
+              <span
+                style={{ fontSize: "1.25rem", transition: "transform 0.2s" }}
+              >
+                →
+              </span>
+            </span>
+          )}
+        </div>
+      </div>
+    </a>
+  );
+}
+export function SqImgCard0({
   href = "",
   image = "",
   headline = "",
@@ -38,13 +162,11 @@ export function SqImgCard({
 
         {readMoreText
           ? (
-            <span
-              class="inline-flex items-center gap-3 px-8 py-4 mt-6 text-sm font-semibold border-2 border-white/90 rounded-full bg-white/10 backdrop-blur-md hover:bg-white hover:text-zinc-900 hover:border-white transition-all w-fit group"
-            >
+            <span class="inline-flex items-center gap-3 px-8 py-4 mt-6 text-sm font-semibold border-2 border-white/90 rounded-full bg-white/10 backdrop-blur-md hover:bg-white hover:text-zinc-900 hover:border-white transition-all w-fit group">
               {readMoreText}
               <span class="text-xl transition-transform group-hover:translate-x-1">
               </span>
-            </a>
+            </span>
           )
           : null}
       </div>
