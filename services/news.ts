@@ -2,8 +2,7 @@ import { extractId } from "@/services/extract_id.ts";
 import { getItem, searchMynewsdesk } from "./mynewsdesk.ts";
 import { newsFromMynewsdesk } from "./news_mynewsdesk.ts";
 
-import { type News, type Search } from "@/@interfaces/mod.ts";
-import { fragments, serializeFragments } from "jsr:@fcrozatier/htmlcrunch";
+import type { News, Search } from "@/@interfaces/mod.ts";
 
 export const sortLatest = (a: News, b: News) =>
   b.published.localeCompare(a.published);
@@ -91,7 +90,7 @@ export const searchNewsArticles = async (
   return articles.sort(sort);
 };
 
-const toNewsV2 = (
+const cardFromNews = (
   { caption, title: headline, href, img, published, type, hreflang: lang }:
     News,
 ) => {
@@ -123,7 +122,7 @@ export const getNews = async ({ q = "", lang, limit }) => {
     lang,
     limit,
   }).catch((e) => console.error(e));
-  const news = _news?.map(toNewsV2) ?? [];
+  const news = _news?.map(cardFromNews) ?? [];
   if (news.length > 0) {
     news[0].intro = await getIntro(news.at(0));
     return news;
