@@ -12,8 +12,8 @@ await dev(import.meta.url, "./main.ts", config);
 
 if (Deno.args.includes("build")) {
   try {
-    // const orama = await buildOramaIndexFromProductionApi();
-    // await persistOramaJson(orama, oramaJsonPath);
+    const orama = await buildOramaIndexFromProductionApi();
+    await persistOramaJson(orama, oramaJsonPath);
   } catch (e) {
     console.error(e);
   }
