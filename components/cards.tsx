@@ -197,9 +197,9 @@ export function TightSqImgCard({
           <div />
 
           <div>
-            <span class="text-sm/4 md:text-md/4 3xl:text-lg/5 opacity-95 line-clamp-4">
+            <h3 class="text-sm/4 md:text-md/4 3xl:text-lg/5 opacity-95 line-clamp-4">
               {headline}
-            </span>
+            </h3>
             <span class="text-sm/6 lg:text-lg/6 leading-relaxed opacity-95 line-clamp-3">
             </span>
           </div>
