@@ -1,4 +1,20 @@
 @font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src: url(/font/geist/geist.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src: url(/font/geist/geist-mono.woff2) format("woff2");
+}
+
+@font-face {
   font-family: "Oceanic Gothic Medium";
   font-style: normal;
   font-weight: normal;
@@ -6,12 +22,6 @@
   src: url(/font/oceanic-gothic/oceanic-gothic-medium.woff) format("woff");
 }
 
-/* @theme inline {
-  --font-sans: "Geist", sans-serif;
-  --font-mono: "Geist Mono", monospace;
-  --font-h: "Oceanic Gothic Medium";
-} */
-
-h1, h2, h3 {
+h1, h2, .h {
   font-family: "Oceanic Gothic Medium";
 }
