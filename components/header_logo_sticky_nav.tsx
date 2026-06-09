@@ -3,6 +3,9 @@ import { Menu } from "@/components/header/site_menu.tsx";
 import { intlRouteMap } from "@/services/nav.ts";
 import { t } from "@/text/mod.ts";
 import type { StringSignal } from "@/@interfaces/signal.ts";
+import { SiteLangLinks } from "@/components/site_lang_links.tsx";
+import ThemeSwitcher from "@/islands/theme_switcher.tsx";
+import { LangLinks } from "@/islands/lang_switcher.tsx";
 
 export const buildNav = (lang: string | StringSignal) => [
   { href: intlRouteMap(lang).get("akvaplanists"), text: t("nav.People") },
@@ -40,20 +43,18 @@ export function HeaderLogoStickyNav({ lang }) {
                 key={link.text}
                 href={link.href}
                 style="text-decoration: none; font-family: var(--font-mono);"
-                class={`font-mono uppercase text-xs transition-colors duration-300 relative group ${
-                  isScrolled
-                    ? "text-foreground/70 hover:text-foreground"
-                    : "text-white/70 hover:text-white"
-                }`}
+                class={`font-mono uppercase text-xs transition-colors duration-300 relative group text-white/70 hover:text-white/70`}
               >
                 {link.text}
                 <span
-                  class={`absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full ${
-                    isScrolled ? "bg-foreground" : "bg-white"
-                  }`}
+                  class={`absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full`}
                 />
               </a>
             ))}
+
+            <div class="text-xs">
+              <SiteLangLinks />
+            </div>
           </div>
           <div class="backdrop-blur-sm">
             <Menu lang="en" />

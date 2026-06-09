@@ -99,6 +99,9 @@ export const peopleHref = (lang: string | StringSignal, path = "") =>
 export const serviceHref = (lang: string | StringSignal, path = "") =>
   [intlRouteMap(lang).get("services"), path].join("/");
 
+export const researchHref = (lang: string | StringSignal, path = "") =>
+  [intlRouteMap(lang).get("research"), path].join("/");
+
 export const buildNavPrev = (lang: string | StringSignal) => [
   { href: intlRouteMap(lang).get("news"), text: t("nav.News") },
   { href: intlRouteMap(lang).get("services"), text: t("nav.Services") },
@@ -260,7 +263,7 @@ export const projectsURL = ({ lang }: SlugLike) =>
 
 export const projectHref = ({ id, title, slug, lang }: string) =>
   `${intlRouteMap(lang).get("project")}/${id}/${
-    slug && slug[lang] ? slug[lang] : "_"
+    slug && slug[lang] ? slug[lang] : _slug(title)
   }`;
 
 export const projectURL = ({ lang, title }: SlugLike) =>

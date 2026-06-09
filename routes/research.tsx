@@ -1,41 +1,43 @@
-import _research from "akvaplan_fresh/data/orama/2024-04-30_research_topics.json" with {
-  type: "json",
-};
+import _research from "@/data/research.json" with { type: "json" };
+
 // import _research from "akvaplan_fresh/data/orama/2024-05-23_research_topics.json" with {
 //   type: "json",
 // };
 
-import { Section } from "../components/section.tsx";
-import {
-  getPanelInLang,
-  getPanelsInLang,
-  mayEditKvPanel,
-} from "akvaplan_fresh/kv/panel.ts";
+import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
+
+const imgUrl = (id: string) =>
+  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_746,h_746,q_auto:good/${id}`;
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(research|forskning)",
 };
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import { HeroPanel } from "akvaplan_fresh/components/panel.tsx";
 import { Naked } from "akvaplan_fresh/components/naked.tsx";
-import { extractRenderProps } from "akvaplan_fresh/utils/page/international_page.ts";
-
-import { asset, Head } from "$fresh/runtime.ts";
-
-import { Card } from "akvaplan_fresh/components/card.tsx";
-import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
-import { Icon } from "akvaplan_fresh/components/icon.tsx";
-import Button from "akvaplan_fresh/components/button/button.tsx";
-import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
 
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 import { t } from "../text/mod.ts";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { ImageHero } from "@/components/hero/image_hero.tsx";
-
+import { TightSqImgCard } from "@/components/cards.tsx";
+import { researchHref } from "@/services/nav.ts";
 export const atomFromPanel = (p: Panel) => {
   return p;
+};
+const lang = "no";
+const bak = "en";
+const hero = (await getPanelInLang({
+  id: "01hyd6qeqvy0ghjnk1nwdfwvyq",
+  lang,
+})) ?? bak;
+
+export const researcHeroProps = {
+  ...hero,
+  headline: t("our.research"),
+  eyebrow: "",
+  source:
+    "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/tpgqohjxb8noio6fqkxr",
 };
 
 export default defineRoute(async (req, ctx) => {
@@ -49,86 +51,50 @@ export default defineRoute(async (req, ctx) => {
         "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920,ar_3:1/tpgqohjxb8noio6fqkxr",
     },
   };
-  const hero = (await getPanelInLang({
-    id: "01hyd6qeqvy0ghjnk1nwdfwvyq",
-    lang,
-  })) ?? bak;
-
-  const hero2 = {
-    ...hero,
-    headline: t("our.research"),
-    eyebrow: "",
-    source:
-      "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/tpgqohjxb8noio6fqkxr",
-  };
 
   const { image, title } = hero;
 
-  const panels = (await getPanelsInLang({
-    lang,
-    filter: (p: Panel) => "research" === p.collection && p?.draft !== true,
-  })).sort((a, b) => a.title.localeCompare(b.title));
+  // const panels = (await getPanelsInLang({
+  //   lang,
+  //   filter: (p: Panel) => "research" === p.collection && p?.draft !== true,
+  // })).sort((a, b) => a.title.localeCompare(b.title));
 
-  const editor = await mayEditKvPanel(req);
-
+  // const editor = await mayEditKvPanel(req);
+  researcHeroProps.href = researchHref(lang, "#research-topics");
   return (
-    <Naked title={title} collection="home">
+    <Naked>
+      {/* title={title} collection="home"*/}
       <HeaderLogoStickyNav lang={lang} />
 
-      <ImageHero {...hero2} />
+      <ImageHero {...researcHeroProps} />
 
-      <Card>
-        <p>
-          {hero?.intro && <Markdown text={hero.intro} />}
-        </p>
-      </Card>
-
-      <Section>{/* spacer :) */}</Section>
-
-      <section class="Section block-center-center">
-        <div class="Container content-3">
-          <div class="BentoGrid block gap-3">
-            {panels?.map((panel) => (
-              <BentoPanel
-                panel={atomFromPanel(panel)}
-                lang={lang}
-              />
-            ))}
-
-            {editor && (
-              <BentoPanel
-                panel={{
-                  title: null,
-                  id: null,
-                  image: { cloudinary: "snlcxc38hperptakjpi5" },
-                }}
-                editor={editor}
-                href={`/${lang}/panel/_/new?collection=research`}
-              />
-            )}
-          </div>
-          <Section>{/* spacer :) */}</Section>
-          <Section>
-            <Card>
-              {/* <h2>Om vår forskning</h2> */}
-              <p>
-                <Section>
-                  {hero?.desc && (
-                    <Markdown
-                      text={hero.desc}
-                      style={{ fontSize: "1rem", whiteSpace: "pre-wrap" }}
-                    />
-                  )}
-                </Section>
-              </p>
-            </Card>
-          </Section>
+      <div
+        id="research-topics"
+        style={{
+          display: "grid",
+          placeItems: "center",
+          gridTemplateColumns: "1fr",
+        }}
+      >
+        <div
+          id="research-topics"
+          style={{
+            display: "grid",
+            maxWidth: "1920px",
+            gridTemplateColumns: "1fr 1fr 1fr",
+          }}
+        >
+          {_research[lang].map(({ headline, href, cloudinary }) => (
+            <TightSqImgCard
+              key={href}
+              image={imgUrl(cloudinary)}
+              headline={headline}
+              subtitle=""
+              href={href}
+            />
+          ))}
         </div>
-      </section>
-
-      <Head>
-        <link rel="stylesheet" href={asset("/css/bento.css")} />
-      </Head>
+      </div>
     </Naked>
   );
 });

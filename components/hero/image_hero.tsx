@@ -1,20 +1,26 @@
 import { Hero } from "@/components/card/types.ts";
 import { Eyebrow } from "@/components/eyebrow.tsx";
 
+const heroImageUrl = (cloudinary: string) =>
+  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/${cloudinary}`;
+
 export function ImageHero(
   {
     headline,
     eyebrow,
-    subtitle,
+    intro,
     source,
-  }: Hero & { source: string; subtitle: string },
+    cta,
+    cloudinary,
+    href,
+  }: Hero & { source?: string },
 ) {
   return (
     <section class="dark relative min-h-screen flex flex-col justify-center items-start overflow-hidden bg-black">
       <div class="absolute inset-0 z-0">
         <img
           class="w-full h-full object-cover object-center opacity-90"
-          src={source}
+          src={source ? source : cloudinary ? heroImageUrl(cloudinary) : ""}
         />
         {/* "Subtle" ? overlay to ensure text readability on the left */}
         <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
@@ -23,7 +29,7 @@ export function ImageHero(
 
       <div class="relative z-10 w-full max-w-[1400px] mx-auto px-6 lg:px-12 py-32 lg:py-40">
         <div class="lg:max-w-[55%]">
-          {eyebrow && eyebrow.length > 0 ? <Eyebrow>{eyebrow}</Eyebrow> : null}
+          {eyebrow && eyebrow.length > 0 ? <Eyebrow text={eyebrow} /> : null}
 
           <div class="mb-12">
             <h1
@@ -34,9 +40,31 @@ export function ImageHero(
               </span>
             </h1>
           </div>
-          <span class="text-[clamp(1.25rem,1.25vw,2rem)] lg:max-w-[55%] text-white">
-            {subtitle}
-          </span>
+          {intro
+            ? (
+              <span class="text-[clamp(1.25rem,1.25vw,2rem)] lg:max-w-[55%] text-white">
+                {intro}
+              </span>
+            )
+            : null}
+
+          {cta && href
+            ? (
+              <div>
+                <a
+                  href={href}
+                  class="button"
+                  color-scheme="dark"
+                  style={`background-color: var(--primary);
+                  color: var(--dark);
+                  font-size: .8rem;
+                  border-radius: 1.5rem;`}
+                >
+                  <span>{cta}</span>
+                </a>
+              </div>
+            )
+            : null}
         </div>
       </div>
     </section>

@@ -55,7 +55,8 @@ export const getHomeHeroProps = async (
 
 export const getAboutHeroProps = async (
   { lang }: { lang: string },
-): Promise<Hero> => await lang !== "no" ? _aboutHero["en"] : _aboutHero["no"];
+): Promise<Hero & { source: string; subtitle: string }> =>
+  await lang !== "no" ? _aboutHero["en"] : _aboutHero["no"];
 
 export const getResearchTopics = async (
   { lang }: { lang: string },

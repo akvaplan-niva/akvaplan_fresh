@@ -3,8 +3,10 @@ export type Card = {
   cloudinary?: string;
   eyebrow?: string;
   intro?: string;
+  subtitle?: string;
   href?: string;
   image?: string | URL;
+  cta?: string;
 };
 
 export interface Hero extends Card {

@@ -65,7 +65,6 @@ export const handler: Handlers = {
       const { url, params } = ctx;
       const { lang, type, id, slug } = params;
       langSignal.value = lang;
-      console.warn({ lang, type, id, slug });
 
       const form = await req.formData();
       const user = await getSessionUser(req) as MicrosoftUserinfo;

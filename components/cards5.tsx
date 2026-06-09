@@ -5,10 +5,10 @@ import type { Card } from "@/components/card/types.ts";
 const imgUrl = (id: string) =>
   `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_746,h_746,q_auto:good/${id}`;
 
-export const H = (
+export const SectionHeader = (
   { headline, href, cta }: { headline: string; href: string; cta: string },
 ) => (
-  <div style="display: grid; grid-template-columns: 1fr auto; padding-top: 0rem; padding-bottom: 3rem; align-items: center;">
+  <header style="display: grid; grid-template-columns: 1fr auto; padding-top: 0rem; padding-bottom: 3rem; align-items: center;">
     <h2 style="font-weight: 500; font-size: 2.5rem;">
       {headline}
     </h2>
@@ -27,7 +27,7 @@ export const H = (
         <span class="hide-s">{cta}</span>
       </IconButton>
     </a>
-  </div>
+  </header>
 );
 
 export const Cards1plus4 = ({ cards }: { cards: Card[] }) => {
