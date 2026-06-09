@@ -31,7 +31,11 @@ export const H = (
 );
 
 export const Cards1plus4 = ({ cards }: { cards: Card[] }) => {
+  if (cards?.length < 1) {
+    return null;
+  }
   const [sq, ...n4] = cards?.slice(0, 5) ?? [];
+
   return (
     <div
       class="g5"
