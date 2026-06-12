@@ -2,7 +2,7 @@ import {
   ApnSym,
   CleanHeader,
   Footer as SiteFooter,
-  StylesLegacy,
+  LegacyStyles,
 } from "./mod.ts";
 
 import { type Breadcrumb } from "akvaplan_fresh/components/site_nav.tsx";
@@ -73,7 +73,7 @@ export function Naked(
         type="image/svg+xml"
       />
 
-      <StylesLegacy />
+      <LegacyStyles />
     </Head>
   );
 

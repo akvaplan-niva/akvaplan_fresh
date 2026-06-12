@@ -1,21 +1,25 @@
 import { asset } from "$fresh/runtime.ts";
 
-const cssfiles = [
-  "reset",
-  "fonts",
-  "openprops",
-  "root",
-  "dark",
-  "light",
-  "button",
-  "input-search",
-];
-
 const StyleLink = (f: string) => (
   <link rel="stylesheet" href={asset(`/css/${f}.css`)} />
 );
-export const StylesLegacy = () => (
+export const LegacyStyles = () => (
   <>
-    {cssfiles.map(StyleLink)}
+    {[
+      "reset",
+      "fonts",
+      "openprops",
+      "root",
+      "dark",
+      "light",
+      "button",
+      "input-search",
+    ].map(StyleLink)}
+  </>
+);
+
+export const MorgenStudioStyles = () => (
+  <>
+    {["colors", "fonts", "typography"].map(StyleLink)}
   </>
 );

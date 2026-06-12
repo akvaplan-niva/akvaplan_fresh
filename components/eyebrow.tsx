@@ -1,5 +1,3 @@
-import { string } from "@std/http/unstable-structured-fields";
-
 const textColor = ({ muted }: { muted: boolean }) =>
   muted ? "var(--muted)" : "var(--accent)";
 
@@ -7,7 +5,6 @@ const eyebrowStyle = ({ color }: { color: string }) =>
   `font-family: var(--font-mono);
   color: ${color};
   font-weight: 600;
-  font-size: 0.75rem;
   line-height: 100%;
   letter-spacing: 5%;
   text-transform: uppercase;
@@ -24,7 +21,7 @@ export function Eyebrow(
 ) {
   color = color ? color : textColor({ muted });
   return (
-    <a style={eyebrowStyle({ color })} href={href}>
+    <a class="text-sm" style={eyebrowStyle({ color })} href={href}>
       {text}
     </a>
   );

@@ -115,17 +115,15 @@ export const buildNavPrev = (lang: string | StringSignal) => [
   { href: intlRouteMap(lang).get("about"), text: t("nav.About") },
   //{ href: _tr(lang).get("settings"), text: t("Settings") },
 ];
-export const buildNav = (lang: string | StringSignal) => [
-  { href: intlRouteMap(lang).get("akvaplanists"), text: t("nav.People") },
+export const buildNav = (
+  lang: string | StringSignal,
+) => [
+  { href: intlRouteMap(lang).get("news"), text: t("nav.News") },
   { href: intlRouteMap(lang).get("services"), text: t("nav.Services") },
-  // {
-  //   href: intlRouteMap(lang).get("infrastructure"),
-  //   text: t("nav.Infrastructure"),
-  // },
   { href: intlRouteMap(lang).get("research"), text: t("nav.Research") },
+  { href: intlRouteMap(lang).get("akvaplanists"), text: t("nav.People") },
   { href: intlRouteMap(lang).get("projects"), text: t("nav.Projects") },
   { href: intlRouteMap(lang).get("pubs"), text: t("nav.Publications") },
-  { href: intlRouteMap(lang).get("news"), text: t("nav.News") },
   { href: intlRouteMap(lang).get("about"), text: t("nav.About") },
   //{ href: _tr(lang).get("dcat"), text: t("Datasets") },
   //{ href: _tr(lang).get("documents"), text: t("Documents") },
@@ -263,7 +261,7 @@ export const projectsURL = ({ lang }: SlugLike) =>
 
 export const projectHref = ({ id, title, slug, lang }: string) =>
   `${intlRouteMap(lang).get("project")}/${id}/${
-    slug && slug[lang] ? slug[lang] : _slug(title)
+    slug && slug[lang] ? slug[lang] : title ? _slug(title) : "#"
   }`;
 
 export const projectURL = ({ lang, title }: SlugLike) =>

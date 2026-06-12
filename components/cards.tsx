@@ -1,7 +1,8 @@
 import type { CSSProperties } from "preact";
 import type { Card } from "@/components/card/types.ts";
+import { cloudinaryImgUrl } from "@/services/cloudinary.ts";
 
-export function SqImgCard({
+export function SqImgCardG({
   href = "",
   image = "",
   headline = "",
@@ -80,14 +81,14 @@ export function SqImgCard({
     display: "inline-flex",
     alignItems: "center",
     gap: "0.75rem",
-    padding: "1rem 2rem",
+    padding: ".5rem 1rem",
     fontSize: "0.875rem",
-    fontWeight: 600,
-    border: "2px solid rgba(255,255,255,0.9)",
-    borderRadius: "9999px",
-    background: "rgba(255,255,255,0.1)",
+    fontWeight: 400,
+    // border: "2px solid rgba(255,255,255,0.9)",
+    // borderRadius: "9999px",
+    // background: "var(--primary)",
     backdropFilter: "blur(12px)",
-    color: "white",
+    // color: "white",
     textDecoration: "none",
     width: "fit-content",
     transition: "all 0.2s ease",
@@ -115,11 +116,6 @@ export function SqImgCard({
           {readMoreText && (
             <span style={buttonStyle}>
               {readMoreText}
-              <span
-                style={{ fontSize: "1.25rem", transition: "transform 0.2s" }}
-              >
-                →
-              </span>
             </span>
           )}
         </div>
@@ -127,9 +123,10 @@ export function SqImgCard({
     </a>
   );
 }
-export function SqImgCard0({
+export function SqImgCard({
   href = "",
-  image = "",
+  image,
+  cloudinary,
   headline = "",
   intro = "",
   readMoreText = "",
@@ -141,7 +138,7 @@ export function SqImgCard0({
       class={`relative w-full aspect-square rounded-sm overflow-hidden shadow-2xl ${className}`}
     >
       <img
-        src={image}
+        src={image ? image : cloudinaryImgUrl(cloudinary, 256)}
         alt=""
         class="absolute inset-0 w-full h-full object-cover"
       />
@@ -152,12 +149,16 @@ export function SqImgCard0({
         <div />
 
         <div>
-          <h2 class="text-[clamp(1.25rem,3vw,3rem)] leading-tight tracking-tight mb-4 line-clamp-5">
+          <h2 class="text-[clamp(1.25rem,3vw,3rem)] leading-tight tracking-tight mb-4 line-clamp-4">
             {headline}
           </h2>
-          <p class="_invisible _md:visible text-[15px] sm:text-[17px] leading-relaxed opacity-95 line-clamp-2">
-            {intro}
-          </p>
+          {intro
+            ? (
+              <p class="_invisible _md:visible text-[15px] sm:text-[17px] leading-relaxed opacity-95 line-clamp-2">
+                {intro}
+              </p>
+            )
+            : null}
         </div>
 
         {readMoreText
@@ -175,6 +176,7 @@ export function SqImgCard0({
 }
 
 export function TightSqImgCard({
+  cloudinary,
   image = "",
   headline = "",
   href = "#",
@@ -186,7 +188,7 @@ export function TightSqImgCard({
     >
       <a href={href}>
         <img
-          src={image}
+          src={image ? image : cloudinaryImgUrl(cloudinary, 256)}
           alt=""
           class="absolute inset-0 w-full h-full object-cover"
         />

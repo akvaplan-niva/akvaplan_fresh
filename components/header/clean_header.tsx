@@ -69,7 +69,7 @@ export function CleanHeader(
           placeItems: "center",
         }}
       >
-        <span class="hide-s" style={{ fontSize: "var(--font-size-0)" }}>
+        <span class="hide-s" style={{ fontSize: "var(--font-size-1)" }}>
           <SiteLangLinks />
         </span>
       </span>

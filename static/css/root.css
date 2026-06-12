@@ -59,11 +59,11 @@ a:hover {
 html,
 body {
   color-scheme: dark light;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   background: var(--surface1);
   color: var(--text1);
   font-family: var(--font-sans);
-  font-size: var(--font-size-fluid-1);
+  /* font-size: var(--font-size-fluid-1); */
   margin: 0;
   padding: 0;
 }

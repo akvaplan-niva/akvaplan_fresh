@@ -9,20 +9,19 @@ const intlProps = (lang: string) =>
     cta: t("See employees"),
     headline: t("our.people") ?? "",
     //cloudinary: "uhoylo8khenaqk6bvpkq",
-    source:
-      "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1782,ar_3:1/uhoylo8khenaqk6bvpkq",
+    cloudinary: "pf3jrovrkboplxrn20ep",
     intro: lang !== "en"
       ? "Akvaplan-niva er stolt over å ha en tverrfaglig, internasjonal og høyt kompetent stab"
       : "",
   }) as Hero;
 export const HomePeopleHero = ({ lang }) => {
-  const { headline, cta, href, source, intro } = intlProps(lang);
+  const { headline, cta, href, cloudinary, intro } = intlProps(lang);
 
   return (
     <ImageHero
       headline={headline}
       href={href}
-      source={source}
+      cloudinary={cloudinary}
       intro={intro}
       cta={cta}
     />

@@ -157,6 +157,8 @@
   "project.Lifecycle.ending": "Avsluttes",
   "project.Lifecycle.ongoing": "Pågår",
   "project.Lifecycle.past": "Ferdige",
+  "project.LatestProjects": "Latest projects",
+  "project.See_all_projects": "Se alle prosjekter",
   "acc.Header": "Akkrediterte tjenester",
   "cert.Header": "Sertifiseringer",
   "cert.Intro": "Akvaplan-niva innehar følgende ISO-sertifiseringer",

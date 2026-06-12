@@ -1,5 +1,7 @@
+import { ComponentChild } from "preact";
+
 export type Card = {
-  headline: string;
+  headline: string | ComponentChild;
   cloudinary?: string;
   eyebrow?: string;
   intro?: string;

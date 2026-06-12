@@ -11,16 +11,24 @@ export function ImageHero(
     intro,
     source,
     cta,
+    image,
     cloudinary,
     href,
   }: Hero & { source?: string },
 ) {
+  const imageSrc = image
+    ? image
+    : source
+    ? source
+    : cloudinary
+    ? heroImageUrl(cloudinary)
+    : "";
   return (
     <section class="dark relative min-h-screen flex flex-col justify-center items-start overflow-hidden bg-black">
       <div class="absolute inset-0 z-0">
         <img
-          class="w-full h-full object-cover object-center opacity-90"
-          src={source ? source : cloudinary ? heroImageUrl(cloudinary) : ""}
+          class="2xl:m-auto 3xl:max-w-[80%] w-full h-full object-cover object-center opacity-90"
+          src={imageSrc}
         />
         {/* "Subtle" ? overlay to ensure text readability on the left */}
         <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
@@ -33,11 +41,9 @@ export function ImageHero(
 
           <div class="mb-12">
             <h1
-              class={`text-left text-[clamp(2rem,6vw,7rem)] font-display leading-[0.92] tracking-tight text-white transition-all duration-1000`}
+              class={`text-left text-[clamp(2rem,6vw,7rem)] font-display leading-[0.92] tracking-tight text-white transition-all duration-1000 font-h block`}
             >
-              <span class="font-h block whitespace-nowrap">
-                {headline}
-              </span>
+              {headline}
             </h1>
           </div>
           {intro

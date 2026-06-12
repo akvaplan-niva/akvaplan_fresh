@@ -56,11 +56,7 @@ export function VideoHero(
 
           <div class="mb-12">
             <h1
-              class={`text-left text-[clamp(2rem,6vw,6rem)] font-medium font-h font-display leading-[1.1] tracking-tight text-white transition-all duration-1000 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
+              class={`text-left text-[clamp(2rem,6vw,6rem)] font-medium font-h font-display leading-[1.1] tracking-tight text-white transition-all duration-1000`}
             >
               <span class="block whitespace-nowrap">
                 {headline}
@@ -83,7 +79,10 @@ export function VideoHero(
               <span class="text-3xl lg:text-4xl font-display text-white">
                 {stat.value}
               </span>
-              <span class="text-xs text-white/50 leading-tight">
+              <span
+                class="text-sm text-muted leading-tight"
+                style={{ color: "var(--muted)" }}
+              >
                 {stat.label}
               </span>
             </div>

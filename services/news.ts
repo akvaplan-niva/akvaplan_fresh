@@ -2,7 +2,7 @@ import { extractId } from "@/services/extract_id.ts";
 import { getItem, searchMynewsdesk } from "./mynewsdesk.ts";
 import { newsFromMynewsdesk } from "./news_mynewsdesk.ts";
 
-import type { News, Search } from "@/@interfaces/mod.ts";
+import type { MynewsdeskArticle, News, Search } from "@/@interfaces/mod.ts";
 
 export const sortLatest = (a: News, b: News) =>
   b.published.localeCompare(a.published);
@@ -90,7 +90,7 @@ export const searchNewsArticles = async (
   return articles.sort(sort);
 };
 
-const cardFromNews = (
+export const cardFromNews = (
   { caption, title: headline, href, img, published, type, hreflang: lang }:
     News,
 ) => {
@@ -104,6 +104,22 @@ const cardFromNews = (
     lang,
     caption,
   };
+};
+
+export const cardFromItem = async (
+  item: MynewsdeskArticle,
+) => {
+  const {
+    id,
+    image,
+    url,
+    body,
+    header,
+    summary,
+    caption,
+  } = item;
+
+  return { href: url, headline: header, intro: summary, body, image };
 };
 
 const getIntro = async (news0) => {
@@ -128,6 +144,16 @@ export const getNews = async ({ q = "", lang, limit }) => {
     return news;
   }
   return [];
+};
+
+export const getNewsCardByMynewsdeskId = async (
+  id: number,
+  type_of_media: string,
+) => {
+  const item = await getItem(id, type_of_media);
+  if (item) {
+    return cardFromItem(item);
+  }
 };
 
 // const panels = (await getCollectionPanels({ lang })).map((

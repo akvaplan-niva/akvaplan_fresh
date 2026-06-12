@@ -1,4 +1,7 @@
-import { searchNewsArticles } from "akvaplan_fresh/services/news.ts";
+import {
+  cardFromNews,
+  searchNewsArticles,
+} from "akvaplan_fresh/services/news.ts";
 
 import { ArticleSquare, HScroll, Page } from "akvaplan_fresh/components/mod.ts";
 
@@ -19,11 +22,13 @@ export const config: RouteConfig = {
 import { asset, Head } from "$fresh/runtime.ts";
 import { Section } from "../components/section.tsx";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-import { SqImgCard } from "@/components/cards.tsx";
+import { SqImgCard, TightSqImgCard } from "@/components/cards.tsx";
+import { News5 } from "@/components/home/news5.tsx";
+import { MajorSection } from "@/components/major_section.tsx";
 type Props = {};
 const _section = {
-  marginTop: "4rem",
-  marginBottom: "6rem",
+  // marginTop: "4rem",
+  //marginBottom: "6rem",
 };
 
 export const handler: Handlers<Props> = {
@@ -41,41 +46,43 @@ export const handler: Handlers<Props> = {
       await searchNewsArticles({ q, lang: lang.value, limit: 48 }) ??
         { items: [] };
 
-    const news = Map.groupBy(
-      _news,
-      ({ published }) => published.substring(0, 7),
-    );
-    // group by
-    // latest news articles (by month)?
-    // projects
-    // pressreleases
-    // pubs
-    // people?
-    return ctx.render({ title, base, news, lang, url });
+    const cards = _news.map(cardFromNews);
+
+    return ctx.render({ title, base, cards, lang, url });
   },
 };
 
 export default function News(
-  { data: { lang, base, title, news, url } }: PageProps,
+  { data: { lang, base, title, cards, url } }: PageProps,
 ) {
+  const news = Map.groupBy(
+    cards.slice(5, -1),
+    ({ published }) => published.substring(0, 7),
+  );
+  // group by
+  // latest news articles (by month)?
+  // projects
+  // pressreleases
+  // pubs
+  // people?
   return (
     <Page title={title} base={base} collection="home">
-      <h1>
-        <a href="." style={{ color: "var(--text2)" }}>{title}</a>
-      </h1>
+      <News5 id="news" cards={cards} lang={lang} href={null} />
 
       {[...news].map(([grpkey, grpmembers], i) => (
-        <section style={_section}>
-          <h2>
-            <span href={`${"month"}/${grpkey.toLowerCase()}`}>
-              {monthname(new Date(grpmembers[0].published), lang.value)}
-            </span>
-          </h2>
+        <MajorSection id={`news-${grpkey}`}>
+          <section style={_section}>
+            <h2>
+              <span href={`${"month"}/${grpkey.toLowerCase()}`}>
+                {monthname(new Date(grpmembers[0].published), lang.value)}
+              </span>
+            </h2>
 
-          <HScroll maxVisibleChildren={grpmembers.length > 5 ? 5.5 : 4.5}>
-            {grpmembers.map(SqImgCard)}
-          </HScroll>
-        </section>
+            <HScroll maxVisibleChildren={grpmembers.length > 5 ? 5.5 : 4.5}>
+              {grpmembers.map(TightSqImgCard)}
+            </HScroll>
+          </section>
+        </MajorSection>
       ))}
 
       <Section>

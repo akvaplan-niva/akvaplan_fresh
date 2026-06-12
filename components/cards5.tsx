@@ -8,25 +8,30 @@ const imgUrl = (id: string) =>
 export const SectionHeader = (
   { headline, href, cta }: { headline: string; href: string; cta: string },
 ) => (
-  <header style="display: grid; grid-template-columns: 1fr auto; padding-top: 0rem; padding-bottom: 3rem; align-items: center;">
+  <header style="display: grid; 
+    grid-template-columns: 1fr auto; 
+    padding-top: 0rem; 
+    padding-bottom: 1rem; align-items: center;">
     <h2 style="font-weight: 500; font-size: 2.5rem;">
       {headline}
     </h2>
 
-    <a href={href}>
-      <IconButton
-        aria-label={cta}
-        reverse
-        icon="arrow_forward_ios"
-        color-scheme="dark"
-        style={`background-color: var(--primary);
+    {href && (
+      <a href={href}>
+        <IconButton
+          aria-label={cta}
+          reverse
+          icon="arrow_forward_ios"
+          color-scheme="dark"
+          style={`background-color: var(--primary);
                   color: var(--dark);
                   font-size: .8rem;
                   border-radius: 1.5rem;`}
-      >
-        <span class="hide-s">{cta}</span>
-      </IconButton>
-    </a>
+        >
+          <span class="hide-s">{cta}</span>
+        </IconButton>
+      </a>
+    )}
   </header>
 );
 
