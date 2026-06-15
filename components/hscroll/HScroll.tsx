@@ -1,6 +1,6 @@
 import { t } from "akvaplan_fresh/text/mod.ts";
-import { Icon } from "akvaplan_fresh/components/mod.ts";
-import Button from "../button/button.tsx";
+import { Icon } from "@/components/icon.tsx";
+import Button from "@/components/button/button.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 
 type HScrollProps = HTMLElement & {

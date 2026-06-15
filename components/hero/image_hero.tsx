@@ -1,9 +1,8 @@
-import { Hero } from "@/components/card/types.ts";
 import { Eyebrow } from "@/components/eyebrow.tsx";
+import type { Hero } from "@/components/card/types.ts";
 
-const heroImageUrl = (cloudinary: string) =>
+export const imageHeroUrl = ({ cloudinary }: Partial<Hero>) =>
   `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/${cloudinary}`;
-
 export function ImageHero(
   {
     headline,
@@ -14,6 +13,7 @@ export function ImageHero(
     image,
     cloudinary,
     href,
+    footer,
   }: Hero & { source?: string },
 ) {
   const imageSrc = image
@@ -21,7 +21,7 @@ export function ImageHero(
     : source
     ? source
     : cloudinary
-    ? heroImageUrl(cloudinary)
+    ? imageHeroUrl({ cloudinary })
     : "";
   return (
     <section class="dark relative min-h-screen flex flex-col justify-center items-start overflow-hidden bg-black">
@@ -73,6 +73,15 @@ export function ImageHero(
             : null}
         </div>
       </div>
+      {footer && (
+        <div
+          class={`absolute bottom-12 left-0 right-0 px-6 lg:px-12 transition-all duration-700 delay-500`}
+        >
+          <span class="text-[clamp(1.25rem,1.25vw,2rem)] lg:max-w-[55%] text-white">
+            {footer}
+          </span>
+        </div>
+      )}
     </section>
   );
 }

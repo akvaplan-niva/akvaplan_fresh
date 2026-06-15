@@ -123,6 +123,13 @@ export function SqImgCardG({
     </a>
   );
 }
+
+const imgageUrl = ({ size, cloudinary, image }: Partial<Card>) =>
+  size && cloudinary
+    ? cloudinaryImgUrl(cloudinary, 256)
+    : image
+    ? image
+    : cloudinaryImgUrl(cloudinary, 746);
 export function SqImgCard({
   href = "",
   image,
@@ -131,6 +138,7 @@ export function SqImgCard({
   intro = "",
   readMoreText = "",
   className = "",
+  size,
 }: Card) {
   return (
     <a
@@ -138,7 +146,7 @@ export function SqImgCard({
       class={`relative w-full aspect-square rounded-sm overflow-hidden shadow-2xl ${className}`}
     >
       <img
-        src={image ? image : cloudinaryImgUrl(cloudinary, 256)}
+        src={imgageUrl({ size, cloudinary, image })}
         alt=""
         class="absolute inset-0 w-full h-full object-cover"
       />
@@ -181,6 +189,7 @@ export function TightSqImgCard({
   headline = "",
   href = "#",
   className = "",
+  size,
 }: Card) {
   return (
     <div
@@ -188,9 +197,11 @@ export function TightSqImgCard({
     >
       <a href={href}>
         <img
-          src={image ? image : cloudinaryImgUrl(cloudinary, 256)}
+          src={imgageUrl({ size, cloudinary, image })}
           alt=""
           class="absolute inset-0 w-full h-full object-cover"
+          width={size}
+          height={size}
         />
 
         <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/65 to-black/90 opacity-60" />

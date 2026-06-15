@@ -1,83 +1,90 @@
 import { useState } from "preact/hooks";
-import { HScroll } from "akvaplan_fresh/components/mod.ts";
-import { Head } from "$fresh/src/runtime/head.ts";
-import { asset } from "$fresh/runtime.ts";
+import HScroll from "@/components/hscroll/HScroll.tsx";
+import { asset, Head } from "$fresh/runtime.ts";
+import { TargetedMouseEvent } from "preact";
+import { ImageHero, imageHeroUrl } from "@/components/hero/image_hero.tsx";
+import { SqImgCard, TightSqImgCard } from "@/components/cards.tsx";
+import type { Card } from "@/components/card/types.ts";
+//import { HScroll } from "@/components/hscroll/HScroll.tsx";
 
-type Image = {
-  img: string;
-  href: string;
-  title: string;
-};
+// export const ScrollImage = (
+//   { headline, image, href, position }: ScrollImageProps,
+// ) => {
+//   return (
+//     <div class="scroll-image">
+//       <a class="image-container" href={href}>
+//         <img
+//           data-position={position}
+//           width={400}
+//           height={400}
+//           loading="lazy"
+//           src={image}
+//           alt={headline}
+//           title={headline}
+//         />
+//       </a>
+//     </div>
+//   );
+// };
 
-type Props = {
-  scrollerId: string;
-  images: Image[];
-};
+// const onHover = (e: MouseEvent) => {
+//   console.warn(e);
 
-type ScrollImageProps = {
-  image: Image;
-  onHover: () => void;
-};
+//   if (e) {
+//     e.preventDefault();
+//   }
+// };
+export function ImageHeroWithSelectableImages(
+  { images: cards, hero0 = cards?.[0] }: {
+    hero0: Card;
+    cards: Card[];
+  },
+) {
+  const [hero, setHero] = useState(hero0);
 
-export const ScrollImage = ({ image, onHover }: ScrollImageProps) => {
-  return (
-    <div
-      className="scroll-image"
-      _onMouseEnter={() => setTimeout(onHover, 100)}
-    >
-      <a class="image-container" href={image.href}>
-        <img
-          width={400}
-          height={400}
-          loading="lazy"
-          src={image.img512
-            ? image.img512.replace("/preview/", "/thumbnail_big/")
-            : image.img}
-          alt={image.name}
-          title={image.name}
-        />
-      </a>
-    </div>
-  );
-};
-
-export default function HScrollWithDynamicImage({ images }: Props) {
-  const [bigImage, setBigImage] = useState(images.at(0));
-  console.warn(bigImage);
-  //if (!bigImage) return null;
-
-  const onHover = (e) => {
-    console.warn(e);
+  const handleHover = (e: TargetedMouseEvent<HTMLDivElement>) => {
+    if (e && e.currentTarget) {
+      e.preventDefault();
+      const { position } = e.currentTarget.dataset;
+      const p = Number(position);
+      const nextHero: Card = p in cards ? cards.at(p)! : hero0;
+      setHero(nextHero);
+    }
   };
-  const header = "";
-
+  //onMouseEnter={(e) => (onHover(e), 100)}
   return (
-    <section className="dynamic-image-hscroll">
-      <img className="dynamic-image-big" src={bigImage.img} />
-      <div className="dynamic-scroll-details">
-        <section class="article-title-mobile" aria-disabled="true">
-          <h1></h1>
-        </section>
-        <header class="article-header">
-          <h1>
-            <span class="backdrop-blur">{header}</span>
-          </h1>
-        </header>
-      </div>
-      <div className="dynamic-scroll-container">
-        <HScroll scrollerId={crypto.randomUUID()} _maxVisibleChildren={5}>
-          {images.map((image) => (
-            <ScrollImage
-              image={image}
-              onHover={onHover}
-            />
-          ))}
-        </HScroll>
-      </div>
-      <Head>
-        <link rel="stylesheet" href={asset("/css/hscroll.css")} />
-        <link rel="stylesheet" href={asset("/css/hscroll-dynamic.css")} />
-      </Head>
+    <section class="_dynamic-image-hscroll">
+      <ImageHero
+        eyebrow={hero.eyebrow ?? hero0.eyebrow}
+        image={"cloudinary" in hero
+          ? imageHeroUrl({ cloudinary: hero.cloudinary })
+          : hero.image}
+        headline={hero?.headline}
+        footer={
+          <footer>
+            <HScroll maxVisibleChildren={cards.length > 5 ? 5.5 : 4.5}>
+              {cards.map(({ image, headline, href }, position) => (
+                <div
+                  data-position={position}
+                  onMouseEnter={handleHover}
+                  onClick={handleHover}
+                >
+                  <TightSqImgCard
+                    image={image}
+                    href={"#" + href}
+                    headline={headline}
+                    size={64}
+                  />
+                </div>
+              ))}
+            </HScroll>
+
+            <Head>
+              <link rel="stylesheet" href={asset("/css/hscroll.css")} />
+            </Head>
+          </footer>
+        }
+      />
     </section>
   );
 }

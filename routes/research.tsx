@@ -2,9 +2,6 @@ import _research from "@/data/research.json" with { type: "json" };
 
 import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
 
-const imgUrl = (id: string) =>
-  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_746,h_746,q_auto:good/${id}`;
-
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(research|forskning)",
 };
@@ -20,6 +17,10 @@ import { TightSqImgCard } from "@/components/cards.tsx";
 import { researchHref } from "@/services/nav.ts";
 import { SectionHeader } from "@/components/cards5.tsx";
 import { Eyebrow } from "@/components/eyebrow.tsx";
+//import HScrollWithDynamicImage from "@/islands/HScrollWithDynamicImage.tsx";
+import { cloudinary0 } from "@/services/mynewsdesk.ts";
+import { sqImgUrl } from "@/services/cloudinary.ts";
+import { ImageHeroWithSelectableImages } from "@/islands/HScrollWithDynamicImage.tsx";
 export const atomFromPanel = (p: Panel) => {
   return p;
 };
@@ -27,64 +28,34 @@ export const atomFromPanel = (p: Panel) => {
 export default defineRoute(async (req, ctx) => {
   const { params } = ctx;
   const { lang } = params;
+  const title = t("our.research");
 
   const hero =
     (await getPanelInLang({ id: "01hyd6qeqvy0ghjnk1nwdfwvyq", lang })) ?? {};
 
-  const researcHeroProps = {
+  const researcHero = {
     cta: "",
     ...hero,
-    headline: t("our.research"),
+    headline: title,
     eyebrow: t("nav.Research"),
     href: researchHref(lang, "#research-topics"),
     image:
       "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/tpgqohjxb8noio6fqkxr",
   };
-  const { eyebrow, headline, href, cta } = researcHeroProps;
+  const { eyebrow, href, cta } = researcHero;
+
+  const cards = _research[lang].map((r) => ({
+    ...r,
+    image: sqImgUrl(r.cloudinary, 746),
+  }));
 
   return (
-    <Naked>
-      {/* title={title} collection="home"*/}
+    <Naked title={title}>
       <HeaderLogoStickyNav lang={lang} />
 
-      <ImageHero {...researcHeroProps} />
+      <ImageHeroWithSelectableImages hero0={researcHero} images={cards} />
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 4fr 1fr",
-        }}
-      >
-      </div>
-
-      <div
-        id="research-topics"
-        style={{
-          display: "grid",
-          placeItems: "center",
-          gridTemplateColumns: "1fr",
-        }}
-      >
-        <div
-          style={{
-            display: "grid",
-            maxWidth: "100rem",
-            gap: "1.5rem",
-            placeItems: "center",
-            gridTemplateColumns: "1fr 1fr",
-          }}
-        >
-          {_research[lang].map(({ headline, href, cloudinary }) => (
-            <TightSqImgCard
-              key={href}
-              image={imgUrl(cloudinary)}
-              headline={headline}
-              subtitle=""
-              href={href}
-            />
-          ))}
-        </div>
-      </div>
+      <article></article>
     </Naked>
   );
 });
