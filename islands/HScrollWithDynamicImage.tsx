@@ -5,6 +5,7 @@ import { TargetedMouseEvent } from "preact";
 import { ImageHero, imageHeroUrl } from "@/components/hero/image_hero.tsx";
 import { SqImgCard, TightSqImgCard } from "@/components/cards.tsx";
 import type { Card } from "@/components/card/types.ts";
+import { sqImgUrl } from "@/services/cloudinary.ts";
 //import { HScroll } from "@/components/hscroll/HScroll.tsx";
 
 // export const ScrollImage = (
@@ -35,7 +36,7 @@ import type { Card } from "@/components/card/types.ts";
 //   }
 // };
 export function ImageHeroWithSelectableImages(
-  { images: cards, hero0 = cards?.[0] }: {
+  { cards, hero0 = cards?.[0] }: {
     hero0: Card;
     cards: Card[];
   },
@@ -62,18 +63,17 @@ export function ImageHeroWithSelectableImages(
         headline={hero?.headline}
         footer={
           <footer>
-            <HScroll maxVisibleChildren={cards.length > 5 ? 5.5 : 4.5}>
-              {cards.map(({ image, headline, href }, position) => (
+            <HScroll maxVisibleChildren={cards.length - 0.5}>
+              {cards.map(({ cloudinary, image, headline, href }, position) => (
                 <div
                   data-position={position}
                   onMouseEnter={handleHover}
                   onClick={handleHover}
                 >
                   <TightSqImgCard
-                    image={image}
+                    image={cloudinary ? sqImgUrl(cloudinary, 256) : image}
                     href={"#" + href}
                     headline={headline}
-                    size={64}
                   />
                 </div>
               ))}

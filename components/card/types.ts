@@ -9,7 +9,6 @@ export type Card = {
   href?: string;
   image?: string | URL;
   cta?: string;
-  footer: ComponentChild;
 };
 
 export interface Hero extends Card {
@@ -19,6 +18,8 @@ export interface Hero extends Card {
   };
   words?: string[];
   metrics?: { label: string; value: string }[];
+
+  footer?: ComponentChild;
 }
 
 // interface HeroProps /* extends */ {

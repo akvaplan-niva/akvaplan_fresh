@@ -12,15 +12,11 @@ import { Naked } from "akvaplan_fresh/components/naked.tsx";
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 import { t } from "../text/mod.ts";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
-import { ImageHero } from "@/components/hero/image_hero.tsx";
-import { TightSqImgCard } from "@/components/cards.tsx";
 import { researchHref } from "@/services/nav.ts";
-import { SectionHeader } from "@/components/cards5.tsx";
-import { Eyebrow } from "@/components/eyebrow.tsx";
-//import HScrollWithDynamicImage from "@/islands/HScrollWithDynamicImage.tsx";
-import { cloudinary0 } from "@/services/mynewsdesk.ts";
 import { sqImgUrl } from "@/services/cloudinary.ts";
 import { ImageHeroWithSelectableImages } from "@/islands/HScrollWithDynamicImage.tsx";
+import { Hero } from "@/components/card/types.ts";
+import { asset, Head } from "$fresh/runtime.ts";
 export const atomFromPanel = (p: Panel) => {
   return p;
 };
@@ -33,7 +29,7 @@ export default defineRoute(async (req, ctx) => {
   const hero =
     (await getPanelInLang({ id: "01hyd6qeqvy0ghjnk1nwdfwvyq", lang })) ?? {};
 
-  const researcHero = {
+  const researcHero: Hero = {
     cta: "",
     ...hero,
     headline: title,
@@ -53,9 +49,17 @@ export default defineRoute(async (req, ctx) => {
     <Naked title={title}>
       <HeaderLogoStickyNav lang={lang} />
 
-      <ImageHeroWithSelectableImages hero0={researcHero} images={cards} />
+      <div style="--min-child-size: 64px;">
+        <ImageHeroWithSelectableImages
+          hero0={researcHero}
+          cards={cards}
+        />
+      </div>
 
       <article></article>
+      <Head>
+        <script defer src={asset("/@nrk/core-scroll.min.js")} />
+      </Head>
     </Naked>
   );
 });
