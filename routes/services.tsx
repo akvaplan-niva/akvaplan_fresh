@@ -16,6 +16,7 @@ import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { ImageHero } from "@/components/hero/image_hero.tsx";
 import { sqImgUrl } from "@/services/cloudinary.ts";
 import { Eyebrow } from "@/components/eyebrow.tsx";
+import { serviceHref } from "@/services/mod.ts";
 const isVisible = true;
 const imgUrl = (id: string) =>
   `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_746,h_746,q_auto:good/${id}`;
@@ -46,6 +47,7 @@ export default defineRoute(async (req, ctx) => {
   const hero = {
     ..._hero,
     headline: t("our.services"),
+    href: serviceHref(lang, "#services"),
     intro: _hero.desc,
     image: "", //https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/nektj2s3e7hr8kdgu1jj",
   };

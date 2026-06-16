@@ -25,8 +25,6 @@ export function Research5(
       <Eyebrow href={href} text={eyebrow} />
       <SectionHeader headline={headline} cta={cta} href={href} />
       {/* <Cards1plus4 cards={cards} /> */}
-
-      <Projects5 id="nav-5" cards={projects} lang={lang} />
     </MajorSection>
   );
 }

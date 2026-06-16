@@ -17,28 +17,33 @@ import { sqImgUrl } from "@/services/cloudinary.ts";
 import { ImageHeroWithSelectableImages } from "@/islands/HScrollWithDynamicImage.tsx";
 import { Hero } from "@/components/card/types.ts";
 import { asset, Head } from "$fresh/runtime.ts";
-export const atomFromPanel = (p: Panel) => {
-  return p;
-};
 
+const getResaarchPanel = async (lang: string) =>
+  await getPanelInLang({ id: "01hyd6qeqvy0ghjnk1nwdfwvyq", lang });
+
+export const researcHeroIntl = async (lang: string) => {
+  const panel = await getResaarchPanel(lang) ?? {};
+
+  const { cloudinary } = panel && "image" in panel ? panel.image : {};
+
+  const { cta, intro } = panel ?? {};
+
+  return {
+    headline: t("our.research"),
+    intro,
+    cta,
+    eyebrow: t("nav.Research"),
+    href: researchHref(lang, "#research-topics"),
+    cloudinary,
+    //image:
+    //"https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/tpgqohjxb8noio6fqkxr",
+  } satisfies Hero;
+};
 export default defineRoute(async (req, ctx) => {
   const { params } = ctx;
   const { lang } = params;
-  const title = t("our.research");
-
-  const hero =
-    (await getPanelInLang({ id: "01hyd6qeqvy0ghjnk1nwdfwvyq", lang })) ?? {};
-
-  const researcHero: Hero = {
-    cta: "",
-    ...hero,
-    headline: title,
-    eyebrow: t("nav.Research"),
-    href: researchHref(lang, "#research-topics"),
-    image:
-      "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/tpgqohjxb8noio6fqkxr",
-  };
-  const { eyebrow, href, cta } = researcHero;
+  const researcHero = await researcHeroIntl(lang);
+  const { headline, eyebrow, href, cta } = researcHero;
 
   const cards = _research[lang].map((r) => ({
     ...r,
@@ -46,7 +51,7 @@ export default defineRoute(async (req, ctx) => {
   }));
 
   return (
-    <Naked title={title}>
+    <Naked title={headline}>
       <HeaderLogoStickyNav lang={lang} />
 
       <ImageHeroWithSelectableImages

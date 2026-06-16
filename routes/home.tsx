@@ -8,22 +8,21 @@ import {
 import { getLatestNews } from "@/services/news.ts";
 import { extractLangFromUrl, t } from "akvaplan_fresh/text/mod.ts";
 
-import { Eyebrow } from "@/components/eyebrow.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { ImageHero } from "@/components/hero/image_hero.tsx";
 import { VideoHero } from "@/components/hero/video_hero.tsx";
 import { News5 } from "@/components/home/news5.tsx";
-import { HomePeopleHero } from "@/components/home/people.tsx";
-import { Research5 } from "@/components/home/research5.tsx";
-import { ServicesHome } from "@/components/services_home.tsx";
+import { PeopleHome } from "@/components/home/people.tsx";
+import { ServicesHome } from "@/components/home/services_home.tsx";
+import { Projects5 } from "@/components/home/projects5.tsx";
 import { LegacyStyles } from "@/components/styles.tsx";
 import { buildNav } from "@/services/nav.ts";
 import { getLatestResearchProjectCards } from "@/services/project.ts";
 
-import type { Card } from "@/components/card/types.ts";
-
 import { Head } from "$fresh/runtime.ts";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
+import { ResearchHome } from "@/components/home/research_home.tsx";
+import { researcHeroIntl } from "@/routes/research.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -35,7 +34,7 @@ const Breaking = (
     lang,
     days = 3,
     max = 1,
-  }: { news: NewsWithRelativeTime[] },
+  }: { days: number; max: number; lang: string; news: NewsWithRelativeTime[] },
 ) => (
   <div
     class="bottom-0 xl:bottom-4"
@@ -82,6 +81,8 @@ export default defineRoute(async (req, _ctx) => {
     (l, i) => ({ ...l, href: `#nav-${1 + i}` }),
   );
 
+  const researchHero = await researcHeroIntl(lang);
+
   return (
     <>
       <Head>
@@ -96,35 +97,23 @@ export default defineRoute(async (req, _ctx) => {
 
       <News5 id="nav-1" cards={news} lang={lang} />
 
-      <ServicesHome id="nav-2" cards={services} lang={lang} />
+      <ServicesHome
+        id="nav-2"
+        lang={lang}
+        hero={researchHero}
+        cards={services}
+      />
 
-      <Research5 id="nav-3" cards={research} lang={lang} />
+      <ResearchHome
+        id="nav-3"
+        hero={researchHero}
+        cards={research}
+        lang={lang}
+      />
 
-      <div id="nav-4">
-        <HomePeopleHero
-          lang={lang}
-        />
-        {
-          /*
-        <CollectionSearch
-          q={""}
-          lang={lang}
-          limit={10}
-          collection="person"
-          //total={count}
-          url={req.url}
-          list={true ? "grid" : "block"}
-          sortOptions={[
-            "",
-            "given",
-            "family",
-            "-published",
-            "published",
-            "location",
-          ]}
-        /> */
-        }
-      </div>
+      <PeopleHome id="nav-4" lang={lang} />
+
+      <Projects5 id="nav-5" cards={projects} lang={lang} />
 
       <ImageHero {...aboutHeroProps} />
     </>

@@ -1,7 +1,9 @@
 import { Card } from "@/components/card/types.ts";
 import { ImageHero } from "@/components/hero/image_hero.tsx";
+import { MajorSection } from "@/components/major_section.tsx";
+import { ImageHeroWithSelectableImages } from "@/islands/HScrollWithDynamicImage.tsx";
 
-const hero = {
+const hero0 = {
   id: "01hyd6qeqv4n3qrcv735aph6yy",
   image:
     "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/nektj2s3e7hr8kdgu1jj",
@@ -24,34 +26,17 @@ const hero = {
 };
 
 export function ServicesHome(
-  { id, cards, lang }: { id: string; cards: Card[]; lang: string },
+  { id, hero, cards, lang }: { id?: string; lang: string },
 ) {
-  // export function
-  //   const eyebrow = t("nav.Services");
-  //   const href = intlRouteMap(lang).get("services")!;
-  //   const cta = t("services.See_all_services");
-  //   const headline = t("our.services");
-  //   return (
-  //     <div class="max-w-[1920px] mx-auto">
-  //       <Eyebrow href={href} text={eyebrow} />
-  //       <SectionHeader headline={headline} cta={cta} href={href} />
-  //       <Cards1plus4 cards={cards} />
-  //     </div>
-  //   );
-  // }
-  const integrations = cards.map((c) => ({
-    ...c,
-    name: c.headline,
-    category: "cat",
-  }));
-
-  const isVisible = true;
-
   return (
-    <section
-      id={id}
+    <MajorSection
+      id={id ?? "services-home"}
     >
-      <ImageHero {...hero} />
-    </section>
+      <ImageHeroWithSelectableImages
+        id={id}
+        hero0={hero0}
+        cards={[hero0, ...cards]}
+      />
+    </MajorSection>
   );
 }

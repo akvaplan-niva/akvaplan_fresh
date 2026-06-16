@@ -12,7 +12,7 @@ import { useState } from "preact/hooks";
 import type { TargetedMouseEvent } from "preact";
 
 export function ImageHeroWithSelectableImages(
-  { cards, hero0 = cards?.[0] }: {
+  { id, cards, hero0 = cards?.[0] }: {
     hero0: Card;
     cards: Card[];
   },
@@ -34,14 +34,14 @@ export function ImageHeroWithSelectableImages(
     : hero.image ?? hero0.image;
 
   return (
-    <section class="">
+    <section id={id}>
       <ImageHero
         eyebrow={hero.eyebrow ?? hero0.eyebrow}
         image={image}
         headline={hero?.headline}
-        href={hero0.href}
+        href={hero.href}
         intro={hero.intro}
-        cta={hero !== hero0 ? t("Les mer") : ""}
+        cta={hero.cta ?? "Explore"}
         footer={
           <footer>
             <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-8">
