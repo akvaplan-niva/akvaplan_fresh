@@ -6,10 +6,10 @@ import { t } from "@/text/mod.ts";
 import type { Card } from "@/components/card/types.ts";
 
 export function News5(
-  { id, cards, lang, href }: { id: string; cards: Card[]; lang: string },
+  { id, cards, lang }: { id: string; cards: Card[]; lang: string },
 ) {
   const eyebrow = t("nav.News");
-  href === null ? null : intlRouteMap(lang).get("news")!;
+  const href = intlRouteMap(lang).get("news")!;
   const cta = t("news.Read_all_news");
   const headline = t("news.LatestNews");
   return (

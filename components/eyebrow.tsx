@@ -9,10 +9,9 @@ const eyebrowStyle = ({ color }: { color: string }) =>
   letter-spacing: 5%;
   text-transform: uppercase;
 `;
-// w-8 gap-3 h-px ?
 
 export function Eyebrow(
-  { text = "", href, color, muted = false }: {
+  { text = "", color, muted = false }: {
     text: string;
     href?: string;
     muted?: boolean;
@@ -21,8 +20,11 @@ export function Eyebrow(
 ) {
   color = color ? color : textColor({ muted });
   return (
-    <a class="text-sm" style={eyebrowStyle({ color })} href={href}>
+    <span
+      class={`text-sm gap-3 w-8`}
+      style={eyebrowStyle({ color })}
+    >
       {text}
-    </a>
+    </span>
   );
 }

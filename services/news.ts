@@ -3,6 +3,11 @@ import { getItem, searchMynewsdesk } from "./mynewsdesk.ts";
 import { newsFromMynewsdesk } from "./news_mynewsdesk.ts";
 
 import type { MynewsdeskArticle, News, Search } from "@/@interfaces/mod.ts";
+import { Card } from "@/components/card/types.ts";
+
+interface NewsWithRelativeTime extends Card {
+  ago?: Temporal.Duration;
+}
 
 export const sortLatest = (a: News, b: News) =>
   b.published.localeCompare(a.published);
@@ -95,6 +100,10 @@ export const cardFromNews = (
     News,
 ) => {
   const cloudinary = img?.split("/").at(-1);
+  const ago = published
+    ? daysAgo(durationFromDateTimeUntilNow(published, "Europe/Oslo"))
+    : undefined;
+
   return {
     href,
     headline,
@@ -103,7 +112,8 @@ export const cardFromNews = (
     type,
     lang,
     caption,
-  };
+    ago,
+  } satisfies NewsWithRelativeTime;
 };
 
 export const cardFromItem = async (
@@ -132,7 +142,20 @@ const getIntro = async (news0) => {
   }
 };
 
-export const getNews = async ({ q = "", lang, limit }) => {
+const durationFromDateTimeUntilNow = (
+  dts: string | Date,
+  tz: Temporal.TimeZoneLike,
+) => {
+  const dt = new Date(dts);
+  const instant = Temporal.Instant.fromEpochMilliseconds(dt.getTime());
+  const zdt = instant.toZonedDateTimeISO(tz);
+  return zdt.until(Temporal.Now.zonedDateTimeISO(tz));
+};
+
+const daysAgo = (dur: Temporal.Duration) =>
+  dur.round({ largestUnit: "day", smallestUnit: "hour" });
+
+export const getLatestNews = async ({ q = "", lang, limit }) => {
   const _news = await latestNewsFromMynewsdeskService({
     q,
     lang,

@@ -11,7 +11,6 @@
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
   "imports": {
-    "@tailwindcss/typography": "npm:@tailwindcss/typography@^0.5.20",
     "akvaplan_fresh/": "./",
     "@/": "./",
     "$fresh/": "https://deno.land/x/fresh@1.7.3/",

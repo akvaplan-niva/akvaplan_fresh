@@ -1,14 +1,15 @@
 import { LegacyStyles, MorgenStudioStyles } from "@/components/styles.tsx";
 
 import { defineRoute, RouteConfig } from "$fresh/server.ts";
-import { Head } from "$fresh/runtime.ts";
+import { asset, Head } from "$fresh/runtime.ts";
 import { MajorSection } from "@/components/major_section.tsx";
 import { Eyebrow } from "@/components/eyebrow.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { ImageHero } from "@/components/hero/image_hero.tsx";
 import { getNewsCardByMynewsdeskId } from "@/services/news.ts";
 import { getItemBySlug } from "@/services/mynewsdesk.ts";
-import { H1, H2 } from "@/components/h.tsx";
+import { H1 } from "@/components/h.tsx";
+import { heroImageUrl } from "@/services/cloudinary.ts";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -41,8 +42,7 @@ export default defineRoute(async (_req, ctx) => {
   if (!card) {
     return null;
   }
-  console.warn({ card });
-  const { headline, caption, intro, body, image } = card;
+  const { headline, caption, intro, body, cloudinary, image } = card;
 
   const eyebrowHeadline = (
     <>
@@ -62,22 +62,28 @@ export default defineRoute(async (_req, ctx) => {
         <ImageHero
           headline={eyebrowHeadline}
           intro={caption}
-          image={image}
+          image={cloudinary ? heroImageUrl(cloudinary) : image}
         />
       </div>
       <MajorSection>
-        <article class="prose prose-xl prose-slate">
-          <div dangerouslySetInnerHTML={{ __html: body }} />
-        </article>
+        <article
+          class="article-content"
+          dangerouslySetInnerHTML={{ __html: body }}
+        />
+        <Head>
+          <link rel="stylesheet" href={asset("/css/article.css")} />
+        </Head>
       </MajorSection>
-      <MajorSection>
+      {
+        /* <MajorSection>
         <main class="body">
           Akvaplan-niva is a Norwegian non-profit research and consulting
           company. Our areas of expertise include the physical environment,
           biological diversity, and ecological processes in ocean and
           freshwater.
         </main>
-      </MajorSection>
+      </MajorSection> */
+      }
     </div>
   );
 });

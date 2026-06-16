@@ -5,7 +5,7 @@
     "cta": "More on us",
     "href": "/en/about",
     "intro": "For over 40 years, Akvaplan-niva has helped industries and governments make well-informed decisions on aquatic and environmental matters.",
-    "source": "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/nyc9x0fzuqv7pehhegz6"
+    "cloudinary": "kor6lruohbglgowjxmph"
   },
   "no": {
     "eyebrow": "Research institute & service provider",
@@ -13,6 +13,6 @@
     "cta": "Les om oss",
     "href": "/no/om",
     "intro": "I over 40 år har Akvaplan-niva bidratt til bærekraftig verdiskaping under og over vann…",
-    "source": "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/nyc9x0fzuqv7pehhegz6"
+    "cloudinary": "kor6lruohbglgowjxmph"
   }
 }

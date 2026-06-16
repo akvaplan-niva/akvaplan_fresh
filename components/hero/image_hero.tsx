@@ -1,8 +1,7 @@
 import { Eyebrow } from "@/components/eyebrow.tsx";
+import { heroImageUrl } from "@/services/cloudinary.ts";
 import type { Hero } from "@/components/card/types.ts";
 
-export const imageHeroUrl = ({ cloudinary }: Partial<Hero>) =>
-  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/${cloudinary}`;
 export function ImageHero(
   {
     headline,
@@ -21,7 +20,7 @@ export function ImageHero(
     : source
     ? source
     : cloudinary
-    ? imageHeroUrl({ cloudinary })
+    ? heroImageUrl({ cloudinary })
     : "";
   return (
     <section class="dark relative min-h-screen flex flex-col justify-center items-start overflow-hidden bg-black">
@@ -35,9 +34,13 @@ export function ImageHero(
         <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
       </div>
 
-      <div class="relative z-10 w-full max-w-[1400px] mx-auto px-6 lg:px-12 py-32 lg:py-40">
+      {/* Hm, position is driven my the max-w and mx-auto… */}
+
+      <div class="relative z-10 w-full max-w-[1500px] mx-auto px-6 lg:px-12 py-32 lg:py-40">
         <div class="lg:max-w-[55%]">
-          {eyebrow && eyebrow.length > 0 ? <Eyebrow text={eyebrow} /> : null}
+          {eyebrow && eyebrow.length > 0
+            ? <Eyebrow href={href} text={eyebrow} muted />
+            : null}
 
           <div class="mb-12">
             <h1
@@ -46,9 +49,10 @@ export function ImageHero(
               {headline}
             </h1>
           </div>
+
           {intro
             ? (
-              <span class="text-[clamp(1.25rem,1.25vw,2rem)] lg:max-w-[55%] text-white">
+              <span class="text-[clamp(1.25rem,1.25vw,2rem)] _lg:max-w-[55%] text-white line-clamp-3">
                 {intro}
               </span>
             )
@@ -75,9 +79,9 @@ export function ImageHero(
       </div>
       {footer && (
         <div
-          class={`absolute bottom-12 left-0 right-0 px-6 lg:px-12 transition-all duration-700 delay-500`}
+          class={`absolute bottom-0 lg:bottom-12 left-0 right-0 px-6 lg:px-12 transition-all duration-700 delay-500`}
         >
-          <span class="text-[clamp(1.25rem,1.25vw,2rem)] lg:max-w-[55%] text-white">
+          <span class="text-[clamp(1.25rem,1.25vw,2rem)] _lg:max-w-[55%] text-white">
             {footer}
           </span>
         </div>

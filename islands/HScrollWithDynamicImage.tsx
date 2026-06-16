@@ -1,40 +1,16 @@
-import { useState } from "preact/hooks";
-import HScroll from "@/components/hscroll/HScroll.tsx";
-import { asset, Head } from "$fresh/runtime.ts";
-import { TargetedMouseEvent } from "preact";
-import { ImageHero, imageHeroUrl } from "@/components/hero/image_hero.tsx";
-import { SqImgCard, TightSqImgCard } from "@/components/cards.tsx";
+import { heroImageUrl, sqImgUrl } from "@/services/cloudinary.ts";
+import { t } from "@/text/mod.ts";
+
+import { TightSqImgCard } from "@/components/cards.tsx";
+import { ImageHero } from "@/components/hero/image_hero.tsx";
+import { HScroll } from "@/components/hscroll/HScroll.tsx";
+
 import type { Card } from "@/components/card/types.ts";
-import { sqImgUrl } from "@/services/cloudinary.ts";
-//import { HScroll } from "@/components/hscroll/HScroll.tsx";
 
-// export const ScrollImage = (
-//   { headline, image, href, position }: ScrollImageProps,
-// ) => {
-//   return (
-//     <div class="scroll-image">
-//       <a class="image-container" href={href}>
-//         <img
-//           data-position={position}
-//           width={400}
-//           height={400}
-//           loading="lazy"
-//           src={image}
-//           alt={headline}
-//           title={headline}
-//         />
-//       </a>
-//     </div>
-//   );
-// };
+import { asset, Head } from "$fresh/runtime.ts";
+import { useState } from "preact/hooks";
+import type { TargetedMouseEvent } from "preact";
 
-// const onHover = (e: MouseEvent) => {
-//   console.warn(e);
-
-//   if (e) {
-//     e.preventDefault();
-//   }
-// };
 export function ImageHeroWithSelectableImages(
   { cards, hero0 = cards?.[0] }: {
     hero0: Card;
@@ -45,39 +21,46 @@ export function ImageHeroWithSelectableImages(
 
   const handleHover = (e: TargetedMouseEvent<HTMLDivElement>) => {
     if (e && e.currentTarget) {
-      e.preventDefault();
       const { position } = e.currentTarget.dataset;
       const p = Number(position);
       const nextHero: Card = p in cards ? cards.at(p)! : hero0;
       setHero(nextHero);
     }
   };
+
   //onMouseEnter={(e) => (onHover(e), 100)}
+  const image = "cloudinary" in hero
+    ? heroImageUrl({ cloudinary: hero.cloudinary })
+    : hero.image ?? hero0.image;
+
   return (
-    <section class="_dynamic-image-hscroll">
+    <section class="">
       <ImageHero
         eyebrow={hero.eyebrow ?? hero0.eyebrow}
-        image={"cloudinary" in hero
-          ? imageHeroUrl({ cloudinary: hero.cloudinary })
-          : hero.image}
+        image={image}
         headline={hero?.headline}
+        href={hero0.href}
+        intro={hero.intro}
+        cta={hero !== hero0 ? t("Les mer") : ""}
         footer={
           <footer>
-            <HScroll maxVisibleChildren={cards.length - 0.5}>
-              {cards.map(({ cloudinary, image, headline, href }, position) => (
+            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-8">
+              {cards.map(({ cloudinary, image, href }, position) => (
                 <div
                   data-position={position}
                   onMouseEnter={handleHover}
                   onClick={handleHover}
+                  class="w-24"
                 >
                   <TightSqImgCard
                     image={cloudinary ? sqImgUrl(cloudinary, 256) : image}
-                    href={"#" + href}
-                    headline={headline}
+                    href={href}
+                    headline={""}
                   />
                 </div>
               ))}
-            </HScroll>
+              <HScroll maxVisibleChildren={cards.length - 0.5}></HScroll>
+            </div>
 
             <Head>
               <link rel="stylesheet" href={asset("/css/hscroll.css")} />

@@ -9,6 +9,7 @@ export type Card = {
   href?: string;
   image?: string | URL;
   cta?: string;
+  type?: string;
 };
 
 export interface Hero extends Card {

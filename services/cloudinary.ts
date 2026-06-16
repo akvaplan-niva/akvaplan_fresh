@@ -102,3 +102,6 @@ export const srcset = (url, { w, ar }) =>
     cloudinaryUrl(extractId(url), { w, ar }),
     `${w}w`,
   ].join(" ");
+
+export const heroImageUrl = ({ cloudinary }: Partial<Hero>) =>
+  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/${cloudinary}`;

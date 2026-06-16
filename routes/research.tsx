@@ -49,12 +49,10 @@ export default defineRoute(async (req, ctx) => {
     <Naked title={title}>
       <HeaderLogoStickyNav lang={lang} />
 
-      <div style="--min-child-size: 64px;">
-        <ImageHeroWithSelectableImages
-          hero0={researcHero}
-          cards={cards}
-        />
-      </div>
+      <ImageHeroWithSelectableImages
+        hero0={researcHero}
+        cards={[researcHero, ...cards]}
+      />
 
       <article></article>
       <Head>
