@@ -101,8 +101,13 @@ export const cardFromNews = (
 ) => {
   const cloudinary = img?.split("/").at(-1);
   const ago = published
-    ? daysAgo(durationFromDateTimeUntilNow(published, "Europe/Oslo"))
+    ? durationFromDateTimeUntilNow(published, "Europe/Oslo")
     : undefined;
+
+  console.warn(
+    published,
+    ago?.toLocaleString("no", { style: "short" }),
+  );
 
   return {
     href,
@@ -149,11 +154,11 @@ const durationFromDateTimeUntilNow = (
   const dt = new Date(dts);
   const instant = Temporal.Instant.fromEpochMilliseconds(dt.getTime());
   const zdt = instant.toZonedDateTimeISO(tz);
-  return zdt.until(Temporal.Now.zonedDateTimeISO(tz));
+  return zdt.until(Temporal.Now.zonedDateTimeISO(tz), {
+    largestUnit: "year",
+    smallestUnit: "hour",
+  });
 };
-
-const daysAgo = (dur: Temporal.Duration) =>
-  dur.round({ largestUnit: "day", smallestUnit: "hour" });
 
 export const getLatestNews = async ({ q = "", lang, limit }) => {
   const _news = await latestNewsFromMynewsdeskService({

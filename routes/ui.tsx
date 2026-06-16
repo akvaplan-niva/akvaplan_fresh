@@ -16,6 +16,46 @@ const headline =
   "Rapidly melting Antarctic ice shelves may cause global sea levels to rise faster than expected";
 const H2 = ({ children }) => <h2 class="h2">{children}</h2>;
 
+export const RailwayHeroText = ({ headline }) => (
+  <div class="relative z-10 md:pt-32 pt-24 md:pb-24 pb-12 px-4 lg:px-[159px] flex flex-col items-center text-center">
+    <h1 class="font-medium text-white tracking-[-1.96px] leading-[1.12] text-[40px] sm:text-[54px]">
+      {headline}
+    </h1>
+    {
+      /* <p class="mt-6 text-white/80 text-[18px] sm:text-[20px] leading-7 max-w-[740px]">
+      With the all-in-one{" "}
+      <a
+        href="/agents"
+        class="underline hover:text-white transition-colors"
+      >
+        intelligent
+      </a>{" "}
+      cloud provider
+    </p> */
+    }
+    {
+      /* <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+      <a
+        href="/new"
+        class="px-6 py-3 rounded-[8px] bg-sl-accent text-white border border-transparent text-[18px] sm:text-[20px] leading-8 font-medium tracking-[-0.2px] dark:border-white/15 hover:brightness-110 transition-[filter] focus-visible:ring-white/30"
+      >
+        Deploy →
+      </a>
+      <a
+        id="enterprise-calendar-embed"
+        data-cal-namespace="work-with-railway"
+        data-cal-link="forms/39ff44d5-8fea-4272-b863-f219faa89717"
+        data-cal-config="{&quot;layout&quot;:&quot;month_view&quot;}"
+        href="/#enterprise-calendar-embed"
+        class="px-6 py-3 rounded-[8px] text-white text-[18px] sm:text-[20px] leading-8 font-medium tracking-[-0.2px] hover:bg-white/10 transition-colors focus-visible:ring-white/30 border border-white/50 dark:border-white/25 dark:bg-black/35"
+      >
+        Demo
+      </a>
+    </div> */
+    }
+  </div>
+);
+
 export default defineRoute((_req, _ctx) => {
   return (
     <div>
@@ -23,6 +63,7 @@ export default defineRoute((_req, _ctx) => {
         <LegacyStyles />
         <MorgenStudioStyles />
       </Head>
+
       <HeaderLogoStickyNav lang={lang} />
       <ImageHero
         headline={""}

@@ -92,7 +92,7 @@ export default defineRoute(async (req, _ctx) => {
 
       <VideoHero {...heroProps} />
 
-      <Breaking news={news} lang={lang} days={14} max={1} />
+      <Breaking news={news} lang={lang} days={14} max={2} />
 
       <News5 id="nav-1" cards={news} lang={lang} />
 

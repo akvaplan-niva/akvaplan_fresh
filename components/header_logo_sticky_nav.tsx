@@ -32,7 +32,7 @@ export function HeaderLogoStickyNav(
                 key={link.text}
                 href={link.href}
                 style="text-decoration: none; font-family: var(--font-mono);"
-                class="font-mono font-medium uppercase text-sm transition-colors duration-300 relative group text-white hover:text-white"
+                class="font-mono font-medium uppercase text-sm text-white transition-colors duration-300 relative group"
               >
                 {link.text}
                 <span class="absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full bg-white" />
@@ -44,7 +44,7 @@ export function HeaderLogoStickyNav(
             </div>
           </div>
           <div class="backdrop-blur-sm">
-            <Menu lang="en" />
+            <Menu lang={lang} />
           </div>
         </div>
       </nav>

@@ -5,7 +5,7 @@ import { asset, Head } from "$fresh/runtime.ts";
 import { MajorSection } from "@/components/major_section.tsx";
 import { Eyebrow } from "@/components/eyebrow.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
-import { ImageHero } from "@/components/hero/image_hero.tsx";
+import { ImageCard, ImageHero } from "@/components/hero/image_hero.tsx";
 import { getNewsCardByMynewsdeskId } from "@/services/news.ts";
 import { getItemBySlug } from "@/services/mynewsdesk.ts";
 import { H1 } from "@/components/h.tsx";
@@ -59,7 +59,7 @@ export default defineRoute(async (_req, ctx) => {
       </Head>
       <HeaderLogoStickyNav lang={lang} />
       <div color-scheme="dark">
-        <ImageHero
+        <ImageCard
           headline={eyebrowHeadline}
           intro={caption}
           image={cloudinary ? heroImageUrl(cloudinary) : image}
