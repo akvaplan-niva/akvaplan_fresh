@@ -44,7 +44,7 @@ export function ImageHeroWithSelectableImages(
         cta={hero.cta ?? "Explore"}
         footer={
           <footer>
-            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 xl:grid-cols-12 gap-4">
+            <div class="invisible lg:visible grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 xl:grid-cols-12 gap-4">
               {cards.map(({ cloudinary, image, href }, position) => (
                 <div
                   data-position={position}

@@ -25,7 +25,7 @@ const getResaarchPanel = async (lang: string) =>
 export const researcHeroIntl = async (lang: string) => {
   const panel = await getResaarchPanel(lang) ?? {};
 
-  const { cloudinary } = panel && "image" in panel ? panel.image : {};
+  const cloudinary = "tpgqohjxb8noio6fqkxr";
 
   const { cta, intro } = panel ?? {};
 

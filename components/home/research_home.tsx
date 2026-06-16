@@ -1,4 +1,3 @@
-import { ImageHero } from "@/components/hero/image_hero.tsx";
 import { MajorSection } from "@/components/major_section.tsx";
 import { ImageHeroWithSelectableImages } from "@/islands/HScrollWithDynamicImage.tsx";
 
