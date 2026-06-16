@@ -2,10 +2,11 @@ import { ImageHeroWithSelectableImages } from "@/islands/HScrollWithDynamicImage
 import { getHomeServices } from "@/data/home.ts";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 
-import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { Naked } from "@/components/naked.tsx";
+import { t } from "@/text/mod.ts";
 
-export const hero0 = {
+import { defineRoute, type RouteConfig } from "$fresh/server.ts";
+export const servicesHero = {
   id: "01hyd6qeqv4n3qrcv735aph6yy",
   image:
     "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/nektj2s3e7hr8kdgu1jj",
@@ -13,6 +14,8 @@ export const hero0 = {
     "Akvaplan-niva tilbyr et bredt spekter av forskningsbaserte tjenester og kostnadseffektive løsninger for vann-tilknyttede miljøutfordringer",
   href: "/no/tjenester",
   cta: "Se våre tjenester",
+  eyebrow: t("nav.Services"),
+
   desc:
     "Akvaplan-niva tilbyr forskningsbaserte tjenester for alle vann-tilknyttede miljøutfordringer, blant annet miljøovervåking, miljørisikoanalyser, konsekvensutredninger, beredskapsplaner, oseanografisk modellering, biologiske og kjemiske laboratorieanalyser og anleggssertifikat for akvakultur.\n" +
     " \n" +
@@ -22,7 +25,6 @@ export const hero0 = {
     "\n" +
     "Akvaplan-niva tilbyr [akkrediterte tjenester](/no/akkreditering) for å sikre presisjon, sporbarhet og åpenhet i alle faser av våre prosjekt.",
   headline: "Våre tjenester",
-  eyebrow: "",
 };
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(services|tjenester)",
@@ -32,12 +34,12 @@ export default defineRoute(async (req, ctx) => {
   const { lang } = params;
   const cards = await getHomeServices({ lang });
   return (
-    <Naked title={hero0.headline}>
+    <Naked title={servicesHero.headline}>
       <HeaderLogoStickyNav lang={lang} />
 
       <ImageHeroWithSelectableImages
-        hero0={hero0}
-        cards={[hero0, ...cards]}
+        hero0={servicesHero}
+        cards={[servicesHero, ...cards]}
       />
     </Naked>
   );

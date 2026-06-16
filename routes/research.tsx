@@ -44,7 +44,7 @@ export default defineRoute(async (req, ctx) => {
   const { params } = ctx;
   const { lang } = params;
   const researcHero = await researcHeroIntl(lang);
-  const { headline, eyebrow, href, cta } = researcHero;
+  const { headline } = researcHero;
 
   const cards = _research[lang].map((r) => ({
     ...r,
