@@ -3,7 +3,7 @@ import { ImageHero } from "@/components/hero/image_hero.tsx";
 import { MajorSection } from "@/components/major_section.tsx";
 import { ImageHeroWithSelectableImages } from "@/islands/HScrollWithDynamicImage.tsx";
 
-const hero0 = {
+export const hero0 = {
   id: "01hyd6qeqv4n3qrcv735aph6yy",
   image:
     "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/nektj2s3e7hr8kdgu1jj",
@@ -29,9 +29,7 @@ export function ServicesHome(
   { id, hero, cards, lang }: { id?: string; lang: string },
 ) {
   return (
-    <MajorSection
-      id={id ?? "services-home"}
-    >
+    <MajorSection id="services-home">
       <ImageHeroWithSelectableImages
         id={id}
         hero0={hero0}

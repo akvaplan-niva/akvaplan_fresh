@@ -23,6 +23,8 @@ import { Head } from "$fresh/runtime.ts";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { ResearchHome } from "@/components/home/research_home.tsx";
 import { researcHeroIntl } from "@/routes/research.tsx";
+import { Footer } from "@/components/footer.tsx";
+import { ApnSym } from "@/components/akvaplan/symbol.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -37,14 +39,14 @@ const Breaking = (
   }: { days: number; max: number; lang: string; news: NewsWithRelativeTime[] },
 ) => (
   <div
-    class="bottom-0 xl:bottom-4"
+    class="bottom-0 xl:bottom-4 invisible xl:visible"
     style="position: absolute; right: 2rem; z-index: 1000; padding: 1.25rem; background: var(--dark); max-width: min(100dvw,50rem);"
   >
     {news.filter(({ ago }) => ago?.days < days).slice(0, max).map((
       { headline, href, type, ago },
     ) => (
       <p
-        class="grid grid-cols-2 invisible xl:visible"
+        class="grid grid-cols-2"
         style={{ gridTemplateColumns: "1fr", paddingBlockEnd: "0rem" }}
       >
         <a href={href}>
@@ -114,6 +116,11 @@ export default defineRoute(async (req, _ctx) => {
       <PeopleHome id="nav-4" lang={lang} />
 
       <Projects5 id="nav-5" cards={projects} lang={lang} />
+
+      <Footer lang={lang} />
+      <div hidden>
+        <ApnSym />
+      </div>
 
       <ImageHero {...aboutHeroProps} />
     </>

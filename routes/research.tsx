@@ -6,7 +6,6 @@ export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(research|forskning)",
 };
 
-import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { Naked } from "akvaplan_fresh/components/naked.tsx";
 
 import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
@@ -16,6 +15,8 @@ import { researchHref } from "@/services/nav.ts";
 import { sqImgUrl } from "@/services/cloudinary.ts";
 import { ImageHeroWithSelectableImages } from "@/islands/HScrollWithDynamicImage.tsx";
 import { Hero } from "@/components/card/types.ts";
+
+import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
 
 const getResaarchPanel = async (lang: string) =>
