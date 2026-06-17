@@ -1,0 +1,51 @@
+.h1, .h2, .h3 {
+  font-family: Oceanic Gothic Medium;
+  font-weight: 500;
+  letter-spacing: -2%;
+  line-height: 1.1;
+}
+
+.h0 {
+  font-size: 80px;
+  font-size: clamp(2rem, 6vw, 6rem);
+}
+
+.h1 {
+  font-size: 80px;
+  font-size: clamp(2rem, 6vw, 5rem);
+}
+
+.h2 {
+  font-size: 64px;
+  font-size: clamp(2rem, 6vw, 4rem);
+}
+
+.h3 {
+  font-size: 48px;
+  /* font-size: clamp(2rem, 6vw, 3.5rem); */
+}
+
+.h4, .h5, .h6 {
+  font-family: Geist;
+  font-weight: 600;
+  line-height: 1.0;
+}
+
+.h4 {
+  font-size: 34px;
+  font-size: clamp(1.5rem, 2vw, 2.5rem);
+}
+
+.h5 {
+  font-size: 34px;
+  font-size: clamp(1.5rem, 2vw, 2.5rem);
+}
+
+.h6 {
+  font-size: 34px;
+  font-size: clamp(1.5rem, 2vw, 2.5rem);
+}
+
+.body {
+  font-size: 1rem;
+}
