@@ -19,6 +19,9 @@ const workplaceFacets = [
   ["Bodø", 5],
   ["Stord", 1],
 ] as const;
+
+//["BIOLT",8],["OSEAN",13],["INSPM",13],["FISK",9],["LEDELS",9],["MILPÅ",12],["AKVA",5],["UTRED",12],["INNOV",10],["ØKOSY",10],["",1],["SENSE",3],["HAVTEK",5],["KJEMI",5],["STABS",8]]
+
 const total = workplaceFacets.reduce((p, c) => p += +c[1], 0);
 
 const peopleIntl = (lang: string) =>

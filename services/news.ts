@@ -7,6 +7,7 @@ import { Card } from "@/components/card/types.ts";
 
 interface NewsWithRelativeTime extends Card {
   ago?: Temporal.Duration;
+  intro?: string;
 }
 
 export const sortLatest = (a: News, b: News) =>

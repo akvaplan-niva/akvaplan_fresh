@@ -49,7 +49,7 @@ export const Cards1plus4 = ({ cards }: { cards: Card[] }) => {
       <div style="aspect-ratio: 1/1;">
         <SqImgCard
           headline={sq.headline}
-          subtitle={sq.intro}
+          intro={sq.intro}
           image={imgUrl(sq.cloudinary)}
           href={sq.href}
         />
