@@ -9,15 +9,15 @@ import type { Hero } from "@/components/card/types.ts";
 
 const workplaceFacets = [
   ["Tromsø", 84],
-  ["Oslo", 5],
   ["Alta", 5],
-  ["Reykjavík", 3],
+  ["Bodø", 5],
+  ["Sortland", 3],
   ["Trondheim", 11],
   ["Bergen", 4],
-  ["Ski", 2],
-  ["Sortland", 3],
-  ["Bodø", 5],
   ["Stord", 1],
+  ["Oslo", 5],
+  ["Ski", 2],
+  ["Reykjavík", 3],
 ] as const;
 
 //["BIOLT",8],["OSEAN",13],["INSPM",13],["FISK",9],["LEDELS",9],["MILPÅ",12],["AKVA",5],["UTRED",12],["INNOV",10],["ØKOSY",10],["",1],["SENSE",3],["HAVTEK",5],["KJEMI",5],["STABS",8]]

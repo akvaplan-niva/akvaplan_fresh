@@ -1,4 +1,4 @@
-import type { Card } from "@/components/card/types.ts";
+import type { Card, Hero } from "@/components/card/types.ts";
 import { cloudinaryImgUrl } from "@/services/cloudinary.ts";
 //import type { CSSProperties } from "preact";
 
@@ -32,13 +32,13 @@ const sqImgUrl = (
 //           : null}
 
 export function SqImgCard({
-  cloudinary,
-  image = "",
   headline = "",
   href = "#",
+  cloudinary,
+  image,
   intro,
   size,
-}: Card) {
+}: Card | Hero) {
   return (
     <div
       class={`relative w-full aspect-square rounded-sm overflow-hidden shadow-2xl`}
@@ -62,9 +62,11 @@ export function SqImgCard({
               {headline}
             </h2>
           </div>
-          <p class="invisible md:visible text-[15px] backdrop-blur-md md:text-[17px] leading-relaxed opacity-95 line-clamp-2">
-            {intro}
-          </p>
+          {intro && (
+            <p class="text-[15px] md:text-[17px] lg:text-lg backdrop-blur-md  leading-relaxed opacity-95 line-clamp-2">
+              {intro}
+            </p>
+          )}
         </div>
       </a>
     </div>
