@@ -12,7 +12,7 @@ import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { ImageHero } from "@/components/hero/image_hero.tsx";
 import { VideoHero } from "@/components/hero/video_hero.tsx";
 import { News5 } from "@/components/home/news5.tsx";
-import { PeopleHome } from "@/components/home/people.tsx";
+import { PeopleHome } from "@/components/home/people_home.tsx";
 import { ServicesHome } from "@/components/home/services_home.tsx";
 import { Projects5 } from "@/components/home/projects5.tsx";
 import { LegacyStyles } from "@/components/styles.tsx";
@@ -95,7 +95,7 @@ export default defineRoute(async (req, _ctx) => {
 
       <VideoHero {...heroProps} />
 
-      <Breaking news={news} lang={lang} days={14} max={2} />
+      <Breaking news={news} lang={lang} days={14} max={1} />
 
       <News5 id="nav-1" cards={news} lang={lang} />
 

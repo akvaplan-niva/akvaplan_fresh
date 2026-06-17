@@ -76,6 +76,7 @@ export function ImageHero(
             : null}
         </div>
       </div>
+
       {footer && (
         <div
           class={`absolute bottom-0 lg:bottom-12 left-0 right-0 px-6 lg:px-12 transition-all duration-700 delay-500`}

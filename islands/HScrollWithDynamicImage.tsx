@@ -1,25 +1,44 @@
 import { heroImageUrl, sqImgUrl } from "@/services/cloudinary.ts";
-import { t } from "@/text/mod.ts";
 
 import { TightSqImgCard } from "@/components/cards.tsx";
 import { ImageHero } from "@/components/hero/image_hero.tsx";
-import { HScroll } from "@/components/hscroll/HScroll.tsx";
 
 import type { Card } from "@/components/card/types.ts";
 
-import { asset, Head } from "$fresh/runtime.ts";
 import { useState } from "preact/hooks";
-import type { TargetedMouseEvent } from "preact";
+import type { ComponentChild, TargetedMouseEvent } from "preact";
+
+const Footer = ({ cards, extra, onClick, onMouseEnter }) => (
+  <footer class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 xl:grid-cols-12 gap-4">
+    {cards.map(({ cloudinary, image, href }, position) => (
+      <button
+        type="button"
+        data-position={position}
+        onMouseEnter={onClick}
+        onClick={onMouseEnter}
+        class="w-8 md:w-12 lg:w-24"
+      >
+        <TightSqImgCard
+          image={cloudinary ? sqImgUrl(cloudinary, 148) : image}
+          href={href}
+          headline=""
+        />
+      </button>
+    ))}
+  </footer>
+);
 
 export function ImageHeroWithSelectableImages(
-  { id, cards, hero0 = cards?.[0] }: {
+  { id, cards, hero0 = cards?.[0], footer }: {
+    id: string;
+    footer: ComponentChild;
     hero0: Card;
     cards: Card[];
   },
 ) {
   const [hero, setHero] = useState(hero0);
 
-  const handleHover = (e: TargetedMouseEvent<HTMLDivElement>) => {
+  const handleMouseInteraction = (e: TargetedMouseEvent<HTMLDivElement>) => {
     if (e && e.currentTarget) {
       const { position } = e.currentTarget.dataset;
       const p = Number(position);
@@ -43,29 +62,12 @@ export function ImageHeroWithSelectableImages(
         intro={hero.intro}
         cta={hero.cta ?? "Explore"}
         footer={
-          <footer>
-            <div class="invisible lg:visible grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 xl:grid-cols-12 gap-4">
-              {cards.map(({ cloudinary, image, href }, position) => (
-                <div
-                  data-position={position}
-                  onMouseEnter={handleHover}
-                  onClick={handleHover}
-                  class="w-24"
-                >
-                  <TightSqImgCard
-                    image={cloudinary ? sqImgUrl(cloudinary, 256) : image}
-                    href={href}
-                    headline={""}
-                  />
-                </div>
-              ))}
-              <HScroll maxVisibleChildren={cards.length - 0.5}></HScroll>
-            </div>
-
-            <Head>
-              <link rel="stylesheet" href={asset("/css/hscroll.css")} />
-            </Head>
-          </footer>
+          <Footer
+            cards={cards}
+            extra={footer}
+            onClick={handleMouseInteraction}
+            onMouseEnter={handleMouseInteraction}
+          />
         }
       />
     </section>

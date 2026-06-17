@@ -93,9 +93,6 @@ const No = new Map([
 export const intlRouteMap = (lang: string | StringSignal) =>
   lang === "en" || lang?.value === "en" ? En : No;
 
-export const peopleHref = (lang: string | StringSignal, path = "") =>
-  [intlRouteMap(lang).get("people"), path].join("/");
-
 export const serviceHref = (lang: string | StringSignal, path = "") =>
   [intlRouteMap(lang).get("services"), path].join("/");
 
@@ -258,6 +255,12 @@ export const pubUrl = (pub, lang) => {
 
 export const projectsURL = ({ lang }: SlugLike) =>
   intlRouteMap(lang).get("projects");
+
+export const peopleHref = (lang: string | StringSignal, path = "") =>
+  [intlRouteMap(lang).get("people"), path].join("/");
+
+export const peopleSearchHref = (opt?: { lang?: string }) =>
+  intlRouteMap(opt?.lang ?? langSignal.value).get("people");
 
 export const projectHref = ({ id, title, slug, lang }: string) =>
   `${intlRouteMap(lang).get("project")}/${id}/${

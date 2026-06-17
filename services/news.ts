@@ -103,12 +103,6 @@ export const cardFromNews = (
   const ago = published
     ? durationFromDateTimeUntilNow(published, "Europe/Oslo")
     : undefined;
-
-  console.warn(
-    published,
-    ago?.toLocaleString("no", { style: "short" }),
-  );
-
   return {
     href,
     headline,
@@ -157,6 +151,7 @@ const durationFromDateTimeUntilNow = (
   return zdt.until(Temporal.Now.zonedDateTimeISO(tz), {
     largestUnit: "year",
     smallestUnit: "hour",
+    roundingMode: "expand", // show <1h as 1h
   });
 };
 
