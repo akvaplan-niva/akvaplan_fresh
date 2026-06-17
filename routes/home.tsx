@@ -30,6 +30,10 @@ export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
 };
 
+const frozenProjects = JSON.parse(`
+  [{"href":"/no/prosjekt/01kv8572b0xrv4cjzexcyt28v4/rebunn","headline":"ReBunn","cloudinary":"5ptyncdnnwon4lq1nabwes"},{"href":"/no/prosjekt/01ks2d9af6eg65eajmm2v5nry2/floating-offshore-wind-effect-on-the-pelagic-system","headline":"FLoating Offshore Wind Effect on the pelagic system","cloudinary":"mokbmrmx47zhgbu42xhnee"},{"href":"/no/prosjekt/01kr3f2df0v67ngfr6mvw69t7n/from-climatic-drivers-to-antarctic-ice-sheet-response:-improving-accuracy-in-sea-level-rise-projections","headline":"From Climatic Drivers to Antarctic Ice Sheet Response: Improving Accuracy in Sea Level Rise Projections","cloudinary":"p4msw54wua8iubgxsrggpa"},{"href":"/no/prosjekt/01krdss9b75mektpxhqsgfqrj9/kunnskapsoversikt-om-interaksjon-mellom-akvakultur-og-fugl-i-norske-kystomrader","headline":"Kunnskapsoversikt om interaksjon mellom akvakultur og fugl i norske kystområder","cloudinary":"2l3gd2hr0qm995120eleae"},{"href":"/no/prosjekt/01kqvm26dekprjd34p9nafbeje/enhancing-plankton-classification-in-broadband-echosounder-data-with-machine-learning","headline":"Enhancing plankton classification in broadband echosounder data with machine learning","cloudinary":"4wu6f0n0hgy14rbrahszvk"}]
+`);
+
 const Breaking = (
   {
     news,
@@ -72,7 +76,7 @@ export default defineRoute(async (req, _ctx) => {
       .all(
         [
           getLatestNews({ lang, limit: 5 }),
-          getLatestResearchProjectCards({ lang, limit: 5 }),
+          frozenProjects, //getLatestResearchProjectCards({ lang, limit: 5 }),
           getHomeServices({ lang: lang }),
           getResearchTopics({ lang: lang }),
           getHomeHeroProps({ lang: lang }),
@@ -117,7 +121,7 @@ export default defineRoute(async (req, _ctx) => {
 
       <Projects5 id="nav-5" cards={projects} lang={lang} />
 
-      <Footer lang={lang} />
+      {/* <Footer lang={lang} /> */}
       <div hidden>
         <ApnSym />
       </div>
