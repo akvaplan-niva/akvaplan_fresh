@@ -74,16 +74,6 @@ export default defineRoute(async (_req, ctx) => {
           <link rel="stylesheet" href={asset("/css/article.css")} />
         </Head>
       </MajorSection>
-      {
-        /* <MajorSection>
-        <main class="body">
-          Akvaplan-niva is a Norwegian non-profit research and consulting
-          company. Our areas of expertise include the physical environment,
-          biological diversity, and ecological processes in ocean and
-          freshwater.
-        </main>
-      </MajorSection> */
-      }
     </div>
   );
 });

@@ -1,6 +1,7 @@
 import IconButton from "@/components/button/icon_button.tsx";
 import { SqImgCard, TightSqImgCard } from "@/components/cards.tsx";
 import type { Card } from "@/components/card/types.ts";
+import { PrimaryButton } from "@/components/button/primary_button.tsx";
 
 const imgUrl = (id: string) =>
   `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_746,h_746,q_auto:good/${id}`;
@@ -16,22 +17,15 @@ export const SectionHeader = (
       {headline}
     </h2>
 
-    {href && (
-      <a href={href}>
-        <IconButton
-          aria-label={cta}
-          reverse
-          icon="arrow_forward_ios"
-          color-scheme="dark"
-          style={`background-color: var(--primary);
-                  color: var(--dark);
-                  font-size: .8rem;
-                  border-radius: 1.5rem;`}
-        >
-          <span class="hide-s">{cta}</span>
-        </IconButton>
-      </a>
-    )}
+    {href && href !== null
+      ? (
+        <a href={href} aria-label={cta}>
+          <PrimaryButton reverse icon="arrow_forward_ios">
+            <span class="hide-s">{cta}</span>
+          </PrimaryButton>
+        </a>
+      )
+      : null}
   </header>
 );
 

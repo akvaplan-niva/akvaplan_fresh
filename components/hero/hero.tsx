@@ -50,7 +50,7 @@ export function __ImageHero(
   );
 }
 
-export function Hero({
+export function ImgHero({
   headline,
   eyebrow,
   intro,
@@ -59,7 +59,7 @@ export function Hero({
   image,
   cloudinary,
   href,
-  center = false,
+  footer,
 }: Hero & { source?: string }) {
   const imageSrc = image && image?.startsWith("https://")
     ? image
@@ -73,30 +73,28 @@ export function Hero({
         <img
           src={imageSrc}
           alt=""
-          class="absolute inset-0 -z-10 size-full object-cover object-right md:object-center"
+          class="absolute inset-0 -z-10 size-full object-cover object-right md:object-left"
         />
         <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
         <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
         <div class="mx-auto _max-w-2xl py-32 sm:py-48 lg:py-56">
           <div class="text-left">
             <div class="relative z-10 w-full px-6 lg:px-48 py-32 lg:py-40">
-              <div class="lg:max-w-[55%]">
+              <div class="2xl:max-w-[55%]">
                 {eyebrow && eyebrow.length > 0
                   ? <Eyebrow href={href} text={eyebrow} color="white" />
                   : null}
 
                 <div class="mb-12">
                   <h1
-                    class={`text-${
-                      center === true ? "center" : "left"
-                    } text-[clamp(2rem,6vw,7rem)] font-display leading-[0.92] tracking-tight text-white transition-all duration-1000 font-h block`}
+                    class={`text-left text-[clamp(2rem,6vw,7rem)] font-display leading-[0.92] tracking-tight text-white transition-all duration-1000 font-h block`}
                   >
                     {headline}
                   </h1>
                 </div>
                 {intro
                   ? (
-                    <span class="text-[clamp(1.25rem,1.25vw,2rem)] _lg:max-w-[55%] text-white line-clamp-4">
+                    <span class="text-[clamp(1.25rem,1.25vw,2rem)] lg:max-w-[55%] text-white line-clamp-4 min-h-48">
                       {intro}
                     </span>
                   )
@@ -109,6 +107,7 @@ export function Hero({
             </div>
           </div>
         </div>
+        {footer}
       </div>
     </div>
   );

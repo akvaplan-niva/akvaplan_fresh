@@ -58,6 +58,12 @@ export const getAboutHeroProps = async (
 ): Promise<Hero & { source: string; subtitle: string }> =>
   await lang !== "no" ? _aboutHero["en"] : _aboutHero["no"];
 
+const fromWhereQm =
+  `Akvaplan-niva is a Norwegian not-for-profit research and advisory
+ company. Our areas of expertise include the physical environment,
+ biological diversity, and ecological processes in ocean and
+ freshwater.`;
+
 export const getResearchTopics = async (
   { lang }: { lang: string },
 ): Promise<Card[]> => await lang !== "no" ? _research["en"] : _research["no"];

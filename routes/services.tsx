@@ -6,44 +6,66 @@ import { Naked } from "@/components/naked.tsx";
 import { t } from "@/text/mod.ts";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
+import { ImgHero } from "@/components/hero/hero.tsx";
+import { SqImgCard, TightSqImgCard } from "@/components/cards.tsx";
 
-export const servicesHero = {
-  id: "01hyd6qeqv4n3qrcv735aph6yy",
-  cloudinary: "nektj2s3e7hr8kdgu1jj",
-  intro:
-    "Vi tilbyr et bredt spekter av forskningsbaserte tjenester og kostnadseffektive løsninger",
-  href: "/no/tjenester",
-  cta: "Se våre tjenester",
-  eyebrow: t("nav.Services"),
-  desc:
-    "Akvaplan-niva tilbyr forskningsbaserte tjenester for alle vann-tilknyttede miljøutfordringer, blant annet miljøovervåking, miljørisikoanalyser, konsekvensutredninger, beredskapsplaner, oseanografisk modellering, biologiske og kjemiske laboratorieanalyser og anleggssertifikat for akvakultur.\n" +
-    " \n" +
-    "Vi gir råd om løsninger for utslipp, avfallshåndtering, rensing og reduksjon av våre kunders økologiske fotspor.\n" +
-    " \n" +
-    "Vi bidrar til et forskningsbaserte beslutningsgrunnlag for innovasjon, verdiskaping og trygge miljøoperasjoner hos næringsliv og myndighetsaktører i Norge og internasjonalt.\n" +
-    "\n" +
-    "Akvaplan-niva tilbyr [akkrediterte tjenester](/no/akkreditering) for å sikre presisjon, sporbarhet og åpenhet i alle faser av våre prosjekt.",
-  headline: "Våre tjenester",
-};
+export const servicesHeroIntl = (lang) =>
+  lang !== "en"
+    ? ({
+      headline: "Våre tjenester",
+      id: "01hyd6qeqv4n3qrcv735aph6yy",
+      cloudinary: "nektj2s3e7hr8kdgu1jj",
+      intro: "Vi tilbyr et bredt spekter av forskningsbaserte tjenester",
+      href: "/no/tjenester",
+      cta: "Se våre tjenester",
+      eyebrow: t("nav.Services"),
+      desc:
+        "Akvaplan-niva tilbyr forskningsbaserte tjenester for alle vann-tilknyttede miljøutfordringer, blant annet miljøovervåking, miljørisikoanalyser, konsekvensutredninger, beredskapsplaner, oseanografisk modellering, biologiske og kjemiske laboratorieanalyser og anleggssertifikat for akvakultur.\n" +
+        " \n" +
+        "Vi gir råd om løsninger for utslipp, avfallshåndtering, rensing og reduksjon av våre kunders økologiske fotspor.\n" +
+        " \n" +
+        "Vi bidrar til et forskningsbaserte beslutningsgrunnlag for innovasjon, verdiskaping og trygge miljøoperasjoner hos næringsliv og myndighetsaktører i Norge og internasjonalt.\n" +
+        "\n" +
+        "Akvaplan-niva tilbyr [akkrediterte tjenester](/no/akkreditering) for å sikre presisjon, sporbarhet og åpenhet i alle faser av våre prosjekt.",
+    })
+    : ({
+      headline: "Services and advice",
+      id: "01hyd6qeqv4n3qrcv735aph6yy",
+      cloudinary: "nektj2s3e7hr8kdgu1jj",
+      intro: "We offer a broad spectrum of research-based services and advice",
+      href: "/no/tjenester",
+      cta: "See our services",
+      eyebrow: t("nav.Services"),
+    });
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(services|tjenester)",
 };
+
+const imgUrl = (id: string) =>
+  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_746,h_746,q_auto:good/${id}`;
 export default defineRoute(async (req, ctx) => {
   const { params } = ctx;
   const { lang } = params;
-  const hero = servicesHero;
+  const hero = servicesHeroIntl(lang);
   hero.cta = "";
-  hero.intro = "";
-  const cards = [hero, await getHomeServices({ lang })];
+  const services = await getHomeServices({ lang });
+  const cards = [hero, ...services];
 
   return (
-    <Naked title={servicesHero.headline}>
+    <Naked title={hero.headline}>
       <HeaderLogoStickyNav lang={lang} />
+      <ImgHero {...hero} />
 
-      <ImageHeroWithSelectableImages
-        hero0={hero}
-        cards={cards}
-      />
+      <div style="aspect-ratio: 1/1;  display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.5rem;">
+        {services.map(({ headline, href, cloudinary }) => (
+          <TightSqImgCard
+            key={href}
+            image={imgUrl(cloudinary)}
+            headline={headline}
+            href={href}
+          />
+        ))}
+      </div>
     </Naked>
   );
 });
