@@ -36,7 +36,7 @@ export function ImageHero(
         <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
       </div>
 
-      <div class="relative z-10 w-full max-w-[1400px] mx-auto px-6 lg:px-12 py-32 lg:py-40">
+      <div class="relative z-10 w-full max-w-[1920px] mx-auto px-6 lg:px-12 py-32 lg:py-40">
         <div class="lg:max-w-[55%]">
           {eyebrow && eyebrow.length > 0
             ? <Eyebrow href={href} text={eyebrow} />

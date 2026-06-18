@@ -53,23 +53,22 @@ export function ImageHeroWithSelectableImages(
     : hero.image ?? hero0.image;
 
   return (
-    <section id={id}>
-      <ImageHero
-        eyebrow={hero.eyebrow ?? hero0.eyebrow}
-        image={image}
-        headline={hero?.headline}
-        href={hero.href}
-        intro={hero.intro}
-        cta={hero.cta ?? "Explore"}
-        footer={
-          <Footer
-            cards={cards}
-            extra={footer}
-            onClick={handleMouseInteraction}
-            onMouseEnter={handleMouseInteraction}
-          />
-        }
-      />
-    </section>
+    <ImageHero
+      id={id}
+      eyebrow={hero.eyebrow ?? hero0.eyebrow}
+      image={image}
+      headline={hero?.headline}
+      href={hero.href}
+      intro={hero.intro}
+      cta={hero.cta ?? "Explore"}
+      footer={
+        <Footer
+          cards={cards}
+          extra={footer}
+          onClick={handleMouseInteraction}
+          onMouseEnter={handleMouseInteraction}
+        />
+      }
+    />
   );
 }

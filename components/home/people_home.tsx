@@ -30,13 +30,11 @@ const peopleIntl = (lang: string) =>
     cta: t("people.See_all"),
     headline: t("our.people") ?? "",
     eyebrow: t("nav.People"),
-    //cloudinary: "uhoylo8khenaqk6bvpkq", //a-c
-    //cloudinary: "pf3jrovrkboplxrn20ep", //ida
-    cloudinary: "viemsy7cszuo7laedtcd", //frida
+    cloudinary: "viemsy7cszuo7laedtcd",
     intro: lang !== "en" ? "" : "",
   }) satisfies Hero;
 
-export const Where = () => {
+export const WherePeopleWork = () => {
   return (
     <footer color-scheme="dark">
       {workplaceFacets.map((
@@ -71,7 +69,7 @@ export const PeopleHome = ({ id, lang }: { id: string; lang: string }) => {
         cloudinary={cloudinary}
         intro={intro}
         cta={cta.replace(" ", ` ${total} `)}
-        footer={<Where />}
+        footer={<WherePeopleWork />}
       />
     </MajorSection>
   );

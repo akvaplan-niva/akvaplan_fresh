@@ -48,7 +48,7 @@ export function VideoHero(
         <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
       </div>
 
-      <div class="relative z-10 w-full max-w-[1500px] mx-auto px-6 lg:px-12 py-32 lg:py-40">
+      <div class="relative z-10 w-full max-w-[1920px] mx-auto px-6 lg:px-12 py-32 lg:py-40">
         <div class="lg:max-w-[55%]">
           {eyebrow && eyebrow.length > 0
             ? <Eyebrow text={eyebrow} muted />
@@ -73,7 +73,7 @@ export function VideoHero(
           isVisible ? "opacity-100" : "opacity-0"
         }`}
       >
-        <div class="max-w-[1500px] mx-auto flex items-start gap-10 lg:gap-20">
+        <div class="max-w-[1920px] mx-auto flex items-start gap-10 lg:gap-20">
           {metrics?.map((stat) => (
             <div key={stat.label} class="flex flex-col gap-2">
               <span class="text-3xl lg:text-4xl font-display text-white">

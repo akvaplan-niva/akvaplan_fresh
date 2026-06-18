@@ -24,6 +24,7 @@ import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { ResearchHome } from "@/components/home/research_home.tsx";
 import { researcHeroIntl } from "@/routes/research.tsx";
 import { ApnSym } from "@/components/akvaplan/symbol.tsx";
+import { Services5 } from "@/components/home/services5.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -103,10 +104,9 @@ export default defineRoute(async (req, _ctx) => {
 
       <News5 id="nav-1" cards={news} lang={lang} />
 
-      <ServicesHome
+      <Services5
         id="nav-2"
         lang={lang}
-        hero={researchHero}
         cards={services}
       />
 

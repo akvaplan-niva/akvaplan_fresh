@@ -1,11 +1,33 @@
 {
   "en": {
-    "headline": "Research and consulting",
-    "eyebrow": "Sustainability & scientific integrity",
+    "headline": "Research and advice",
+    "eyebrow": "",
     "words": [
+      "akvakultur",
+      "autonome farkoster",
+      "ferskvannsøkologi",
+      "forurensing",
+      "forskningsstasjon",
+      "økotoksikologi",
+      "bunndyr",
+      "havdynamikk",
+      "spredningsmodellering",
+      "kjemisk analyse",
+      "konsekvensutredning",
+      "marine økosystemer",
+      "miljøovervåking",
+      "miljøpåvirkning",
+      "miljørisikoanalyse",
+      "plast og mikroplast",
+      "sjøfugl",
+      "sjøpattedyr",
+      "teknisk inspeksjon",
+      "visuell bunnkartlegging",
+
+      "BEAR",
       "aquaculture",
       "autonomous vehicles",
-      "arctic challenges",
+      "arctic environments",
       "freshwater ecology",
       "pollution",
       "research station",
@@ -23,7 +45,7 @@
     "metrics": [
       { "value": "120+", "label": "highly skilled employees" },
       { "value": "20+", "label": "nationalities" },
-      { "value": "1000+", "label": "peer-reviewed articles" }
+      { "value": "1400+", "label": "peer-reviewed articles" }
     ],
     "source": {
       "src": "https://gliderdata.blob.core.windows.net/akvaplan-open/web/video/zo2_web_small.mp4",
@@ -33,31 +55,33 @@
   },
   "no": {
     "headline": "Forskning og rådgiving",
-    "eyebrow": "Bærekraft & vitenskapelig integritet",
+    "eyebrow": "Fra forskning til bærekraftig verdiskaping",
     "words": [
       "akvakultur",
-      "autonome fartøy",
+      "autonome farkoster",
       "ferskvannsøkologi",
       "forurensing",
       "forskningsstasjon",
       "økotoksikologi",
       "bunndyr",
       "havdynamikk",
-      "havstrømmer",
       "spredningsmodellering",
       "kjemisk analyse",
-      "marin økologi",
+      "konsekvensutredning",
+      "marine økosystemer",
       "miljøovervåking",
       "miljøpåvirkning",
       "miljørisikoanalyse",
       "plast og mikroplast",
+      "sjøfugl",
+      "sjøpattedyr",
       "teknisk inspeksjon",
       "visuell bunnkartlegging"
     ],
     "metrics": [
       { "value": "120+", "label": "høykompetente ansatte" },
       { "value": "20+", "label": "nasjonaliteter" },
-      { "value": "1000+", "label": "vitenskapelige artikler" }
+      { "value": "1400+", "label": "vitenskapelige artikler" }
     ],
     "source": {
       "src": "https://gliderdata.blob.core.windows.net/akvaplan-open/web/video/zo2_web_small.mp4",
