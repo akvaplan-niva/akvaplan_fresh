@@ -16,8 +16,8 @@ export function Research5(
 
   return (
     <MajorSection id={id}>
-      <Eyebrow href={href} text={eyebrow} />
-      <SectionHeader headline={headline} cta={cta} href={href} />
+      {/* <Eyebrow href={href} text={eyebrow} /> */}
+      {/* <SectionHeader headline={headline} cta={cta} href={href} /> */}
       <Cards1plus4 cards={cards} />
     </MajorSection>
   );

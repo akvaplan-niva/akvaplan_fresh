@@ -10,6 +10,7 @@ import { getNewsCardByMynewsdeskId } from "@/services/news.ts";
 import { getItemBySlug } from "@/services/mynewsdesk.ts";
 import { H1 } from "@/components/h.tsx";
 import { heroImageUrl } from "@/services/cloudinary.ts";
+import { Card } from "@/components/card.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -66,10 +67,37 @@ export default defineRoute(async (_req, ctx) => {
         />
       </div>
       <MajorSection>
-        <article
-          class="article-content"
-          dangerouslySetInnerHTML={{ __html: body }}
-        />
+        <div class="grid lg:grid-cols-2">
+          <Card>
+            <p
+              style={{
+                fontSize: "calc(1.25rem + 0.1vw)",
+                lineHeight: 1.5,
+                whiteSpace: "pre-wrap",
+                maxWidth: "1000px",
+              }}
+            >
+            </p>
+            <article
+              style={{
+                fontSize: "calc(1.25rem + 0.1vw)",
+                lineHeight: 1.5,
+              }}
+              class="article-content"
+              dangerouslySetInnerHTML={{ __html: body }}
+            />
+          </Card>
+          <div>
+            {[]?.length > 0 &&
+              (
+                <SearchResults
+                  hits={peopleIdsAsHits([], lang)}
+                  display="grid"
+                />
+              )}
+          </div>
+        </div>
+
         <Head>
           <link rel="stylesheet" href={asset("/css/article.css")} />
         </Head>

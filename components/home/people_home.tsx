@@ -51,10 +51,7 @@ export const WherePeopleWork = () => {
               style="color: var(--text1);"
               _class="text-[clamp(1.25rem,1.25vw,2rem)] text-white"
             >
-              {location}
-              <Pill>
-                {count}
-              </Pill>
+              {location}&nbsp;<Pill>{count}</Pill>
             </span>
           </a>
         ))}
@@ -67,14 +64,15 @@ export const PeopleHome = ({ id, lang }: { id: string; lang: string }) => {
   const { headline, eyebrow, cta, href, cloudinary, intro } = peopleIntl(lang);
 
   return (
-    <MajorSection id={id}>
+    <MajorSection>
       <ImgHero
+        id={id}
         eyebrow={eyebrow}
         headline={headline}
         href={href}
         cloudinary={cloudinary}
         intro={intro}
-        cta={cta.replace(" ", ` ${total} `)}
+        cta={cta}
         footer={<WherePeopleWork />}
       />
     </MajorSection>

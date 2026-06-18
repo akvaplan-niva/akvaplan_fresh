@@ -15,7 +15,10 @@ import {
   ID_PEOPLE,
   ID_PUBLICATIONS,
 } from "akvaplan_fresh/kv/id.ts";
-import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
+import {
+  Markdown,
+  MarkdownPanel,
+} from "akvaplan_fresh/components/markdown.tsx";
 
 import { Card } from "akvaplan_fresh/components/card.tsx";
 import { Page } from "akvaplan_fresh/components/page.tsx";
@@ -27,6 +30,9 @@ import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
 import { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
 import Button from "akvaplan_fresh/components/button/button.tsx";
+import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
+import { MajorSection } from "@/components/major_section.tsx";
+import { LegacyStyles, MorgenStudioStyles } from "@/components/styles.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -54,21 +60,29 @@ export default defineRoute(async (req, ctx) => {
 
   const base = `/${params.lang}/${params.page}/`;
 
-  const hero = await getAboutHero(lang);
+  const panel = await getAboutHero(lang);
 
   const panels = await getAboutPanels(lang);
 
   const editor = await mayEditKvPanel(req);
 
   return (
-    <Page title={title} base={base} lang={lang}>
+    <div title={title} base={base} lang={lang}>
+      <Head>
+        <MorgenStudioStyles />
+        <LegacyStyles />
+      </Head>
+      <HeaderLogoStickyNav lang={lang} />
+
+      <MarkdownPanel panel={panel} lang={lang} />
+
       <SearchHeader
         lang={lang}
-        title={hero?.title}
-        subtitle={hero?.intro}
-        cloudinary={hero?.image.cloudinary}
-        cta={hero?.cta}
-        href={hero?.href}
+        title={panel?.title}
+        subtitle={panel?.intro}
+        cloudinary={panel?.image.cloudinary}
+        cta={panel?.cta}
+        href={panel?.href}
       />
 
       <Section>
@@ -79,43 +93,32 @@ export default defineRoute(async (req, ctx) => {
         <Section />
         <p>
           <Markdown
-            text={hero?.desc}
+            text={panel?.desc}
             style={{ whiteSpace: "pre-wrap", fontSize: "1rem" }}
           />
         </p>
       </Section>
 
-      <section class="Section block-center-center">
-        <div class="Container content-3">
-          <div class="BentoGrid block gap-1">
-            {panels?.map((p) => (
-              <BentoPanel
-                panel={p}
-                hero={false}
-                lang={lang}
-                editor={false}
-              />
-            ))}
-
-            {editor && <NewPanel collection={"company"} lang={lang} />}
-          </div>
-        </div>
+      <section class="">
+        {panels?.map((p) => (
+          <BentoPanel
+            panel={p}
+            hero={false}
+            lang={lang}
+            editor={false}
+          />
+        ))}
       </section>
 
-      <Section />
-      <Section>
+      <MajorSection>
         <div id="map" style={{ height: "600px" }}></div>
-      </Section>
+      </MajorSection>
 
       <script type="module" src="/maplibre-gl/offices.js" />
       <link
         rel="stylesheet"
         href="https://esm.sh/maplibre-gl@5.6.0/dist/maplibre-gl.css"
       />
-
-      <Head>
-        <link rel="stylesheet" href={asset("/css/bento.css")} />
-      </Head>
-    </Page>
+    </div>
   );
 });

@@ -3,8 +3,10 @@
     "headline": "Research and advice",
     "eyebrow": "",
     "words": [
-      "akvakultur",
-      "autonome farkoster",
+      "aquaculture",
+      "autonomous vehicles",
+      "arctic environments",
+
       "ferskvannsøkologi",
       "forurensing",
       "forskningsstasjon",
@@ -23,11 +25,7 @@
       "sjøpattedyr",
       "teknisk inspeksjon",
       "visuell bunnkartlegging",
-
       "BEAR",
-      "aquaculture",
-      "autonomous vehicles",
-      "arctic environments",
       "freshwater ecology",
       "pollution",
       "research station",
@@ -55,9 +53,10 @@
   },
   "no": {
     "headline": "Forskning og rådgiving",
-    "eyebrow": "Fra forskning til bærekraftig verdiskaping",
+    "eyebrow": "Fra forskning \ntil bærekraftig verdiskaping",
     "words": [
       "akvakultur",
+      "arktisk miljø",
       "autonome farkoster",
       "ferskvannsøkologi",
       "forurensing",

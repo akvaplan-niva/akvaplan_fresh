@@ -10,7 +10,7 @@ export function HeaderLogoStickyNav(
   const isScrolled = false;
   return (
     <header
-      class={`fixed z-50 transition-all duration-500 ${majorSectionPaddingX} ${
+      class={`fixed z-50 transition-all duration-500 ${""} ${
         isScrolled ? "top-0 left-4 right-4" : "top-0 left-0 right-0"
       }`}
     >
@@ -18,7 +18,7 @@ export function HeaderLogoStickyNav(
         class={`mx-auto transition-all duration-500 bg-transparent`}
       >
         <div
-          class={`flex items-center justify-between transition-all duration-500 px-6 lg:px-8 ${
+          class={`flex items-center justify-between transition-all duration-500 px-6 _lg:px-8 ${
             isScrolled ? "h-0" : "h-20"
           }`}
         >

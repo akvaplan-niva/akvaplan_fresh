@@ -1,23 +1,27 @@
 import type { ComponentChildren } from "preact";
 import IconButton from "@/components/button/icon_button.tsx";
+import Button from "@/components/button/button.tsx";
 
 export const PrimaryButton = (
   { href, children, ...props }: { href: string; children: ComponentChildren },
-) => (
-  <IconButton
-    icon="search"
-    iconHeight="1.5rem"
-    iconWidth="1.5rem"
-    {
-      //aria-label={lang === "en" ? "Open search/menu" : "Åpne søk/meny"}
-
-      //popovertarget={popovertarget}
-      ...props
-    }
-  >
-    {children}
-  </IconButton>
-);
+) =>
+  props?.icon
+    ? (
+      <IconButton
+        iconHeight="1.5rem"
+        iconWidth="1.5rem"
+        {...props}
+      >
+        {children}
+      </IconButton>
+    )
+    : (
+      <Button
+        {...props}
+      >
+        {children}
+      </Button>
+    );
 
 export const PrimarySolidButton = (
   { href, children }: { href: string; children: ComponentChildren },

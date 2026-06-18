@@ -10,6 +10,10 @@ import { getAkvaplanist } from "akvaplan_fresh/services/mod.ts";
 import { SearchResultItem } from "akvaplan_fresh/components/search_result_item.tsx";
 import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
 import { atomizeAkvaplanist } from "akvaplan_fresh/search/indexers/akvaplanists.ts";
+import { ImgHero } from "@/components/hero/hero.tsx";
+import { MajorSection } from "@/components/major_section.tsx";
+import { MorgenStudioStyles } from "@/components/styles.tsx";
+import { Head } from "$fresh/runtime.ts";
 
 const allowedTags = [
   ...sanitize.defaults.allowedTags,
@@ -78,33 +82,49 @@ export const MarkdownPanel = (
 
   return (
     <>
-      <SearchHeader
+      <Head>
+        <MorgenStudioStyles />
+      </Head>
+      {
+        /* <SearchHeader
         lang={lang}
         title={panel.title}
         subtitle={panel.intro}
         cloudinary={panel?.image?.cloudinary}
+      /> */
+      }
+      <ImgHero
+        headline={panel.title}
+        cloudinary={panel.image.cloudinary}
+        intro={panel.intro}
       />
 
-      <Section>
+      <div class="grid lg:grid-cols-2">
         <Card>
           <p>
             {panel?.desc && (
               <Markdown
                 text={panel.desc}
-                style={{ whiteSpace: "pre-wrap", fontSize: "1rem" }}
+                style={{
+                  fontSize: "calc(1.25rem + 0.1vw)",
+                  lineHeight: 1.5,
+                  whiteSpace: "pre-wrap",
+                  maxWidth: "1000px",
+                }}
               />
             )}
           </p>
         </Card>
-      </Section>
-
-      {people_ids?.length > 0 &&
-        (
-          <SearchResults
-            hits={peopleIdsAsHits(people_ids, lang)}
-            display="grid"
-          />
-        )}
+        <div>
+          {people_ids?.length > 0 &&
+            (
+              <SearchResults
+                hits={peopleIdsAsHits(people_ids, lang)}
+                display="grid"
+              />
+            )}
+        </div>
+      </div>
     </>
   );
 };

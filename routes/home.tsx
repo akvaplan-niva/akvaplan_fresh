@@ -3,6 +3,7 @@ import {
   getHomeHeroProps,
   getHomeServices,
   getResearchTopics,
+  researcHeroIntl,
 } from "@/data/home.ts";
 
 import { getLatestNews } from "@/services/news.ts";
@@ -22,7 +23,7 @@ import { getLatestResearchProjectCards } from "@/services/project.ts";
 import { Head } from "$fresh/runtime.ts";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { Research5 } from "@/components/home/research5.tsx";
-import { researcHeroIntl } from "@/routes/research.tsx";
+
 import { ApnSym } from "@/components/akvaplan/symbol.tsx";
 import { Footer } from "@/components/footer.tsx";
 
@@ -120,12 +121,11 @@ export default defineRoute(async (req, _ctx) => {
 
       <Projects5 id="nav-5" cards={projects} lang={lang} />
 
-      {/* <ImageHero id="nav-6" {...aboutHeroProps} /> */}
-
       <div hidden>
         <ApnSym />
       </div>
-      <Footer lang={lang} />
+
+      <ImageHero id="nav-6" {...aboutHeroProps} />
     </>
   );
 });

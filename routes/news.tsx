@@ -80,7 +80,6 @@ export default function News(
       </Head>
       <HeaderLogoStickyNav lang={lang} />
       <News5 id="news" cards={cards} lang={lang} href={null} />
-
       {[...news].map(([grpkey, grpmembers]) => (
         <MajorSection id={`news-${grpkey}`}>
           <section style={_section}>

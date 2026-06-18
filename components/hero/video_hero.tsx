@@ -58,7 +58,7 @@ export function VideoHero(
             <h1
               class={`text-left text-[clamp(2rem,6vw,6rem)] font-medium font-h font-display leading-[1.1] tracking-tight text-white transition-all duration-1000`}
             >
-              <span class="block whitespace-nowrap">
+              <span class="block whitespace-nowrap ">
                 {headline}
               </span>
               <Buzzwords words={words} />
