@@ -98,6 +98,24 @@ export default defineRoute(async (req, ctx) => {
   const filters = Object.entries(oramaParams.where);
   const q = searchParams.get("q") ?? "";
   const mayCreateProject = await mayEditKvPanel(req);
+  const atoms = results.hits.map(({ document }) => document).map(
+    ({
+      id,
+      abbr,
+      intl,
+      cloudinary,
+      start,
+      end,
+      slug,
+    }) => ({
+      id,
+      headline: intl.name.no,
+      subtitle: `${start} / ${end}`,
+      cloudinary,
+      href: `#`,
+    }),
+  );
+  console.log(JSON.stringify(atoms.slice(0, 5)));
 
   return (
     <Page title={title} _base={""} collection="home">

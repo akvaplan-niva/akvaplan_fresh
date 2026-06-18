@@ -76,7 +76,9 @@ export const cloudinaryImgUrl = (cloudinary: string, w = 512, h?: number) =>
     w ? `,w_${w}` : ""
   }${h ? `,h_${h}` : ""},q_auto:good/${cloudinary}`;
 
-// https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_96,q_auto:good,w_128/kqmqxucf3h4votizhwy7do
+export const sqImgUrl = (id: string, px = 746) =>
+  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_${px},h_${px},q_auto:good/${id}`;
+
 export const cloudinaryUrl = (
   id: string,
   { ar, w }: { ar?: string; w: number } = { w: 1782 },
@@ -100,3 +102,6 @@ export const srcset = (url, { w, ar }) =>
     cloudinaryUrl(extractId(url), { w, ar }),
     `${w}w`,
   ].join(" ");
+
+export const heroImageUrl = ({ cloudinary }: Partial<Hero>) =>
+  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920,ar_16:9/${cloudinary}`;

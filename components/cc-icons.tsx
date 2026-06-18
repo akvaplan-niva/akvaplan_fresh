@@ -18,7 +18,7 @@ const CCImg = ({ license }) => (
     src={ccImgSrc(license)}
     alt=""
     title={/cc/i.test(license) ? "Creative Commons" : license}
-    style="height: 1.5rem; margin-left: .1rem; vertical-align: text-bottom;"
+    style="display:inline; height: 1.5rem; margin-left: .1rem; vertical-align: text-bottom;"
   />
 );
 

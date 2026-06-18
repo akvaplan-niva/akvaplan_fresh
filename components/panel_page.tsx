@@ -1,32 +1,19 @@
-import {
-  ArticleSquare,
-  Card,
-  HScroll,
-  Page,
-  PersonCard as PersonCard,
-} from "akvaplan_fresh/components/mod.ts";
+import { Page } from "akvaplan_fresh/components/mod.ts";
 import { Section } from "akvaplan_fresh/components/section.tsx";
-import {
-  Markdown,
-  MarkdownPanel,
-} from "akvaplan_fresh/components/markdown.tsx";
-import { ImagePanel } from "akvaplan_fresh/components/panel.tsx";
+import { MarkdownPanel } from "akvaplan_fresh/components/markdown.tsx";
 
 import { asset, Head } from "$fresh/runtime.ts";
 import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-import { panelHref } from "akvaplan_fresh/services/panelHref.tsx";
-import { Breadcrumbs } from "akvaplan_fresh/components/site_nav.tsx";
-import { breadcrumb } from "akvaplan_fresh/services/mod.ts";
-import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
+import { Naked } from "@/components/naked.tsx";
+import { ImgHero } from "@/components/hero/hero.tsx";
+import { cloudinary0 } from "@/services/mod.ts";
+import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 export const PanelPage = (
   { base, collection, panel, lang, editor, contacts, url, more, search },
 ) => (
-  <Page base={base} title={panel.title} collection={collection}>
-    {
-      /* <Breadcrumbs
-      list={[breadcrumb(collection, lang)]}
-    /> */
-    }
+  <Naked base={base} title={panel.title} collection={collection}>
+    <HeaderLogoStickyNav lang={lang} />
+
     <MarkdownPanel panel={panel} lang={lang} />
 
     <Section>
@@ -45,10 +32,5 @@ export const PanelPage = (
         />
       )}
     </Section>
-
-    {/* FIXME add children */}
-    <Head>
-      <link rel="stylesheet" href={asset("/css/bento.css")} />
-    </Head>
-  </Page>
+  </Naked>
 );

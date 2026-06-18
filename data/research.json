@@ -1,0 +1,53 @@
+{
+  "en": [
+    {
+      "headline": "Aquaculture",
+      "cloudinary": "nxilnbrqnbsgskw12ast",
+      "href": "/en/research/aquaculture/01hwq488bzsbgf70he01qz825x"
+    },
+    {
+      "headline": "Climate change",
+      "cloudinary": "3nvl4ulk2oue6e0nemgxqx",
+      "intro": "Climate is changing rapidly, especially in the Northern Regions",
+      "href": "/en/research/climate-change/01hwq488c0tkhmd9y109hjjhn5"
+    },
+    {
+      "headline": "Ecosystem understanding",
+      "cloudinary": "g1mqg9j8l3zlrv8o61bm9n",
+      "intro": "Our researchers have high competence in biodiversity, ecology, and ecosystem processes in sea ice, pelagic, and benthic habitats",
+      "href": "/en/research/ecosystem-understanding/01hwq488c0ejy4s2kdka4j8xbb"
+    },
+    {
+      "headline": "Environmental impact",
+      "cloudinary": "fz4ilb8tlknebpex55vw12",
+      "intro": "How are human activities affecting organisms and ecosystems?",
+      "href": "/en/research/environmental-impact/01hwq488byaejre7jt7fq12c4p"
+    }
+  ],
+  "no": [
+    {
+      "headline": "Akvakultur",
+      "cloudinary": "nxilnbrqnbsgskw12ast",
+      "intro": "",
+      "href": "/no/forskning/akvakultur/01hwq488bzsbgf70he01qz825x"
+    },
+    {
+      "headline": "Klimaendringer",
+      "cloudinary": "3nvl4ulk2oue6e0nemgxqx",
+      "intro": "Klimaet er i rask endring, spesielt i nordområdene",
+      "href": "/no/forskning/klimaendringer/01hwq488c0tkhmd9y109hjjhn5"
+    },
+    {
+      "headline": "Miljøpåvirkning",
+      "cloudinary": "fz4ilb8tlknebpex55vw12",
+      "intro": "En sentral problemstilling for Akvaplan-niva er hvordan ulike typer menneskelig aktivitet påvirker organismer og økosystem",
+      "href": "/no/forskning/miljopavirkning/01hwq488byaejre7jt7fq12c4p"
+    },
+    {
+      "headline": "Økosystemforståelse",
+      "cloudinary": "g1mqg9j8l3zlrv8o61bm9n",
+      "intro": "Våre forskere har kompetanse innen biologisk mangfold, økologi og økosystemprosesser, både i sjøis, pelagisk og bentisk miljø",
+      "href": "/no/forskning/okosystemforstaelse/01hwq488c0ejy4s2kdka4j8xbb"
+    }
+  ]
+}

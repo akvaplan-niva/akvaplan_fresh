@@ -18,6 +18,7 @@ import {
   ID_RESEARCH,
   ID_SERVICES,
 } from "./id.ts";
+import { panelHref } from "@/services/panelHref.tsx";
 
 const kv = await openKv();
 
@@ -128,6 +129,22 @@ export const getPanelsInLang = async (
   (await Array.fromAsync(await getPanelList())).map(({ value }) =>
     deintlPanel({ panel: value, lang })
   ).filter(filter);
+
+export const getPanelCollectionInLang = async ({ lang, collection }) => {
+  const panels = (await getPanelsInLang({
+    lang,
+    filter: (p: Panel) => collection === p.collection && p?.draft !== true,
+  })).sort((a, b) => a.title.localeCompare(b.title));
+
+  return panels.map((
+    { id, collection, intro, title: headline, image: { cloudinary }, ...rest },
+  ) => ({
+    headline,
+    cloudinary,
+    intro,
+    href: panelHref({ id, collection, title: headline }, { lang }),
+  }));
+};
 
 export const getPanelsByIds = async (
   ids: Deno.KvKeyPart[],

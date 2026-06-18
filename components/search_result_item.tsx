@@ -79,7 +79,7 @@ export const SearchResultItem = (
     <li
       title={score}
       style={{
-        fontSize: "0.75rem",
+        fontSize: "1rem",
         margin: "1px",
         //padding: "0.5rem",
         background: "var(--surface0)",

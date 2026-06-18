@@ -3,6 +3,7 @@
 //export const symbolDataURI = `data:image/svg+xml,${encodeURIComponent()}`;
 
 const style = `.akvaplan_symbol {
+  display: inline;
   --green: #00A2B2;
   --blue: #005392;
   --black: hsl(200 66% 7%);

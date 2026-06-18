@@ -55,3 +55,5 @@ export const ApnLogo = (props = {}) => (
     </g>
   </svg>
 );
+
+export const AkvaplanLogo = ApnLogo;

@@ -1,35 +1,27 @@
-/*
-https://v-fonts.com/fonts/roboto-flex 
-https://developers.google.com/fonts/docs/css2
-
-latin via https://fonts.googleapis.com/css2?family=Roboto+Flex
-src: url(https://fonts.gstatic.com/s/robotoflex/v9/NaN4epOXO_NexZs0b5QrzlOHb8wCikXpYqmZsWI-__OGfttPZktqc2VdZ80KvCLZaPcSBZtOx2MifRuWR28sPJtUMbsFEK6cRrleUx9Xgbm3WLHa_F4Ep4Fm0PN19Ik5Dntczx0wZGzhPlL1YNMYKbv9_1IQXOw7AiUJVXpRJ6cXW4O8TNGoXjC79QRyaLshNDUf3e0O-gn5rrZCu20YNYG0EACUTNK-QKavMlx2JoUc.woff2) format('woff2');
-*/
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src: url(/font/geist/geist.woff2) format("woff2");
+}
 
 @font-face {
-  font-family: "Roboto Flex";
+  font-family: "Geist Mono";
   font-style: normal;
-  font-weight: 400;
-  font-stretch: 100%;
+  font-weight: normal;
   font-display: swap;
-  src: url(/font/roboto-flex/roboto-flex-v9-latin-regular.woff2)
-    format("woff2");
-  unicode-range:
-    U+0000-00FF,
-    U+0131,
-    U+0152-0153,
-    U+02BB-02BC,
-    U+02C6,
-    U+02DA,
-    U+02DC,
-    U+2000-206F,
-    U+2074,
-    U+20AC,
-    U+2122,
-    U+2191,
-    U+2193,
-    U+2212,
-    U+2215,
-    U+FEFF,
-    U+FFFD;
+  src: url(/font/geist/geist-mono.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "Oceanic Gothic Medium";
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src: url(/font/oceanic-gothic/oceanic-gothic-medium.woff) format("woff");
+}
+
+h1, h2, .h {
+  font-family: "Oceanic Gothic Medium";
 }

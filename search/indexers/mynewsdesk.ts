@@ -257,6 +257,7 @@ export async function* insertMynewsdesk(orama: AnyOrama) {
     let page = 1;
 
     while (actual.get(type_of_media)! >= offset) {
+      console.warn({ type_of_media, offset, page });
       const atoms = [];
       const res = await fetchMynewsdeskBatch({
         type_of_media,
@@ -265,7 +266,8 @@ export async function* insertMynewsdesk(orama: AnyOrama) {
         page,
       });
       const { items, total_count } = res;
-      total.set(type_of_media, total_count);
+      total.set(res, type_of_media, total_count);
+      console.warn(type_of_media, total_count);
       if (["contact_person", "event"].includes(type_of_media)) {
         break;
       }
@@ -291,8 +293,8 @@ export async function* insertMynewsdesk(orama: AnyOrama) {
         atoms.push(atom);
       }
       try {
-        //console.warn({ type_of_media }, atoms.length);
-        await insertMultiple(orama, atoms);
+        console.warn({ type_of_media }, atoms.length);
+        await insertMultiple(orama, atoms, 100);
       } catch (_e) {
         //
       } finally {

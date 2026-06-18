@@ -69,7 +69,7 @@ export const GroupedPeople = (
       [key, members],
     ) => (
       <div>
-        <span style={{ fontSize: "var(--font-size-0)", color: "var(--text2)" }}>
+        <span style={{ fontSize: "var(--font-size-1)", color: "var(--text2)" }}>
           {!["family0", "given0"].includes(group)
             ? (
               <a

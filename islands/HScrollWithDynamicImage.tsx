@@ -1,83 +1,74 @@
+import { heroImageUrl, sqImgUrl } from "@/services/cloudinary.ts";
+
+import { TightSqImgCard } from "@/components/cards.tsx";
+import { ImageHero } from "@/components/hero/image_hero.tsx";
+
+import type { Card } from "@/components/card/types.ts";
+
 import { useState } from "preact/hooks";
-import { HScroll } from "akvaplan_fresh/components/mod.ts";
-import { Head } from "$fresh/src/runtime/head.ts";
-import { asset } from "$fresh/runtime.ts";
+import type { ComponentChild, TargetedMouseEvent } from "preact";
+import { ImgHero } from "@/components/hero/hero.tsx";
 
-type Image = {
-  img: string;
-  href: string;
-  title: string;
-};
-
-type Props = {
-  scrollerId: string;
-  images: Image[];
-};
-
-type ScrollImageProps = {
-  image: Image;
-  onHover: () => void;
-};
-
-export const ScrollImage = ({ image, onHover }: ScrollImageProps) => {
-  return (
-    <div
-      className="scroll-image"
-      _onMouseEnter={() => setTimeout(onHover, 100)}
-    >
-      <a class="image-container" href={image.href}>
-        <img
-          width={400}
-          height={400}
-          loading="lazy"
-          src={image.img512
-            ? image.img512.replace("/preview/", "/thumbnail_big/")
-            : image.img}
-          alt={image.name}
-          title={image.name}
+const Footer = ({ cards, extra, onClick, onMouseEnter }) => (
+  <footer class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 xl:grid-cols-12 gap-4">
+    {cards.map(({ cloudinary, image, href }, position) => (
+      <button
+        type="button"
+        data-position={position}
+        onMouseEnter={onClick}
+        onClick={onMouseEnter}
+        class="w-8 md:w-12 lg:w-24"
+      >
+        <TightSqImgCard
+          image={cloudinary ? sqImgUrl(cloudinary, 148) : image}
+          href={href}
+          headline=""
         />
-      </a>
-    </div>
-  );
-};
+      </button>
+    ))}
+  </footer>
+);
 
-export default function HScrollWithDynamicImage({ images }: Props) {
-  const [bigImage, setBigImage] = useState(images.at(0));
-  console.warn(bigImage);
-  //if (!bigImage) return null;
+export function ImageHeroWithSelectableImages(
+  { id, cards, hero0 = cards?.[0], footer }: {
+    id: string;
+    footer: ComponentChild;
+    hero0: Card;
+    cards: Card[];
+  },
+) {
+  const [hero, setHero] = useState(hero0);
 
-  const onHover = (e) => {
-    console.warn(e);
+  const handleMouseInteraction = (e: TargetedMouseEvent<HTMLDivElement>) => {
+    if (e && e.currentTarget) {
+      const { position } = e.currentTarget.dataset;
+      const p = Number(position);
+      const nextHero: Card = p in cards ? cards.at(p)! : hero0;
+      setHero(nextHero);
+    }
   };
-  const header = "";
+
+  //onMouseEnter={(e) => (onHover(e), 100)}
+  const image = "cloudinary" in hero
+    ? heroImageUrl({ cloudinary: hero.cloudinary })
+    : hero.image ?? hero0.image;
 
   return (
-    <section className="dynamic-image-hscroll">
-      <img className="dynamic-image-big" src={bigImage.img} />
-      <div className="dynamic-scroll-details">
-        <section class="article-title-mobile" aria-disabled="true">
-          <h1></h1>
-        </section>
-        <header class="article-header">
-          <h1>
-            <span class="backdrop-blur">{header}</span>
-          </h1>
-        </header>
-      </div>
-      <div className="dynamic-scroll-container">
-        <HScroll scrollerId={crypto.randomUUID()} _maxVisibleChildren={5}>
-          {images.map((image) => (
-            <ScrollImage
-              image={image}
-              onHover={onHover}
-            />
-          ))}
-        </HScroll>
-      </div>
-      <Head>
-        <link rel="stylesheet" href={asset("/css/hscroll.css")} />
-        <link rel="stylesheet" href={asset("/css/hscroll-dynamic.css")} />
-      </Head>
-    </section>
+    <ImgHero
+      headline={hero?.headline}
+      eyebrow={hero.eyebrow ?? hero0.eyebrow}
+      image={image}
+      href={hero.href}
+      intro={hero.intro}
+      desc={hero.desc}
+      footer={
+        <Footer
+          cards={cards}
+          extra={footer}
+          onClick={handleMouseInteraction}
+          onMouseEnter={handleMouseInteraction}
+        />
+      }
+    />
   );
 }

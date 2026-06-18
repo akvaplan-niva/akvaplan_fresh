@@ -65,7 +65,8 @@
 }
 
 .article-content {
-  max-width: 100%;
+  width: 100%;
+  max-width: 1000px;
   box-sizing: border-box;
   /* font-size: var(--font-size-1); */
   padding: var(--size-fluid-2);

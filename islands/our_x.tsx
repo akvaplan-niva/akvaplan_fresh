@@ -1,6 +1,4 @@
-import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
-
-import { shuffle } from "akvaplan_fresh/grouping/mod.ts";
+/* import { shuffle } from "akvaplan_fresh/grouping/mod.ts";
 import { extractId } from "akvaplan_fresh/services/extract_id.ts";
 import { mynewsdeskPanoramaImageUrl } from "akvaplan_fresh/components/panorama_picture.tsx";
 
@@ -9,8 +7,8 @@ import {
   ArticleHeader,
   CollectionHeader,
   HScroll,
+  SqImageCard,
 } from "akvaplan_fresh/components/mod.ts";
-import { ScrollImage } from "akvaplan_fresh/islands/HScrollWithDynamicImage.tsx";
 
 import { useSignal } from "@preact/signals";
 
@@ -50,7 +48,7 @@ export const OurX = ({ x, is, header, href }) => {
           />
           <HScroll>
             {x.map((image) => (
-              <ScrollImage
+              <SqImageCard
                 image={image}
                 onHover={() => swapImage(image)}
               />
@@ -61,3 +59,4 @@ export const OurX = ({ x, is, header, href }) => {
     </div>
   );
 };
+*/

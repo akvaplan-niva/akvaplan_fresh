@@ -14,19 +14,13 @@ import {
 import { insertMynewsdesk } from "akvaplan_fresh/search/indexers/mynewsdesk.ts";
 import { atomizeSlimPublication } from "akvaplan_fresh/search/indexers/pubs.ts";
 
-import {
-  createOramaInstance,
-  getOramaInstance,
-} from "akvaplan_fresh/search/orama.ts";
+import { createOramaInstance } from "akvaplan_fresh/search/orama.ts";
 
 import { insertMultiple } from "@orama/orama";
 import {
   getEmployedAkvaplanists,
 } from "akvaplan_fresh/services/akvaplanist.ts";
-import {
-  indexProjects,
-  indexProjectsFromKv,
-} from "akvaplan_fresh/search/indexers/project.ts";
+import { indexProjects } from "akvaplan_fresh/search/indexers/project.ts";
 
 // Create orama index
 // Persists index as JSON on disk during `deno task build` (in production, this runs on GitHub prior to deploy).
@@ -55,15 +49,15 @@ export const buildOramaIndexFromProductionApi = async () => {
   const projectsUrl = "https://akvaplan.no/api/kv/list/project?format=json";
   const r = await fetch(projectsUrl);
   if (r?.ok) {
-    const _projects = (await r.json()).map(({ value }) => value).map((p) => {
+    const projects = (await r.json()).map(({ value }) => value).map((p) => {
       p.published = new Date(p.published);
       p.updated = new Date(p.updated);
       return p;
     });
-    // FIXME FIXME @todo Hide draft projects
-    const projects = _projects.filter(({ id }) =>
-      !["01k894aagv93y00s7tjz0wadjr", "flowe"].includes(id)
-    );
+    // FIXME FIXME @todo Hide draft projects and delete 01k894aagv93y00s7tjz0wadjr
+    // const projects = _projects.filter(({ id }) =>
+    //   !["01k894aagv93y00s7tjz0wadjr", "flowe"].includes(id)
+    // );
     console.warn(`Indexing ${projects.length} projects`);
     await indexProjects(orama, projects);
   }

@@ -51,7 +51,7 @@ const Grid = ({ cloudinary, title, subtitle, cta }) => (
 export const SearchHeader = (
   { title = "", subtitle = "", cloudinary, href, cta },
 ) => (
-  <div style="font-size: 0.75rem; margin: 1px; background: var(--surface0);">
+  <div style="font-size: 1rem; margin: 1px; background: var(--surface0);">
     {href
       ? (
         <a href={href}>

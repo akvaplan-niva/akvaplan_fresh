@@ -8,8 +8,7 @@ export const ndjsonStream = <In>(
       toTransformStream(async function* (src: AsyncIterable<string>) {
         for await (const chunk of src) {
           if (chunk.trim().length > 0) {
-            const parsed: In = JSON.parse(chunk);
-            yield parsed;
+            yield JSON.parse(chunk) satisfies In;
           }
         }
       }),

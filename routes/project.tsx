@@ -65,7 +65,6 @@ export const handler: Handlers = {
       const { url, params } = ctx;
       const { lang, type, id, slug } = params;
       langSignal.value = lang;
-      console.warn({ lang, type, id, slug });
 
       const form = await req.formData();
       const user = await getSessionUser(req) as MicrosoftUserinfo;
@@ -151,7 +150,7 @@ export default defineRoute(async (req, ctx) => {
         style="grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));"
         color-scheme="dark"
       >
-        <li style="font-size: 0.75rem; margin: 1px; background: var(--surface4);">
+        <li style="font-size: 1rem; margin: 1px; background: var(--surface4);">
           <div style="display: grid; gap: 0.5rem; padding: 0.5rem; grid-template-columns: 2fr 4fr;">
             <a
               href={`https://prosjektbanken.forskningsradet.no/project/FORISS/${project.rcn}`}

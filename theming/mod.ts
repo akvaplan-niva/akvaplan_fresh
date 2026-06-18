@@ -3,7 +3,7 @@ import { signal } from "@preact/signals";
 const _blue = "blue";
 const _dark = "dark";
 const _light = "light";
-export const defaultTheme = "blue";
+export const defaultTheme = "dark";
 export const themes = new Set([_dark, _blue, _light]);
 
 const getRoot = () => globalThis?.document?.documentElement;

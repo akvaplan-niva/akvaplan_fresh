@@ -93,11 +93,11 @@ const No = new Map([
 export const intlRouteMap = (lang: string | StringSignal) =>
   lang === "en" || lang?.value === "en" ? En : No;
 
-export const peopleHref = (lang: string | StringSignal, path = "") =>
-  [intlRouteMap(lang).get("people"), path].join("/");
-
 export const serviceHref = (lang: string | StringSignal, path = "") =>
   [intlRouteMap(lang).get("services"), path].join("/");
+
+export const researchHref = (lang: string | StringSignal, path = "") =>
+  [intlRouteMap(lang).get("research"), path].join("/");
 
 export const buildNavPrev = (lang: string | StringSignal) => [
   { href: intlRouteMap(lang).get("news"), text: t("nav.News") },
@@ -112,17 +112,15 @@ export const buildNavPrev = (lang: string | StringSignal) => [
   { href: intlRouteMap(lang).get("about"), text: t("nav.About") },
   //{ href: _tr(lang).get("settings"), text: t("Settings") },
 ];
-export const buildNav = (lang: string | StringSignal) => [
-  { href: intlRouteMap(lang).get("akvaplanists"), text: t("nav.People") },
+export const buildNav = (
+  lang: string | StringSignal,
+) => [
+  { href: intlRouteMap(lang).get("news"), text: t("nav.News") },
   { href: intlRouteMap(lang).get("services"), text: t("nav.Services") },
-  // {
-  //   href: intlRouteMap(lang).get("infrastructure"),
-  //   text: t("nav.Infrastructure"),
-  // },
   { href: intlRouteMap(lang).get("research"), text: t("nav.Research") },
+  { href: intlRouteMap(lang).get("akvaplanists"), text: t("nav.People") },
   { href: intlRouteMap(lang).get("projects"), text: t("nav.Projects") },
   { href: intlRouteMap(lang).get("pubs"), text: t("nav.Publications") },
-  { href: intlRouteMap(lang).get("news"), text: t("nav.News") },
   { href: intlRouteMap(lang).get("about"), text: t("nav.About") },
   //{ href: _tr(lang).get("dcat"), text: t("Datasets") },
   //{ href: _tr(lang).get("documents"), text: t("Documents") },
@@ -258,9 +256,15 @@ export const pubUrl = (pub, lang) => {
 export const projectsURL = ({ lang }: SlugLike) =>
   intlRouteMap(lang).get("projects");
 
+export const peopleHref = (lang: string | StringSignal, path = "") =>
+  [intlRouteMap(lang).get("people"), path].join("/");
+
+export const peopleSearchHref = (opt?: { lang?: string }) =>
+  intlRouteMap(opt?.lang ?? langSignal.value).get("people");
+
 export const projectHref = ({ id, title, slug, lang }: string) =>
   `${intlRouteMap(lang).get("project")}/${id}/${
-    slug && slug[lang] ? slug[lang] : "_"
+    slug && slug[lang] ? slug[lang] : title ? _slug(title) : "#"
   }`;
 
 export const projectURL = ({ lang, title }: SlugLike) =>

@@ -37,12 +37,7 @@ export const newProject = (props: Project) => ({ ...props, ...defaults });
 
 const kv = await openKv();
 const _projects_kv = await Array.fromAsync(kv.list({ prefix: ["project"] }));
-// console.warn({ _projects_kv2 });
-
-// import _projects_kv from "https://akvaplan.no/api/kv/list/project?format=json" with {
-//   type: "json",
-// };
-const _projects = _projects_kv.map(({ value }) => value);
+const _projects = _projects_kv.map(({ value }) => value as Project);
 
 import { extractNumericId } from "akvaplan_fresh/services/id.ts";
 import { oramaSortPublishedReverse, search } from "../search/search.ts";
@@ -51,10 +46,12 @@ import { getItemFromMynewsdeskApi } from "./mynewsdesk.ts";
 import { MynewsdeskEvent } from "../@interfaces/mynewsdesk.ts";
 import { projectLifecycle } from "../search/indexers/project.ts";
 import { isodate } from "../time/intl.ts";
-import { intlRouteMap } from "./mod.ts";
+import { intlRouteMap, projectHref } from "./mod.ts";
 import { extractId } from "./extract_id.ts";
 import Turndown from "turndown";
 import { openKv } from "../kv/mod.ts";
+import { Card } from "@/components/card/types.ts";
+import { slug as _slug } from "slug";
 
 export const projectsIdMap = new Map(
   _projects.map((p) => [p.id, p as Project]),
@@ -165,3 +162,40 @@ export const projectFromMynewsdeskId = async (mynewsdesk_event_id: number) => {
 
   return project;
 };
+
+const sortLatest = (a: Project, b: Project) => {
+  const apub = new Date(a.published);
+  const bpub = new Date(b.published);
+  return Number(bpub) - Number(apub);
+};
+
+const cardFromProjectPanel = (lang) =>
+(
+  { id, cloudinary, title, published, type, hreflang: lang }: Project,
+) => {
+  const headline = title[lang] ?? title?.["en"] ?? title?.["no"] ?? "";
+  const href = projectHref({ id, title: headline, lang });
+  return {
+    href,
+    headline,
+    cloudinary,
+    //published,
+    //type,
+    //lang,
+  } satisfies Card;
+};
+
+export const getLatestProjectCards = ({ lang, limit }) =>
+  _projects.sort(sortLatest).slice(0, limit ?? _projects.length).map((p) =>
+    cardFromProjectPanel(lang)(p)
+  );
+
+const isResearchProject = (p: Project) => {
+  return p === p === true;
+};
+
+export const getLatestResearchProjectCards = ({ lang, limit }) =>
+  _projects.sort(sortLatest).filter(isResearchProject).slice(
+    0,
+    limit ?? _projects.length,
+  ).map((p) => cardFromProjectPanel(lang)(p));

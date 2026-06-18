@@ -48,10 +48,10 @@ import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
 import { projectsByMynewsdeskId } from "../../services/project.ts";
 import { ProjectsAsImageLinks } from "../../components/project_link.tsx";
 
-export const config: RouteConfig = {
-  routeOverride:
-    "/:lang(no|en){/akvaplan-niva}?/:type(news|nyhet|blog|pressreleases|pressrelease|pressemelding){/:isodate}?/:slug",
-};
+// export const config: RouteConfig = {
+//   routeOverride:
+//     "/:lang(no|en){/akvaplan-niva}?/:type(news|nyhet|blog|pressreleases|pressrelease|pressemelding){/:isodate}?/:slug",
+// };
 
 interface ArticleProps {
   item: AbstractMynewsdeskItem;

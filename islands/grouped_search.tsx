@@ -11,9 +11,9 @@ import { useSignal } from "@preact/signals";
 import { GroupedSearchCollectionResults } from "akvaplan_fresh/islands/grouped_search_collection_results.tsx";
 import { SelectSort } from "akvaplan_fresh/components/select_sort.tsx";
 import { JSX } from "preact/jsx-runtime";
-import { Result } from "https://esm.sh/v135/maplibre-gl@4.4.1/dist/maplibre-gl.js";
 import { OramaAtom } from "akvaplan_fresh/search/types.ts";
 import { SearchViewButtons } from "akvaplan_fresh/islands/search_view_buttons.tsx";
+import { Result } from "@orama/orama";
 
 const collectionHref = ({ collection, lang }) => {
   if (!intlRouteMap(lang).has(collection)) {

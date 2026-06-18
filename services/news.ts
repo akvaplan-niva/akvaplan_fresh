@@ -1,8 +1,14 @@
-// @todo rename service from news.ts to search.ts
-import { searchMynewsdesk } from "./mynewsdesk.ts";
+import { extractId } from "@/services/extract_id.ts";
+import { getItem, searchMynewsdesk } from "./mynewsdesk.ts";
 import { newsFromMynewsdesk } from "./news_mynewsdesk.ts";
 
-import { type News, type Search } from "akvaplan_fresh/@interfaces/mod.ts";
+import type { MynewsdeskArticle, News, Search } from "@/@interfaces/mod.ts";
+import { Card } from "@/components/card/types.ts";
+
+interface NewsWithRelativeTime extends Card {
+  ago?: Temporal.Duration;
+  intro?: string;
+}
 
 export const sortLatest = (a: News, b: News) =>
   b.published.localeCompare(a.published);
@@ -89,3 +95,93 @@ export const searchNewsArticles = async (
   );
   return articles.sort(sort);
 };
+
+export const cardFromNews = (
+  { caption, title: headline, href, img, published, type, hreflang: lang }:
+    News,
+) => {
+  const cloudinary = img?.split("/").at(-1);
+  const ago = published
+    ? durationFromDateTimeUntilNow(published, "Europe/Oslo")
+    : undefined;
+  return {
+    href,
+    headline,
+    cloudinary,
+    published,
+    type,
+    lang,
+    caption,
+    ago,
+  } satisfies NewsWithRelativeTime;
+};
+
+export const cardFromItem = async (
+  item: MynewsdeskArticle,
+) => {
+  const {
+    id,
+    image,
+    url,
+    body,
+    header,
+    summary,
+    caption,
+  } = item;
+
+  return { href: url, headline: header, intro: summary, body, image };
+};
+
+const getIntro = async (news0) => {
+  try {
+    const id = Number(extractId(news0.href));
+    const mynewsdesk0 = await getItem(id, news0.type);
+    return mynewsdesk0?.body?.replace(/<[^>]*>/g, "");
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+const durationFromDateTimeUntilNow = (
+  dts: string | Date,
+  tz: Temporal.TimeZoneLike,
+) => {
+  const dt = new Date(dts);
+  const instant = Temporal.Instant.fromEpochMilliseconds(dt.getTime());
+  const zdt = instant.toZonedDateTimeISO(tz);
+  return zdt.until(Temporal.Now.zonedDateTimeISO(tz), {
+    largestUnit: "year",
+    smallestUnit: "hour",
+    roundingMode: "expand", // show <1h as 1h
+  });
+};
+
+export const getLatestNews = async ({ q = "", lang, limit }) => {
+  const _news = await latestNewsFromMynewsdeskService({
+    q,
+    lang,
+    limit,
+  }).catch((e) => console.error(e));
+  const news = _news?.map(cardFromNews) ?? [];
+  if (news.length > 0) {
+    news[0].intro = await getIntro(news.at(0));
+    return news;
+  }
+  return [];
+};
+
+export const getNewsCardByMynewsdeskId = async (
+  id: number,
+  type_of_media: string,
+) => {
+  const item = await getItem(id, type_of_media);
+  if (item) {
+    return cardFromItem(item);
+  }
+};
+
+// const panels = (await getCollectionPanels({ lang })).map((
+//   { intro, ...withoutIntro },
+// ) => withoutIntro);
+
+// const latestNonNews = await latestNotInTheFuture(["person", "pubs"]);

@@ -37,11 +37,14 @@ export const handleThemeClick = (e: MouseEvent) => {
   }
 };
 
-export default function ThemeSwitcher({ mini = false, auto = !mini } = {}) {
+export default function ThemeSwitcher(
+  { mini = false, auto = !mini } = {},
+) {
   const theme = themeSignal.value;
   return (
     <form
       onClick={handleThemeClick}
+      style={{ display: "inline" }}
     >
       <div>
         <Button

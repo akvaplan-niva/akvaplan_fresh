@@ -18,7 +18,7 @@ export default defineRoute(async (req, ctx) => {
   const [slug, id] = params.id.includes("-")
     ? params.id.split("-")
     : ["", params.id];
-  console.warn(url, collection, slug, id);
+
   const panel = await getPanelInLang({ id, lang });
 
   if (!panel) {

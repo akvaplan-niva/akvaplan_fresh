@@ -1,0 +1,26 @@
+:root {
+  --primary: hsla(185, 100%, 35%, 1); /* brand/teal */
+  --secondary: hsla(206, 100%, 29%, 1); /* brand/blue */
+  --accent: hsla(185, 100%, 35%, 1);
+  --muted: hsla(201, 24%, 58%, 1);
+  --dark: hsla(198, 20%, 1%, 1);
+}
+
+/* .dark, [color-scheme="dark"], :root:not([color-scheme]) {
+  color-scheme: dark;
+  --text: white;
+  --surface: hsla(198, 20%, 1%, 1);
+}
+
+.light, [color-scheme="light"], :root:not([color-scheme="dark"]) {
+  color-scheme: light;
+  --text: hsla(198, 20%, 1%, 1);
+  --surface: white;
+}
+/* light MS? background: "hsla(200, 16%, 96%, 1)" */
+
+/* html, body {
+  color-scheme: dark light;
+  color: var(--text);
+  background: var(--surface);
+} */

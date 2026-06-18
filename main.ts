@@ -4,27 +4,9 @@
 /// <reference lib="dom.asynciterable" />
 /// <reference lib="deno.ns" />
 
-import { extractLangFromUrl } from "./text/mod.ts";
-
-import {
-  InnerRenderFunction,
-  RenderContext,
-  RenderFunction,
-  start,
-} from "$fresh/server.ts";
+import { start } from "$fresh/server.ts";
 
 import manifest from "./fresh.gen.ts";
+import config from "./fresh.config.ts";
 
-const render: RenderFunction = (
-  ctx: RenderContext,
-  freshRender: InnerRenderFunction,
-) => {
-  // Set `lang` in render context -> reflects into html[lang]
-  const lang = extractLangFromUrl(ctx.url);
-  if (lang) {
-    ctx.lang = lang;
-  }
-  freshRender();
-};
-
-await start(manifest, { render, plugins: [], port: 7777 });
+await start(manifest, config);
