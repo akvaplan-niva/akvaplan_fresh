@@ -60,8 +60,7 @@ export const PeopleHome = ({ id, lang }: { id: string; lang: string }) => {
   const { headline, eyebrow, cta, href, cloudinary, intro } = peopleIntl(lang);
 
   return (
-    <MajorSection>
-      <div id={id} />
+    <MajorSection id={id}>
       <ImageHero
         eyebrow={eyebrow}
         headline={headline}

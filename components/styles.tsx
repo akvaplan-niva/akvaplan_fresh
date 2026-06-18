@@ -14,6 +14,7 @@ export const LegacyStyles = () => (
       "light",
       "button",
       "input-search",
+      "bento",
     ].map(StyleLink)}
   </>
 );

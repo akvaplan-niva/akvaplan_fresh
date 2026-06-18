@@ -6,16 +6,15 @@ import { Naked } from "@/components/naked.tsx";
 import { t } from "@/text/mod.ts";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
+
 export const servicesHero = {
   id: "01hyd6qeqv4n3qrcv735aph6yy",
-  image:
-    "https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920/nektj2s3e7hr8kdgu1jj",
+  cloudinary: "nektj2s3e7hr8kdgu1jj",
   intro:
-    "Akvaplan-niva tilbyr et bredt spekter av forskningsbaserte tjenester og kostnadseffektive løsninger for vann-tilknyttede miljøutfordringer",
+    "Vi tilbyr et bredt spekter av forskningsbaserte tjenester og kostnadseffektive løsninger",
   href: "/no/tjenester",
   cta: "Se våre tjenester",
   eyebrow: t("nav.Services"),
-
   desc:
     "Akvaplan-niva tilbyr forskningsbaserte tjenester for alle vann-tilknyttede miljøutfordringer, blant annet miljøovervåking, miljørisikoanalyser, konsekvensutredninger, beredskapsplaner, oseanografisk modellering, biologiske og kjemiske laboratorieanalyser og anleggssertifikat for akvakultur.\n" +
     " \n" +
@@ -32,14 +31,18 @@ export const config: RouteConfig = {
 export default defineRoute(async (req, ctx) => {
   const { params } = ctx;
   const { lang } = params;
-  const cards = await getHomeServices({ lang });
+  const hero = servicesHero;
+  hero.cta = "";
+  hero.intro = "";
+  const cards = [hero, await getHomeServices({ lang })];
+
   return (
     <Naked title={servicesHero.headline}>
       <HeaderLogoStickyNav lang={lang} />
 
       <ImageHeroWithSelectableImages
-        hero0={servicesHero}
-        cards={[servicesHero, ...cards]}
+        hero0={hero}
+        cards={cards}
       />
     </Naked>
   );

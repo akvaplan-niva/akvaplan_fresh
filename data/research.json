@@ -1,14 +1,14 @@
 {
   "en": [
     {
-      "headline": "Aquaculture research",
+      "headline": "Aquaculture",
       "cloudinary": "nxilnbrqnbsgskw12ast",
-      "href": "/en/research/aquaculture-randd/01hwq488bzsbgf70he01qz825x"
+      "href": "/en/research/aquaculture/01hwq488bzsbgf70he01qz825x"
     },
     {
       "headline": "Climate change",
       "cloudinary": "3nvl4ulk2oue6e0nemgxqx",
-      "intro": "Climate is changing rapidly, especially in the Northern Regions.",
+      "intro": "Climate is changing rapidly, especially in the Northern Regions",
       "href": "/en/research/climate-change/01hwq488c0tkhmd9y109hjjhn5"
     },
     {
@@ -20,28 +20,16 @@
     {
       "headline": "Environmental impact",
       "cloudinary": "fz4ilb8tlknebpex55vw12",
-      "intro": "A central research topic for Akvaplan-niva is how different human activities affect organisms and ecosystems",
+      "intro": "How are human activities affecting organisms and ecosystems?",
       "href": "/en/research/environmental-impact/01hwq488byaejre7jt7fq12c4p"
-    },
-    {
-      "headline": "Ocean modelling",
-      "cloudinary": "cxkieibda6vrgi2gaynk",
-      "intro": "Simulating ocean dynamics and the dispersion of particles and chemicals in water",
-      "href": "/en/research/ocean-dynamics-and-dispersion-modelling/01hwq488bzrdnnc732x2srr5sx"
     }
   ],
   "no": [
     {
-      "headline": "Akvakultur-forskning",
+      "headline": "Akvakultur",
       "cloudinary": "nxilnbrqnbsgskw12ast",
       "intro": "",
       "href": "/no/forskning/akvakultur/01hwq488bzsbgf70he01qz825x"
-    },
-    {
-      "headline": "Havmodeller",
-      "cloudinary": "cxkieibda6vrgi2gaynk",
-      "intro": "Simulering av havstrømmer og hvordan partikler og utslipp spres i vann",
-      "href": "/no/forskning/havdynamikk-og-spredningsmodellering/01hwq488bzrdnnc732x2srr5sx"
     },
     {
       "headline": "Klimaendringer",

@@ -17,8 +17,9 @@
   --text: hsla(198, 20%, 1%, 1);
   --surface: white;
 }
+/* light MS? background: "hsla(200, 16%, 96%, 1)" */
 
-html, body {
+/* html, body {
   color-scheme: dark light;
   color: var(--text);
   background: var(--surface);

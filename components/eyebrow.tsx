@@ -8,6 +8,8 @@ const eyebrowStyle = ({ color }: { color: string }) =>
   line-height: 100%;
   letter-spacing: 5%;
   text-transform: uppercase;
+  display: inline;
+  margin-block-end: .5rem;
 `;
 
 export function Eyebrow(

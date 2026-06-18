@@ -7,6 +7,7 @@ import type { Card } from "@/components/card/types.ts";
 
 import { useState } from "preact/hooks";
 import type { ComponentChild, TargetedMouseEvent } from "preact";
+import { Hero } from "@/components/hero/hero.tsx";
 
 const Footer = ({ cards, extra, onClick, onMouseEnter }) => (
   <footer class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 xl:grid-cols-12 gap-4">
@@ -53,15 +54,14 @@ export function ImageHeroWithSelectableImages(
     : hero.image ?? hero0.image;
 
   return (
-    <ImageHero
-      id={id}
+    <Hero
+      headline={hero?.headline}
       eyebrow={hero.eyebrow ?? hero0.eyebrow}
       image={image}
-      headline={hero?.headline}
       href={hero.href}
       intro={hero.intro}
-      cta={hero.cta ?? "Explore"}
-      footer={
+      desc={hero.desc}
+      cta={
         <Footer
           cards={cards}
           extra={footer}

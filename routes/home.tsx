@@ -21,10 +21,10 @@ import { getLatestResearchProjectCards } from "@/services/project.ts";
 
 import { Head } from "$fresh/runtime.ts";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import { ResearchHome } from "@/components/home/research_home.tsx";
+import { Research5 } from "@/components/home/research5.tsx";
 import { researcHeroIntl } from "@/routes/research.tsx";
 import { ApnSym } from "@/components/akvaplan/symbol.tsx";
-import { Services5 } from "@/components/home/services5.tsx";
+import { Footer } from "@/components/footer.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -54,11 +54,11 @@ const Breaking = (
         class="grid grid-cols-2"
         style={{ gridTemplateColumns: "1fr", paddingBlockEnd: "0rem" }}
       >
-        <a href={href}>
+        <a href={href} class="text-xl">
           {headline}
         </a>
         <span
-          class="text-sm text-muted leading-tight"
+          class="text-md text-muted leading-tight"
           style={{ color: "var(--muted)" }}
         >
           {`${t(`type.${type}`)} (${
@@ -104,16 +104,15 @@ export default defineRoute(async (req, _ctx) => {
 
       <News5 id="nav-1" cards={news} lang={lang} />
 
-      <Services5
+      <ServicesHome
         id="nav-2"
         lang={lang}
         cards={services}
       />
 
-      <ResearchHome
+      <Research5
         id="nav-3"
-        hero={researchHero}
-        cards={research}
+        cards={[researchHero, ...research]}
         lang={lang}
       />
 
@@ -121,12 +120,12 @@ export default defineRoute(async (req, _ctx) => {
 
       <Projects5 id="nav-5" cards={projects} lang={lang} />
 
-      {/* <Footer lang={lang} /> */}
+      {/* <ImageHero id="nav-6" {...aboutHeroProps} /> */}
+
       <div hidden>
         <ApnSym />
       </div>
-
-      <ImageHero id="nav-6" {...aboutHeroProps} />
+      <Footer lang={lang} />
     </>
   );
 });

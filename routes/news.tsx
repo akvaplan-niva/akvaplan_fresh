@@ -3,7 +3,13 @@ import {
   searchNewsArticles,
 } from "akvaplan_fresh/services/news.ts";
 
-import { ArticleSquare, HScroll, Page } from "akvaplan_fresh/components/mod.ts";
+import {
+  ArticleSquare,
+  HScroll,
+  LegacyStyles,
+  MorgenStudioStyles,
+  Page,
+} from "akvaplan_fresh/components/mod.ts";
 
 import { lang, t } from "akvaplan_fresh/text/mod.ts";
 import { monthname } from "akvaplan_fresh/time/intl.ts";
@@ -25,6 +31,7 @@ import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
 import { SqImgCard, TightSqImgCard } from "@/components/cards.tsx";
 import { News5 } from "@/components/home/news5.tsx";
 import { MajorSection } from "@/components/major_section.tsx";
+import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 type Props = {};
 const _section = {
   // marginTop: "4rem",
@@ -66,10 +73,15 @@ export default function News(
   // pubs
   // people?
   return (
-    <Page title={title} base={base} collection="home">
+    <div title={title} base={base} collection="home">
+      <Head>
+        <LegacyStyles />
+        <MorgenStudioStyles />
+      </Head>
+      <HeaderLogoStickyNav lang={lang} />
       <News5 id="news" cards={cards} lang={lang} href={null} />
 
-      {[...news].map(([grpkey, grpmembers], i) => (
+      {[...news].map(([grpkey, grpmembers]) => (
         <MajorSection id={`news-${grpkey}`}>
           <section style={_section}>
             <h2>
@@ -103,6 +115,6 @@ export default function News(
         <link rel="stylesheet" href={asset("/css/hscroll.css")} />
         <link rel="stylesheet" href={asset("/css/article.css")} />
       </Head>
-    </Page>
+    </div>
   );
 }

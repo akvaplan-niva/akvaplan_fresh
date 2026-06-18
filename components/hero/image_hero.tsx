@@ -9,6 +9,7 @@ export function ImageHero(
     headline,
     eyebrow,
     intro,
+    desc,
     source,
     cta,
     image,
@@ -28,7 +29,7 @@ export function ImageHero(
     <section class="dark relative min-h-screen flex flex-col justify-center items-start overflow-hidden bg-black">
       <div class="absolute inset-0 z-0">
         <img
-          class="2xl:m-auto 3xl:max-w-[80%] w-full h-full object-cover object-center opacity-90"
+          class="3xl:max-w-[80%] w-full h-full object-cover object-center opacity-90"
           src={imageSrc}
         />
         {/* "Subtle" ? overlay to ensure text readability on the left */}
@@ -53,6 +54,13 @@ export function ImageHero(
             ? (
               <span class="text-[clamp(1.25rem,1.25vw,2rem)] _lg:max-w-[55%] text-white line-clamp-3">
                 {intro}
+              </span>
+            )
+            : null}
+          {desc
+            ? (
+              <span class="text-[clamp(1.25rem,1.25vw,2rem)] _lg:max-w-[55%] text-white line-clamp-6">
+                {desc}
               </span>
             )
             : null}
@@ -113,7 +121,7 @@ export function ImageCard(
     <section class="dark relative min-h-screen flex flex-col justify-center items-start overflow-hidden bg-black">
       <div class="absolute inset-0 z-0">
         <img
-          class="2xl:m-auto 3xl:max-w-[80%] w-full h-full object-cover object-center opacity-90 _scale-x-[-1]"
+          class="_2xl:m-auto _3xl:max-w-[80%] w-full h-full object-cover object-center opacity-90 _scale-x-[-1]"
           src={imageSrc}
         />
         {/* "Subtle" ? overlay to ensure text readability on the left */}
