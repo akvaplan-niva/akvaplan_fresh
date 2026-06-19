@@ -3,7 +3,7 @@ import { getHomeServices } from "@/data/home.ts";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 
 import { Naked } from "@/components/naked.tsx";
-import { t } from "@/text/mod.ts";
+import { lang as langSignal, t } from "@/text/mod.ts";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { ImgHero } from "@/components/hero/hero.tsx";
@@ -33,7 +33,7 @@ export const servicesHeroIntl = (lang) =>
       id: "01hyd6qeqv4n3qrcv735aph6yy",
       cloudinary: "nektj2s3e7hr8kdgu1jj",
       intro: "We offer a broad spectrum of research-based services and advice",
-      href: "/no/tjenester",
+      href: "/en/services",
       cta: "See our services",
       eyebrow: t("nav.Services"),
     });
@@ -46,6 +46,8 @@ const imgUrl = (id: string) =>
 export default defineRoute(async (req, ctx) => {
   const { params } = ctx;
   const { lang } = params;
+  langSignal.value = lang;
+  console.log({ lang });
   const hero = servicesHeroIntl(lang);
   hero.cta = "";
   const services = await getHomeServices({ lang });
