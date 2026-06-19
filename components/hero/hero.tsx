@@ -93,7 +93,7 @@ export function ImgHero({
               </div>
               {intro
                 ? (
-                  <span class="text-[clamp(1.25rem,1.25vw,2rem)] lg:max-w-[55%] text-white line-clamp-4 min-h-48">
+                  <span class="text-[clamp(1.25rem,1.25vw,2rem)] text-white line-clamp-4 min-h-48">
                     {intro}
                   </span>
                 )
