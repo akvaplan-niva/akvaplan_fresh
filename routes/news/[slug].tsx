@@ -6,11 +6,23 @@ import { MajorSection } from "@/components/major_section.tsx";
 import { Eyebrow } from "@/components/eyebrow.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { ImageCard, ImageHero } from "@/components/hero/image_hero.tsx";
-import { getNewsCardByMynewsdeskId } from "@/services/news.ts";
-import { getItemBySlug } from "@/services/mynewsdesk.ts";
+import { cardFromItem, getNewsCardByMynewsdeskId } from "@/services/news.ts";
+import {
+  eventFilter,
+  fetchContacts,
+  fetchRelated,
+  getItem,
+  getItemBySlug,
+} from "@/services/mynewsdesk.ts";
 import { H1 } from "@/components/h.tsx";
 import { heroImageUrl } from "@/services/cloudinary.ts";
 import { Card } from "@/components/card.tsx";
+import { ProjectsAsImageLinks } from "@/components/project_link.tsx";
+import { SearchResults } from "@/components/search_results.tsx";
+import { projectsByMynewsdeskId } from "@/services/project.ts";
+import { PersonCard } from "@/components/person_card.tsx";
+import { peopleIdsAsHits } from "@/components/markdown.tsx";
+import { Naked } from "@/components/naked.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -36,13 +48,23 @@ export default defineRoute(async (_req, ctx) => {
 
   const id = Number(slug?.split("-").at(-1));
 
-  const card = id > 9999
-    ? await getNewsCardByMynewsdeskId(id, type_of_media)
+  const item = id > 9999
+    ? await getItem(id, type_of_media)
     : await getItemBySlug(slug, type_of_media);
 
+  const card = item ? await cardFromItem(item) : null;
   if (!card) {
     return null;
   }
+  item.links = item.links?.filter(({ text }) => "alternate" !== text);
+  const _related = await fetchRelated(item);
+
+  const projects = _related.filter(eventFilter).map((myn) =>
+    projectsByMynewsdeskId.get(myn?.id)
+  );
+
+  const contacts = await fetchContacts(item);
+
   const { headline, caption, intro, body, cloudinary, image } = card;
 
   const eyebrowHeadline = (
@@ -53,7 +75,7 @@ export default defineRoute(async (_req, ctx) => {
   );
 
   return (
-    <div>
+    <Naked>
       <Head>
         <LegacyStyles />
         <MorgenStudioStyles />
@@ -66,35 +88,42 @@ export default defineRoute(async (_req, ctx) => {
           image={cloudinary ? heroImageUrl(cloudinary) : image}
         />
       </div>
+
       <MajorSection>
-        <div class="grid lg:grid-cols-2">
+        <div class="grid lg:grid-cols-2 gap-12">
           <Card>
-            <p
-              style={{
-                fontSize: "calc(1.25rem + 0.1vw)",
-                lineHeight: 1.5,
-                whiteSpace: "pre-wrap",
-                maxWidth: "1000px",
-              }}
-            >
-            </p>
             <article
               style={{
                 fontSize: "calc(1.25rem + 0.1vw)",
                 lineHeight: 1.5,
+                width: "100%",
+                maxWidth: "600px",
+                margin: "0 auto",
               }}
               class="article-content"
               dangerouslySetInnerHTML={{ __html: body }}
             />
           </Card>
           <div>
-            {[]?.length > 0 &&
+            {/* People*/}
+
+            {contacts?.length > 0 &&
               (
                 <SearchResults
-                  hits={peopleIdsAsHits([], lang)}
+                  hits={peopleIdsAsHits(contacts, lang)}
                   display="grid"
                 />
               )}
+
+            <Card>
+              {/* Projects*/}
+              {projects?.length > 0 && (
+                <ProjectsAsImageLinks
+                  projects={projects}
+                  lang={lang}
+                />
+              )}
+            </Card>
           </div>
         </div>
 
@@ -102,6 +131,6 @@ export default defineRoute(async (_req, ctx) => {
           <link rel="stylesheet" href={asset("/css/article.css")} />
         </Head>
       </MajorSection>
-    </div>
+    </Naked>
   );
 });
