@@ -89,7 +89,7 @@ export default defineRoute(async (_req, ctx) => {
         />
       </div>
 
-      <MajorSection>
+      <>
         <div class="grid lg:grid-cols-2 gap-12">
           <Card>
             <article
@@ -130,7 +130,7 @@ export default defineRoute(async (_req, ctx) => {
         <Head>
           <link rel="stylesheet" href={asset("/css/article.css")} />
         </Head>
-      </MajorSection>
+      </>
     </Naked>
   );
 });
