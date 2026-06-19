@@ -3,11 +3,13 @@ import {
   getHomeHeroProps,
   getHomeServices,
   getResearchTopics,
-  researcHeroIntl,
 } from "@/data/home.ts";
 
+import { buildNav } from "@/services/nav.ts";
+import { getLatestResearchProjectCards } from "@/services/project.ts";
+
 import { getLatestNews } from "@/services/news.ts";
-import { extractLangFromUrl, t } from "akvaplan_fresh/text/mod.ts";
+import { extractLangFromUrl } from "akvaplan_fresh/text/mod.ts";
 
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { ImageHero } from "@/components/hero/image_hero.tsx";
@@ -17,59 +19,20 @@ import { PeopleHome } from "@/components/home/people_home.tsx";
 import { ServicesHome } from "@/components/home/services_home.tsx";
 import { Projects5 } from "@/components/home/projects5.tsx";
 import { LegacyStyles } from "@/components/styles.tsx";
-import { buildNav } from "@/services/nav.ts";
-import { getLatestResearchProjectCards } from "@/services/project.ts";
 
-import { Head } from "$fresh/runtime.ts";
-import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { Research5 } from "@/components/home/research5.tsx";
 
 import { ApnSym } from "@/components/akvaplan/symbol.tsx";
-import { Footer } from "@/components/footer.tsx";
+import { Breaking } from "@/components/news/breaking.tsx";
+
+import { Head } from "$fresh/runtime.ts";
+import { defineRoute, type RouteConfig } from "$fresh/server.ts";
+import { ID_RESEARCH, ID_SERVICES } from "@/kv/id.ts";
+import { getCachedPanelCard } from "@/kv/panel.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
 };
-
-// until production KV
-const frozenProjects = JSON.parse(`
-  [{"href":"/no/prosjekt/01kv8572b0xrv4cjzexcyt28v4/rebunn","headline":"ReBunn","cloudinary":"5ptyncdnnwon4lq1nabwes"},{"href":"/no/prosjekt/01ks2d9af6eg65eajmm2v5nry2/floating-offshore-wind-effect-on-the-pelagic-system","headline":"FLoating Offshore Wind Effect on the pelagic system","cloudinary":"mokbmrmx47zhgbu42xhnee"},{"href":"/no/prosjekt/01kr3f2df0v67ngfr6mvw69t7n/from-climatic-drivers-to-antarctic-ice-sheet-response:-improving-accuracy-in-sea-level-rise-projections","headline":"From Climatic Drivers to Antarctic Ice Sheet Response: Improving Accuracy in Sea Level Rise Projections","cloudinary":"p4msw54wua8iubgxsrggpa"},{"href":"/no/prosjekt/01krdss9b75mektpxhqsgfqrj9/kunnskapsoversikt-om-interaksjon-mellom-akvakultur-og-fugl-i-norske-kystomrader","headline":"Kunnskapsoversikt om interaksjon mellom akvakultur og fugl i norske kystområder","cloudinary":"2l3gd2hr0qm995120eleae"},{"href":"/no/prosjekt/01kqvm26dekprjd34p9nafbeje/enhancing-plankton-classification-in-broadband-echosounder-data-with-machine-learning","headline":"Enhancing plankton classification in broadband echosounder data with machine learning","cloudinary":"4wu6f0n0hgy14rbrahszvk"}]
-`);
-
-const Breaking = (
-  {
-    news,
-    lang,
-    days = 3,
-    max = 1,
-  }: { days: number; max: number; lang: string; news: NewsWithRelativeTime[] },
-) => (
-  <div
-    class="bottom-0 xl:bottom-4 invisible xl:visible"
-    style="position: absolute; right: 2rem; z-index: 1000; padding: 1.25rem; background: var(--dark); max-width: min(100dvw,50rem);"
-  >
-    {news.filter(({ ago }) => ago?.days < days).slice(0, max).map((
-      { headline, href, type, ago },
-    ) => (
-      <p
-        class="grid grid-cols-2"
-        style={{ gridTemplateColumns: "1fr", paddingBlockEnd: "0rem" }}
-      >
-        <a href={href} class="text-xl">
-          {headline}
-        </a>
-        <span
-          class="text-md text-muted leading-tight"
-          style={{ color: "var(--muted)" }}
-        >
-          {`${t(`type.${type}`)} (${
-            ago?.toLocaleString(lang, { style: "narrow" })
-          })`}
-        </span>
-      </p>
-    ))}
-  </div>
-);
 
 export default defineRoute(async (req, _ctx) => {
   const lang = extractLangFromUrl(req.url);
@@ -78,7 +41,7 @@ export default defineRoute(async (req, _ctx) => {
       .all(
         [
           getLatestNews({ lang, limit: 5 }),
-          frozenProjects, //getLatestResearchProjectCards({ lang, limit: 5 }),
+          getLatestResearchProjectCards({ lang, limit: 5 }),
           getHomeServices({ lang: lang }),
           getResearchTopics({ lang: lang }),
           getHomeHeroProps({ lang: lang }),
@@ -89,7 +52,8 @@ export default defineRoute(async (req, _ctx) => {
     (l, i) => ({ ...l, href: `#nav-${1 + i}` }),
   );
 
-  const researchHero = await researcHeroIntl(lang);
+  const researchHero = await getCachedPanelCard(ID_RESEARCH, lang);
+  const servicesHero = await getCachedPanelCard(ID_SERVICES, lang);
 
   return (
     <>
@@ -107,6 +71,7 @@ export default defineRoute(async (req, _ctx) => {
 
       <ServicesHome
         id="nav-2"
+        hero={servicesHero}
         lang={lang}
         cards={services}
       />

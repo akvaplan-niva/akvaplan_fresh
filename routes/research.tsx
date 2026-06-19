@@ -9,15 +9,18 @@ import { Naked } from "akvaplan_fresh/components/naked.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import { getResearchTopics, researcHeroIntl } from "@/data/home.ts";
+import { getResearchTopics } from "@/data/home.ts";
 
 import { ImgHero } from "@/components/hero/hero.tsx";
 import { t } from "@/text/mod.ts";
+import { getCachedPanelCard, getPanel } from "@/kv/panel.ts";
+import { ID_RESEARCH } from "@/kv/id.ts";
 
 export default defineRoute(async (req, ctx) => {
   const { params } = ctx;
   const { lang } = params;
-  const researcHero = await researcHeroIntl(lang);
+  const researcHero = await getCachedPanelCard(ID_RESEARCH, lang);
+  researcHero.cta = "";
   const { headline } = researcHero;
   const cta = t("ui.Read_more");
   const cards = await getResearchTopics({ lang });

@@ -1,13 +1,19 @@
-import { ImageHeroWithSelectableImages } from "@/islands/HScrollWithDynamicImage.tsx";
 import { getHomeServices } from "@/data/home.ts";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 
 import { Naked } from "@/components/naked.tsx";
-import { lang as langSignal, t } from "@/text/mod.ts";
+import { t } from "@/text/mod.ts";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { ImgHero } from "@/components/hero/hero.tsx";
-import { SqImgCard, TightSqImgCard } from "@/components/cards.tsx";
+import {
+  cardFromPanel,
+  getCachedPanelCard,
+  getPanel,
+  getPanelInLang,
+  imageCardFromPanel,
+} from "@/kv/panel.ts";
+import { ID_SERVICES } from "@/kv/id.ts";
 
 export const servicesHeroIntl = (lang) =>
   lang !== "en"
@@ -46,10 +52,10 @@ const imgUrl = (id: string) =>
 export default defineRoute(async (req, ctx) => {
   const { params } = ctx;
   const { lang } = params;
-  langSignal.value = lang;
-  console.log({ lang });
-  const hero = servicesHeroIntl(lang);
+
+  const hero = await getCachedPanelCard(ID_SERVICES, lang);
   hero.cta = "";
+  hero.desc = "";
   const services = await getHomeServices({ lang });
   const cta = t("ui.Read_more");
 
@@ -60,7 +66,7 @@ export default defineRoute(async (req, ctx) => {
 
       <div
         id="services"
-        class="max-w-screen mx-auto"
+        class="max-w-screen mx-auto z-1000"
       >
         {services.map((card) => (
           <ImgHero key={card.href} {...card} cta={cta} />
