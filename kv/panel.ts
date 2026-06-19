@@ -19,6 +19,8 @@ import {
   ID_SERVICES,
 } from "./id.ts";
 import { panelHref } from "@/services/panelHref.tsx";
+import { href as _href } from "@/search/href.ts";
+import { Card } from "@/components/card/types.ts";
 
 const kv = await openKv();
 
@@ -164,6 +166,11 @@ export const getPanelsInLangByIds = async (
   );
 };
 
+export const getPanel = async (id: string) => {
+  const { value } = await kv.get<Panel>(["panel", id]);
+  return value;
+};
+
 export const getPanelInLang = async (
   { id, lang }: { id: string; lang: string },
 ) => {
@@ -176,19 +183,37 @@ export const mayEditKvPanel = async (req: Request) => {
   return user ? await hasRights(["kv", "panel", user.email, "cru"]) : false;
 };
 
-export const imageCardFromPanel =
-  ({ theme, backdrop }: { theme?: string; backdrop?: boolean } = {}) =>
-  (
-    n,
-    i,
-  ) => ({
-    ...n,
-    image: {
-      url: cloudinaryUrl(
-        extractId(n.img) as string,
-        i === 0 ? { ar: "3:1", w: 512 } : { ar: "3:1", w: 512 },
-      ),
-    },
-    backdrop,
-    theme,
-  });
+export const cardFromPanel = (panel: Panel | null, lang: string) => {
+  if (panel && "intl" in panel) {
+    const { title, intro, desc, href, cta } = panel.intl[lang];
+    const { id, image, published, type } = panel;
+    const headline = title;
+    return {
+      id,
+      headline,
+      cta,
+      href,
+      cloudinary: image?.cloudinary,
+      intro,
+      desc,
+      published,
+      type,
+      lang,
+    } satisfies Card;
+  }
+};
+
+const _panels = new Map<string, Panel>();
+
+export const getCachedPanelCard = async (id: string, lang: string) => {
+  const panel = _panels.get(id);
+  if (panel) {
+    return cardFromPanel(panel, lang);
+  } else {
+    const panel = await getPanel(id);
+    if (panel) {
+      _panels.set(id, panel);
+      return cardFromPanel(panel, lang);
+    }
+  }
+};
