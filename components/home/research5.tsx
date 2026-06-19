@@ -1,10 +1,7 @@
 import { intlRouteMap } from "@/services/nav.ts";
 import { t } from "@/text/mod.ts";
-import { Cards1plus4, SectionHeader } from "@/components/cards5.tsx";
-import { Eyebrow } from "@/components/eyebrow.tsx";
-import { getLatestResearchProjectCards } from "@/services/project.ts";
+import { Cards1plus4 } from "@/components/cards5.tsx";
 import { MajorSection } from "@/components/major_section.tsx";
-import { researcHeroIntl } from "@/routes/research.tsx";
 
 export function Research5(
   { id, cards, lang }: { id: string; cards: Card[]; lang: string },

@@ -10,7 +10,7 @@ export function Projects5(
 ) {
   const eyebrow = t("nav.Projects");
   const href = intlRouteMap(lang).get("projects")!;
-  const cta = t("news.See_all_projects");
+  const cta = t("project.See_all_projects");
   const headline = t("project.LatestProjects");
   return (
     <MajorSection id={id}>

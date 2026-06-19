@@ -1,9 +1,7 @@
 import { MajorSection } from "@/components/major_section.tsx";
-import { ImageHeroWithSelectableImages } from "@/islands/HScrollWithDynamicImage.tsx";
-import { servicesHeroIntl } from "@/routes/services.tsx";
-import { RailwayHeroText } from "@/routes/ui.tsx";
 import { ImgHero } from "@/components/hero/hero.tsx";
 import { peopleSearchHref } from "@/services/nav.ts";
+import type { Card, Hero } from "@/components/card/types.ts";
 export const ServcesList = ({ cards }) => {
   return (
     <footer color-scheme="dark">
@@ -29,13 +27,18 @@ export const ServcesList = ({ cards }) => {
     </footer>
   );
 };
-export function ServicesHome(
-  { id, hero, cards, lang }: { id?: string; lang: string },
+export async function ServicesHome(
+  { id, hero, cards, lang }: {
+    id?: string;
+    hero: Hero;
+    cards: Card[];
+    lang: string;
+  },
 ) {
   return (
     <MajorSection id="services-home">
       <div id={id}>
-        <ImgHero {...servicesHeroIntl(lang)} />
+        <ImgHero {...hero} />
       </div>
     </MajorSection>
   );
