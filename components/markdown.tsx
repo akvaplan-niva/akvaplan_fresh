@@ -67,7 +67,7 @@ export const Markdown = (
   );
 };
 
-const peopleIdsAsHits = (ids, lang) =>
+export const peopleIdsAsHits = (ids, lang) =>
   ids.filter((id) => id?.length === 3).map((id) => {
     const person = getAkvaplanist(id);
     if (person) {
