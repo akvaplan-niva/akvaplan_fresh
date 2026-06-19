@@ -264,7 +264,11 @@ export const peopleSearchHref = (opt?: { lang?: string }) =>
 
 export const projectHref = ({ id, title, slug, lang }: string) =>
   `${intlRouteMap(lang).get("project")}/${id}/${
-    slug && slug[lang] ? slug[lang] : title ? _slug(title) : "#"
+    slug && slug[lang]
+      ? slug[lang]
+      : title
+      ? title[lang] ? _slug(title[lang]) : title
+      : ""
   }`;
 
 export const projectURL = ({ lang, title }: SlugLike) =>

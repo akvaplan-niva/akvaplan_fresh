@@ -99,7 +99,8 @@ export default defineRoute(async (req, ctx) => {
         </p>
       </Section>
 
-      <section class="">
+      {
+        /* <section class="">
         {panels?.map((p) => (
           <BentoPanel
             panel={p}
@@ -108,7 +109,8 @@ export default defineRoute(async (req, ctx) => {
             editor={false}
           />
         ))}
-      </section>
+      </section> */
+      }
 
       <MajorSection>
         <div id="map" style={{ height: "600px" }}></div>
