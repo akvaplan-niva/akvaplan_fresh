@@ -101,19 +101,18 @@ export const MarkdownPanel = (
 
       <div class="grid lg:grid-cols-2">
         <Card>
-          <p>
-            {panel?.desc && (
-              <Markdown
-                text={panel.desc}
-                style={{
-                  fontSize: "calc(1.25rem + 0.1vw)",
-                  lineHeight: 1.5,
-                  whiteSpace: "pre-wrap",
-                  maxWidth: "1000px",
-                }}
-              />
-            )}
-          </p>
+          {panel?.desc && (
+            <Markdown
+              text={panel.desc}
+              style={{
+                fontSize: "calc(1.25rem + 0.1vw)",
+                lineHeight: 1.5,
+                whiteSpace: "pre-wrap",
+                maxWidth: "1000px",
+                overflow: "hidden",
+              }}
+            />
+          )}
         </Card>
         <div>
           {people_ids?.length > 0 &&

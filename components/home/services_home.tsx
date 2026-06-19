@@ -27,7 +27,7 @@ export const ServcesList = ({ cards }) => {
     </footer>
   );
 };
-export async function ServicesHome(
+export function ServicesHome(
   { id, hero, cards, lang }: {
     id?: string;
     hero: Hero;
@@ -37,9 +37,8 @@ export async function ServicesHome(
 ) {
   return (
     <MajorSection id="services-home">
-      <div id={id}>
-        <ImgHero {...hero} />
-      </div>
+      <div id={id}></div>
+      <ImgHero {...hero} />
     </MajorSection>
   );
 }

@@ -74,7 +74,7 @@ export function ImgHero({
         class="absolute inset-0 -z-10 size-full object-cover object-center md:object-left max-h-screen"
       />
 
-      <div class="mx-auto _max-w-2xl py-32 sm:py-48 lg:py-56" max-h-screen>
+      <div class="mx-auto _max-w-2xl py-32 sm:py-48 lg:py-56 max-h-screen">
         <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
         <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
         <div class="text-left">
