@@ -86,14 +86,14 @@ export function ImgHero({
 
               <div class="mb-12">
                 <h1
-                  class={`text-left text-[clamp(2rem,6vw,7rem)] font-display leading-[0.92] tracking-tight text-white transition-all duration-1000 font-h block`}
+                  class={`text-left text-[clamp(2rem,4vw,5rem)] font-display leading-[0.92] tracking-tight text-white transition-all duration-1000 font-h block`}
                 >
                   {headline}
                 </h1>
               </div>
               {intro
                 ? (
-                  <span class="text-[clamp(1.25rem,1.25vw,2rem)] text-white line-clamp-4 min-h-48">
+                  <span class="text-[clamp(1.25rem,1.25vw,2rem)] text-white line-clamp-4 _min-h-48">
                     {intro}
                   </span>
                 )

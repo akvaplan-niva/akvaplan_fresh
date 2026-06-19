@@ -29,10 +29,7 @@ export default defineRoute(async (req, ctx) => {
       <HeaderLogoStickyNav lang={lang} />
 
       <ImgHero {...researcHero} />
-      <div
-        id="research-topics"
-        class="max-w-screen mx-auto"
-      >
+      <div id="research-topics">
         {cards.map((card) => <ImgHero key={card.href} {...card} cta={cta} />)}
       </div>
     </Naked>

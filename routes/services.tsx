@@ -64,10 +64,7 @@ export default defineRoute(async (req, ctx) => {
       <HeaderLogoStickyNav lang={lang} />
       <ImgHero {...hero} />
 
-      <div
-        id="services"
-        class="max-w-screen mx-auto z-1000"
-      >
+      <div id="services">
         {services.map((card) => (
           <ImgHero key={card.href} {...card} cta={cta} />
         ))}
