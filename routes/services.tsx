@@ -49,21 +49,19 @@ export default defineRoute(async (req, ctx) => {
   const hero = servicesHeroIntl(lang);
   hero.cta = "";
   const services = await getHomeServices({ lang });
-  const cards = [hero, ...services];
+  const cta = t("ui.Read_more");
 
   return (
     <Naked title={hero.headline}>
       <HeaderLogoStickyNav lang={lang} />
       <ImgHero {...hero} />
 
-      <div style="aspect-ratio: 1/1;  display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.5rem;">
-        {services.map(({ headline, href, cloudinary }) => (
-          <TightSqImgCard
-            key={href}
-            image={imgUrl(cloudinary)}
-            headline={headline}
-            href={href}
-          />
+      <div
+        id="services"
+        class="max-w-screen mx-auto"
+      >
+        {services.map((card) => (
+          <ImgHero key={card.href} {...card} cta={cta} />
         ))}
       </div>
     </Naked>

@@ -67,15 +67,16 @@ export function ImgHero({
     : "";
 
   return (
-    <div id={id} class="relative isolate px-6 pt-14 lg:px-8">
+    <div id={id} class="relative isolate px-6 pt-14 lg:px-8 max-h-screen">
       <img
         src={imageSrc}
         alt=""
-        class="absolute inset-0 -z-10 size-full object-cover object-center md:object-left"
+        class="absolute inset-0 -z-10 size-full object-cover object-center md:object-left max-h-screen"
       />
-      <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
-      <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
-      <div class="mx-auto _max-w-2xl py-32 sm:py-48 lg:py-56">
+
+      <div class="mx-auto _max-w-2xl py-32 sm:py-48 lg:py-56" max-h-screen>
+        <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
+        <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
         <div class="text-left">
           <div class="relative z-10 w-full px-6 lg:px-48 py-32 lg:py-40">
             <div class="2xl:max-w-[55%]">

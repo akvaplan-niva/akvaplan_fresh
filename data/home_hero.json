@@ -1,31 +1,11 @@
 {
   "en": {
     "headline": "Research and advice",
-    "eyebrow": "",
+    "eyebrow": "From research to value creation",
     "words": [
       "aquaculture",
       "autonomous vehicles",
       "arctic environments",
-
-      "ferskvannsøkologi",
-      "forurensing",
-      "forskningsstasjon",
-      "økotoksikologi",
-      "bunndyr",
-      "havdynamikk",
-      "spredningsmodellering",
-      "kjemisk analyse",
-      "konsekvensutredning",
-      "marine økosystemer",
-      "miljøovervåking",
-      "miljøpåvirkning",
-      "miljørisikoanalyse",
-      "plast og mikroplast",
-      "sjøfugl",
-      "sjøpattedyr",
-      "teknisk inspeksjon",
-      "visuell bunnkartlegging",
-      "BEAR",
       "freshwater ecology",
       "pollution",
       "research station",
@@ -53,7 +33,7 @@
   },
   "no": {
     "headline": "Forskning og rådgiving",
-    "eyebrow": "Fra forskning \ntil bærekraftig verdiskaping",
+    "eyebrow": "Fra forskning til bærekraftig verdiskaping",
     "words": [
       "akvakultur",
       "arktisk miljø",
