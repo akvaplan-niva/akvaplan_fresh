@@ -29,6 +29,7 @@ import { Head } from "$fresh/runtime.ts";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { ID_RESEARCH, ID_SERVICES } from "@/kv/id.ts";
 import { getCachedPanelCard } from "@/kv/panel.ts";
+import { PubsHome, selectedPubs } from "@/components/home/pubs_home.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -54,6 +55,7 @@ export default defineRoute(async (req, _ctx) => {
 
   const researchHero = await getCachedPanelCard(ID_RESEARCH, lang);
   const servicesHero = await getCachedPanelCard(ID_SERVICES, lang);
+  const selectedPublicationNews = await selectedPubs();
 
   return (
     <>
@@ -81,6 +83,7 @@ export default defineRoute(async (req, _ctx) => {
         cards={[researchHero, ...research]}
         lang={lang}
       />
+      <PubsHome cards={selectedPublicationNews} lang={lang} />
 
       <PeopleHome id="nav-4" lang={lang} />
 

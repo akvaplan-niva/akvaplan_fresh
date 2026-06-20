@@ -15,22 +15,34 @@ import { ImgHero } from "@/components/hero/hero.tsx";
 import { t } from "@/text/mod.ts";
 import { getCachedPanelCard, getPanel } from "@/kv/panel.ts";
 import { ID_RESEARCH } from "@/kv/id.ts";
+import { ImgCard } from "@/components/cards.tsx";
 
 export default defineRoute(async (req, ctx) => {
   const { params } = ctx;
   const { lang } = params;
   const researcHero = await getCachedPanelCard(ID_RESEARCH, lang);
-  researcHero.cta = "";
   const { headline } = researcHero;
-  const cta = t("ui.Read_more");
   const cards = await getResearchTopics({ lang });
   return (
     <Naked title={headline}>
       <HeaderLogoStickyNav lang={lang} />
 
-      <ImgHero {...researcHero} />
-      <div id="research-topics">
-        {cards.map((card) => <ImgHero key={card.href} {...card} cta={cta} />)}
+      <div class="max-h-[50%]">
+        <ImgCard {...researcHero} />
+      </div>
+
+      <div
+        id="research-topics"
+        class="grid grid-cols-[1fr_1fr] _gap-[1.5rem] _p-[1.5rem]"
+      >
+        {cards.map((card) => (
+          <ImgCard
+            key={card.href}
+            headline={card.headline}
+            href={card.href}
+            cloudinary={card.cloudinary}
+          />
+        ))}
       </div>
     </Naked>
   );

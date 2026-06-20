@@ -16,6 +16,7 @@ import { FunctionComponent, JSX } from "preact";
 //import { computed } from "@preact/signals-core";
 import { type StringSignal } from "akvaplan_fresh/@interfaces/signal.ts";
 import { collectionBreadcrumbs } from "akvaplan_fresh/services/mod.ts";
+import { MorgenStudioStyles } from "@/components/styles.tsx";
 //import { symbolDataURI } from "akvaplan_fresh/components/akvaplan/symbol.tsx";
 
 export type StdProps =
@@ -74,6 +75,7 @@ export function Naked(
       />
 
       <LegacyStyles />
+      <MorgenStudioStyles />
     </Head>
   );
 
@@ -86,28 +88,17 @@ export function Naked(
 
       <body
         {...propsExceptChildren}
-        color-scheme
+        color-scheme="dark"
       >
-        {
-          /* <Header
-          title={title}
-          collection={collection}
-          href={href}
-          lang={lang.value}
-          breadcrumbs={breadcrumbs}
-          Logo={Logo}
-        /> */
-        }
         <main
           style={{
-            minHeight: "100vh",
-            display: "grid",
-            padding: "0",
+            // minHeight: "100vh",
+            // display: "grid",
+            // padding: "0",
           }}
         >
           {children}
         </main>
-        <Footer lang={lang.value} />
         <div hidden>
           <ApnSym />
         </div>
