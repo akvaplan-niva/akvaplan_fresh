@@ -53,8 +53,8 @@ export default defineRoute(async (req, _ctx) => {
     (l, i) => ({ ...l, href: `#nav-${1 + i}` }),
   );
 
-  const researchHero = await getCachedPanelCard(ID_RESEARCH, lang);
-  const servicesHero = await getCachedPanelCard(ID_SERVICES, lang);
+  const researchHero = await getCachedPanelCard(ID_RESEARCH, lang) ?? {};
+  const servicesHero = await getCachedPanelCard(ID_SERVICES, lang) ?? {};
   const selectedPublicationNews = await selectedPubs();
 
   return (
