@@ -1,8 +1,6 @@
-import { genid, ID_PROJECTS } from "../kv/id.ts";
+import { ID_PROJECTS } from "../kv/id.ts";
 import { getSessionUser } from "../oauth/microsoft_helpers.ts";
 import { getPanelInLang, mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
-
-import { search } from "akvaplan_fresh/search/search.ts";
 
 import { Page } from "akvaplan_fresh/components/mod.ts";
 
@@ -12,19 +10,22 @@ import { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
 import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
 import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
 
-import { Button } from "../components/button/button.tsx";
 import { Handlers } from "$fresh/server.ts";
 import { Forbidden } from "../components/forbidden.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { projectHref } from "../services/mod.ts";
-import { saveProject } from "../kv/project.ts";
+import { listProjects, saveProject } from "../kv/project.ts";
 import { t } from "../text/mod.ts";
+import { Project } from "@/@interfaces/project.ts";
+import { getKvListAsOramaResult, publishedDesc } from "@/search/adapter/kv.ts";
+import { atomizeProject } from "@/search/indexers/project_atomize.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(projects|project|prosjekter|prosjekt)",
 };
 
+//facets: { lifecycle: { count: 2, values: { ongoing: 23, past: 18 } } },
 const facets = {
   lifecycle: {},
 };
@@ -41,7 +42,7 @@ const buildOramaParams = (
   const term = searchParams.get("q") ?? "";
   return {
     term,
-    limit: 100,
+    limit: 1,
     where,
     facets,
     sortBy: { order: "DESC", property: "published" },
@@ -92,30 +93,17 @@ export default defineRoute(async (req, ctx) => {
 
   const { searchParams } = new URL(req.url);
 
-  const oramaParams = buildOramaParams({ searchParams });
-  const results = await search(oramaParams);
   const collection = "project";
-  const filters = Object.entries(oramaParams.where);
   const q = searchParams.get("q") ?? "";
   const mayCreateProject = await mayEditKvPanel(req);
-  const atoms = results.hits.map(({ document }) => document).map(
-    ({
-      id,
-      abbr,
-      intl,
-      cloudinary,
-      start,
-      end,
-      slug,
-    }) => ({
-      id,
-      headline: intl.name.no,
-      subtitle: `${start} / ${end}`,
-      cloudinary,
-      href: `#`,
-    }),
-  );
-  console.log(JSON.stringify(atoms.slice(0, 5)));
+  const results = await getKvListAsOramaResult<Project>(listProjects(), {
+    mapper: async (p: Project) => await atomizeProject(p),
+    limit: 100,
+    sorter: publishedDesc,
+  });
+  const oramaParams = buildOramaParams({ searchParams });
+
+  const filters = Object.entries(oramaParams.where);
 
   return (
     <Page title={title} _base={""} collection="home">
@@ -140,7 +128,7 @@ export default defineRoute(async (req, ctx) => {
         q={q}
         lang={lang}
         results={results}
-        filters={[...filters]}
+        _filters={[...filters]}
         facets={facets}
         //total={count}
         //list="list"

@@ -10,6 +10,7 @@ export const getProject = async (id: string) => {
   return versionstamp ? value : null;
 };
 
+export const deleteProject = async (id: string) => await kv.delete([k0, id]);
 export const listProjects = () => kv.list<Project>({ prefix: [k0] });
 
 export const saveProject = async (

@@ -54,10 +54,7 @@ export const buildOramaIndexFromProductionApi = async () => {
       p.updated = new Date(p.updated);
       return p;
     });
-    // FIXME FIXME @todo Hide draft projects and delete 01k894aagv93y00s7tjz0wadjr
-    // const projects = _projects.filter(({ id }) =>
-    //   !["01k894aagv93y00s7tjz0wadjr", "flowe"].includes(id)
-    // );
+
     console.warn(`Indexing ${projects.length} projects`);
     await indexProjects(orama, projects);
   }
