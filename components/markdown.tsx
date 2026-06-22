@@ -14,6 +14,8 @@ import { ImgHero } from "@/components/hero/hero.tsx";
 import { MajorSection } from "@/components/major_section.tsx";
 import { MorgenStudioStyles } from "@/components/styles.tsx";
 import { Head } from "$fresh/runtime.ts";
+import { Breadcrumbs } from "@/components/site_nav.tsx";
+import { Eyebrow } from "@/components/eyebrow.tsx";
 
 const allowedTags = [
   ...sanitize.defaults.allowedTags,
@@ -76,9 +78,12 @@ export const peopleIdsAsHits = (ids, lang) =>
   });
 
 export const MarkdownPanel = (
-  { panel, editor = false, lang, ...props },
+  { eyebrow, panel, breadcrumbs, lang, ...props },
 ) => {
   const people_ids = panel?.people_ids?.trim()?.split(",") ?? [];
+
+  //FIXME
+  //<Breadcrumbs list={breadcrumbs} />
 
   return (
     <>
@@ -93,10 +98,12 @@ export const MarkdownPanel = (
         cloudinary={panel?.image?.cloudinary}
       /> */
       }
+
       <ImgHero
         headline={panel.title}
         cloudinary={panel.image.cloudinary}
         intro={panel.intro}
+        eyebrow={eyebrow}
       />
 
       <div class="grid lg:grid-cols-2">

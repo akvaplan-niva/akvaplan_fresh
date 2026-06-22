@@ -23,6 +23,8 @@ import { projectsByMynewsdeskId } from "@/services/project.ts";
 import { PersonCard } from "@/components/person_card.tsx";
 import { peopleIdsAsHits } from "@/components/markdown.tsx";
 import { Naked } from "@/components/naked.tsx";
+import { ImgHero } from "@/components/hero/hero.tsx";
+import { ImgCard } from "@/components/cards.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -81,56 +83,54 @@ export default defineRoute(async (_req, ctx) => {
         <MorgenStudioStyles />
       </Head>
       <HeaderLogoStickyNav lang={lang} />
-      <div color-scheme="dark">
+      <div color-scheme="dark" class="min-h-[66%]">
         <ImageCard
           headline={eyebrowHeadline}
           intro={caption}
-          image={cloudinary ? heroImageUrl(cloudinary) : image}
+          cloudinary={cloudinary}
         />
       </div>
 
-      <>
-        <div class="grid lg:grid-cols-2 gap-12">
+      <div class="grid lg:grid-cols-2 gap-12 -scroll-mt-12 z-100000">
+        <Card>
+          <article
+            style={{
+              fontSize: "calc(1.25rem + 0.1vw)",
+              lineHeight: 1.5,
+              width: "100%",
+              maxWidth: "600px",
+              margin: "0 auto",
+            }}
+            class="article-content"
+            dangerouslySetInnerHTML={{ __html: body }}
+          />
+        </Card>
+        <div>
+          {/* People*/}
+
+          {contacts?.length > 0 &&
+            (
+              <SearchResults
+                hits={peopleIdsAsHits(contacts, lang)}
+                display="grid"
+              />
+            )}
+
           <Card>
-            <article
-              style={{
-                fontSize: "calc(1.25rem + 0.1vw)",
-                lineHeight: 1.5,
-                width: "100%",
-                maxWidth: "600px",
-                margin: "0 auto",
-              }}
-              class="article-content"
-              dangerouslySetInnerHTML={{ __html: body }}
-            />
+            {/* Projects*/}
+            {projects?.length > 0 && (
+              <ProjectsAsImageLinks
+                projects={projects}
+                lang={lang}
+              />
+            )}
           </Card>
-          <div>
-            {/* People*/}
-
-            {contacts?.length > 0 &&
-              (
-                <SearchResults
-                  hits={peopleIdsAsHits(contacts, lang)}
-                  display="grid"
-                />
-              )}
-
-            <Card>
-              {/* Projects*/}
-              {projects?.length > 0 && (
-                <ProjectsAsImageLinks
-                  projects={projects}
-                  lang={lang}
-                />
-              )}
-            </Card>
-          </div>
         </div>
+      </div>
 
-        <Head>
-          <link rel="stylesheet" href={asset("/css/article.css")} />
-        </Head>
-      </>
+      <Head>
+        <link rel="stylesheet" href={asset("/css/article.css")} />
+      </Head>
     </Naked>
   );
 });

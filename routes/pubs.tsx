@@ -17,6 +17,8 @@ import { RouteConfig, RouteContext } from "$fresh/server.ts";
 import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
 import { ID_PUBLICATIONS } from "akvaplan_fresh/kv/id.ts";
 import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
+import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
+import { Naked } from "@/components/naked.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(pubs|publications|publikasjoner)",
@@ -113,7 +115,8 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
     { cta: "", image: { cloudinary: "kwy8kuceecjpjoh3yyy5" } };
 
   return (
-    <Page title={title} base={base}>
+    <Naked title={title} base={base}>
+      <HeaderLogoStickyNav lang={lang} />
       <SearchHeader
         lang={lang}
         title={hero?.title}
@@ -139,7 +142,7 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
         list="list"
         url={req.url}
       />
-    </Page>
+    </Naked>
   );
 }
 // OpenAlex, for ref

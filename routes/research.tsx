@@ -11,11 +11,10 @@ import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { getResearchTopics } from "@/data/home.ts";
 
-import { ImgHero } from "@/components/hero/hero.tsx";
-import { t } from "@/text/mod.ts";
-import { getCachedPanelCard, getPanel } from "@/kv/panel.ts";
+import { getCachedPanelCard } from "@/kv/panel.ts";
 import { ID_RESEARCH } from "@/kv/id.ts";
-import { ImgCard } from "@/components/cards.tsx";
+import { ImgCard, TightSqImgCard } from "@/components/cards.tsx";
+import { MajorSection } from "@/components/major_section.tsx";
 
 export default defineRoute(async (req, ctx) => {
   const { params } = ctx;
@@ -31,19 +30,18 @@ export default defineRoute(async (req, ctx) => {
         <ImgCard {...researcHero} />
       </div>
 
-      <div
-        id="research-topics"
-        class="grid grid-cols-[1fr_1fr] _gap-[1.5rem] _p-[1.5rem]"
-      >
-        {cards.map((card) => (
-          <ImgCard
-            key={card.href}
-            headline={card.headline}
-            href={card.href}
-            cloudinary={card.cloudinary}
-          />
-        ))}
-      </div>
+      <MajorSection>
+        <div class="grid grid-cols-[1fr_1fr]  lg:grid-cols-[1fr_1fr_1fr_1fr] gap-[1.5rem] py-[1.5rem]">
+          {cards.map((card) => (
+            <TightSqImgCard
+              key={card.href}
+              headline={card.headline}
+              href={card.href}
+              cloudinary={card.cloudinary}
+            />
+          ))}
+        </div>
+      </MajorSection>
     </Naked>
   );
 });

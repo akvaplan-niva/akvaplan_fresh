@@ -8,14 +8,13 @@ import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { ImgHero } from "@/components/hero/hero.tsx";
 import { getCachedPanelCard } from "@/kv/panel.ts";
 import { ID_SERVICES } from "@/kv/id.ts";
-import { ImgCard } from "@/components/cards.tsx";
+import { ImgCard, TightSqImgCard } from "@/components/cards.tsx";
+import { MajorSection } from "@/components/major_section.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(services|tjenester)",
 };
 
-const imgUrl = (id: string) =>
-  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_746,h_746,q_auto:good/${id}`;
 export default defineRoute(async (req, ctx) => {
   const { params } = ctx;
   const { lang } = params;
@@ -34,19 +33,18 @@ export default defineRoute(async (req, ctx) => {
         <ImgCard {...hero} />
       </div>
 
-      <div
-        id="services"
-        class="grid grid-cols-[1fr_1fr] _gap-[1.5rem] _p-[1.5rem]"
-      >
-        {services.map((s) => (
-          <ImgCard
-            key={s.href}
-            headline={s.headline}
-            href={s.href}
-            cloudinary={s.cloudinary}
-          />
-        ))}
-      </div>
+      <MajorSection>
+        <div class="grid grid-cols-[1fr_1fr] md:grid-cols-[1fr_1fr_1fr] lg:grid-cols-[1fr_1fr_1fr_1fr] gap-[1.5rem] py-[1.5rem]">
+          {services.map((s) => (
+            <TightSqImgCard
+              key={s.href}
+              headline={s.headline}
+              href={s.href}
+              cloudinary={s.cloudinary}
+            />
+          ))}
+        </div>
+      </MajorSection>
     </Naked>
   );
 });

@@ -103,22 +103,18 @@ export function ImageCard(
     headline,
     eyebrow,
     intro,
-    source,
     cta,
     image,
     cloudinary,
     href,
   }: Hero & { source?: string },
 ) {
-  const imageSrc = image
+  const imageSrc = image && String(image).startsWith("https://")
     ? image
-    : source
-    ? source
-    : cloudinary
-    ? heroImageUrl({ cloudinary })
-    : "";
+    : heroImageUrl({ cloudinary });
+
   return (
-    <section class="dark relative min-h-screen flex flex-col justify-center items-start overflow-hidden bg-black">
+    <section class="dark relative min-h-[100dvh] flex flex-col justify-center items-start overflow-hidden bg-black">
       <div class="absolute inset-0 z-0">
         <img
           class="_2xl:m-auto _3xl:max-w-[80%] w-full h-full object-cover object-center opacity-90 _scale-x-[-1]"

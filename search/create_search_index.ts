@@ -81,13 +81,15 @@ export const buildOramaIndexFromProductionApi = async () => {
   }
 
   console.warn(`Indexing Mynewsdesk`);
-  //const mynewsdesk_manifest = [];
+  const mynewsdesk_manifest = [];
   for await (const manifest of insertMynewsdesk(orama)) {
     console.warn(manifest);
-    // if (manifest?.count > 0) {
-    //   mynewsdesk_manifest.push(manifest);
-    // }
+    if (manifest?.count > 0) {
+      mynewsdesk_manifest.push(manifest);
+    }
   }
+  console.warn(mynewsdesk_manifest);
+
   // await Deno.writeTextFile(
   //   "./_fresh/mynewsdesk_manifest.json",
   //   JSON.stringify(mynewsdesk_manifest),

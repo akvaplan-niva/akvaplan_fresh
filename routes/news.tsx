@@ -32,6 +32,9 @@ import { SqImgCard, TightSqImgCard } from "@/components/cards.tsx";
 import { News5 } from "@/components/home/news5.tsx";
 import { MajorSection } from "@/components/major_section.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
+import { Cards1plus4, SectionHeader } from "@/components/cards5.tsx";
+import { Eyebrow } from "@/components/eyebrow.tsx";
+import { href } from "@/search/href.ts";
 type Props = {};
 const _section = {
   // marginTop: "4rem",
@@ -72,6 +75,9 @@ export default function News(
   // pressreleases
   // pubs
   // people?
+
+  const headline = t("news.LatestNews");
+  const eyebrow = t("nav.News");
   return (
     <div title={title} base={base} collection="home">
       <Head>
@@ -79,7 +85,13 @@ export default function News(
         <MorgenStudioStyles />
       </Head>
       <HeaderLogoStickyNav lang={lang} />
-      <News5 id="news" cards={cards} lang={lang} href={null} />
+
+      <MajorSection>
+        <Eyebrow text={eyebrow} />
+        <SectionHeader headline={headline} />
+        <Cards1plus4 cards={cards} />
+      </MajorSection>
+
       {[...news].map(([grpkey, grpmembers]) => (
         <MajorSection id={`news-${grpkey}`}>
           <section style={_section}>
@@ -89,9 +101,26 @@ export default function News(
               </span>
             </h2>
 
+            <div class="grid grid-cols-[1fr_1fr] gap-[1.5rem] py-[1.5rem]
+            md:grid-cols-[1fr_1fr_1fr] 
+            lg:grid-cols-[1fr_1fr_1fr_1fr] 
+            xl:grid-cols-[1fr_1fr_1fr_1fr_1fr]">
+              {grpmembers.map((s) => (
+                <TightSqImgCard
+                  key={s.href}
+                  headline={s.headline}
+                  href={s.href}
+                  cloudinary={s.cloudinary}
+                />
+              ))}
+            </div>
+
+            {
+              /*
             <HScroll maxVisibleChildren={grpmembers.length > 5 ? 5.5 : 4.5}>
               {grpmembers.map(TightSqImgCard)}
-            </HScroll>
+            </HScroll> */
+            }
           </section>
         </MajorSection>
       ))}

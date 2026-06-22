@@ -9,14 +9,14 @@ export function Research5(
   { id, cards, lang }: { id: string; cards: Card[]; lang: string },
 ) {
   const eyebrow = t("nav.Research");
-  const href = intlRouteMap(lang).get("research")!;
+  //const href = intlRouteMap(lang).get("research")!;
   const cta = t("research.See_all_research");
   const headline = t("our.research");
 
   return (
     <MajorSection id={id}>
-      <Eyebrow href={href} text={eyebrow} />
-      <SectionHeader headline={headline} cta={cta} href={href} />
+      <Eyebrow text={eyebrow} />
+      <SectionHeader headline={headline} cta={cta} />
       <Cards1plus4 cards={cards} />
     </MajorSection>
   );
