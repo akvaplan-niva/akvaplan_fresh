@@ -1,13 +1,18 @@
-import IconButton from "@/components/button/icon_button.tsx";
 import { SqImgCard, TightSqImgCard } from "@/components/cards.tsx";
-import type { Card } from "@/components/card/types.ts";
 import { PrimaryButton } from "@/components/button/primary_button.tsx";
+import type { Card } from "@/components/card/types.ts";
+
+import type { ComponentChild } from "preact";
 
 const imgUrl = (id: string) =>
   `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_746,h_746,q_auto:good/${id}`;
 
 export const SectionHeader = (
-  { headline, href, cta }: { headline: string; href: string; cta: string },
+  { headline, href, cta }: {
+    headline: ComponentChild | string;
+    href: string;
+    cta: string;
+  },
 ) => (
   <header style="display: grid; 
     grid-template-columns: 1fr auto; 

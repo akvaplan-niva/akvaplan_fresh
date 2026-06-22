@@ -7,6 +7,8 @@ import type { RouteContext } from "$fresh/server.ts";
 import { getItem } from "akvaplan_fresh/services/mynewsdesk.ts";
 import { href } from "akvaplan_fresh/search/href.ts";
 import { string } from "@valibot/valibot";
+import type { Hero } from "@/components/card/types.ts";
+import { Img } from "@/routes/images.tsx";
 
 const getKvCloudinaryId = async (slug: string) => {
   const _id = extractId(slug);

@@ -1,5 +1,5 @@
 import type { Card, Hero } from "@/components/card/types.ts";
-import { cloudinaryImgUrl } from "@/services/cloudinary.ts";
+import { cloudinaryImgUrl, cloudinaryUrl } from "@/services/cloudinary.ts";
 //import type { CSSProperties } from "preact";
 
 const sqImgUrl = (
@@ -65,6 +65,47 @@ export function SqImgCard({
           {intro && (
             <p class="text-[15px] md:text-[17px] lg:text-lg backdrop-blur-md  leading-relaxed opacity-95 line-clamp-2">
               {intro}
+            </p>
+          )}
+        </div>
+      </a>
+    </div>
+  );
+}
+
+export function ImgCard({
+  headline = "",
+  href = "#",
+  cloudinary,
+  image,
+  intro,
+  size,
+}: Card | Hero) {
+  return (
+    <div
+      class={`relative h-[400px] w-full rounded-sm overflow-hidden shadow-2xl`}
+    >
+      <a href={href} class="block h-full">
+        <img
+          src={cloudinaryUrl(cloudinary)}
+          alt=""
+          class="absolute inset-0 w-full h-full object-cover min-w-full min-h-full"
+          width={size}
+        />
+
+        <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/45 to-black/65" />
+
+        <div class="relative z-10 h-full grid grid-rows-[1fr_auto_auto] p-8 sm:p-10 text-white">
+          <div />
+
+          <div>
+            <h3 class="h3 text-[clamp(1.25rem,3vw,2.5rem)] leading-tight tracking-tight mb-4 line-clamp-4">
+              {headline}
+            </h3>
+          </div>
+          {intro && (
+            <p class="text-[15px] md:text-[17px] lg:text-lg   leading-relaxed opacity-95 line-clamp-2">
+              <span class="backdrop-blur-md">{intro}</span>
             </p>
           )}
         </div>

@@ -1,6 +1,4 @@
-import { t } from "akvaplan_fresh/text/mod.ts";
-import { JSX } from "preact";
-import Button from "akvaplan_fresh/components/button/button.tsx";
+import { HTMLAttributes } from "preact";
 import IconButton from "akvaplan_fresh/components/button/icon_button.tsx";
 
 const handleClick = (e: MouseEvent) => {
@@ -17,7 +15,7 @@ const handleClick = (e: MouseEvent) => {
 };
 
 export default (
-  { children, ...props }: JSX.HTMLAttributes<HTMLButtonElement>,
+  { children, ...props }: HTMLAttributes<HTMLButtonElement>,
 ) => (
   <IconButton
     onClick={handleClick}

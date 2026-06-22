@@ -80,9 +80,9 @@ export function ImgHero({
         <div class="text-left">
           <div class="relative z-10 w-full px-6 lg:px-48 py-32 lg:py-40">
             <div class="2xl:max-w-[55%]">
-              {eyebrow && eyebrow.length > 0
+              {eyebrow && typeof eyebrow === "string"
                 ? <Eyebrow href={href} text={eyebrow} color="white" />
-                : null}
+                : eyebrow}
 
               <div class="mb-12">
                 <h1

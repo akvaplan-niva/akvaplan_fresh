@@ -1,6 +1,7 @@
 import SiteNavDialog from "akvaplan_fresh/components/site_menu_dialog.tsx";
 import ButtonOpenDialog from "akvaplan_fresh/islands/button_open_dialog.tsx";
 import { t } from "../../text/mod.ts";
+import { Head } from "$fresh/runtime.ts";
 
 export const Menu = ({ lang }) => (
   <span
@@ -17,5 +18,8 @@ export const Menu = ({ lang }) => (
     </nav>
 
     <SiteNavDialog lang={lang} />
+    <Head>
+      <link rel="stylesheet" href={"/css/site_menu.css"} />
+    </Head>
   </span>
 );

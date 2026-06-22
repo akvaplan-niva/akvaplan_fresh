@@ -98,7 +98,7 @@ const extractCloudinary = (
   }
 };
 
-const getEventSlug = async (item) => {
+const getEventSlug = (item) => {
   if (projectByMynewsdesk.has(item.id)) {
     const p = projectByMynewsdesk.get(item.id);
     return p.id;
@@ -108,13 +108,13 @@ const getEventSlug = async (item) => {
   return _slug.split("-").at(0);
 };
 
-const getSlug = async (item) => {
+export const getSlug = (item) => {
   const { pathname } = new URL(item.url);
   const _slug = pathname.split("/").at(-1)!;
   const published = item.published_at?.datetime ?? new Date().toJSON();
   switch (item.type_of_media) {
     case "event":
-      return await getEventSlug(item);
+      return getEventSlug(item);
     default:
       return [isodate(published), _slug].join("/");
   }

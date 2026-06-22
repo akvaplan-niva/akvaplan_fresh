@@ -466,3 +466,13 @@ export const multiSearchMynewsdesk = async (
   }
   return [...result.values()].sort(sort);
 };
+
+// export const getCardsOfItemIds = async () =>
+//   (await Array.fromAsync(
+//     selectedNews.map(({ mynewsdesk, type_of_media }) =>
+//       getItem(mynewsdesk, type_of_media)
+//     ),
+//   )).map((item) => {
+//     const card = cardFromItem(item);
+//     return card;
+//   });

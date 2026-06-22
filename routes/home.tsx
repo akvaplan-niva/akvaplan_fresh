@@ -29,6 +29,8 @@ import { Head } from "$fresh/runtime.ts";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { ID_RESEARCH, ID_SERVICES } from "@/kv/id.ts";
 import { getCachedPanelCard } from "@/kv/panel.ts";
+import { PubsHome, selectedPubs } from "@/components/home/pubs_home.tsx";
+import { ImgHero } from "@/components/hero/hero.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -52,8 +54,9 @@ export default defineRoute(async (req, _ctx) => {
     (l, i) => ({ ...l, href: `#nav-${1 + i}` }),
   );
 
-  const researchHero = await getCachedPanelCard(ID_RESEARCH, lang);
-  const servicesHero = await getCachedPanelCard(ID_SERVICES, lang);
+  const researchHero = await getCachedPanelCard(ID_RESEARCH, lang) ?? {};
+  const servicesHero = await getCachedPanelCard(ID_SERVICES, lang) ?? {};
+  const selectedPublicationNews = await selectedPubs();
 
   return (
     <>
@@ -82,6 +85,8 @@ export default defineRoute(async (req, _ctx) => {
         lang={lang}
       />
 
+      {/* <PubsHome cards={selectedPublicationNews} lang={lang} /> */}
+
       <PeopleHome id="nav-4" lang={lang} />
 
       <Projects5 id="nav-5" cards={projects} lang={lang} />
@@ -90,7 +95,7 @@ export default defineRoute(async (req, _ctx) => {
         <ApnSym />
       </div>
 
-      <ImageHero id="nav-6" {...aboutHeroProps} />
+      <ImgHero id="nav-6" {...aboutHeroProps} />
     </>
   );
 });

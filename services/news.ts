@@ -4,6 +4,9 @@ import { newsFromMynewsdesk } from "./news_mynewsdesk.ts";
 
 import type { MynewsdeskArticle, News, Search } from "@/@interfaces/mod.ts";
 import { Card } from "@/components/card/types.ts";
+import { getSlug } from "@/search/indexers/mynewsdesk.ts";
+import { lang as langSignal } from "@/text/mod.ts";
+import { newsArticleURL } from "@/services/mod.ts";
 
 interface NewsWithRelativeTime extends Card {
   ago?: Temporal.Duration;
@@ -116,20 +119,30 @@ export const cardFromNews = (
   } satisfies NewsWithRelativeTime;
 };
 
-export const cardFromItem = async (
+export const cardFromItem = (
   item: MynewsdeskArticle,
 ) => {
   const {
     id,
+    type_of_media,
     image,
-    url,
     body,
     header,
     summary,
     caption,
   } = item;
 
-  return { href: url, headline: header, intro: summary, body, image };
+  const cloudinary = image?.split("/").at(-1);
+  const slug = getSlug(item);
+  const href = newsArticleURL({ lang: langSignal.value, title: header, slug });
+
+  return {
+    href,
+    headline: header,
+    intro: summary,
+    body,
+    cloudinary,
+  };
 };
 
 const getIntro = async (news0) => {

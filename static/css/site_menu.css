@@ -1,0 +1,36 @@
+menu {
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 0px;
+}
+dialog:not([open]) {
+  pointer-events: none;
+  opacity: 0;
+}
+
+dialog {
+  border-radius: var(--radius-2);
+  box-shadow: var(--shadow-6);
+}
+
+dialog[color-scheme] {
+  backdrop-filter: blur(30px);
+  /* background: var(--surface0); */
+}
+
+dialog::backdrop {
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+}
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
+*::backdrop {
+  backdrop-filter: blur(30px);
+  /* background: var(--surface0); */
+}

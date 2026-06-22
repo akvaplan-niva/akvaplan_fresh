@@ -1,32 +1,10 @@
 import { MajorSection } from "@/components/major_section.tsx";
-import { ImgHero } from "@/components/hero/hero.tsx";
-import { peopleSearchHref } from "@/services/nav.ts";
+import { ImgCard, SqImgCard, TightSqImgCard } from "@/components/cards.tsx";
+import { SectionHeader } from "@/components/cards5.tsx";
+import { Eyebrow } from "@/components/eyebrow.tsx";
 import type { Card, Hero } from "@/components/card/types.ts";
-export const ServcesList = ({ cards }) => {
-  return (
-    <footer color-scheme="dark">
-      <div
-        class={`absolute bottom-0 lg:bottom-12 left-0 right-0 px-6 lg:px-12 transition-all duration-700 delay-500`}
-      >
-        {cards.map((
-          { headline },
-        ) => (
-          <a
-            href={peopleSearchHref() +
-              `/workplace/${encodeURIComponent(headline.toLowerCase())}`}
-          >
-            <span
-              style="color: var(--text1);"
-              _class="text-[clamp(1.25rem,1.25vw,2rem)] text-white"
-            >
-              {headline}
-            </span>
-          </a>
-        ))}
-      </div>
-    </footer>
-  );
-};
+import { t } from "@/text/mod.ts";
+
 export function ServicesHome(
   { id, hero, cards, lang }: {
     id?: string;
@@ -35,10 +13,28 @@ export function ServicesHome(
     lang: string;
   },
 ) {
+  const { headline, href, cta } = hero;
+  const eyebrow = t("nav.Services");
+
   return (
-    <MajorSection id="services-home">
+    <MajorSection id={id}>
+      <Eyebrow href={href} text={eyebrow} />
+      <SectionHeader headline={headline} cta={cta} />
+      <div class="grid grid-cols-[1fr_1fr] md:grid-cols-[1fr_1fr_1fr] lg:grid-cols-[1fr_1fr_1fr_1fr] gap-[1.5rem] py-[1.5rem]">
+        {cards.map((s) => (
+          <TightSqImgCard
+            key={s.href}
+            headline={s.headline}
+            href={s.href}
+            cloudinary={s.cloudinary}
+          />
+        ))}
+      </div>
+      {
+        /*
       <div id={id}></div>
-      <ImgHero {...hero} />
+      <ImgHero {...hero} /> */
+      }
     </MajorSection>
   );
 }

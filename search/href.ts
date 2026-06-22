@@ -43,7 +43,7 @@ const No1 = new Map([
 // "collection.media": "media",
 // "collection.video": "filmer",
 
-const localizedRouteForSearchAtom = (
+export const localizedRouteForSearchAtom = (
   atom: OramaAtom & { hreflang?: "string" },
   lang: string,
 ): string => {

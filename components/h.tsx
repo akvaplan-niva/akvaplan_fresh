@@ -9,5 +9,5 @@ export const H2 = ({ children }: { children: ComponentChildren }) => (
 );
 
 export const H3 = ({ children }: { children: ComponentChildren }) => (
-  <h3 class="h3">{children}</h3>
+  <h3 class="h3 text-pretty">{children}</h3>
 );
