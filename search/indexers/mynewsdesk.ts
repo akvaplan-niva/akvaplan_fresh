@@ -176,9 +176,11 @@ export const atomizeMynewsdeskItem = async (
   const knownProjects = related_items.filter(projectFilter);
 
   const md = markdownFromHtml(body ?? "");
+  const uniq = new Set(md.split(" ").map((t) => t.toLowerCase()));
+  const uniqText = [...uniq].join(" ").substring(0, 512);
 
   const text = [
-    md,
+    uniqText,
     cloudinary,
     summary,
     caption,

@@ -71,7 +71,7 @@ export const nameFromAuthor = ({ family, given, name }: Partial<Akvaplanist>) =>
 export const familyFromAuthor = ({ family }: Partial<Akvaplanist>) =>
   family ? family : ``;
 
-export const atomizeSlimPublication = async (pub: SlimPublication) => {
+export const atomizeSlimPublication = (pub: SlimPublication) => {
   const {
     id,
     nva,

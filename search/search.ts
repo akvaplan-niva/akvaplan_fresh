@@ -54,11 +54,11 @@ export const decadesFacet = {
     { from: 1970, to: 1979 },
   ],
 };
+
 export const search = async (
   params: SearchParams<OramaAtomSchema>,
 ) => {
   const orama = await getOramaInstance();
-
   params.term = params.exact !== true ? normalize(params.term) : params.term;
   params.threshold = params.threshold ?? 0;
   const res = await _search(orama, params) as Results<OramaAtom>;

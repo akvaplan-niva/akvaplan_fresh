@@ -1,11 +1,6 @@
 import markdownDocuments from "akvaplan_fresh/services/documents.json" with {
   type: "json",
 };
-
-//cat ../pubs/data/nva.ndjson | sort | uniq | nd-group 1 | nd-map d[1] > data/nva.json
-// import nva from "akvaplan_fresh/data/nva.json" with {
-//   type: "json",
-// };
 import { getPubsFromDenoDeployService } from "akvaplan_fresh/services/dois.ts";
 
 import {
@@ -21,19 +16,63 @@ import {
   getEmployedAkvaplanists,
 } from "akvaplan_fresh/services/akvaplanist.ts";
 import { indexProjects } from "akvaplan_fresh/search/indexers/project.ts";
+import { listProjects, saveProject } from "@/kv/project.ts";
+import { OramaAtomSchema } from "@/search/types.ts";
+import { publishedDesc } from "@/search/adapter/kv.ts";
 
 // Create orama index
-// Persists index as JSON on disk during `deno task build` (in production, this runs on GitHub prior to deploy).
+// Persists index as JSON on disk during `deno task build`
 // The search index is automatically revived by the getOramaInstance function.
-//
+// NOTICE: For projects, related publications linked in NVA are found and then persisted into KV
+const indexPubs = async (orama: OramaAtomSchema) => {
+  const byNvaProjectId = new Map();
+  const pubs = (await getPubsFromDenoDeployService()) ?? [];
+  const atomizedPubById = new Map(
+    pubs.map((p) => [p.id, atomizeSlimPublication(p)]),
+  );
 
-//
-// Note: KV ["panel"] & ["project"] are indexed on the fly
-// @todo On the fly indexing can with i18n in titles and links
+  const types = new Set(pubs.map(({ type }) => type));
 
-// Data held in KV may not so easily be pre-indexed, since the GitHub build server has easy contact with the KV in production.
-// KV contact may be achieved by injecting a KV secret to https://github.com/akvaplan-niva/akvaplan_fresh/blob/main/.github/workflows/deploy.yml)
-// or by reading from the KV list API endpoint like here
+  const nva = pubs.filter(({ projects }) =>
+    projects && projects.some(({ cristin }) => cristin > 0)
+  );
+
+  const links = new Map();
+
+  nva.map(({ id, projects }) => {
+    projects.map(({ cristin }) => {
+      const pubs = byNvaProjectId.has(cristin)
+        ? byNvaProjectId.get(cristin).add(id)
+        : new Set([id]);
+      byNvaProjectId.set(cristin, pubs);
+    });
+  });
+
+  for (const [k, ids] of byNvaProjectId) {
+    const atoms = [...ids].map((id) => {
+      const atom = atomizedPubById.get(id);
+      const { title, type, published, container } = atom;
+      return { id, title, type, published, container };
+    }).sort(publishedDesc);
+    links.set(k, atoms);
+  }
+
+  console.warn(
+    `Indexing ${pubs.length} of ${pubs.length} pubs of types [${[
+      ...types,
+    ]}]`,
+  );
+
+  const atomizedPubs = await Array.fromAsync([...atomizedPubById.values()]);
+  console.warn(atomizedPubs.at(0));
+  await insertMultiple(
+    orama,
+    atomizedPubs,
+  );
+
+  return links;
+};
+
 export const buildOramaIndexFromProductionApi = async () => {
   const orama = await createOramaInstance();
 
@@ -43,39 +82,32 @@ export const buildOramaIndexFromProductionApi = async () => {
   console.warn(`Indexing ${akvaplanists.length} akvaplanists`);
   await insertMultiple(orama, akvaplanists.map(atomizeAkvaplanist));
 
-  // Panels are indexed in site_menu_dialog.tsx
-  // Projects are indexed Münchhausen-style since the KV database is not available when building the index,
-  // FIXME Projects home page is empty unless projects are pre-indexed at build time
-  const projectsUrl = "https://akvaplan.no/api/kv/list/project?format=json";
-  const r = await fetch(projectsUrl);
-  if (r?.ok) {
-    const projects = (await r.json()).map(({ value }) => value).map((p) => {
-      p.published = new Date(p.published);
-      p.updated = new Date(p.updated);
-      return p;
-    });
-
-    console.warn(`Indexing ${projects.length} projects`);
-    await indexProjects(orama, projects);
-  }
-
   console.warn(`Indexing ${markdownDocuments.length} markdown documents`);
   await insertMultiple(orama, markdownDocuments);
 
-  const pubs = await getPubsFromDenoDeployService();
-  if (pubs) {
-    const types = new Set(pubs.map(({ type }) => type));
+  const nvaPubs = await indexPubs(orama);
 
-    console.warn(
-      `Indexing ${pubs.length} of ${pubs.length} pubs of types [${[
-        ...types,
-      ]}]`,
-    );
-    await insertMultiple(
-      orama,
-      await Array.fromAsync(pubs?.map(atomizeSlimPublication)),
-    );
-  }
+  const projects = (await Array.fromAsync(listProjects())).map(({ value }) =>
+    value
+  ).map(
+    async (p) => {
+      // p.published = new Date(p.published);
+      // p.updated = new Date(p.updated);
+      if (p.cristin && nvaPubs?.has(p.cristin)) {
+        p.pubs = nvaPubs?.get(p.cristin);
+        const res = await saveProject(p);
+        console.warn(
+          `Injected ${p.pubs.length} pubs into project ${p.id}`,
+          p.title.en,
+          res,
+        );
+      }
+      return p;
+    },
+  );
+
+  console.warn(`Indexing ${projects.length} projects`);
+  await indexProjects(orama, projects);
 
   console.warn(`Indexing Mynewsdesk`);
   const mynewsdesk_manifest = [];
@@ -86,11 +118,6 @@ export const buildOramaIndexFromProductionApi = async () => {
     }
   }
   console.warn(mynewsdesk_manifest);
-
-  // await Deno.writeTextFile(
-  //   "./_fresh/mynewsdesk_manifest.json",
-  //   JSON.stringify(mynewsdesk_manifest),
-  // );
 
   console.timeEnd("Orama indexing");
   return orama;
