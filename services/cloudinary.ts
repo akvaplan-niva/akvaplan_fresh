@@ -106,4 +106,4 @@ export const srcset = (url, { w, ar }) =>
   ].join(" ");
 
 export const heroImageUrl = ({ cloudinary }: Partial<Hero>) =>
-  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1920,ar_16:9/${cloudinary}`;
+  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_1782/${cloudinary}`;
