@@ -1,11 +1,8 @@
 import { longDate } from "../time/intl.ts";
 import {
-  fetchNvaCristinProject,
   getNvaMetadata,
   getNvaProject,
   getPresignedFileUrl,
-  isNvaUrl,
-  nvaPublicationLanding,
 } from "@/services/nva.ts";
 
 import { t } from "@/text/mod.ts";
@@ -27,11 +24,7 @@ import { ProjectsAsImageLinks } from "@/components/project_link.tsx";
 //   mergeNvaAndCristinProjectsWithAkvaplanProjects,
 // } from "@/services/projects.ts";
 
-import { isHandleUrl } from "@/services/handle.ts";
-
 import { pubsURL } from "@/services/nav.ts";
-import { akvaplanProjectsFromNvaProjects } from "@/services/projects.ts";
-import { getProjects } from "./projects_nva.tsx";
 import { projectsByNvaId } from "../services/project.ts";
 
 export const config: RouteConfig = {

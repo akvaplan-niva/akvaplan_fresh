@@ -121,7 +121,6 @@ export default defineRoute(async (req, ctx) => {
       lifecycle: buildResultFacet("lifecycle", results.hits),
     };
   }
-
   const filters = Object.entries(oramaParams.where);
 
   return (

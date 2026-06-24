@@ -7,14 +7,12 @@ import { Card } from "@/components/card/types.ts";
 import { getSlug } from "@/search/indexers/mynewsdesk.ts";
 import { lang as langSignal } from "@/text/mod.ts";
 import { newsArticleURL } from "@/services/mod.ts";
+import { publishedDesc } from "@/search/adapter/kv.ts";
 
 interface NewsWithRelativeTime extends Card {
   ago?: Temporal.Duration;
   intro?: string;
 }
-
-export const sortLatest = (a: News, b: News) =>
-  b.published.localeCompare(a.published);
 
 //@todo News create task to find/save news articles with DOI
 const newsArticlesWithDOI = (articles: News[]) =>
@@ -43,7 +41,7 @@ export const buildoiNewsMap = async (
 };
 
 export const searchNews = async (
-  { q = "", limit = 10, lang, sort = sortLatest } = {},
+  { q = "", limit = 10, lang, sort = publishedDesc } = {},
 ): Promise<News[]> => {
   const _news = await searchMynewsdesk({ q, limit, type_of_media: "news" });
   const _pr = await searchMynewsdesk({
@@ -87,7 +85,7 @@ export const latestNewsFromMynewsdeskService = async (params: Search) =>
     );
 
 export const searchNewsArticles = async (
-  { q = "", limit = 10, lang = "", sort = sortLatest } = {},
+  { q = "", limit = 10, lang = "", sort = publishedDesc } = {},
 ): Promise<News[]> => {
   const _news = await searchMynewsdesk({ q, limit, type_of_media: "news" });
   const pr = "pressrelease";
