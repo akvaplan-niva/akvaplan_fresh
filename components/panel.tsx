@@ -1,14 +1,14 @@
-import Button from "akvaplan_fresh/components/button/button.tsx";
+import Button from "@/components/button/button.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 
 import { WideImage } from "./wide_image.tsx";
-import { ApnLogo } from "akvaplan_fresh/components/mod.ts";
-import { EditIconButton } from "akvaplan_fresh/components/edit_icon_button.tsx";
-import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
-import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
-import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
-import { longDate } from "akvaplan_fresh/time/intl.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { ApnLogo } from "@/components/mod.ts";
+import { EditIconButton } from "@/components/edit_icon_button.tsx";
+import { BentoPanel } from "@/components/bento_panel.tsx";
+import { cloudinaryUrl } from "@/services/cloudinary.ts";
+import { SearchHeader } from "@/components/search_header.tsx";
+import { longDate } from "@/time/intl.ts";
+import { t } from "@/text/mod.ts";
 
 // FIXME Panel: refactor markup/css
 // FIXME Panel: support left-right-cemter text/cta, center eg: https://codepen.io/sflinz/pen/dvEbwz

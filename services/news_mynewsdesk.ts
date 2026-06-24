@@ -1,10 +1,6 @@
 import { hrefForMynewsdeskItem } from "./mynewsdesk.ts";
 import { projectURL } from "./nav.ts";
-import {
-  AbstractMynewsdeskItem,
-  News,
-  NewsMapper,
-} from "akvaplan_fresh/@interfaces/mod.ts";
+import { AbstractMynewsdeskItem, News, NewsMapper } from "@/@interfaces/mod.ts";
 
 const extractID = (url: string) => url.split("/").at(-1);
 

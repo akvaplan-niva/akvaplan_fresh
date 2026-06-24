@@ -1,11 +1,7 @@
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import {
-  getPanelInLang,
-  getPanelsInLang,
-  mayEditKvPanel,
-} from "akvaplan_fresh/kv/panel.ts";
-import { PanelPage } from "akvaplan_fresh/components/panel_page.tsx";
-import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
+import { getPanelInLang, getPanelsInLang, mayEditKvPanel } from "@/kv/panel.ts";
+import { PanelPage } from "@/components/panel_page.tsx";
+import type { Panel } from "@/@interfaces/panel.ts";
 
 export const config: RouteConfig = {
   routeOverride:

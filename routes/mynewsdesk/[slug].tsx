@@ -8,23 +8,18 @@
 // https://akvaplan.no/news/nye-forskningsmidler-til-oppdrettstorsk-449890
 //
 // Notice the same content is available on: https://akvaplan-niva.mynewsdesk.com/news/nye-forskningsmidler-til-oppdrettstorsk-449890 and https://www.mynewsdesk.com/no/akvaplan-niva/news/nye-forskningsmidler-til-oppdrettstorsk-449890
-
+// Or via their API: https://www.mynewsdesk.com/services/pressroom/view/…?format=json&item_id=449890&type_of_media=pressrelease&strict=true
 // Also handle legacy URLs: /mynewsdesk-articles/:slug (from previous Akvaplan-niva web site in production until 2023-05):
 // https://www.akvaplan.niva.no/mynewsdesk-articles/torskeoppdrett-behovet-for-areal => https://akvaplan.no/no/nyhet/2022-05-30/torskeoppdrett-behovet-for-areal
 
 import {
-  canonicalRoute,
   getCanonical,
-  getItem,
-  hrefForMynewsdeskItem,
   newsroom_lang,
   typeOfMediaFromMynewsdeskPage,
-} from "akvaplan_fresh/services/mynewsdesk.ts";
+} from "@/services/mynewsdesk.ts";
 import { Handlers, RouteConfig } from "$fresh/server.ts";
-import { response307XRobotsTagNoIndex } from "akvaplan_fresh/services/response30x.ts";
-import { getSiteLang } from "akvaplan_fresh/utils/mod.ts";
-import { projectURL } from "akvaplan_fresh/services/nav.ts";
-import { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import { response307XRobotsTagNoIndex } from "@/services/response30x.ts";
+import { getSiteLang } from "@/utils/mod.ts";
 export const config: RouteConfig = {
   routeOverride:
     "/:mynewsdesk_page(news|pressreleases|mynewsdesk-articles|events|blog_posts|images|videos|contact_people)/:slug",

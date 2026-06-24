@@ -1,6 +1,6 @@
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
+import { openKv } from "@/kv/mod.ts";
 import { RouteContext } from "$fresh/src/server/types.ts";
-import { slug0 } from "akvaplan_fresh/services/mynewsdesk.ts";
+import { slug0 } from "@/services/mynewsdesk.ts";
 
 const cloudinaryList = async (kv: Deno.Kv) => {
   return what;

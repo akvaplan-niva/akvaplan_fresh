@@ -1,12 +1,10 @@
-import { Page } from "akvaplan_fresh/components/page.tsx";
-import { Card } from "akvaplan_fresh/components/card.tsx";
-import Text from "akvaplan_fresh/islands/text.tsx";
-import ThemeSwitcher, {} from "akvaplan_fresh/islands/theme_switcher.tsx";
-import LangSwitcher, {
-  LangLinks,
-} from "akvaplan_fresh/islands/lang_switcher.tsx";
+import { Page } from "@/components/page.tsx";
+import { Card } from "@/components/card.tsx";
+import Text from "@/islands/text.tsx";
+import ThemeSwitcher, {} from "@/islands/theme_switcher.tsx";
+import LangSwitcher, { LangLinks } from "@/islands/lang_switcher.tsx";
 
-import { lang } from "akvaplan_fresh/text/mod.ts";
+import { lang } from "@/text/mod.ts";
 import { Head, IS_BROWSER } from "$fresh/runtime.ts";
 import { RouteConfig } from "$fresh/server.ts";
 

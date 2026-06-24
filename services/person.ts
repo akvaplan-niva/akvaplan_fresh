@@ -3,7 +3,7 @@ import { spellings } from "./spellings.ts";
 import {
   findAkvaplanistViaOrama,
   removePuncts,
-} from "akvaplan_fresh/services/akvaplanist.ts";
+} from "@/services/akvaplanist.ts";
 
 export interface Person {
   id?: string;

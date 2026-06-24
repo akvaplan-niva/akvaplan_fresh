@@ -16,7 +16,7 @@ export const _en = (c: string) => {
 };
 
 import { slug } from "slug";
-import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
+import type { Panel } from "@/@interfaces/panel.ts";
 
 export const panelHref = ({ id, collection, title, intl }: Panel, { lang }) =>
   `/${lang}/${lang === "en" ? _en(collection) : _no(collection)}/${

@@ -1,9 +1,9 @@
-import { documentHref } from "akvaplan_fresh/services/nav.ts";
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
+import { documentHref } from "@/services/nav.ts";
+import { lang, t } from "@/text/mod.ts";
 
-import { ArticleSquare, Page } from "akvaplan_fresh/components/mod.ts";
+import { ArticleSquare, Page } from "@/components/mod.ts";
 
-import { type InternationalProps } from "akvaplan_fresh/utils/page/international_page.ts";
+import { type InternationalProps } from "@/utils/page/international_page.ts";
 
 interface DocumentsProps extends InternationalProps {
   style: StyleProps;
@@ -30,8 +30,8 @@ import {
   type PageProps,
   type RouteConfig,
 } from "$fresh/server.ts";
-import { MynewsdeskDocument } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import { searchMynewsdeskAndMarkdownDocuments } from "akvaplan_fresh/services/documents.ts";
+import { MynewsdeskDocument } from "@/@interfaces/mynewsdesk.ts";
+import { searchMynewsdeskAndMarkdownDocuments } from "@/services/documents.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(documents|document|dokumenter|dokument)",

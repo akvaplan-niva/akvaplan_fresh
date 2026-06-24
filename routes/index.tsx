@@ -1,5 +1,5 @@
-import { buildIndexLangRedirect, t } from "akvaplan_fresh/text/mod.ts";
-import { Page } from "akvaplan_fresh/components/page.tsx";
+import { buildIndexLangRedirect, t } from "@/text/mod.ts";
+import { Page } from "@/components/page.tsx";
 
 import { Handlers } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";

@@ -1,26 +1,22 @@
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
-import {
-  mayEditKvPanel,
-  panelTemplate,
-  save,
-} from "akvaplan_fresh/kv/panel.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { openKv } from "@/kv/mod.ts";
+import { mayEditKvPanel, panelTemplate, save } from "@/kv/panel.ts";
+import { t } from "@/text/mod.ts";
 import { genid } from "../kv/id.ts";
 
-import { getSessionUser } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
-import { MicrosoftUserinfo } from "akvaplan_fresh/oauth/microsoft_userinfo.ts";
+import { getSessionUser } from "@/oauth/microsoft_helpers.ts";
+import { MicrosoftUserinfo } from "@/oauth/microsoft_userinfo.ts";
 
-import { panelHref } from "akvaplan_fresh/services/panelHref.tsx";
+import { panelHref } from "@/services/panelHref.tsx";
 
-import { Page } from "akvaplan_fresh/components/page.tsx";
-import { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
+import { Page } from "@/components/page.tsx";
+import { Panel } from "@/@interfaces/panel.ts";
 import { Handlers, RouteConfig } from "$fresh/server.ts";
-import { PanelEditIsland } from "akvaplan_fresh/islands/panel_edit.tsx";
+import { PanelEditIsland } from "@/islands/panel_edit.tsx";
 import { Forbidden } from "../components/forbidden.tsx";
-import { Section } from "akvaplan_fresh/components/section.tsx";
+import { Section } from "@/components/section.tsx";
 
 import { defineRoute } from "$fresh/src/server/defines.ts";
-import { WideImage } from "akvaplan_fresh/components/wide_image.tsx";
+import { WideImage } from "@/components/wide_image.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:collection{/:slug}?/:id/:action(edit|new)",

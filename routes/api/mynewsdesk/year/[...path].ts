@@ -1,4 +1,4 @@
-import type { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import type { MynewsdeskItem } from "@/@interfaces/mynewsdesk.ts";
 
 import { FreshContext, Handlers } from "$fresh/server.ts";
 

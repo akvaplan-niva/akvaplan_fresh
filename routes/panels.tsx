@@ -1,20 +1,14 @@
-import {
-  getPanelsInLang,
-  mayEditKvPanel,
-  PanelFilter,
-} from "akvaplan_fresh/kv/panel.ts";
+import { getPanelsInLang, mayEditKvPanel, PanelFilter } from "@/kv/panel.ts";
 
 import { Section } from "../components/section.tsx";
-import { Page } from "akvaplan_fresh/components/page.tsx";
+import { Page } from "@/components/page.tsx";
 
 import { defineRoute, RouteConfig } from "$fresh/server.ts";
-import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
-import Button, {
-  LinkButton,
-} from "akvaplan_fresh/components/button/button.tsx";
-import { Icon } from "akvaplan_fresh/components/icon.tsx";
-import { Forbidden } from "akvaplan_fresh/components/forbidden.tsx";
-import { buildPanelListItem } from "akvaplan_fresh/components/panel.tsx";
+import type { Panel } from "@/@interfaces/panel.ts";
+import Button, { LinkButton } from "@/components/button/button.tsx";
+import { Icon } from "@/components/icon.tsx";
+import { Forbidden } from "@/components/forbidden.tsx";
+import { buildPanelListItem } from "@/components/panel.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(panel|panels)}",

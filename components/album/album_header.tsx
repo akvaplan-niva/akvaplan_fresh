@@ -1,5 +1,5 @@
-import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
-import { collectionHref, collectionName } from "akvaplan_fresh/services/nav.ts";
+import { LinkIcon } from "@/components/icon_link.tsx";
+import { collectionHref, collectionName } from "@/services/nav.ts";
 
 export const CollectionHeader = (
   {

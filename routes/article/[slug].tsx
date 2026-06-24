@@ -6,7 +6,7 @@ import {
   newsFromMynewsdesk,
   projectFilter,
   videoFilter,
-} from "akvaplan_fresh/services/mod.ts";
+} from "@/services/mod.ts";
 
 import {
   editOnMynewsdeskHref,
@@ -17,10 +17,10 @@ import {
   getItemBySlug,
   imageFilter,
   searchMynewsdesk,
-} from "akvaplan_fresh/services/mynewsdesk.ts";
-import { href } from "akvaplan_fresh/search/href.ts";
+} from "@/services/mynewsdesk.ts";
+import { href } from "@/search/href.ts";
 import { longDate } from "../../time/intl.ts";
-import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
+import { lang as langSignal, t } from "@/text/mod.ts";
 
 import {
   AltLangInfo,
@@ -32,19 +32,17 @@ import {
   HScroll,
   Page,
   PersonCard as PersonCard,
-} from "akvaplan_fresh/components/mod.ts";
+} from "@/components/mod.ts";
 
-import {
-  AbstractMynewsdeskItem,
-} from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import { AbstractMynewsdeskItem } from "@/@interfaces/mynewsdesk.ts";
 import { Handlers, PageProps, RouteConfig } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
 
-import { getVideo } from "akvaplan_fresh/kv/video.ts";
-import { VideoArticle } from "akvaplan_fresh/components/VideoArticle.tsx";
-import { OpenGraphRequired } from "akvaplan_fresh/components/open_graph.tsx";
-import { mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
-import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
+import { getVideo } from "@/kv/video.ts";
+import { VideoArticle } from "@/components/VideoArticle.tsx";
+import { OpenGraphRequired } from "@/components/open_graph.tsx";
+import { mayEditKvPanel } from "@/kv/panel.ts";
+import { LinkIcon } from "@/components/icon_link.tsx";
 import { projectsByMynewsdeskId } from "../../services/project.ts";
 import { ProjectsAsImageLinks } from "../../components/project_link.tsx";
 

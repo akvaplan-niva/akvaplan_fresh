@@ -1,5 +1,5 @@
 import { getValue, openKv } from "./mod.ts";
-import type { Akvaplanist as T } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
+import type { Akvaplanist as T } from "@/@interfaces/akvaplanist.ts";
 
 export async function* customerServicesGenerator() {
   const kv = await openKv();

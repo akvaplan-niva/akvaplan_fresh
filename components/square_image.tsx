@@ -1,4 +1,4 @@
-import { srcset } from "akvaplan_fresh/services/cloudinary.ts";
+import { srcset } from "@/services/cloudinary.ts";
 
 export const WIDTHS = [512, 256, 145];
 export const SquareImage = (

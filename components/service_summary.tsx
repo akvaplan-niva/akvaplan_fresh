@@ -1,4 +1,4 @@
-import { serviceSummaryMap } from "akvaplan_fresh/services/topic/mod.ts";
+import { serviceSummaryMap } from "@/services/topic/mod.ts";
 
 export const ServiceTopicDesc = ({ topic, lang, ...props } = {}) => {
   return serviceSummaryMap.get(topic)?.get(lang) ?? (() => null);

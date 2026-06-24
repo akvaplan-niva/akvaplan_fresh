@@ -1,7 +1,7 @@
-import { Page } from "akvaplan_fresh/components/page.tsx";
-import { MarkdownPanel } from "akvaplan_fresh/components/markdown.tsx";
+import { Page } from "@/components/page.tsx";
+import { MarkdownPanel } from "@/components/markdown.tsx";
 
-import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
+import { getPanelInLang } from "@/kv/panel.ts";
 
 import { defineRoute } from "$fresh/src/server/defines.ts";
 import type { RouteConfig } from "$fresh/server.ts";

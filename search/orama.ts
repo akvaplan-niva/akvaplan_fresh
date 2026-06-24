@@ -1,4 +1,4 @@
-import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
+import type { OramaAtomSchema } from "@/search/types.ts";
 import { schema } from "./schema.ts";
 
 import { count, create as _create, getByID, load, save } from "@orama/orama";

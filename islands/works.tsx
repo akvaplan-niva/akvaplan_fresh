@@ -1,7 +1,7 @@
-import { WorksList } from "akvaplan_fresh/components/works_list.tsx";
+import { WorksList } from "@/components/works_list.tsx";
 import { computed, useSignal } from "@preact/signals";
-import { SelectYear } from "akvaplan_fresh/components/select_year.tsx";
-import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
+import { SelectYear } from "@/components/select_year.tsx";
+import { lang as langSignal, t } from "@/text/mod.ts";
 import type { JSX } from "preact/jsx-runtime";
 
 export const GroupedWorks = (

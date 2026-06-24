@@ -1,16 +1,16 @@
 import { extractId } from "../services/extract_id.ts";
 
-import { Page } from "akvaplan_fresh/components/page.tsx";
-import { ImageArticle } from "akvaplan_fresh/components/image_article.tsx";
+import { Page } from "@/components/page.tsx";
+import { ImageArticle } from "@/components/image_article.tsx";
 
 import type { RouteConfig, RouteContext } from "$fresh/src/server/types.ts";
-import { search } from "akvaplan_fresh/search/search.ts";
+import { search } from "@/search/search.ts";
 
 import { AtomCard } from "../components/atom_card.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
-import { getItem } from "akvaplan_fresh/services/mynewsdesk.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
-//import { searchOrama } from "akvaplan_fresh/routes/api/search.ts";
+import { getItem } from "@/services/mynewsdesk.ts";
+import { t } from "@/text/mod.ts";
+//import { searchOrama } from "@/routes/api/search.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(image|bilde){/:date}?/:slug",

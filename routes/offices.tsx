@@ -1,13 +1,10 @@
-import { Page } from "akvaplan_fresh/components/page.tsx";
+import { Page } from "@/components/page.tsx";
 import type { RouteConfig, RouteContext } from "$fresh/src/server/types.ts";
-import {
-  OfficeContactDetails,
-  Offices,
-} from "akvaplan_fresh/components/offices.tsx";
-import { Section } from "akvaplan_fresh/components/section.tsx";
-import { t } from "akvaplan_fresh/text/mod.ts";
-import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
-import { peopleHref } from "akvaplan_fresh/services/nav.ts";
+import { OfficeContactDetails, Offices } from "@/components/offices.tsx";
+import { Section } from "@/components/section.tsx";
+import { t } from "@/text/mod.ts";
+import { SearchHeader } from "@/components/search_header.tsx";
+import { peopleHref } from "@/services/nav.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:page(addresses|offices|adresser|kontor)",

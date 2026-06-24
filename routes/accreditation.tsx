@@ -1,5 +1,5 @@
-import { canonicalResourceUrl } from "akvaplan_fresh/services/nav.ts";
-import { ID_ACCREDITATION } from "akvaplan_fresh/kv/id.ts";
+import { canonicalResourceUrl } from "@/services/nav.ts";
+import { ID_ACCREDITATION } from "@/kv/id.ts";
 import { defineRoute, RouteConfig } from "$fresh/server.ts";
 
 export const config: RouteConfig = {

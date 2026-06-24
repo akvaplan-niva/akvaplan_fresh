@@ -1,26 +1,23 @@
-import { getVideo } from "akvaplan_fresh/kv/video.ts";
+import { getVideo } from "@/kv/video.ts";
 import { extractId } from "../services/extract_id.ts";
 
-import { Page } from "akvaplan_fresh/components/page.tsx";
+import { Page } from "@/components/page.tsx";
 //import { Screen9Video } from "../islands/screen9.tsx";
 
 import type { RouteConfig, RouteContext } from "$fresh/src/server/types.ts";
 import { Head } from "$fresh/runtime.ts";
-import { VideoArticle } from "akvaplan_fresh/components/VideoArticle.tsx";
+import { VideoArticle } from "@/components/VideoArticle.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(film|video){/:date}?/:slug",
 };
 
-import { isAuthenticated } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
-import {
-  editOnMynewsdeskHref,
-  fetchContacts,
-} from "akvaplan_fresh/services/mynewsdesk.ts";
-import { Section } from "akvaplan_fresh/components/section.tsx";
-import { PersonCard as PersonCard } from "akvaplan_fresh/components/mod.ts";
-import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { isAuthenticated } from "@/oauth/microsoft_helpers.ts";
+import { editOnMynewsdeskHref, fetchContacts } from "@/services/mynewsdesk.ts";
+import { Section } from "@/components/section.tsx";
+import { PersonCard as PersonCard } from "@/components/mod.ts";
+import { LinkIcon } from "@/components/icon_link.tsx";
+import { t } from "@/text/mod.ts";
 
 export default async function VideoPage(req: Request, ctx: RouteContext) {
   const { slug } = ctx.params;

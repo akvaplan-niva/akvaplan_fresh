@@ -1,10 +1,4 @@
-import {
-  eco,
-  flexible,
-  Icon,
-  science,
-  share,
-} from "akvaplan_fresh/components/icon.tsx";
+import { eco, flexible, Icon, science, share } from "@/components/icon.tsx";
 
 const card = {
   fill: "var(--text2)",

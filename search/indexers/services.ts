@@ -1,11 +1,11 @@
-import { serviceSummaryMap } from "akvaplan_fresh/services/topic/mod.ts";
+import { serviceSummaryMap } from "@/services/topic/mod.ts";
 
 import { slug as _slug } from "slug";
 import { render } from "preact-render-to-string";
 
-import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
-import type { CustomerService } from "akvaplan_fresh/@interfaces/customer_service.ts";
-import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
+import type { OramaAtom } from "@/search/types.ts";
+import type { CustomerService } from "@/@interfaces/customer_service.ts";
+import { getAkvaplanist } from "@/services/akvaplanist.ts";
 
 export const atomizeCustomerService = async (value) => {
   const {

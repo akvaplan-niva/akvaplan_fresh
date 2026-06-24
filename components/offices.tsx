@@ -1,11 +1,11 @@
-import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
-import { offices, tromsø } from "akvaplan_fresh/services/offices.ts";
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
-import { Card } from "akvaplan_fresh/components/card.tsx";
-import { Icon2 as Icon } from "akvaplan_fresh/components/icon_link.tsx";
-import { Section } from "akvaplan_fresh/components/section.tsx";
-import { peopleHref } from "akvaplan_fresh/services/mod.ts";
-import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
+import { intlRouteMap } from "@/services/nav.ts";
+import { offices, tromsø } from "@/services/offices.ts";
+import { lang, t } from "@/text/mod.ts";
+import { Card } from "@/components/card.tsx";
+import { Icon2 as Icon } from "@/components/icon_link.tsx";
+import { Section } from "@/components/section.tsx";
+import { peopleHref } from "@/services/mod.ts";
+import { SearchResults } from "@/components/search_results.tsx";
 
 const officesAsHits = (lang) =>
   [...offices.values()].map((document) => {
@@ -32,62 +32,57 @@ export const OfficeContactDetails = (
     lang,
   },
 ) => (
-  <>
-    <div>
-      <span style={{ color: "var(--text1)" }}>
-        Akvaplan-niva
-      </span>{" "}
-      <span
-        href={peopleHref(lang, `workplace/${name}`)}
-        style={{ color: "var(--accent)" }}
+  <dl style="display: grid; grid-template-columns: auto 1fr;">
+    <dt style={{ color: "var(--text1)" }}>
+      Akvaplan-niva
+    </dt>
+    <dd
+      href={peopleHref(lang, `workplace/${name}`)}
+      style={{ color: "var(--accent)" }}
+    >
+    </dd>
+    {visit
+      ? (
+        <>
+          <dt>
+            <Icon name="place" />
+          </dt>
+          <dd style={{ color: "var(--text1)" }}>
+            {visit}
+          </dd>
+        </>
+      )
+      : null}
+    <dt>
+      <Icon name="mail" />
+    </dt>
+    <dd>
+      {post}
+    </dd>
+
+    <dt aria-label="e-mail">
+      <Icon name="alternate_email" />
+    </dt>
+
+    <dd>
+      <a
+        href={`mailto:${email}`}
       >
-        {name}
-      </span>
-    </div>
-    <dl style="display: grid; grid-template-columns: auto 1fr; font-size: 1rem">
-      {visit
-        ? (
-          <>
-            <dt>
-              <Icon name="place" />
-            </dt>
-            <dd style={{ color: "var(--text1)" }}>
-              {visit}
-            </dd>
-          </>
-        )
-        : null}
-      <dt>
-        <Icon name="mail" />
-      </dt>
-      <dd>
-        {post}
-      </dd>
+        {email}
+      </a>
+    </dd>
 
-      <dt aria-label="e-mail">
-        <Icon name="alternate_email" />
-      </dt>
-
-      <dd>
-        <a
-          href={`mailto:${email}`}
-        >
-          {email}
-        </a>
-      </dd>
-
-      <dt aria-label="ring">
-        <Icon name="phone_in_talk" />
-      </dt>
-      <dd>
-        <a
-          href={`tel:${tel}`}
-        >
-          {tel}
-        </a>
-      </dd>
-    </dl>
-  </>
+    <dt aria-label="ring">
+      <Icon name="phone_in_talk" />
+    </dt>
+    <dd>
+      <a
+        href={`tel:${tel}`}
+      >
+        {tel}
+      </a>
+    </dd>
+  </dl>
 );
 
 export const MainContacts = () => (

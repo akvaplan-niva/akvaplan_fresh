@@ -3,19 +3,19 @@ import { isodate } from "../../time/intl.ts";
 import type {
   AbstractMynewsdeskItem,
   MynewsdeskDocument,
-} from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+} from "@/@interfaces/mynewsdesk.ts";
 
 import {
   fetchMynewsdeskBatch,
   typeOfMediaCountMap,
-} from "akvaplan_fresh/services/mynewsdesk_batch.ts";
+} from "@/services/mynewsdesk_batch.ts";
 
-import { OramaAtom, OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
-import { MynewsdeskArticle } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import { MynewsdeskVideo } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import { extractId } from "akvaplan_fresh/services/extract_id.ts";
-import { markdownFromHtml } from "akvaplan_fresh/utils/markdown/turndown.ts";
-// import peopleWithMyn from "akvaplan_fresh/data/akvaplanists.json" with {
+import { OramaAtom, OramaAtomSchema } from "@/search/types.ts";
+import { MynewsdeskArticle } from "@/@interfaces/mynewsdesk.ts";
+import { MynewsdeskVideo } from "@/@interfaces/mynewsdesk.ts";
+import { extractId } from "@/services/extract_id.ts";
+import { markdownFromHtml } from "@/utils/markdown/turndown.ts";
+// import peopleWithMyn from "@/data/akvaplanists.json" with {
 //   type: "json",
 // };
 // const myn = peopleWithMyn.filter((p) => p.myn).map(
@@ -48,9 +48,9 @@ const used = new Set();
 const contacts = new Map(JSON.parse(myn_id_text));
 
 import { AnyOrama, insert, insertMultiple } from "@orama/orama";
-import { getAkvaplanist, projectFilter } from "akvaplan_fresh/services/mod.ts";
+import { getAkvaplanist, projectFilter } from "@/services/mod.ts";
 import { projectLifecycle } from "./project.ts";
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
+import { openKv } from "@/kv/mod.ts";
 
 const itemCollection = ({ type_of_media }: AbstractMynewsdeskItem) => {
   switch (type_of_media) {
@@ -175,7 +175,10 @@ export const atomizeMynewsdeskItem = async (
 
   const knownProjects = related_items.filter(projectFilter);
 
-  const md = markdownFromHtml(body ?? "");
+  const md = markdownFromHtml(body ?? "").replaceAll(
+    "www.akvaplan.niva.no",
+    "akvaplan.no",
+  );
   const uniq = new Set(md.split(" ").map((t) => t.toLowerCase()));
   const uniqText = [...uniq].join(" ").substring(0, 512);
 

@@ -1,12 +1,9 @@
 import { Signal, useSignal } from "@preact/signals";
 import { Head, IS_BROWSER } from "$fresh/runtime.ts";
-import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
+import { lang as langSignal, t } from "@/text/mod.ts";
 
-import { Section } from "akvaplan_fresh/components/section.tsx";
-import {
-  fetchNvaPublication,
-  getPresignedFileUrl,
-} from "akvaplan_fresh/services/nva.ts";
+import { Section } from "@/components/section.tsx";
+import { fetchNvaPublication, getPresignedFileUrl } from "@/services/nva.ts";
 
 interface NvaPublicationLike {
   identifier: string;

@@ -1,9 +1,6 @@
-import {
-  extractLangFromUrl,
-  lang as langSignal,
-} from "akvaplan_fresh/text/mod.ts";
-import { OramaAtom } from "akvaplan_fresh/search/types.ts";
-import { akvaplanistUrl } from "akvaplan_fresh/services/nav.ts";
+import { extractLangFromUrl, lang as langSignal } from "@/text/mod.ts";
+import { OramaAtom } from "@/search/types.ts";
+import { akvaplanistUrl } from "@/services/nav.ts";
 
 const En = new Map([
   ["pubs", "publications"],
@@ -11,6 +8,7 @@ const En = new Map([
 
 const En1 = new Map([
   ["pub", "pub"],
+  ["office", "people/workplace"],
 ]);
 
 const No = new Map([

@@ -1,6 +1,6 @@
-import { Page } from "akvaplan_fresh/components/page.tsx";
-import { Card } from "akvaplan_fresh/components/card.tsx";
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
+import { Page } from "@/components/page.tsx";
+import { Card } from "@/components/card.tsx";
+import { lang, t } from "@/text/mod.ts";
 
 import {
   type FreshContext,

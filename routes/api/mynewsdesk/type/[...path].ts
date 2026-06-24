@@ -1,9 +1,9 @@
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
+import { openKv } from "@/kv/mod.ts";
 
-import type { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import type { MynewsdeskItem } from "@/@interfaces/mynewsdesk.ts";
 
 import type { FreshContext, Handlers } from "$fresh/server.ts";
-import { slug0 } from "akvaplan_fresh/services/mynewsdesk.ts";
+import { slug0 } from "@/services/mynewsdesk.ts";
 
 const KV_LIST_MAX = 1000;
 

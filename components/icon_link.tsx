@@ -1,7 +1,7 @@
 import type { ComponentChildren } from "preact";
 
 // When component is used inside an islandsDeno namespaced server side code leaks
-// import { svgMapFromStaticDir } from "akvaplan_fresh/utils/materialsymbols/mod.ts";
+// import { svgMapFromStaticDir } from "@/utils/materialsymbols/mod.ts";
 // const svgs = await svgMapFromStaticDir();
 
 import icons from "./icons.json" with { type: "json" };

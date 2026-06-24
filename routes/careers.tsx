@@ -1,20 +1,14 @@
-import {
-  getPanelInLang,
-  getPanelsInLangByIds,
-} from "akvaplan_fresh/kv/panel.ts";
+import { getPanelInLang, getPanelsInLangByIds } from "@/kv/panel.ts";
 
-import { ID_PEOPLE } from "akvaplan_fresh/kv/id.ts";
+import { ID_PEOPLE } from "@/kv/id.ts";
 
-import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
-import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
-import {
-  oramaSortPublishedReverse,
-  search,
-} from "akvaplan_fresh/search/search.ts";
-import { Page } from "akvaplan_fresh/components/page.tsx";
+import { BentoPanel } from "@/components/bento_panel.tsx";
+import CollectionSearch from "@/islands/collection_search.tsx";
+import { oramaSortPublishedReverse, search } from "@/search/search.ts";
+import { Page } from "@/components/page.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import { MarkdownPanel } from "akvaplan_fresh/components/markdown.tsx";
+import { MarkdownPanel } from "@/components/markdown.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(work-with-us|career|jobb|karriere)",

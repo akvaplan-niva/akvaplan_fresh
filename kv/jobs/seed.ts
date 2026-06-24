@@ -1,4 +1,4 @@
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
+import { openKv } from "@/kv/mod.ts";
 const kv = await openKv();
 
 // FIXME, Move search atomization, ie homogenize all content *not* while running, but at build time (or via cron)
@@ -47,12 +47,9 @@ export const seedPanels = async () => {
   const response = await atomic.commit();
   console.warn(response);
 };
-import _projects from "akvaplan_fresh/data/projects.json" with { type: "json" };
-import {
-  getItemFromMynewsdeskApi,
-  intlRouteMap,
-} from "akvaplan_fresh/services/mod.ts";
-import { isodate } from "akvaplan_fresh/time/intl.ts";
+import _projects from "@/data/projects.json" with { type: "json" };
+import { getItemFromMynewsdeskApi, intlRouteMap } from "@/services/mod.ts";
+import { isodate } from "@/time/intl.ts";
 import { MynewsdeskEvent } from "../../@interfaces/mynewsdesk.ts";
 import { slug } from "slug";
 import { projectLifecycle } from "../../search/indexers/project.ts";

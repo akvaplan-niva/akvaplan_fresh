@@ -1,12 +1,9 @@
 import { getOramaInstance } from "./orama.ts";
 import { search as _search } from "@orama/orama";
 import type { Results, SearchParams, SorterParams } from "@orama/orama";
-import type {
-  OramaAtom,
-  OramaAtomSchema,
-} from "akvaplan_fresh/search/types.ts";
-import { normalize } from "akvaplan_fresh/text/mod.ts";
-import { href } from "akvaplan_fresh/search/href.ts";
+import type { OramaAtom, OramaAtomSchema } from "@/search/types.ts";
+import { normalize } from "@/text/mod.ts";
+import { href } from "@/search/href.ts";
 
 export const buildSortBy = (sort: string) => {
   if (sort) {

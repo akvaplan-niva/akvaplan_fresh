@@ -1,7 +1,7 @@
-import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
-import { Icon } from "akvaplan_fresh/components/icon.tsx";
-import Button from "akvaplan_fresh/components/button/button.tsx";
-import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
+import { cloudinaryUrl } from "@/services/cloudinary.ts";
+import { Icon } from "@/components/icon.tsx";
+import Button from "@/components/button/button.tsx";
+import type { Panel } from "@/@interfaces/panel.ts";
 import { panelHref } from "../services/panelHref.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 

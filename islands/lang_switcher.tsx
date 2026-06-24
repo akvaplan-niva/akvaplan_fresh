@@ -1,9 +1,4 @@
-import {
-  lang as langSignal,
-  removeLang,
-  setLang,
-  t,
-} from "akvaplan_fresh/text/mod.ts";
+import { lang as langSignal, removeLang, setLang, t } from "@/text/mod.ts";
 import { JSX } from "preact";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import Button from "../components/button/button.tsx";

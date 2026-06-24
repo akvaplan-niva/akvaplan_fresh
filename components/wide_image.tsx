@@ -1,5 +1,5 @@
 // FIXME WideImage Rename to CloudinaryImage and add "ar" to props
-import { cloudinaryUrl, srcset } from "akvaplan_fresh/services/cloudinary.ts";
+import { cloudinaryUrl, srcset } from "@/services/cloudinary.ts";
 
 // FIXME also forceurl to same ar/w as srcset
 // const { cloudinary, ar } = panel.image;

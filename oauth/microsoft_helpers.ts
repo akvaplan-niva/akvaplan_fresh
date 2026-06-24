@@ -1,5 +1,5 @@
 import { createAzureAdOAuthConfig, createHelpers } from "@deno/kv-oauth";
-import { getSession } from "akvaplan_fresh/kv/session.ts";
+import { getSession } from "@/kv/session.ts";
 
 export const buildMicrosoftOauthHelpers = (req: Request) => {
   const callback = new URL("/auth/callback", req.url);

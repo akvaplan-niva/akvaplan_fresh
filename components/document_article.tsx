@@ -1,10 +1,10 @@
 import { isodate } from "../time/intl.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { t } from "@/text/mod.ts";
 
-import { Article } from "akvaplan_fresh/components/article/Article.tsx";
-import Button from "akvaplan_fresh/components/button/button.tsx";
+import { Article } from "@/components/article/Article.tsx";
+import Button from "@/components/button/button.tsx";
 
-import type { MynewsdeskDocument } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import type { MynewsdeskDocument } from "@/@interfaces/mynewsdesk.ts";
 
 const previewImageUrl = (cloudinary: string, width: number) =>
   `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_${width}/${cloudinary}`;

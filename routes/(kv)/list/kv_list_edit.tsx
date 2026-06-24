@@ -1,7 +1,7 @@
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
+import { openKv } from "@/kv/mod.ts";
 import { RouteConfig, RouteContext } from "$fresh/server.ts";
-import { Article, Page } from "akvaplan_fresh/components/mod.ts";
-import KvTextInput from "akvaplan_fresh/islands/KvTextInput.tsx";
+import { Article, Page } from "@/components/mod.ts";
+import KvTextInput from "@/islands/KvTextInput.tsx";
 import { KvListNav } from "../../../components/kv_list_nav.tsx";
 
 export const config: RouteConfig = {

@@ -1,4 +1,4 @@
-import { MiniNewsCard, NewsFilmStrip } from "akvaplan_fresh/components/mod.ts";
+import { MiniNewsCard, NewsFilmStrip } from "@/components/mod.ts";
 
 const book = (lang) => ({
   href: `/${lang}/doi/10.1007/978-3-030-70176-5`,

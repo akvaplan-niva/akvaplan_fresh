@@ -1,12 +1,9 @@
-import { ApnLogo } from "akvaplan_fresh/components/akvaplan/logo.tsx";
-import {
-  type Breadcrumb,
-  Breadcrumbs,
-} from "akvaplan_fresh/components/site_nav.tsx";
-import { lang as langSignal } from "akvaplan_fresh/text/mod.ts";
+import { ApnLogo } from "@/components/akvaplan/logo.tsx";
+import { type Breadcrumb, Breadcrumbs } from "@/components/site_nav.tsx";
+import { lang as langSignal } from "@/text/mod.ts";
 import { Menu } from "./site_menu.tsx";
-import { collectionBreadcrumbs } from "akvaplan_fresh/services/nav.ts";
-import { SiteLangLinks } from "akvaplan_fresh/components/site_lang_links.tsx";
+import { collectionBreadcrumbs } from "@/services/nav.ts";
+import { SiteLangLinks } from "@/components/site_lang_links.tsx";
 
 const emptyBreadcrumbs: Breadcrumb[] = [];
 export function CleanHeader(

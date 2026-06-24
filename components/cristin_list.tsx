@@ -1,4 +1,4 @@
-import { doiPublicationUrl } from "akvaplan_fresh/services/nav.ts";
+import { doiPublicationUrl } from "@/services/nav.ts";
 import { names as _names } from "./search_result_item.tsx";
 
 interface CristinPerson {

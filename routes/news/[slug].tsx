@@ -91,14 +91,14 @@ export default defineRoute(async (_req, ctx) => {
         />
       </div>
 
-      <div class="grid lg:grid-cols-2 gap-12 -scroll-mt-12 z-100000">
+      <div class="grid lg:grid-cols-[7fr_4fr] gap-12 -scroll-mt-12">
         <Card>
           <article
             style={{
               fontSize: "calc(1.25rem + 0.1vw)",
               lineHeight: 1.5,
               width: "100%",
-              maxWidth: "600px",
+              //maxWidth: "600px",
               margin: "0 auto",
             }}
             class="article-content"

@@ -1,13 +1,13 @@
 // import type {
 //   Image,
 //   PreviewElement,
-// } from "akvaplan_fresh/services/mediebank_interfaces.ts";
+// } from "@/services/mediebank_interfaces.ts";
 type Image = {};
 type PreviewElement = {};
 
-import HScroll from "akvaplan_fresh/components/hscroll/HScroll.tsx";
-import { t } from "akvaplan_fresh/text/mod.ts";
-import { preview } from "akvaplan_fresh/services/mediebank.ts";
+import HScroll from "@/components/hscroll/HScroll.tsx";
+import { t } from "@/text/mod.ts";
+import { preview } from "@/services/mediebank.ts";
 
 export function HAlbum({
   album,

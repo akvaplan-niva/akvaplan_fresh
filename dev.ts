@@ -2,11 +2,8 @@
 import dev from "$fresh/dev.ts";
 import config from "./fresh.config.ts";
 
-import {
-  oramaJsonPath,
-  persistOramaJson,
-} from "akvaplan_fresh/search/orama.ts";
-import { buildOramaIndexFromProductionApi } from "akvaplan_fresh/search/create_search_index.ts";
+import { oramaJsonPath, persistOramaJson } from "@/search/orama.ts";
+import { buildOramaIndexFromProductionApi } from "@/search/create_search_index.ts";
 
 await dev(import.meta.url, "./main.ts", config);
 

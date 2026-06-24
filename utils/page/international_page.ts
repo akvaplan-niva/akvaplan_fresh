@@ -1,4 +1,4 @@
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
+import { lang, t } from "@/text/mod.ts";
 
 import { type FreshContext, type Handlers } from "$fresh/server.ts";
 

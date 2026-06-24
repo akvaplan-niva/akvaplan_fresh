@@ -1,6 +1,6 @@
-import { peopleHref as href } from "akvaplan_fresh/services/nav.ts";
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
-import { PictureNavArticle } from "akvaplan_fresh/components/picture_nav.tsx";
+import { peopleHref as href } from "@/services/nav.ts";
+import { lang, t } from "@/text/mod.ts";
+import { PictureNavArticle } from "@/components/picture_nav.tsx";
 
 const images = [
   "ys6rv85w3bu1h2iq6mio",

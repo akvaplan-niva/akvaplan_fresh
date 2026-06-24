@@ -26,13 +26,13 @@ export function HeaderLogoStickyNav(
             <AkvaplanLogo width="164" class="backdrop-blur-sm" />
           </a>
 
-          <div class="backdrop-blur-sm hidden lg:flex items-center gap-12">
+          <div class="hidden lg:flex items-center gap-12">
             {nav.map((link) => (
               <a
                 key={link.text}
                 href={link.href}
                 style="text-decoration: none; font-family: var(--font-mono);"
-                class="font-mono font-medium uppercase text-sm text-white transition-colors duration-300 relative group"
+                class="backdrop-blur-sm font-mono font-medium uppercase text-sm text-white transition-colors duration-300 relative group"
               >
                 {link.text}
                 <span class="absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full bg-white" />

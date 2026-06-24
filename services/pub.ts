@@ -1,6 +1,6 @@
-import { SlimPublication } from "akvaplan_fresh/@interfaces/mod.ts";
-import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
-import { fetchAndStreamNdjson } from "akvaplan_fresh/streams/ndjson_stream.ts";
+import { SlimPublication } from "@/@interfaces/mod.ts";
+import { isHandleUrl } from "@/services/handle.ts";
+import { fetchAndStreamNdjson } from "@/streams/ndjson_stream.ts";
 import pub_multiplicates from "../routes/pub_multiplicates.tsx";
 import { extractNakedDoi } from "./dois.ts";
 import { t } from "../text/mod.ts";

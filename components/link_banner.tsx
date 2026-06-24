@@ -1,4 +1,4 @@
-import { CollectionHeader } from "akvaplan_fresh/components/album/album_header.tsx";
+import { CollectionHeader } from "@/components/album/album_header.tsx";
 
 export const LinkBanner = ({ href, text }) => (
   <aside

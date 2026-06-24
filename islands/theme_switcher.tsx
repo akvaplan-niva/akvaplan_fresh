@@ -3,9 +3,9 @@ import {
   removeTheming,
   setTheme,
   theme as themeSignal,
-} from "akvaplan_fresh/theming/mod.ts";
+} from "@/theming/mod.ts";
 
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { t } from "@/text/mod.ts";
 import Button from "../components/button/button.tsx";
 
 const buttonsGrid = {

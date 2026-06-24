@@ -39,7 +39,7 @@ const kv = await openKv();
 const _projects_kv = await Array.fromAsync(kv.list({ prefix: ["project"] }));
 const _projects = _projects_kv.map(({ value }) => value as Project);
 
-import { extractNumericId } from "akvaplan_fresh/services/id.ts";
+import { extractNumericId } from "@/services/id.ts";
 import { oramaSortPublishedReverse, search } from "../search/search.ts";
 import { Project } from "../@interfaces/project.ts";
 import { getItemFromMynewsdeskApi } from "./mynewsdesk.ts";

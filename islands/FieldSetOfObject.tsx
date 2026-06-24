@@ -1,4 +1,4 @@
-import KvTextInput, { TextArea } from "akvaplan_fresh/islands/KvTextInput.tsx";
+import KvTextInput, { TextArea } from "@/islands/KvTextInput.tsx";
 
 export const FieldSetOfObject = (
   { fields, legend, object, path, disabled, areas }: {

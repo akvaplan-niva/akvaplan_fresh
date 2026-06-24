@@ -1,14 +1,17 @@
-import { Page } from "akvaplan_fresh/components/page.tsx";
-import { MarkdownPanel } from "akvaplan_fresh/components/markdown.tsx";
-import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
-import { getSiteLang } from "akvaplan_fresh/text/mod.ts";
-import { ID_SUSTAINABILITY } from "akvaplan_fresh/kv/id.ts";
+import { MarkdownPanel } from "@/components/markdown.tsx";
+import { getPanelInLang } from "@/kv/panel.ts";
+import { getSiteLang } from "@/text/mod.ts";
+import { ID_SUSTAINABILITY } from "@/kv/id.ts";
 
 import { defineRoute } from "$fresh/src/server/defines.ts";
 import type { RouteConfig } from "$fresh/src/server/types.ts";
+import { Naked } from "@/components/naked.tsx";
+import { SiteNavVerticalLarge } from "@/components/site_nav.tsx";
+import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 
 const bærekraft = [ID_SUSTAINABILITY, "no"]; // no/selskapet/baerekraft-og-samfunnsansvar
 const sustainability = [ID_SUSTAINABILITY, "en"]; // en/company/sustainability-and-responsibility
+
 // The nice URLs could in theory be collected from KV (panel.href)
 // => but editing/changing the href would then wipe out prior URLs
 const nicePanelUrls = new Map([
@@ -32,8 +35,9 @@ export default defineRoute(async (_req, ctx) => {
   const panel = await getPanelInLang({ id, lang });
 
   return (
-    <Page title={panel?.title} lang={lang}>
+    <Naked title={panel?.title} lang={lang}>
+      <HeaderLogoStickyNav lang={lang} />
       <MarkdownPanel panel={panel} lang={lang} />
-    </Page>
+    </Naked>
   );
 });

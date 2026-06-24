@@ -1,4 +1,4 @@
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { t } from "@/text/mod.ts";
 
 // https://creativecommons.org/share-your-work/cclicenses/
 // deno-fmt-ignore

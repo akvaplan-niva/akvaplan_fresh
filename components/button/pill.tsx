@@ -1,5 +1,5 @@
 import Button from "./button.tsx";
-import { Icon } from "akvaplan_fresh/components/icon.tsx";
+import { Icon } from "@/components/icon.tsx";
 import { PropsWithChildren } from "preact";
 
 export type PillProps = PropsWithChildren & {

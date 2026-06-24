@@ -2,16 +2,12 @@ import {
   buildMicrosoftOauthHelpers,
   fetchAvatar,
   fetchMicrosoftUserinfo,
-} from "akvaplan_fresh/oauth/microsoft_helpers.ts";
+} from "@/oauth/microsoft_helpers.ts";
 
-import type { MicrosoftUserinfo } from "akvaplan_fresh/oauth/microsoft_userinfo.ts";
+import type { MicrosoftUserinfo } from "@/oauth/microsoft_userinfo.ts";
 
 import { defineRoute } from "$fresh/server.ts";
-import {
-  deleteSession,
-  setAvatar,
-  setSession,
-} from "akvaplan_fresh/kv/session.ts";
+import { deleteSession, setAvatar, setSession } from "@/kv/session.ts";
 
 export default defineRoute(async (req, ctx) => {
   const { getSessionId, signIn, signOut, handleCallback } =

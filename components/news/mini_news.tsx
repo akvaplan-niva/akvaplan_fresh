@@ -1,7 +1,7 @@
 import { isodate } from "../../time/intl.ts";
-import { ApnSym, Icon, MiniCard } from "akvaplan_fresh/components/mod.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
-import { type News } from "akvaplan_fresh/@interfaces/mod.ts";
+import { ApnSym, Icon, MiniCard } from "@/components/mod.ts";
+import { t } from "@/text/mod.ts";
+import { type News } from "@/@interfaces/mod.ts";
 
 const newsItemStyle = ({ type }) => ({
   display: "grid",

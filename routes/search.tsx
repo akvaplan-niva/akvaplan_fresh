@@ -1,7 +1,7 @@
-import { search } from "akvaplan_fresh/search/search.ts";
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
+import { search } from "@/search/search.ts";
+import { lang, t } from "@/text/mod.ts";
 
-import { Page } from "akvaplan_fresh/components/page.tsx";
+import { Page } from "@/components/page.tsx";
 import GroupedSearch from "../islands/grouped_search.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";

@@ -1,14 +1,14 @@
-import { mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { mayEditKvPanel } from "@/kv/panel.ts";
+import { t } from "@/text/mod.ts";
 
-import { getSessionUser } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
-import { MicrosoftUserinfo } from "akvaplan_fresh/oauth/microsoft_userinfo.ts";
+import { getSessionUser } from "@/oauth/microsoft_helpers.ts";
+import { MicrosoftUserinfo } from "@/oauth/microsoft_userinfo.ts";
 
-import { Page } from "akvaplan_fresh/components/page.tsx";
+import { Page } from "@/components/page.tsx";
 import { Forbidden } from "../components/forbidden.tsx";
-import { Section } from "akvaplan_fresh/components/section.tsx";
+import { Section } from "@/components/section.tsx";
 
-import { WideImage } from "akvaplan_fresh/components/wide_image.tsx";
+import { WideImage } from "@/components/wide_image.tsx";
 import { getProject, saveProject } from "../kv/project.ts";
 import { ProjectEditIsland } from "../islands/project/project_edit.tsx";
 import { SearchHeader } from "../components/search_header.tsx";

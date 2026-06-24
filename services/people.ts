@@ -1,9 +1,6 @@
-import {
-  newsFromPubs,
-  search as searchPubs,
-} from "akvaplan_fresh/services/mod.ts";
+import { newsFromPubs, search as searchPubs } from "@/services/mod.ts";
 
-import { normalize as n } from "akvaplan_fresh/text/mod.ts";
+import { normalize as n } from "@/text/mod.ts";
 import { familyAlias, givenAliasMap } from "./person.ts";
 
 export const extractInitials = (given: string) =>

@@ -1,11 +1,11 @@
-import { getValue } from "akvaplan_fresh/kv/mod.ts";
+import { getValue } from "@/kv/mod.ts";
 import { extractId } from "./extract_id.ts";
-import { search } from "akvaplan_fresh/search/search.ts";
+import { search } from "@/search/search.ts";
 
-import type { MynewsdeskDocument } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import type { MynewsdeskDocument } from "@/@interfaces/mynewsdesk.ts";
 import type { RouteContext } from "$fresh/server.ts";
-import { getItem } from "akvaplan_fresh/services/mynewsdesk.ts";
-import { href } from "akvaplan_fresh/search/href.ts";
+import { getItem } from "@/services/mynewsdesk.ts";
+import { href } from "@/search/href.ts";
 import { string } from "@valibot/valibot";
 import type { Hero } from "@/components/card/types.ts";
 import { Img } from "@/routes/images.tsx";

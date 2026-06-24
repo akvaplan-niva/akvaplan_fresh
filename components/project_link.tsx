@@ -1,11 +1,7 @@
-import {
-  projectHref,
-  projectURL,
-  pubsURL,
-} from "akvaplan_fresh/services/nav.ts";
-import { ArticleSquare } from "akvaplan_fresh/components/news/article_square.tsx";
-import { Card } from "akvaplan_fresh/components/card.tsx";
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { projectHref, projectURL, pubsURL } from "@/services/nav.ts";
+import { ArticleSquare } from "@/components/news/article_square.tsx";
+import { Card } from "@/components/card.tsx";
+import { t } from "@/text/mod.ts";
 import { nvaProjectLandingUrl } from "../services/nva.ts";
 
 const publicationsUrlForCristinProject = (cristin, lang) =>

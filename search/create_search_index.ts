@@ -1,21 +1,17 @@
-import markdownDocuments from "akvaplan_fresh/services/documents.json" with {
+import markdownDocuments from "@/services/documents.json" with {
   type: "json",
 };
-import { getPubsFromDenoDeployService } from "akvaplan_fresh/services/dois.ts";
+import { getPubsFromDenoDeployService } from "@/services/dois.ts";
 
-import {
-  atomizeAkvaplanist,
-} from "akvaplan_fresh/search/indexers/akvaplanists.ts";
-import { insertMynewsdesk } from "akvaplan_fresh/search/indexers/mynewsdesk.ts";
-import { atomizeSlimPublication } from "akvaplan_fresh/search/indexers/pubs.ts";
+import { atomizeAkvaplanist } from "@/search/indexers/akvaplanists.ts";
+import { insertMynewsdesk } from "@/search/indexers/mynewsdesk.ts";
+import { atomizeSlimPublication } from "@/search/indexers/pubs.ts";
 
-import { createOramaInstance } from "akvaplan_fresh/search/orama.ts";
+import { createOramaInstance } from "@/search/orama.ts";
 
 import { insertMultiple } from "@orama/orama";
-import {
-  getEmployedAkvaplanists,
-} from "akvaplan_fresh/services/akvaplanist.ts";
-import { indexProjects } from "akvaplan_fresh/search/indexers/project.ts";
+import { getEmployedAkvaplanists } from "@/services/akvaplanist.ts";
+import { indexProjects } from "@/search/indexers/project.ts";
 import { listProjects, saveProject } from "@/kv/project.ts";
 import { OramaAtomSchema } from "@/search/types.ts";
 import { publishedDesc } from "@/search/adapter/kv.ts";
@@ -64,7 +60,7 @@ const indexPubs = async (orama: OramaAtomSchema) => {
   );
 
   const atomizedPubs = await Array.fromAsync([...atomizedPubById.values()]);
-  console.warn(atomizedPubs.at(0));
+
   await insertMultiple(
     orama,
     atomizedPubs,

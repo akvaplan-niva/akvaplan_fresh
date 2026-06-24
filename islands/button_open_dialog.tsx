@@ -1,5 +1,5 @@
 import { HTMLAttributes } from "preact";
-import IconButton from "akvaplan_fresh/components/button/icon_button.tsx";
+import IconButton from "@/components/button/icon_button.tsx";
 
 const handleClick = (e: MouseEvent) => {
   const query = e?.target?.dataset?.for ?? "dialog";

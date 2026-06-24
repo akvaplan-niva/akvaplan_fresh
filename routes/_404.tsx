@@ -1,7 +1,7 @@
-import { Page } from "akvaplan_fresh/components/page.tsx";
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+import { Page } from "@/components/page.tsx";
+import GroupedSearch from "@/islands/grouped_search.tsx";
 import { PageProps } from "$fresh/server.ts";
-import { Section } from "akvaplan_fresh/components/section.tsx";
+import { Section } from "@/components/section.tsx";
 
 const _extract = (url: URL) => url.pathname.replaceAll("/", " ").trim();
 

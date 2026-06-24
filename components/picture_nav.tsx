@@ -1,7 +1,7 @@
-import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
-import { Article, CollectionHeader } from "akvaplan_fresh/components/mod.ts";
-import { MynewsdeskPanoramaPicture } from "akvaplan_fresh/components/panorama_picture.tsx";
+import { intlRouteMap } from "@/services/nav.ts";
+import { lang, t } from "@/text/mod.ts";
+import { Article, CollectionHeader } from "@/components/mod.ts";
+import { MynewsdeskPanoramaPicture } from "@/components/panorama_picture.tsx";
 interface Link {
   href: string;
   name?: string;

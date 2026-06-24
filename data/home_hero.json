@@ -1,24 +1,29 @@
 {
   "en": {
-    "headline": "Research and advice",
-    "eyebrow": "From research to value creation",
+    "headline": "From research\nto value creation",
+    "eyebrow": "Akvaplan-niva",
     "words": [
       "aquaculture",
+      "arctic environment",
       "autonomous vehicles",
-      "arctic environments",
       "freshwater ecology",
       "pollution",
       "research station",
       "ecotoxicology",
-      "bottom fauna",
-      "ocean currents",
+      "benthic organisms",
       "ocean dynamics",
-      "chemical anaysis",
-      "marine biodiversity",
-      "marine ecology",
+      "dispersion modelling",
+      "chemical analysis",
+      "impact assessment",
+      "marine ecosystems",
       "environmental monitoring",
       "environmental impact",
-      "plastics and microplastics"
+      "environmental risk analysis",
+      "plastic and microplastic",
+      "seabirds",
+      "marine mammals",
+      "technical inspection",
+      "visual seabed mapping"
     ],
     "metrics": [
       { "value": "120+", "label": "highly skilled employees" },
@@ -32,8 +37,8 @@
     "poster": "/akvaplan_symbol.svg"
   },
   "no": {
-    "headline": "Forskning og rådgiving",
-    "eyebrow": "Fra forskning til bærekraftig verdiskaping",
+    "headline": "Fra forskning\ntil verdiskaping",
+    "eyebrow": "Akvaplan-niva",
     "words": [
       "akvakultur",
       "arktisk miljø",

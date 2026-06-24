@@ -6,36 +6,31 @@ import {
   getPresignedFileUrl,
   isNvaUrl,
   nvaPublicationLanding,
-} from "akvaplan_fresh/services/nva.ts";
+} from "@/services/nva.ts";
 
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { t } from "@/text/mod.ts";
 import {
   buildCanonicalUri,
   getPubFromAkvaplanService,
-} from "akvaplan_fresh/services/pub.ts";
-import { getOramaDocument } from "akvaplan_fresh/search/orama.ts";
+} from "@/services/pub.ts";
+import { getOramaDocument } from "@/search/orama.ts";
 
-import { PubArticle } from "akvaplan_fresh/components/pub_article.tsx";
-import {
-  hasPdf,
-  PubNvaPdfAugment,
-} from "akvaplan_fresh/islands/pub_nva_pdf_augment.tsx";
-import { Breadcrumbs, Page } from "akvaplan_fresh/components/mod.ts";
+import { PubArticle } from "@/components/pub_article.tsx";
+import { hasPdf, PubNvaPdfAugment } from "@/islands/pub_nva_pdf_augment.tsx";
+import { Breadcrumbs, Page } from "@/components/mod.ts";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import {
-  ProjectsAsImageLinks,
-} from "akvaplan_fresh/components/project_link.tsx";
+import { ProjectsAsImageLinks } from "@/components/project_link.tsx";
 
 // import {
 //   getAkvaplanProjectsFromNvaCristinIds,
 //   mergeNvaAndCristinProjectsWithAkvaplanProjects,
-// } from "akvaplan_fresh/services/projects.ts";
+// } from "@/services/projects.ts";
 
-import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
+import { isHandleUrl } from "@/services/handle.ts";
 
-import { pubsURL } from "akvaplan_fresh/services/nav.ts";
-import { akvaplanProjectsFromNvaProjects } from "akvaplan_fresh/services/projects.ts";
+import { pubsURL } from "@/services/nav.ts";
+import { akvaplanProjectsFromNvaProjects } from "@/services/projects.ts";
 import { getProjects } from "./projects_nva.tsx";
 import { projectsByNvaId } from "../services/project.ts";
 

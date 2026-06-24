@@ -1,4 +1,4 @@
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { t } from "@/text/mod.ts";
 
 export const SelectYear = ({ year, years, ...props }) => (
   <select {...props}>

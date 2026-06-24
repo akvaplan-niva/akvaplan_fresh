@@ -1,16 +1,16 @@
 import {
   getAkvaplanistsGroupedByYearStartedOrLeft,
-} from "akvaplan_fresh/services/akvaplanist.ts";
+} from "@/services/akvaplanist.ts";
 
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { t } from "@/text/mod.ts";
 
-import { personURL } from "akvaplan_fresh/services/nav.ts";
+import { personURL } from "@/services/nav.ts";
 
 import type { RouteConfig, RouteContext } from "$fresh/server.ts";
 
-import { Page } from "akvaplan_fresh/components/page.tsx";
-import { PersonCard } from "akvaplan_fresh/components/mod.ts";
-import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
+import { Page } from "@/components/page.tsx";
+import { PersonCard } from "@/components/mod.ts";
+import { SearchHeader } from "@/components/search_header.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/akvaplanist{/:which}?",

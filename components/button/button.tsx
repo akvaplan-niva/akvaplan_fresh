@@ -1,5 +1,3 @@
-import { HTMLProps } from "preact";
-
 type Props = HTMLProps<HTMLButtonElement> & {
   additionalClass?: string;
   filled?: boolean;

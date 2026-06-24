@@ -1,11 +1,7 @@
-import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
-import {
-  extractLangFromUrl,
-  lang as langSignal,
-  t,
-} from "akvaplan_fresh/text/mod.ts";
-import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
-import Button from "akvaplan_fresh/components/button/button.tsx";
+import { SearchResults } from "@/components/search_results.tsx";
+import { extractLangFromUrl, lang as langSignal, t } from "@/text/mod.ts";
+import { Pill } from "@/components/button/pill.tsx";
+import Button from "@/components/button/button.tsx";
 
 const detailsOpen = (collection: string) => true;
 // ["image", "document", "video", "blog", "pubs"].includes(collection)
@@ -62,6 +58,8 @@ export const GroupedSearchCollectionResults = ({
   display,
   children,
   by,
+  base,
+  group,
 }) => (
   <details
     open={open}
@@ -69,7 +67,7 @@ export const GroupedSearchCollectionResults = ({
   >
     <CollectionSummary
       q={query.value}
-      collection={collection}
+      collection={group ?? collection}
       length={hits?.length}
       lang={lang}
       count={count}
@@ -82,6 +80,9 @@ export const GroupedSearchCollectionResults = ({
       display={display.value}
       count={count}
       q={query}
+      base={base}
+      collection={collection}
+      group={group}
     />
     {children}
   </details>

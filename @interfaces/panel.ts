@@ -1,4 +1,4 @@
-import { PanelIntl } from "akvaplan_fresh/components/panel.tsx";
+import { PanelIntl } from "@/components/panel.tsx";
 
 export interface Panel {
   id: string;

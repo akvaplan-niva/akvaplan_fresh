@@ -1,4 +1,4 @@
-import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
+import type { OramaAtom } from "@/search/types.ts";
 import type { Results } from "@orama/orama";
 
 export const searchViaApi = async (

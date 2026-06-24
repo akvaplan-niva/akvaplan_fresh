@@ -1,12 +1,12 @@
-import { getPanelInLang, mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
-import { PanelPage } from "akvaplan_fresh/components/panel_page.tsx";
+import { getPanelInLang, mayEditKvPanel } from "@/kv/panel.ts";
+import { PanelPage } from "@/components/panel_page.tsx";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 
 export const config: RouteConfig = {
   routeOverride:
     "/:lang(en|no){/:page(research|forskning)}{/:legacy(tema|topic)}?/:slug{/:id}?",
 };
-// import _research from "akvaplan_fresh/data/orama/2024-04-30_research_topics.json" with {
+// import _research from "@/data/orama/2024-04-30_research_topics.json" with {
 //   type: "json",
 // };
 // @todo Legacy research URLs https://akvaplan.no/no/forskning/tema/akvakultur_milj%C3%B8
