@@ -25,7 +25,7 @@ export const openKv = async (path = db) => {
     if (path) {
       console.warn("Opening KV", db);
     }
-    _kv = await Deno.openKv(path);
+    _kv = globalThis?.Deno ? await Deno.openKv(path) : undefined;
   }
   return _kv;
 };

@@ -14,6 +14,9 @@ export const getProject = async (id: string) => {
 export const deleteProject = async (id: string) => await kv.delete([k0, id]);
 export const listProjects = () => kv.list<Project>({ prefix: [k0] });
 
+export const getProjects = async () =>
+  (await Array.fromAsync(listProjects())).map(({ value }) => value);
+
 export const saveProject = async (
   value: Project,
   user?: MicrosoftUserinfo,
