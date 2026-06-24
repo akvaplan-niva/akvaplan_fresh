@@ -123,11 +123,11 @@ export const buildOramaIndex = async ({ akvaplanists, projects, pubs }) => {
 
   await indexPubs(orama, pubs);
 
-  console.warn(`Indexing ${projects.length} projects`);
-  await insertMultiple(
-    orama,
-    await Array.fromAsync(projects.map(async (p) => await atomizeProject(p))),
-  );
+  // console.warn(`Indexing ${projects.length} projects`);
+  // await insertMultiple(
+  //   orama,
+  //   await Array.fromAsync(projects.map(async (p) => await atomizeProject(p))),
+  // );
 
   console.warn(`Indexing Mynewsdesk`);
   const mynewsdesk_manifest = [];

@@ -7,7 +7,7 @@ export function MajorSection(
   },
 ) {
   const majorSectionPadding =
-    "px-[3vw] lg:px-[4vw] 2xl:px-[9vw] 3xl:px-[18vw] py-12 lg:py-32";
+    "px-[3vw] lg:px-[4vw] 2xl:px-[9vw] 3xl:px-[18vw] pt-12p lg:pt-24";
   return (
     <section id={id} class={majorSectionPadding}>
       {children}

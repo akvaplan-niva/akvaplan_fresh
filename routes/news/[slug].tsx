@@ -15,7 +15,7 @@ import {
   getItemBySlug,
 } from "@/services/mynewsdesk.ts";
 import { H1 } from "@/components/h.tsx";
-import { heroImageUrl } from "@/services/cloudinary.ts";
+import { cloudinaryImgUrl, heroImageUrl } from "@/services/cloudinary.ts";
 import { Card } from "@/components/card.tsx";
 import { ProjectsAsImageLinks } from "@/components/project_link.tsx";
 import { SearchResults } from "@/components/search_results.tsx";
@@ -75,6 +75,7 @@ export default defineRoute(async (_req, ctx) => {
       <H1>{headline}</H1>
     </>
   );
+  const __html = body.replaceAll(",t_limit_1000", ",w_1782");
 
   return (
     <Naked>
@@ -102,7 +103,7 @@ export default defineRoute(async (_req, ctx) => {
               margin: "0 auto",
             }}
             class="article-content"
-            dangerouslySetInnerHTML={{ __html: body }}
+            dangerouslySetInnerHTML={{ __html }}
           />
         </Card>
         <div>

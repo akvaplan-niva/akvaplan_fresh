@@ -10,7 +10,7 @@ export function HeaderLogoStickyNav(
   const isScrolled = false;
   return (
     <header
-      class={`fixed z-50 transition-all duration-500 ${""} ${
+      class={`fixed z-50 transition-all duration-500 ${
         isScrolled ? "top-0 left-4 right-4" : "top-0 left-0 right-0"
       }`}
     >

@@ -30,7 +30,7 @@ import { Naked } from "@/components/naked.tsx";
 import { ImgCard } from "@/components/cards.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import type { Result, Results } from "@orama/orama";
+import { insertMultiple, type Result, type Results } from "@orama/orama";
 import { OramaAtom } from "@/search/types.ts";
 import { search } from "@/search/search.ts";
 import { MajorSection } from "@/components/major_section.tsx";
@@ -38,6 +38,7 @@ import { SectionHeader } from "@/components/cards5.tsx";
 import { Eyebrow } from "@/components/eyebrow.tsx";
 import { Intro } from "@/components/intro.tsx";
 import { SearchHeader } from "@/components/search_header.tsx";
+import { getOramaInstance } from "@/search/orama.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(projects|project|prosjekter|prosjekt)",
@@ -121,13 +122,28 @@ export default defineRoute(async (req, ctx) => {
   const oramaParams = buildOramaParams({ searchParams });
   const oramaResults = await search(oramaParams);
 
+  const kvResults = await getKvListAsOramaResult<Project>(listProjects(), {
+    mapper: async (p: Project) => await atomizeProject(p),
+    limit,
+    sorter: publishedDesc,
+  });
+
+  if (oramaResults.count < 1) {
+    const projects = await Array.fromAsync(
+      kvResults.hits.map(({ document }) => document),
+    );
+    console.warn(`Indexing ${projects.length} projects`);
+
+    const orama = await getOramaInstance();
+    await insertMultiple(
+      orama,
+      projects,
+    );
+  }
+
   const results = oramaResults && oramaResults?.count > 1
     ? oramaResults
-    : await getKvListAsOramaResult<Project>(listProjects(), {
-      mapper: async (p: Project) => await atomizeProject(p),
-      limit,
-      sorter: publishedDesc,
-    });
+    : kvResults;
   if (false === "facets" in results && results.hits.length > 0) {
     results.facets = {
       lifecycle: buildResultFacet("lifecycle", results.hits),
