@@ -4,21 +4,11 @@ import { t } from "@/text/mod.ts";
 import IconButton from "./button/icon_button.tsx";
 import GroupedSearch from "@/islands/grouped_search.tsx";
 import { ApnLogo } from "@/components/akvaplan/logo.tsx";
-import { indexPanels } from "@/search/indexers/panel.ts";
 
-import { getOramaInstance } from "@/search/orama.ts";
 import { UserNameOrSignInIcon } from "@/islands/username_or_signin.tsx";
-import { indexProjectsFromKv } from "../search/indexers/project.ts";
 
 // (async () => {
-//   const _orama = await getOramaInstance();
-//   console.time("Orama indexing projects");
-//   await indexProjectsFromKv(_orama);
-//   console.timeEnd("Orama indexing projects");
-
-//   console.time("Orama indexing panels");
-//   await indexPanels(_orama);
-//   console.timeEnd("Orama indexing panels");
+//   //const _orama = await getOramaInstance();
 // })();
 
 export default ({ lang }) => (

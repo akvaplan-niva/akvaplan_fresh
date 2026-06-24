@@ -1,6 +1,10 @@
 import { ID_PROJECTS } from "../kv/id.ts";
 import { getSessionUser } from "../oauth/microsoft_helpers.ts";
-import { getPanelInLang, mayEditKvPanel } from "@/kv/panel.ts";
+import {
+  getCachedPanelCard,
+  getPanelInLang,
+  mayEditKvPanel,
+} from "@/kv/panel.ts";
 
 import { extractId } from "@/services/extract_id.ts";
 
@@ -29,6 +33,11 @@ import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import type { Result, Results } from "@orama/orama";
 import { OramaAtom } from "@/search/types.ts";
 import { search } from "@/search/search.ts";
+import { MajorSection } from "@/components/major_section.tsx";
+import { SectionHeader } from "@/components/cards5.tsx";
+import { Eyebrow } from "@/components/eyebrow.tsx";
+import { Intro } from "@/components/intro.tsx";
+import { SearchHeader } from "@/components/search_header.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(projects|project|prosjekter|prosjekt)",
@@ -101,6 +110,8 @@ export default defineRoute(async (req, ctx) => {
     title: t("our.projects"),
   };
 
+  const hero = await getCachedPanelCard(ID_PROJECTS, lang);
+
   const { searchParams } = new URL(req.url);
 
   const collection = "project";
@@ -109,13 +120,14 @@ export default defineRoute(async (req, ctx) => {
 
   const oramaParams = buildOramaParams({ searchParams });
   const oramaResults = await search(oramaParams);
-  const results = oramaResults.count === 0
-    ? await getKvListAsOramaResult<Project>(listProjects(), {
+
+  const results = oramaResults && oramaResults?.count > 1
+    ? oramaResults
+    : await getKvListAsOramaResult<Project>(listProjects(), {
       mapper: async (p: Project) => await atomizeProject(p),
       limit,
       sorter: publishedDesc,
-    })
-    : oramaResults;
+    });
   if (false === "facets" in results && results.hits.length > 0) {
     results.facets = {
       lifecycle: buildResultFacet("lifecycle", results.hits),
@@ -126,21 +138,22 @@ export default defineRoute(async (req, ctx) => {
   return (
     <Naked title={title} _base={""} collection="home">
       <HeaderLogoStickyNav lang={lang} />
-      <ImgCard
+
+      <SearchHeader
         lang={lang}
         title={title}
-        subtitle={mayCreateProject
-          ? (
-            <form method="POST">
-              <a href={`/${lang}/${collection}/new`}>
-                New project
-              </a>
-            </form>
-          )
-          : null}
-        cloudinary={image?.cloudinary ?? extractId(image?.url)}
+        cloudinary={hero?.cloudinary}
       />
-
+      {/* <Eyebrow text={hero.eyebrow} /> */}
+      {mayCreateProject
+        ? (
+          <form method="POST">
+            <a href={`/${lang}/${collection}/new`}>
+              New project
+            </a>
+          </form>
+        )
+        : null}
       <CollectionSearch
         placeholder={title}
         collection={collection}

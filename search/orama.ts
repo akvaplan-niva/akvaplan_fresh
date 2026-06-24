@@ -1,7 +1,7 @@
 import type { OramaAtomSchema } from "@/search/types.ts";
 import { schema } from "./schema.ts";
 
-import { create as _create, getByID } from "@orama/orama";
+import { count, create as _create, getByID, load } from "@orama/orama";
 import { language, stemmer } from "@orama/stemmers/norwegian";
 import { restoreOramaIndex } from "@/search/create_search_index.ts";
 
@@ -60,16 +60,16 @@ export const getOramaInstance = async (): Promise<OramaAtomSchema> => {
 };
 export const setOramaInstance = (orama: OramaAtomSchema) => _orama = orama;
 
-const fetchJSON = async (url) => {
-  const r = await fetch(url).catch(() => {});
-  if (r?.ok) {
-    const l = new Date(r.headers.get("last-modified"));
-    console.warn(l);
-    return r.json();
-  } else {
-    console.warn(`GET ${url} failed (${r?.status})`);
-  }
-};
+// const fetchJSON = async (url) => {
+//   const r = await fetch(url).catch(() => {});
+//   if (r?.ok) {
+//     const l = new Date(r.headers.get("last-modified"));
+//     console.warn(l);
+//     return r.json();
+//   } else {
+//     console.warn(`GET ${url} failed (${r?.status})`);
+//   }
+// };
 
 // export const restoreOramaJsonFromUrl = async (
 //   url: string,
@@ -94,4 +94,28 @@ export const getOramaDocument = async (id: string) =>
 export const has = async (id: string) => {
   const d = await getOramaDocument(id);
   return d && d.id && d.id === id;
+};
+
+export const restoreOramaJson = async (path: URL) => {
+  try {
+    const stat = await Deno.stat(path);
+    if (stat.isFile) {
+      console.time("Orama restore time");
+
+      const deserialized = JSON.parse(await Deno.readTextFile(path));
+      const db = await createOramaInstance();
+      load(db, deserialized);
+      console.warn(
+        "Restored",
+        count(db),
+        "Orama documents from",
+        path.href,
+      );
+      console.timeEnd("Orama restore time");
+      return db;
+    }
+  } catch (e) {
+    console.error(`Could not restore Orama index ${path}`, e);
+    throw "Search is currently unavailable";
+  }
 };

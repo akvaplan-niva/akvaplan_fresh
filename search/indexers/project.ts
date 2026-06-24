@@ -38,34 +38,3 @@ export const indexProjectsFromKv = async (orama: OramaAtomSchema) => {
     console.warn(`Indexing ${arr.length} projects`);
   }
 };
-
-export const indexProjects = async (
-  orama: OramaAtomSchema,
-  projects: Project[],
-) => {
-  const updates = [];
-  const inserts = [];
-
-  const key = ["last", "project"];
-  const value = {};
-
-  for await (const value of projects) {
-    const atom = await atomizeProject(value);
-    inserts.push(atom);
-    // if (await has(value.id)) {
-    //   updates.push(atom);
-    // } else {
-    //   inserts.push(atom);
-    // }
-  }
-  if (inserts.length > 0) {
-    await insertMultiple(orama, inserts);
-  }
-  // if (updates.length > 0) {
-  //   await removeMultiple(orama, updates.map(({ id }) => id));
-  //   await insertMultiple(orama, updates);
-  // }
-
-  console.warn(`Indexed ${inserts.length} new projects`);
-  //console.warn(`Updating ${updates.length} projects`);
-};

@@ -1,21 +1,18 @@
-import markdownDocuments from "@/services/documents.json" with {
-  type: "json",
-};
-import { getPubsFromDenoDeployService } from "@/services/dois.ts";
-
-import { atomizeAkvaplanist } from "@/search/indexers/akvaplanists.ts";
-import { insertMynewsdesk } from "@/search/indexers/mynewsdesk.ts";
+import markdownDocuments from "@/services/documents.json" with { type: "json" };
 import { atomizeSlimPublication } from "@/search/indexers/pubs.ts";
 
-import { createOramaInstance } from "@/search/orama.ts";
+import { createOramaInstance, restoreOramaJson } from "@/search/orama.ts";
 
-import { count, insertMultiple, load } from "@orama/orama";
-import { getEmployedAkvaplanists } from "@/services/akvaplanist.ts";
-import { indexProjects } from "@/search/indexers/project.ts";
-import { getProjects } from "@/kv/project.ts";
+import { count, insertMultiple } from "@orama/orama";
 import { OramaAtomSchema } from "@/search/types.ts";
 import { publishedDesc } from "@/search/adapter/kv.ts";
+import { atomizeProject } from "@/search/indexers/project_atomize.ts";
+import { getProjects } from "@/kv/project.ts";
+import { getPubsFromDenoDeployService } from "@/services/dois.ts";
+import { getEmployedAkvaplanists } from "@/services/mod.ts";
 import { persist } from "@orama/plugin-data-persistence";
+import { atomizeAkvaplanist } from "@/search/indexers/akvaplanists.ts";
+import { insertMynewsdesk } from "@/search/indexers/mynewsdesk.ts";
 
 const fileUrl = (fn: string) => new URL(fn, import.meta.url);
 
@@ -25,14 +22,25 @@ const indexFileUrl = fileUrl(`../_fresh/orama.${format}`);
 const saveJson = async (fn: string, ob: object) =>
   await Deno.writeTextFile(fileUrl(fn), JSON.stringify(ob));
 
+export const persistOramaJson = async (
+  orama: OramaAtomSchema,
+  path: URL,
+) => {
+  const json = await persist(orama, "json");
+  await Deno.writeTextFile(path, json as string);
+  console.warn(
+    `Orama index (${await count(orama)} documents) persisted at ${path.href}`,
+  );
+};
+
 // Create orama index
 // Persists index as JSON on disk during `deno task build`
 // The search index is automatically revived by the getOramaInstance function.
 // @todo FIXME For projects, related publications (linked in NVA) must befound and then persisted into KV
 
-const indexPubs = async (orama: OramaAtomSchema) => {
+const indexPubs = async (orama: OramaAtomSchema, pubs) => {
   const byNvaProjectId = new Map();
-  const pubs = (await getPubsFromDenoDeployService()) ?? [];
+
   const atomizedPubById = new Map(
     pubs.map((p) => [p.id, atomizeSlimPublication(p)]),
   );
@@ -113,10 +121,13 @@ export const buildOramaIndex = async ({ akvaplanists, projects, pubs }) => {
   console.warn(`Indexing ${markdownDocuments.length} markdown documents`);
   await insertMultiple(orama, markdownDocuments);
 
-  await indexPubs(orama);
+  await indexPubs(orama, pubs);
 
   console.warn(`Indexing ${projects.length} projects`);
-  await indexProjects(orama, projects);
+  await insertMultiple(
+    orama,
+    await Array.fromAsync(projects.map(async (p) => await atomizeProject(p))),
+  );
 
   console.warn(`Indexing Mynewsdesk`);
   const mynewsdesk_manifest = [];
@@ -130,56 +141,38 @@ export const buildOramaIndex = async ({ akvaplanists, projects, pubs }) => {
   return orama;
 };
 
+// Snippets for saving/restoring SEQP format, works but gets message on sort disabled in orama.js on restore?
+// const seqp = fileUrl("../_fresh/orama.seqp");
+// save:
+// const ser = serializeOramaInstance(idx);
+// const ui8 = new Uint8Array(ser);
+// console.warn(ui8);
+// await Deno.writeFile(seqp, ui8);
+// restore:
+// const r = await fetch(seqp);
+// const body = await r.arrayBuffer();
+// const deserialized = deserializeOramaInstance(body);
+// const db = await createOramaInstance();
+// load(db, deserialized);
+// return db;
 export const persistOramaIndex = async (idx: OramaAtomSchema) =>
-  persistOramaJson(idx, indexFileUrl);
-//await persistToFile(idx, format, indexFileUrl, runtime);
+  await persistOramaJson(idx, indexFileUrl);
 
-export const restoreOramaIndex = async () => restoreOramaJson(indexFileUrl);
-///await restoreFromFile(format, indexFileUrl, runtime);
+export const restoreOramaIndex = async () =>
+  await restoreOramaJson(indexFileUrl);
 
 export const buildAndPersistOramaIndex = async () => {
   const akvaplanists = await getEmployedAkvaplanists();
+  const pubs = (await getPubsFromDenoDeployService()) ?? [];
   const projects = await getProjects();
-
   saveJson("../_fresh/akvaplanists.json", akvaplanists);
+  saveJson("../_fresh/pubs.json", pubs);
   saveJson("../_fresh/projects.json", projects);
-
-  const orama = await buildOramaIndex({ akvaplanists, projects });
+  console.warn("Indexing", {
+    akvaplanists: akvaplanists.length,
+    pubs: pubs.length,
+    projects: projects.length,
+  });
+  const orama = await buildOramaIndex({ akvaplanists, projects, pubs });
   await persistOramaIndex(orama);
-};
-
-export const restoreOramaJson = async (path: URL) => {
-  try {
-    const stat = await Deno.stat(path);
-    if (stat.isFile) {
-      console.time("Orama restore time");
-
-      const deserialized = JSON.parse(await Deno.readTextFile(path));
-      const db = await createOramaInstance();
-
-      await load(db, deserialized);
-      console.warn(
-        "Restored",
-        await count(db),
-        "Orama documents from",
-        path.href,
-      );
-      console.timeEnd("Orama restore time");
-      return db;
-    }
-  } catch (e) {
-    console.error(`Could not restore Orama index ${path}`, e);
-    throw "Search is currently unavailable";
-  }
-};
-
-export const persistOramaJson = async (
-  orama: OramaAtomSchema,
-  path: URL,
-) => {
-  const json = await persist(orama, "json");
-  await Deno.writeTextFile(path, json as string);
-  console.warn(
-    `Orama index (${await count(orama)} documents) persisted at ${path.href}`,
-  );
 };

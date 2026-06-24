@@ -32,9 +32,20 @@ export const atomizeProject = async (
     ${rcn > 0 ? ["RCN", "NFR", "Forskningsrådet"].join(" ") : ""}
     ${fhf > 0 ? ["FHF"].join(" ") : ""}
   `;
-    const text = [...segmenter.segment(_text)].filter((
+    const segments = [...segmenter.segment(_text)].filter((
       { isWordLike },
-    ) => isWordLike).map((s) => s.segment).join(" ");
+    ) => isWordLike);
+    const words = segments.map((s) => s.segment);
+    const uniq = new Set(words.map((s) => s.toLowerCase()));
+    const text = [...uniq].join(" ");
+
+    // console.warn({
+    //   id,
+    //   abbr,
+    //   words: words.length,
+    //   uniq: uniq.size,
+    //   chars: text.length,
+    // });
 
     return ({
       id,
