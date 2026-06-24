@@ -1,10 +1,10 @@
-import { deintlPanel, getPanelList } from "akvaplan_fresh/kv/panel.ts";
+import { deintlPanel, getPanelList } from "@/kv/panel.ts";
 
 import { insert } from "@orama/orama";
 
-import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
-import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
-import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
+import type { Panel } from "@/@interfaces/panel.ts";
+import type { OramaAtomSchema } from "@/search/types.ts";
+import { getAkvaplanist } from "@/services/akvaplanist.ts";
 
 const peopleNames = async (
   people_ids: string,

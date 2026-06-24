@@ -1,23 +1,17 @@
-import { findMarkdownDocument } from "akvaplan_fresh/services/documents.ts";
+import { findMarkdownDocument } from "@/services/documents.ts";
 import { cloudinaryProxy } from "../../services/cloudinary.ts";
-import { extractId } from "akvaplan_fresh/services/extract_id.ts";
+import { extractId } from "@/services/extract_id.ts";
 
-import {
-  cloudinary0,
-  getItem,
-  id0,
-} from "akvaplan_fresh/services/mynewsdesk.ts";
+import { cloudinary0, getItem, id0 } from "@/services/mynewsdesk.ts";
 
-import { Page } from "akvaplan_fresh/components/page.tsx";
-import { DocumentArticle } from "akvaplan_fresh/components/document_article.tsx";
+import { Page } from "@/components/page.tsx";
+import { DocumentArticle } from "@/components/document_article.tsx";
 import { MarkdownArticlePage } from "./MarkdownArticlePage.tsx";
 
 import type { RouteConfig, RouteContext } from "$fresh/server.ts";
 
-import type {
-  MynewsdeskDocument,
-} from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import { newsFilter } from "akvaplan_fresh/services/mynewsdesk.ts";
+import type { MynewsdeskDocument } from "@/@interfaces/mynewsdesk.ts";
+import { newsFilter } from "@/services/mynewsdesk.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(document|dokument){/:date}?/:slug",

@@ -1,21 +1,21 @@
 import { searchViaApi } from "../search/search_via_api.ts";
 
-import { href } from "akvaplan_fresh/search/href.ts";
-import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
-import { cachedNameOf } from "akvaplan_fresh/services/akvaplanist.ts";
+import { href } from "@/search/href.ts";
+import { lang as langSignal, t } from "@/text/mod.ts";
+import { cachedNameOf } from "@/services/akvaplanist.ts";
 
 import { Facets } from "./facets.tsx";
 
 import { InputSearch } from "../components/search/InputSearch.tsx";
-import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
-import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
+import { SearchResults } from "@/components/search_results.tsx";
+import { Pill } from "@/components/button/pill.tsx";
 
 import { computed, Signal, useSignal } from "@preact/signals";
 import type { JSX } from "preact";
-import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
+import type { OramaAtom } from "@/search/types.ts";
 import type { Result, Results } from "@orama/orama";
-import { SelectSort } from "akvaplan_fresh/components/select_sort.tsx";
-import IconButton from "akvaplan_fresh/components/button/icon_button.tsx";
+import { SelectSort } from "@/components/select_sort.tsx";
+import IconButton from "@/components/button/icon_button.tsx";
 import { SearchViewButtons } from "./search_view_buttons.tsx";
 
 const highestCountFirst = (a, b) => b[1] - a[1];

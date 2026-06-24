@@ -1,6 +1,6 @@
 import { Card } from "./card.tsx";
-import { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
-import { doiImage } from "akvaplan_fresh/services/doi_augment.ts";
+import { SlimPublication } from "@/@interfaces/slim_publication.ts";
+import { doiImage } from "@/services/doi_augment.ts";
 export function SlimCard(
   props: { slim: SlimPublication; n: number; lang: string },
 ) {

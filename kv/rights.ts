@@ -1,4 +1,4 @@
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
+import { openKv } from "@/kv/mod.ts";
 interface Rights {
   actions: string;
 }

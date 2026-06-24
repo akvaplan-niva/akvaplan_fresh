@@ -1,5 +1,5 @@
-import { ApnLogo } from "akvaplan_fresh/components/mod.ts";
-import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
+import { ApnLogo } from "@/components/mod.ts";
+import { lang as langSignal, t } from "@/text/mod.ts";
 import { Menu } from "./site_menu.tsx";
 
 export function LeftHeader({

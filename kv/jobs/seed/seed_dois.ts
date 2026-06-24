@@ -1,6 +1,6 @@
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
-import { getDoisFromDenoDeployService } from "akvaplan_fresh/services/dois.ts";
-import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
+import { openKv } from "@/kv/mod.ts";
+import { getDoisFromDenoDeployService } from "@/services/dois.ts";
+import type { SlimPublication } from "@/@interfaces/slim_publication.ts";
 
 export const seedDois = async () => {
   const kv = await openKv();

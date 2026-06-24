@@ -1,4 +1,4 @@
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { t } from "@/text/mod.ts";
 import { Icon } from "@/components/icon.tsx";
 import Button from "@/components/button/button.tsx";
 import { asset, Head } from "$fresh/runtime.ts";

@@ -1,4 +1,4 @@
-import { SquareImage } from "akvaplan_fresh/components/square_image.tsx";
+import { SquareImage } from "@/components/square_image.tsx";
 import { lang, t } from "../../text/mod.ts";
 import { isodate } from "../../time/intl.ts";
 const _caption = {

@@ -1,8 +1,8 @@
 // import { getValue, openKv } from "./mod.ts";
-// import type { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
+// import type { Akvaplanist } from "@/@interfaces/akvaplanist.ts";
 
-import { getSessionUser } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
-import { hasRights } from "akvaplan_fresh/kv/rights.ts";
+import { getSessionUser } from "@/oauth/microsoft_helpers.ts";
+import { hasRights } from "@/kv/rights.ts";
 
 // const _map = new Map<string, Akvaplanist>();
 

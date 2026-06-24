@@ -1,6 +1,6 @@
-import { Icon } from "akvaplan_fresh/components/icon.tsx";
-import type { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
-import { NVA_API, NVA_HOME } from "akvaplan_fresh/services/nva.ts";
+import { Icon } from "@/components/icon.tsx";
+import type { Akvaplanist } from "@/@interfaces/akvaplanist.ts";
+import { NVA_API, NVA_HOME } from "@/services/nva.ts";
 
 interface Social {
   icon: string;

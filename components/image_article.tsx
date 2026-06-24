@@ -1,9 +1,9 @@
-import { Article } from "akvaplan_fresh/components/article/Article.tsx";
-import { lang } from "akvaplan_fresh/text/mod.ts";
-import { isodate } from "akvaplan_fresh/time/intl.ts";
+import { Article } from "@/components/article/Article.tsx";
+import { lang } from "@/text/mod.ts";
+import { isodate } from "@/time/intl.ts";
 
-import type { MynewsdeskImage } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import { extractId } from "akvaplan_fresh/services/extract_id.ts";
+import type { MynewsdeskImage } from "@/@interfaces/mynewsdesk.ts";
+import { extractId } from "@/services/extract_id.ts";
 
 export function ImageArticle(
   { image }: { image: MynewsdeskImage },

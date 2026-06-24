@@ -3,13 +3,13 @@ import {
   icons as materialsymbols,
   processIcon,
   svgMapFromStaticDir,
-} from "akvaplan_fresh/utils/materialsymbols/mod.ts";
-import { getLatestAkvaplanWorks } from "akvaplan_fresh/services/cristin.ts";
+} from "@/utils/materialsymbols/mod.ts";
+import { getLatestAkvaplanWorks } from "@/services/cristin.ts";
 import {
   extractNakedDoi,
   getPubsFromDenoDeployService,
-} from "akvaplan_fresh/services/dois.ts";
-import { ndjson } from "akvaplan_fresh/cli/ndjson.ts";
+} from "@/services/dois.ts";
+import { ndjson } from "@/cli/ndjson.ts";
 
 const iconDir = "static/icon";
 

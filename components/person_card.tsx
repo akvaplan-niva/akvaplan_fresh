@@ -1,15 +1,15 @@
-import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
-import { personURL } from "akvaplan_fresh/services/nav.ts";
+import { getAkvaplanist } from "@/services/akvaplanist.ts";
+import { personURL } from "@/services/nav.ts";
 import { longDate } from "../time/intl.ts";
 
-import { LinkIcon, TextIcon } from "akvaplan_fresh/components/icon_link.tsx";
+import { LinkIcon, TextIcon } from "@/components/icon_link.tsx";
 
-import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
+import { lang as langSignal, t } from "@/text/mod.ts";
 
-import { type Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
-import { peopleURL } from "akvaplan_fresh/services/nav.ts";
-import { Card } from "akvaplan_fresh/components/card.tsx";
-import { UseApnSym } from "akvaplan_fresh/components/akvaplan/symbol.tsx";
+import { type Akvaplanist } from "@/@interfaces/mod.ts";
+import { peopleURL } from "@/services/nav.ts";
+import { Card } from "@/components/card.tsx";
+import { UseApnSym } from "@/components/akvaplan/symbol.tsx";
 
 interface PeopleProps {
   id?: string;

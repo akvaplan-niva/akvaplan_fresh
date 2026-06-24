@@ -1,7 +1,7 @@
-import { personURL } from "akvaplan_fresh/services/nav.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { personURL } from "@/services/nav.ts";
+import { t } from "@/text/mod.ts";
 
-import { Akvaplanist, News } from "akvaplan_fresh/@interfaces/mod.ts";
+import { Akvaplanist, News } from "@/@interfaces/mod.ts";
 
 export const newsFromAkvaplanists =
   ({ lang }) =>

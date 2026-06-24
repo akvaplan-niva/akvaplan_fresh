@@ -1,29 +1,20 @@
-import {
-  oramaSearchParamsForAuthoredPubs,
-  search,
-} from "akvaplan_fresh/search/search.ts";
-import { getWorksBy } from "akvaplan_fresh/services/pub.ts";
-import { worksByUrl } from "akvaplan_fresh/services/nav.ts";
-import { peopleURL } from "akvaplan_fresh/services/mod.ts";
-import { getAvatarImageBytes, getSession } from "akvaplan_fresh/kv/session.ts";
+import { oramaSearchParamsForAuthoredPubs, search } from "@/search/search.ts";
+import { getWorksBy } from "@/services/pub.ts";
+import { worksByUrl } from "@/services/nav.ts";
+import { peopleURL } from "@/services/mod.ts";
+import { getAvatarImageBytes, getSession } from "@/kv/session.ts";
 
 import { withYearAndLinkableSlug } from "./by.tsx";
-import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
+import { getAkvaplanist } from "@/services/akvaplanist.ts";
 
-import {
-  extractLangFromUrl,
-  lang as langSignal,
-  t,
-} from "akvaplan_fresh/text/mod.ts";
+import { extractLangFromUrl, lang as langSignal, t } from "@/text/mod.ts";
 
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+import GroupedSearch from "@/islands/grouped_search.tsx";
 
-import {
-  buildMicrosoftOauthHelpers,
-} from "akvaplan_fresh/oauth/microsoft_helpers.ts";
-import { base64DataUri } from "akvaplan_fresh/img/data_uri.ts";
+import { buildMicrosoftOauthHelpers } from "@/oauth/microsoft_helpers.ts";
+import { base64DataUri } from "@/img/data_uri.ts";
 
-import type { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
+import type { Akvaplanist } from "@/@interfaces/mod.ts";
 import type {
   FreshContext,
   Handlers,
@@ -34,18 +25,19 @@ import type {
 import {
   buildPersonalSocialMediaLinks,
   SocialMediaIcons,
-} from "akvaplan_fresh/components/social_media_icons.tsx";
-import { mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
-import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
+} from "@/components/social_media_icons.tsx";
+import { mayEditKvPanel } from "@/kv/panel.ts";
+import { LinkIcon } from "@/components/icon_link.tsx";
 
-import { GroupedWorks } from "akvaplan_fresh/islands/works.tsx";
-import { Section } from "akvaplan_fresh/components/section.tsx";
+import { GroupedWorks } from "@/islands/works.tsx";
+import { Section } from "@/components/section.tsx";
 import {
   Breadcrumbs,
   Card,
   Page,
   PersonCard as PersonCard,
-} from "akvaplan_fresh/components/mod.ts";
+} from "@/components/mod.ts";
+import { Naked } from "@/components/naked.tsx";
 
 interface AtHome {
   akvaplanist: Akvaplanist;
@@ -135,7 +127,7 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
   const years = [null, ...new Set(works?.map((p) => +p.year))].sort().reverse();
 
   return (
-    <Page base={`/${at}${akvaplanist.id}`} title={name}>
+    <Naked base={`/${at}${akvaplanist.id}`} title={name}>
       <Breadcrumbs list={breadcrumbs} />
       <PersonCard
         href={works?.length > 0 ? worksByUrl(akvaplanist.id, lang) : "#"}
@@ -205,6 +197,6 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
           lang={lang}
         />
       </Section>
-    </Page>
+    </Naked>
   );
 }

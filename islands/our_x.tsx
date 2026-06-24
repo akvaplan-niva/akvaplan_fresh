@@ -1,6 +1,6 @@
-/* import { shuffle } from "akvaplan_fresh/grouping/mod.ts";
-import { extractId } from "akvaplan_fresh/services/extract_id.ts";
-import { mynewsdeskPanoramaImageUrl } from "akvaplan_fresh/components/panorama_picture.tsx";
+/* import { shuffle } from "@/grouping/mod.ts";
+import { extractId } from "@/services/extract_id.ts";
+import { mynewsdeskPanoramaImageUrl } from "@/components/panorama_picture.tsx";
 
 import {
   Article,
@@ -8,7 +8,7 @@ import {
   CollectionHeader,
   HScroll,
   SqImageCard,
-} from "akvaplan_fresh/components/mod.ts";
+} from "@/components/mod.ts";
 
 import { useSignal } from "@preact/signals";
 

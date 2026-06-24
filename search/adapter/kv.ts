@@ -1,10 +1,22 @@
-import { Results } from "@orama/orama";
 import { OramaAtom } from "@/search/types.ts";
+import type { Result, Results } from "@orama/orama";
 
 export const publishedDesc = (a, b) => {
   const at = new Date(a?.published!);
   const bt = new Date(b?.published!);
   return Number(bt) - Number(at);
+};
+
+export const buildResultFacet = (name: string, hits: Result<OramaAtom>[]) => {
+  const facets = new Map();
+  for (const { document } of hits) {
+    if (name in document) {
+      const value = document[name];
+      const count = facets.has(value) ? 1 + facets.get(value) : 1;
+      facets.set(value, count);
+    }
+  }
+  return { count: facets.size, values: Object.fromEntries(facets) };
 };
 
 export const getKvListAsOramaResult = async <T>(

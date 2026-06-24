@@ -1,22 +1,22 @@
 // Pubs: FIXME Add latest & "greatest" (most cited)
 // Pubs: FIXME Add UI Change sort (eg. from latest to relevance)
 // Pubs: FIXME Real filters (not just links)
-import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
+import { lang as langSignal, t } from "@/text/mod.ts";
 import {
   buildSortBy,
   //decadesFacet,
   oramaSortPublishedReverse,
   search,
   yearFacet,
-} from "akvaplan_fresh/search/search.ts";
+} from "@/search/search.ts";
 
-import { Page } from "akvaplan_fresh/components/page.tsx";
-import CollectionSearch, {} from "akvaplan_fresh/islands/collection_search.tsx";
+import { Page } from "@/components/page.tsx";
+import CollectionSearch, {} from "@/islands/collection_search.tsx";
 
 import { RouteConfig, RouteContext } from "$fresh/server.ts";
-import { getPanelInLang } from "akvaplan_fresh/kv/panel.ts";
-import { ID_PUBLICATIONS } from "akvaplan_fresh/kv/id.ts";
-import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
+import { getPanelInLang } from "@/kv/panel.ts";
+import { ID_PUBLICATIONS } from "@/kv/id.ts";
+import { SearchHeader } from "@/components/search_header.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { Naked } from "@/components/naked.tsx";
 
@@ -107,6 +107,7 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
     limit: 0,
     where,
   });
+  console.warn({ count });
   const filters = buildF({ searchParams, where });
   const results = await search(oramaParams);
   const collection = "pubs";

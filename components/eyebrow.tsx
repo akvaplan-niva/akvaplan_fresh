@@ -23,7 +23,7 @@ export function Eyebrow(
   color = color ? color : textColor({ muted });
   return (
     <span
-      class={`text-sm gap-3 w-8`}
+      class={`text-sm gap-6 whitespace-nowrap`}
       style={eyebrowStyle({ color })}
     >
       {text}

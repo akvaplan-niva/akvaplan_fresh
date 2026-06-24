@@ -1,4 +1,4 @@
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
+import { openKv } from "@/kv/mod.ts";
 import { Handlers } from "$fresh/src/server/types.ts";
 
 type Count = Record<string, number>;

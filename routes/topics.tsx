@@ -1,4 +1,4 @@
-import { buildContainsFilter } from "akvaplan_fresh/search/filter.ts";
+import { buildContainsFilter } from "@/search/filter.ts";
 
 import {
   getResearchLevel0FromExternalService,
@@ -7,7 +7,7 @@ import {
   //getServiceTopicSearchwords,
   newsFromMynewsdesk,
   searchMynewsdesk,
-} from "akvaplan_fresh/services/mod.ts";
+} from "@/services/mod.ts";
 
 import {
   Article,
@@ -17,11 +17,11 @@ import {
   HScroll,
   Page,
   PersonCard as PersonCard,
-} from "akvaplan_fresh/components/mod.ts";
+} from "@/components/mod.ts";
 
-import { intlRouteMap, researchTopicURL } from "akvaplan_fresh/services/nav.ts";
+import { intlRouteMap, researchTopicURL } from "@/services/nav.ts";
 
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
+import { lang, t } from "@/text/mod.ts";
 
 import {
   type FreshContext,

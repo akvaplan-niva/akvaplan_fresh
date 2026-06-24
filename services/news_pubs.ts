@@ -1,10 +1,6 @@
 import { defaultThumbnail, doiImage } from "./mod.ts";
 
-import {
-  News,
-  NewsMapper,
-  SlimPublication,
-} from "akvaplan_fresh/@interfaces/mod.ts";
+import { News, NewsMapper, SlimPublication } from "@/@interfaces/mod.ts";
 
 export const newsFromPubs = ({ lang }: NewsMapper) =>
 ({

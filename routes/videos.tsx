@@ -1,9 +1,9 @@
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
+import { openKv } from "@/kv/mod.ts";
 
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
+import { lang, t } from "@/text/mod.ts";
 
-import { ArticleSquare, Page } from "akvaplan_fresh/components/mod.ts";
-import { type InternationalProps } from "akvaplan_fresh/utils/page/international_page.ts";
+import { ArticleSquare, Page } from "@/components/mod.ts";
+import { type InternationalProps } from "@/utils/page/international_page.ts";
 
 interface VideosProps extends InternationalProps {
   videos: MynewsdeskItem[];
@@ -15,8 +15,8 @@ import type {
   PageProps,
   RouteConfig,
 } from "$fresh/server.ts";
-import type { MynewsdeskItem } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import { videoURL } from "akvaplan_fresh/services/nav.ts";
+import type { MynewsdeskItem } from "@/@interfaces/mynewsdesk.ts";
+import { videoURL } from "@/services/nav.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(videos|video)",

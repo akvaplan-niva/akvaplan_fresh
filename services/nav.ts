@@ -1,14 +1,14 @@
-import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
-import { SignalLike, StringSignal } from "akvaplan_fresh/@interfaces/signal.ts";
+import { lang as langSignal, t } from "@/text/mod.ts";
+import { SignalLike, StringSignal } from "@/@interfaces/signal.ts";
 
 import { slug as _slug } from "https://deno.land/x/slug@v1.1.0/mod.ts";
 import { computed } from "@preact/signals-core";
-import { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
-import { Person } from "akvaplan_fresh/services/person.ts";
-import { getAkvaplanist } from "akvaplan_fresh/services/mod.ts";
-import { isDoiUrl } from "akvaplan_fresh/services/pub.ts";
-import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
-import { isNvaUrl } from "akvaplan_fresh/services/nva.ts";
+import { Akvaplanist } from "@/@interfaces/akvaplanist.ts";
+import { Person } from "@/services/person.ts";
+import { getAkvaplanist } from "@/services/mod.ts";
+import { isDoiUrl } from "@/services/pub.ts";
+import { isHandleUrl } from "@/services/handle.ts";
+import { isNvaUrl } from "@/services/nva.ts";
 export const siteNav: SignalLike<Array> = computed(() =>
   buildNav(langSignal.value)
 );

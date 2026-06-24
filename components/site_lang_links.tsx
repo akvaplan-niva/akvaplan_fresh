@@ -1,4 +1,4 @@
-import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
+import { lang as langSignal, t } from "@/text/mod.ts";
 
 const _style = {
   color: "var(--text1)",

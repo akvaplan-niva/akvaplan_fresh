@@ -1,7 +1,7 @@
 import { MiniNewsCard } from "./mini_news.tsx";
-import { HScroll, Icon, MiniCard } from "akvaplan_fresh/components/mod.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
-import { type News } from "akvaplan_fresh/@interfaces/mod.ts";
+import { HScroll, Icon, MiniCard } from "@/components/mod.ts";
+import { t } from "@/text/mod.ts";
+import { type News } from "@/@interfaces/mod.ts";
 import { asset, Head } from "$fresh/runtime.ts";
 
 type NewsFilmStripProps = {

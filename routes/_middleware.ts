@@ -4,21 +4,17 @@
 // https://github.com/denoland/fresh/issues/586#issuecomment-1630175078
 import { getCookies } from "@std/http/cookie";
 
-//import { buildMicrosoftOauthHelpers } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
+//import { buildMicrosoftOauthHelpers } from "@/oauth/microsoft_helpers.ts";
 
-import {
-  acceptsNordic,
-  extractLangFromUrl,
-  setSiteLang,
-} from "akvaplan_fresh/text/mod.ts";
+import { acceptsNordic, extractLangFromUrl, setSiteLang } from "@/text/mod.ts";
 
-import { response307 } from "akvaplan_fresh/services/mod.ts";
+import { response307 } from "@/services/mod.ts";
 
 import { parse } from "accept-language-parser";
 
 import type { FreshContext } from "$fresh/server.ts";
-import { getSessionUser } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
-import { userSignal } from "akvaplan_fresh/user.ts";
+import { getSessionUser } from "@/oauth/microsoft_helpers.ts";
+import { userSignal } from "@/user.ts";
 
 const legacyNaked = "akvaplan.niva.no";
 const legacyHosts = ["www." + legacyNaked, legacyNaked];

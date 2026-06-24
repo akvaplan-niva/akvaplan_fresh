@@ -1,21 +1,15 @@
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { t } from "@/text/mod.ts";
 
-import { Button } from "akvaplan_fresh/components/button/button.tsx";
-import { Card } from "akvaplan_fresh/components/card.tsx";
-import {
-  AkvaplanistCounts,
-  Contributors,
-} from "akvaplan_fresh/components/contribs.tsx";
-//import { Section } from "akvaplan_fresh/components/section.tsx";
+import { Button } from "@/components/button/button.tsx";
+import { Card } from "@/components/card.tsx";
+import { AkvaplanistCounts, Contributors } from "@/components/contribs.tsx";
+//import { Section } from "@/components/section.tsx";
 
-import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
-import {
-  extractSources,
-  isDoiOrHandleUrl,
-} from "akvaplan_fresh/services/pub.ts";
-import { nvaPublicationLanding } from "akvaplan_fresh/services/nva.ts";
-import { CCIcons } from "akvaplan_fresh/components/cc-icons.tsx";
-import { Section } from "akvaplan_fresh/components/section.tsx";
+import type { SlimPublication } from "@/@interfaces/slim_publication.ts";
+import { extractSources, isDoiOrHandleUrl } from "@/services/pub.ts";
+import { nvaPublicationLanding } from "@/services/nva.ts";
+import { CCIcons } from "@/components/cc-icons.tsx";
+import { Section } from "@/components/section.tsx";
 import { Markdown } from "./markdown.tsx";
 
 export const PubArticle = ({

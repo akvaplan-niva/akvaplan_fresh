@@ -1,5 +1,5 @@
-import Button from "akvaplan_fresh/components/button/button.tsx";
-import { ApnSym } from "akvaplan_fresh/components/mod.ts";
+import Button from "@/components/button/button.tsx";
+import { ApnSym } from "@/components/mod.ts";
 
 // ocean: viemsy7cszuo7laedtcd
 const px = 746;

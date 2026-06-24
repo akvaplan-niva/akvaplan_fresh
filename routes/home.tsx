@@ -9,7 +9,7 @@ import { buildNav } from "@/services/nav.ts";
 import { getLatestResearchProjectCards } from "@/services/project.ts";
 
 import { getLatestNews } from "@/services/news.ts";
-import { extractLangFromUrl } from "akvaplan_fresh/text/mod.ts";
+import { extractLangFromUrl } from "@/text/mod.ts";
 
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { ImageHero } from "@/components/hero/image_hero.tsx";

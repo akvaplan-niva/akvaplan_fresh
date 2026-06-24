@@ -1,9 +1,9 @@
-import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
-import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
+import type { OramaAtom } from "@/search/types.ts";
+import type { SlimPublication } from "@/@interfaces/slim_publication.ts";
 
-import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
-import { findCanonicalName, toName } from "akvaplan_fresh/services/person.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { Akvaplanist } from "@/@interfaces/mod.ts";
+import { findCanonicalName, toName } from "@/services/person.ts";
+import { t } from "@/text/mod.ts";
 
 export const foundNames = new Set<string>();
 export const notFoundNames = new Set<string>();

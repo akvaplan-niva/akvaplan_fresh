@@ -1,15 +1,15 @@
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
-import { findCanonicalName } from "akvaplan_fresh/services/person.ts";
+import { openKv } from "@/kv/mod.ts";
+import { findCanonicalName } from "@/services/person.ts";
 
-import { cloudinaryUrl } from "akvaplan_fresh/services/cloudinary.ts";
-import { getSessionUser } from "akvaplan_fresh/oauth/microsoft_helpers.ts";
+import { cloudinaryUrl } from "@/services/cloudinary.ts";
+import { getSessionUser } from "@/oauth/microsoft_helpers.ts";
 import { hasRights } from "./rights.ts";
 
-import type { MicrosoftUserinfo } from "akvaplan_fresh/oauth/microsoft_userinfo.ts";
+import type { MicrosoftUserinfo } from "@/oauth/microsoft_userinfo.ts";
 
-import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
+import type { Panel } from "@/@interfaces/panel.ts";
 
-import { extractId } from "akvaplan_fresh/services/extract_id.ts";
+import { extractId } from "@/services/extract_id.ts";
 import {
   ID_FISK,
   ID_PEOPLE,

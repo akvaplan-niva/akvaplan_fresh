@@ -1,7 +1,7 @@
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
+import { lang, t } from "@/text/mod.ts";
 
-import { Page } from "akvaplan_fresh/components/page.tsx";
-import { type InternationalProps } from "akvaplan_fresh/utils/page/international_page.ts";
+import { Page } from "@/components/page.tsx";
+import { type InternationalProps } from "@/utils/page/international_page.ts";
 
 interface ImagesProps extends InternationalProps {
   images: MynewsdeskItem[];
@@ -16,11 +16,11 @@ import type {
 } from "$fresh/server.ts";
 
 import { asset, Head } from "$fresh/runtime.ts";
-import { searchImageAtoms } from "akvaplan_fresh/services/mynewsdesk.ts";
-import { buildImageMapper } from "akvaplan_fresh/services/cloudinary.ts";
-import type { MynewsdeskImage } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import { href } from "akvaplan_fresh/search/href.ts";
-import { collectionHref } from "akvaplan_fresh/services/mod.ts";
+import { searchImageAtoms } from "@/services/mynewsdesk.ts";
+import { buildImageMapper } from "@/services/cloudinary.ts";
+import type { MynewsdeskImage } from "@/@interfaces/mynewsdesk.ts";
+import { href } from "@/search/href.ts";
+import { collectionHref } from "@/services/mod.ts";
 import { AImg } from "../components/AImg.tsx";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(images|image|bilder|bilde)",

@@ -5,19 +5,19 @@ import {
   LegacyStyles,
 } from "./mod.ts";
 
-import { type Breadcrumb } from "akvaplan_fresh/components/site_nav.tsx";
+import { type Breadcrumb } from "@/components/site_nav.tsx";
 
-import { base as baseForLang, lang, t } from "akvaplan_fresh/text/mod.ts";
-import { buildInitTheming } from "akvaplan_fresh/theming/mod.ts";
+import { base as baseForLang, lang, t } from "@/text/mod.ts";
+import { buildInitTheming } from "@/theming/mod.ts";
 
 import { Head } from "$fresh/runtime.ts";
 import { FunctionComponent, JSX } from "preact";
 
 //import { computed } from "@preact/signals-core";
-import { type StringSignal } from "akvaplan_fresh/@interfaces/signal.ts";
-import { collectionBreadcrumbs } from "akvaplan_fresh/services/mod.ts";
+import { type StringSignal } from "@/@interfaces/signal.ts";
+import { collectionBreadcrumbs } from "@/services/mod.ts";
 import { MorgenStudioStyles } from "@/components/styles.tsx";
-//import { symbolDataURI } from "akvaplan_fresh/components/akvaplan/symbol.tsx";
+//import { symbolDataURI } from "@/components/akvaplan/symbol.tsx";
 
 export type StdProps =
   & JSX.HTMLAttributes<HTMLElement>

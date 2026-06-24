@@ -1,4 +1,4 @@
-import { normalize } from "akvaplan_fresh/text/mod.ts";
+import { normalize } from "@/text/mod.ts";
 export const buildContainsFilter = (
   query: string,
 ) => ((any: unknown) =>

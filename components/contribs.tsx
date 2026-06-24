@@ -1,6 +1,6 @@
-import { personURL } from "akvaplan_fresh/services/nav.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
-import { ApnSym } from "akvaplan_fresh/components/mod.ts";
+import { personURL } from "@/services/nav.ts";
+import { t } from "@/text/mod.ts";
+import { ApnSym } from "@/components/mod.ts";
 
 function isString(s: unknown) {
   return typeof s === "string";

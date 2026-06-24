@@ -1,4 +1,4 @@
-import { Card } from "akvaplan_fresh/components/mod.ts";
+import { Card } from "@/components/mod.ts";
 
 export const OfficeCard = ({ office }) => (
   <Card>

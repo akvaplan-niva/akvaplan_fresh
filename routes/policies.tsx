@@ -1,7 +1,7 @@
-import { lang } from "akvaplan_fresh/text/mod.ts";
-import { Page } from "akvaplan_fresh/components/page.tsx";
+import { lang } from "@/text/mod.ts";
+import { Page } from "@/components/page.tsx";
 
-import type { InternationalProps } from "akvaplan_fresh/utils/page/international_page.ts";
+import type { InternationalProps } from "@/utils/page/international_page.ts";
 
 import {
   type FreshContext,
@@ -9,11 +9,11 @@ import {
   type PageProps,
   type RouteConfig,
 } from "$fresh/server.ts";
-import { searchMynewsdesk } from "akvaplan_fresh/services/mynewsdesk.ts";
+import { searchMynewsdesk } from "@/services/mynewsdesk.ts";
 import type {
   MynewsdeskArticle,
   MynewsdeskImage,
-} from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+} from "@/@interfaces/mynewsdesk.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(policies)",

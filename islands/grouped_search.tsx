@@ -1,18 +1,18 @@
 import { searchViaApi } from "../search/search_via_api.ts";
 
-import { t } from "akvaplan_fresh/text/mod.ts";
-import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
+import { t } from "@/text/mod.ts";
+import { intlRouteMap } from "@/services/nav.ts";
 
 import { InputSearch } from "../components/search/InputSearch.tsx";
-import Button from "akvaplan_fresh/components/button/button.tsx";
-import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
+import Button from "@/components/button/button.tsx";
+import { Pill } from "@/components/button/pill.tsx";
 
 import { useSignal } from "@preact/signals";
-import { GroupedSearchCollectionResults } from "akvaplan_fresh/islands/grouped_search_collection_results.tsx";
-import { SelectSort } from "akvaplan_fresh/components/select_sort.tsx";
+import { GroupedSearchCollectionResults } from "@/islands/grouped_search_collection_results.tsx";
+import { SelectSort } from "@/components/select_sort.tsx";
 import { JSX } from "preact/jsx-runtime";
-import { OramaAtom } from "akvaplan_fresh/search/types.ts";
-import { SearchViewButtons } from "akvaplan_fresh/islands/search_view_buttons.tsx";
+import { OramaAtom } from "@/search/types.ts";
+import { SearchViewButtons } from "@/islands/search_view_buttons.tsx";
 import { Result } from "@orama/orama";
 
 const collectionHref = ({ collection, lang }) => {

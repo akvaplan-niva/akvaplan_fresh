@@ -1,11 +1,11 @@
 import {
   atomizeSlimPublication,
   nameFromAuthor,
-} from "akvaplan_fresh/search/indexers/pubs.ts";
-import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
-import { SearchResults } from "akvaplan_fresh/components/search_results.tsx";
-import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
+} from "@/search/indexers/pubs.ts";
+import { Pill } from "@/components/button/pill.tsx";
+import { SearchResults } from "@/components/search_results.tsx";
+import type { SlimPublication } from "@/@interfaces/slim_publication.ts";
+import { t } from "@/text/mod.ts";
 export const WorksList = (
   { group, groupedBy, summary, open, works, limit, lang }: {
     works: SlimPublication[];

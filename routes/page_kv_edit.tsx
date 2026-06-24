@@ -1,7 +1,7 @@
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
-import { Page } from "akvaplan_fresh/components/page.tsx";
-import Button from "akvaplan_fresh/components/button/button.tsx";
-import KvTextInput from "akvaplan_fresh/islands/KvTextInput.tsx";
+import { openKv } from "@/kv/mod.ts";
+import { Page } from "@/components/page.tsx";
+import Button from "@/components/button/button.tsx";
+import KvTextInput from "@/islands/KvTextInput.tsx";
 
 import {
   coerce,

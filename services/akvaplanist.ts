@@ -1,10 +1,10 @@
-import { alias, familyAliasMap, offices } from "akvaplan_fresh/services/mod.ts";
-import { normalize as n, tr } from "akvaplan_fresh/text/mod.ts";
+import { alias, familyAliasMap, offices } from "@/services/mod.ts";
+import { normalize as n, tr } from "@/text/mod.ts";
 //FIXME, remove: import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
 import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
-import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
-import { search } from "akvaplan_fresh/search/search.ts";
-import { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
+import { Akvaplanist } from "@/@interfaces/mod.ts";
+import { search } from "@/search/search.ts";
+import { SlimPublication } from "@/@interfaces/slim_publication.ts";
 
 export const _priors = "data/priors.json";
 
@@ -320,7 +320,7 @@ export const groupByChar0 = (key: string) => (a: Akvaplanist) =>
 //   { kid = boardKid, spraak = lang === "en" ? "en" : "nb" } = {},
 // ) =>
 //   `https://w2.brreg.no/kunngjoring/hent_en.jsp?kid=${kid}&sokeverdi=937375158&spraak=${spraak}`;
-import { tromsø } from "akvaplan_fresh/services/offices.ts";
+import { tromsø } from "@/services/offices.ts";
 export const akvaplan = tromsø;
 
 export const countAkvaplanistAuthors = async (slim: SlimPublication) => {

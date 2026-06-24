@@ -1,7 +1,7 @@
-import { getPanelsInLang } from "akvaplan_fresh/kv/panel.ts";
+import { getPanelsInLang } from "@/kv/panel.ts";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import type { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
+import type { Panel } from "@/@interfaces/panel.ts";
 import { intlRouteMap } from "../services/mod.ts";
 
 const getInfrastructurePanels = async (lang: string) =>

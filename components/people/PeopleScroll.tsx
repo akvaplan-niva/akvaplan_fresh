@@ -1,8 +1,8 @@
-import { Akvaplanist } from "akvaplan_fresh/@interfaces/mod.ts";
+import { Akvaplanist } from "@/@interfaces/mod.ts";
 
 import HScroll from "../hscroll/HScroll.tsx";
-import { PersonCard } from "akvaplan_fresh/components/mod.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { PersonCard } from "@/components/mod.ts";
+import { t } from "@/text/mod.ts";
 type Props = {
   people: Akvaplanist[];
 };

@@ -1,5 +1,5 @@
 import { FreshContext, Handlers } from "$fresh/server.ts";
-import { NVA_API } from "akvaplan_fresh/services/nva.ts";
+import { NVA_API } from "@/services/nva.ts";
 
 export const handler: Handlers = {
   async GET(_req: Request, ctx: FreshContext) {

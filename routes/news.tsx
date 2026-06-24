@@ -1,7 +1,4 @@
-import {
-  cardFromNews,
-  searchNewsArticles,
-} from "akvaplan_fresh/services/news.ts";
+import { cardFromNews, searchNewsArticles } from "@/services/news.ts";
 
 import {
   ArticleSquare,
@@ -9,10 +6,10 @@ import {
   LegacyStyles,
   MorgenStudioStyles,
   Page,
-} from "akvaplan_fresh/components/mod.ts";
+} from "@/components/mod.ts";
 
-import { lang, t } from "akvaplan_fresh/text/mod.ts";
-import { monthname } from "akvaplan_fresh/time/intl.ts";
+import { lang, t } from "@/text/mod.ts";
+import { monthname } from "@/time/intl.ts";
 
 import {
   type FreshContext,
@@ -27,8 +24,8 @@ export const config: RouteConfig = {
 
 import { asset, Head } from "$fresh/runtime.ts";
 import { Section } from "../components/section.tsx";
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-import { SqImgCard, TightSqImgCard } from "@/components/cards.tsx";
+import GroupedSearch from "@/islands/grouped_search.tsx";
+import { ImgCard, SqImgCard, TightSqImgCard } from "@/components/cards.tsx";
 import { News5 } from "@/components/home/news5.tsx";
 import { MajorSection } from "@/components/major_section.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
@@ -102,9 +99,9 @@ export default function News(
             </h2>
 
             <div class="grid grid-cols-[1fr_1fr] gap-[1.5rem] py-[1.5rem]
-            md:grid-cols-[1fr_1fr_1fr] 
-            lg:grid-cols-[1fr_1fr_1fr_1fr] 
-            xl:grid-cols-[1fr_1fr_1fr_1fr_1fr]">
+            md:grid-cols-[1fr_1fr] 
+            lg:grid-cols-[1fr_1fr_1fr] 
+            2xl:grid-cols-[1fr_1fr_1fr_1fr]">
               {grpmembers.map((s) => (
                 <TightSqImgCard
                   key={s.href}

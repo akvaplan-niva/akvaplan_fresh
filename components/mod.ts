@@ -25,7 +25,7 @@ export * from "./slim_card.tsx";
 export * from "./styles.tsx";
 export * from "./why_us.tsx";
 
-import ArticleContact from "akvaplan_fresh/components/article/ArticleContact.tsx";
+import ArticleContact from "@/components/article/ArticleContact.tsx";
 import Article from "./article/Article.tsx";
 import ArticleHeader from "./article/ArticleHeader.tsx";
 export { Article, ArticleContact, ArticleHeader };

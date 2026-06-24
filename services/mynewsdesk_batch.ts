@@ -1,5 +1,5 @@
-import { listURL } from "akvaplan_fresh/services/mynewsdesk.ts";
-import { searchURL } from "akvaplan_fresh/services/mod.ts";
+import { listURL } from "@/services/mynewsdesk.ts";
+import { searchURL } from "@/services/mod.ts";
 
 export const typeOfMediaCountMap = new Map<string, number>([
   ["news", 0],
@@ -26,7 +26,11 @@ export const fetchMynewsdeskBatch = async (
 
   const r = await fetch(url.href);
   if (r?.ok) {
-    const res = await r.json();
+    const txt = (await r.text()).replaceAll(
+      "www.akvaplan.niva.no",
+      "akvaplan.niva.no",
+    ).replaceAll("akvaplan.niva.no", "akvaplan.no");
+    const res = JSON.parse(txt);
     const { search_result, items, total_count } = res;
     if (search_result) {
       const { items, summary: { total_items } } = search_result;

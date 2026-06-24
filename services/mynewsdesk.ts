@@ -1,10 +1,10 @@
 // https://www.mynewsdesk.com/docs/webservice_pressroom
-import { detectDOIs } from "akvaplan_fresh/text/doi.ts";
+import { detectDOIs } from "@/text/doi.ts";
 
 import {
   AbstractMynewsdeskItem,
   MynewsdeskArticle,
-} from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+} from "@/@interfaces/mynewsdesk.ts";
 
 import { slug as _slug } from "https://deno.land/x/slug@v1.1.0/mod.ts";
 
@@ -16,7 +16,7 @@ export const cloudinary_slug0 = "mynewsdesk_cloudinary_slug";
 
 export const MYNEWSDESK_MAX = 100;
 
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
+import { openKv } from "@/kv/mod.ts";
 import {
   blogURL,
   documentHref,
@@ -25,8 +25,8 @@ import {
   peopleURL,
   personURL,
   projectURL,
-} from "akvaplan_fresh/services/nav.ts";
-import { atomizeMynewsdeskItem } from "akvaplan_fresh/search/indexers/mynewsdesk.ts";
+} from "@/services/nav.ts";
+import { atomizeMynewsdeskItem } from "@/search/indexers/mynewsdesk.ts";
 
 const sortPublishedLatest = (a, b) =>
   b.published_at.datetime.localeCompare(a.published_at.datetime);

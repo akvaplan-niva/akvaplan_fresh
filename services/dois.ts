@@ -1,4 +1,4 @@
-import { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
+import { SlimPublication } from "@/@interfaces/slim_publication.ts";
 0;
 import { ignorePubTypes, isDoiOrHandleUrl, PUBS_BASE } from "./pub.ts";
 // FIXME Remove this file and consolidate with pub.ts

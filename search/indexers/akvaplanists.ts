@@ -1,11 +1,11 @@
-import { stringifyAndNormalize, tr } from "akvaplan_fresh/text/mod.ts";
-import type { OramaAtom } from "akvaplan_fresh/search/types.ts";
-import type { Akvaplanist } from "akvaplan_fresh/@interfaces/akvaplanist.ts";
+import { stringifyAndNormalize, tr } from "@/text/mod.ts";
+import type { OramaAtom } from "@/search/types.ts";
+import type { Akvaplanist } from "@/@interfaces/akvaplanist.ts";
 import {
   familyAliasMap,
   givenAliasMap,
   spellingsById,
-} from "akvaplan_fresh/services/person.ts";
+} from "@/services/person.ts";
 
 // Add intl elements…
 // FIXME   slug: "id/skd/synn%C3%B8ve-killie-dinnesen",

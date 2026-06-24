@@ -1,4 +1,4 @@
-import { Icon } from "akvaplan_fresh/components/icon.tsx";
+import { Icon } from "@/components/icon.tsx";
 
 export const EditIconButton = ({ authorized, href }) =>
   authorized === true

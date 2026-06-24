@@ -1,14 +1,14 @@
-import projectsInNva from "akvaplan_fresh/data/akvaplan_nva_projects.json" with {
+import projectsInNva from "@/data/akvaplan_nva_projects.json" with {
   type: "json",
 };
-import { Breadcrumbs } from "akvaplan_fresh/components/site_nav.tsx";
-import { Section } from "akvaplan_fresh/components/section.tsx";
-import { Page } from "akvaplan_fresh/components/page.tsx";
+import { Breadcrumbs } from "@/components/site_nav.tsx";
+import { Section } from "@/components/section.tsx";
+import { Page } from "@/components/page.tsx";
 
 import { defineRoute } from "$fresh/server.ts";
 import type { RouteConfig } from "$fresh/server.ts";
-import { Card } from "akvaplan_fresh/components/card.tsx";
-import { breadcrumb, pubsURL } from "akvaplan_fresh/services/mod.ts";
+import { Card } from "@/components/card.tsx";
+import { breadcrumb, pubsURL } from "@/services/mod.ts";
 
 export const config: RouteConfig = {
   routeOverride:

@@ -1,5 +1,6 @@
 import type { Card, Hero } from "@/components/card/types.ts";
 import { cloudinaryImgUrl, cloudinaryUrl } from "@/services/cloudinary.ts";
+import { Eyebrow } from "@/components/eyebrow.tsx";
 //import type { CSSProperties } from "preact";
 
 const sqImgUrl = (
@@ -75,9 +76,9 @@ export function SqImgCard({
 
 export function ImgCard({
   headline = "",
-  href = "#",
+  href = "",
   cloudinary,
-  image,
+  eyebrow,
   intro,
   size,
 }: Card | Hero) {
@@ -99,6 +100,7 @@ export function ImgCard({
           <div />
 
           <div>
+            {eyebrow && <Eyebrow text={eyebrow} />}
             <h3 class="h3 text-[clamp(1.25rem,3vw,2.5rem)] leading-tight tracking-tight mb-4 line-clamp-4">
               {headline}
             </h3>

@@ -1,5 +1,5 @@
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
-import type { CustomerService } from "akvaplan_fresh/@interfaces/customer_service.ts";
+import { openKv } from "@/kv/mod.ts";
+import type { CustomerService } from "@/@interfaces/customer_service.ts";
 const fetchServices = async () => await fetch("https://svc.deno.dev/");
 
 const levelFilter = (n = 0) => ({ level }: CustomerService) => level === n;

@@ -1,6 +1,6 @@
 import { type RouteConfig } from "$fresh/server.ts";
-import { Page } from "akvaplan_fresh/components/page.tsx";
-import { moreNav } from "akvaplan_fresh/services/nav.ts";
+import { Page } from "@/components/page.tsx";
+import { moreNav } from "@/services/nav.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/(more|mer)",

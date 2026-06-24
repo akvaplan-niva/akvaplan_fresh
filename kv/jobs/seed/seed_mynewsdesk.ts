@@ -1,6 +1,6 @@
 // $ deno run --unstable-kv --env --allow-env kv/jobs/seed_mynewsdesk.ts
 
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
+import { openKv } from "@/kv/mod.ts";
 // const MANIFEST = `./kv/seed/manifest/mynewsdesk.ndjson`;
 // const manifest = new Map(
 //   (await Deno.readTextFile(MANIFEST)).trim().split("\n").map(JSON.parse),
@@ -13,19 +13,19 @@ import {
   id0,
   slug0,
   slugify,
-} from "akvaplan_fresh/services/mynewsdesk.ts";
+} from "@/services/mynewsdesk.ts";
 
 import type {
   AbstractMynewsdeskItem,
   MynewsdeskDocument,
   MynewsdeskVideo,
-} from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+} from "@/@interfaces/mynewsdesk.ts";
 
 import { pooledMap } from "@std/async/pool";
 
 // import { ulid } from "@std/ulid";
-// import { extractId } from "akvaplan_fresh/services/extract_id.ts";
-// import { newsFilter } from "akvaplan_fresh/services/mod.ts";
+// import { extractId } from "@/services/extract_id.ts";
+// import { newsFilter } from "@/services/mod.ts";
 import {
   fetchMynewsdeskBatch,
   typeOfMediaCountMap,

@@ -1,4 +1,4 @@
-import { CollectionSummary } from "akvaplan_fresh/components/CollectionSummary.tsx";
+import { CollectionSummary } from "@/components/CollectionSummary.tsx";
 import { CristinList } from "./cristin_list.tsx";
 
 export const groupByCategory = ({ category: { code } }) => code;

@@ -1,34 +1,44 @@
 import { ID_PROJECTS } from "../kv/id.ts";
 import { getSessionUser } from "../oauth/microsoft_helpers.ts";
-import { getPanelInLang, mayEditKvPanel } from "akvaplan_fresh/kv/panel.ts";
+import { getPanelInLang, mayEditKvPanel } from "@/kv/panel.ts";
 
-import { Page } from "akvaplan_fresh/components/mod.ts";
+import { extractId } from "@/services/extract_id.ts";
 
-import { extractId } from "akvaplan_fresh/services/extract_id.ts";
-
-import { Panel } from "akvaplan_fresh/@interfaces/panel.ts";
-import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
-import CollectionSearch from "akvaplan_fresh/islands/collection_search.tsx";
+import { Panel } from "@/@interfaces/panel.ts";
+import CollectionSearch from "@/islands/collection_search.tsx";
 
 import { Handlers } from "$fresh/server.ts";
 import { Forbidden } from "../components/forbidden.tsx";
 
-import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { projectHref } from "../services/mod.ts";
 import { listProjects, saveProject } from "../kv/project.ts";
 import { t } from "../text/mod.ts";
 import { Project } from "@/@interfaces/project.ts";
-import { getKvListAsOramaResult, publishedDesc } from "@/search/adapter/kv.ts";
+import {
+  buildResultFacet,
+  getKvListAsOramaResult,
+  publishedDesc,
+} from "@/search/adapter/kv.ts";
 import { atomizeProject } from "@/search/indexers/project_atomize.ts";
+
+import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
+import { Naked } from "@/components/naked.tsx";
+import { ImgCard } from "@/components/cards.tsx";
+
+import { defineRoute, type RouteConfig } from "$fresh/server.ts";
+import type { Result, Results } from "@orama/orama";
+import { OramaAtom } from "@/search/types.ts";
+import { search } from "@/search/search.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(projects|project|prosjekter|prosjekt)",
 };
 
-//facets: { lifecycle: { count: 2, values: { ongoing: 23, past: 18 } } },
 const facets = {
   lifecycle: {},
 };
+
+const limit = 100;
 
 const buildOramaParams = (
   { searchParams }: { searchParams: URLSearchParams },
@@ -42,7 +52,7 @@ const buildOramaParams = (
   const term = searchParams.get("q") ?? "";
   return {
     term,
-    limit: 1,
+    limit,
     where,
     facets,
     sortBy: { order: "DESC", property: "published" },
@@ -96,18 +106,28 @@ export default defineRoute(async (req, ctx) => {
   const collection = "project";
   const q = searchParams.get("q") ?? "";
   const mayCreateProject = await mayEditKvPanel(req);
-  const results = await getKvListAsOramaResult<Project>(listProjects(), {
-    mapper: async (p: Project) => await atomizeProject(p),
-    limit: 100,
-    sorter: publishedDesc,
-  });
+
   const oramaParams = buildOramaParams({ searchParams });
+  const oramaResults = await search(oramaParams);
+  const results = oramaResults.count === 0
+    ? await getKvListAsOramaResult<Project>(listProjects(), {
+      mapper: async (p: Project) => await atomizeProject(p),
+      limit,
+      sorter: publishedDesc,
+    })
+    : oramaResults;
+  if (false === "facets" in results && results.hits.length > 0) {
+    results.facets = {
+      lifecycle: buildResultFacet("lifecycle", results.hits),
+    };
+  }
 
   const filters = Object.entries(oramaParams.where);
 
   return (
-    <Page title={title} _base={""} collection="home">
-      <SearchHeader
+    <Naked title={title} _base={""} collection="home">
+      <HeaderLogoStickyNav lang={lang} />
+      <ImgCard
         lang={lang}
         title={title}
         subtitle={mayCreateProject
@@ -128,29 +148,18 @@ export default defineRoute(async (req, ctx) => {
         q={q}
         lang={lang}
         results={results}
-        _filters={[...filters]}
+        filters={[...filters]}
         facets={facets}
         //total={count}
         //list="list"
         url={req.url}
-        limit={100}
+        limit={limit}
         sortOptions={[
           "",
           "-published",
           "published",
         ]}
       />
-
-      {
-        /* {["ongoing", "past"].map((key) => (
-        <Section>
-          <CollectionHeader text={t(`project.Lifecycle.${key}`)} />
-          <HScroll>
-            {grouped.get(key)?.map(ArticleSquare)}
-          </HScroll>
-        </Section>
-      ))} */
-      }
-    </Page>
+    </Naked>
   );
 });

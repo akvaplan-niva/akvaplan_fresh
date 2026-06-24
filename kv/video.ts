@@ -1,9 +1,9 @@
 import {
   //fetchVideoEmbedCode,
   getItem,
-} from "akvaplan_fresh/services/mynewsdesk.ts";
-//import { openKv } from "akvaplan_fresh/kv/mod.ts";
-import type { MynewsdeskVideo } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+} from "@/services/mynewsdesk.ts";
+//import { openKv } from "@/kv/mod.ts";
+import type { MynewsdeskVideo } from "@/@interfaces/mynewsdesk.ts";
 
 export const getVideo = async (id: number) => {
   id = Number(id);

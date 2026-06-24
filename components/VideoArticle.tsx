@@ -1,11 +1,11 @@
-import { Article } from "akvaplan_fresh/components/article/Article.tsx";
-import type { MynewsdeskVideo } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
-import { editOnMynewsdeskHref } from "akvaplan_fresh/services/mynewsdesk.ts";
-import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { Article } from "@/components/article/Article.tsx";
+import type { MynewsdeskVideo } from "@/@interfaces/mynewsdesk.ts";
+import { editOnMynewsdeskHref } from "@/services/mynewsdesk.ts";
+import { LinkIcon } from "@/components/icon_link.tsx";
+import { t } from "@/text/mod.ts";
 import { isodate } from "../time/intl.ts";
-import { Card } from "akvaplan_fresh/components/card.tsx";
-import { Section } from "akvaplan_fresh/components/section.tsx";
+import { Card } from "@/components/card.tsx";
+import { Section } from "@/components/section.tsx";
 
 export function VideoArticle(
   { item, editor }: { item: MynewsdeskVideo },

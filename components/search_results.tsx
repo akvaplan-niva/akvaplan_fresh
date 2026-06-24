@@ -1,15 +1,24 @@
-import { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
+import { OramaAtomSchema } from "@/search/types.ts";
 import { Signal } from "@preact/signals-core";
 import { useSignal } from "@preact/signals";
-import { SearchResultItem } from "akvaplan_fresh/components/search_result_item.tsx";
+import { SearchResultItem } from "@/components/search_result_item.tsx";
 
 export function SearchResults(
-  { hits, display, collection, lang, etal = useSignal(true), onResultClick }: {
+  {
+    base,
+    hits,
+    display,
+    collection,
+    lang,
+    etal = useSignal(true),
+    onResultClick,
+  }: {
     hits: OramaAtomSchema[];
     display: string;
     lang: string;
     collection: string;
     etal: Signal<boolean>;
+    base: string;
   },
 ) {
   return (
@@ -22,11 +31,13 @@ export function SearchResults(
       >
         {hits?.map(({ score, document }) => (
           <SearchResultItem
+            key={document.id}
             document={document}
             score={score}
             etal={etal}
             lang={lang}
             collection={collection}
+            base={base}
           />
         ))}
       </ol>

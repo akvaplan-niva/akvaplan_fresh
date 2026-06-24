@@ -1,5 +1,5 @@
 import { getValue } from "./mod.ts";
-import type { MynewsdeskImage } from "akvaplan_fresh/@interfaces/mynewsdesk.ts";
+import type { MynewsdeskImage } from "@/@interfaces/mynewsdesk.ts";
 
 export const imageKey = (id: number) => [
   "mynewsdesk_id",

@@ -1,24 +1,20 @@
-import { getWorksBy } from "akvaplan_fresh/services/pub.ts";
-import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
-import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
-import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
-import { isNvaUrl } from "akvaplan_fresh/services/nva.ts";
+import { getWorksBy } from "@/services/pub.ts";
+import { getAkvaplanist } from "@/services/akvaplanist.ts";
+import { lang as langSignal, t } from "@/text/mod.ts";
+import { isHandleUrl } from "@/services/handle.ts";
+import { isNvaUrl } from "@/services/nva.ts";
 
-import { GroupedWorks } from "akvaplan_fresh/islands/works.tsx";
-import { Page } from "akvaplan_fresh/components/page.tsx";
+import { GroupedWorks } from "@/islands/works.tsx";
+import { Page } from "@/components/page.tsx";
 
-import { PersonCard } from "akvaplan_fresh/components/person_card.tsx";
-import {
-  peopleURL,
-  personURL,
-  worksByUrl,
-} from "akvaplan_fresh/services/nav.ts";
+import { PersonCard } from "@/components/person_card.tsx";
+import { peopleURL, personURL, worksByUrl } from "@/services/nav.ts";
 
-import { Section } from "akvaplan_fresh/components/section.tsx";
-import { Breadcrumbs } from "akvaplan_fresh/components/site_nav.tsx";
+import { Section } from "@/components/section.tsx";
+import { Breadcrumbs } from "@/components/site_nav.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
+import type { SlimPublication } from "@/@interfaces/slim_publication.ts";
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(by|av)/:id([a-z0-9]{3,}){/:name}*",
 };

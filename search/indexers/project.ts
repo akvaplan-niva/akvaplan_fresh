@@ -1,10 +1,10 @@
-import type { OramaAtomSchema } from "akvaplan_fresh/search/types.ts";
-import { getAkvaplanist } from "akvaplan_fresh/services/akvaplanist.ts";
+import type { OramaAtomSchema } from "@/search/types.ts";
+import { getAkvaplanist } from "@/services/akvaplanist.ts";
 import { Project, ProjectLifecycle } from "../../@interfaces/project.ts";
 import { atomizeProject } from "./project_atomize.ts";
 import { has } from "../orama.ts";
 import { insertMultiple, removeMultiple } from "@orama/orama";
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
+import { openKv } from "@/kv/mod.ts";
 
 export const projectLifecycle = (
   { start, end }: { start?: string; end: string },

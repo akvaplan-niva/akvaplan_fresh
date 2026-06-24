@@ -59,7 +59,7 @@ language.
 Translations are kept in a simple (key-value) JSON file for each locale.
 
 ```tsx
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { t } from "@/text/mod.ts";
 <p>{
   t(`some.prefix.some.key`);
 }</p>

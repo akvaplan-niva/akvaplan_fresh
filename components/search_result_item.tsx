@@ -1,10 +1,10 @@
-import { href as _href } from "akvaplan_fresh/search/href.ts";
-import { lang as langSignal } from "akvaplan_fresh/text/mod.ts";
-import { MiniCard } from "akvaplan_fresh/components/card.tsx";
+import { href as _href } from "@/search/href.ts";
+import { lang as langSignal } from "@/text/mod.ts";
+import { MiniCard } from "@/components/card.tsx";
 import { t } from "../text/mod.ts";
 import { slug as slugify } from "slug";
-import { nameFromAuthor } from "akvaplan_fresh/search/indexers/pubs.ts";
-import { Author } from "akvaplan_fresh/@interfaces/slim_publication.ts";
+import { nameFromAuthor } from "@/search/indexers/pubs.ts";
+import { Author } from "@/@interfaces/slim_publication.ts";
 
 const extractYear = (d) => new Date(d).getFullYear();
 export const names = (of: Author[], max?: number) => {
@@ -29,6 +29,7 @@ export const SearchResultItem = (
     score,
     document,
     etal,
+    base,
   },
 ) => {
   const {

@@ -1,5 +1,5 @@
-import { isHandleUrl } from "akvaplan_fresh/services/handle.ts";
-import { isDoiUrl } from "akvaplan_fresh/services/pub.ts";
+import { isHandleUrl } from "@/services/handle.ts";
+import { isDoiUrl } from "@/services/pub.ts";
 import { extractId } from "./extract_id.ts";
 
 const NVA_API_PROD = "https://api.nva.unit.no";

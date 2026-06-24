@@ -1,17 +1,13 @@
-import {
-  extractLangFromUrl,
-  lang as langSignal,
-  t,
-} from "akvaplan_fresh/text/mod.ts";
-import { userSignal } from "akvaplan_fresh/user.ts";
-import { akvaplanistUrl } from "akvaplan_fresh/services/nav.ts";
+import { extractLangFromUrl, lang as langSignal, t } from "@/text/mod.ts";
+import { userSignal } from "@/user.ts";
+import { akvaplanistUrl } from "@/services/nav.ts";
 
-import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
+import { LinkIcon } from "@/components/icon_link.tsx";
 
 import { computed } from "@preact/signals";
 
 import { IS_BROWSER } from "$fresh/runtime.ts";
-import IconButton from "akvaplan_fresh/components/button/icon_button.tsx";
+import IconButton from "@/components/button/icon_button.tsx";
 
 if (IS_BROWSER) {
   const _state = document.querySelector("script#state")?.textContent;

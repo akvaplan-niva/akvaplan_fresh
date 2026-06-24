@@ -1,5 +1,5 @@
-import { t } from "akvaplan_fresh/text/mod.ts";
-import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
+import { t } from "@/text/mod.ts";
+import { Pill } from "@/components/button/pill.tsx";
 
 export const CollectionSummary = (
   {

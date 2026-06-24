@@ -1,6 +1,6 @@
 import { debounce } from "@std/async/debounce";
 import KvTextInput, { isText } from "../islands/KvTextInput.tsx";
-import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
+import { Pill } from "@/components/button/pill.tsx";
 
 export const KvListNav = (
   { entries }: { entries: Deno.KvListIterator<unknown> },

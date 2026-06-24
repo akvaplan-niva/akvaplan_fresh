@@ -1,17 +1,13 @@
 import { set } from "@hyperjump/json-pointer";
 import { useSignal } from "@preact/signals";
-import Button from "akvaplan_fresh/components/button/button.tsx";
+import Button from "@/components/button/button.tsx";
 
-import type {
-  Panel,
-  PanelImage,
-  PanelIntl,
-} from "akvaplan_fresh/@interfaces/panel.ts";
+import type { Panel, PanelImage, PanelIntl } from "@/@interfaces/panel.ts";
 
-import { FieldSetOfObject } from "akvaplan_fresh/islands/FieldSetOfObject.tsx";
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { FieldSetOfObject } from "@/islands/FieldSetOfObject.tsx";
+import { t } from "@/text/mod.ts";
 import CollectionSearch from "./collection_search.tsx";
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+import GroupedSearch from "@/islands/grouped_search.tsx";
 
 const core: (keyof Panel)[] = [
   "collection",

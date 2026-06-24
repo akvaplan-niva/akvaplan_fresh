@@ -1,4 +1,4 @@
-import { Input } from "akvaplan_fresh/components/input.tsx";
+import { Input } from "@/components/input.tsx";
 export const isText = (v) => v && typeof v === "string";
 
 export const TextArea = (props) => (

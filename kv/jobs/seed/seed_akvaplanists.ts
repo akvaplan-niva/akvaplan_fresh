@@ -1,6 +1,6 @@
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
-import { getAkvaplanistsFromDenoService } from "akvaplan_fresh/services/akvaplanist.ts";
-import type { SlimPublication } from "akvaplan_fresh/@interfaces/slim_publication.ts";
+import { openKv } from "@/kv/mod.ts";
+import { getAkvaplanistsFromDenoService } from "@/services/akvaplanist.ts";
+import type { SlimPublication } from "@/@interfaces/slim_publication.ts";
 
 export const getExistingIds = async () => {
   const existing = new Set<string>();

@@ -1,24 +1,21 @@
-import {
-  getPanelInLang,
-  getPanelsInLangByIds,
-} from "akvaplan_fresh/kv/panel.ts";
+import { getPanelInLang, getPanelsInLangByIds } from "@/kv/panel.ts";
 import { ID_MANAGEMENT, ID_OFFICES, ID_PEOPLE } from "../kv/id.ts";
 
-import { Page } from "akvaplan_fresh/components/page.tsx";
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
-import { HeroPanel, ImagePanel } from "akvaplan_fresh/components/panel.tsx";
+import { Page } from "@/components/page.tsx";
+import GroupedSearch from "@/islands/grouped_search.tsx";
+import { HeroPanel, ImagePanel } from "@/components/panel.tsx";
 
 import { defineRoute, RouteConfig } from "$fresh/server.ts";
-import { Section } from "akvaplan_fresh/components/section.tsx";
-import { intlRouteMap } from "akvaplan_fresh/services/mod.ts";
-import { OfficeContactDetails } from "akvaplan_fresh/components/offices.tsx";
-import { BentoPanel } from "akvaplan_fresh/components/bento_panel.tsx";
+import { Section } from "@/components/section.tsx";
+import { intlRouteMap } from "@/services/mod.ts";
+import { OfficeContactDetails } from "@/components/offices.tsx";
+import { BentoPanel } from "@/components/bento_panel.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
 import CollectionSearch from "../islands/collection_search.tsx";
-import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
-import { t } from "akvaplan_fresh/text/mod.ts";
-import { Card } from "akvaplan_fresh/components/card.tsx";
-import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
+import { SearchHeader } from "@/components/search_header.tsx";
+import { t } from "@/text/mod.ts";
+import { Card } from "@/components/card.tsx";
+import { Markdown } from "@/components/markdown.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(contact|kontakt)",

@@ -1,11 +1,11 @@
 // Useful:
 // $ cat <(./kv/_list.ts pub | nd-filter '/unit.no/.test(d.key[1])' | nd-map d.value | grep AcademicArticle | nd-map --select title)
 
-import { ignorePubTypes, pubs } from "akvaplan_fresh/services/pub.ts";
-import { Card, Page } from "akvaplan_fresh/components/mod.ts";
+import { ignorePubTypes, pubs } from "@/services/pub.ts";
+import { Card, Page } from "@/components/mod.ts";
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import { SearchResultItem } from "akvaplan_fresh/components/search_result_item.tsx";
-import { atomizeSlimPublication } from "akvaplan_fresh/search/indexers/pubs.ts";
+import { SearchResultItem } from "@/components/search_result_item.tsx";
+import { atomizeSlimPublication } from "@/search/indexers/pubs.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(pubs|publications|publikasjoner)/multi",

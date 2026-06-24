@@ -1,13 +1,13 @@
 // Deno KV list API:
 // https://akvaplan.no/api/kv/list/project?format=ndjson
 
-import { openKv } from "akvaplan_fresh/kv/mod.ts";
+import { openKv } from "@/kv/mod.ts";
 import {
   defineRoute,
   type FreshContext,
   type Handlers,
 } from "$fresh/server.ts";
-import { Forbidden } from "akvaplan_fresh/components/forbidden.tsx";
+import { Forbidden } from "@/components/forbidden.tsx";
 
 const ndjsonResponse = (list: unknown[]) => {
   const ndjson = (o: unknown) => JSON.stringify(o);

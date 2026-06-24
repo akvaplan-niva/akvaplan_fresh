@@ -1,11 +1,11 @@
-import { search } from "akvaplan_fresh/search/search.ts";
-import { CollectionHeader } from "akvaplan_fresh/components/mod.ts";
+import { search } from "@/search/search.ts";
+import { CollectionHeader } from "@/components/mod.ts";
 import { RouteConfig, RouteContext } from "$fresh/server.ts";
-import { intlRouteMap } from "akvaplan_fresh/services/nav.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { intlRouteMap } from "@/services/nav.ts";
+import { t } from "@/text/mod.ts";
 import { AtomCard } from "../components/atom_card.tsx";
 import { asset, Head } from "$fresh/runtime.ts";
-import { OurPeople } from "akvaplan_fresh/components/our_people.tsx";
+import { OurPeople } from "@/components/our_people.tsx";
 
 export const config: RouteConfig = {
   //csp: true,

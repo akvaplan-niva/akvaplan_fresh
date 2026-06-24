@@ -168,6 +168,7 @@ export function ImageCard(
         class={`absolute bottom-0 left-0 right-0 px-6 lg:px-12 transition-all duration-700 delay-500`}
       >
         <div class="relative z-10 md:pt-32 pt-24 md:pb-24 pb-12 px-4 lg:px-[159px] flex flex-col items-center text-center">
+          <Eyebrow text={eyebrow} />
           <H1 class="h3">{headline}</H1>
         </div>
         {intro

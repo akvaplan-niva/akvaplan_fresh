@@ -1,7 +1,7 @@
-import { AltLangInfo, Article, Page } from "akvaplan_fresh/components/mod.ts";
+import { AltLangInfo, Article, Page } from "@/components/mod.ts";
 import { marky } from "https://deno.land/x/marky@v1.1.7/mod.ts";
-import { findMarkdownDocument } from "akvaplan_fresh/services/documents.ts";
-import { documentHref } from "akvaplan_fresh/services/nav.ts";
+import { findMarkdownDocument } from "@/services/documents.ts";
+import { documentHref } from "@/services/nav.ts";
 
 export const MarkdownArticlePage = (
   { text, meta, lang }: { text: string; lang: string; meta: DocumentMeta },

@@ -1,12 +1,8 @@
-import { Breadcrumbs, Page } from "akvaplan_fresh/components/mod.ts";
-import { Section } from "akvaplan_fresh/components/section.tsx";
-import { MarkdownPanel } from "akvaplan_fresh/components/markdown.tsx";
+import { Section } from "@/components/section.tsx";
+import { MarkdownPanel } from "@/components/markdown.tsx";
 
-import { asset, Head } from "$fresh/runtime.ts";
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+import GroupedSearch from "@/islands/grouped_search.tsx";
 import { Naked } from "@/components/naked.tsx";
-import { ImgHero } from "@/components/hero/hero.tsx";
-import { cloudinary0, peopleURL } from "@/services/mod.ts";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { t } from "@/text/mod.ts";
 import { serviceHref } from "@/services/nav.ts";

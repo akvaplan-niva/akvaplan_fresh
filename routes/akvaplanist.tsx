@@ -1,16 +1,16 @@
-import { buildSortBy, search } from "akvaplan_fresh/search/search.ts";
-import { t } from "akvaplan_fresh/text/mod.ts";
-import { peopleHref } from "akvaplan_fresh/services/nav.ts";
+import { buildSortBy, search } from "@/search/search.ts";
+import { t } from "@/text/mod.ts";
+import { peopleHref } from "@/services/nav.ts";
 
-import { CollectionSearch } from "akvaplan_fresh/islands/collection_search.tsx";
-import { Page } from "akvaplan_fresh/components/page.tsx";
+import { CollectionSearch } from "@/islands/collection_search.tsx";
+import { Page } from "@/components/page.tsx";
 import { SearchHeader } from "../components/search_header.tsx";
-import { Section } from "akvaplan_fresh/components/section.tsx";
+import { Section } from "@/components/section.tsx";
 
 import type { RouteConfig, RouteContext } from "$fresh/server.ts";
-import { Card } from "akvaplan_fresh/components/card.tsx";
-import { OfficeContactDetails } from "akvaplan_fresh/components/offices.tsx";
-import { offices } from "akvaplan_fresh/services/offices.ts";
+import { Card } from "@/components/card.tsx";
+import { OfficeContactDetails } from "@/components/offices.tsx";
+import { offices } from "@/services/offices.ts";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { Naked } from "@/components/naked.tsx";
 

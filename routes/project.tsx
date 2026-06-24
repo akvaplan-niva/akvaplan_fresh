@@ -1,42 +1,34 @@
 // Data
-import { getProject, saveProject } from "akvaplan_fresh/kv/project.ts";
-import {
-  projectFromMynewsdeskId,
-  searchOramaForProjectPublicationsInNva,
-} from "akvaplan_fresh/services/project.ts";
+import { getProject, saveProject } from "@/kv/project.ts";
+import { projectFromMynewsdeskId } from "@/services/project.ts";
 
 // Helpers
-import { projectHref, projectPeriod } from "akvaplan_fresh/services/mod.ts";
 import { isodate } from "../time/intl.ts";
-import { projectsURL } from "akvaplan_fresh/services/nav.ts";
+import { projectsURL } from "@/services/nav.ts";
 
 // Internals
-import { lang as langSignal, t } from "akvaplan_fresh/text/mod.ts";
+import { lang as langSignal, t } from "@/text/mod.ts";
 import { getSessionUser } from "../oauth/microsoft_helpers.ts";
 import type { MicrosoftUserinfo } from "../oauth/microsoft_userinfo.ts";
 import { defineRoute, Handlers, RouteConfig } from "$fresh/server.ts";
 
 // Islands
-import GroupedSearch from "akvaplan_fresh/islands/grouped_search.tsx";
+import GroupedSearch from "@/islands/grouped_search.tsx";
 import { ProjectNew } from "../islands/project/project_new.tsx";
 
 // Components
-import {
-  AltLangInfo,
-  Article,
-  Breadcrumbs,
-  Card,
-  Icon,
-  Page,
-} from "akvaplan_fresh/components/mod.ts";
+import { AltLangInfo, Breadcrumbs, Card, Page } from "@/components/mod.ts";
 
-import { PersonCard } from "akvaplan_fresh/components/mod.ts";
-import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
-import { SearchHeader } from "akvaplan_fresh/components/search_header.tsx";
-import { Markdown } from "akvaplan_fresh/components/markdown.tsx";
+import { PersonCard } from "@/components/mod.ts";
+import { Markdown } from "@/components/markdown.tsx";
 import { Forbidden } from "../components/forbidden.tsx";
 import { mayEditKvPanel } from "../kv/panel.ts";
 import { newProjectFromNvaId } from "../services/nva_project.ts";
+import { GroupedSearchCollectionResults } from "@/islands/grouped_search_collection_results.tsx";
+import { Naked } from "@/components/naked.tsx";
+import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
+import { ImageCard } from "@/components/hero/image_hero.tsx";
+import { publishedDesc } from "@/search/adapter/kv.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(project|prosjekt)/:id{/:slug}?",
@@ -100,10 +92,6 @@ export default defineRoute(async (req, ctx) => {
     return ctx.renderNotFound();
   }
 
-  const pubs = project?.cristin > 0
-    ? await searchOramaForProjectPublicationsInNva(project.cristin)
-    : undefined;
-
   const {
     abbr,
     cloudinary,
@@ -114,6 +102,7 @@ export default defineRoute(async (req, ctx) => {
     akvaplanists,
     published,
     updated,
+    pubs,
   } = project;
 
   const summary = project.summary?.[lang]?.length > 0
@@ -133,7 +122,7 @@ export default defineRoute(async (req, ctx) => {
   const breadcrumbs = [{
     href: projectsURL({ lang }),
     text: t("nav.Projects"),
-  }];
+  }, { text: "nav.Project" }];
 
   const alternate = lang === "en" ? "no" : "en";
 
@@ -170,9 +159,28 @@ export default defineRoute(async (req, ctx) => {
     )
     : null;
 
+  const pubsAsSearchHits = pubs && pubs?.length > 0
+    ? pubs?.sort((a, b) => a.id?.localeCompare(b.id))?.map((
+      document,
+    ) => ({ document, score: 1, lang }))
+    : null;
+
+  const groupedPubs = pubsAsSearchHits
+    ? Map.groupBy(pubsAsSearchHits, ({ document }) => document.type)
+    : null;
+
+  const header = (
+    <span style={{ fontFamily: "var(--mono" }}>
+      <Breadcrumbs list={breadcrumbs} icon={"arrow_forward_ios"} />
+    </span>
+  );
+
   return (
-    <Page title={title} collection="projects">
-      <SearchHeader
+    <Naked title={title} collection="projects">
+      <HeaderLogoStickyNav lang={lang} />
+
+      {
+        /* <SearchHeader
         lang={lang}
         title={
           <>
@@ -193,17 +201,34 @@ export default defineRoute(async (req, ctx) => {
           <p style="font-size: 0.9rem">{projectPeriod(start, end, lang)}</p>
         }
         cloudinary={cloudinary}
-      />
+      /> */
+      }
 
-      <Article
-        language={String(lang)}
-      >
+      <article lang={String(lang)} style="--surface0: transparent">
+        <ImageCard
+          eyebrow={abbr && abbr?.length > 0 ? abbr : t("nav.Project")}
+          cloudinary={cloudinary}
+          headline={title}
+          href={projectsURL({ lang })}
+        />
         <AltLangInfo lang={lang} language={lang} alternate={alternate} />
 
-        <Markdown
-          text={title !== abbr ? `#${title}\n\n` : ""}
-        />
         {rcnLink}
+
+        {groupedPubs && groupedPubs.size > 0
+          ? [...groupedPubs].map(([type, pubsOfType], i) => (
+            <GroupedSearchCollectionResults
+              query={""}
+              hits={pubsOfType.sort(publishedDesc)}
+              group={t(`type.${type}`)}
+              collection="oubs"
+              count={pubsOfType.length}
+              display={{ value: "block" }}
+              open={i < 1}
+            />
+          ))
+          : null}
+
         <Markdown
           text={text}
         />
@@ -216,27 +241,7 @@ export default defineRoute(async (req, ctx) => {
             ),
           )}
         </li>
-      </Article>
-
-      {cristin
-        ? (
-          <>
-            {
-              /*
-              FIXME Use GroupedWorks to show project outcome
-              <GroupedWorks grouped={grouped} groupedBy={"type"} lang={lang} /> */
-            }
-
-            <GroupedSearch
-              results={pubs}
-              collection={"type"}
-              by={"type"}
-              noInput
-              display={"block"}
-            />
-          </>
-        )
-        : null}
+      </article>
 
       {(links && links?.length > 0) &&
         (
@@ -273,6 +278,6 @@ export default defineRoute(async (req, ctx) => {
           )
           : null}
       </p>
-    </Page>
+    </Naked>
   );
 });

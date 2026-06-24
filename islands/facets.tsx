@@ -1,12 +1,9 @@
-import { Pill } from "akvaplan_fresh/components/button/pill.tsx";
-import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { Pill } from "@/components/button/pill.tsx";
+import { LinkIcon } from "@/components/icon_link.tsx";
+import { t } from "@/text/mod.ts";
 import { facetHref } from "./collection_search.tsx";
-import {
-  cachedNameOf,
-  identities,
-} from "akvaplan_fresh/services/akvaplanist.ts";
-import {} from "akvaplan_fresh/services/mod.ts";
+import { cachedNameOf, identities } from "@/services/akvaplanist.ts";
+import {} from "@/services/mod.ts";
 
 const buildIntlFacetLabel = (label, facet) => {
   if ("identities" === facet.facet) {

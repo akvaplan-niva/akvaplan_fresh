@@ -1,19 +1,19 @@
 // FIXME Cristin/* Add accept/reject (and store rejects in KV)
-import { getLatestAkvaplanWorks } from "akvaplan_fresh/services/cristin.ts";
-import { Page } from "akvaplan_fresh/components/page.tsx";
+import { getLatestAkvaplanWorks } from "@/services/cristin.ts";
+import { Page } from "@/components/page.tsx";
 
 import { defineRoute, RouteConfig } from "$fresh/server.ts";
 import {
   CristinWorksGrouped,
   groupByCategory,
-} from "akvaplan_fresh/components/cristin_works_grouped.tsx";
+} from "@/components/cristin_works_grouped.tsx";
 import {
   extractNakedDoi,
   getPubsFromDenoDeployService,
-} from "akvaplan_fresh/services/dois.ts";
-import { CristinListItem } from "akvaplan_fresh/components/cristin_list.tsx";
-import { countAkvaplanistAuthors } from "akvaplan_fresh/services/mod.ts";
-import { doiPublicationUrl } from "akvaplan_fresh/services/nav.ts";
+} from "@/services/dois.ts";
+import { CristinListItem } from "@/components/cristin_list.tsx";
+import { countAkvaplanistAuthors } from "@/services/mod.ts";
+import { doiPublicationUrl } from "@/services/nav.ts";
 
 const NO_DOI = "NO_DOI_IN_CRISTIN";
 

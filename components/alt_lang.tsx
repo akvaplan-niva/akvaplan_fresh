@@ -1,4 +1,4 @@
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { t } from "@/text/mod.ts";
 
 const _caption = {
   fontSize: "0.75rem",

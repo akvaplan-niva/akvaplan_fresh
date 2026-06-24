@@ -1,8 +1,8 @@
-import Button from "akvaplan_fresh/components/button/button.tsx";
-import { Icon } from "akvaplan_fresh/components/icon.tsx";
+import Button from "@/components/button/button.tsx";
+import { Icon } from "@/components/icon.tsx";
 import { Signal } from "@preact/signals-core";
 import { JSX } from "preact/jsx-runtime";
-import { t } from "akvaplan_fresh/text/mod.ts";
+import { t } from "@/text/mod.ts";
 
 export const SearchViewButtons = (
   {

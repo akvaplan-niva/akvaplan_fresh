@@ -1,6 +1,6 @@
-import { siteNav } from "akvaplan_fresh/services/nav.ts";
-import { LinkIcon } from "akvaplan_fresh/components/icon_link.tsx";
-import { SiteLangLinks } from "akvaplan_fresh/components/site_lang_links.tsx";
+import { siteNav } from "@/services/nav.ts";
+import { LinkIcon } from "@/components/icon_link.tsx";
+import { SiteLangLinks } from "@/components/site_lang_links.tsx";
 
 export function SiteNavVerticalLarge() {
   return (

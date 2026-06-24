@@ -1,9 +1,6 @@
-import { search } from "akvaplan_fresh/search/search.ts";
+import { search } from "@/search/search.ts";
 
-import type {
-  OramaAtom,
-  OramaAtomSchema,
-} from "akvaplan_fresh/search/types.ts";
+import type { OramaAtom, OramaAtomSchema } from "@/search/types.ts";
 
 import type { GroupByParams, Results, SearchParams } from "@orama/orama";
 
