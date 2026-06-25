@@ -2,7 +2,7 @@ import { Eyebrow } from "@/components/eyebrow.tsx";
 import { heroImageUrl } from "@/services/cloudinary.ts";
 import type { Hero } from "@/components/card/types.ts";
 import { RailwayHeroText } from "@/routes/ui.tsx";
-import { H1 } from "@/components/h.tsx";
+import { H1, H2, H3 } from "@/components/h.tsx";
 
 export function ImageHero(
   {
@@ -107,6 +107,7 @@ export function ImageCard(
     image,
     cloudinary,
     href,
+    footer,
   }: Hero & { source?: string },
 ) {
   const imageSrc = image && String(image).startsWith("https://")
@@ -169,15 +170,16 @@ export function ImageCard(
       >
         <div class="relative z-10 md:pt-32 pt-24 md:pb-24 pb-12 px-4 lg:px-[159px] flex flex-col items-center text-center">
           <Eyebrow text={eyebrow} />
-          <H1 class="h3">{headline}</H1>
+          <H3 class="h4">{headline}</H3>
+
+          {intro
+            ? (
+              <span class="text-[clamp(1.25rem,1.25vw,2rem)] _lg:max-w-[55%] text-white line-clamp-3">
+                {intro}
+              </span>
+            )
+            : null}
         </div>
-        {intro
-          ? (
-            <span class="text-[clamp(1.25rem,1.25vw,2rem)] _lg:max-w-[55%] text-white line-clamp-3">
-              {intro}
-            </span>
-          )
-          : null}
       </div>
     </section>
   );

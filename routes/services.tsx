@@ -47,6 +47,8 @@ export default defineRoute(async (req, ctx) => {
           ))}
         </div>
       </MajorSection>
+
+      {/** Accred and certs… // quality & bærekraft */}
     </Naked>
   );
 });

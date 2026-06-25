@@ -4,7 +4,7 @@ import { projectFromMynewsdeskId } from "@/services/project.ts";
 
 // Helpers
 import { isodate } from "../time/intl.ts";
-import { projectsURL } from "@/services/nav.ts";
+import { projectHref, projectsURL } from "@/services/nav.ts";
 
 // Internals
 import { lang as langSignal, t } from "@/text/mod.ts";
@@ -29,6 +29,8 @@ import { Naked } from "@/components/naked.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { ImageCard } from "@/components/hero/image_hero.tsx";
 import { publishedDesc } from "@/search/adapter/kv.ts";
+import { LinkIcon } from "@/components/icon_link.tsx";
+import { projectPeriod } from "@/services/projects.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(project|prosjekt)/:id{/:slug}?",
@@ -186,19 +188,11 @@ export default defineRoute(async (req, ctx) => {
           <>
             <Breadcrumbs list={breadcrumbs} />
             {abbr}
-            {user
-              ? (
-                <LinkIcon
-                  icon="edit"
-                  href={projectHref(project) + "/w"}
-                  children={""}
-                />
-              )
-              : null}
+
           </>
         }
         subtitle={
-          <p style="font-size: 0.9rem">{projectPeriod(start, end, lang)}</p>
+
         }
         cloudinary={cloudinary}
       /> */
@@ -209,8 +203,22 @@ export default defineRoute(async (req, ctx) => {
           eyebrow={abbr && abbr?.length > 0 ? abbr : t("nav.Project")}
           cloudinary={cloudinary}
           headline={title}
+          intro={<p>{projectPeriod(start, end, lang)}</p>}
           href={projectsURL({ lang })}
         />
+
+        {user
+          ? (
+            <p>
+              <LinkIcon
+                icon="edit"
+                href={projectHref({ id, lang }) + "/w"}
+                children={"Edit"}
+              />
+            </p>
+          )
+          : null}
+
         <AltLangInfo lang={lang} language={lang} alternate={alternate} />
 
         {rcnLink}
@@ -229,18 +237,20 @@ export default defineRoute(async (req, ctx) => {
           ))
           : null}
 
-        <Markdown
-          text={text}
-        />
-        <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:1rem;">
-          {akvaplanists && akvaplanists.map && akvaplanists?.map(
-            (id) => (
-              <section class="article-content">
-                <PersonCard id={id} icons={false} />
-              </section>
-            ),
-          )}
-        </li>
+        <div class="grid lg:grid-cols-[7fr_4fr] gap-12 -scroll-mt-12">
+          <Markdown
+            text={text}
+          />
+          <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:1rem;">
+            {akvaplanists && akvaplanists.map && akvaplanists?.map(
+              (id) => (
+                <section class="article-content">
+                  <PersonCard id={id} icons={false} />
+                </section>
+              ),
+            )}
+          </li>
+        </div>
       </article>
 
       {(links && links?.length > 0) &&

@@ -13,6 +13,7 @@ import { getEmployedAkvaplanists } from "@/services/mod.ts";
 import { persist } from "@orama/plugin-data-persistence";
 import { atomizeAkvaplanist } from "@/search/indexers/akvaplanists.ts";
 import { insertMynewsdesk } from "@/search/indexers/mynewsdesk.ts";
+import { indexProjectsFromKv } from "@/search/indexers/project.ts";
 
 const fileUrl = (fn: string) => new URL(fn, import.meta.url);
 
@@ -128,6 +129,7 @@ export const buildOramaIndex = async ({ akvaplanists, projects, pubs }) => {
   //   orama,
   //   await Array.fromAsync(projects.map(async (p) => await atomizeProject(p))),
   // );
+  await indexProjectsFromKv(orama);
 
   console.warn(`Indexing Mynewsdesk`);
   const mynewsdesk_manifest = [];

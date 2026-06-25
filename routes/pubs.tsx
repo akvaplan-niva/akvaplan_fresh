@@ -49,6 +49,7 @@ const buildF = ({ searchParams, where }) => {
       where[k] = v;
     }
   }
+  console.warn("pubs.tsx:52", { filters });
   return filters;
 };
 
@@ -107,7 +108,7 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
     limit: 0,
     where,
   });
-  console.warn({ count });
+  console.warn({ count, where });
   const filters = buildF({ searchParams, where });
   const results = await search(oramaParams);
   const collection = "pubs";
