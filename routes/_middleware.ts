@@ -24,8 +24,13 @@ export function handler(req: Request, ctx: FreshContext) {
     const { url } = ctx;
     const { pathname, hostname } = url;
 
+    if ("www.akvaplan.no" === hostname) {
+      const fresh = req.url.replace("www.akvaplan.no", "akvaplan.no");
+      return Response.redirect(fresh, 301);
+    }
+
     if (legacyNaked === hostname) {
-      const fresh = req.url.replace("akvaplan-niva.", "akvaplan.");
+      const fresh = req.url.replace("akvaplan.niva.", "akvaplan.");
       return Response.redirect(fresh, 301);
     }
 
