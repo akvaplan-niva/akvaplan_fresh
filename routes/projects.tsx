@@ -128,6 +128,8 @@ export default defineRoute(async (req, ctx) => {
     sorter: publishedDesc,
   });
 
+  console.warn("P", oramaResults.count);
+
   if (oramaResults.count < 1) {
     const projects = await Array.fromAsync(
       kvResults.hits.map(({ document }) => document),

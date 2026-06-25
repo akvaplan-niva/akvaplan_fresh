@@ -13,7 +13,10 @@ import { getEmployedAkvaplanists } from "@/services/mod.ts";
 import { persist } from "@orama/plugin-data-persistence";
 import { atomizeAkvaplanist } from "@/search/indexers/akvaplanists.ts";
 import { insertMynewsdesk } from "@/search/indexers/mynewsdesk.ts";
-import { indexProjectsFromKv } from "@/search/indexers/project.ts";
+import {
+  indexProjects,
+  indexProjectsFromKv,
+} from "@/search/indexers/project.ts";
 
 const fileUrl = (fn: string) => new URL(fn, import.meta.url);
 
@@ -119,17 +122,31 @@ export const buildOramaIndex = async ({ akvaplanists, projects, pubs }) => {
   console.warn(`Indexing ${akvaplanists.length} akvaplanists`);
   await insertMultiple(orama, akvaplanists.map(atomizeAkvaplanist));
 
-  console.warn(`Indexing ${markdownDocuments.length} markdown documents`);
-  await insertMultiple(orama, markdownDocuments);
-
-  await indexPubs(orama, pubs);
-
+  // Panels are indexed in site_menu_dialog.tsx
+  // Projects are indexed Münchhausen-style since the KV database is not available when building the index,
+  // FIXME Projects home page is empty unless projects are pre-indexed at build time
+  const projectsUrl = "https://akvaplan.no/api/kv/list/project?format=json";
+  const r = await fetch(projectsUrl);
+  if (r?.ok) {
+    const projects = (await r.json()).map(({ value }) => value).map((p) => {
+      // p.published = new Date(p.published);
+      // p.updated = new Date(p.updated);
+      return p;
+    });
+    console.warn(`Indexing ${projects.length} projects`);
+    await indexProjects(orama, projects);
+  }
   // console.warn(`Indexing ${projects.length} projects`);
   // await insertMultiple(
   //   orama,
   //   await Array.fromAsync(projects.map(async (p) => await atomizeProject(p))),
   // );
-  await indexProjectsFromKv(orama);
+  //await indexProjectsFromKv(orama);
+
+  console.warn(`Indexing ${markdownDocuments.length} markdown documents`);
+  await insertMultiple(orama, markdownDocuments);
+
+  await indexPubs(orama, pubs);
 
   console.warn(`Indexing Mynewsdesk`);
   const mynewsdesk_manifest = [];

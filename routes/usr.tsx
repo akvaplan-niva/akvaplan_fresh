@@ -38,6 +38,7 @@ import {
   PersonCard as PersonCard,
 } from "@/components/mod.ts";
 import { Naked } from "@/components/naked.tsx";
+import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 
 interface AtHome {
   akvaplanist: Akvaplanist;
@@ -128,15 +129,24 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
 
   return (
     <Naked base={`/${at}${akvaplanist.id}`} title={name}>
-      <Breadcrumbs list={breadcrumbs} />
-      <PersonCard
-        href={works?.length > 0 ? worksByUrl(akvaplanist.id, lang) : "#"}
-        person={akvaplanist}
-        lang={lang}
-        avatar={avatar && user && user.email.startsWith(akvaplanist.id)
-          ? base64DataUri(avatar)
-          : undefined}
-      />
+      <HeaderLogoStickyNav lang={lang} />
+      <div
+        style={{
+          paddingBlockStart: "75px",
+          paddingLeft: ".5rem",
+          paddingRight: ".5rem",
+        }}
+      >
+        <Breadcrumbs list={breadcrumbs} />
+        <PersonCard
+          href={works?.length > 0 ? worksByUrl(akvaplanist.id, lang) : "#"}
+          person={akvaplanist}
+          lang={lang}
+          avatar={avatar && user && user.email.startsWith(akvaplanist.id)
+            ? base64DataUri(avatar)
+            : undefined}
+        />
+      </div>
 
       <ul style={{ fontSize: "0.8rem" }}>
         {akvaplanist && !(prior || expired) && (

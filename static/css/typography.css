@@ -1,4 +1,6 @@
-.h1, .h2, .h3 {
+.h1,
+.h2,
+.h3 {
   font-family: Oceanic Gothic Medium;
   font-weight: 500;
   letter-spacing: -2%;
@@ -22,10 +24,12 @@
 
 .h3 {
   font-size: 48px;
-  /* font-size: clamp(2rem, 6vw, 3.5rem); */
+  font-size: clamp(1.5rem, 4vw, 3rem);
 }
 
-.h4, .h5, .h6 {
+.h4,
+.h5,
+.h6 {
   font-family: Geist;
   font-weight: 600;
   line-height: 1.0;
