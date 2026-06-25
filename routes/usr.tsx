@@ -79,7 +79,6 @@ export const handler: Handlers = {
 
     const orama = { results, params };
     // For SOME reason, projects are not found?
-    console.warn("USR.TSX", orama);
 
     const editor = await mayEditKvPanel(req);
 

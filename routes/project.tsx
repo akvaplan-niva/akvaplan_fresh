@@ -212,8 +212,7 @@ export default defineRoute(async (req, ctx) => {
             <p>
               <LinkIcon
                 icon="edit"
-                href={projectHref({ id, lang }) + "/w"}
-                children={"Edit"}
+                href={projectHref({ id, title: "_", lang }) + "/w"}
               />
             </p>
           )
@@ -237,7 +236,20 @@ export default defineRoute(async (req, ctx) => {
             </li>
             {rcnLink}
 
-            {groupedPubs && groupedPubs.size > 0
+            {cristin && cristin > 0
+              ? (
+                <GroupedSearch
+                  term={`cristin_${cristin}`}
+                  collection={"pubs"}
+                  sort={"-published"}
+                  origin={url}
+                  noInput
+                />
+              )
+              : null}
+
+            {
+              /* {groupedPubs && groupedPubs.size > 0
               ? [...groupedPubs].map(([type, pubsOfType], i) => (
                 <GroupedSearchCollectionResults
                   query={""}
@@ -249,7 +261,8 @@ export default defineRoute(async (req, ctx) => {
                   open={i < 1}
                 />
               ))
-              : null}
+              : null} */
+            }
           </div>
         </div>
       </article>
