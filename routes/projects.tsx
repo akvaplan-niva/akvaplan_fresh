@@ -25,7 +25,10 @@ import {
 } from "@/search/adapter/kv.ts";
 import { atomizeProject } from "@/search/indexers/project_atomize.ts";
 
-import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
+import {
+  HeaderLogoStickyNav,
+  PushUnderLogoHeader,
+} from "@/components/header_logo_sticky_nav.tsx";
 import { Naked } from "@/components/naked.tsx";
 import { ImgCard } from "@/components/cards.tsx";
 
@@ -156,12 +159,13 @@ export default defineRoute(async (req, ctx) => {
   return (
     <Naked title={title} _base={""} collection="home">
       <HeaderLogoStickyNav lang={lang} />
-
-      <SearchHeader
-        lang={lang}
-        title={title}
-        cloudinary={hero?.cloudinary}
-      />
+      <PushUnderLogoHeader>
+        <SearchHeader
+          lang={lang}
+          title={title}
+          cloudinary={hero?.cloudinary}
+        />
+      </PushUnderLogoHeader>
       {/* <Eyebrow text={hero.eyebrow} /> */}
       {mayCreateProject
         ? (

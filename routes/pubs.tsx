@@ -17,8 +17,12 @@ import { RouteConfig, RouteContext } from "$fresh/server.ts";
 import { getPanelInLang } from "@/kv/panel.ts";
 import { ID_PUBLICATIONS } from "@/kv/id.ts";
 import { SearchHeader } from "@/components/search_header.tsx";
-import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
+import {
+  HeaderLogoStickyNav,
+  PushUnderLogoHeader,
+} from "@/components/header_logo_sticky_nav.tsx";
 import { Naked } from "@/components/naked.tsx";
+import { Panel } from "@/@interfaces/panel.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(pubs|publications|publikasjoner)",
@@ -119,12 +123,14 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
   return (
     <Naked title={title} base={base}>
       <HeaderLogoStickyNav lang={lang} />
-      <SearchHeader
-        lang={lang}
-        title={hero?.title}
-        cloudinary={hero?.image.cloudinary}
-        href={hero?.href}
-      />
+      <PushUnderLogoHeader>
+        <SearchHeader
+          lang={lang}
+          title={hero?.title}
+          cloudinary={hero?.image.cloudinary}
+          href={hero?.href}
+        />
+      </PushUnderLogoHeader>
       {
         /* <p>
         <a href={addUrlParam(["facet", "identities"], ctx.url)}>Forfattere</a>

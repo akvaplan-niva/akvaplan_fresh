@@ -24,11 +24,9 @@ import { Markdown } from "@/components/markdown.tsx";
 import { Forbidden } from "../components/forbidden.tsx";
 import { mayEditKvPanel } from "../kv/panel.ts";
 import { newProjectFromNvaId } from "../services/nva_project.ts";
-import { GroupedSearchCollectionResults } from "@/islands/grouped_search_collection_results.tsx";
 import { Naked } from "@/components/naked.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { ImageCard } from "@/components/hero/image_hero.tsx";
-import { publishedDesc } from "@/search/adapter/kv.ts";
 import { LinkIcon } from "@/components/icon_link.tsx";
 import { projectPeriod } from "@/services/projects.ts";
 

@@ -37,7 +37,7 @@ export const atomizeProject = async (
     ) => isWordLike);
     const words = segments.map((s) => s.segment);
     const uniq = new Set(words.map((s) => s.toLowerCase()));
-    const text = [...uniq].join(" ");
+    const text = [...people, ...uniq].join(" ");
 
     // console.warn({
     //   id,

@@ -30,7 +30,7 @@ const peopleIntl = (lang: string) =>
     cta: t("people.See_all"),
     headline: t("our.people") ?? "",
     eyebrow: t("nav.People"),
-    cloudinary: "viemsy7cszuo7laedtcd",
+    cloudinary: "viemsy7cszuo7laedtcd", //"h3hh59f0yw1iyrjzm7bhvk",
     intro: lang !== "en" ? "" : "",
   }) satisfies Hero;
 

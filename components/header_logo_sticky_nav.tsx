@@ -2,7 +2,19 @@ import { AkvaplanLogo } from "@/components/akvaplan/logo.tsx";
 import { Menu } from "@/components/header/site_menu.tsx";
 import { buildNav } from "@/services/nav.ts";
 import { SiteLangLinks } from "@/components/site_lang_links.tsx";
-import { majorSectionPaddingX } from "@/theming/config.ts";
+//?import { majorSectionPaddingX } from "@/theming/config.ts";
+
+export const PushUnderLogoHeader = ({ children }) => (
+  <div
+    style={{
+      paddingBlockStart: "4rem",
+      paddingLeft: ".25rem",
+      paddingRight: ".25rem",
+    }}
+  >
+    {children}
+  </div>
+);
 
 export function HeaderLogoStickyNav(
   { home = "/", lang, nav = buildNav(lang).slice(0, 4) },
