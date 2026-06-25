@@ -43,11 +43,7 @@ export const indexProjects = async (
   orama: OramaAtomSchema,
   projects: Project[],
 ) => {
-  const updates = [];
   const inserts = [];
-
-  const key = ["last", "project"];
-  const value = {};
 
   for await (const value of projects) {
     const atom = await atomizeProject(value);

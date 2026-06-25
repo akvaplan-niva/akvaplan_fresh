@@ -6,9 +6,16 @@ import GroupedSearch from "@/islands/grouped_search.tsx";
 import { ApnLogo } from "@/components/akvaplan/logo.tsx";
 
 import { UserNameOrSignInIcon } from "@/islands/username_or_signin.tsx";
+import { search } from "@/search/search.ts";
+import {} from "@/search/orama.ts";
 
 // (async () => {
-//   //const _orama = await getOramaInstance();
+//   await getOramaInstance();
+//   const res = await search({
+//     term: "Linda Simensen",
+//     where: { collection: "project" },
+//   });
+//   console.warn(res);
 // })();
 
 export default ({ lang }) => (

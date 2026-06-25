@@ -221,35 +221,36 @@ export default defineRoute(async (req, ctx) => {
 
         <AltLangInfo lang={lang} language={lang} alternate={alternate} />
 
-        {rcnLink}
-
-        {groupedPubs && groupedPubs.size > 0
-          ? [...groupedPubs].map(([type, pubsOfType], i) => (
-            <GroupedSearchCollectionResults
-              query={""}
-              hits={pubsOfType.sort(publishedDesc)}
-              group={t(`type.${type}`)}
-              collection="oubs"
-              count={pubsOfType.length}
-              display={{ value: "block" }}
-              open={i < 1}
-            />
-          ))
-          : null}
-
         <div class="grid lg:grid-cols-[7fr_4fr] gap-12 -scroll-mt-12">
           <Markdown
             text={text}
           />
-          <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:1rem;">
-            {akvaplanists && akvaplanists.map && akvaplanists?.map(
-              (id) => (
-                <section class="article-content">
-                  <PersonCard id={id} icons={false} />
-                </section>
-              ),
-            )}
-          </li>
+          <div>
+            <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:1rem;">
+              {akvaplanists && akvaplanists.map && akvaplanists?.map(
+                (id) => (
+                  <section class="article-content">
+                    <PersonCard id={id} icons={false} />
+                  </section>
+                ),
+              )}
+            </li>
+            {rcnLink}
+
+            {groupedPubs && groupedPubs.size > 0
+              ? [...groupedPubs].map(([type, pubsOfType], i) => (
+                <GroupedSearchCollectionResults
+                  query={""}
+                  hits={pubsOfType.sort(publishedDesc)}
+                  group={t(`type.${type}`)}
+                  collection="oubs"
+                  count={pubsOfType.length}
+                  display={{ value: "block" }}
+                  open={i < 1}
+                />
+              ))
+              : null}
+          </div>
         </div>
       </article>
 

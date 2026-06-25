@@ -78,6 +78,8 @@ export const handler: Handlers = {
     const results = await search(params);
 
     const orama = { results, params };
+    // For SOME reason, projects are not found?
+    console.warn("USR.TSX", orama);
 
     const editor = await mayEditKvPanel(req);
 
@@ -107,7 +109,6 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
     akvaplanist,
     at,
     url,
-
     orama,
     user,
     avatar,
@@ -189,7 +190,7 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
 
       <GroupedSearch
         term={orama.params.term}
-        results={orama.results}
+        //results={orama.results}
         exclude={["person", true || works?.length === 0 ? "pubs" : undefined]}
         sort={"-published"}
         origin={url}
