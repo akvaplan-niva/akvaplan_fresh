@@ -47,7 +47,7 @@ const typeOfMedia = (type: string) => {
   }
 };
 
-const intlDateText = (published, lang) =>
+export const longDateIntl = (published: Date | string, lang: string) =>
   new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(
     new Date(published),
   );
@@ -123,13 +123,13 @@ export default defineRoute(async (_req, ctx) => {
                 {t("ui.Publisert")}
               </dt>
               <dd>
-                <time>{intlDateText(published, lang)}</time>
+                <time>{longDateIntl(published, lang)}</time>
               </dd>
               <dt>
                 {t("ui.Oppdatert")}
               </dt>
               <dd>
-                <time>{intlDateText(updated, lang)}</time>
+                <time>{longDateIntl(updated, lang)}</time>
               </dd>
             </dl>
           </Card>

@@ -29,6 +29,7 @@ import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { ImageCard } from "@/components/hero/image_hero.tsx";
 import { LinkIcon } from "@/components/icon_link.tsx";
 import { projectPeriod } from "@/services/projects.ts";
+import { longDateIntl } from "@/routes/news/[slug].tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:type(project|prosjekt)/:id{/:slug}?",
@@ -218,17 +219,37 @@ export default defineRoute(async (req, ctx) => {
         <AltLangInfo lang={lang} language={lang} alternate={alternate} />
 
         <div class="grid lg:grid-cols-[7fr_4fr] gap-12 -scroll-mt-12">
-          <Markdown
-            text={text}
-          />
-          <div>
-            <dl>
-              <dt></dt>
-              <dd>{abbr}</dd>
+          <article class="article-content text-lg p-3 lg:px-24">
+            {abbr ? <h2 class="h4 pb-6">{abbr}</h2> : null}
+            <dl class="pb-6">
+              <dt>Prosjektperiode</dt>
               <dd>{projectPeriod(start, end, lang)}</dd>
             </dl>
-
-            <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:1rem;">
+            <Markdown
+              text={text}
+              style={{
+                fontSize: "calc(1.25rem + 0.1vw)",
+              }}
+            />
+          </article>
+          <div>
+            <Card>
+              <dl>
+                <dt>
+                  {t("ui.Publisert")}
+                </dt>
+                <dd>
+                  <time>{longDateIntl(published, lang)}</time>
+                </dd>
+                <dt>
+                  {t("ui.Oppdatert")}
+                </dt>
+                <dd>
+                  <time>{longDateIntl(updated, lang)}</time>
+                </dd>
+              </dl>
+            </Card>
+            <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:0rem;">
               {akvaplanists && akvaplanists.map && akvaplanists?.map(
                 (id) => (
                   <section class="article-content">
@@ -237,7 +258,34 @@ export default defineRoute(async (req, ctx) => {
                 ),
               )}
             </li>
+
             {rcnLink}
+
+            <GroupedSearch
+              term={term}
+              exact={true}
+              exclude={["project", "image", "pubs"]}
+              origin={url}
+              noInput
+              display="list"
+              sort="-published"
+            />
+
+            <p style={{ fontSize: ".75rem" }}>
+              {"cristin" in project && project.cristin > 0
+                ? (
+                  <>
+                    {" "}
+                    {t("pubs.Publications_from")}{" "}
+                    <a
+                      href={`https://nva.sikt.no/projects/${project.cristin}`}
+                    >
+                      {t("NVA")}
+                    </a>.
+                  </>
+                )
+                : null}
+            </p>
 
             {cristin && cristin > 0
               ? (
@@ -266,45 +314,19 @@ export default defineRoute(async (req, ctx) => {
               ))
               : null} */
             }
+            {(links && links?.length > 0) &&
+              (
+                <section class="article-content">
+                  {links?.map(({ url }) => (
+                    <Card>
+                      <a href={url} class="ellipsis">{url}</a>
+                    </Card>
+                  ))}
+                </section>
+              )}
           </div>
         </div>
       </article>
-
-      {(links && links?.length > 0) &&
-        (
-          <section class="article-content">
-            {links?.map(({ url }) => (
-              <Card>
-                <a href={url} class="ellipsis">{url}</a>
-              </Card>
-            ))}
-          </section>
-        )}
-
-      <GroupedSearch
-        term={term}
-        exact={true}
-        exclude={["project", "image", "pubs"]}
-        origin={url}
-        noInput
-        display="list"
-        sort="-published"
-      />
-
-      <p style={{ fontSize: ".75rem" }}>
-        Publisert {isodate(published)}, oppdatert {isodate(updated)}.
-        {"cristin" in project && project.cristin > 0
-          ? (
-            <>
-              {" "}
-              {t("pubs.Registered_in")}{" "}
-              <a href={`https://nva.sikt.no/projects/${project.cristin}`}>
-                {t("NVA")}
-              </a>.
-            </>
-          )
-          : null}
-      </p>
     </Naked>
   );
 });
