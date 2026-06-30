@@ -146,9 +146,13 @@ export default defineRoute(async (_req, ctx) => {
           )}
 
           <Card>
-            <ImgCard cloudinary={cloudinary} />
-            <figure class="text-md" title={caption}>
-              <figcaption>{caption}</figcaption>
+            <figure class="m-0 block overflow-hidden phablet:relative phablet:max-w-[24rem] phablet:w-1/2">
+              <img
+                class="w-full"
+                src={`https://mnd-assets.mynewsdesk.com/image/upload/ar_16:9,c_fill,dpr_auto,f_auto,g_xy_center,q_auto:good,w_746,x_461,y_615/${cloudinary}`}
+                alt={caption}
+              />{" "}
+              <figcaption class="text-md">{caption}</figcaption>
             </figure>
           </Card>
         </div>

@@ -99,6 +99,8 @@ export default function News(
       </MajorSection>
 
       <MajorSection>
+        <Eyebrow text={t("news.Nyhetsarkiv")} />
+        <SectionHeader headline={`${t("news.Velg år")}`} />
         <ul class="inline">
           <li class="inline px-6">
             {year > 2014 ? <a href={base}>Siste</a> : <span></span>}
