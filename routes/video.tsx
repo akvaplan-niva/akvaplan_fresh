@@ -17,7 +17,10 @@ import { editOnMynewsdeskHref, fetchContacts } from "@/services/mynewsdesk.ts";
 import { Section } from "@/components/section.tsx";
 import { PersonCard as PersonCard } from "@/components/mod.ts";
 import { LinkIcon } from "@/components/icon_link.tsx";
-import { t } from "@/text/mod.ts";
+import { lang, t } from "@/text/mod.ts";
+import { Naked } from "@/components/naked.tsx";
+import { MajorSection } from "@/components/major_section.tsx";
+import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 
 export default async function VideoPage(req: Request, ctx: RouteContext) {
   const { slug } = ctx.params;
@@ -32,7 +35,8 @@ export default async function VideoPage(req: Request, ctx: RouteContext) {
   const editor = await isAuthenticated(req);
 
   return (
-    <Page title={video.header} collection="videos">
+    <Naked title={video.header} collection="videos">
+      <HeaderLogoStickyNav lang={lang} />
       {
         /* <Head>
         <script src="https://cdn.screen9.com/players/amber-player.js">
@@ -46,7 +50,9 @@ export default async function VideoPage(req: Request, ctx: RouteContext) {
 
       {/* <img src={video.thumbnail} /> */}
 
-      <VideoArticle item={video} editor={editor} />
+      <MajorSection>
+        <VideoArticle item={video} editor={editor} />
+      </MajorSection>
 
       {
         /* <video
@@ -72,6 +78,6 @@ export default async function VideoPage(req: Request, ctx: RouteContext) {
           children={t("ui.Edit")}
         />
       )}
-    </Page>
+    </Naked>
   );
 }

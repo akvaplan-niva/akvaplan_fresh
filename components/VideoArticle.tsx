@@ -6,6 +6,9 @@ import { t } from "@/text/mod.ts";
 import { isodate } from "../time/intl.ts";
 import { Card } from "@/components/card.tsx";
 import { Section } from "@/components/section.tsx";
+import { MajorSection } from "@/components/major_section.tsx";
+import { Eyebrow } from "@/components/eyebrow.tsx";
+import { SectionHeader } from "@/components/cards5.tsx";
 
 export function VideoArticle(
   { item, editor }: { item: MynewsdeskVideo },
@@ -15,11 +18,10 @@ export function VideoArticle(
   }
   return (
     <>
-      <Section>
-        <Card>
-          <h1>{item.header}</h1>
-        </Card>
-      </Section>
+      <MajorSection>
+        <Eyebrow text={"video"} />
+        <SectionHeader headline={item.header} />
+      </MajorSection>
 
       {item.embed_code
         // deno-lint-ignore react-no-danger
