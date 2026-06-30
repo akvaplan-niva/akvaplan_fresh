@@ -3,7 +3,7 @@ import { Menu } from "@/components/header/site_menu.tsx";
 import { buildNav } from "@/services/nav.ts";
 import { SiteLangLinks } from "@/components/site_lang_links.tsx";
 //?import { majorSectionPaddingX } from "@/theming/config.ts";
-
+// Prev revisions slightly tigher header? https://akvaplan-c7gzdvb1b4q4.apn.deno.net/
 export const PushUnderLogoHeader = ({ children }) => (
   <div
     style={{

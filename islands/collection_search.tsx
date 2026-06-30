@@ -72,10 +72,12 @@ export function CollectionSearch(
     total,
     filters = [],
     noInput = false,
+    controls = new Set(),
     sortOptions,
     limit = 25,
     url,
     sort,
+    meta = true,
   }: {
     q?: string;
     people?: string;
@@ -96,13 +98,14 @@ export function CollectionSearch(
   const facet = useSignal(facetMapper(results?.facets));
   const display = useSignal(list);
   console.warn({ url });
-  url = new URL(url);
-  const _sort = url.searchParams.has("sort")
+  url = url ? new URL(url) : url;
+  const _sort = url &&
+      url.searchParams.has("sort")
     ? url.searchParams.get("sort")
     : sort ?? "-published";
 
   const sortSignal: Signal<string | undefined> = useSignal(_sort);
-  const urlSignal = useSignal(url.href);
+  const urlSignal = useSignal(url ? url.href : "");
   const where = computed(() => {
     const where = {
       collection,
@@ -206,55 +209,59 @@ export function CollectionSearch(
 
   base = base ?? href({ collection, lang });
 
+  const searchMeta = meta === false ? <div></div> : (
+    <div
+      style={{
+        display: "grid",
+        alignItems: "center",
+        gridTemplateColumns: "1fr 1fr auto",
+        justifyContent: "end",
+        gap: ".25rem",
+      }}
+    >
+      <label>
+        {hits.value.length === Number(count)
+          ? t("search.all")
+          : hits.value.length}/{count}
+        {Number(count) > 0
+          ? (
+            <span class="hide-s">
+            </span>
+          )
+          : <a href="">{t("search.restart")}</a>}
+      </label>
+      <span>
+        <SearchViewButtons
+          {...{
+            limit,
+            display,
+            toggleListDisplay,
+            increaseLimit,
+            decreaseLimit,
+          }}
+        />
+      </span>
+
+      <span style={{ textAlign: "center" }}>
+        <label>
+          <span class="hide-s">{t("sort.label")}:</span>
+          <SelectSort
+            sort={sortSignal.value}
+            options={sortOptions}
+            onChange={setSort}
+            lang={lang}
+            style={{ fontSize: ".8rem", display: "inline-flex" }}
+          />
+        </label>
+      </span>
+    </div>
+  );
+
   return (
     <main>
       {noInput !== true && (
         <form autocomplete="off" method="get" action={urlSignal}>
-          <div
-            style={{
-              display: "grid",
-              alignItems: "center",
-              gridTemplateColumns: "1fr 1fr auto",
-              justifyContent: "end",
-              gap: ".25rem",
-            }}
-          >
-            <label>
-              {hits.value.length === Number(count)
-                ? t("search.all")
-                : hits.value.length}/{count}
-              {Number(count) > 0
-                ? (
-                  <span class="hide-s">
-                  </span>
-                )
-                : <a href="">{t("search.restart")}</a>}
-            </label>
-            <span>
-              <SearchViewButtons
-                {...{
-                  limit,
-                  display,
-                  toggleListDisplay,
-                  increaseLimit,
-                  decreaseLimit,
-                }}
-              />
-            </span>
-
-            <span style={{ textAlign: "center" }}>
-              <label>
-                <span class="hide-s">{t("sort.label")}:</span>
-                <SelectSort
-                  sort={sortSignal.value}
-                  options={sortOptions}
-                  onChange={setSort}
-                  lang={lang}
-                  style={{ fontSize: ".8rem", display: "inline-flex" }}
-                />
-              </label>
-            </span>
-          </div>
+          {searchMeta}
 
           <InputSearch
             autofocus

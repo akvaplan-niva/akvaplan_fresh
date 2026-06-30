@@ -1,9 +1,10 @@
-import { JSX } from "preact";
-type CardProps = JSX.HTMLAttributes<HTMLDivElement>;
+import { ComponentChildren } from "preact";
 
-interface Props {
+interface CardProps {
   img?: string;
   customClass?: string;
+  children: ComponentChildren;
+  style?: Record<string, string>;
 }
 
 export function Card({
@@ -11,7 +12,7 @@ export function Card({
   customClass,
   style = {},
   children,
-}: Props) {
+}: CardProps) {
   const fullClass = `card ${customClass ?? ""}`;
   return (
     <div
@@ -21,8 +22,8 @@ export function Card({
         padding: "var(--size-2)",
         borderRadius: "var(--radius-2)",
         boxShadow: "var(--shadow-4)",
+        margin: ".5vw",
         ...style,
-        //margin: "0.25rem",
       }}
     >
       {img ? <img src={img} alt="" /> : null}

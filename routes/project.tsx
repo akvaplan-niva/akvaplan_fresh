@@ -136,7 +136,7 @@ export default defineRoute(async (req, ctx) => {
   const rcnLink = project?.rcn > 0
     ? (
       <ol
-        style="grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));"
+        style="padding: 1rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));"
         color-scheme="dark"
       >
         <li style="font-size: 1rem; margin: 1px; background: var(--surface4);">
@@ -198,10 +198,9 @@ export default defineRoute(async (req, ctx) => {
 
       <article lang={String(lang)} style="--surface0: transparent">
         <ImageCard
-          eyebrow={abbr && abbr?.length > 0 ? abbr : t("nav.Project")}
+          eyebrow={t("nav.Project")}
           cloudinary={cloudinary}
           headline={title}
-          intro={<p>{projectPeriod(start, end, lang)}</p>}
           href={projectsURL({ lang })}
         />
 
@@ -223,6 +222,12 @@ export default defineRoute(async (req, ctx) => {
             text={text}
           />
           <div>
+            <dl>
+              <dt></dt>
+              <dd>{abbr}</dd>
+              <dd>{projectPeriod(start, end, lang)}</dd>
+            </dl>
+
             <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:1rem;">
               {akvaplanists && akvaplanists.map && akvaplanists?.map(
                 (id) => (

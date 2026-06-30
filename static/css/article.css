@@ -68,8 +68,8 @@
   width: 100%;
   max-width: 1000px;
   box-sizing: border-box;
-  /* font-size: var(--font-size-1); */
-  padding: var(--size-fluid-2);
+  font-size: var(--size-fluid-2);
+  /* padding: var(--size-fluid-1); */
 }
 
 .article-content p {
@@ -214,7 +214,8 @@
   display: none;
 }
 
-.mega-header img, .wide-image-card img {
+.mega-header img,
+.wide-image-card img {
   object-fit: cover;
   min-width: max-content;
   max-height: 60vh;

@@ -28,7 +28,7 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
   const limit = 25;
   const collection = "person";
   const where = { collection };
-  const facets = { location: {} };
+  const facets = { location: {}, section: {} };
   const term = searchParams.get("q") ?? "";
   const sort = searchParams.get("sort") ?? "";
   const filterLocation = searchParams.has("filter-location")
@@ -37,6 +37,9 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
 
   if (searchParams.has("filter-location")) {
     where.location = searchParams.get("filter-location") ?? undefined;
+  }
+  if (searchParams.has("filter-section")) {
+    where.section = searchParams.get("filter-section") ?? undefined;
   }
   const filters = new Map();
   if ("workplace" === groupname && filter) {

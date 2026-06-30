@@ -32,27 +32,26 @@ export const OfficeContactDetails = (
     lang,
   },
 ) => (
-  <dl style="display: grid; grid-template-columns: auto 1fr;">
-    <dt style={{ color: "var(--text1)" }}>
-      Akvaplan-niva
+  <dl style="display: grid; grid-template-columns: auto 1fr; gap: .75rem;">
+    <dt>
+      <Icon name="place" />
     </dt>
     <dd
       href={peopleHref(lang, `workplace/${name}`)}
-      style={{ color: "var(--accent)" }}
     >
-    </dd>
-    {visit
-      ? (
-        <>
-          <dt>
-            <Icon name="place" />
-          </dt>
-          <dd style={{ color: "var(--text1)" }}>
+      <span style={{ color: "var(--text1)" }}>
+        Akvaplan-niva
+      </span>{" "}
+      <span style={{ color: "var(--accent)" }}>{name}</span>
+      {visit
+        ? (
+          <p style={{ color: "var(--text1)" }}>
             {visit}
-          </dd>
-        </>
-      )
-      : null}
+          </p>
+        )
+        : null}
+    </dd>
+
     <dt>
       <Icon name="mail" />
     </dt>

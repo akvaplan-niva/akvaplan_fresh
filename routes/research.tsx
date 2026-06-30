@@ -35,7 +35,6 @@ export default defineRoute(async (req, ctx) => {
   const projects = getLatestResearchProjectCards({ lang, limit: 8 });
 
   const pubHero = await getCachedPanelCard(ID_PUBLICATIONS, lang);
-  console.warn(pubHero);
 
   const { searchParams } = new URL(req.url);
 
@@ -51,6 +50,7 @@ export default defineRoute(async (req, ctx) => {
   const filters = new Map([["type", "AcademicArticle"]]);
 
   //const filters = buildF({ searchParams, where });
+  // console.warn(oramaParams);
   const results = await search(oramaParams);
   const collection = "pubs";
 
@@ -102,17 +102,20 @@ export default defineRoute(async (req, ctx) => {
         lang={lang}
         req={req}
         collection={collection}
-      /> */
+      />
+       */
       }
     </Naked>
   );
 });
 
-export const LatestResPubs = ({ collection, pubHero, results, lang, req }) => (
-  <MajorSection>
+export const LatestResPubs = (
+  { collection, pubHero, results, lang, req },
+) => (
+  <>
     <Eyebrow text={"Peer reviewed"} />
     <SectionHeader headline={"Latest reserach article"} />
-    <Intro>{pubHero.intro}</Intro>
+    <Intro>{pubHero?.intro}</Intro>
 
     <div>
       <ol
@@ -134,7 +137,7 @@ export const LatestResPubs = ({ collection, pubHero, results, lang, req }) => (
         ))}
       </ol>
     </div>
-  </MajorSection>
+  </>
 );
 
 export const OramePubItem = (

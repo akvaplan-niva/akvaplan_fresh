@@ -143,7 +143,7 @@ export function TightSqImgCard({
           <div />
 
           <div>
-            <h3 class="h text-[1rem] tracking-tight md:text-md/4 3xl:text-lg/5 opacity-95 line-clamp-4">
+            <h3 class="h text-[1rem] tracking-tight md:text-md/4 lg:text-lg/5 xl:text-xl/6 opacity-95 line-clamp-4">
               {headline}
             </h3>
           </div>

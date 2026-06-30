@@ -6,6 +6,8 @@ import { ImageHero } from "@/components/hero/image_hero.tsx";
 import { Pill } from "@/components/button/pill.tsx";
 import { ImgHero } from "@/components/hero/hero.tsx";
 import type { Hero } from "@/components/card/types.ts";
+import GroupedSearch from "@/islands/grouped_search.tsx";
+import CollectionSearch from "@/islands/collection_search.tsx";
 
 const workplaceFacets = [
   ["Tromsø", 84],

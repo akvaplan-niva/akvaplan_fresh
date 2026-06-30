@@ -25,6 +25,10 @@ import { peopleIdsAsHits } from "@/components/markdown.tsx";
 import { Naked } from "@/components/naked.tsx";
 import { ImgHero } from "@/components/hero/hero.tsx";
 import { ImgCard } from "@/components/cards.tsx";
+import { t } from "@/text/mod.ts";
+import { AtomCard } from "@/components/atom_card.tsx";
+import { extractId } from "@/services/extract_id.ts";
+import { ImageArticle } from "@/components/image_article.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -43,6 +47,11 @@ const typeOfMedia = (type: string) => {
   }
 };
 
+const intlDateText = (published, lang) =>
+  new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(
+    new Date(published),
+  );
+
 export default defineRoute(async (_req, ctx) => {
   const { slug, lang, type } = ctx.params;
 
@@ -54,7 +63,7 @@ export default defineRoute(async (_req, ctx) => {
     ? await getItem(id, type_of_media)
     : await getItemBySlug(slug, type_of_media);
 
-  const card = item ? await cardFromItem(item) : null;
+  const card = item ? cardFromItem(item) : null;
   if (!card) {
     return null;
   }
@@ -67,14 +76,13 @@ export default defineRoute(async (_req, ctx) => {
 
   const contacts = await fetchContacts(item);
 
-  const { headline, caption, intro, body, cloudinary, image } = card;
+  const { headline, caption, intro, body, cloudinary, updated, published } =
+    card;
 
-  const eyebrowHeadline = (
-    <>
-      <Eyebrow text="Nyhet" />
-      <H1>{headline}</H1>
-    </>
-  );
+  //if ("no" === lang) {
+  //const body2 = (await Array.fromAsync(translate(body))).join("");
+  //}
+
   const __html = body.replaceAll(",t_limit_1000", ",w_1782");
 
   return (
@@ -86,45 +94,62 @@ export default defineRoute(async (_req, ctx) => {
       <HeaderLogoStickyNav lang={lang} />
       <div color-scheme="dark" class="min-h-[66%]">
         <ImageCard
-          headline={eyebrowHeadline}
-          intro={caption}
+          eyebrow={t("nav.News1")}
+          alt={caption}
+          headline={headline}
           cloudinary={cloudinary}
+          intro={intro}
         />
       </div>
 
-      <div class="grid lg:grid-cols-[7fr_4fr] gap-12 -scroll-mt-12">
+      <div class="grid lg:grid-cols-[7fr_4fr] gap-0">
         <Card>
           <article
             style={{
-              fontSize: "calc(1.25rem + 0.1vw)",
+              //fontSize: "calc(1.25rem + 0.1vw)",
               lineHeight: 1.5,
               width: "100%",
               //maxWidth: "600px",
               margin: "0 auto",
             }}
-            class="article-content"
+            class="article-content text-lg"
             dangerouslySetInnerHTML={{ __html }}
           />
         </Card>
         <div>
-          {/* People*/}
-
-          {contacts?.length > 0 &&
-            (
-              <SearchResults
-                hits={peopleIdsAsHits(contacts, lang)}
-                display="grid"
-              />
-            )}
-
           <Card>
-            {/* Projects*/}
-            {projects?.length > 0 && (
+            <dl>
+              <dt>
+                {t("ui.Publisert")}
+              </dt>
+              <dd>
+                <time>{intlDateText(published, lang)}</time>
+              </dd>
+              <dt>
+                {t("ui.Oppdatert")}
+              </dt>
+              <dd>
+                <time>{intlDateText(updated, lang)}</time>
+              </dd>
+            </dl>
+          </Card>
+
+          {contacts?.map((id: string) => <PersonCard id={id} icons={false} />)}
+
+          {projects?.length > 0 && (
+            <Card>
               <ProjectsAsImageLinks
                 projects={projects}
                 lang={lang}
               />
-            )}
+            </Card>
+          )}
+
+          <Card>
+            <ImgCard cloudinary={cloudinary} />
+            <figure class="text-md" title={caption}>
+              <figcaption>{caption}</figcaption>
+            </figure>
           </Card>
         </div>
       </div>

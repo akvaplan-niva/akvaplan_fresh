@@ -1,7 +1,7 @@
 import { t } from "@/text/mod.ts";
 
 import { cardFromPanel, getPanelInLang, getPanelsInLang } from "@/kv/panel.ts";
-import { ID_ABOUT } from "@/kv/id.ts";
+import { ID_ABOUT, ID_OFFICES } from "@/kv/id.ts";
 import { Markdown } from "@/components/markdown.tsx";
 
 import { Card } from "@/components/card.tsx";
@@ -16,6 +16,7 @@ import { getAboutHeroProps } from "@/data/home.ts";
 import { TightSqImgCard } from "@/components/cards.tsx";
 import { ImgHero } from "@/components/hero/hero.tsx";
 import { Footer } from "@/components/footer.tsx";
+import { MajorSection } from "@/components/major_section.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -30,7 +31,7 @@ const getAboutPanels = async (lang: string) =>
     lang,
     filter: (
       { collection, id }: Panel,
-    ) => "company" === collection && id !== ID_ABOUT,
+    ) => "company" === collection && id !== ID_ABOUT && id !== ID_OFFICES,
   }))
     .sort((a, b) => a.title.localeCompare(b.title, "no"));
 
@@ -59,7 +60,7 @@ export default defineRoute(async (req, ctx) => {
       </Head>
       <HeaderLogoStickyNav lang={lang} />
 
-      <div class="grid 2xl:grid-cols-[7fr_4fr] gap-12 __-scroll-mt-12 __py-[1.5rem]">
+      <div class="grid 2xl:grid-cols-[7fr_4fr] gap-6">
         <div>
           <ImgHero
             headline={panel.title}
@@ -67,38 +68,25 @@ export default defineRoute(async (req, ctx) => {
             intro={panel.intro}
             eyebrow={""}
           />
-          <div class="grid lg:grid-cols-2 gap-[1.5rem]">
-            <Card>
+          <div class="grid lg:grid-cols-1 gap-6">
+            <article class="article-content text-lg p-3 lg:px-24">
               {panel?.desc && (
                 <Markdown
                   text={panel.desc}
                   style={{
                     fontSize: "calc(1.25rem + 0.1vw)",
-                    lineHeight: 1.5,
-                    whiteSpace: "pre-wrap",
-                    maxWidth: "1000px",
-                    overflow: "hidden",
+                    // lineHeight: 1.5,
+                    // whiteSpace: "pre-wrap",
+                    //maxWidth: "1000px",
+                    //overflow: "hidden",
                   }}
                 />
               )}
-            </Card>
-            <div>
-              <div
-                class="footer"
-                style={{
-                  fontSize: "calc(1.25rem + 0.1vw)",
-                  lineHeight: 1.5,
-                }}
-              >
-                <OfficeContactDetails lang={lang} />
-              </div>
-
-              <Footer lang={lang} />
-            </div>
+            </article>
           </div>
         </div>
         <aside>
-          <div class="grid grid-cols-[1fr_1fr]  lg:grid-cols-[1fr_1fr_1fr_1fr] gap-[1.5rem] _py-[1.5rem]">
+          <div class="grid grid-cols-[1fr] md:grid-cols-[1fr_1fr_1fr] gap-[1.5rem] _py-[1.5rem]">
             {cards.map((card) => (
               <TightSqImgCard
                 key={card.href}
@@ -109,6 +97,8 @@ export default defineRoute(async (req, ctx) => {
             ))}
           </div>
           <div id="map" style={{ height: "600px" }}></div>
+
+          <Footer lang={lang} />
         </aside>
       </div>
 

@@ -22,8 +22,9 @@
       "plastic and microplastic",
       "seabirds",
       "marine mammals",
+      "vulnerable species",
       "technical inspection",
-      "visual seabed mapping"
+      "visual mapping"
     ],
     "metrics": [
       { "value": "120+", "label": "highly skilled employees" },
@@ -59,8 +60,9 @@
       "plast og mikroplast",
       "sjøfugl",
       "sjøpattedyr",
+      "sårbare arter",
       "teknisk inspeksjon",
-      "visuell bunnkartlegging"
+      "visuell kartlegging"
     ],
     "metrics": [
       { "value": "120+", "label": "høykompetente ansatte" },

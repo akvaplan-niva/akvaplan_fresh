@@ -16,6 +16,7 @@ import { MorgenStudioStyles } from "@/components/styles.tsx";
 import { Head } from "$fresh/runtime.ts";
 import { Breadcrumbs } from "@/components/site_nav.tsx";
 import { Eyebrow } from "@/components/eyebrow.tsx";
+import { PersonCard } from "@/components/person_card.tsx";
 
 const allowedTags = [
   ...sanitize.defaults.allowedTags,
@@ -106,29 +107,29 @@ export const MarkdownPanel = (
         eyebrow={eyebrow}
       />
 
-      <div class="grid lg:grid-cols-2">
-        <Card>
+      <div class="grid lg:grid-cols-[7fr_4fr]">
+        <article class="article-content text-lg p-3 lg:px-24">
           {panel?.desc && (
             <Markdown
               text={panel.desc}
               style={{
                 fontSize: "calc(1.25rem + 0.1vw)",
-                lineHeight: 1.5,
-                whiteSpace: "pre-wrap",
+                //lineHeight: 1.5,
+                //whiteSpace: "pre-wrap",
                 maxWidth: "1000px",
                 overflow: "hidden",
               }}
             />
           )}
-        </Card>
+        </article>
         <div>
           {people_ids?.length > 0 &&
-            (
-              <SearchResults
-                hits={peopleIdsAsHits(people_ids, lang)}
-                display="grid"
+            people_ids?.map((id: string) => (
+              <PersonCard
+                id={id}
+                icons={false}
               />
-            )}
+            ))}
         </div>
       </div>
     </>

@@ -3,16 +3,10 @@ import { getItem, searchMynewsdesk } from "./mynewsdesk.ts";
 import { newsFromMynewsdesk } from "./news_mynewsdesk.ts";
 
 import type { MynewsdeskArticle, News, Search } from "@/@interfaces/mod.ts";
-import { Card } from "@/components/card/types.ts";
 import { getSlug } from "@/search/indexers/mynewsdesk.ts";
 import { lang as langSignal } from "@/text/mod.ts";
 import { newsArticleURL } from "@/services/mod.ts";
 import { publishedDesc } from "@/search/adapter/kv.ts";
-
-interface NewsWithRelativeTime extends Card {
-  ago?: Temporal.Duration;
-  intro?: string;
-}
 
 //@todo News create task to find/save news articles with DOI
 const newsArticlesWithDOI = (articles: News[]) =>
@@ -114,7 +108,7 @@ export const cardFromNews = (
     lang,
     caption,
     ago,
-  } satisfies NewsWithRelativeTime;
+  } satisfies CardWithRelativeTime;
 };
 
 export const cardFromItem = (
@@ -127,7 +121,9 @@ export const cardFromItem = (
     body,
     header,
     summary,
-    caption,
+    image_caption,
+    published_at,
+    updated_at,
   } = item;
 
   const cloudinary = image?.split("/").at(-1);
@@ -140,6 +136,9 @@ export const cardFromItem = (
     intro: summary,
     body,
     cloudinary,
+    caption: image_caption,
+    published: published_at.datetime,
+    updated: updated_at?.datetime,
   };
 };
 

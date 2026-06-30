@@ -108,6 +108,7 @@ export function ImageCard(
     cloudinary,
     href,
     footer,
+    alt,
   }: Hero & { source?: string },
 ) {
   const imageSrc = image && String(image).startsWith("https://")
@@ -120,6 +121,7 @@ export function ImageCard(
         <img
           class="_2xl:m-auto _3xl:max-w-[80%] w-full h-full object-cover object-center opacity-90 _scale-x-[-1]"
           src={imageSrc}
+          alt={alt ?? ""}
         />
         {/* "Subtle" ? overlay to ensure text readability on the left */}
         <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
@@ -168,7 +170,7 @@ export function ImageCard(
       <div
         class={`absolute bottom-0 left-0 right-0 px-6 lg:px-12 transition-all duration-700 delay-500`}
       >
-        <div class="relative z-10 md:pt-32 pt-24 md:pb-24 pb-12 px-4 lg:px-[159px] flex flex-col items-center text-center">
+        <div class="text-center relative z-10 md:pt-32 pt-24 md:pb-24 pb-12 px-4 lg:px-[159px] flex flex-col items-center">
           <Eyebrow text={eyebrow} />
           <H3 class="h4">{headline}</H3>
 

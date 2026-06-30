@@ -8,6 +8,7 @@ import { extractId } from "@/services/extract_id.ts";
 export function ImageArticle(
   { image }: { image: MynewsdeskImage },
 ) {
+  return JSON.stringify(image);
   return (
     <Article language={lang}>
       <header>

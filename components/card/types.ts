@@ -12,6 +12,10 @@ export type Card = {
   type?: string;
 };
 
+export interface CardWithRelativeTime extends Card {
+  ago: Temporal.Duration;
+}
+
 export interface Hero extends Card {
   video?: {
     src: string;

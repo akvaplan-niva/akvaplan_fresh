@@ -4,6 +4,7 @@ import { SocialMediaIcons } from "@/components/social_media_icons.tsx";
 import { intlRouteMap } from "@/services/mod.ts";
 import { Menu } from "@/components/header/site_menu.tsx";
 import { ApnLogo } from "@/components/akvaplan/logo.tsx";
+import { OfficeContactDetails } from "@/components/offices.tsx";
 
 const footerStyle = {
   margin: 0,
@@ -27,13 +28,15 @@ export function Footer({ lang }) {
       </noscript>
 
       {/* <Menu lang={lang} /> */}
-
+      <OfficeContactDetails lang={lang} />
       <ul class="footer__list">
-        <li class="footer__item">
+        {
+          /* <li class="footer__item">
           <a href={intlRouteMap(lang).get("contact")}>
             <span>{t("nav.Contact")}</span>
           </a>
-        </li>
+        </li> */
+        }
         {
           /* <li class="footer__item">
           <a href={intlRouteMap(lang).get("about")}>
@@ -42,9 +45,11 @@ export function Footer({ lang }) {
         </li> */
         }
       </ul>
-      <ul class="footer__links">
+      {
+        /* <ul class="footer__links">
         <SocialMediaIcons lang={lang.value} filter="invert(.5)" />
-      </ul>
+      </ul> */
+      }
     </footer>
   );
 }

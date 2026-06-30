@@ -1,36 +1,24 @@
 import { MajorSection } from "@/components/major_section.tsx";
-import { ImageHero } from "@/components/hero/image_hero.tsx";
+import { Card } from "@/components/card/types.ts";
+import { Cards1plus4, SectionHeader } from "@/components/cards5.tsx";
+import { Eyebrow } from "@/components/eyebrow.tsx";
+import { t } from "@/text/mod.ts";
 
-// import { ImageHeroWithSelectableImages } from "@/islands/HScrollWithDynamicImage.tsx";
-// export function ResearchHomeHero(
-//   { id, lang, cards, hero }: { id?: string; lang: string },
-// ) {
-//   return (
-//     <MajorSection id="research-home">
-//       <ImageHeroWithSelectableImages
-//         id={id}
-//         hero0={hero}
-//         cards={[hero, ...cards]}
-//       />
-//     </MajorSection>
-//   );
-// }
-
-export const Research5 = (
-  { id, lang, cards, hero }: { id?: string; lang: string },
-) => {
-  const { headline, eyebrow, cta, href, cloudinary, intro } = hero;
+export function Research5(
+  { id, cards }: { id: string; cards: Card[]; lang: string },
+) {
+  const [hero] = cards;
+  const { headline } = hero;
+  const eyebrow = t("nav.Research");
+  const cta = t("research.See_all_research");
+  // const href = intlRouteMap(lang).get("research")!;
+  // const headline = t("our.research");
 
   return (
     <MajorSection id={id}>
-      <ImageHero
-        eyebrow={eyebrow}
-        headline={headline}
-        href={href}
-        cloudinary={cloudinary}
-        intro={intro}
-        cta={cta}
-      />
+      <Eyebrow text={eyebrow} />
+      <SectionHeader headline={headline} cta={cta} />
+      <Cards1plus4 cards={cards} />
     </MajorSection>
   );
-};
+}

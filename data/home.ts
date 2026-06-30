@@ -6,6 +6,7 @@ import { getPanelInLang } from "@/kv/panel.ts";
 import { researchHref } from "@/services/mod.ts";
 import { t } from "@/text/mod.ts";
 import type { Card, Hero } from "@/components/card/types.ts";
+import { search } from "@/search/search.ts";
 
 //  theme? subhead? overhead/eyebrow href
 
@@ -91,3 +92,14 @@ export const getResearchTopics = async (
 export const getHomeServices = async (
   { lang }: { lang: string },
 ): Promise<Card[]> => await lang !== "no" ? _services["en"] : _services["no"];
+
+export const getLatestPubs = async () => {
+  const oramaParams = {
+    term: "",
+    limit: 5,
+    where: { collection: "pubs" },
+    sortBy: { property: "published", order: "DESC" },
+    threshold: 0.5,
+  } as const;
+  return await search(oramaParams);
+};
