@@ -376,11 +376,21 @@ const postprocess = (s) => s.replace(/[-]{2,}/g, "-").replaceAll("'", "");
 //   postprocess(_slug(preprocess(header)));
 
 export const searchMynewsdesk = async (
-  { q = "", type_of_media = "news", sort = false, strict = true, limit = 100 } =
-    {},
+  {
+    q = "",
+    year = -1,
+    type_of_media = "news",
+    sort = false,
+    strict = true,
+    limit = 100,
+  } = {},
 ) => {
   const url = searchURL(q, type_of_media, { limit });
 
+  if (year > 2000) {
+    url.searchParams.set("date_start", `${year}-01-01`);
+    url.searchParams.set("date_end", `${year}-12-31`);
+  }
   const response = await fetch(url);
   if (response.ok) {
     const { search_result: { items }, ...rest } = await response.json();

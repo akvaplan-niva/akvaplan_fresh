@@ -49,10 +49,7 @@ export const WherePeopleWork = () => {
             href={peopleSearchHref() +
               `/workplace/${encodeURIComponent(location.toLowerCase())}`}
           >
-            <span
-              style="color: var(--text1);"
-              _class="text-[clamp(1.25rem,1.25vw,2rem)] text-white"
-            >
+            <span style="color: var(--text1);">
               {location}&nbsp;<Pill>{count}</Pill>
             </span>
           </a>

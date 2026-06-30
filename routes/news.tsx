@@ -22,6 +22,8 @@ import { MajorSection } from "@/components/major_section.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { Cards1plus4, SectionHeader } from "@/components/cards5.tsx";
 import { Eyebrow } from "@/components/eyebrow.tsx";
+import { newsArticleURL } from "@/services/nav.ts";
+import { Pill } from "@/components/button/pill.tsx";
 type Props = {};
 const _section = {
   // marginTop: "4rem",
@@ -46,19 +48,26 @@ export const handler: Handlers<Props> = {
     const { searchParams } = new URL(req.url);
     const _q = searchParams.get("q") ?? "";
     const q = _q.toLocaleLowerCase();
-
+    const year = searchParams.has("year")
+      ? Number(searchParams.get("year"))
+      : -1;
     const _news =
-      await searchNewsArticles({ q, lang: lang.value, limit: 48 }) ??
+      await searchNewsArticles({ q, year, lang: lang.value, limit: 48 }) ??
         { items: [] };
 
-    const cards = _news.map(cardFromNews).filter(max1Y);
+    const cards = _news.map(cardFromNews).filter(year < 2015 ? max1Y : () => 1);
 
-    return ctx.render({ title, base, cards, lang, url });
+    const firstYear = 2015;
+    const lastYear = now.getUTCFullYear();
+    const n = 1 + lastYear - firstYear;
+    const years = Array.from({ length: n }).map((_, i) => lastYear - i);
+
+    return ctx.render({ title, base, cards, lang, url, years, year });
   },
 };
 
 export default function News(
-  { data: { lang, base, title, cards, url } }: PageProps,
+  { data: { lang, base, title, cards, url, years, year } }: PageProps,
 ) {
   const news = Map.groupBy(
     cards.slice(5, -1),
@@ -71,7 +80,9 @@ export default function News(
   // pubs
   // people?
 
-  const headline = t("news.LatestNews");
+  const headline = year > 2000
+    ? `${t("nav.News")} ${t("ui.from")} ${year}`
+    : t("news.LatestNews");
   const eyebrow = t("nav.News");
   return (
     <div title={title} base={base} collection="home">
@@ -85,6 +96,31 @@ export default function News(
         <Eyebrow text={eyebrow} />
         <SectionHeader headline={headline} />
         <Cards1plus4 cards={cards} />
+      </MajorSection>
+
+      <MajorSection>
+        <ul class="inline">
+          <li class="inline px-6">
+            {year > 2014 ? <a href={base}>Siste</a> : <span></span>}
+          </li>{" "}
+          {years.map((y) => (
+            <li class="inline px-3">
+              {y !== year
+                ? (
+                  <Pill>
+                    <a
+                      href={`?year=${y}`}
+                      style="color: var(--text1);"
+                      title={`${t(`ui.Year`)}: ${y}`}
+                    >
+                      {y}
+                    </a>
+                  </Pill>
+                )
+                : <span>{y}</span>}
+            </li>
+          ))}
+        </ul>
       </MajorSection>
 
       {[...news].map(([grpkey, grpmembers]) => (

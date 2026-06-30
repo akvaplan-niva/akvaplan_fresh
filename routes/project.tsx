@@ -218,7 +218,7 @@ export default defineRoute(async (req, ctx) => {
 
         <AltLangInfo lang={lang} language={lang} alternate={alternate} />
 
-        <div class="grid lg:grid-cols-[7fr_4fr] gap-12 -scroll-mt-12">
+        <div class="grid lg:grid-cols-[7fr_4fr]">
           <article class="article-content text-lg p-3 lg:px-24">
             {abbr ? <h2 class="h4 pb-6">{abbr}</h2> : null}
             <dl class="pb-6">
@@ -249,7 +249,7 @@ export default defineRoute(async (req, ctx) => {
                 </dd>
               </dl>
             </Card>
-            <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));grid-gap:0rem;">
+            <li style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr))">
               {akvaplanists && akvaplanists.map && akvaplanists?.map(
                 (id) => (
                   <section class="article-content">
@@ -295,6 +295,7 @@ export default defineRoute(async (req, ctx) => {
                   sort={"-published"}
                   origin={url}
                   noInput
+                  display="list"
                 />
               )
               : null}
