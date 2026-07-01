@@ -17,7 +17,7 @@ export interface AbstractMynewsdeskItem {
   published_at: At;
   created_at?: At;
   updated_at?: At;
-  links: unknown[];
+  links: { url: string; text: string }[];
   image_caption?: null;
   image?: string;
   image_small?: string;
