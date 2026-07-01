@@ -17,6 +17,7 @@ import { Head } from "$fresh/runtime.ts";
 import { Breadcrumbs } from "@/components/site_nav.tsx";
 import { Eyebrow } from "@/components/eyebrow.tsx";
 import { PersonCard } from "@/components/person_card.tsx";
+import { ImageCard, ImageHero } from "@/components/hero/image_hero.tsx";
 
 const allowedTags = [
   ...sanitize.defaults.allowedTags,
@@ -103,7 +104,7 @@ export const MarkdownPanel = (
 
   //FIXME
   //<Breadcrumbs list={breadcrumbs} />
-
+  //const eyebrow = "";
   return (
     <>
       <Head>
@@ -118,7 +119,7 @@ export const MarkdownPanel = (
       /> */
       }
 
-      <ImgHero
+      <ImageCard
         headline={panel.title}
         cloudinary={panel.image.cloudinary}
         intro={panel.intro}
