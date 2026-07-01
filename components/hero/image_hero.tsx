@@ -174,13 +174,15 @@ export function ImageCard(
           <Eyebrow text={eyebrow} />
           <H3 class="h4">{headline}</H3>
 
-          {intro
+          {
+            /* {false
             ? (
               <span class="text-[clamp(1.25rem,1.25vw,2rem)] _lg:max-w-[55%] text-white line-clamp-3">
                 {intro}
               </span>
             )
-            : null}
+            : null} */
+          }
         </div>
       </div>
     </section>
