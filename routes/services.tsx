@@ -44,8 +44,9 @@ const getQualityCard = (lang: string) =>
     }
     : {
       eyebrow: "Quality",
-      headline: "Akkreditering, sertifisering og bærekraft",
-      intro: "",
+      headline: "Accreditation, certification and sustainability",
+      intro:
+        "Akvaplan-niva offers accredited services and is certified according to recognized ISO standards for quality and environmental management, as well as sustainable aquaculture.",
     };
 
 export default defineRoute(async (req, ctx) => {
