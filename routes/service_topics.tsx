@@ -2,6 +2,7 @@ import { defineRoute, type RouteConfig } from "$fresh/server.ts";
 import { getPanelInLang, getPanelsInLang, mayEditKvPanel } from "@/kv/panel.ts";
 import { PanelPage } from "@/components/panel_page.tsx";
 import type { Panel } from "@/@interfaces/panel.ts";
+import { t } from "@/text/mod.ts";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -52,6 +53,7 @@ export default defineRoute(async (req, ctx) => {
       contacts={contacts}
       url={url}
       more={more}
+      eyebrow={t("nav.Service")}
     />
   );
 });
