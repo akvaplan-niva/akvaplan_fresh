@@ -1,10 +1,10 @@
-import { useEffect, useState } from "preact/hooks";
-import { BlurWord } from "@/islands/BlurWord.tsx";
 import { Eyebrow } from "@/components/eyebrow.tsx";
-import type { SourceHTMLAttributes, VideoHTMLAttributes } from "preact";
+
 import { Hero } from "@/components/card/types.ts";
 import { Buzzwords } from "@/islands/buzzwords.tsx";
+import { LinkButton } from "@/components/button/button.tsx";
 
+import type { SourceHTMLAttributes, VideoHTMLAttributes } from "preact";
 // Hero H1:
 // font-family: Oceanic Gothic;
 // font-weight: 500;
@@ -21,6 +21,8 @@ export function VideoHero(
     words,
     source: sourceProps,
     metrics,
+    cta,
+    href,
     ...videoProps
   }:
     & Hero
@@ -61,9 +63,18 @@ export function VideoHero(
               <span class="block whitespace-pre">
                 {headline}
               </span>
-              <Buzzwords words={words} />
             </h1>
+            <div
+              aria-disabled
+              aria-label="List of Akvaplan-niva buzzwords"
+              class={`text-left text-[clamp(2rem,6vw,6rem)] font-medium font-h font-display leading-[1.1] tracking-tight text-white transition-all duration-1000`}
+            >
+              <Buzzwords words={words} />
+            </div>
           </div>
+          <LinkButton href={href}>
+            {cta}
+          </LinkButton>
         </div>
       </div>
 
