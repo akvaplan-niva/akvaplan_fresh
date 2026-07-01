@@ -2,33 +2,24 @@ import { LegacyStyles, MorgenStudioStyles } from "@/components/styles.tsx";
 
 import { defineRoute, RouteConfig } from "$fresh/server.ts";
 import { asset, Head } from "$fresh/runtime.ts";
-import { MajorSection } from "@/components/major_section.tsx";
-import { Eyebrow } from "@/components/eyebrow.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
-import { ImageCard, ImageHero } from "@/components/hero/image_hero.tsx";
-import { cardFromItem, getNewsCardByMynewsdeskId } from "@/services/news.ts";
+import { ImageCard } from "@/components/hero/image_hero.tsx";
+import { cardFromItem } from "@/services/news.ts";
 import {
+  documentFilter,
   eventFilter,
   fetchContacts,
   fetchRelated,
   getItem,
   getItemBySlug,
 } from "@/services/mynewsdesk.ts";
-import { H1 } from "@/components/h.tsx";
-import { cloudinaryImgUrl, heroImageUrl } from "@/services/cloudinary.ts";
 import { Card } from "@/components/card.tsx";
 import { ProjectsAsImageLinks } from "@/components/project_link.tsx";
-import { SearchResults } from "@/components/search_results.tsx";
 import { projectsByMynewsdeskId } from "@/services/project.ts";
 import { PersonCard } from "@/components/person_card.tsx";
-import { peopleIdsAsHits } from "@/components/markdown.tsx";
 import { Naked } from "@/components/naked.tsx";
-import { ImgHero } from "@/components/hero/hero.tsx";
-import { ImgCard } from "@/components/cards.tsx";
 import { t } from "@/text/mod.ts";
-import { AtomCard } from "@/components/atom_card.tsx";
-import { extractId } from "@/services/extract_id.ts";
-import { ImageArticle } from "@/components/image_article.tsx";
+import { href } from "@/search/href.ts";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -74,6 +65,8 @@ export default defineRoute(async (_req, ctx) => {
     projectsByMynewsdeskId.get(myn?.id)
   );
 
+  const documents = _related.filter(documentFilter);
+
   const contacts = await fetchContacts(item);
 
   const { headline, caption, intro, body, cloudinary, updated, published } =
@@ -83,7 +76,7 @@ export default defineRoute(async (_req, ctx) => {
   //const body2 = (await Array.fromAsync(translate(body))).join("");
   //}
 
-  const __html = body.replaceAll(",t_limit_1000", ",w_1782");
+  const __html = body; //.replaceAll(",t_limit_1000", ",w_1782");
 
   return (
     <Naked>
@@ -144,6 +137,40 @@ export default defineRoute(async (_req, ctx) => {
               />
             </Card>
           )}
+
+          <Card>
+            {documents?.map((item) => (
+              <a
+                href={href({
+                  ...item,
+                  lang,
+                  slug: item?.url?.split("/").at(-1),
+                  collection: "document",
+                })}
+              >
+                <figure style={{ fontSize: "0.75rem" }}>
+                  <img
+                    title={item.header}
+                    alt={item.header}
+                    src={String(item.document_thumbnail)}
+                  />
+                  <figcaption>{item.summary}</figcaption>
+                </figure>
+              </a>
+            ))}
+          </Card>
+          <Card>
+            {(item?.links && item.links?.length > 0) &&
+              (
+                <section class="article-content">
+                  {item.links?.map(({ url, text }) => (
+                    <Card>
+                      <a href={url} class="ellipsis">{text ?? url}</a>
+                    </Card>
+                  ))}
+                </section>
+              )}
+          </Card>
 
           <Card>
             <figure class="m-0 block overflow-hidden phablet:relative phablet:max-w-[24rem] phablet:w-1/2">
