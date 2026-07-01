@@ -7,12 +7,24 @@ import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { t } from "@/text/mod.ts";
 import { serviceHref } from "@/services/nav.ts";
 export const PanelPage = (
-  { base, collection, panel, lang, editor, contacts, url, more, search },
+  {
+    eyebrow,
+    base,
+    collection,
+    panel,
+    lang,
+    editor,
+    contacts,
+    url,
+    more,
+    search,
+  },
 ) => (
   <Naked base={base} title={panel.title} collection={collection}>
     <HeaderLogoStickyNav lang={lang} />
 
     <MarkdownPanel
+      eyebrow={eyebrow}
       panel={panel}
       lang={lang}
       breadcrumbs={[{ href: serviceHref(), text: t("nav.Services") }]}
