@@ -12,10 +12,9 @@ import {} from "@/search/orama.ts";
 // (async () => {
 //   await getOramaInstance();
 //   const res = await search({
-//     term: "Linda Simensen",
+//     term: "",
 //     where: { collection: "project" },
 //   });
-//   console.warn(res);
 // })();
 
 export default ({ lang }) => (
