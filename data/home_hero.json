@@ -2,6 +2,8 @@
   "en": {
     "headline": "From research\nto value creation",
     "eyebrow": "Akvaplan-niva",
+    "cta": "About us",
+    "href": "/en/about-akvaplan-niva",
     "words": [
       "aquaculture",
       "arctic environment",
@@ -26,6 +28,7 @@
       "technical inspection",
       "visual mapping"
     ],
+
     "metrics": [
       { "value": "120+", "label": "highly skilled employees" },
       { "value": "20+", "label": "nationalities" },
@@ -40,6 +43,8 @@
   "no": {
     "headline": "Fra forskning\ntil verdiskaping",
     "eyebrow": "Akvaplan-niva",
+    "cta": "Om oss",
+    "href": "/no/om-akvaplan-niva",
     "words": [
       "akvakultur",
       "arktisk miljø",
