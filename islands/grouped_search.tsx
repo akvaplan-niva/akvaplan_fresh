@@ -1,3 +1,12 @@
+//  <GroupedSearch
+//           term={"202"} // Trick since FIXME GroupedSearch for "" fails
+//           limit={3}
+//           origin={url}
+//           sort={"-published"}
+//           noInput
+//           // FIXME GroupedSearch Rename and refactor exclude (substract from collections rather than post-filtering results)
+//           //exclude={["research", "service", "image"]}
+//         />
 import { searchViaApi } from "../search/search_via_api.ts";
 
 import { t } from "@/text/mod.ts";
