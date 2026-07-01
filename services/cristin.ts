@@ -11,7 +11,6 @@ export const getWorks = async (id) => {
   // );
   const url = `https://cristin.deno.dev/person/${id}/works`;
   const r = await fetch(url);
-  console.warn(r);
   if (r.ok) {
     const { works } = await r.json();
     return works;

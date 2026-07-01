@@ -3,11 +3,10 @@ import { SlimPublication } from "@/@interfaces/slim_publication.ts";
 import { ignorePubTypes, isDoiOrHandleUrl, PUBS_BASE } from "./pub.ts";
 // FIXME Remove this file and consolidate with pub.ts
 
-export const slimFromCrossref = (xr) => {
-  const { message, ...rest } = xr;
-  console.warn(rest);
-  return message;
-};
+// export const slimFromCrossref = (xr) => {
+//   const { message, ...rest } = xr;
+//   return message;
+// };
 
 export const extractNakedDoi = (s: string) =>
   URL.canParse(s) ? new URL(s?.toLowerCase()).pathname.slice(1) : null;
