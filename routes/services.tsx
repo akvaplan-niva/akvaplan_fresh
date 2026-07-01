@@ -47,6 +47,7 @@ const getQualityCard = (lang: string) =>
       headline: "Accreditation, certification and sustainability",
       intro:
         "Akvaplan-niva offers accredited services and is certified according to recognized ISO standards for quality and environmental management, as well as sustainable aquaculture.",
+      footer: "",
     };
 
 export default defineRoute(async (req, ctx) => {
@@ -60,6 +61,17 @@ export default defineRoute(async (req, ctx) => {
   const services = await getHomeServices({ lang });
   const quality = getQualityCard(lang);
   const qac = await getQACCards(lang);
+
+  // const link2AccredNorwayWithLogo = (lang) => (
+  //   <a href="https://www.akkreditert.no">
+  //     <img
+  //       width="100%"
+  //       alt="Logo: Norsk akkreditering"
+  //       src="/icon/logo/akkreditert.svg"
+  //       style="border-radius:6px; object-fit:cover; background:var(--light); max-width:10vh;"
+  //     />
+  //   </a>
+  // );
 
   return (
     <Naked title={hero.headline}>

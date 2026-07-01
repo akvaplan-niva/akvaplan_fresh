@@ -1,12 +1,11 @@
 import { MarkdownPanel } from "@/components/markdown.tsx";
 import { getPanelInLang } from "@/kv/panel.ts";
 import { getSiteLang } from "@/text/mod.ts";
-import { ID_SUSTAINABILITY } from "@/kv/id.ts";
+import { ID_ABOUT, ID_SUSTAINABILITY } from "@/kv/id.ts";
 
 import { defineRoute } from "$fresh/src/server/defines.ts";
 import type { RouteConfig } from "$fresh/src/server/types.ts";
 import { Naked } from "@/components/naked.tsx";
-import { SiteNavVerticalLarge } from "@/components/site_nav.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 
 const bærekraft = [ID_SUSTAINABILITY, "no"]; // no/selskapet/baerekraft-og-samfunnsansvar

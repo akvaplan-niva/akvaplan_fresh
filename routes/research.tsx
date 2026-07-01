@@ -29,7 +29,10 @@ export default defineRoute(async (req, ctx) => {
   const { lang } = params;
   const hero = await getCachedPanelCard(ID_RESEARCH, lang);
   hero.eyebrow = t("nav.Research");
+
   const projectHero = await getCachedPanelCard(ID_PROJECTS, lang);
+  projectHero.headline = t("project.Latest_research_projects");
+
   const researchAreas = await getResearchTopics({ lang });
 
   const projects = getLatestResearchProjectCards({ lang, limit: 8 });

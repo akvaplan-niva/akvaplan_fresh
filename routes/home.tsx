@@ -39,25 +39,27 @@ export const config: RouteConfig = {
 
 export default defineRoute(async (req, _ctx) => {
   const lang = extractLangFromUrl(req.url);
-  const [news, projects, services, research, heroProps, aboutHeroProps, pubs] =
-    await Promise
-      .all(
-        [
-          getLatestNews({ lang, limit: 5 }),
-          getLatestResearchProjectCards({ lang, limit: 5 }),
-          getHomeServices({ lang: lang }),
-          getResearchTopics({ lang: lang }),
-          getHomeHeroProps({ lang: lang }),
-          getAboutHeroProps({ lang: lang }),
-          getLatestPubs(),
-        ],
-      );
-  // const nav = buildNav(lang).map(
-  //   (l, i) => ({ ...l, href: `#nav-${1 + i}` }),
-  // );
-
+  const [
+    videoHeroProps,
+    news,
+    projects,
+    services,
+    research,
+    aboutHeroProps,
+    pubs,
+  ] = await Promise
+    .all(
+      [
+        getHomeHeroProps({ lang: lang }),
+        getLatestNews({ lang, limit: 5 }),
+        getLatestResearchProjectCards({ lang, limit: 5 }),
+        getHomeServices({ lang: lang }),
+        getResearchTopics({ lang: lang }),
+        getAboutHeroProps({ lang: lang }),
+        getLatestPubs(),
+      ],
+    );
   const researchHero = await getCachedPanelCard(ID_RESEARCH, lang) ?? {};
-  console.warn(research);
   const servicesHero = await getCachedPanelCard(ID_SERVICES, lang) ?? {};
   const selectedPublicationNews = await featuredResearchPubArticles();
 
@@ -69,7 +71,7 @@ export default defineRoute(async (req, _ctx) => {
 
       <HeaderLogoStickyNav home={"#"} lang={lang} />
 
-      <VideoHero {...heroProps} />
+      <VideoHero {...videoHeroProps} />
 
       <Breaking news={news} lang={lang} days={3} max={1} />
 

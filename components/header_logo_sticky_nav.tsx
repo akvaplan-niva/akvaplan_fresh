@@ -39,21 +39,12 @@ export function HeaderLogoStickyNav(
           </a>
 
           <div class="hidden lg:flex items-center gap-12">
-            <style>
-              {`@media (prefers-color-scheme: light) {
-  .nav,.light {
-    color: red;
-    background: var(--surface1);
-    outline: 5px dashed black;
-  }
-}`}
-            </style>
             {nav.map((link) => (
               <a
                 key={link.text}
                 href={link.href}
                 style="text-decoration: none; font-family: var(--font-mono); color: var(--text1)"
-                class="nav light backdrop-blur-sm font-mono font-medium uppercase text-sm transition-colors duration-300 relative group"
+                class="backdrop-blur-sm font-mono font-medium uppercase text-sm transition-colors duration-300 relative group"
               >
                 {link.text}
                 <span

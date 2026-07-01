@@ -16,11 +16,10 @@ import { getAboutHeroProps } from "@/data/home.ts";
 import { TightSqImgCard } from "@/components/cards.tsx";
 import { ImgHero } from "@/components/hero/hero.tsx";
 import { Footer } from "@/components/footer.tsx";
-import { MajorSection } from "@/components/major_section.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
-    "/:lang(en|no)/:page(about|about-us|company|om|om-oss|selskapet)",
+    "/:lang(en|no)/:page(about-akvaplan-niva|about|about-us|company|om-akvaplan-niva|om|om-oss|selskapet)",
 };
 
 const getAboutHero = async (lang: string) =>

@@ -147,39 +147,9 @@ export default function News(
                 />
               ))}
             </div>
-
-            {
-              /*
-            <HScroll maxVisibleChildren={grpmembers.length > 5 ? 5.5 : 4.5}>
-              {grpmembers.map(TightSqImgCard)}
-            </HScroll> */
-            }
           </section>
         </MajorSection>
       ))}
-
-      {
-        /* <Section>
-        <GroupedSearch
-          term={"202"} // FIXME (home.tsx) GroupedSearch for "" fails
-          limit={3}
-          origin={url}
-          sort={"-published"}
-          noInput
-          // FIXME (home.tsx) GroupedSearch Rename and refactor exclude (substract from collections rather than post-filtering results)
-          // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/difference collection = all.difference(exclude)
-          //exclude={["research", "service", "image"]}
-        />
-      </Section> */
-      }
-
-      {
-        /* <Head>
-        <link rel="stylesheet" href={asset("/css/akvaplanist.css")} />
-        <link rel="stylesheet" href={asset("/css/hscroll.css")} />
-        <link rel="stylesheet" href={asset("/css/article.css")} />
-      </Head> */
-      }
     </div>
   );
 }
