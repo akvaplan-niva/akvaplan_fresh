@@ -17,7 +17,7 @@ export const moreNav: SignalLike<Array> = computed(() =>
 );
 
 const En = new Map([
-  ["about", "/en/about"],
+  ["about", "/en/about-akvaplan-niva"],
   ["akvaplanists", "/en/people"],
   ["by", "/en/by"],
   ["contact", "/en/contact"],
@@ -50,7 +50,7 @@ const En = new Map([
   ["video", "/en/video"],
 ]);
 const No = new Map([
-  ["about", "/no/om"],
+  ["about", "/no/om-akvaplan-niva"],
   ["akvaplanists", "/no/folk"],
   ["by", "/no/av"],
   ["contact", "/no/kontakt"],
@@ -92,6 +92,9 @@ const No = new Map([
 
 export const intlRouteMap = (lang: string | StringSignal) =>
   lang === "en" || lang?.value === "en" ? En : No;
+
+export const newsHref = (lang: string | StringSignal, path = "") =>
+  [intlRouteMap(lang).get("news"), path].join("/");
 
 export const serviceHref = (lang: string | StringSignal, path = "") =>
   [intlRouteMap(lang).get("services"), path].join("/");
