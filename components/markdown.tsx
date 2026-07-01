@@ -24,7 +24,25 @@ const allowedTags = [
   "details",
   "summary",
 ].sort();
-const sanitizeOptions: SanitizeOptions = { allowedTags };
+
+const allowedAttributes = {
+  ...sanitize.defaults.allowedAttributes,
+  div: ["class", "style"],
+  span: ["class", "style"],
+  img: [
+    "src",
+    "srcset",
+    "alt",
+    "title",
+    "width",
+    "height",
+    "loading",
+    "style",
+    "class",
+  ],
+};
+
+const sanitizeOptions: SanitizeOptions = { allowedTags, allowedAttributes };
 
 const style = `@layer markdown {
   .markdown { font-size: 1rem; margin: "0 auto"; font-family: inherit; white-space: pre-wrap; }
@@ -39,7 +57,7 @@ const style = `@layer markdown {
 }`;
 
 const defaultConverterOptions: ConverterOptions = {
-  //openLinksInNewWindow: true,
+  openLinksInNewWindow: true,
 };
 
 export const Markdown = (
