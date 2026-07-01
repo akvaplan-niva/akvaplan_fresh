@@ -1,8 +1,9 @@
 //const _path = "./static/akvaplan_symbol.svg";
 //await Deno.readTextFile(_path)
 //export const symbolDataURI = `data:image/svg+xml,${encodeURIComponent()}`;
-
-const style = `.akvaplan_symbol {
+/*
+light/dark from media query:
+.akvaplan_symbol {
   display: inline;
   --green: #00A2B2;
   --blue: #005392;
@@ -18,7 +19,21 @@ const style = `.akvaplan_symbol {
   .upper-wave{ fill: var(--blue); }
   .lower-wave{ fill: var(--green); }
   .circle { fill: var(--black); }
-}`;
+}*/
+
+const style = `.akvaplan_symbol {
+  display: inline;
+  --green: #00A2B2;
+  --blue: #005392;
+  --black: hsl(200 66% 7%);
+  --white: white;
+  background: transparent;
+}
+.upper-wave{ fill: var(--blue); }
+.lower-wave{ fill: var(--green); }
+.circle { fill: var(--black); }
+
+@media (prefers-color-scheme: white) {}`;
 
 export const UseApnSym = (props) => (
   <svg class="icon" {...props}>
