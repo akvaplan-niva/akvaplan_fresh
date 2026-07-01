@@ -22,23 +22,17 @@ import { MajorSection } from "@/components/major_section.tsx";
 import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
 import { Cards1plus4, SectionHeader } from "@/components/cards5.tsx";
 import { Eyebrow } from "@/components/eyebrow.tsx";
-import { newsArticleURL } from "@/services/nav.ts";
 import { Pill } from "@/components/button/pill.tsx";
-type Props = {};
-const _section = {
-  // marginTop: "4rem",
-  //marginBottom: "6rem",
-};
 
 //const today = Temporal.PlainDate.from(Temporal.Now.plainDateISO());
 const now = new Date();
 const secondsInAYear = 365 * 86400;
-const max1Y = ({ published }: { published: string }) => {
+const max1y = ({ published }: { published: string }) => {
   return (now.getTime() / 1000) - (new Date(published).getTime() / 1000) <
     secondsInAYear;
 };
 
-export const handler: Handlers<Props> = {
+export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {
     const { params, url } = ctx;
     lang.value = params.lang;
@@ -55,7 +49,8 @@ export const handler: Handlers<Props> = {
       await searchNewsArticles({ q, year, lang: lang.value, limit: 48 }) ??
         { items: [] };
 
-    const cards = _news.map(cardFromNews).filter(year < 2015 ? max1Y : () => 1);
+    //Show max 1y (apply max1Y filter if no year param)
+    const cards = _news.map(cardFromNews).filter(year < 2015 ? max1y : () => 1);
 
     const firstYear = 2015;
     const lastYear = now.getUTCFullYear();
@@ -73,17 +68,13 @@ export default function News(
     cards.slice(5, -1),
     ({ published }) => published.substring(0, 7),
   );
-  // group by
-  // latest news articles (by month)?
-  // projects
-  // pressreleases
-  // pubs
-  // people?
 
   const headline = year > 2000
     ? `${t("nav.News")} ${t("ui.from")} ${year}`
     : t("news.LatestNews");
+
   const eyebrow = t("nav.News");
+
   return (
     <div title={title} base={base} collection="home">
       <Head>
@@ -127,7 +118,7 @@ export default function News(
 
       {[...news].map(([grpkey, grpmembers]) => (
         <MajorSection id={`news-${grpkey}`}>
-          <section style={_section}>
+          <section>
             <h2>
               <span href={`${"month"}/${grpkey.toLowerCase()}`}>
                 {monthname(new Date(grpmembers[0].published), lang.value)}
