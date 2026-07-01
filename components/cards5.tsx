@@ -51,6 +51,7 @@ export const Cards1plus4 = ({ cards }: { cards: Card[] }) => {
           intro={sq.intro}
           image={imgUrl(sq.cloudinary)}
           href={sq.href}
+          published={"published" in sq ? sq.published : undefined}
         />
       </div>
 

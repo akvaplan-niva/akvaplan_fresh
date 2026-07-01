@@ -1,6 +1,8 @@
 import type { Card, Hero } from "@/components/card/types.ts";
 import { cloudinaryImgUrl, cloudinaryUrl } from "@/services/cloudinary.ts";
 import { Eyebrow } from "@/components/eyebrow.tsx";
+import { longDateIntl } from "@/routes/news/[slug].tsx";
+import { lang as langSignal } from "@/text/mod.ts";
 //import type { CSSProperties } from "preact";
 
 const sqImgUrl = (
@@ -12,26 +14,6 @@ const sqImgUrl = (
     ? cloudinaryImgUrl(cloudinary, 746)
     : image;
 
-//       <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/45 to-black/65" />
-
-//       <div class="relative z-10 h-full grid grid-rows-[1fr_auto_auto] p-8 sm:p-10 text-white">
-//         <div />
-
-//         <div>
-//           <h2 class="h2 text-[clamp(1.25rem,3vw,3rem)] leading-tight tracking-tight mb-4 line-clamp-4">
-//             {headline}
-//           </h2>
-
-//         {readMoreText
-//           ? (
-//             <span class="inline-flex items-center gap-3 px-8 py-4 mt-6 text-sm font-semibold border-2 border-white/90 rounded-full bg-white/10 backdrop-blur-md hover:bg-white hover:text-zinc-900 hover:border-white transition-all w-fit group">
-//               {readMoreText}
-//               <span class="text-xl transition-transform group-hover:translate-x-1">
-//               </span>
-//             </span>
-//           )
-//           : null}
-
 export function SqImgCard({
   headline = "",
   href = "#",
@@ -39,6 +21,7 @@ export function SqImgCard({
   image,
   intro,
   size,
+  published,
 }: Card | Hero) {
   return (
     <div
@@ -63,11 +46,21 @@ export function SqImgCard({
               {headline}
             </h2>
           </div>
-          {intro && (
-            <p class="text-[15px] md:text-[17px] lg:text-lg backdrop-blur-md  leading-relaxed opacity-95 line-clamp-2">
-              {intro}
-            </p>
+
+          {published && (
+            <time>
+            </time>
           )}
+          {published || intro
+            ? (
+              <p class="text-[15px] md:text-[17px] lg:text-lg leading-relaxed opacity-95 line-clamp-2">
+                <time class="backdrop-blur-md leading-relaxed opacity-95">
+                  {published ? longDateIntl(published, langSignal.value) : null}
+                </time>
+                {published && intro ? ":" : null} {intro}
+              </p>
+            )
+            : null}
         </div>
       </a>
     </div>
