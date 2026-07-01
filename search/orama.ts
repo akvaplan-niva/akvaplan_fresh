@@ -96,23 +96,29 @@ export const has = async (id: string) => {
   return d && d.id && d.id === id;
 };
 
+let isRestored = false;
+
 export const restoreOramaJson = async (path: URL) => {
   try {
-    const stat = await Deno.stat(path);
-    if (stat.isFile) {
-      console.time("Orama restore time");
+    if (isRestored !== true) {
+      isRestored = true;
+      const stat = await Deno.stat(path);
+      if (stat.isFile) {
+        console.time("Orama restore time");
 
-      const deserialized = JSON.parse(await Deno.readTextFile(path));
-      const db = await createOramaInstance();
-      load(db, deserialized);
-      console.warn(
-        "Restored",
-        count(db),
-        "Orama documents from",
-        path.href,
-      );
-      console.timeEnd("Orama restore time");
-      return db;
+        const deserialized = JSON.parse(await Deno.readTextFile(path));
+        const db = await createOramaInstance();
+        load(db, deserialized);
+
+        console.warn(
+          "Restored",
+          count(db),
+          "Orama documents from",
+          path.href,
+        );
+        console.timeEnd("Orama restore time");
+        return db;
+      }
     }
   } catch (e) {
     console.error(`Could not restore Orama index ${path}`, e);
