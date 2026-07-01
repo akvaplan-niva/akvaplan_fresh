@@ -1,6 +1,9 @@
-//const _path = "./static/akvaplan_symbol.svg";
-//await Deno.readTextFile(_path)
-//export const symbolDataURI = `data:image/svg+xml,${encodeURIComponent()}`;
+// const _path = new URL("../../static/akvaplan_symbol.svg", import.meta.url);
+// const symbolSvg = await Deno.readTextFile(_path);
+// export const symbolDataURI = `data:image/svg+xml,${
+//   encodeURIComponent(symbolSvg)
+// }`;
+{/* <img src={symbolDataURI} width="14" height="14" />  */}
 /*
 light/dark from media query:
 .akvaplan_symbol {
