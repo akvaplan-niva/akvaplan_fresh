@@ -91,7 +91,7 @@ export const SearchResultItem = (
           display: "grid",
           gap: ".5rem",
           padding: ".25rem",
-          gridTemplateColumns: (cloudinary || img) ? "1fr 4fr" : "1fr 4fr",
+          gridTemplateColumns: (collection === "pubs") ? "5fr" : "1fr 4fr",
         }}
       >
         <a
@@ -113,19 +113,21 @@ export const SearchResultItem = (
                 src={img}
               />
             )
-            : (
+            : collection !== "pubs"
+            ? (
               <span style={{ padding: "1rem" }}>
                 <svg class="icon" width="3rem" height="3rem">
                   <use href="#akvaplan_symbol"></use>
                 </svg>
               </span>
-            )}
+            )
+            : null}
         </a>
 
         <MiniCard style={{ placeContent: "center" }}>
           <a
             href={href}
-            _style={{ fontSize: "1rem" }}
+            style={{ fontSize: "1rem" }}
           >
             <p
               dangerouslySetInnerHTML={{ __html: name }}

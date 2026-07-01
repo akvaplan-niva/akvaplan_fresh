@@ -23,6 +23,7 @@ import {
 } from "@/components/header_logo_sticky_nav.tsx";
 import { Naked } from "@/components/naked.tsx";
 import { Panel } from "@/@interfaces/panel.ts";
+import { MajorSection } from "@/components/major_section.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(pubs|publications|publikasjoner)",
@@ -123,6 +124,7 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
   return (
     <Naked title={title} base={base}>
       <HeaderLogoStickyNav lang={lang} />
+
       <PushUnderLogoHeader>
         <SearchHeader
           lang={lang}
@@ -137,19 +139,21 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
       </p> */
       }
 
-      <CollectionSearch
-        placeholder={title}
-        collection={collection}
-        q={term}
-        lang={lang}
-        results={results}
-        filters={[...filters]}
-        facets={facets}
-        facetsBefore={["type"]}
-        total={count}
-        list="list"
-        url={req.url}
-      />
+      <div class="px-3">
+        <CollectionSearch
+          placeholder={title}
+          collection={collection}
+          q={term}
+          lang={lang}
+          results={results}
+          filters={[...filters]}
+          facets={facets}
+          facetsBefore={["type"]}
+          total={count}
+          list="list"
+          url={req.url}
+        />
+      </div>
     </Naked>
   );
 }
