@@ -222,7 +222,7 @@ export default defineRoute(async (req, ctx) => {
           <article class="article-content text-lg p-3 lg:px-24">
             {abbr ? <h2 class="h4 pb-6">{abbr}</h2> : null}
             <dl class="pb-6">
-              <dt>Prosjektperiode</dt>
+              <dt>{t("project.Project_period")}</dt>
               <dd>{projectPeriod(start, end, lang)}</dd>
             </dl>
             <Markdown
