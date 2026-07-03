@@ -35,8 +35,8 @@ export default async function VideoPage(req: Request, ctx: RouteContext) {
   const editor = await isAuthenticated(req);
 
   return (
-    <Naked title={video.header} collection="videos">
-      <HeaderLogoStickyNav lang={lang} />
+    <Naked url={req.url} title={video.header} collection="videos">
+      <HeaderLogoStickyNav url={req.url} lang={lang} />
       {
         /* <Head>
         <script src="https://cdn.screen9.com/players/amber-player.js">

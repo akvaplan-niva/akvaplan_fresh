@@ -18,6 +18,7 @@ import { Breadcrumbs } from "@/components/site_nav.tsx";
 import { Eyebrow } from "@/components/eyebrow.tsx";
 import { PersonCard } from "@/components/person_card.tsx";
 import { ImageCard, ImageHero } from "@/components/hero/image_hero.tsx";
+import { PublishedUpdated } from "@/components/published_updated.tsx";
 
 const allowedTags = [
   ...sanitize.defaults.allowedTags,
@@ -101,7 +102,7 @@ export const MarkdownPanel = (
   { eyebrow, panel, breadcrumbs, lang, ...props },
 ) => {
   const people_ids = panel?.people_ids?.trim()?.split(",") ?? [];
-
+  const { created, modified } = panel;
   //FIXME
   //<Breadcrumbs list={breadcrumbs} />
   //const eyebrow = "";
@@ -128,9 +129,9 @@ export const MarkdownPanel = (
 
       <div class="grid lg:grid-cols-[7fr_4fr]">
         <article class="article-content text-lg p-3 lg:px-24">
-          {panel?.desc && (
+          {panel && (
             <Markdown
-              text={panel.desc}
+              text={panel.desc ?? ""}
               style={{
                 fontSize: "calc(1.25rem + 0.1vw)",
                 //lineHeight: 1.5,
@@ -142,6 +143,15 @@ export const MarkdownPanel = (
           )}
         </article>
         <div>
+          <Card>
+            {
+              <PublishedUpdated
+                published={panel.created}
+                updated={panel.modified}
+                lang={lang}
+              />
+            }
+          </Card>
           {people_ids?.length > 0 &&
             people_ids?.map((id: string) => (
               <PersonCard

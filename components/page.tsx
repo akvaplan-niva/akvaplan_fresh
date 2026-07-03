@@ -89,7 +89,8 @@ export function Page(
       {head}
 
       <body {...propsExceptChildren}>
-        <Header
+        {
+          /* <Header
           title={title}
           collection={collection}
           href={href}
@@ -97,7 +98,8 @@ export function Page(
           breadcrumbs={breadcrumbs}
           Logo={Logo}
           Avatar={Avatar}
-        />
+        /> */
+        }
 
         <main
           style={{

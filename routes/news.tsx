@@ -81,7 +81,7 @@ export default function News(
         <LegacyStyles />
         <MorgenStudioStyles />
       </Head>
-      <HeaderLogoStickyNav lang={lang} />
+      <HeaderLogoStickyNav url={url} lang={lang} />
 
       <MajorSection>
         <Eyebrow text={eyebrow} />

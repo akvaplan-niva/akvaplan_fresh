@@ -32,6 +32,8 @@ import {
 import { ImgHero } from "@/components/hero/hero.tsx";
 import { ServicesHome } from "@/components/home/services_home.tsx";
 import { Research5 } from "@/components/home/research_home.tsx";
+import { Page } from "@/components/page.tsx";
+import { Naked } from "@/components/naked.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(home|hjem)}?",
@@ -64,12 +66,12 @@ export default defineRoute(async (req, _ctx) => {
   const selectedPublicationNews = await featuredResearchPubArticles();
 
   return (
-    <>
+    <Naked>
       <Head>
         <LegacyStyles />
       </Head>
 
-      <HeaderLogoStickyNav home={"#"} lang={lang} />
+      <HeaderLogoStickyNav url={req.url} home={"#"} lang={lang} />
 
       <VideoHero {...videoHeroProps} />
 
@@ -108,6 +110,6 @@ export default defineRoute(async (req, _ctx) => {
       </div>
 
       <ImgHero id="nav-6" {...aboutHeroProps} />
-    </>
+    </Naked>
   );
 });

@@ -65,6 +65,8 @@ export const indexPanels = async (orama: OramaAtomSchema) => {
     if (![true, "true", "yes"].includes(draft)) {
       //++n;
       await insert(orama, await atomizePanel(value));
+    } else {
+      console.warn("Skipping orama index of", value);
     }
   }
   //console.warn(`Indexed ${n} panels`);

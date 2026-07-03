@@ -74,8 +74,8 @@ export default defineRoute(async (req, ctx) => {
   // );
 
   return (
-    <Naked title={hero.headline}>
-      <HeaderLogoStickyNav lang={lang} />
+    <Naked url={req.url} title={hero.headline}>
+      <HeaderLogoStickyNav url={req.url} lang={lang} />
 
       <MajorSection>
         <Eyebrow text={hero.eyebrow} />

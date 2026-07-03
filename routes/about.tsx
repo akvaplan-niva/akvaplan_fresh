@@ -57,7 +57,7 @@ export default defineRoute(async (req, ctx) => {
         <MorgenStudioStyles />
         <LegacyStyles />
       </Head>
-      <HeaderLogoStickyNav lang={lang} />
+      <HeaderLogoStickyNav url={req.url} lang={lang} />
 
       <div class="grid 2xl:grid-cols-[7fr_4fr] gap-6">
         <div>

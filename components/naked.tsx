@@ -3,7 +3,7 @@ import {
   CleanHeader,
   Footer as SiteFooter,
   LegacyStyles,
-} from "./mod.ts";
+} from "@/components/mod.ts";
 
 import { type Breadcrumb } from "@/components/site_nav.tsx";
 
@@ -31,6 +31,7 @@ export type StdProps =
 
 export function Naked(
   {
+    url,
     title,
     base = baseForLang,
     href,
@@ -73,6 +74,7 @@ export function Naked(
         href="/akvaplan_symbol.svg"
         type="image/svg+xml"
       />
+      <style>{``}</style>
 
       <LegacyStyles />
       <MorgenStudioStyles />

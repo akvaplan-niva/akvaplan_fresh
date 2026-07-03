@@ -1,22 +1,26 @@
-import { projectHref, projectURL, pubsURL } from "@/services/nav.ts";
-import { ArticleSquare } from "@/components/news/article_square.tsx";
+import { projectHref, pubsURL } from "@/services/nav.ts";
 import { Card } from "@/components/card.tsx";
 import { t } from "@/text/mod.ts";
 import { nvaProjectLandingUrl } from "../services/nva.ts";
+import { TightSqImgCard } from "@/components/cards.tsx";
 
 const publicationsUrlForCristinProject = (cristin, lang) =>
   pubsURL({ lang }) + `?q=cristin_${cristin}`;
 
 export const AkvaplanProjectLink = (p) => {
   const { id, title, label, cloudinary, lang } = p;
+
   const name_t = title?.[lang] as string ?? label?.[lang] as string ?? id;
   const href_t = projectHref({ id, lang });
-  const thumb = cloudinary
-    ? `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good,w_256,ar_1:1/${cloudinary}`
-    : undefined;
 
-  return thumb
-    ? <ArticleSquare name={name_t} href={href_t} width={128} thumb={thumb} />
+  return cloudinary
+    ? (
+      <TightSqImgCard
+        headline={name_t}
+        href={href_t}
+        cloudinary={cloudinary}
+      />
+    )
     : (
       <li>
         <a href={href_t}>{name_t ?? id}</a>
@@ -37,16 +41,14 @@ export const ProjectsAsImageLinks = ({ projects, lang }) => (
   projects?.length > 0
     ? (
       <Card>
-        <details open>
-          <summary style={{ paddingBottom: "1rem" }}>
-            {t(projects.length === 1 ? "nav.Project" : "nav.Projects")}
-          </summary>
-          {projects?.map((p) =>
-            p?.id?.startsWith("https://api.nva.unit.no/cristin/project/")
-              ? NvaProject({ ...p, lang })
-              : AkvaplanProjectLink({ ...p, lang })
-          )}
-        </details>
+        <header>
+          {t(projects.length === 1 ? "nav.Project" : "nav.Projects")}
+        </header>
+        {projects?.map((p) =>
+          p?.id?.startsWith("https://api.nva.unit.no/cristin/project/")
+            ? NvaProject({ ...p, lang })
+            : AkvaplanProjectLink({ ...p, lang })
+        )}
       </Card>
     )
     : null

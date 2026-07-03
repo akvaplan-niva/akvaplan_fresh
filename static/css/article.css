@@ -61,7 +61,7 @@
 .article-title-mobile {
   margin-top: 1rem;
   border-radius: var(--radius-2);
-  background: var(--surface2);
+  /* background: var(--surface2); */
 }
 
 .article-content {

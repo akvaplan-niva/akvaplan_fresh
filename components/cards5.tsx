@@ -18,7 +18,7 @@ export const SectionHeader = (
     grid-template-columns: 1fr auto; 
     padding-top: 0rem; 
     padding-bottom: 1rem; align-items: center;">
-    <h2 style="font-weight: 500; font-size: 2.5rem;">
+    <h2 style="font-weight: 500; color: var(--text1); font-size: var(--size-fluid-3); text-wrap: balance">
       {headline}
     </h2>
 

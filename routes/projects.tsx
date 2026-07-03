@@ -157,8 +157,8 @@ export default defineRoute(async (req, ctx) => {
   const filters = Object.entries(oramaParams.where);
 
   return (
-    <Naked title={title} _base={""} collection="home">
-      <HeaderLogoStickyNav lang={lang} />
+    <Naked url={req.url} title={title} _base={""} collection="home">
+      <HeaderLogoStickyNav url={req.url} lang={lang} />
       <PushUnderLogoHeader>
         <SearchHeader
           lang={lang}
