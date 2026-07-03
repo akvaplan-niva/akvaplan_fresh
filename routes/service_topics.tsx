@@ -9,6 +9,24 @@ export const config: RouteConfig = {
     "/:lang(en|no){/:page(services|service|tjenester|tjeneste)}{/:slug}?/:id",
 };
 
+const searchWords = new Map([
+  ["01j1sfawnk7xxfr0kvyezhya9y", ["forskningsstasjon", "research station"]],
+  ["01hz1t2bj8tgmd481q23j701xw", [
+    "oseanografi",
+    "havmodell",
+    "fvcom",
+    "havsirkulasjon",
+    "ocean model",
+    "ice shelf",
+  ]],
+  ["01hz76nm0a16gnpb5t5sczy5ap", [
+    "miljørisiko",
+    "miljørisikoanalyse",
+    "era-acute",
+    "beredskap",
+  ]],
+]);
+
 export default defineRoute(async (req, ctx) => {
   const { params, url } = ctx;
   const { lang, id } = params;
@@ -34,10 +52,7 @@ export default defineRoute(async (req, ctx) => {
   const topic = params.lang === "en" ? panel.topic : panel.tema;
   const base = `/${params.lang}/${params.page}/${params.groupname}`;
 
-  const queries = [
-    topic,
-    ...(panel?.searchwords ?? []),
-  ].filter((s) => s?.length > 3).map((s) => s.toLowerCase());
+  const searchfor = searchWords.get(panel.id) ?? null;
 
   const contacts = panel?.people_ids?.trim
     ? panel?.people_ids?.trim().split(",")
@@ -54,6 +69,7 @@ export default defineRoute(async (req, ctx) => {
       url={url}
       more={more}
       eyebrow={t("nav.Service")}
+      searchfor={searchfor}
     />
   );
 });

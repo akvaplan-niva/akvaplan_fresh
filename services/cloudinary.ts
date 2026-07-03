@@ -74,9 +74,9 @@ export const buildImageMapper = ({ lang }) => (img: Img, i: number) => {
 };
 
 export const cloudinaryImgUrl = (cloudinary: string, w = 512, h?: number) =>
-  `https://resources.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto${
+  `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,q_auto:good${
     w ? `,w_${w}` : ""
-  }${h ? `,h_${h}` : ""},q_auto:good/${cloudinary}`;
+  }${h ? `,h_${h}` : ""}/${cloudinary}`;
 
 export const sqImgUrl = (id: string, px = 746) =>
   `https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,w_${px},h_${px},q_auto:good/${id}`;

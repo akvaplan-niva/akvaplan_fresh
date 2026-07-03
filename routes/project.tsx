@@ -177,8 +177,8 @@ export default defineRoute(async (req, ctx) => {
   );
 
   return (
-    <Naked title={title} collection="projects">
-      <HeaderLogoStickyNav lang={lang} />
+    <Naked url={req.url} title={title} collection="projects">
+      <HeaderLogoStickyNav url={req.url} lang={lang} />
 
       {
         /* <SearchHeader

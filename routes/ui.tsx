@@ -64,7 +64,7 @@ export default defineRoute((_req, _ctx) => {
         <MorgenStudioStyles />
       </Head>
 
-      <HeaderLogoStickyNav lang={lang} />
+      <HeaderLogoStickyNav url={req.url} lang={lang} />
       <ImageHero
         headline={""}
         intro={<H2>{headline}</H2>}

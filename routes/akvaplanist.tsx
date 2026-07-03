@@ -58,7 +58,7 @@ export default async function PriorsPage(req: Request, ctx: RouteContext) {
   //const { count } = results;
   return (
     <Naked>
-      <HeaderLogoStickyNav lang={lang} />
+      <HeaderLogoStickyNav url={req.url} lang={lang} />
       <div
         style={{
           paddingBlockStart: "75px",

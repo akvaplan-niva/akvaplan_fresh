@@ -31,7 +31,7 @@ export default defineRoute(async (req, ctx) => {
   hero.eyebrow = t("nav.Research");
 
   const projectHero = await getCachedPanelCard(ID_PROJECTS, lang);
-  projectHero.headline = t("project.Latest_research_projects");
+  projectHero.headline = t("project.LatestProjects");
 
   const researchAreas = await getResearchTopics({ lang });
 
@@ -58,10 +58,11 @@ export default defineRoute(async (req, ctx) => {
   const collection = "pubs";
 
   return (
-    <Naked title={hero.headline}>
-      <HeaderLogoStickyNav lang={lang} />
+    <Naked url={req.url} title={hero.headline}>
+      <HeaderLogoStickyNav url={req.url} lang={lang} />
 
       <MajorSection>
+        <div class="m-4 xl:m-0"></div>
         <Eyebrow text={hero.eyebrow} />
         <SectionHeader headline={hero.headline} />
         <Intro>{hero.intro}</Intro>

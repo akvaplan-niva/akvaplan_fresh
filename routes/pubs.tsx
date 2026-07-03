@@ -122,8 +122,8 @@ export default async function PubsPage(req: Request, ctx: RouteContext) {
     { cta: "", image: { cloudinary: "kwy8kuceecjpjoh3yyy5" } };
 
   return (
-    <Naked title={title} base={base}>
-      <HeaderLogoStickyNav lang={lang} />
+    <Naked url={req.url} title={title} base={base}>
+      <HeaderLogoStickyNav url={req.url} lang={lang} />
 
       <PushUnderLogoHeader>
         <SearchHeader

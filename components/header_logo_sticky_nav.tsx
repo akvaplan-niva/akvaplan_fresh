@@ -2,6 +2,7 @@ import { AkvaplanLogo } from "@/components/akvaplan/logo.tsx";
 import { Menu } from "@/components/header/site_menu.tsx";
 import { buildNav } from "@/services/nav.ts";
 import { SiteLangLinks } from "@/components/site_lang_links.tsx";
+
 //?import { majorSectionPaddingX } from "@/theming/config.ts";
 // Prev revisions slightly tigher header? https://akvaplan-c7gzdvb1b4q4.apn.deno.net/
 export const PushUnderLogoHeader = ({ children }) => (
@@ -17,9 +18,10 @@ export const PushUnderLogoHeader = ({ children }) => (
 );
 
 export function HeaderLogoStickyNav(
-  { home = "/", lang, nav = buildNav(lang).slice(0, 4) },
+  { home = "/", lang, url, nav = buildNav(lang).slice(0, 4) },
 ) {
   const isScrolled = false;
+
   return (
     <header
       class={`fixed z-50 transition-all duration-500 ${
@@ -41,21 +43,29 @@ export function HeaderLogoStickyNav(
           <div class="hidden lg:flex items-center gap-12">
             {nav.map((link) => (
               <a
+                //@todo? add intert attr for current page? [https://usefresh.dev/docs/examples/active-links]
                 key={link.text}
                 href={link.href}
-                style="text-decoration: none; font-family: var(--font-mono); color: var(--text1)"
-                class="backdrop-blur-sm font-mono font-medium uppercase text-sm transition-colors duration-300 relative group"
+                style="font-family: var(--font-mono);"
+                class="backdrop-blur-sm 
+                font-mono font-medium
+                text-sm uppercase 
+                text-[var(--text0)]
+                hover:decoration-[var(--accent)]
+                hover:underline
+                hover:underline-offset-8
+                aria-[current]:text-[var(--text0)]
+                aria-[current]:decoration-dotted
+                underline-offset-auto
+                transition-colors duration-300 relative group
+                "
               >
                 {link.text}
-                <span
-                  style="background: var(--text1);"
-                  class="absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full"
-                />
               </a>
             ))}
 
             <div class="text-sm">
-              <SiteLangLinks />
+              <SiteLangLinks url={url} />
             </div>
           </div>
           <div class="backdrop-blur-sm">

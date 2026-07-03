@@ -65,12 +65,13 @@ export const handler: Handlers = {
 
     const params: SearchParams<OramaAtomSchema> = {
       term,
+      operator: "or",
       exact,
       where,
       groupBy,
       facets,
       boost: {
-        title: 50,
+        title: 100,
         people: 10,
         published: 20,
         "intl.name.en": 50,
@@ -81,6 +82,7 @@ export const handler: Handlers = {
       limit,
     };
 
+    //console.warn(params);
     const results: Results<OramaAtom> = await search(params);
     return Response.json(results);
   },

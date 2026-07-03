@@ -27,15 +27,15 @@ export const config: RouteConfig = {
   })`,
 };
 
-export default defineRoute(async (_req, ctx) => {
+export default defineRoute(async (req, ctx) => {
   const { nice } = ctx.params;
   const [id, _lang] = await getNicePanelIdAndLang(nice) as string[];
   const lang = _lang ?? ctx.params.lang ?? getSiteLang();
   const panel = await getPanelInLang({ id, lang });
 
   return (
-    <Naked title={panel?.title} lang={lang}>
-      <HeaderLogoStickyNav lang={lang} />
+    <Naked url={req.url} title={panel?.title} lang={lang}>
+      <HeaderLogoStickyNav url={req.url} lang={lang} />
       <MarkdownPanel panel={panel} lang={lang} />
     </Naked>
   );

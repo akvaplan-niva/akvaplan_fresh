@@ -20,6 +20,10 @@ import { PersonCard } from "@/components/person_card.tsx";
 import { Naked } from "@/components/naked.tsx";
 import { t } from "@/text/mod.ts";
 import { href } from "@/search/href.ts";
+import { Intro } from "@/components/intro.tsx";
+import { MajorSection } from "@/components/major_section.tsx";
+import { PublishedUpdated } from "@/components/published_updated.tsx";
+import { cloudinaryImgUrl } from "@/services/cloudinary.ts";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -43,7 +47,7 @@ export const longDateIntl = (published: Date | string, lang: string) =>
     new Date(published),
   );
 
-export default defineRoute(async (_req, ctx) => {
+export default defineRoute(async (req, ctx) => {
   const { slug, lang, type } = ctx.params;
 
   const type_of_media = typeOfMedia(type);
@@ -69,35 +73,39 @@ export default defineRoute(async (_req, ctx) => {
 
   const contacts = await fetchContacts(item);
 
-  const { headline, caption, intro, body, cloudinary, updated, published } =
-    card;
+  const { headline, caption, body, cloudinary, updated, published } = card;
 
-  //if ("no" === lang) {
-  //const body2 = (await Array.fromAsync(translate(body))).join("");
-  //}
+  const captionImageUrl = (cloudinary: string) =>
+    cloudinaryImgUrl(
+      cloudinary,
+      746,
+    );
 
   const __html = body; //.replaceAll(",t_limit_1000", ",w_1782");
-
+  const intro = card.intro ? card.intro : ``;
   return (
     <Naked>
       <Head>
         <LegacyStyles />
         <MorgenStudioStyles />
       </Head>
-      <HeaderLogoStickyNav lang={lang} class="dark" />
+      <HeaderLogoStickyNav url={req.url} lang={lang} class="dark" />
       <div color-scheme="dark" class="min-h-[66%]">
         <ImageCard
           eyebrow={t("nav.News1")}
           alt={caption}
           headline={headline}
-          cloudinary={cloudinary}
-          intro={intro}
+          cloudinary={cloudinary ?? cloudinaryFallback}
         />
       </div>
 
-      <div class="grid lg:grid-cols-[7fr_4fr] gap-0">
-        <Card>
-          <article
+      <main class="grid lg:grid-cols-[7fr_4fr] gap-0">
+        <article>
+          <header class="h5 xl:px-4 xl:pb-4 text-balance">
+            {intro}
+          </header>
+
+          <div
             style={{
               //fontSize: "calc(1.25rem + 0.1vw)",
               lineHeight: 1.5,
@@ -105,29 +113,18 @@ export default defineRoute(async (_req, ctx) => {
               //maxWidth: "600px",
               margin: "0 auto",
             }}
-            class="article-content text-lg"
+            class="article-content text-xl text-pretty"
             dangerouslySetInnerHTML={{ __html }}
           />
-        </Card>
-        <div>
+        </article>
+        <aside>
           <Card>
-            <dl>
-              <dt>
-                {t("ui.Publisert")}
-              </dt>
-              <dd>
-                <time>{longDateIntl(published, lang)}</time>
-              </dd>
-              <dt>
-                {t("ui.Oppdatert")}
-              </dt>
-              <dd>
-                <time>{longDateIntl(updated, lang)}</time>
-              </dd>
-            </dl>
+            <PublishedUpdated
+              published={published}
+              updated={updated!}
+              lang={lang}
+            />
           </Card>
-
-          {contacts?.map((id: string) => <PersonCard id={id} icons={false} />)}
 
           {projects?.length > 0 && (
             <Card>
@@ -154,7 +151,7 @@ export default defineRoute(async (_req, ctx) => {
                     alt={item.header}
                     src={String(item.document_thumbnail)}
                   />
-                  <figcaption>{item.summary}</figcaption>
+                  <figcaption class="text-sm">{item.summary}</figcaption>
                 </figure>
               </a>
             ))}
@@ -176,14 +173,16 @@ export default defineRoute(async (_req, ctx) => {
             <figure class="m-0 block overflow-hidden phablet:relative phablet:max-w-[24rem] phablet:w-1/2">
               <img
                 class="w-full"
-                src={`https://mnd-assets.mynewsdesk.com/image/upload/ar_16:9,c_fill,dpr_auto,f_auto,g_xy_center,q_auto:good,w_746,x_461,y_615/${cloudinary}`}
+                src={captionImageUrl(cloudinary ?? cloudinaryFallback)}
                 alt={caption}
               />{" "}
-              <figcaption class="text-md">{caption}</figcaption>
+              <figcaption class="text-sm">{caption}</figcaption>
             </figure>
           </Card>
-        </div>
-      </div>
+
+          {contacts?.map((id: string) => <PersonCard id={id} icons={false} />)}
+        </aside>
+      </main>
 
       <Head>
         <link rel="stylesheet" href={asset("/css/article.css")} />

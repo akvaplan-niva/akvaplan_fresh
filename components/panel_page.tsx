@@ -18,33 +18,42 @@ export const PanelPage = (
     url,
     more,
     search,
+    searchfor,
   },
-) => (
-  <Naked base={base} title={panel.title} collection={collection}>
-    <HeaderLogoStickyNav lang={lang} />
+) => {
+  const phrases = searchfor ?? [panel.intl.en.title, panel.intl.no.title];
+  const term = JSON.stringify(phrases).replace(/[\[\]]/g, "");
 
-    <MarkdownPanel
-      eyebrow={eyebrow}
-      panel={panel}
-      lang={lang}
-      breadcrumbs={[{ href: serviceHref(), text: t("nav.Services") }]}
-    />
+  return (
+    <Naked
+      base={base}
+      title={panel.title}
+      collection={collection}
+    >
+      <HeaderLogoStickyNav url={url} lang={lang} />
 
-    <Section>
-      {panel?.search === true && (
-        <GroupedSearch
-          term={[panel.intl.en.title, panel.intl.no.title].map((
-            s,
-          ) => s?.replace("–", " ")).join(
-            " ",
-          )}
-          origin={url}
-          threshold={.75}
-          limit={4}
-          noInput
-          {...search}
-        />
-      )}
-    </Section>
-  </Naked>
-);
+      <MarkdownPanel
+        eyebrow={eyebrow}
+        panel={panel}
+        lang={lang}
+        breadcrumbs={[{ href: serviceHref(), text: t("nav.Services") }]}
+      />
+
+      <Section>
+        {false && (
+          <GroupedSearch
+            term={term}
+            origin={url}
+            threshold={.075}
+            limit={4}
+            display="block"
+            {
+              //noInput
+              ...search
+            }
+          />
+        )}
+      </Section>
+    </Naked>
+  );
+};

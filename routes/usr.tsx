@@ -131,8 +131,8 @@ export default function UsrPage({ data }: PageProps<AtHome>) {
   const years = [null, ...new Set(works?.map((p) => +p.year))].sort().reverse();
 
   return (
-    <Naked base={`/${at}${akvaplanist.id}`} title={name}>
-      <HeaderLogoStickyNav lang={lang} />
+    <Naked url={url} base={`/${at}${akvaplanist.id}`} title={name}>
+      <HeaderLogoStickyNav url={url} lang={lang} />
       <PushUnderLogoHeader>
         <Breadcrumbs list={breadcrumbs} />
         <PersonCard

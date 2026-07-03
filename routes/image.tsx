@@ -18,7 +18,7 @@ export const config: RouteConfig = {
 
 const searchImageUsed = async (image) => {
   const term = extractId(image.image);
-  console.warn({ term });
+
   const collection = ["news", "blog", "pressrelease", "project"];
   const params = { term, where: { collection } };
   return await search(params);

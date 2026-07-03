@@ -130,8 +130,8 @@ export const cardFromItem = (
     published_at,
     updated_at,
   } = item;
-
-  const cloudinary = image?.split("/").at(-1);
+  const cloudinaryFallback = "mdc9qjcxyhw9vjgigplb";
+  const cloudinary = image?.split("/").at(-1) ?? cloudinaryFallback;
   const slug = getSlug(item);
   const href = newsArticleURL({ lang: langSignal.value, title: header, slug });
 
