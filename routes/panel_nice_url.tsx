@@ -13,7 +13,7 @@ const sustainability = [ID_SUSTAINABILITY, "en"]; // en/company/sustainability-a
 
 // The nice URLs could in theory be collected from KV (panel.href)
 // => but editing/changing the href would then wipe out prior URLs
-const nicePanelUrls = new Map([
+export const nicePanelUrls = new Map([
   ["baerekraft", bærekraft],
   [encodeURIComponent("bærekraft"), bærekraft],
   ["sustainability", sustainability],

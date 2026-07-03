@@ -1,12 +1,20 @@
-import { getSiteLang, lang as langSignal, t } from "@/text/mod.ts";
+import { getSiteLang, lang as langSignal, languages, t } from "@/text/mod.ts";
 
-const getCanonicalUrl = (url: string | URL, lang, hreflang) => {
-  const { pathname, search } = url ? new URL(url) : {};
-  return pathname && lang && hreflang
-    ? pathname?.replace(lang, hreflang) + "" + search
-    : hreflang
-    ? `/${hreflang}`
-    : getSiteLang();
+const getCanonicalUrl = (url: string | URL, lang: string, hreflang: string) => {
+  const u = new URL(url ?? "https://akvaplan.no");
+  if (languages.has(u.pathname.slice(1, 3))) {
+    return u.pathname && lang && hreflang
+      ? u.pathname?.replace(lang, hreflang) + "" + u.search
+      : hreflang
+      ? `/${hreflang}`
+      : getSiteLang();
+  } else if (["@", "~"].includes(u.pathname?.substring(1, 2))) {
+    const c1 = u.pathname[1] === "@" ? "~" : "@";
+    u.pathname = "/" + c1 + u.pathname.slice(2);
+  } else {
+    console.warn("Unknown canonical URL", url);
+    return url;
+  }
 };
 export const SiteLangLinks = (
   { lang = langSignal.value, url, ...props } = {},

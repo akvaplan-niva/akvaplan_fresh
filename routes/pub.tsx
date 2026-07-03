@@ -26,6 +26,11 @@ import { ProjectsAsImageLinks } from "@/components/project_link.tsx";
 
 import { pubsURL } from "@/services/nav.ts";
 import { projectsByNvaId } from "../services/project.ts";
+import {
+  HeaderLogoStickyNav,
+  PushUnderLogoHeader,
+} from "@/components/header_logo_sticky_nav.tsx";
+import { Naked } from "@/components/naked.tsx";
 
 export const config: RouteConfig = {
   routeOverride:
@@ -129,7 +134,7 @@ export default defineRoute(async (req, ctx) => {
   }];
 
   return (
-    <Page
+    <Naked
       title={title ?? ""}
       lang={lang}
       base={base}
@@ -137,6 +142,8 @@ export default defineRoute(async (req, ctx) => {
         fontSize: "1rem",
       }}
     >
+      <HeaderLogoStickyNav url={req.url} lang={lang} />
+      <PushUnderLogoHeader />
       <p>
         {
           /* <a href={pubsURL({ lang }) + `?q=${type}&filter-type=${type}`}>
@@ -214,6 +221,6 @@ export default defineRoute(async (req, ctx) => {
         {t("time.Created")} <time>{longDate(created, lang)}</time>
         , {t("time.modified")} <time>{longDate(modified, lang)}</time>
       </p>
-    </Page>
+    </Naked>
   );
 });
