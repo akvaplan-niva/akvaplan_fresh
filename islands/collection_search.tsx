@@ -97,7 +97,7 @@ export function CollectionSearch(
   const count = useSignal(results?.count ?? 0);
   const facet = useSignal(facetMapper(results?.facets));
   const display = useSignal(list);
-  console.warn({ url });
+
   url = url ? new URL(url) : url;
   const _sort = url &&
       url.searchParams.has("sort")

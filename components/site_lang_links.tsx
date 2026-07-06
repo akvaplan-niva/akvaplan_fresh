@@ -8,15 +8,19 @@ const getCanonicalHref = (
   hreflang: string,
 ) => {
   const u = new URL(url ?? defaultUrl);
-  if (languages.has(u.pathname.slice(1, 3))) {
+  if ("/" === u.pathname) {
+    if (languages.has(hreflang)) {
+      return `/${hreflang}`;
+    } else if (languages.has(lang)) {
+      return lang === "no" ? "en" : "no";
+    }
+  } else if (languages.has(u.pathname.slice(1, 3))) {
     return u.pathname && lang && hreflang
       ? u.pathname?.replace(lang, hreflang) + "" + u.search
       : `/${hreflang}`;
   } else if (["@", "~"].includes(u.pathname?.substring(1, 2))) {
     const c1 = u.pathname[1] === "@" ? "~" : "@";
     u.pathname = "/" + c1 + u.pathname.slice(2);
-    return u.pathname;
-  } else if ("/" === u.pathname) {
     return u.pathname;
   } else {
     console.warn("Unknown canonical URL", url.href);
