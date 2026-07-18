@@ -1,8 +1,7 @@
 import { t } from "@/text/mod.ts";
 import { CardWithRelativeTime } from "@/components/card/types.ts";
-import { Icon } from "@/components/icon.tsx";
 import { LinkIcon } from "@/components/icon_link.tsx";
-import { newsArticleURL, newsHref } from "@/services/nav.ts";
+import { newsHref } from "@/services/nav.ts";
 
 export const Breaking = (
   {
@@ -10,14 +9,25 @@ export const Breaking = (
     lang,
     days = 3,
     max = 1,
-  }: { days: number; max: number; lang: string; news: CardWithRelativeTime[] },
+    tz,
+  }: {
+    days: number;
+    max: number;
+    lang: string;
+    tz: Temporal.TimeZoneLike;
+    news: CardWithRelativeTime[];
+  },
 ) => {
+  // Need relative to when comparing days > P1M
+  const relativeTo = Temporal.Now.zonedDateTimeISO(tz);
+
   const breaking = news.filter(({ ago }) => {
-    const res = Temporal.Duration.compare(
+    const result = Temporal.Duration.compare(
       Temporal.Duration.from({ days }),
       ago,
+      { relativeTo },
     );
-    return res > -1;
+    return result > -1;
   }).slice(0, max);
 
   return breaking?.length < 1 ? null : (
