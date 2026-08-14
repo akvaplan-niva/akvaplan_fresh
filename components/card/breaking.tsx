@@ -36,7 +36,7 @@ export const Breaking = (
       style="position: absolute; right: 2rem; z-index: 1000; padding: 1.25rem; background: var(--dark); max-width: min(100dvw,50rem);"
     >
       {breaking.map((
-        { headline, href, type, ago },
+        { headline, href, ago },
       ) => (
         <p
           class="grid grid-cols-2"

@@ -15,10 +15,11 @@ import { SectionHeader } from "@/components/cards5.tsx";
 import { Intro } from "@/components/intro.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
-import { pubUrl } from "@/services/nav.ts";
+import { doiPublicationUrl, pubUrl } from "@/services/nav.ts";
 import { MiniCard } from "@/components/card.tsx";
 import { names } from "@/components/search_result_item.tsx";
 import { slugify } from "@/services/mynewsdesk.ts";
+import { href } from "@/search/href.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(research|forskning)",
@@ -27,10 +28,15 @@ export const config: RouteConfig = {
 export default defineRoute(async (req, ctx) => {
   const { params } = ctx;
   const { lang } = params;
-  const hero = await getCachedPanelCard(ID_RESEARCH, lang);
-  hero.eyebrow = t("nav.Research");
 
-  const projectHero = await getCachedPanelCard(ID_PROJECTS, lang);
+  const panelCard = await getCachedPanelCard(ID_RESEARCH, lang) ?? {};
+  const hero = {
+    eyebrow: t("nav.Research"),
+    headline: t("our.research"),
+    ...panelCard,
+  };
+
+  const projectHero = await getCachedPanelCard(ID_PROJECTS, lang) ?? {};
   projectHero.headline = t("project.LatestProjects");
 
   const researchAreas = await getResearchTopics({ lang });
@@ -100,14 +106,15 @@ export default defineRoute(async (req, ctx) => {
       </MajorSection>
 
       {
-        /* <LatestResPubs
-        results={results}
-        pubHero={pubHero}
-        lang={lang}
-        req={req}
-        collection={collection}
-      />
-       */
+        /* <MajorSection>
+        <LatestResPubs
+          results={results}
+          pubHero={pubHero}
+          lang={lang}
+          req={req}
+          collection={collection}
+        />
+      </MajorSection> */
       }
     </Naked>
   );
@@ -129,7 +136,7 @@ export const LatestResPubs = (
         }}
       >
         {results.hits?.map(({ score, document }) => (
-          <OramePubItem
+          <OramaPubItem
             key={document.id}
             document={document}
             score={score}
@@ -144,7 +151,7 @@ export const LatestResPubs = (
   </>
 );
 
-export const OramePubItem = (
+export const OramaPubItem = (
   {
     score,
     document,
@@ -184,7 +191,7 @@ export const OramePubItem = (
 
   const img = _img ?? img512 ?? thumb ?? document.img;
 
-  const href = "/en/pub/"; //pubUrl(document);
+  const href2 = href(document);
 
   return (
     <li

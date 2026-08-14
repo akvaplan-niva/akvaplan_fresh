@@ -53,14 +53,16 @@ const getQualityCard = (lang: string) =>
 export default defineRoute(async (req, ctx) => {
   const { params } = ctx;
   const { lang } = params;
-  const hero = await getCachedPanelCard(ID_SERVICES, lang);
-  if (hero) {
-    hero.eyebrow = t("nav.Services");
-  }
+  const panelCard = await getCachedPanelCard(ID_SERVICES, lang) ?? {};
+  const hero = {
+    eyebrow: t("nav.Services"),
+    headline: t("our.services"),
+    ...panelCard,
+  };
 
   const services = await getHomeServices({ lang });
   const quality = getQualityCard(lang);
-  const qac = await getQACCards(lang);
+  const qac = await getQACCards(lang) ?? [];
 
   // const link2AccredNorwayWithLogo = (lang) => (
   //   <a href="https://www.akkreditert.no">
@@ -99,7 +101,8 @@ export default defineRoute(async (req, ctx) => {
         <SectionHeader headline={quality.headline} />
         <Intro>{quality.intro}</Intro>
 
-        <div class="max-w-[1920px] grid grid-cols-[1fr_1fr] md:grid-cols-[1fr_1fr_1fr] lg:grid-cols-[1fr_1fr_1fr_1fr] gap-[1.5rem] py-[1.5rem]">
+        {
+          /* <div class="max-w-[1920px] grid grid-cols-[1fr_1fr] md:grid-cols-[1fr_1fr_1fr] lg:grid-cols-[1fr_1fr_1fr_1fr] gap-[1.5rem] py-[1.5rem]">
           {qac.map((s) => (
             <TightSqImgCard
               key={s.href}
@@ -108,7 +111,8 @@ export default defineRoute(async (req, ctx) => {
               cloudinary={s.cloudinary}
             />
           ))}
-        </div>
+        </div> */
+        }
       </MajorSection>
     </Naked>
   );
