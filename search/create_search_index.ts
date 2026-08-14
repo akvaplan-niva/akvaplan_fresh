@@ -6,25 +6,19 @@ import { createOramaInstance, restoreOramaJson } from "@/search/orama.ts";
 import { count, insertMultiple } from "@orama/orama";
 import { OramaAtomSchema } from "@/search/types.ts";
 import { publishedDesc } from "@/search/adapter/kv.ts";
-import { atomizeProject } from "@/search/indexers/project_atomize.ts";
-import { getProjects } from "@/kv/project.ts";
 import { getPubsFromDenoDeployService } from "@/services/dois.ts";
-import { getEmployedAkvaplanists } from "@/services/mod.ts";
+import { getAkvaplanistsFromDenoService } from "@/services/mod.ts";
 import { persist } from "@orama/plugin-data-persistence";
 import { atomizeAkvaplanist } from "@/search/indexers/akvaplanists.ts";
 import { insertMynewsdesk } from "@/search/indexers/mynewsdesk.ts";
-import {
-  indexProjects,
-  indexProjectsFromKv,
-} from "@/search/indexers/project.ts";
+import { indexProjects } from "@/search/indexers/project.ts";
+import type { Project } from "@/@interfaces/project.ts";
+import { saveJson } from "@/services/file.ts";
 
 const fileUrl = (fn: string) => new URL(fn, import.meta.url);
 
 const format = "json";
 const indexFileUrl = fileUrl(`../_fresh/orama.${format}`);
-
-const saveJson = async (fn: string, ob: object) =>
-  await Deno.writeTextFile(fileUrl(fn), JSON.stringify(ob));
 
 export const persistOramaJson = async (
   orama: OramaAtomSchema,
@@ -123,19 +117,8 @@ export const buildOramaIndex = async ({ akvaplanists, projects, pubs }) => {
   await insertMultiple(orama, akvaplanists.map(atomizeAkvaplanist));
 
   // Panels are indexed in site_menu_dialog.tsx
-  // Projects are indexed Münchhausen-style since the KV database is not available when building the index,
-  // FIXME Projects home page is empty unless projects are pre-indexed at build time
-  const projectsUrl = "https://akvaplan.no/api/kv/list/project?format=json";
-  const r = await fetch(projectsUrl);
-  if (r?.ok) {
-    const projects = (await r.json()).map(({ value }) => value).map((p) => {
-      // p.published = new Date(p.published);
-      // p.updated = new Date(p.updated);
-      return p;
-    });
-    console.warn(`Indexing ${projects.length} projects`);
-    await indexProjects(orama, projects);
-  }
+  console.warn(`Indexing ${projects.length} projects`);
+  await indexProjects(orama, projects);
   // console.warn(`Indexing ${projects.length} projects`);
   // await insertMultiple(
   //   orama,
@@ -180,15 +163,35 @@ export const persistOramaIndex = async (idx: OramaAtomSchema) =>
 export const restoreOramaIndex = async () =>
   await restoreOramaJson(indexFileUrl);
 
+const getProjectsFromService = async () => {
+  // Projects are indexed Münchhausen-style since the KV database is not available when building the index,
+  // FIXME Projects home page is empty unless projects are pre-indexed at build time
+  const projectsUrl = "https://akvaplan.no/api/kv/list/project?format=json";
+  const r = await fetch(projectsUrl);
+  if (r?.ok) {
+    const projects: Project[] = (await r.json()).map(({ value }) => value).map(
+      (p: Project) => {
+        // p.published = new Date(p.published);
+        // p.updated = new Date(p.updated);
+        return p;
+      },
+    );
+    return projects;
+  }
+};
+
 export const buildAndPersistOramaIndex = async () => {
-  const akvaplanists = await getEmployedAkvaplanists();
-  const pubs = (await getPubsFromDenoDeployService()) ?? [];
-  const projects = await getProjects();
-  saveJson("../_fresh/akvaplanists.json", akvaplanists);
-  saveJson("../_fresh/pubs.json", pubs);
-  saveJson("../_fresh/projects.json", projects);
+  const akvaplanists = await getAkvaplanistsFromDenoService();
+  const priors = await getAkvaplanistsFromDenoService("prior");
+  const pubs = await getPubsFromDenoDeployService();
+  const projects = await getProjectsFromService();
+  saveJson(fileUrl("../_fresh/akvaplanists.json"), akvaplanists);
+  saveJson(fileUrl("../_fresh/priors.json"), priors);
+  saveJson(fileUrl("../_fresh/pubs.json"), pubs);
+  saveJson(fileUrl("../_fresh/projects.json"), projects);
   console.warn("Indexing", {
     akvaplanists: akvaplanists.length,
+    priors: priors.length,
     pubs: pubs.length,
     projects: projects.length,
   });

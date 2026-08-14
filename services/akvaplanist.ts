@@ -1,37 +1,30 @@
 import { alias, familyAliasMap, offices } from "@/services/mod.ts";
 import { normalize as n, tr } from "@/text/mod.ts";
-//FIXME, remove: import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
 import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
 import { Akvaplanist } from "@/@interfaces/mod.ts";
 import { search } from "@/search/search.ts";
 import { SlimPublication } from "@/@interfaces/slim_publication.ts";
 
-export const _priors = "data/priors.json";
-
 const base = globalThis?.Deno && Deno.env.has("AKVAPLANISTS")
   ? Deno.env.get("AKVAPLANISTS")
   : "https://akvaplanists.apn.deno.net";
 
-import _akvaplanists_kv from "https://akvaplanists.apn.deno.net/" with {
-  type: "json",
-};
+const akvaplanistsFileUrl = new URL(
+  `../_fresh/akvaplanists.json`,
+  import.meta.url,
+);
 
-import _priors_kv from "https://akvaplanists.apn.deno.net/prior" with {
-  type: "json",
-};
-const priors = _priors_kv.map(({ value }) => value);
-const akvaplanists = _akvaplanists_kv.map(({ value }) => value);
+const priorsFileUrl = new URL(
+  `../_fresh/priors.json`,
+  import.meta.url,
+);
 
-const allKnownIdentities = [
-  ...priors,
-  ...akvaplanists,
-] as Akvaplanist[];
-
-export const idMap = (p: Partial<Akvaplanist>) => [p.id, p];
-
+const priors: Akvaplanist[] = await readJsonFile<Akvaplanist[]>(
+  priorsFileUrl,
+);
+const akvaplanists = await readJsonFile<Akvaplanist[]>(akvaplanistsFileUrl);
 export const identities = new Map<string, Akvaplanist>(
-  //@ts-ignore bc
-  allKnownIdentities.map(idMap),
+  [...priors, ...akvaplanists].map((a) => [String(a.id), a]),
 );
 
 export const setIdentities = (arr: Akvaplanist[]) => {
@@ -54,9 +47,7 @@ export const cachedNameOf = (id: string) => {
 };
 export const getAkvaplanistsFromDenoService = async (
   type = "",
-): Promise<
-  Akvaplanist[] | undefined
-> => {
+) => {
   if (!["", "all", "prior", "fresh"].includes(type)) {
     throw new RangeError(`Invalid Akvaplanist type: ${type}`);
   }
@@ -65,26 +56,21 @@ export const getAkvaplanistsFromDenoService = async (
   );
   if (r?.ok) {
     const entries = await r.json();
-    return entries.map(({ value }) => value);
+    return entries.map(({ value }) => value) as Akvaplanist[];
   }
 };
 
 export const getAkvaplanists = async (): Promise<
   Akvaplanist[]
 > => {
-  if (undefined === _all && globalThis.Deno) {
+  if (akvaplanists.length === 0) {
     _all = await getAkvaplanistsFromDenoService("all") as Akvaplanist[];
   }
   return _all;
 };
 
-export const getEmployedAkvaplanists = async () => {
-  return (await getAkvaplanists())
-    .filter(({ from }) => !from ? true : new Date() >= new Date(from))
-    .filter(({ expired }) =>
-      !expired ? true : new Date(expired) < new Date() ? false : true
-    ).filter(({ prior }) => !prior ? true : prior === true ? false : true);
-};
+export const getEmployedAkvaplanists = async () =>
+  await Promise.resolve(akvaplanists);
 
 export const setAkvaplanists = (all) => _all = all;
 
@@ -321,6 +307,7 @@ export const groupByChar0 = (key: string) => (a: Akvaplanist) =>
 // ) =>
 //   `https://w2.brreg.no/kunngjoring/hent_en.jsp?kid=${kid}&sokeverdi=937375158&spraak=${spraak}`;
 import { tromsø } from "@/services/offices.ts";
+import { readJsonFile } from "@/services/file.ts";
 export const akvaplan = tromsø;
 
 export const countAkvaplanistAuthors = async (slim: SlimPublication) => {
