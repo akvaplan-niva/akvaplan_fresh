@@ -169,13 +169,7 @@ const getProjectsFromService = async () => {
   const projectsUrl = "https://akvaplan.no/api/kv/list/project?format=json";
   const r = await fetch(projectsUrl);
   if (r?.ok) {
-    const projects: Project[] = (await r.json()).map(({ value }) => value).map(
-      (p: Project) => {
-        // p.published = new Date(p.published);
-        // p.updated = new Date(p.updated);
-        return p;
-      },
-    );
+    const projects: Project[] = (await r.json()).map(({ value }) => value);
     return projects;
   }
 };
@@ -185,15 +179,15 @@ export const buildAndPersistOramaIndex = async () => {
   const priors = await getAkvaplanistsFromDenoService("prior");
   const pubs = await getPubsFromDenoDeployService();
   const projects = await getProjectsFromService();
-  saveJson(fileUrl("../_fresh/akvaplanists.json"), akvaplanists);
-  saveJson(fileUrl("../_fresh/priors.json"), priors);
-  saveJson(fileUrl("../_fresh/pubs.json"), pubs);
-  saveJson(fileUrl("../_fresh/projects.json"), projects);
+  // saveJson(fileUrl("../_fresh/akvaplanists.json"), akvaplanists);
+  // saveJson(fileUrl("../_fresh/priors.json"), priors);
+  // saveJson(fileUrl("../_fresh/pubs.json"), pubs);
+  // saveJson(fileUrl("../_fresh/projects.json"), projects);
   console.warn("Indexing", {
-    akvaplanists: akvaplanists.length,
-    priors: priors.length,
-    pubs: pubs.length,
-    projects: projects.length,
+    akvaplanists: akvaplanists?.length,
+    priors: priors?.length,
+    pubs: pubs?.length,
+    projects: projects?.length,
   });
   const orama = await buildOramaIndex({ akvaplanists, projects, pubs });
   await persistOramaIndex(orama);

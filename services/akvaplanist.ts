@@ -19,24 +19,6 @@ const priorsFileUrl = new URL(
   import.meta.url,
 );
 
-const priors: Akvaplanist[] = await readJsonFile<Akvaplanist[]>(
-  priorsFileUrl,
-);
-const akvaplanists = await readJsonFile<Akvaplanist[]>(akvaplanistsFileUrl);
-export const identities = new Map<string, Akvaplanist>(
-  [...priors, ...akvaplanists].map((a) => [String(a.id), a]),
-);
-
-export const setIdentities = (arr: Akvaplanist[]) => {
-  for (const p of arr) {
-    if ("id" in p) {
-      identities.set(p.id!, p);
-    }
-  }
-};
-
-export let _all: Akvaplanist[];
-
 const _name = (cand: Akvaplanist | null) =>
   cand &&
     cand.family && cand.given
@@ -382,3 +364,19 @@ export const getAkvaplanistsGroupedByYearStartedOrLeft = async (
   );
   return [currentGroupedByFromYear, priorGroupedByExpiredYear];
 };
+
+const priors: Akvaplanist[] = await getAkvaplanistsFromDenoService() ?? []; //await readJsonFile<Akvaplanist[]>(priorsFileUrl);
+const akvaplanists = await getAkvaplanistsFromDenoService() ?? []; //await readJsonFile<Akvaplanist[]>(akvaplanistsFileUrl);
+export const identities = new Map<string, Akvaplanist>(
+  [...priors, ...akvaplanists].map((a) => [String(a.id), a]),
+);
+
+export const setIdentities = (arr: Akvaplanist[]) => {
+  for (const p of arr) {
+    if ("id" in p) {
+      identities.set(p.id!, p);
+    }
+  }
+};
+
+export let _all: Akvaplanist[];
