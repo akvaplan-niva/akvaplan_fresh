@@ -21,6 +21,7 @@ import {
 import { panelHref } from "@/services/panelHref.tsx";
 import { href as _href } from "@/search/href.ts";
 import { Card } from "@/components/card/types.ts";
+import { getAkvaplanist } from "@/services/mod.ts";
 
 const kv = await openKv();
 
@@ -71,12 +72,19 @@ export const save = async (panel: Panel, user: MicrosoftUserinfo, patches) => {
     people_ids = people_ids?.trim().split(",");
   }
 
+  // TypeError: Cannot read properties of undefined (reading 'has')
+  //   at findAkvaplanistViaOrama (file:///app/src/services/akvaplanist.ts:87:17)
+  //   at async findCanonicalName (file:///app/src/services/person.ts:102:17)
+  //   at async file:///app/src/kv/panel.ts:76:37
+
   if (Array.isArray(people_ids)) {
-    const _people = (await Array.fromAsync(
-      people_ids?.map(async (id) => await findCanonicalName({ id })),
-    )).filter(({ id }) => id);
+    const _people = await Array.fromAsync(
+      people_ids?.map(async (id) => getAkvaplanist(id)),
+    );
     panel.people_ids = _people.map(({ id }) => id).join(",");
     panel.people = _people.map(({ given, family }) => `${given} ${family}`);
+
+    console.warn("panel.people", panel.people);
   }
 
   // const [year, month, day] = now.toJSON().substring(0, 10).split("-")
