@@ -23,7 +23,9 @@ export const config: RouteConfig = {
 };
 
 const PanelEditPage = ({ panel, lang, url }) => (
-  <Page title={t("ui.Edit_panel")}>
+  <Naked url={req.url} title={t("ui.Edit_panel")}>
+    <HeaderLogoStickyNav url={req.url} lang={lang} />
+
     <Section style={{ display: "grid", placeItems: "center" }}>
       <WideImage
         {...panel.image}
@@ -36,7 +38,7 @@ const PanelEditPage = ({ panel, lang, url }) => (
       lang={lang}
       url={url}
     />
-  </Page>
+  </Naked>
 );
 
 export const handler: Handlers = {

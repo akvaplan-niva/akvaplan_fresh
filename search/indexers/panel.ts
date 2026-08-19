@@ -59,14 +59,14 @@ export const atomizePanel = async (panel: Panel) => {
 
 export const indexPanels = async (orama: OramaAtomSchema) => {
   //let n = 0;
-  for await (const { value } of getPanelList()) {
+  for await (const { key, value } of getPanelList()) {
     const panel = deintlPanel({ panel: value, lang: "no" });
     const { draft } = panel;
     if (![true, "true", "yes"].includes(draft)) {
       //++n;
       await insert(orama, await atomizePanel(value));
     } else {
-      console.warn("Skipping orama index of", value);
+      console.warn("Skipping orama index of draft panel", key);
     }
   }
   //console.warn(`Indexed ${n} panels`);
