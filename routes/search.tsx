@@ -24,7 +24,7 @@ export default defineRoute(async (req, ctx) => {
   const { origin } = new URL(req.url);
 
   // FIXME GroupedSearch with server-set results renders blank
-  //const results = await search({ term: q });
+  const results = await search({ term: q });
 
   return (
     <Page title={title} base={base}>
@@ -33,7 +33,7 @@ export default defineRoute(async (req, ctx) => {
         term={q}
         origin={origin}
         collection={collection}
-        //results={results}
+        results={results}
       />
     </Page>
   );

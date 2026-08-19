@@ -6,7 +6,7 @@ import GroupedSearch from "@/islands/grouped_search.tsx";
 import { ApnLogo } from "@/components/akvaplan/logo.tsx";
 
 import { UserNameOrSignInIcon } from "@/islands/username_or_signin.tsx";
-//import { search } from "@/search/search.ts";
+import { search } from "@/search/search.ts";
 import { getOramaInstance } from "@/search/orama.ts";
 import { indexPanels } from "@/search/indexers/panel.ts";
 
