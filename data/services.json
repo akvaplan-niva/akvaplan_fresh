@@ -25,22 +25,16 @@
       "href": "/en/service/chemistry-lab/01j1sfdef8b7qe6vxw0bvacxj4"
     },
     {
-      "headline": "Environmental impact assessments",
+      "headline": "Environmental impact and risk assessments",
       "cloudinary": "giuubc8hct9z7ahumdrs",
       "intro": "",
-      "href": "/en/service/environmental-impact-assessments/01hyd6qeqvgr3dwrvkqyeh427t"
+      "href": "/en/service/environmental-impact-and-risk.assessments/01hyd6qeqvgr3dwrvkqyeh427t"
     },
     {
       "headline": "Environmental monitoring",
       "cloudinary": "xvbzid1k9c3xc7cl9yyyad",
       "intro": "",
       "href": "/en/service/environmental-monitoring/01hyd6qeqvqah3mjrqckbcgn4f"
-    },
-    {
-      "headline": "Environmental risk and contingency",
-      "cloudinary": "dwkyguxo87cfh8aruhrz3d",
-      "intro": "Sensitive Environments Decision Support (SensE)",
-      "href": "/en/service/environmental-risk-and-contingency/01hz76nm0a16gnpb5t5sczy5ap"
     },
     {
       "headline": "Marine research station",
@@ -80,10 +74,10 @@
       "href": "/no/tjeneste/havdynamikk-bolger-og-spredning/01hz1t2bj8tgmd481q23j701xw"
     },
     {
-      "headline": "Konsekvensutredninger",
+      "headline": "Konsekvensutredninger og miljørisikoanalyser ",
       "cloudinary": "giuubc8hct9z7ahumdrs",
       "intro": "",
-      "href": "/no/tjeneste/konsekvensutredninger/01hyd6qeqvgr3dwrvkqyeh427t"
+      "href": "/no/tjeneste/konsekvensutredninger-og-miljorisikoanalyser/01hyd6qeqvgr3dwrvkqyeh427t"
     },
     {
       "headline": "Biologilab",
@@ -102,12 +96,6 @@
       "cloudinary": "xvbzid1k9c3xc7cl9yyyad",
       "intro": "For å studere effekter av klimaendringer og menneskelig aktivitet så gjennomfører Akvaplan-niva miljøkartlegging og overvåking i både marint og ferskvannsmiljø",
       "href": "/no/tjeneste/miljoundersøkelser/01hyd6qeqvqah3mjrqckbcgn4f"
-    },
-    {
-      "headline": "Miljørisiko og beredskap",
-      "cloudinary": "dwkyguxo87cfh8aruhrz3d",
-      "intro": "",
-      "href": "/no/tjeneste/miljorisiko-og-beredskap/01hz76nm0a16gnpb5t5sczy5ap"
     }
   ]
 }
