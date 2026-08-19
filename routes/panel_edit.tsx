@@ -23,7 +23,7 @@ export const config: RouteConfig = {
 
 const PanelEditPage = ({ panel, lang, url }) => (
   <Naked url={url} title={t("ui.Edit_panel")}>
-    <HeaderLogoStickyNav url={req.url} lang={lang} />
+    <HeaderLogoStickyNav url={url} lang={lang} />
 
     <Section style={{ display: "grid", placeItems: "center" }}>
       <WideImage

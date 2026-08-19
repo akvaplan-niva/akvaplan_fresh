@@ -13,6 +13,18 @@
       "href": "/en/service/autonomous-and-remotely-operated-vehicles/01hwq488c0jwf53d4cev9957ze"
     },
     {
+      "headline": "Biology lab",
+      "cloudinary": "f88ujl8a1lknodoylgud",
+      "intro": "",
+      "href": "/en/service/biology-lab/01j1sjdr5v0przvt98y7zx9sj6"
+    },
+    {
+      "headline": "Chemistry lab",
+      "cloudinary": "sev17soxj3yfm3bkpeeblf",
+      "intro": "",
+      "href": "/en/service/chemistry-lab/01j1sjdr5v0przvt98y7zx9sj6"
+    },
+    {
       "headline": "Environmental impact assessments",
       "cloudinary": "giuubc8hct9z7ahumdrs",
       "intro": "",
@@ -36,12 +48,6 @@
       "href": "/en/service/fisk-research-station/01j1sfawnk7xxfr0kvyezhya9y"
     },
     {
-      "headline": "Laboratory services",
-      "cloudinary": "hvn345v5n04vmo56t4it3j",
-      "intro": "Chemical analysis and taxonomy of marine benthos",
-      "href": "/en/service/laboratory-services/01hz28ds53dvz93f5e2wpgzh3c"
-    },
-    {
       "headline": "Ocean dynamics, waves, and dispersion",
       "cloudinary": "ypnlrnbnhvmebdcvqdac",
       "intro": "",
@@ -53,49 +59,55 @@
       "headline": "Akvakultur-tjenester",
       "cloudinary": "fpoxg9f09tmvyfdxfofy",
       "intro": "Inspeksjon og sertifisering • Miljøundersøkelser • Oseanografisk modellering • Visuell kartlegging",
-      "href": "/no/service/akvakultur-tjenester/01hyd6qeqv78qzd20nt1c1mp65"
+      "href": "/no/tjeneste/akvakultur-tjenester/01hyd6qeqv78qzd20nt1c1mp65"
     },
     {
       "headline": "Autonome og fjernstyrte fartøy",
       "cloudinary": "11o3yoqtwbhhg9zfusu56s",
       "intro": "",
-      "href": "/no/service/autonome-og-fjernstyrte-fartoy/01hwq488c0jwf53d4cev9957ze"
+      "href": "/no/tjeneste/autonome-og-fjernstyrte-fartoy/01hwq488c0jwf53d4cev9957ze"
     },
     {
       "headline": "Marin forskningsstasjon",
       "cloudinary": "wl8oca2qltqsgifi5n6pyp",
       "intro": "",
-      "href": "/no/service/fisk-forskningsstasjon/01j1sfawnk7xxfr0kvyezhya9y"
+      "href": "/no/tjeneste/fisk-forskningsstasjon/01j1sfawnk7xxfr0kvyezhya9y"
     },
     {
       "headline": "Havdynamikk, bølger og spredning",
       "cloudinary": "ypnlrnbnhvmebdcvqdac",
       "intro": "",
-      "href": "/no/service/havdynamikk-bolger-og-spredning/01hz1t2bj8tgmd481q23j701xw"
+      "href": "/no/tjeneste/havdynamikk-bolger-og-spredning/01hz1t2bj8tgmd481q23j701xw"
     },
     {
       "headline": "Konsekvensutredninger",
       "cloudinary": "giuubc8hct9z7ahumdrs",
       "intro": "",
-      "href": "/no/service/konsekvensutredninger/01hyd6qeqvgr3dwrvkqyeh427t"
+      "href": "/no/tjeneste/konsekvensutredninger/01hyd6qeqvgr3dwrvkqyeh427t"
     },
     {
-      "headline": "Laboratorietjenester",
-      "cloudinary": "hvn345v5n04vmo56t4it3j",
-      "intro": "Kjemisk analyse • Analyse av marine bunndyr",
-      "href": "/no/service/laboratorietjenester/01hz28ds53dvz93f5e2wpgzh3c"
+      "headline": "Biologilab",
+      "cloudinary": "f88ujl8a1lknodoylgud",
+      "intro": "Taksonomisk analyse",
+      "href": "/no/tjeneste/biologilab/01j1sjdr5v0przvt98y7zx9sj6"
+    },
+    {
+      "headline": "Kjemisk analyse",
+      "cloudinary": "sev17soxj3yfm3bkpeeblf",
+      "intro": "",
+      "href": "/no/tjeneste/chemistry-lab/01j1sjdr5v0przvt98y7zx9sj6"
     },
     {
       "headline": "Miljøundersøkelser",
       "cloudinary": "xvbzid1k9c3xc7cl9yyyad",
       "intro": "For å studere effekter av klimaendringer og menneskelig aktivitet så gjennomfører Akvaplan-niva miljøkartlegging og overvåking i både marint og ferskvannsmiljø",
-      "href": "/no/service/miljoundersøkelser/01hyd6qeqvqah3mjrqckbcgn4f"
+      "href": "/no/tjeneste/miljoundersøkelser/01hyd6qeqvqah3mjrqckbcgn4f"
     },
     {
       "headline": "Miljørisiko og beredskap",
       "cloudinary": "dwkyguxo87cfh8aruhrz3d",
       "intro": "",
-      "href": "/no/service/miljorisiko-og-beredskap/01hz76nm0a16gnpb5t5sczy5ap"
+      "href": "/no/tjeneste/miljorisiko-og-beredskap/01hz76nm0a16gnpb5t5sczy5ap"
     }
   ]
 }
