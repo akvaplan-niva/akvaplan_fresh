@@ -1,10 +1,12 @@
 import { search } from "@/search/search.ts";
 import { lang, t } from "@/text/mod.ts";
 
-import { Page } from "@/components/page.tsx";
 import GroupedSearch from "../islands/grouped_search.tsx";
 
 import { defineRoute, type RouteConfig } from "$fresh/server.ts";
+import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
+import { Naked } from "@/components/naked.tsx";
+import { MajorSection } from "@/components/major_section.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no)/:page(_|search|sok)",
@@ -23,18 +25,21 @@ export default defineRoute(async (req, ctx) => {
     : undefined;
   const { origin } = new URL(req.url);
 
-  // FIXME GroupedSearch with server-set results renders blank
+  // FIXME GroupedSearch with server-set results still triggers a client-side search…
   const results = await search({ term: q });
 
   return (
-    <Page title={title} base={base}>
-      <GroupedSearch
-        lang={lang}
-        term={q}
-        origin={origin}
-        collection={collection}
-        results={results}
-      />
-    </Page>
+    <Naked title={title} base={base}>
+      <HeaderLogoStickyNav url={req.url} lang={lang} />
+      <MajorSection>
+        <GroupedSearch
+          lang={lang}
+          term={q}
+          origin={origin}
+          collection={collection}
+          results={results}
+        />
+      </MajorSection>
+    </Naked>
   );
 });
