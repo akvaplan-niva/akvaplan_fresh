@@ -1,14 +1,15 @@
 import { getPanelsInLang, mayEditKvPanel, PanelFilter } from "@/kv/panel.ts";
 
 import { Section } from "../components/section.tsx";
-import { Page } from "@/components/page.tsx";
 
 import { defineRoute, RouteConfig } from "$fresh/server.ts";
 import type { Panel } from "@/@interfaces/panel.ts";
-import Button, { LinkButton } from "@/components/button/button.tsx";
+import { LinkButton } from "@/components/button/button.tsx";
 import { Icon } from "@/components/icon.tsx";
 import { Forbidden } from "@/components/forbidden.tsx";
 import { buildPanelListItem } from "@/components/panel.tsx";
+import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
+import { Naked } from "@/components/naked.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(en|no){/:page(panel|panels)}",
@@ -41,7 +42,9 @@ export default defineRoute(async (req, ctx) => {
   const k = searchParams.get("collection") ?? "company";
 
   return (
-    <Page base={base}>
+    <Naked base={base}>
+      <HeaderLogoStickyNav url={req.url} lang={lang} />
+
       <h1>
         <Icon name="edit" /> Edit content
       </h1>
@@ -70,6 +73,6 @@ export default defineRoute(async (req, ctx) => {
           </Section>
         )
         : null}
-    </Page>
+    </Naked>
   );
 });

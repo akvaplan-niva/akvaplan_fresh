@@ -6,9 +6,6 @@ import { genid } from "../kv/id.ts";
 import { getSessionUser } from "@/oauth/microsoft_helpers.ts";
 import { MicrosoftUserinfo } from "@/oauth/microsoft_userinfo.ts";
 
-import { panelHref } from "@/services/panelHref.tsx";
-
-import { Page } from "@/components/page.tsx";
 import { Panel } from "@/@interfaces/panel.ts";
 import { Handlers, RouteConfig } from "$fresh/server.ts";
 import { PanelEditIsland } from "@/islands/panel_edit.tsx";
@@ -17,6 +14,8 @@ import { Section } from "@/components/section.tsx";
 
 import { defineRoute } from "$fresh/src/server/defines.ts";
 import { WideImage } from "@/components/wide_image.tsx";
+import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
+import { Naked } from "@/components/naked.tsx";
 
 export const config: RouteConfig = {
   routeOverride: "/:lang(no|en)/:collection{/:slug}?/:id/:action(edit|new)",
