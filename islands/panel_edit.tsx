@@ -18,7 +18,7 @@ const core: (keyof Panel)[] = [
   "comment",
 ];
 //const cover: (keyof PanelImage)[] = ["cloudinary", "url"];
-const image: (keyof PanelImage)[] = ["cloudinary", "url", "ar"];
+const image: (keyof PanelImage)[] = ["cloudinary", "url", "landscape", "ar"];
 const intl: (keyof PanelIntl)[] = ["title", "href", "intro", "cta", "desc"];
 
 const schema = {
@@ -39,6 +39,7 @@ export const panelTemplate = {
   backdrop: true,
   image: {
     cloudinary: "axo2atkq4zornt8yneyr",
+    landscape: "",
   },
   intl: {
     en: {

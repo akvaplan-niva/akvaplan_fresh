@@ -90,6 +90,7 @@ export default defineRoute(async (req, ctx) => {
         <MorgenStudioStyles />
       </Head>
       <HeaderLogoStickyNav url={req.url} lang={lang} class="dark" />
+
       <div color-scheme="dark" class="min-h-[66%]">
         <ImageCard
           eyebrow={t("nav.News1")}

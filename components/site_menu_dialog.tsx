@@ -14,11 +14,10 @@ import { indexPanels } from "@/search/indexers/panel.ts";
 (async () => {
   const orama = await getOramaInstance();
   await indexPanels(orama);
-  const res = await search({
-    term: "",
-    where: { collection: "service" },
-  });
-  console.warn(res);
+  // const res = await search({
+  //   term: "",
+  //   where: { collection: "service" },
+  // });
 })();
 
 export default ({ lang }) => (

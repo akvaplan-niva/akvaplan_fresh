@@ -106,6 +106,7 @@ export function ImageCard(
     cta,
     image,
     cloudinary,
+    landscape,
     href,
     footer,
     alt,
@@ -115,14 +116,27 @@ export function ImageCard(
     ? image
     : heroImageUrl({ cloudinary });
 
+  const landscapeSrcSet = landscape;
+
   return (
     <section class="dark relative min-h-[100dvh] flex flex-col justify-center items-start overflow-hidden bg-black">
-      <div class="absolute inset-0 z-0">
-        <img
-          class="_2xl:m-auto _3xl:max-w-[80%] w-full h-full object-cover object-center opacity-90 _scale-x-[-1]"
-          src={imageSrc}
-          alt={alt ?? ""}
-        />
+      <div class="absolute inset-0">
+        <picture>
+          {landscape
+            ? (
+              <source
+                media="(orientation: landscape)"
+                srcset={landscapeSrcSet}
+              />
+            )
+            : null}
+          <img
+            class="_2xl:m-auto _3xl:max-w-[80%] w-full h-full object-cover object-center opacity-90 _scale-x-[-1]"
+            src={imageSrc}
+            alt={alt ?? ""}
+          />
+        </picture>
+
         {/* "Subtle" ? overlay to ensure text readability on the left */}
         <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
         <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />

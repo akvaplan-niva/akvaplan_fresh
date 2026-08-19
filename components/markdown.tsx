@@ -123,6 +123,7 @@ export const MarkdownPanel = (
       <ImageCard
         headline={panel.title}
         cloudinary={panel.image.cloudinary}
+        landscape={panel.image?.landscape}
         intro={panel.intro}
         eyebrow={eyebrow}
       />
