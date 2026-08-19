@@ -5,19 +5,11 @@ import { Akvaplanist } from "@/@interfaces/mod.ts";
 import { search } from "@/search/search.ts";
 import { SlimPublication } from "@/@interfaces/slim_publication.ts";
 
+export let _all: Akvaplanist[];
+
 const base = globalThis?.Deno && Deno.env.has("AKVAPLANISTS")
   ? Deno.env.get("AKVAPLANISTS")
   : "https://akvaplanists.apn.deno.net";
-
-const akvaplanistsFileUrl = new URL(
-  `../_fresh/akvaplanists.json`,
-  import.meta.url,
-);
-
-const priorsFileUrl = new URL(
-  `../_fresh/priors.json`,
-  import.meta.url,
-);
 
 const _name = (cand: Akvaplanist | null) =>
   cand &&
@@ -54,7 +46,7 @@ export const getAkvaplanists = async (): Promise<
 export const getEmployedAkvaplanists = async () =>
   await Promise.resolve(akvaplanists);
 
-export const setAkvaplanists = (all) => _all = all;
+// const setAkvaplanists = (all) => _all = all;
 
 const buildAkvaplanistMap = async () =>
   (await getAkvaplanists())?.reduce((p, c) => {
@@ -191,6 +183,9 @@ export const findAkvaplanistViaOrama = async (
 export const findPriorAkvaplanist = (
   { id, given, family, name }: Partial<Akvaplanist>,
 ): Promise<Akvaplanist | undefined> => {
+  if (id && priorsMap.has(id)) {
+    return priorsMap.get(id);
+  }
   if (id && priorAkvaplanistID.has(id)) {
     return priorAkvaplanistID.get(id);
   }
@@ -202,7 +197,9 @@ export const findPriorAkvaplanist = (
   if (exact) {
     return exact;
   }
-  //return prior;
+  if (name) {
+    console.error("Name lookup not implemented");
+  }
 };
 
 export const getAugmentedAkvaplanists = async (): Promise<Akvaplanist[]> =>
@@ -317,8 +314,8 @@ const withNameAndFrom = (a: Akvaplanist) => {
   return a;
 };
 
-const sortByName = (a: Akvaplanist, b: Akvaplanist) =>
-  a.name?.localeCompare(b?.name ?? "") ?? 0;
+// const sortByName = (a: Akvaplanist, b: Akvaplanist) =>
+//   a.name?.localeCompare(b?.name ?? "") ?? 0;
 
 const buildSortReversed = (key: string) => (a: Akvaplanist, b: Akvaplanist) => {
   const _b = b?.[key] ?? "";
@@ -365,18 +362,21 @@ export const getAkvaplanistsGroupedByYearStartedOrLeft = async (
   return [currentGroupedByFromYear, priorGroupedByExpiredYear];
 };
 
-const priors: Akvaplanist[] = await getAkvaplanistsFromDenoService() ?? []; //await readJsonFile<Akvaplanist[]>(priorsFileUrl);
-const akvaplanists = await getAkvaplanistsFromDenoService() ?? []; //await readJsonFile<Akvaplanist[]>(akvaplanistsFileUrl);
+const priors: Akvaplanist[] = await getAkvaplanistsFromDenoService("prior") ??
+  [];
+const akvaplanists = await getAkvaplanistsFromDenoService() ?? [];
+
+export const priorsMap = new Map<string, Akvaplanist>(
+  priors.map((a) => [String(a.id), a]),
+);
 export const identities = new Map<string, Akvaplanist>(
   [...priors, ...akvaplanists].map((a) => [String(a.id), a]),
 );
 
-export const setIdentities = (arr: Akvaplanist[]) => {
-  for (const p of arr) {
-    if ("id" in p) {
-      identities.set(p.id!, p);
-    }
-  }
-};
-
-export let _all: Akvaplanist[];
+// const setIdentities = (arr: Akvaplanist[]) => {
+//   for (const p of arr) {
+//     if ("id" in p) {
+//       identities.set(p.id!, p);
+//     }
+//   }
+// };

@@ -176,7 +176,7 @@ const getProjectsFromService = async () => {
 
 export const buildAndPersistOramaIndex = async () => {
   const akvaplanists = await getAkvaplanistsFromDenoService();
-  const priors = await getAkvaplanistsFromDenoService("prior");
+  //const priors = await getAkvaplanistsFromDenoService("prior");
   const pubs = await getPubsFromDenoDeployService();
   const projects = await getProjectsFromService();
   // saveJson(fileUrl("../_fresh/akvaplanists.json"), akvaplanists);
@@ -185,7 +185,7 @@ export const buildAndPersistOramaIndex = async () => {
   // saveJson(fileUrl("../_fresh/projects.json"), projects);
   console.warn("Indexing", {
     akvaplanists: akvaplanists?.length,
-    priors: priors?.length,
+    //priors: priors?.length,
     pubs: pubs?.length,
     projects: projects?.length,
   });
