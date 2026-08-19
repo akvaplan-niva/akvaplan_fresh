@@ -6,16 +6,20 @@ import GroupedSearch from "@/islands/grouped_search.tsx";
 import { ApnLogo } from "@/components/akvaplan/logo.tsx";
 
 import { UserNameOrSignInIcon } from "@/islands/username_or_signin.tsx";
-import { search } from "@/search/search.ts";
-import {} from "@/search/orama.ts";
+//import { search } from "@/search/search.ts";
+import { getOramaInstance } from "@/search/orama.ts";
+import { indexPanels } from "@/search/indexers/panel.ts";
 
-// (async () => {
-//   await getOramaInstance();
-//   const res = await search({
-//     term: "",
-//     where: { collection: "project" },
-//   });
-// })();
+// Add panels to search index on each boot (why here?)
+(async () => {
+  const orama = await getOramaInstance();
+  await indexPanels(orama);
+  const res = await search({
+    term: "",
+    where: { collection: "service" },
+  });
+  console.warn(res);
+})();
 
 export default ({ lang }) => (
   <dialog
