@@ -54,7 +54,6 @@ const buildF = ({ searchParams, where }) => {
       where[k] = v;
     }
   }
-  console.warn("pubs.tsx:52", { filters });
   return filters;
 };
 
