@@ -84,7 +84,7 @@ export default defineRoute(async (req, ctx) => {
   const __html = body; //.replaceAll(",t_limit_1000", ",w_1782");
   const intro = card.intro ? card.intro : ``;
   return (
-    <Naked>
+    <Naked title={headline}>
       <Head>
         <LegacyStyles />
         <MorgenStudioStyles />
