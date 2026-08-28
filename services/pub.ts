@@ -64,7 +64,7 @@ export const buildCanonicalUri = (kind: string, id: string) => {
 
 export const extractSources = (pub: SlimPublication) => {
   const sources = new Map<string, string>();
-  const { id, reg, nva } = pub;
+  const { id, reg, nva, url } = pub;
   if (isDoiUrl(id)) {
     if (reg === "Crossref") {
       sources.set(reg, `https://api.crossref.org/works/${extractNakedDoi(id)}`);
@@ -76,6 +76,10 @@ export const extractSources = (pub: SlimPublication) => {
   }
   if (nva) {
     sources.set(t("NVA") ?? "NVA", nvaPublicationLanding(nva).href);
+  }
+  if (url && URL.canParse(url) && false == isDoiOrHandleUrl(url)) {
+    const external = new URL(url);
+    sources.set(external.hostname, url);
   }
   return sources;
 };
