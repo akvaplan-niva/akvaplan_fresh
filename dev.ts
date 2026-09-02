@@ -10,6 +10,6 @@ const build = () => {
     .catch(console.error);
 };
 
-if (Deno.args.includes("build")) {
+if (Deno.args.includes("build-orama")) {
   build();
 }
