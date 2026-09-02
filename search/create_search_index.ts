@@ -1,7 +1,11 @@
 import markdownDocuments from "@/services/documents.json" with { type: "json" };
 import { atomizeSlimPublication } from "@/search/indexers/pubs.ts";
 
-import { createOramaInstance, restoreOramaJson } from "@/search/orama.ts";
+import {
+  createOramaInstance,
+  restoreOramaJson,
+  restoreOramaJsonFromUrl,
+} from "@/search/orama.ts";
 
 import { count, insertMultiple } from "@orama/orama";
 import { OramaAtomSchema } from "@/search/types.ts";
@@ -18,7 +22,10 @@ import { saveJson } from "@/services/file.ts";
 const fileUrl = (fn: string) => new URL(fn, import.meta.url);
 
 const format = "json";
-const indexFileUrl = fileUrl(`../_fresh/orama.${format}`);
+//const indexUrl = fileUrl(`../_fresh/orama.${format}`);
+const indexUrl = new URL(
+  "https://storage.googleapis.com/web-assets-apn/akvaplan.no/search/idx/orama.json",
+);
 
 export const persistOramaJson = async (
   orama: OramaAtomSchema,
@@ -158,10 +165,10 @@ export const buildOramaIndex = async ({ akvaplanists, projects, pubs }) => {
 // load(db, deserialized);
 // return db;
 export const persistOramaIndex = async (idx: OramaAtomSchema) =>
-  await persistOramaJson(idx, indexFileUrl);
+  await persistOramaJson(idx, indexUrl);
 
 export const restoreOramaIndex = async () =>
-  await restoreOramaJson(indexFileUrl);
+  await restoreOramaJsonFromUrl(indexUrl);
 
 const getProjectsFromService = async () => {
   // Projects are indexed Münchhausen-style since the KV database is not available when building the index,

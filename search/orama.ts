@@ -3,7 +3,7 @@ import { schema } from "./schema.ts";
 
 import { count, create as _create, getByID, load } from "@orama/orama";
 import { language, stemmer } from "@orama/stemmers/norwegian";
-import { restoreOramaIndex } from "@/search/create_search_index.ts";
+import { res, restoreOramaIndex } from "@/search/create_search_index.ts";
 
 let _orama: OramaAtomSchema;
 
@@ -71,22 +71,22 @@ export const setOramaInstance = (orama: OramaAtomSchema) => _orama = orama;
 //   }
 // };
 
-// export const restoreOramaJsonFromUrl = async (
-//   url: string,
-// ) => {
-//   try {
-//     console.time("Orama url restore");
-//     const deserialized = await fetchJSON(url);
-//     const db = await createOramaInstance();
-//     load(db, deserialized);
-//     console.warn("Restored", await count(db), "Orama documents from", url);
-//     console.timeEnd("Orama url restore");
-//     return db;
-//   } catch (e) {
-//     console.error(`Could not restore Orama index ${url}`, e);
-//     throw "Search is currently unavailable";
-//   }
-// };
+export const restoreOramaJsonFromUrl = async (
+  url: string | URL,
+) => {
+  try {
+    console.time("Orama url restore");
+    const deserialized = await fetch(url).then((r) => r.json());
+    const db = await createOramaInstance();
+    load(db, deserialized);
+    console.warn("Restored", await count(db), "Orama documents from", url);
+    console.timeEnd("Orama url restore");
+    return db;
+  } catch (e) {
+    console.error(`Could not restore Orama index ${url}`, e);
+    throw "Search is currently unavailable";
+  }
+};
 
 export const getOramaDocument = async (id: string) =>
   await getByID(await getOramaInstance(), id);
