@@ -8,6 +8,12 @@ export const H2 = ({ children }: { children: ComponentChildren }) => (
   <h2 class="h2 text-pretty">{children}</h2>
 );
 
-export const H3 = ({ children }: { children: ComponentChildren }) => (
-  <h3 class="h3 text-pretty">{children}</h3>
-);
+export const H3 = ({ children }: { children: ComponentChildren }) =>
+  typeof children === "string"
+    ? (
+      <h3
+        class="h3 text-pretty"
+        dangerouslySetInnerHTML={{ __html: children }}
+      />
+    )
+    : <h3 class="h3 text-pretty">{children}</h3>;
