@@ -41,11 +41,11 @@ export default defineRoute(async (req, ctx) => {
   const title = t("about.About_us");
 
   const base = `/${params.lang}/${params.page}/`;
-  const props = await getAboutHeroProps({ lang });
+  //const props = await getAboutHeroProps({ lang });
 
   const panel = {
     ...await getAboutHero(lang),
-    ...props,
+    //...props,
   };
 
   const panels = await getAboutPanels(lang);
