@@ -8,7 +8,10 @@ import { LinkButton } from "@/components/button/button.tsx";
 import { Icon } from "@/components/icon.tsx";
 import { Forbidden } from "@/components/forbidden.tsx";
 import { buildPanelListItem } from "@/components/panel.tsx";
-import { HeaderLogoStickyNav } from "@/components/header_logo_sticky_nav.tsx";
+import {
+  HeaderLogoStickyNav,
+  PushUnderLogoHeader,
+} from "@/components/header_logo_sticky_nav.tsx";
 import { Naked } from "@/components/naked.tsx";
 
 export const config: RouteConfig = {
@@ -43,7 +46,9 @@ export default defineRoute(async (req, ctx) => {
 
   return (
     <Naked base={base}>
-      <HeaderLogoStickyNav url={req.url} lang={lang} />
+      <PushUnderLogoHeader>
+        <HeaderLogoStickyNav url={req.url} lang={lang} />
+      </PushUnderLogoHeader>
 
       <h1>
         <Icon name="edit" /> Edit content
