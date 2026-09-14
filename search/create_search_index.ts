@@ -22,10 +22,10 @@ import { saveJson } from "@/services/file.ts";
 const fileUrl = (fn: string) => new URL(fn, import.meta.url);
 
 const format = "json";
-//const indexUrl = fileUrl(`../_fresh/orama.${format}`);
-const indexUrl = new URL(
-  "https://storage.googleapis.com/web-assets-apn/akvaplan.no/search/idx/orama.json",
-);
+const indexUrl = fileUrl(`../_fresh/orama.${format}`);
+// const indexUrl = new URL(
+//   "https://storage.googleapis.com/web-assets-apn/akvaplan.no/search/idx/orama.json",
+// );
 
 export const persistOramaJson = async (
   orama: OramaAtomSchema,

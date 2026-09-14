@@ -5,11 +5,9 @@ import { buildAndPersistOramaIndex } from "@/search/create_search_index.ts";
 
 await dev(import.meta.url, "./main.ts", config);
 
-const build = () => {
-  buildAndPersistOramaIndex()
-    .catch(console.error);
-};
+const shouldBuildOrama = true; //Deno.args.includes("orama")
 
-if (Deno.args.includes("build-orama")) {
-  build();
+if (shouldBuildOrama) {
+  console.warn("Building Orama search index");
+  buildAndPersistOramaIndex().catch(console.error);
 }
