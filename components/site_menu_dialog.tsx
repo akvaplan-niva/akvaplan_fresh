@@ -24,7 +24,6 @@ export default ({ lang }) => (
   <dialog
     id="menu"
     color-scheme
-    popover
     style={{
       border: "0",
       background: "var(--surface1) 0.2",
