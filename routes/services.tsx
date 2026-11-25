@@ -84,7 +84,7 @@ export default defineRoute(async (req, ctx) => {
         <SectionHeader headline={hero.headline} />
         <Intro>{hero.intro}</Intro>
 
-        <div class="max-w-[1920px] grid grid-cols-[1fr_1fr] md:grid-cols-[1fr_1fr_1fr] lg:grid-cols-[1fr_1fr_1fr_1fr_1fr] _2xl:grid-cols-[1fr_1fr_1fr_1fr_1fr] gap-[1.5rem] py-[1.5rem]">
+        <div class="max-w-[1920px] grid grid-cols-[1fr_1fr] md:grid-cols-[1fr_1fr_1fr] xl:grid-cols-[1fr_1fr_1fr_1fr_1fr] gap-[1.5rem] py-[1.5rem]">
           {services.map((s) => (
             <TightSqImgCard
               key={s.href}
