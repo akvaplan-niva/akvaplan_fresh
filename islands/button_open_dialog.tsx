@@ -1,12 +1,14 @@
-import { HTMLAttributes } from "preact";
+import type { JSX } from "preact";
 import IconButton from "@/components/button/icon_button.tsx";
 
-const handleClick = (e: MouseEvent) => {
-  const query = e?.target?.dataset?.for ?? "dialog";
-  const dialog = e.target?.ownerDocument?.querySelector(query);
-  if (dialog) {
-    const { open } = dialog;
-    if (open) {
+export const handleClick = (
+  e: JSX.TargetedMouseEvent<HTMLButtonElement>,
+) => {
+  const button = e.currentTarget;
+  const query = button.dataset.for ?? "dialog";
+  const dialog = button.ownerDocument.querySelector(query);
+  if (dialog instanceof HTMLDialogElement) {
+    if (dialog.open) {
       dialog.close();
     } else {
       dialog.showModal();
@@ -15,20 +17,15 @@ const handleClick = (e: MouseEvent) => {
 };
 
 export default (
-  { children, ...props }: HTMLAttributes<HTMLButtonElement>,
+  { children, ...props }: JSX.HTMLAttributes<HTMLButtonElement>,
 ) => (
   <IconButton
+    {...props}
+    type="button"
     onClick={handleClick}
     icon="search"
     iconHeight="1.5rem"
     iconWidth="1.5rem"
-    popovertargetaction="show"
-    {
-      //aria-label={lang === "en" ? "Open search/menu" : "Åpne søk/meny"}
-
-      //popovertarget={popovertarget}
-      ...props
-    }
   >
     {children}
   </IconButton>

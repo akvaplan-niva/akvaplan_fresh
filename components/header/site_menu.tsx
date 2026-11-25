@@ -12,7 +12,12 @@ export const Menu = ({ lang }) => (
     }}
   >
     <nav>
-      <ButtonOpenDialog for="dialog#menu" popovertarget="menu" reverse>
+      <ButtonOpenDialog
+        data-for="dialog#menu"
+        aria-controls="menu"
+        aria-haspopup="dialog"
+        reverse
+      >
         {t("menu.menu")}
       </ButtonOpenDialog>
     </nav>

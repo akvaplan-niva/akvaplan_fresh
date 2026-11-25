@@ -1,3 +1,4 @@
+import type { JSX } from "preact";
 import Button from "./button.tsx";
 import { Icon } from "../icon.tsx";
 
@@ -6,7 +7,6 @@ type IconButtonProps = {
   reverse?: boolean;
   iconHeight?: string;
   iconWidth?: string;
-  onClick?: () => void;
   children: any;
 } & JSX.HTMLAttributes<HTMLButtonElement>;
 

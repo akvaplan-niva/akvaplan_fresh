@@ -1,3 +1,4 @@
+import { fetchAkvaplanistEntries } from "./akvaplanist_fetch.ts";
 import { alias, familyAliasMap, offices } from "@/services/mod.ts";
 import { normalize as n, tr } from "@/text/mod.ts";
 import { priorAkvaplanistID, priorAkvaplanists } from "./prior_akvaplanists.ts";
@@ -5,11 +6,7 @@ import { Akvaplanist } from "@/@interfaces/mod.ts";
 import { search } from "@/search/search.ts";
 import { SlimPublication } from "@/@interfaces/slim_publication.ts";
 
-export let _all: Akvaplanist[];
-
-const base = globalThis?.Deno && Deno.env.has("AKVAPLANISTS")
-  ? Deno.env.get("AKVAPLANISTS")
-  : "https://akvaplanists.apn.deno.net";
+export let _all: Akvaplanist[] | undefined;
 
 const _name = (cand: Akvaplanist | null) =>
   cand &&
@@ -25,22 +22,21 @@ export const getAkvaplanistsFromDenoService = async (
   if (!["", "all", "prior", "fresh"].includes(type)) {
     throw new RangeError(`Invalid Akvaplanist type: ${type}`);
   }
-  const r = await fetch(new URL(`/${type}`, base)).catch((e) =>
-    console.error(e)
-  );
-  if (r?.ok) {
-    const entries = await r.json();
-    return entries.map(({ value }) => value) as Akvaplanist[];
+  try {
+    const entries = await fetchAkvaplanistEntries(type);
+    return entries.map(({ value }) => value);
+  } catch (error) {
+    console.error("Unable to load Akvaplanists", { type, error });
   }
 };
 
 export const getAkvaplanists = async (): Promise<
   Akvaplanist[]
 > => {
-  if (akvaplanists.length === 0) {
-    _all = await getAkvaplanistsFromDenoService("all") as Akvaplanist[];
+  if (_all === undefined) {
+    _all = await getAkvaplanistsFromDenoService("all");
   }
-  return _all;
+  return _all ?? [...identities.values()];
 };
 
 export const getEmployedAkvaplanists = async () =>
