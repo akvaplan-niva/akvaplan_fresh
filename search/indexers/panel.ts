@@ -66,7 +66,10 @@ export const indexPanels = async (orama: OramaAtomSchema) => {
       //++n;
       await insert(orama, await atomizePanel(value));
     } else {
-      console.warn("Skipping orama index of draft panel", key);
+      console.warn(
+        "Skipping orama index of draft panel",
+        { id: key, collection: value.collection, title: value.intl.en?.title },
+      );
     }
   }
   //console.warn(`Indexed ${n} panels`);

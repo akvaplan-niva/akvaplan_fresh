@@ -64,16 +64,16 @@ export default defineRoute(async (req, ctx) => {
   const quality = getQualityCard(lang);
   const qac = await getQACCards(lang) ?? [];
 
-  // const link2AccredNorwayWithLogo = (lang) => (
-  //   <a href="https://www.akkreditert.no">
-  //     <img
-  //       width="100%"
-  //       alt="Logo: Norsk akkreditering"
-  //       src="/icon/logo/akkreditert.svg"
-  //       style="border-radius:6px; object-fit:cover; background:var(--light); max-width:10vh;"
-  //     />
-  //   </a>
-  // );
+  const link2AccredNorwayWithLogo = (lang) => (
+    <a href="https://www.akkreditert.no">
+      <img
+        width="100%"
+        alt="Logo: Norsk akkreditering"
+        src="/icon/logo/akkreditert.svg"
+        style="border-radius:6px; object-fit:cover; background:var(--light); max-width:10vh;"
+      />
+    </a>
+  );
 
   return (
     <Naked url={req.url} title={hero.headline}>
@@ -84,7 +84,7 @@ export default defineRoute(async (req, ctx) => {
         <SectionHeader headline={hero.headline} />
         <Intro>{hero.intro}</Intro>
 
-        <div class="max-w-[1920px] grid grid-cols-[1fr_1fr] md:grid-cols-[1fr_1fr_1fr] lg:grid-cols-[1fr_1fr_1fr_1fr] gap-[1.5rem] py-[1.5rem]">
+        <div class="max-w-[1920px] grid grid-cols-[1fr_1fr] md:grid-cols-[1fr_1fr_1fr] lg:grid-cols-[1fr_1fr_1fr_1fr_1fr] _2xl:grid-cols-[1fr_1fr_1fr_1fr_1fr] gap-[1.5rem] py-[1.5rem]">
           {services.map((s) => (
             <TightSqImgCard
               key={s.href}
@@ -101,8 +101,7 @@ export default defineRoute(async (req, ctx) => {
         <SectionHeader headline={quality.headline} />
         <Intro>{quality.intro}</Intro>
 
-        {
-          /* <div class="max-w-[1920px] grid grid-cols-[1fr_1fr] md:grid-cols-[1fr_1fr_1fr] lg:grid-cols-[1fr_1fr_1fr_1fr] gap-[1.5rem] py-[1.5rem]">
+        <div class="max-w-[1920px] grid grid-cols-[1fr_1fr] md:grid-cols-[1fr_1fr_1fr] lg:grid-cols-[1fr_1fr_1fr_1fr] gap-[1.5rem] py-[1.5rem]">
           {qac.map((s) => (
             <TightSqImgCard
               key={s.href}
@@ -111,8 +110,7 @@ export default defineRoute(async (req, ctx) => {
               cloudinary={s.cloudinary}
             />
           ))}
-        </div> */
-        }
+        </div>
       </MajorSection>
     </Naked>
   );

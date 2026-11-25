@@ -89,6 +89,7 @@ export const getResearchTopics = async (
   { lang }: { lang: string },
 ): Promise<Card[]> => await lang !== "no" ? _research["en"] : _research["no"];
 
+// $ cat kvpanels.ndjson | nd-map d.value | | nd-map '{id,image:{cloudinary}}=d,lang=(intl,lang) => { l=intl[lang]; headline = l.title; return { headline, id, href: id, cloudinary } }, en=lang(d.intl,"en"), no=lang(d.intl,"no"), {en,no}'
 export const getHomeServices = async (
   { lang }: { lang: string },
 ): Promise<Card[]> => await lang !== "no" ? _services["en"] : _services["no"];

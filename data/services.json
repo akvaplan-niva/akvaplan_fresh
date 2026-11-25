@@ -7,7 +7,7 @@
       "href": "/en/service/aquaculture-services/01hyd6qeqv78qzd20nt1c1mp65"
     },
     {
-      "headline": "Autonomous & remotely operated vehicles",
+      "headline": "Autonomous ocean observation systems",
       "cloudinary": "11o3yoqtwbhhg9zfusu56s",
       "intro": "",
       "href": "/en/service/autonomous-and-remotely-operated-vehicles/01hwq488c0jwf53d4cev9957ze"
@@ -25,16 +25,22 @@
       "href": "/en/service/chemistry-lab/01j1sfdef8b7qe6vxw0bvacxj4"
     },
     {
-      "headline": "Environmental impact and risk assessments",
+      "headline": "Environmental impact",
       "cloudinary": "giuubc8hct9z7ahumdrs",
       "intro": "",
-      "href": "/en/service/environmental-impact-and-risk.assessments/01hyd6qeqvgr3dwrvkqyeh427t"
+      "href": "/en/service/environmental-impact/01hyd6qeqvgr3dwrvkqyeh427t"
     },
     {
       "headline": "Environmental monitoring",
       "cloudinary": "xvbzid1k9c3xc7cl9yyyad",
       "intro": "",
       "href": "/en/service/environmental-monitoring/01hyd6qeqvqah3mjrqckbcgn4f"
+    },
+    {
+      "headline": "Environmental risk and contingency",
+      "cloudinary": "oychszqwrkrf4lziszb2oh",
+      "intro": "",
+      "href": "/en/service/environmental-risk-and-contingency/01hz76nm0a16gnpb5t5sczy5ap"
     },
     {
       "headline": "Marine research station",
@@ -56,7 +62,7 @@
       "href": "/no/tjeneste/akvakultur-tjenester/01hyd6qeqv78qzd20nt1c1mp65"
     },
     {
-      "headline": "Autonome og fjernstyrte fartøy",
+      "headline": "Autonome havobservasjonssystemer",
       "cloudinary": "11o3yoqtwbhhg9zfusu56s",
       "intro": "",
       "href": "/no/tjeneste/autonome-og-fjernstyrte-fartoy/01hwq488c0jwf53d4cev9957ze"
@@ -74,7 +80,7 @@
       "href": "/no/tjeneste/havdynamikk-bolger-og-spredning/01hz1t2bj8tgmd481q23j701xw"
     },
     {
-      "headline": "Konsekvensutredninger og miljørisikoanalyser ",
+      "headline": "Konsekvensutredninger",
       "cloudinary": "giuubc8hct9z7ahumdrs",
       "intro": "",
       "href": "/no/tjeneste/konsekvensutredninger-og-miljorisikoanalyser/01hyd6qeqvgr3dwrvkqyeh427t"
@@ -90,6 +96,12 @@
       "cloudinary": "sev17soxj3yfm3bkpeeblf",
       "intro": "",
       "href": "/no/tjeneste/kjemisk-analyse-kjemilab/01j1sfdef8b7qe6vxw0bvacxj4"
+    },
+    {
+      "headline": "Miljørisiko og beredskap",
+      "cloudinary": "oychszqwrkrf4lziszb2oh",
+      "intro": "",
+      "href": "/no/tjeneste/Miljørisiko-og-beredskap/01hz76nm0a16gnpb5t5sczy5ap"
     },
     {
       "headline": "Miljøundersøkelser",
